@@ -1,0 +1,148 @@
+/* ============================================
+   Footer Icons Fix
+   ============================================ */
+
+/* Ensure Font Awesome icons are visible */
+.footer-address ul li i,
+.footer-item .icon li a i,
+.footer-item .icon i {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    font-variant: normal !important;
+    text-rendering: auto !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Footer Address Icons */
+.footer-address ul li i {
+    position: absolute;
+    left: 0px;
+    top: 6px;
+    font-size: 30px !important;
+    line-height: 30px;
+    color: var(--colorPrimary) !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Social Media Icons in Footer */
+.footer-item .icon {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+    list-style: none !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.footer-item .icon li {
+    display: inline-block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+.footer-item .icon li a {
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+    text-align: center !important;
+    background: var(--colorPrimary) !important;
+    color: var(--colorWhite) !important;
+    border-radius: 50% !important;
+    transition: all linear 0.3s !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    position: relative !important;
+}
+
+.footer-item .icon li a i {
+    font-size: 18px !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: var(--colorWhite) !important;
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+    font-style: normal !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.footer-item .icon li a:hover {
+    background: var(--colorSecondary) !important;
+    color: var(--colorWhite) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+.footer-item .icon li a:hover i {
+    color: var(--colorWhite) !important;
+}
+
+/* Ensure Font Awesome icons are loaded */
+.footer-item .icon li a i.fab,
+.footer-item .icon li a i.fas,
+.footer-item .icon li a i.far {
+    font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.footer-item .icon li a i.fab {
+    font-family: "Font Awesome 5 Brands" !important;
+    font-weight: 400 !important;
+}
+
+/* Scroll Top Icon */
+.scroll-top i {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 24px !important;
+    color: var(--colorWhite) !important;
+}
+
+/* Ensure Font Awesome classes work */
+.fas,
+.far,
+.fab,
+.fal,
+.fad {
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.fab {
+    font-family: "Font Awesome 5 Brands" !important;
+    font-weight: 400 !important;
+}
+
+.far {
+    font-weight: 400 !important;
+}
+
+/* Fix for any hidden icons */
+.footer-address i,
+.footer-item .icon i,
+.scroll-top i {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+

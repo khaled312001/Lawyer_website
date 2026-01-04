@@ -1,0 +1,352 @@
+/* ============================================
+   Unified Color System for All Buttons and Elements
+   ============================================ */
+
+/* Primary Buttons */
+.btn-primary,
+.btn,
+input[type="submit"],
+button[type="submit"],
+.home-button a,
+.app-download-btn,
+.btn-sub,
+.btn-case,
+.btn-animate,
+.special-button a {
+    background: var(--colorPrimary) !important;
+    color: #fff !important;
+    border: 2px solid var(--colorPrimary) !important;
+    border-radius: 6px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover,
+.btn:hover,
+input[type="submit"]:hover,
+button[type="submit"]:hover,
+.home-button a:hover,
+.app-download-btn:hover,
+.btn-sub:hover,
+.btn-case:hover,
+.btn-animate:hover,
+.special-button a:hover {
+    background: var(--colorSecondary) !important;
+    border-color: var(--colorSecondary) !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary Buttons */
+.btn-secondary,
+.btn-danger,
+.btn-dark {
+    background: var(--colorBlack) !important;
+    color: #fff !important;
+    border: 2px solid var(--colorBlack) !important;
+}
+
+.btn-secondary:hover,
+.btn-danger:hover,
+.btn-dark:hover {
+    background: var(--colorPrimary) !important;
+    border-color: var(--colorPrimary) !important;
+    color: #fff !important;
+}
+
+/* Outline Buttons */
+.btn-outline-primary,
+.btn-outline {
+    background: transparent !important;
+    color: var(--colorPrimary) !important;
+    border: 2px solid var(--colorPrimary) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline:hover {
+    background: var(--colorPrimary) !important;
+    color: #fff !important;
+    border-color: var(--colorPrimary) !important;
+}
+
+/* Links */
+a {
+    color: var(--colorPrimary);
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--colorSecondary);
+}
+
+/* Form Elements */
+.form-control:focus,
+.form-select:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--colorPrimary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(200, 180, 126, 0.25) !important;
+}
+
+/* Badges */
+.badge {
+    background: var(--colorPrimary);
+    color: #fff;
+}
+
+.badge.bg-danger,
+.badge.bg-primary {
+    background: var(--colorPrimary) !important;
+}
+
+/* Icons */
+i.fas,
+i.far,
+i.fab {
+    color: var(--colorPrimary);
+}
+
+/* Borders */
+.border-primary {
+    border-color: var(--colorPrimary) !important;
+}
+
+/* Text Colors */
+.text-primary {
+    color: var(--colorPrimary) !important;
+}
+
+.text-secondary {
+    color: var(--colorSecondary) !important;
+}
+
+/* Background Colors */
+.bg-primary {
+    background-color: var(--colorPrimary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--colorSecondary) !important;
+}
+
+/* Cards Hover Effect */
+.card:hover,
+.service-box:hover,
+.case-box:hover,
+.lawyer-box:hover,
+.blog-box:hover {
+    border-color: var(--colorPrimary);
+    box-shadow: 0 5px 20px rgba(200, 180, 126, 0.15);
+}
+
+/* Navigation Active States */
+.nav-menu li a.active,
+.nav-menu li.active > a {
+    color: var(--colorPrimary) !important;
+}
+
+/* Pagination */
+.pagination .page-item.active .page-link {
+    background: var(--colorPrimary);
+    border-color: var(--colorPrimary);
+    color: #fff;
+}
+
+.pagination .page-link {
+    color: var(--colorPrimary);
+}
+
+.pagination .page-link:hover {
+    background: var(--colorPrimary);
+    color: #fff;
+    border-color: var(--colorPrimary);
+}
+
+/* Tabs */
+.nav-tabs .nav-link.active {
+    color: var(--colorPrimary);
+    border-bottom-color: var(--colorPrimary);
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--colorPrimary);
+}
+
+/* Progress Bars */
+.progress-bar {
+    background: var(--colorPrimary);
+}
+
+/* Checkboxes and Radio Buttons */
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    accent-color: var(--colorPrimary);
+}
+
+/* Select Dropdown */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--colorPrimary);
+}
+
+.select2-container--default .select2-selection--single:focus {
+    border-color: var(--colorPrimary);
+}
+
+/* Modal */
+.modal-header {
+    border-bottom-color: var(--colorPrimary);
+}
+
+.modal-footer .btn-primary {
+    background: var(--colorPrimary);
+    border-color: var(--colorPrimary);
+}
+
+.modal-footer .btn-primary:hover {
+    background: var(--colorSecondary);
+    border-color: var(--colorSecondary);
+}
+
+/* Alerts */
+.alert-primary {
+    background-color: rgba(200, 180, 126, 0.1);
+    border-color: var(--colorPrimary);
+    color: var(--colorPrimary);
+}
+
+/* Breadcrumbs */
+.breadcrumb-item.active {
+    color: var(--colorPrimary);
+}
+
+.breadcrumb-item a {
+    color: var(--colorPrimary);
+}
+
+.breadcrumb-item a:hover {
+    color: var(--colorSecondary);
+}
+
+/* Tooltips */
+.tooltip-inner {
+    background: var(--colorPrimary);
+}
+
+.tooltip.bs-tooltip-top .arrow::before {
+    border-top-color: var(--colorPrimary);
+}
+
+/* Scroll to Top */
+.scroll-top {
+    background: var(--colorPrimary);
+    color: #fff;
+}
+
+.scroll-top:hover {
+    background: var(--colorSecondary);
+}
+
+/* Loading Spinner */
+.spinner-border-primary {
+    border-color: var(--colorPrimary);
+}
+
+/* Accordion */
+.accordion-button:not(.collapsed) {
+    background-color: rgba(200, 180, 126, 0.1);
+    color: var(--colorPrimary);
+}
+
+.accordion-button:focus {
+    border-color: var(--colorPrimary);
+    box-shadow: 0 0 0 0.25rem rgba(200, 180, 126, 0.25);
+}
+
+/* Table */
+.table-primary {
+    background-color: rgba(200, 180, 126, 0.1);
+}
+
+.table thead th {
+    border-bottom-color: var(--colorPrimary);
+}
+
+/* Dropdown Menu */
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: var(--colorPrimary);
+    color: #fff;
+}
+
+/* Search Bar */
+.searchbar .search-button:hover {
+    background: var(--colorPrimary);
+    color: #fff;
+}
+
+/* Cart Badge */
+.shopping-cart {
+    background: var(--colorSecondary) !important;
+}
+
+/* Feature Icons */
+.feature-icon,
+.app-features .feature-icon {
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+}
+
+/* Testimonial Stars */
+.rating i.active {
+    color: var(--colorPrimary);
+}
+
+/* Price Tags */
+.price {
+    color: var(--colorPrimary);
+}
+
+/* Override any hardcoded colors */
+[style*="background-color: #"],
+[style*="background: #"],
+[style*="color: #"] {
+    /* Will be overridden by more specific rules */
+}
+
+/* Ensure consistency across all pages */
+section,
+.section,
+.container,
+.row {
+    /* Inherit color scheme */
+}
+
+/* Mobile Menu */
+.mobile-menu .sidenav ul li a:hover {
+    color: var(--colorPrimary);
+}
+
+/* Footer Links */
+.footer-item a:hover {
+    color: var(--colorPrimary);
+}
+
+/* Social Icons */
+.social-bar a:hover {
+    color: var(--colorPrimary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn-primary,
+    .btn,
+    .home-button a {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+

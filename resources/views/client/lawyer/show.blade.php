@@ -1,0 +1,320 @@
+@extends('layouts.client.layout')
+@section('title')
+    <title>{{ $lawyer?->seo_title ?? $lawyer?->name }}</title>
+@endsection
+@section('meta')
+    <meta name="description" content="{{ $lawyer?->seo_description }}">
+    <meta property="og:title" content="{{ $lawyer?->seo_title }}" />
+    <meta property="og:description" content="{{ $lawyer?->seo_description }}" />
+    <meta property="og:image" content="{{ asset($lawyer?->image) }}" />
+    <meta property="og:URL" content="{{ url()->current() }}" />
+    <meta property="og:type" content="website" />
+@endsection
+@section('client-content')
+    <!--Banner Start-->
+    <div class="banner-area flex"
+        style="background-image:url({{ $setting?->breadcrumb_image ? url($setting?->breadcrumb_image) : '' }});">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="banner-text">
+                        <h1>{{ ucfirst($lawyer?->name) }} ({{ $lawyer?->designations }})</h1>
+                        <ul>
+                            <li><a aria-label="{{ __('Home') }}" href="{{ url('/') }}">{{ __('Home') }}</a>
+                            </li>
+                            <li><span>{{ ucfirst($lawyer?->name) }}</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Banner End-->
+
+    <!--Team Detail Start-->
+    <div class="team-detail-page pt_40 pb_70">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="team-detail-photo">
+                        <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
+                            alt="{{ $lawyer?->name }}" loading="lazy">
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="team-detail-text">
+                        <h4>{{ $lawyer?->name }} </h4>
+                        <span><b>{{ $lawyer?->department?->name }} ({{ $lawyer?->designations }})</b></span>
+                        <p class="mt-0"><b>{{ __('Years of experience') }}: {{ $lawyer?->years_of_experience }}</b></p>
+                        {{-- تم حذف الرسوم - سيتم تحديدها بعد استشارة الحالة --}}
+
+                        {!! $lawyer?->about !!}
+                        
+                        {{-- أزرار التواصل والحجز --}}
+                        <div class="mt-3 d-flex gap-2 flex-wrap">
+                            @auth('web')
+                            <form action="{{ route('client.messages.start', $lawyer->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-primary btn-lg">
+                                    <i class="fas fa-comments"></i> {{ __('Contact Lawyer') }}
+                                </button>
+                            </form>
+                            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookAppointmentModal{{ $lawyer->id }}">
+                                <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
+                            </button>
+                            @else
+                            <a href="{{ route('login') }}" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-comments"></i> {{ __('Contact Lawyer') }}
+                            </a>
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
+                            </a>
+                            @endauth
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="team-exp-area bg-area pt_70 pb_70">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="team-headline">
+                        <h2>{{ __('Lawyer Info') }}</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <!--Tab Start-->
+                    <div class="event-detail-tab mt_20">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active">
+                                <a aria-label="{{ __('Working Hours') }}" aria-selected="true" data-bs-toggle="tab"
+                                    class="active" href="#working_hour" data-bs-toggle="tab">{{ __('Working Hours') }}</a>
+                            </li>
+                            <li>
+                                <a aria-label="{{ __('Address') }}" aria-selected="false" data-bs-toggle="tab"
+                                    href="#address" data-bs-toggle="tab">{{ __('Address') }}</a>
+                            </li>
+                            <li>
+                                <a aria-label="{{ __('Education') }}" aria-selected="false" data-bs-toggle="tab"
+                                    href="#education" data-bs-toggle="tab">{{ __('Education') }}</a>
+                            </li>
+                            <li>
+                                <a aria-label="{{ __('Experience') }}" aria-selected="false" data-bs-toggle="tab"
+                                    href="#experience" data-bs-toggle="tab">{{ __('Experience') }}</a>
+                            </li>
+                            <li>
+                                <a aria-label="{{ __('Qualification') }}" aria-selected="false" data-bs-toggle="tab"
+                                    href="#qualification" data-bs-toggle="tab">{{ __('Qualification') }}</a>
+                            </li>
+                            <li>
+                                <a aria-label="{{ __('Appointment') }}" aria-selected="false" data-bs-toggle="tab"
+                                    href="#book_appointment" data-bs-toggle="tab">{{ __('Appointment') }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content event-detail-content">
+                        <div id="working_hour" class="tab-pane fade show active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="wh-table table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ __('Week Day') }}</th>
+                                                    <th>{{ __('Schedule') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($days as $index => $day)
+                                                    @php
+                                                        $times = $lawyer?->schedules->where('day_id', $day?->id);
+                                                    @endphp
+
+                                                    @if ($times->isNotEmpty())
+                                                        <tr>
+                                                            <td>{{ $day?->title }}</td>
+                                                            <td>
+                                                                @foreach ($times as $time)
+                                                                    <div class="sch">
+                                                                        {{ strtoupper($time?->start_time) }} -
+                                                                        {{ strtoupper($time?->end_time) }}</div>
+                                                                @endforeach
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="address" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {!! $lawyer?->address ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="education" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {!! $lawyer?->educations ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="experience" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {!! $lawyer?->experience ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="qualification" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {!! $lawyer?->qualifications ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="book_appointment" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>{{ __('Create Appointment') }}</h3>
+
+                                    <div class="book-appointment">
+
+                                        <form action="{{ route('website.create.appointment') }}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for=""
+                                                            class="form-label">{{ __('Select Date') }}</label>
+                                                        <input type="text" name="date"
+                                                            class="form-control datepicker" id="datepicker-value">
+                                                        <input type="hidden" name="lawyer_id"
+                                                            value="{{ $lawyer?->id }}" id="lawyer_id">
+                                                        <input type="hidden" value="{{ $lawyer?->department_id }}"
+                                                            name="department_id">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row d-none" id="schedule-box-outer">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for=""
+                                                            class="form-label">{{ __('Select Schedule') }}</label>
+                                                        <select name="schedule_id" class="form-control"
+                                                            id="lawyer-available-schedule">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 d-none" id="lawyer-schedule-error">
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="">
+                                                <button type="submit" class="submit_btn" id="sub"
+                                                    disabled>{{ __('Submit') }}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Tab End-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--Team Detail End-->
+
+    <!--Book Appointment Modal for Lawyer Detail Page-->
+    <div class="modal fade" id="bookAppointmentModal{{ $lawyer->id }}" tabindex="-1" aria-labelledby="bookAppointmentModalLabel{{ $lawyer->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookAppointmentModalLabel{{ $lawyer->id }}">{{ __('Book a web meeting with') }} {{ $lawyer->name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('website.create.appointment') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="lawyer_id" value="{{ $lawyer->id }}">
+                        <input type="hidden" name="department_id" value="{{ $lawyer->department_id }}">
+                        
+                        <div class="form-group mb-3">
+                            <label for="lawyer-detail-date-{{ $lawyer->id }}">{{ __('Select Date') }}</label>
+                            <input type="text" name="date" class="form-control datepicker" id="lawyer-detail-date-{{ $lawyer->id }}" required>
+                        </div>
+
+                        <div class="form-group mb-3 d-none" id="lawyer-detail-schedule-box-{{ $lawyer->id }}">
+                            <label for="lawyer-detail-schedule-{{ $lawyer->id }}">{{ __('Select Time') }}</label>
+                            <select name="schedule_id" class="form-control" id="lawyer-detail-schedule-{{ $lawyer->id }}" required>
+                                <option value="">{{ __('Select time') }}</option>
+                            </select>
+                        </div>
+
+                        <div id="lawyer-detail-error-{{ $lawyer->id }}" class="alert alert-danger d-none"></div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="submit" class="btn btn-primary" id="lawyer-detail-submit-{{ $lawyer->id }}" disabled>{{ __('Book Appointment') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('js')
+    <script>
+    $(document).ready(function() {
+        $('#lawyer-detail-date-{{ $lawyer->id }}').on('change', function() {
+            const date = $(this).val();
+            const lawyerId = {{ $lawyer->id }};
+            
+            if (!date) return;
+            
+            $.ajax({
+                url: '{{ url("/get-appointment") }}',
+                method: 'GET',
+                data: {
+                    lawyer_id: lawyerId,
+                    date: date
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#lawyer-detail-schedule-{{ $lawyer->id }}').html(response.success);
+                        $('#lawyer-detail-schedule-box-{{ $lawyer->id }}').removeClass('d-none');
+                        $('#lawyer-detail-submit-{{ $lawyer->id }}').prop('disabled', false);
+                        $('#lawyer-detail-error-{{ $lawyer->id }}').addClass('d-none');
+                    } else if (response.error) {
+                        $('#lawyer-detail-schedule-box-{{ $lawyer->id }}').addClass('d-none');
+                        $('#lawyer-detail-submit-{{ $lawyer->id }}').prop('disabled', true);
+                        $('#lawyer-detail-error-{{ $lawyer->id }}').removeClass('d-none').html(response.error);
+                    }
+                },
+                error: function() {
+                    $('#lawyer-detail-error-{{ $lawyer->id }}').removeClass('d-none').html('{{ __("Error loading available times") }}');
+                }
+            });
+        });
+    });
+    </script>
+    @endpush
+@endsection
