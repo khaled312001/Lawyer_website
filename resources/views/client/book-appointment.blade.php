@@ -173,8 +173,37 @@ $(document).ready(function() {
     const baseUrl = '{{ url("/") }}';
     const csrfToken = '{{ csrf_token() }}';
     
+    // Duration selection handler
+    let selectedDuration = 15; // Default duration
+    
+    // Handle duration button clicks
+    $(document).on('click', '.duration-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Remove active class from all buttons
+        $('.duration-btn').removeClass('active');
+        // Add active class to clicked button
+        $(this).addClass('active');
+        // Get selected duration
+        selectedDuration = parseInt($(this).data('duration')) || 15;
+        
+        // Show loading state
+        $('.lawyer-availability').each(function() {
+            $(this).html('<div class="loading-spinner text-center py-4"><i class="fas fa-spinner fa-spin fa-2x"></i><p class="mt-2 mb-0">{{ __("Loading available times...") }}</p></div>');
+        });
+        
+        // Reload availability for all lawyers with new duration
+        $('.lawyer-card').each(function() {
+            const lawyerId = $(this).data('lawyer-id');
+            if (lawyerId) {
+                loadLawyerAvailability(lawyerId, selectedDuration);
+            }
+        });
+    });
+    
     // Load available times for each lawyer
-    function loadLawyerAvailability(lawyerId) {
+    function loadLawyerAvailability(lawyerId, duration = 15) {
         const availabilityDiv = $(`.lawyer-availability[data-lawyer-id="${lawyerId}"]`);
         
         // Get next 7 days
@@ -198,7 +227,8 @@ $(document).ready(function() {
                 method: 'GET',
                 data: {
                     lawyer_id: lawyerId,
-                    date: date
+                    date: date,
+                    duration: duration
                 },
                 success: function(response) {
                     loadedDates++;
@@ -281,7 +311,7 @@ $(document).ready(function() {
     // Load availability for all lawyers
     $('.lawyer-card').each(function() {
         const lawyerId = $(this).data('lawyer-id');
-        loadLawyerAvailability(lawyerId);
+        loadLawyerAvailability(lawyerId, selectedDuration);
     });
     
     

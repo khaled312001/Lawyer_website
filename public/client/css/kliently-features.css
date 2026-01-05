@@ -821,17 +821,31 @@
     transition: all 0.3s ease;
     font-weight: 500;
     color: #666;
+    pointer-events: auto !important;
+    z-index: 10;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .duration-btn:hover {
     border-color: var(--colorPrimary);
     color: var(--colorPrimary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .duration-btn.active {
     background: var(--colorPrimary);
     border-color: var(--colorPrimary);
     color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.duration-btn:active {
+    transform: translateY(0);
 }
 
 .lawyer-booking-card {
