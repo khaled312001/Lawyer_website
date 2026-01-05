@@ -80,7 +80,7 @@
         background: linear-gradient(135deg, #ffe5e5 0%, #ffd6d6 100%);
         padding: 12px 0;
         position: relative;
-        z-index: 1000;
+        z-index: 10000;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
@@ -134,7 +134,7 @@
         padding: 10px 0;
         border-bottom: 1px solid #e0e0e0;
         position: relative;
-        z-index: 999;
+        z-index: 9998;
     }
 
     .header-bar-content {
@@ -240,8 +240,9 @@
         box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         position: sticky;
         top: 0;
-        z-index: 998;
+        z-index: 9999 !important;
         transition: all 0.3s ease;
+        isolation: isolate;
     }
 
     body.client-frontend .main-navbar.sticky {
@@ -254,6 +255,7 @@
         justify-content: space-between;
         padding: 15px 20px;
         position: relative;
+        z-index: 9999;
     }
 
     body.client-frontend .navbar-logo {
@@ -272,7 +274,7 @@
         display: flex;
         justify-content: center;
         position: relative;
-        z-index: 1000;
+        z-index: 10000;
     }
 
     body.client-frontend .nav-menu-list {
@@ -290,11 +292,11 @@
 
     body.client-frontend .nav-item.has-dropdown {
         position: relative;
-        z-index: 1000;
+        z-index: 10001;
     }
 
     body.client-frontend .nav-item.has-dropdown.active {
-        z-index: 10001;
+        z-index: 10002;
     }
 
     body.client-frontend .nav-link {
@@ -345,9 +347,10 @@
         visibility: hidden;
         transform: translateY(-10px);
         transition: all 0.3s ease;
-        z-index: 10000 !important;
+        z-index: 10003 !important;
         display: block !important;
         pointer-events: none;
+        isolation: isolate;
     }
 
     body.client-frontend .nav-item.has-dropdown:hover .dropdown-menu,
@@ -358,6 +361,19 @@
         transform: translateY(0) !important;
         pointer-events: auto !important;
         display: block !important;
+    }
+
+    /* Ensure dropdown appears above all sections */
+    body.client-frontend section,
+    body.client-frontend .section,
+    body.client-frontend [class*="section"] {
+        position: relative;
+        z-index: 1;
+    }
+
+    body.client-frontend .main-navbar,
+    body.client-frontend .main-navbar * {
+        position: relative;
     }
 
     body.client-frontend .dropdown-menu li {
