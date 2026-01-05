@@ -329,9 +329,7 @@
                                         @endif
                                     </li>
                                 @endforeach
-                                <li class="special-button"><a href="javascript:;" aria-label="{{ __('Appointment') }}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#appointment_modal"><i class="fas fa-calendar-check me-2"></i>{{ __('Appointment') }}</a></li>
+                                <li class="special-button"><a href="{{ route('website.book.appointment') }}" aria-label="{{ __('Appointment') }}"><i class="fas fa-calendar-check me-2"></i>{{ __('Appointment') }}</a></li>
                             @else
                                 <li><a aria-label="{{ __('Home') }}"
                                         href="{{ route('home') }}"><i class="fas fa-home me-2"></i>{{ __('Home') }}</a></li>
@@ -382,8 +380,7 @@
                             @endif
                         </li>
                     @endforeach
-                    <li class="special-button"><a aria-label="{{ __('Appointment') }}" href="javascript:;"
-                            data-bs-toggle="modal" data-bs-target="#appointment_modal1">{{ __('Appointment') }}</a>
+                    <li class="special-button"><a aria-label="{{ __('Appointment') }}" href="{{ route('website.book.appointment') }}">{{ __('Appointment') }}</a>
                     </li>
 
                     <!-- Modal -->

@@ -13,13 +13,14 @@ class LanguageSeeder extends Seeder {
         $language = new Language();
         $language->name = 'English';
         $language->code = 'en';
-        $language->is_default = true;
+        $language->is_default = false;
         $language->save();
 
         $language = new Language();
         $language->name = 'Arabic';
         $language->code = 'ar';
         $language->direction = 'rtl';
+        $language->is_default = true;
         $language->save();
     }
 }

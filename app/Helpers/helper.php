@@ -154,7 +154,7 @@ if (!function_exists('customPages')) {
 if (!function_exists('getSessionLanguage')) {
     function getSessionLanguage(): string {
         // Don't automatically create session, just return current or default
-        return Session::get('lang', config('app.locale', 'en'));
+        return Session::get('lang', config('app.locale', 'ar'));
     }
 }
 if (!function_exists('setLanguage')) {
@@ -183,9 +183,9 @@ if (!function_exists('setLanguage')) {
         }
         
         // Fallback to default locale
-        session()->put('lang', config('app.locale', 'en'));
-        session()->put('text_direction', 'ltr');
-        app()->setLocale(config('app.locale', 'en'));
+        session()->put('lang', config('app.locale', 'ar'));
+        session()->put('text_direction', 'rtl');
+        app()->setLocale(config('app.locale', 'ar'));
         
         return false;
     }

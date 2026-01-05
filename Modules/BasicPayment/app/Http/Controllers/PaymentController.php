@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use App\Models\Admin;
 use Modules\Appointment\app\Models\Appointment;
 use Modules\BasicPayment\app\Enums\BasicPaymentSupportedCurrencyListEnum;
 use Modules\BasicPayment\app\Http\Controllers\FrontPaymentController;
@@ -94,7 +95,8 @@ class PaymentController extends Controller {
             ]);
 
             $order_details = "";
-            foreach (Cart::content() as $item) {
+            $cartItems = Cart::content(); // Save cart items before destroying
+            foreach ($cartItems as $item) {
                 Appointment::create([
                     'user_id'             => $user->id,
                     'order_id'            => $order->id,
@@ -120,13 +122,54 @@ class PaymentController extends Controller {
 
             Cart::destroy();
 
-            // send mail
+            // Calculate total amount for emails
+            $total_amount = specific_currency_with_icon($order->payable_currency, $order->total_payment);
+
+            // send mail to client
             try {
-                $total_amount = specific_currency_with_icon($order->payable_currency, $order->total_payment);
                 [$subject, $message] = $this->fetchEmailTemplate('order_mail', ['client_name' => $user->name, 'orderId' => $order->order_id, 'payment_method' => $method, 'amount' => $total_amount,'payment_status' => 'Pending','status' => 'Pending', 'order_details' => $order_details]);
                 $this->sendMail($user->email, $subject, $message);
             } catch (Exception $e) {
                 info($e->getMessage());
+            }
+
+            // send mail to admin
+            try {
+                $setting = cache()->get('setting');
+                if ($setting && $setting->contact_message_receiver_mail) {
+                    $admin_subject = __('New Appointment Order') . ' - ' . $order->order_id;
+                    $admin_message = '<p>' . __('Hello Admin,') . '</p>';
+                    $admin_message .= '<p>' . __('A new appointment order has been created.') . '</p>';
+                    $admin_message .= '<p><strong>' . __('Order ID') . ':</strong> ' . $order->order_id . '</p>';
+                    $admin_message .= '<p><strong>' . __('Client Name') . ':</strong> ' . $user->name . '</p>';
+                    $admin_message .= '<p><strong>' . __('Client Email') . ':</strong> ' . $user->email . '</p>';
+                    $admin_message .= '<p><strong>' . __('Total Amount') . ':</strong> ' . $total_amount . '</p>';
+                    $admin_message .= '<hr><p><strong>' . __('Appointment Details') . ':</strong></p>';
+                    $admin_message .= $order_details;
+                    $this->sendMail($setting->contact_message_receiver_mail, $admin_subject, $admin_message);
+                }
+            } catch (Exception $e) {
+                info('Admin notification error: ' . $e->getMessage());
+            }
+
+            // send mail to each lawyer
+            try {
+                foreach ($cartItems as $item) {
+                    $lawyer = Lawyer::find($item->options->lawyer_id);
+                    if ($lawyer && $lawyer->email) {
+                        $lawyer_subject = __('New Appointment Booking') . ' - ' . $order->order_id;
+                        $lawyer_message = '<p>' . __('Hello') . ' ' . $lawyer->name . ',</p>';
+                        $lawyer_message .= '<p>' . __('You have a new appointment booking.') . '</p>';
+                        $lawyer_message .= '<p><strong>' . __('Client Name') . ':</strong> ' . $user->name . '</p>';
+                        $lawyer_message .= '<p><strong>' . __('Client Email') . ':</strong> ' . $user->email . '</p>';
+                        $lawyer_message .= '<p><strong>' . __('Date') . ':</strong> ' . $item->options->date . '</p>';
+                        $lawyer_message .= '<p><strong>' . __('Time') . ':</strong> ' . $item->options->time . '</p>';
+                        $lawyer_message .= '<p><strong>' . __('Fee') . ':</strong> ' . currency($item->price) . '</p>';
+                        $this->sendMail($lawyer->email, $lawyer_subject, $lawyer_message);
+                    }
+                }
+            } catch (Exception $e) {
+                info('Lawyer notification error: ' . $e->getMessage());
             }
 
             return response()->json(['success' => true, 'order_id' => $order?->order_id]);
