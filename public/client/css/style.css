@@ -1491,7 +1491,8 @@ Feature
 }
 
 .faq-header button.faq-button.collapsed::after {
-    opacity: 1;
+    opacity: 0;
+    display: none;
 }
 
 
