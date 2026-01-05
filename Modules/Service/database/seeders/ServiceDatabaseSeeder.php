@@ -290,19 +290,22 @@ class ServiceDatabaseSeeder extends Seeder {
                     ]
                 );
             }
-            foreach ($faqs as $faq) {
-                $serviceFaq = ServiceFaq::firstOrCreate(['service_id' => $service->id]);
-                foreach ($faq['translations'] as $value) {
-                    ServiceFaqTranslation::firstOrCreate(
-                        [
+            
+            // Add FAQs only for the first service (Government Document Extraction)
+            if ($slug === '0-government-document-extraction') {
+                // Delete existing FAQs for this service to avoid duplicates
+                $service->service_faq()->delete();
+                
+                foreach ($faqs as $faq) {
+                    $serviceFaq = ServiceFaq::create(['service_id' => $service->id]);
+                    foreach ($faq['translations'] as $value) {
+                        ServiceFaqTranslation::create([
                             'service_faq_id' => $serviceFaq->id,
                             'lang_code'      => $value['lang_code'],
-                        ],
-                        [
-                            'question' => $value['question'],
-                            'answer'   => $value['answer'],
-                        ]
-                    );
+                            'question'       => $value['question'],
+                            'answer'         => $value['answer'],
+                        ]);
+                    }
                 }
             }
         }
