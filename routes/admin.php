@@ -60,5 +60,7 @@ Route::group(['middleware'=>'translation', 'as' => 'admin.', 'prefix' => 'admin'
         Route::get('/{conversation}', 'show')->name('show');
         Route::post('/{conversation}/send', 'sendMessage')->name('send');
         Route::post('/{conversation}/toggle-status', 'toggleStatus')->name('toggle-status');
+        Route::put('/message/{message}', 'updateMessage')->name('update');
+        Route::delete('/message/{message}', 'deleteMessage')->name('delete');
     });
 });

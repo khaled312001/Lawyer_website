@@ -7,6 +7,7 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MessageController extends Controller
 {
@@ -111,5 +112,53 @@ class MessageController extends Controller
         $conversation->update(['status' => $newStatus]);
         
         return back()->with('success', __('Conversation status updated successfully'));
+    }
+
+    /**
+     * Update a message
+     */
+    public function updateMessage(Request $request, $messageId)
+    {
+        checkAdminHasPermissionAndThrowException('admin.view');
+        
+        $request->validate([
+            'message' => 'required|string',
+        ]);
+        
+        $message = Message::findOrFail($messageId);
+        $message->update([
+            'message' => $request->message,
+        ]);
+        
+        return back()->with('success', __('Message updated successfully'));
+    }
+
+    /**
+     * Delete a message
+     */
+    public function deleteMessage($messageId)
+    {
+        checkAdminHasPermissionAndThrowException('admin.view');
+        
+        $message = Message::findOrFail($messageId);
+        
+        // Delete attachment if exists
+        if ($message->attachment && Storage::disk('public')->exists($message->attachment)) {
+            Storage::disk('public')->delete($message->attachment);
+        }
+        
+        $conversationId = $message->conversation_id;
+        $message->delete();
+        
+        // Update conversation last_message_at if needed
+        $conversation = Conversation::find($conversationId);
+        if ($conversation) {
+            $lastMessage = $conversation->messages()->latest()->first();
+            $conversation->update([
+                'last_message_at' => $lastMessage ? $lastMessage->created_at : null,
+            ]);
+        }
+        
+        return back()->with('success', __('Message deleted successfully'));
     }
 }

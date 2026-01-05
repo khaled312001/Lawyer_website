@@ -66,7 +66,7 @@
                         <div class="card-body">
                             <div class="chat-container">
                                 @foreach($conversation->messages as $message)
-                                    <div class="message-row">
+                                    <div class="message-row" id="message-{{ $message->id }}">
                                         <div class="message-card {{ 
                                             $message->sender_type == 'App\Models\User' ? 'from-client' : 
                                             ($message->sender_type == 'Modules\Lawyer\app\Models\Lawyer' ? 'from-lawyer' : 'from-admin') 
@@ -83,9 +83,19 @@
                                                         @endif
                                                     </strong>
                                                 </div>
-                                                <small class="text-muted">{{ $message->created_at->format('Y-m-d h:i A') }}</small>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <small class="text-muted">{{ $message->created_at->format('Y-m-d h:i A') }}</small>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editMessageModal{{ $message->id }}" title="{{ __('Edit') }}">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteMessage({{ $message->id }})" title="{{ __('Delete') }}">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="mt-2">
+                                            <div class="mt-2" id="message-content-{{ $message->id }}">
                                                 {{ $message->message }}
                                             </div>
                                             @if($message->attachment)
@@ -95,6 +105,32 @@
                                                     </a>
                                                 </div>
                                             @endif
+                                        </div>
+                                    </div>
+
+                                    <!-- Edit Message Modal -->
+                                    <div class="modal fade" id="editMessageModal{{ $message->id }}" tabindex="-1" aria-labelledby="editMessageModalLabel{{ $message->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editMessageModalLabel{{ $message->id }}">{{ __('Edit Message') }}</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                                                </div>
+                                                <form action="{{ route('admin.messages.update', $message->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label>{{ __('Message') }}</label>
+                                                            <textarea name="message" class="form-control" rows="5" required>{{ $message->message }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                                                        <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -123,5 +159,30 @@
         </div>
     </section>
 </div>
+
+<script>
+function deleteMessage(messageId) {
+    if (confirm('{{ __("Are you sure you want to delete this message?") }}')) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ url("admin/messages/message") }}/' + messageId;
+        
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}';
+        form.appendChild(csrfToken);
+        
+        const methodField = document.createElement('input');
+        methodField.type = 'hidden';
+        methodField.name = '_method';
+        methodField.value = 'DELETE';
+        form.appendChild(methodField);
+        
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
 @endsection
 

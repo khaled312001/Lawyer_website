@@ -1529,5 +1529,9 @@
     "Phone": "الهاتف",
     "Subscribe": "اشترك",
     "Partner": "شريك",
-    "Partners": "شركاؤنا"
+    "Partners": "شركاؤنا",
+    "Edit Message": "تعديل الرسالة",
+    "Message updated successfully": "تم تحديث الرسالة بنجاح",
+    "Message deleted successfully": "تم حذف الرسالة بنجاح",
+    "Are you sure you want to delete this message?": "هل أنت متأكد أنك تريد حذف هذه الرسالة؟"
 }
