@@ -115,7 +115,7 @@
 
 </head>
 
-<body>
+<body class="client-frontend">
     <!--============================
     Google Tag Manager
     ==============================-->

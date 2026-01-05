@@ -233,8 +233,8 @@
         font-weight: 500;
     }
 
-    /* Main Navigation Bar */
-    .main-navbar {
+    /* Main Navigation Bar - Client Only */
+    body.client-frontend .main-navbar {
         background: linear-gradient(135deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%);
         padding: 0;
         box-shadow: 0 4px 20px rgba(0,0,0,0.15);
@@ -244,11 +244,11 @@
         transition: all 0.3s ease;
     }
 
-    .main-navbar.sticky {
+    body.client-frontend .main-navbar.sticky {
         box-shadow: 0 6px 25px rgba(0,0,0,0.2);
     }
 
-    .navbar-wrapper {
+    body.client-frontend .navbar-wrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -256,24 +256,26 @@
         position: relative;
     }
 
-    .navbar-logo {
+    body.client-frontend .navbar-logo {
         flex-shrink: 0;
     }
 
-    .navbar-logo img {
+    body.client-frontend .navbar-logo img {
         max-height: 50px;
         width: auto;
         height: auto;
         display: block;
     }
 
-    .navbar-menu {
+    body.client-frontend .navbar-menu {
         flex: 1;
         display: flex;
         justify-content: center;
+        position: relative;
+        z-index: 1000;
     }
 
-    .nav-menu-list {
+    body.client-frontend .nav-menu-list {
         display: flex;
         align-items: center;
         gap: 5px;
@@ -282,11 +284,20 @@
         padding: 0;
     }
 
-    .nav-item {
+    body.client-frontend .nav-item {
         position: relative;
     }
 
-    .nav-link {
+    body.client-frontend .nav-item.has-dropdown {
+        position: relative;
+        z-index: 1000;
+    }
+
+    body.client-frontend .nav-item.has-dropdown.active {
+        z-index: 10001;
+    }
+
+    body.client-frontend .nav-link {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -300,26 +311,26 @@
         white-space: nowrap;
     }
 
-    .nav-link i {
+    body.client-frontend .nav-link i {
         font-size: 16px;
     }
 
-    .nav-link:hover {
+    body.client-frontend .nav-link:hover {
         background: rgba(255,255,255,0.15);
         transform: translateY(-2px);
     }
 
-    .nav-item.has-dropdown .nav-link .dropdown-icon {
+    body.client-frontend .nav-item.has-dropdown .nav-link .dropdown-icon {
         font-size: 12px;
         margin-left: 5px;
         transition: transform 0.3s ease;
     }
 
-    .nav-item.has-dropdown:hover .dropdown-icon {
+    body.client-frontend .nav-item.has-dropdown:hover .dropdown-icon {
         transform: rotate(180deg);
     }
 
-    .dropdown-menu {
+    body.client-frontend .dropdown-menu {
         position: absolute;
         top: 100%;
         left: 0;
@@ -334,20 +345,26 @@
         visibility: hidden;
         transform: translateY(-10px);
         transition: all 0.3s ease;
-        z-index: 999;
+        z-index: 10000 !important;
+        display: block !important;
+        pointer-events: none;
     }
 
-    .nav-item.has-dropdown:hover .dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+    body.client-frontend .nav-item.has-dropdown:hover .dropdown-menu,
+    body.client-frontend .nav-item.has-dropdown.active .dropdown-menu,
+    body.client-frontend .nav-item.has-dropdown .dropdown-menu:hover {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+        pointer-events: auto !important;
+        display: block !important;
     }
 
-    .dropdown-menu li {
+    body.client-frontend .dropdown-menu li {
         margin: 0;
     }
 
-    .dropdown-menu li a {
+    body.client-frontend .dropdown-menu li a {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -358,23 +375,23 @@
         transition: all 0.3s ease;
     }
 
-    .dropdown-menu li a i {
+    body.client-frontend .dropdown-menu li a i {
         color: var(--colorPrimary);
         font-size: 14px;
         width: 18px;
     }
 
-    .dropdown-menu li a:hover {
+    body.client-frontend .dropdown-menu li a:hover {
         background: rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.1);
         color: var(--colorPrimary);
         padding-left: 25px;
     }
 
-    .appointment-btn-wrapper {
+    body.client-frontend .appointment-btn-wrapper {
         margin-left: 15px;
     }
 
-    .appointment-btn {
+    body.client-frontend .appointment-btn {
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
         color: #fff !important;
         padding: 12px 24px !important;
@@ -384,14 +401,14 @@
         border: 2px solid rgba(255,255,255,0.2);
     }
 
-    .appointment-btn:hover {
+    body.client-frontend .appointment-btn:hover {
         background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%);
         transform: translateY(-3px);
         box-shadow: 0 6px 20px rgba(0,0,0,0.35);
     }
 
-    /* Mobile Menu Toggle Button */
-    .mobile-menu-toggle {
+    /* Mobile Menu Toggle Button - Client Only */
+    body.client-frontend .mobile-menu-toggle {
         display: none;
         flex-direction: column;
         gap: 5px;
@@ -402,7 +419,7 @@
         z-index: 1001;
     }
 
-    .mobile-menu-toggle span {
+    body.client-frontend .mobile-menu-toggle span {
         width: 25px;
         height: 3px;
         background: #fff;
@@ -410,15 +427,15 @@
         transition: all 0.3s ease;
     }
 
-    .mobile-menu-toggle.active span:nth-child(1) {
+    body.client-frontend .mobile-menu-toggle.active span:nth-child(1) {
         transform: rotate(45deg) translate(8px, 8px);
     }
 
-    .mobile-menu-toggle.active span:nth-child(2) {
+    body.client-frontend .mobile-menu-toggle.active span:nth-child(2) {
         opacity: 0;
     }
 
-    .mobile-menu-toggle.active span:nth-child(3) {
+    body.client-frontend .mobile-menu-toggle.active span:nth-child(3) {
         transform: rotate(-45deg) translate(7px, -7px);
     }
 

@@ -694,6 +694,53 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    
+    // Desktop Dropdown Menu Enhancement
+    if (window.innerWidth > 991) {
+        var dropdownItems = document.querySelectorAll('body.client-frontend .nav-item.has-dropdown');
+        
+        dropdownItems.forEach(function(item) {
+            var navLink = item.querySelector('.nav-link');
+            var dropdownMenu = item.querySelector('.dropdown-menu');
+            
+            if (navLink && dropdownMenu) {
+                // Mouse enter - show dropdown
+                item.addEventListener('mouseenter', function() {
+                    item.classList.add('active');
+                    dropdownMenu.style.opacity = '1';
+                    dropdownMenu.style.visibility = 'visible';
+                    dropdownMenu.style.transform = 'translateY(0)';
+                    dropdownMenu.style.pointerEvents = 'auto';
+                });
+                
+                // Mouse leave - hide dropdown
+                item.addEventListener('mouseleave', function() {
+                    item.classList.remove('active');
+                    dropdownMenu.style.opacity = '0';
+                    dropdownMenu.style.visibility = 'hidden';
+                    dropdownMenu.style.transform = 'translateY(-10px)';
+                    dropdownMenu.style.pointerEvents = 'none';
+                });
+                
+                // Keep dropdown open when hovering over it
+                dropdownMenu.addEventListener('mouseenter', function() {
+                    item.classList.add('active');
+                    dropdownMenu.style.opacity = '1';
+                    dropdownMenu.style.visibility = 'visible';
+                    dropdownMenu.style.transform = 'translateY(0)';
+                    dropdownMenu.style.pointerEvents = 'auto';
+                });
+                
+                dropdownMenu.addEventListener('mouseleave', function() {
+                    item.classList.remove('active');
+                    dropdownMenu.style.opacity = '0';
+                    dropdownMenu.style.visibility = 'hidden';
+                    dropdownMenu.style.transform = 'translateY(-10px)';
+                    dropdownMenu.style.pointerEvents = 'none';
+                });
+            }
+        });
+    }
 });
 
 // ============================================
