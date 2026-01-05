@@ -32,7 +32,7 @@
                                 @csrf
                                 <div id="file-preview-container" class="mb-2" style="display: none;">
                                     <div class="position-relative d-inline-block">
-                                        <img id="image-preview" src="" alt="Preview" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail">
+                                        <img id="image-preview" src="" alt="{{ __('Preview') }}" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail">
                                         <div id="file-info-preview" style="display: none;" class="alert alert-info">
                                             <i class="fas fa-file"></i> <span id="file-name-preview"></span>
                                             <br><small id="file-size-preview"></small>
@@ -97,7 +97,7 @@
                                     messageHtml += `<div class="mb-1">
                                         <a href="${attachmentUrl}" target="_blank">
                                             <img src="${attachmentUrl}" alt="${fileName}" style="max-width: 200px; max-height: 200px;" class="img-thumbnail" 
-                                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'200\\'%3E%3Crect fill=\\'%23ddd\\' width=\\'200\\' height=\\'200\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%23999\\'%3EImage not found%3C/text%3E%3C/svg%3E';">
+                                                 onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'200\\'%3E%3Crect fill=\\'%23ddd\\' width=\\'200\\' height=\\'200\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%23999\\'%3E{{ __('Image not found') }}%3C/text%3E%3C/svg%3E';">
                                         </a>
                                     </div>`;
                                 } else {

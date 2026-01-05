@@ -39,7 +39,7 @@
                                 <div class="brand-item">
                                     <div class="brand-colume">
                                         <div class="brand-bg"></div>
-                                        <img src="{{ url($item->image) }}" alt="Partner" loading="lazy">
+                                        <img src="{{ url($item->image) }}" alt="{{ __('Partner') }}" loading="lazy">
                                     </div>
                                 </div>
                             </a>

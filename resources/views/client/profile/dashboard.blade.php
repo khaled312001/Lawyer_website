@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="form-group col-md-6 option-item">
                                         <label for="">{{ __('City') }} <span>*</span></label>
-                                        <input type="text" name="city" placeholder="City" class="form-control"
+                                        <input type="text" name="city" placeholder="{{ __('City') }}" class="form-control"
                                             value="{{ $user?->details?->city }}">
 
                                     </div>

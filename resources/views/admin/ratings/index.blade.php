@@ -164,7 +164,7 @@
         function changeStatus(id) {
             var isDemo = "{{ env('APP_MODE') }}"
             if (isDemo === 'DEMO') {
-                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                toastr.error('{{ __('This Is Demo Version. You Can Not Change Anything') }}');
                 return;
             }
             $.ajax({
@@ -185,7 +185,7 @@
         function deleteData(id) {
             var isDemo = "{{ env('APP_MODE') }}"
             if (isDemo === 'DEMO') {
-                toastr.error('This Is Demo Version. You Can Not Change Anything');
+                toastr.error('{{ __('This Is Demo Version. You Can Not Change Anything') }}');
                 return;
             }
             $("#deleteForm").attr("action", '{{ url('admin/rating/') }}/' + id)

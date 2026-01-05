@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-lg-5">
                     <div class="faq_img">
-                        <img src="{{asset($faq_page?->image)}}" alt="Faq" class="img-fluid w-100">
+                        <img src="{{asset($faq_page?->image)}}" alt="{{ __('FAQ') }}" class="img-fluid w-100">
                     </div>
                 </div>
             </div>
