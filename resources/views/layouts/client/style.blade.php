@@ -242,6 +242,7 @@
         top: 0;
         z-index: 9999 !important;
         transition: all 0.3s ease;
+        overflow: visible !important;
     }
 
     body.client-frontend .main-navbar.sticky {
@@ -254,6 +255,7 @@
         justify-content: space-between;
         padding: 15px 20px;
         position: relative;
+        overflow: visible !important;
     }
 
     body.client-frontend .navbar-logo {
@@ -273,6 +275,7 @@
         justify-content: center;
         position: relative;
         z-index: 10000;
+        overflow: visible !important;
     }
 
     body.client-frontend .nav-menu-list {
@@ -282,6 +285,7 @@
         list-style: none;
         margin: 0;
         padding: 0;
+        overflow: visible !important;
     }
 
     body.client-frontend .nav-item {
@@ -332,14 +336,14 @@
 
     body.client-frontend .dropdown-menu {
         position: absolute;
-        top: 100%;
+        top: calc(100% + 5px);
         left: 0;
         background: #fff;
         min-width: 220px;
         box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         border-radius: 8px;
         padding: 10px 0;
-        margin-top: 5px;
+        margin-top: 0;
         list-style: none;
         opacity: 0;
         visibility: hidden;
@@ -348,6 +352,7 @@
         z-index: 99999 !important;
         display: block !important;
         pointer-events: none;
+        overflow: visible !important;
     }
 
     body.client-frontend .nav-item.has-dropdown:hover .dropdown-menu,
@@ -420,9 +425,23 @@
     }
 
     /* Ensure navbar and dropdown are above everything */
-    body.client-frontend .main-navbar,
+    body.client-frontend .main-navbar {
+        position: relative;
+        overflow: visible !important;
+    }
+
     body.client-frontend .main-navbar * {
         position: relative;
+    }
+
+    /* Prevent navbar from expanding when dropdown is shown */
+    body.client-frontend .main-navbar,
+    body.client-frontend .navbar-wrapper,
+    body.client-frontend .navbar-menu,
+    body.client-frontend .nav-menu-list {
+        height: auto;
+        min-height: auto;
+        max-height: none;
     }
 
     /* Mobile Menu Toggle Button - Client Only */
