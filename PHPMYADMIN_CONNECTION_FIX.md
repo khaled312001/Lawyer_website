@@ -146,3 +146,4 @@ php artisan tinker
 # Then use DB facade to test connection
 ```
 
+

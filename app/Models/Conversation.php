@@ -21,6 +21,7 @@ class Conversation extends Model
         'receiver_id',
         'receiver_type',
         'last_message_id',
+        'last_message_at',
         'status',
     ];
 

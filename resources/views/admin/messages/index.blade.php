@@ -41,7 +41,7 @@
                                                             <strong>{{ $conversation->lawyer->name }}</strong><br>
                                                             <small class="text-muted">{{ $conversation->lawyer->department->name ?? '' }}</small>
                                                         </td>
-                                                        <td>{{ $conversation->subject ?? 'استشارة قانونية' }}</td>
+                                                        <td>{{ $conversation->subject ?? __('Legal Consultation') }}</td>
                                                         <td>
                                                             <span class="badge badge-info">{{ $conversation->messages->count() }} {{ __('messages') }}</span>
                                                         </td>

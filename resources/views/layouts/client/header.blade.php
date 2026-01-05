@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 @if (session()->get('text_direction') == 'rtl')
-    <html class="no-js" lang="en" dir="rtl">
+    <html class="no-js" lang="{{ app()->getLocale() }}" dir="rtl">
 @else
-    <html class="no-js" lang="en">
+    <html class="no-js" lang="{{ app()->getLocale() }}">
 @endif
 
 <head>

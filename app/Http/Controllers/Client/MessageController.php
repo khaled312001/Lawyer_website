@@ -167,41 +167,54 @@ class MessageController extends Controller
      */
     public function startConversationWithAdmin(Request $request)
     {
-        $user = Auth::user();
+        try {
+            $user = Auth::user();
 
-        // Get the first admin (or you can modify this to get a specific admin)
-        $admin = Admin::first();
-        
-        if (!$admin) {
-            return redirect()->back()->with('error', __('No admin found'));
+            if (!$user) {
+                return redirect()->route('login')->with('error', __('Please login first'));
+            }
+
+            // Get the first admin (or you can modify this to get a specific admin)
+            $admin = Admin::first();
+            
+            if (!$admin) {
+                return redirect()->route('client.messages.index')
+                    ->with('error', __('No admin found. Please contact support.'));
+            }
+
+            // Check if a conversation already exists
+            $conversation = Conversation::where(function($query) use ($user, $admin) {
+                    $query->where(function($q) use ($user, $admin) {
+                        $q->where('sender_id', $user->id)
+                          ->where('sender_type', User::class)
+                          ->where('receiver_id', $admin->id)
+                          ->where('receiver_type', Admin::class);
+                    })->orWhere(function($q) use ($user, $admin) {
+                        $q->where('sender_id', $admin->id)
+                          ->where('sender_type', Admin::class)
+                          ->where('receiver_id', $user->id)
+                          ->where('receiver_type', User::class);
+                    });
+                })
+                ->first();
+
+            if (!$conversation) {
+                $conversation = Conversation::create([
+                    'sender_id' => $user->id,
+                    'sender_type' => User::class,
+                    'receiver_id' => $admin->id,
+                    'receiver_type' => Admin::class,
+                    'status' => 'active',
+                    'last_message_at' => now(),
+                ]);
+            }
+
+            return redirect()->route('client.messages.show', $conversation->id)
+                ->with('success', __('Conversation started successfully'));
+        } catch (\Exception $e) {
+            \Log::error('Error starting conversation with admin: ' . $e->getMessage());
+            return redirect()->route('client.messages.index')
+                ->with('error', __('An error occurred. Please try again.'));
         }
-
-        // Check if a conversation already exists
-        $conversation = Conversation::where(function($query) use ($user, $admin) {
-                $query->where(function($q) use ($user, $admin) {
-                    $q->where('sender_id', $user->id)
-                      ->where('sender_type', User::class)
-                      ->where('receiver_id', $admin->id)
-                      ->where('receiver_type', Admin::class);
-                })->orWhere(function($q) use ($user, $admin) {
-                    $q->where('sender_id', $admin->id)
-                      ->where('sender_type', Admin::class)
-                      ->where('receiver_id', $user->id)
-                      ->where('receiver_type', User::class);
-                });
-            })
-            ->first();
-
-        if (!$conversation) {
-            $conversation = Conversation::create([
-                'sender_id' => $user->id,
-                'sender_type' => User::class,
-                'receiver_id' => $admin->id,
-                'receiver_type' => Admin::class,
-                'status' => 'active',
-            ]);
-        }
-
-        return redirect()->route('client.messages.show', $conversation->id);
     }
 }

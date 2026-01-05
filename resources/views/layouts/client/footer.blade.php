@@ -283,6 +283,14 @@
     <script>
         "use strict";
         window.addEventListener("load", function() {
+            @php
+                $currentLang = app()->getLocale();
+                $cookieMessage = $currentLang === 'ar' 
+                    ? 'يستخدم هذا الموقع ملفات تعريف ارتباط أساسية لضمان عمله الصحيح وملفات تتبع لفهم كيفية تفاعلك معه. سيتم تفعيل الأخيرة فقط عند الموافقة.'
+                    : 'This website uses essential cookies to ensure its proper operation and tracking cookies to understand how you interact with it. The latter will be set only upon approval.';
+                $cookieLinkText = $currentLang === 'ar' ? 'اقرأ سياسة الخصوصية' : 'Policy';
+                $cookieBtnText = $currentLang === 'ar' ? 'موافق' : 'Yes';
+            @endphp
             window.wpcc.init({
                 "border": "{{ $setting->border }}",
                 "corners": "{{ $setting->corners }}",
@@ -299,9 +307,9 @@
                 },
                 "content": {
                     "href": "{{ route('website.privacy-policy') }}",
-                    "message": "{{ $setting->message }}",
-                    "link": "{{ $setting->link_text }}",
-                    "button": "{{ $setting->btn_text }}"
+                    "message": "{{ $cookieMessage }}",
+                    "link": "{{ $cookieLinkText }}",
+                    "button": "{{ $cookieBtnText }}"
                 }
             })
         });

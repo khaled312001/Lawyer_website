@@ -153,30 +153,40 @@ if (!function_exists('customPages')) {
 
 if (!function_exists('getSessionLanguage')) {
     function getSessionLanguage(): string {
-        if (!session()->has('lang')) {
-            session()->put('lang', config('app.locale'));
-            session()->forget('text_direction');
-            session()->put('text_direction', 'ltr');
-        }
-
-        $lang = Session::get('lang');
-
-        return $lang;
+        // Don't automatically create session, just return current or default
+        return Session::get('lang', config('app.locale', 'en'));
     }
 }
 if (!function_exists('setLanguage')) {
     function setLanguage($code) {
         $lang = Language::whereCode($code)->first();
 
-        if (session()->has('lang')) {
-            sessionForgetLangChang();
-        }
-        if ($lang) {
+        if ($lang && $lang->status == 1) {
+            // Clear old session data
+            if (session()->has('lang')) {
+                sessionForgetLangChang();
+            }
+            
+            // Set new language
             session()->put('lang', $lang->code);
             session()->put('text_direction', $lang->direction);
+            
+            // Immediately apply to current request
+            app()->setLocale($lang->code);
+            
+            // Clear translation cache
+            if (function_exists('cache')) {
+                cache()->forget('translations.' . $lang->code);
+            }
+            
             return true;
         }
-        session()->put('lang', config('app.locale'));
+        
+        // Fallback to default locale
+        session()->put('lang', config('app.locale', 'en'));
+        session()->put('text_direction', 'ltr');
+        app()->setLocale(config('app.locale', 'en'));
+        
         return false;
     }
 }

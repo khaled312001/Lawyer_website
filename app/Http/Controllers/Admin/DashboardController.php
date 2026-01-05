@@ -82,9 +82,19 @@ class DashboardController extends Controller {
     }
 
     public function setLanguage() {
-        $action = setLanguage(request('code'));
-
+        $code = request('code');
+        
+        // Set language using helper function
+        $action = setLanguage($code);
+        
+        // Force save and regenerate session to ensure changes are persisted
+        session()->save();
+        session()->regenerate();
+        
         if ($action) {
+            // Clear view cache for immediate effect
+            \Artisan::call('view:clear');
+            
             $notification = __('Language Changed Successfully');
             $notification = ['message' => $notification, 'alert-type' => 'success'];
             return redirect()->back()->with($notification);

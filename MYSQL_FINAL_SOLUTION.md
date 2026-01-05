@@ -122,3 +122,4 @@ cd C:\xampp\mysql\bin
 - `C:\xampp\uninstall_mysql_service.bat` - إلغاء تثبيت الخدمة
 - `C:\xampp\start_mysql_fixed.bat` - بدء MySQL بدون خدمة
 
+

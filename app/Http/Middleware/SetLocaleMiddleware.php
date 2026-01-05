@@ -17,8 +17,15 @@ class SetLocaleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Session::has('lang')) {
-            App::setlocale(Session::get('lang'));
+        // Get language from session or use default
+        $locale = Session::get('lang', config('app.locale', 'en'));
+        
+        // Set application locale
+        App::setLocale($locale);
+        
+        // Set text direction if available in session
+        if (Session::has('text_direction')) {
+            config(['app.text_direction' => Session::get('text_direction')]);
         }
 
         return $next($request);

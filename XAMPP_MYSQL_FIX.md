@@ -147,3 +147,4 @@ Or backup specific database:
 .\mysqldump.exe -u root database_name > C:\backup_database_name.sql
 ```
 
+
