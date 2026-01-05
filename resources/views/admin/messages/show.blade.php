@@ -33,6 +33,31 @@
         background: #f3e5f5;
         margin: 0 10%;
     }
+    
+    /* Modal Fixes */
+    .modal-backdrop {
+        z-index: 1040 !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+    
+    .modal {
+        z-index: 1050 !important;
+    }
+    
+    .modal.show {
+        display: block !important;
+    }
+    
+    /* Ensure backdrop is clickable */
+    .modal-backdrop.show {
+        pointer-events: auto !important;
+    }
+    
+    /* Remove any fixed overlays that might block clicks */
+    body.modal-open {
+        overflow: hidden;
+        padding-right: 0 !important;
+    }
 </style>
 
 <div class="main-content">
@@ -89,7 +114,7 @@
                                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editMessageModal{{ $message->id }}" title="{{ __('Edit') }}">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteMessage({{ $message->id }})" title="{{ __('Delete') }}">
+                                                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteMessageModal{{ $message->id }}" title="{{ __('Delete') }}">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </div>
@@ -109,8 +134,8 @@
                                     </div>
 
                                     <!-- Edit Message Modal -->
-                                    <div class="modal fade" id="editMessageModal{{ $message->id }}" tabindex="-1" aria-labelledby="editMessageModalLabel{{ $message->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
+                                    <div class="modal fade" id="editMessageModal{{ $message->id }}" tabindex="-1" aria-labelledby="editMessageModalLabel{{ $message->id }}" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+                                        <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="editMessageModalLabel{{ $message->id }}">{{ __('Edit Message') }}</h5>
@@ -130,6 +155,43 @@
                                                         <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                                                     </div>
                                                 </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Delete Message Confirmation Modal -->
+                                    <div class="modal fade" id="deleteMessageModal{{ $message->id }}" tabindex="-1" aria-labelledby="deleteMessageModalLabel{{ $message->id }}" aria-hidden="true" data-bs-backdrop="true" data-bs-keyboard="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-danger text-white">
+                                                    <h5 class="modal-title" id="deleteMessageModalLabel{{ $message->id }}">
+                                                        <i class="fas fa-exclamation-triangle"></i> {{ __('Delete Message') }}
+                                                    </h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="text-center mb-3">
+                                                        <i class="fas fa-trash-alt fa-3x text-danger mb-3"></i>
+                                                        <p class="lead">{{ __('Are you sure you want to delete this message?') }}</p>
+                                                        <p class="text-muted">{{ __('This action cannot be undone.') }}</p>
+                                                    </div>
+                                                    <div class="alert alert-warning">
+                                                        <i class="fas fa-info-circle"></i> 
+                                                        <strong>{{ __('Note:') }}</strong> {{ __('The message and any attachments will be permanently deleted.') }}
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                        <i class="fas fa-times"></i> {{ __('Cancel') }}
+                                                    </button>
+                                                    <form action="{{ route('admin.messages.delete', $message->id) }}" method="POST" class="d-inline" id="deleteForm{{ $message->id }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">
+                                                            <i class="fas fa-trash"></i> {{ __('Delete') }}
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -160,29 +222,37 @@
     </section>
 </div>
 
+@push('js')
 <script>
-function deleteMessage(messageId) {
-    if (confirm('{{ __("Are you sure you want to delete this message?") }}')) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '{{ url("admin/messages/message") }}/' + messageId;
+// Ensure modals close properly and backdrop is removed
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle modal close events
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(function(modal) {
+        modal.addEventListener('hidden.bs.modal', function() {
+            // Remove backdrop if it still exists
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+            // Remove modal-open class from body
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+        });
         
-        const csrfToken = document.createElement('input');
-        csrfToken.type = 'hidden';
-        csrfToken.name = '_token';
-        csrfToken.value = '{{ csrf_token() }}';
-        form.appendChild(csrfToken);
-        
-        const methodField = document.createElement('input');
-        methodField.type = 'hidden';
-        methodField.name = '_method';
-        methodField.value = 'DELETE';
-        form.appendChild(methodField);
-        
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
+        // Also handle click on backdrop to close
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                const bsModal = bootstrap.Modal.getInstance(modal);
+                if (bsModal) {
+                    bsModal.hide();
+                }
+            }
+        });
+    });
+});
 </script>
+@endpush
 @endsection
 
