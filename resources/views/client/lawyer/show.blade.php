@@ -46,6 +46,20 @@
                         <h4>{{ $lawyer?->name }} </h4>
                         <span><b>{{ $lawyer?->department?->name }} ({{ $lawyer?->designations }})</b></span>
                         <p class="mt-0"><b>{{ __('Years of experience') }}: {{ $lawyer?->years_of_experience }}</b></p>
+                        @if($lawyer->total_ratings > 0)
+                        <div class="mt-2 mb-2">
+                            {!! displayStars($lawyer->average_rating) !!}
+                            <span class="ms-2" style="color: #666; font-size: 14px;">
+                                <strong>{{ number_format($lawyer->average_rating, 1) }}</strong> 
+                                ({{ $lawyer->total_ratings }} {{ $lawyer->total_ratings == 1 ? __('rating') : __('ratings') }})
+                            </span>
+                        </div>
+                        @else
+                        <div class="mt-2 mb-2">
+                            {!! displayStars(0) !!}
+                            <span class="ms-2" style="color: #666; font-size: 14px;">{{ __('No ratings yet') }}</span>
+                        </div>
+                        @endif
                         {{-- تم حذف الرسوم - سيتم تحديدها بعد استشارة الحالة --}}
 
                         {!! $lawyer?->about !!}

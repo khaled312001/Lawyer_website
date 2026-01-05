@@ -617,3 +617,31 @@ if (!function_exists('customCode')) {
         });
     }
 }
+if (!function_exists('displayStars')) {
+    /**
+     * Display star rating
+     * @param float $rating Rating value (0-5)
+     * @param int $totalStars Total number of stars to display (default 5)
+     * @return string HTML for star rating
+     */
+    function displayStars($rating, $totalStars = 5) {
+        $rating = (float) $rating;
+        $html = '<div class="star-rating" style="display: inline-flex; align-items: center; gap: 2px;">';
+        
+        for ($i = 1; $i <= $totalStars; $i++) {
+            if ($rating >= $i) {
+                // Full star
+                $html .= '<i class="fas fa-star" style="color: #ffc107;"></i>';
+            } elseif ($rating >= ($i - 0.5)) {
+                // Half star
+                $html .= '<i class="fas fa-star-half-alt" style="color: #ffc107;"></i>';
+            } else {
+                // Empty star
+                $html .= '<i class="far fa-star" style="color: #ffc107;"></i>';
+            }
+        }
+        
+        $html .= '</div>';
+        return $html;
+    }
+}

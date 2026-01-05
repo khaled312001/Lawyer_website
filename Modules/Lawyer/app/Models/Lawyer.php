@@ -5,6 +5,7 @@ namespace Modules\Lawyer\app\Models;
 use App\Models\LawyerSocialMedia;
 use App\Models\MeetingHistory;
 use App\Models\Message;
+use App\Models\Rating;
 use App\Models\ZoomCredential;
 use App\Models\ZoomMeeting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -153,5 +154,24 @@ class Lawyer extends Authenticatable {
     }
     public function socialMedia(): ?HasMany {
         return $this->hasMany(LawyerSocialMedia::class, 'lawyer_id');
+    }
+    public function ratings(): ?HasMany {
+        return $this->hasMany(Rating::class, 'lawyer_id');
+    }
+    public function activeRatings(): ?HasMany {
+        return $this->hasMany(Rating::class, 'lawyer_id')->where('status', true);
+    }
+    /**
+     * Get the average rating for this lawyer
+     */
+    public function getAverageRatingAttribute(): float {
+        $average = $this->activeRatings()->avg('rating');
+        return round($average ?? 0, 1);
+    }
+    /**
+     * Get the total number of ratings for this lawyer
+     */
+    public function getTotalRatingsAttribute(): int {
+        return $this->activeRatings()->count();
     }
 }

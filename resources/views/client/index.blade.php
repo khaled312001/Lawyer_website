@@ -358,6 +358,20 @@
                                     </p>
                                     <p><span><b><i class="fas fa-street-view"></i>
                                                 {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
+                                    @if($lawyer->total_ratings > 0)
+                                    <div class="mt-2">
+                                        {!! displayStars($lawyer->average_rating) !!}
+                                        <span class="ms-1" style="color: #666; font-size: 12px;">
+                                            <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
+                                            ({{ $lawyer->total_ratings }})
+                                        </span>
+                                    </div>
+                                    @else
+                                    <div class="mt-2">
+                                        {!! displayStars(0) !!}
+                                        <span class="ms-1" style="color: #999; font-size: 12px;">{{ __('No ratings') }}</span>
+                                    </div>
+                                    @endif
                                 </div>
                                 <div class="team-social">
                                     <ul>
