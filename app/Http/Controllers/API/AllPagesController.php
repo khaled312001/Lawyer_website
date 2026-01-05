@@ -47,7 +47,7 @@ class AllPagesController extends Controller {
 
         $services = Service::select('id', 'icon', 'slug')->with(['translations' => function ($q) use ($code) {
             $q->where('lang_code', $code)->select('service_id', 'title', 'sort_description');
-        }])->active()->homepage()->latest()->take($home_sections?->service_how_many)->get();
+        }])->active()->homepage()->orderBy('slug', 'asc')->take($home_sections?->service_how_many)->get();
 
         $overviews = Counter::select('id', 'icon', 'qty')->with(['translations' => function ($q) use ($code) {
             $q->where('lang_code', $code)->select('counter_id', 'title');

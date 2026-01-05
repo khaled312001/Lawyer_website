@@ -87,7 +87,10 @@
                         
                         <div class="lawyer-fee mt-3">
                             <span class="fee-label">{{ __('Fee') }}:</span>
-                            <span class="fee-amount">{{ session()->get('currency_icon', '$') }}{{ $lawyer->fee ?? 0 }}</span>
+                            <span class="fee-amount" data-base-fee="{{ $lawyer->fee ?? 0 }}">
+                                {{ session()->get('currency_icon', '$') }}<span class="fee-value">{{ $lawyer->fee ?? 0 }}</span>
+                            </span>
+                            <small class="fee-duration text-muted d-block mt-1">({{ __('per 15 min') }})</small>
                         </div>
 
                         <div class="lawyer-card-footer">
@@ -132,6 +135,7 @@
                     <input type="hidden" name="lawyer_id" id="modal-lawyer-id">
                     <input type="hidden" name="department_id" id="modal-department-id">
                     <input type="hidden" name="schedule_id" id="modal-schedule-id">
+                    <input type="hidden" name="duration" id="modal-duration" value="15">
                     
                     <div class="form-group mb-3">
                         <label for="modal-appointment-date" class="form-label">
@@ -175,6 +179,22 @@ $(document).ready(function() {
     
     // Duration selection handler
     let selectedDuration = 15; // Default duration
+    const currencyIcon = '{{ session()->get("currency_icon", "$") }}';
+    
+    // Calculate fee based on duration
+    function calculateFee(baseFee, duration) {
+        return ((baseFee / 15) * duration).toFixed(2);
+    }
+    
+    // Update all lawyer fees based on selected duration
+    function updateLawyerFees(duration) {
+        $('.lawyer-card').each(function() {
+            const feeElement = $(this).find('.fee-amount');
+            const baseFee = parseFloat(feeElement.data('base-fee')) || 0;
+            const calculatedFee = calculateFee(baseFee, duration);
+            feeElement.find('.fee-value').text(calculatedFee);
+        });
+    }
     
     // Handle duration button clicks
     $(document).on('click', '.duration-btn', function(e) {
@@ -187,6 +207,9 @@ $(document).ready(function() {
         $(this).addClass('active');
         // Get selected duration
         selectedDuration = parseInt($(this).data('duration')) || 15;
+        
+        // Update fees
+        updateLawyerFees(selectedDuration);
         
         // Show loading state
         $('.lawyer-availability').each(function() {
@@ -243,10 +266,12 @@ $(document).ready(function() {
                         if (options.length > 0) {
                             const timeSlots = [];
                             options.each(function() {
-                                const time = $(this).text().trim();
                                 const scheduleId = $(this).val();
+                                const startTime = $(this).data('start-time') || '';
+                                const endTime = $(this).data('end-time') || '';
+                                const time = startTime && endTime ? (startTime + '-' + endTime) : $(this).text().trim();
                                 if (scheduleId && time) {
-                                    timeSlots.push({ scheduleId, time });
+                                    timeSlots.push({ scheduleId, time, startTime, endTime });
                                 }
                             });
                             
@@ -295,7 +320,8 @@ $(document).ready(function() {
             `;
             
             item.timeSlots.forEach((slot) => {
-                availabilityHtml += `<span class="time-slot" data-schedule-id="${slot.scheduleId}" data-date="${item.date}" title="{{ __('Click to book') }}">${slot.time}</span>`;
+                const displayTime = slot.startTime && slot.endTime ? `${slot.startTime}-${slot.endTime}` : slot.time;
+                availabilityHtml += `<span class="time-slot" data-schedule-id="${slot.scheduleId}" data-date="${item.date}" data-start-time="${slot.startTime || ''}" data-end-time="${slot.endTime || ''}" title="{{ __('Click to book') }}">${displayTime}</span>`;
             });
             
             availabilityHtml += `
@@ -327,7 +353,8 @@ $(document).ready(function() {
             method: 'GET',
             data: {
                 lawyer_id: lawyerId,
-                date: date
+                date: date,
+                duration: selectedDuration
             },
             success: function(response) {
                 if (response.success) {
@@ -348,7 +375,7 @@ $(document).ready(function() {
         });
     });
     
-    // Handle time slot click in availability display
+        // Handle time slot click in availability display
     $(document).on('click', '.time-slot', function() {
         // Remove previous selection
         $('.time-slot').removeClass('selected');
@@ -357,8 +384,13 @@ $(document).ready(function() {
         
         const scheduleId = $(this).data('schedule-id');
         const date = $(this).data('date');
+        const startTime = $(this).data('start-time');
+        const endTime = $(this).data('end-time');
         const lawyerCard = $(this).closest('.lawyer-booking-card');
         const lawyerId = $(this).closest('.lawyer-availability').data('lawyer-id');
+        
+        // Update duration in modal
+        $('#modal-duration').val(selectedDuration);
         
         // Get department_id
         $.ajax({
@@ -381,7 +413,8 @@ $(document).ready(function() {
             method: 'GET',
             data: {
                 lawyer_id: lawyerId,
-                date: date
+                date: date,
+                duration: selectedDuration
             },
             success: function(response) {
                 if (response.success) {
@@ -417,6 +450,7 @@ $(document).ready(function() {
         $('#modal-submit-btn').prop('disabled', true);
         $('#modal-error-message').addClass('d-none');
         $('#modal-lawyer-id').val(lawyerId);
+        $('#modal-duration').val(selectedDuration);
         
         // Get department_id
         $.ajax({
@@ -436,6 +470,9 @@ $(document).ready(function() {
     let datepickerInitialized = false;
     
     $('#bookingModal').on('shown.bs.modal', function() {
+        // Update duration in modal
+        $('#modal-duration').val(selectedDuration);
+        
         if (!datepickerInitialized && $.fn.datepicker) {
             // Destroy any existing datepicker instance
             $('#modal-appointment-date').datepicker('destroy');
@@ -530,6 +567,12 @@ $(document).ready(function() {
             'type': 'hidden',
             'name': 'schedule_id',
             'value': scheduleId
+        }));
+        
+        hiddenForm.append($('<input>', {
+            'type': 'hidden',
+            'name': 'duration',
+            'value': selectedDuration
         }));
         
         $('body').append(hiddenForm);

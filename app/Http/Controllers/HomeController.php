@@ -57,7 +57,7 @@ class HomeController extends Controller {
             'translation' => function ($query) {
                 $query->select('service_id', 'title', 'sort_description');
             },
-        ])->active()->latest()->homepage()->get();
+        ])->active()->homepage()->orderBy('slug', 'asc')->get();
         $overviews = Counter::select('id', 'icon', 'qty')->with([
             'translation' => function ($query) {
                 $query->select('counter_id', 'title');
@@ -159,7 +159,7 @@ class HomeController extends Controller {
             'translation' => function ($query) {
                 $query->select('service_id', 'title', 'sort_description');
             },
-        ])->active()->paginate($pagination_qty);
+        ])->active()->orderBy('slug', 'asc')->paginate($pagination_qty);
         return view('client.service.index', compact('services'));
     }
 

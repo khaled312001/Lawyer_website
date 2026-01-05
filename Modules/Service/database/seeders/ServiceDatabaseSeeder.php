@@ -19,6 +19,24 @@ class ServiceDatabaseSeeder extends Seeder {
 
         $services = [
             [
+                'icon'         => 'fas fa-file-alt',
+                'slug_prefix'  => '0-government-document-extraction',
+                'translations' => [
+                    [
+                        'lang_code'        => 'en',
+                        'title'            => 'Government Document Extraction',
+                        'sort_description' => 'Professional assistance in extracting official government documents from state institutions',
+                        'description'      => '<p>We provide expert services to help you obtain official government documents from various state institutions efficiently and legally.</p>',
+                    ],
+                    [
+                        'lang_code'        => 'ar',
+                        'title'            => 'استخراج وثائق حكوميه من الدوله',
+                        'sort_description' => 'مساعدة مهنية في استخراج الوثائق الحكومية الرسمية من مؤسسات الدولة',
+                        'description'      => '<p>نقدم خدمات متخصصة لمساعدتك في الحصول على الوثائق الحكومية الرسمية من مختلف مؤسسات الدولة بكفاءة ووفقاً للقانون.</p>',
+                    ],
+                ],
+            ],
+            [
                 'icon'         => 'fab fa-fort-awesome',
                 'translations' => [
                     [
@@ -186,7 +204,7 @@ class ServiceDatabaseSeeder extends Seeder {
 
         foreach ($services as $item) {
             $service = Service::create([
-                'slug' => Str::slug($item['translations'][0]['title']),
+                'slug' => isset($item['slug_prefix']) ? $item['slug_prefix'] : Str::slug($item['translations'][0]['title']),
                 'icon' => $item['icon'],
             ]);
 
