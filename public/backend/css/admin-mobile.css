@@ -1,0 +1,607 @@
+/* ============================================
+   Admin Panel Mobile Responsive Improvements
+   ============================================ */
+
+/* Tablet and Below (1024px) */
+@media (max-width: 1024px) {
+    .main-content {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    .section .section-header {
+        flex-wrap: wrap;
+    }
+
+    .section .section-header .float-right {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Improve tables */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid #e3e6f0;
+        border-radius: 8px;
+    }
+
+    table {
+        font-size: 14px;
+        min-width: 600px;
+    }
+
+    table th,
+    table td {
+        padding: 10px 8px;
+        white-space: nowrap;
+    }
+
+    /* Improve forms */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control,
+    .form-select,
+    .select2-container .select2-selection--single {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 10px 15px;
+        min-height: 44px;
+    }
+
+    /* Improve buttons */
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        min-height: 44px;
+        margin-bottom: 10px;
+    }
+
+    .btn-group .btn {
+        margin-bottom: 0;
+    }
+
+    /* Improve cards */
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    /* Improve sidebar */
+    .main-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    body.sidebar-show .main-sidebar {
+        transform: translateX(0);
+    }
+
+    /* Improve navbar */
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .navbar .search-box {
+        display: none;
+    }
+
+    .navbar .navbar-nav {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    /* Improve dropdowns */
+    .dropdown-menu {
+        max-width: calc(100vw - 30px);
+        left: 15px !important;
+        right: 15px !important;
+    }
+}
+
+/* Mobile (768px and below) */
+@media (max-width: 768px) {
+    /* Main content adjustments */
+    .main-content {
+        padding: 15px 10px !important;
+        margin-top: 60px;
+    }
+
+    /* Section improvements */
+    .section {
+        margin-top: 20px;
+    }
+
+    .section .section-title {
+        font-size: 16px;
+    }
+
+    .section .section-header h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    /* Tables - make them scrollable */
+    .table-responsive {
+        margin: 0 -10px;
+        padding: 0 10px;
+    }
+
+    table {
+        font-size: 13px;
+        min-width: 700px;
+    }
+
+    table th,
+    table td {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+
+    /* Stack form columns */
+    .row > [class*="col-"] {
+        margin-bottom: 15px;
+    }
+
+    /* Forms */
+    .form-control,
+    .form-select {
+        font-size: 16px;
+        padding: 12px 15px;
+    }
+
+    label {
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .form-text {
+        font-size: 12px;
+    }
+
+    /* Buttons */
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .btn-group {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-group .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    /* Cards */
+    .card {
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .card-header {
+        padding: 12px 15px;
+        font-size: 16px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-footer {
+        padding: 12px 15px;
+    }
+
+    /* Modals */
+    .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+
+    .modal-content {
+        border-radius: 8px;
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 15px;
+    }
+
+    .modal-title {
+        font-size: 18px;
+    }
+
+    /* Navbar improvements */
+    .navbar {
+        padding: 8px 10px;
+    }
+
+    .navbar .navbar-nav .nav-link {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .navbar .nav-link-lg {
+        font-size: 18px;
+    }
+
+    /* Sidebar improvements */
+    .main-sidebar {
+        width: 280px;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    .main-sidebar .sidebar-brand {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .main-sidebar .sidebar-brand a {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .main-sidebar .sidebar-menu {
+        padding: 10px 0;
+    }
+
+    .main-sidebar .sidebar-menu > li > a {
+        padding: 12px 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+    }
+
+    .main-sidebar .sidebar-menu > li > a i {
+        width: 20px;
+        margin-right: 10px;
+        font-size: 16px;
+    }
+
+    .main-sidebar .sidebar-menu .menu-dropdown {
+        padding-left: 20px;
+    }
+
+    .main-sidebar .sidebar-menu .menu-dropdown li a {
+        padding: 10px 20px 10px 40px;
+        font-size: 13px;
+        min-height: 40px;
+    }
+
+    /* Sidebar backdrop */
+    body.sidebar-show::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 890;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+
+    .breadcrumb-item {
+        font-size: 12px;
+    }
+
+    /* Alerts */
+    .alert {
+        padding: 12px 15px;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    /* Badges */
+    .badge {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+
+    /* Pagination */
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .pagination .page-link {
+        padding: 8px 12px;
+        font-size: 14px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Tabs */
+    .nav-tabs {
+        flex-wrap: wrap;
+        border-bottom: 2px solid #e3e6f0;
+    }
+
+    .nav-tabs .nav-link {
+        padding: 10px 15px;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    /* DataTables improvements */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        margin-bottom: 15px;
+    }
+
+    .dataTables_wrapper .dataTables_length select,
+    .dataTables_wrapper .dataTables_filter input {
+        font-size: 16px;
+        padding: 8px 12px;
+        min-height: 44px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        margin-top: 15px;
+    }
+
+    /* Select2 improvements */
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 44px;
+    }
+
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        line-height: 44px;
+        padding-left: 15px;
+    }
+
+    /* File upload improvements */
+    .custom-file-label {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    /* Switch/Toggle improvements */
+    .bootstrap-toggle {
+        min-width: 80px;
+    }
+
+    /* Action buttons in tables */
+    .table .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-height: 36px;
+        margin: 2px;
+    }
+
+    /* Improve spacing */
+    .mb-3,
+    .mb-4,
+    .mb-5 {
+        margin-bottom: 15px !important;
+    }
+
+    .mt-3,
+    .mt-4,
+    .mt-5 {
+        margin-top: 15px !important;
+    }
+
+    .p-3,
+    .p-4,
+    .p-5 {
+        padding: 15px !important;
+    }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+    /* Further reduce sizes */
+    body {
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: 10px 5px !important;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    h4 {
+        font-size: 14px;
+    }
+
+    /* Section */
+    .section .section-header h1 {
+        font-size: 18px;
+    }
+
+    .section .section-title {
+        font-size: 14px;
+    }
+
+    /* Tables */
+    table {
+        font-size: 11px;
+    }
+
+    table th,
+    table td {
+        padding: 6px 4px;
+        font-size: 11px;
+    }
+
+    /* Forms */
+    .form-control,
+    .form-select {
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+
+    /* Buttons */
+    .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    /* Cards */
+    .card-body {
+        padding: 12px;
+    }
+
+    .card-header {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 6px 8px;
+    }
+
+    .navbar .navbar-brand {
+        font-size: 16px;
+    }
+
+    /* Modals */
+    .modal-dialog {
+        margin: 5px;
+        max-width: calc(100% - 10px);
+    }
+
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 12px;
+    }
+
+    /* Improve touch targets */
+    a,
+    button,
+    .btn,
+    input[type="button"],
+    input[type="submit"],
+    .nav-link {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Landscape orientation */
+@media (max-width: 1024px) and (orientation: landscape) {
+    .navbar {
+        padding: 5px 10px;
+    }
+
+    .main-content {
+        padding-top: 10px;
+    }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    a,
+    button,
+    .btn,
+    input[type="button"],
+    input[type="submit"],
+    .nav-link,
+    .dropdown-item {
+        min-height: 44px;
+    }
+
+    /* Improve focus states */
+    a:focus,
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+        outline: 2px solid #6777ef;
+        outline-offset: 2px;
+    }
+
+    /* Remove hover effects on touch */
+    .btn:hover {
+        transform: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .main-sidebar,
+    .navbar,
+    .main-footer,
+    .btn,
+    .pagination {
+        display: none !important;
+    }
+
+    .main-content {
+        margin: 0;
+        padding: 0;
+    }
+}
+

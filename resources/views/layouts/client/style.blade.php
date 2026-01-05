@@ -169,7 +169,7 @@
 
     .menu-area .container {
         max-width: 100%;
-        padding: 0 30px;
+        padding: 0 20px;
     }
 
     .menu-area .row {
@@ -182,10 +182,11 @@
         display: flex;
         align-items: center;
         height: 100%;
+        padding-right: 10px;
     }
 
     .logo img {
-        max-height: 50px;
+        max-height: 45px;
         width: auto;
         height: auto;
         display: block;
@@ -205,6 +206,7 @@
         justify-content: flex-end;
         align-items: center;
         width: 100%;
+        padding-right: 10px;
     }
 
     ul.nav-menu {
@@ -214,6 +216,7 @@
         gap: 0;
         margin: 0;
         padding: 0;
+        flex-wrap: nowrap;
     }
 
     ul.nav-menu li {
@@ -225,30 +228,32 @@
     }
 
     ul.nav-menu li:not(.special-button) {
-        margin-right: 5px;
+        margin-right: 2px;
     }
 
     ul.nav-menu li a {
-        padding: 15px 20px !important;
+        padding: 15px 16px !important;
         display: flex;
         align-items: center;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         color: #fff !important;
         font-weight: 500;
-        font-size: 15px;
+        font-size: 14px;
         text-decoration: none;
         position: relative;
         border-radius: 6px;
+        white-space: nowrap;
     }
 
     ul.nav-menu li a i {
-        font-size: 15px;
-        width: 20px;
+        font-size: 14px;
+        width: 18px;
         text-align: center;
-        margin-right: 8px;
+        margin-right: 6px;
         transition: all 0.3s ease;
         color: rgba(255, 255, 255, 0.95);
         filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+        flex-shrink: 0;
     }
 
     ul.nav-menu li a:hover {
@@ -335,11 +340,11 @@
 
     /* Special Button - CTA */
     ul.nav-menu li.special-button {
-        margin-left: 20px;
+        margin-left: 15px;
     }
 
     ul.nav-menu li.special-button a {
-        padding: 13px 32px !important;
+        padding: 13px 28px !important;
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
         border-radius: 8px;
@@ -755,15 +760,304 @@
         display: none !important;
     }
 
-    /* Responsive */
+    /* ============================================
+       Responsive Design Improvements
+       ============================================ */
+
+    /* Tablet and Below (991px) */
     @media (max-width: 991px) {
         .header-info ul {
             justify-content: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         ul.nav-menu li.special-button {
             margin-left: 10px;
+        }
+
+        .menu-area .container {
+            padding: 0 15px;
+        }
+
+        ul.nav-menu li a {
+            padding: 12px 15px !important;
+            font-size: 14px;
+        }
+
+        ul.nav-menu li.special-button a {
+            padding: 10px 20px !important;
+            font-size: 14px;
+        }
+
+        /* Improve tables on mobile */
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            font-size: 14px;
+        }
+
+        table th,
+        table td {
+            padding: 8px 10px;
+            white-space: nowrap;
+        }
+
+        /* Improve forms on mobile */
+        .form-control,
+        .form-select {
+            font-size: 16px; /* Prevents zoom on iOS */
+            padding: 10px 15px;
+        }
+
+        /* Improve buttons on mobile */
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            min-height: 44px; /* Better touch target */
+        }
+
+        /* Improve cards on mobile */
+        .card {
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+    }
+
+    /* Mobile (768px and below) */
+    @media (max-width: 768px) {
+        /* Header improvements */
+        .header-area {
+            padding: 8px 0;
+        }
+
+        .header-info ul li {
+            font-size: 12px;
+            margin-left: 15px;
+        }
+
+        .header-info ul li i {
+            font-size: 14px;
+        }
+
+        /* Menu area improvements */
+        .menu-area .row {
+            padding: 10px 0;
+        }
+
+        .logo img {
+            max-height: 40px;
+        }
+
+        /* Mobile menu icon */
+        .mobile-menuicon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .mobile-menuicon .menu-bar {
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Improve typography */
+        h1 {
+            font-size: 28px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 20px;
+            line-height: 1.3;
+        }
+
+        /* Improve spacing */
+        .container {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .section-padding {
+            padding: 40px 0;
+        }
+
+        /* Improve tables - make them scrollable */
+        .table-responsive {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        table {
+            min-width: 600px;
+        }
+
+        /* Stack form elements */
+        .row > [class*="col-"] {
+            margin-bottom: 15px;
+        }
+
+        /* Improve modals */
+        .modal-dialog {
+            margin: 10px;
+            max-width: calc(100% - 20px);
+        }
+
+        .modal-content {
+            border-radius: 8px;
+        }
+
+        .modal-header,
+        .modal-body,
+        .modal-footer {
+            padding: 15px;
+        }
+
+        /* Improve dropdowns */
+        .dropdown-menu {
+            max-width: calc(100vw - 30px);
+            left: 15px !important;
+            right: 15px !important;
+        }
+    }
+
+    /* Small Mobile (480px and below) */
+    @media (max-width: 480px) {
+        /* Further reduce font sizes */
+        body {
+            font-size: 14px;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        /* Compact header */
+        .header-info ul {
+            gap: 10px;
+        }
+
+        .header-info ul li {
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        /* Compact buttons */
+        .btn {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .btn-lg {
+            padding: 10px 20px;
+            font-size: 14px;
+        }
+
+        /* Compact forms */
+        .form-control,
+        .form-select {
+            padding: 8px 12px;
+            font-size: 16px;
+        }
+
+        /* Compact cards */
+        .card-body {
+            padding: 12px;
+        }
+
+        /* Compact tables */
+        table {
+            font-size: 12px;
+        }
+
+        table th,
+        table td {
+            padding: 6px 8px;
+        }
+
+        /* Full width buttons on small screens */
+        .btn-group-vertical .btn,
+        .btn-block {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        /* Improve spacing */
+        .mb-3,
+        .mb-4,
+        .mb-5 {
+            margin-bottom: 15px !important;
+        }
+
+        .mt-3,
+        .mt-4,
+        .mt-5 {
+            margin-top: 15px !important;
+        }
+
+        .p-3,
+        .p-4,
+        .p-5 {
+            padding: 15px !important;
+        }
+    }
+
+    /* Landscape orientation improvements */
+    @media (max-width: 991px) and (orientation: landscape) {
+        .header-area {
+            padding: 5px 0;
+        }
+
+        .menu-area .row {
+            padding: 8px 0;
+        }
+    }
+
+    /* Touch device improvements */
+    @media (hover: none) and (pointer: coarse) {
+        /* Larger touch targets */
+        a,
+        button,
+        .btn,
+        input[type="button"],
+        input[type="submit"] {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        /* Remove hover effects on touch devices */
+        a:hover,
+        button:hover {
+            opacity: 1;
+        }
+
+        /* Improve focus states */
+        a:focus,
+        button:focus,
+        input:focus {
+            outline: 2px solid var(--colorPrimary);
+            outline-offset: 2px;
         }
     }
 </style>
