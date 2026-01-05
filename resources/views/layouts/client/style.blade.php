@@ -335,15 +335,15 @@
     }
 
     body.client-frontend .dropdown-menu {
-        position: absolute;
-        top: calc(100% + 5px);
-        left: 0;
-        background: #fff;
+        position: absolute !important;
+        top: 100% !important;
+        left: 0 !important;
+        background: #fff !important;
         min-width: 220px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
         border-radius: 8px;
         padding: 10px 0;
-        margin-top: 0;
+        margin-top: 8px !important;
         list-style: none;
         opacity: 0;
         visibility: hidden;
@@ -353,6 +353,9 @@
         display: block !important;
         pointer-events: none;
         overflow: visible !important;
+        white-space: nowrap;
+        clip: auto !important;
+        clip-path: none !important;
     }
 
     body.client-frontend .nav-item.has-dropdown:hover .dropdown-menu,
@@ -430,18 +433,67 @@
         overflow: visible !important;
     }
 
-    body.client-frontend .main-navbar * {
+    /* Ensure container doesn't clip dropdown */
+    body.client-frontend .main-navbar .container-fluid,
+    body.client-frontend .main-navbar .container {
+        overflow: visible !important;
         position: relative;
+        height: auto !important;
+        max-height: none !important;
+    }
+
+    body.client-frontend .main-navbar .navbar-wrapper {
+        overflow: visible !important;
+        height: auto !important;
+        max-height: none !important;
     }
 
     /* Prevent navbar from expanding when dropdown is shown */
-    body.client-frontend .main-navbar,
-    body.client-frontend .navbar-wrapper,
-    body.client-frontend .navbar-menu,
+    body.client-frontend .main-navbar {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+    }
+
+    body.client-frontend .navbar-menu {
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+    }
+
     body.client-frontend .nav-menu-list {
-        height: auto;
-        min-height: auto;
-        max-height: none;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+    }
+
+    /* Ensure nav-item doesn't clip dropdown */
+    body.client-frontend .nav-item.has-dropdown {
+        overflow: visible !important;
+        height: auto !important;
+    }
+
+    /* Force dropdown to appear outside navbar */
+    body.client-frontend .nav-item.has-dropdown .dropdown-menu {
+        position: absolute !important;
+        top: 100% !important;
+        margin-top: 8px !important;
+        clip: auto !important;
+        clip-path: none !important;
+    }
+
+    /* Override any global overflow rules */
+    body.client-frontend .main-navbar,
+    body.client-frontend .main-navbar *,
+    body.client-frontend .main-navbar .container-fluid,
+    body.client-frontend .main-navbar .container,
+    body.client-frontend .main-navbar .navbar-wrapper,
+    body.client-frontend .main-navbar .navbar-menu,
+    body.client-frontend .main-navbar .nav-menu-list,
+    body.client-frontend .main-navbar .nav-item {
+        overflow: visible !important;
+        clip: auto !important;
+        clip-path: none !important;
     }
 
     /* Mobile Menu Toggle Button - Client Only */
