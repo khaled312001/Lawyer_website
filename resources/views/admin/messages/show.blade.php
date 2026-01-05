@@ -53,7 +53,7 @@
                         <div class="card-header">
                             <h4>{{ __('Conversation between') }}: {{ $conversation->user->name }} & {{ $conversation->lawyer->name }}</h4>
                             <div class="card-header-action">
-                                @if($conversation->is_active)
+                                @if($conversation->status == 'active')
                                     <span class="badge badge-success">{{ __('Active') }}</span>
                                 @else
                                     <span class="badge badge-secondary">{{ __('Closed') }}</span>

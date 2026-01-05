@@ -86,34 +86,44 @@
                 @if ($lawyers->count() != 0)
                     @foreach ($lawyers as $lawyer)
                         <div class="col-lg-3 col-md-4 col-sm-6 mt_30">
-                            <div class="team-item">
-                                <div class="team-photo">
-                                    <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
-                                        alt="{{$lawyer?->name}}" loading="lazy">
-                                </div>
-                                <div class="team-text">
-                                    <a aria-label="{{ $lawyer?->name }}"
-                                        href="{{ route('website.lawyer.details', $lawyer?->slug) }}">{{ ucfirst($lawyer?->name) }}</a>
-                                    <p>{{ ucfirst($lawyer?->department?->name) }}</p>
-                                    <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span></p>
-                                    <p><span><b><i class="fas fa-street-view"></i>
-                                                {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
-                                    @if($lawyer->total_ratings > 0)
-                                    <div class="mt-2">
-                                        {!! displayStars($lawyer->average_rating) !!}
-                                        <span class="ms-1" style="color: #666; font-size: 12px;">
-                                            <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
-                                            ({{ $lawyer->total_ratings }})
-                                        </span>
+                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="team-item-link" aria-label="{{ $lawyer?->name }}">
+                                <div class="team-item">
+                                    <div class="team-photo">
+                                        <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
+                                            alt="{{$lawyer?->name}}" loading="lazy">
+                                        <div class="team-overlay">
+                                            <div class="view-profile-btn">
+                                                <i class="fas fa-eye"></i>
+                                                <span>{{ __('View Profile') }}</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    @else
-                                    <div class="mt-2">
-                                        {!! displayStars(0) !!}
-                                        <span class="ms-1" style="color: #999; font-size: 12px;">{{ __('No ratings') }}</span>
+                                    <div class="team-text">
+                                        <h4 class="team-name">{{ ucfirst($lawyer?->name) }}</h4>
+                                        <p><i class="fas fa-briefcase"></i> {{ ucfirst($lawyer?->department?->name) }}</p>
+                                        <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span></p>
+                                        <p><span><b><i class="fas fa-street-view"></i>
+                                                    {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
+                                        @if($lawyer->total_ratings > 0)
+                                        <div class="mt-2">
+                                            {!! displayStars($lawyer->average_rating) !!}
+                                            <span class="ms-1" style="color: #666; font-size: 12px;">
+                                                <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
+                                                ({{ $lawyer->total_ratings }})
+                                            </span>
+                                        </div>
+                                        @else
+                                        <div class="mt-2">
+                                            {!! displayStars(0) !!}
+                                            <span class="ms-1" style="color: #999; font-size: 12px;">{{ __('No ratings') }}</span>
+                                        </div>
+                                        @endif
+                                        <div class="team-action-icon">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </div>
                                     </div>
-                                    @endif
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     @endforeach
                 @else

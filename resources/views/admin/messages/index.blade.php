@@ -45,9 +45,9 @@
                                                         <td>
                                                             <span class="badge badge-info">{{ $conversation->messages->count() }} {{ __('messages') }}</span>
                                                         </td>
-                                                        <td>{{ $conversation->last_message_at ? $conversation->last_message_at->diffForHumans() : '-' }}</td>
+                                                        <td>{{ $conversation->updated_at ? $conversation->updated_at->diffForHumans() : '-' }}</td>
                                                         <td>
-                                                            @if($conversation->is_active)
+                                                            @if($conversation->status == 'active')
                                                                 <span class="badge badge-success">{{ __('Active') }}</span>
                                                             @else
                                                                 <span class="badge badge-secondary">{{ __('Closed') }}</span>
@@ -61,8 +61,8 @@
                                                             <form action="{{ route('admin.messages.toggle-status', $conversation->id) }}" 
                                                                   method="POST" class="d-inline">
                                                                 @csrf
-                                                                <button type="submit" class="btn btn-{{ $conversation->is_active ? 'warning' : 'success' }} btn-sm">
-                                                                    <i class="fas fa-{{ $conversation->is_active ? 'lock' : 'unlock' }}"></i>
+                                                                <button type="submit" class="btn btn-{{ $conversation->status == 'active' ? 'warning' : 'success' }} btn-sm">
+                                                                    <i class="fas fa-{{ $conversation->status == 'active' ? 'lock' : 'unlock' }}"></i>
                                                                 </button>
                                                             </form>
                                                         </td>

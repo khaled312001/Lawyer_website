@@ -135,6 +135,15 @@
 
                 <li class="menu-header">{{ __('Others') }}</li>
 
+                @if (checkAdminHasPermission('admin.view'))
+                    <li class="{{ isRoute('admin.messages.*', 'active') }}">
+                        <a class="nav-link" href="{{ route('admin.messages.index') }}">
+                            <i class="fas fa-comments"></i>
+                            <span>{{ __('Messages') }}</span>
+                        </a>
+                    </li>
+                @endif
+
                 @if (Module::isEnabled('GlobalSetting'))
                     <li class="{{ isRoute('admin.settings', 'active') }}">
                         <a class="nav-link" href="{{ route('admin.settings') }}"><i class="fas fa-cog"></i>

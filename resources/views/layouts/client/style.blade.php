@@ -765,6 +765,239 @@
        ============================================ */
 
     /* Tablet and Below (991px) */
+    /* ============================================
+       Lawyer Card - Clickable Design
+       ============================================ */
+
+    /* Make entire card clickable */
+    .team-item-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s ease;
+    }
+
+    .team-item-link:hover {
+        text-decoration: none;
+        color: inherit;
+        transform: translateY(-5px);
+    }
+
+    .team-item-link:hover .team-item {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        border-color: var(--colorPrimary);
+    }
+
+    /* Team Item Enhanced Design */
+    .team-item {
+        overflow: hidden;
+        position: relative;
+        border: 2px solid #eee;
+        border-radius: 12px;
+        background: #fff;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .team-item:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        border-color: var(--colorPrimary);
+    }
+
+    /* Team Photo with Overlay */
+    .team-photo {
+        overflow: hidden;
+        position: relative;
+        height: 280px;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    }
+
+    .team-photo img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        transition: transform 0.5s ease;
+    }
+
+    .team-item:hover .team-photo img {
+        transform: scale(1.1);
+    }
+
+    /* Overlay with View Profile Button */
+    .team-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(200, 180, 126, 0.9) 0%, rgba(241, 99, 76, 0.9) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 2;
+    }
+
+    .team-item:hover .team-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .view-profile-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transform: translateY(20px);
+        transition: transform 0.4s ease;
+    }
+
+    .team-item:hover .view-profile-btn {
+        transform: translateY(0);
+    }
+
+    .view-profile-btn i {
+        font-size: 32px;
+        margin-bottom: 5px;
+        animation: pulse-icon 2s infinite;
+    }
+
+    @keyframes pulse-icon {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    .view-profile-btn span {
+        font-size: 14px;
+        opacity: 0.95;
+    }
+
+    /* Team Text Enhanced */
+    .team-text {
+        text-align: left;
+        padding: 20px 25px;
+        background: var(--colorWhite);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .team-name {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--colorBlack);
+        transition: color 0.3s ease;
+    }
+
+    .team-item:hover .team-name {
+        color: var(--colorPrimary);
+    }
+
+    .team-text p {
+        font-size: 14px;
+        margin: 5px 0;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .team-text p i {
+        color: var(--colorPrimary);
+        font-size: 14px;
+        width: 18px;
+    }
+
+    .team-text span {
+        color: var(--colorPrimary);
+    }
+
+    .team-text span b {
+        font-weight: 500;
+    }
+
+    /* Action Icon - Arrow */
+    .team-action-icon {
+        position: absolute;
+        bottom: 20px;
+        left: 25px;
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3);
+    }
+
+    .team-item:hover .team-action-icon {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .team-item:hover .team-action-icon i {
+        animation: arrow-bounce 1s infinite;
+    }
+
+    @keyframes arrow-bounce {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(3px);
+        }
+    }
+
+    /* Remove old photo overlay */
+    .team-photo:after {
+        display: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .team-photo {
+            height: 240px;
+        }
+
+        .view-profile-btn {
+            font-size: 14px;
+        }
+
+        .view-profile-btn i {
+            font-size: 28px;
+        }
+
+        .team-action-icon {
+            width: 35px;
+            height: 35px;
+            font-size: 14px;
+        }
+    }
+
     @media (max-width: 991px) {
         .header-info ul {
             justify-content: center;

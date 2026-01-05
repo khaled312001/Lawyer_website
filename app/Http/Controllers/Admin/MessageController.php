@@ -17,8 +17,18 @@ class MessageController extends Controller
     {
         checkAdminHasPermissionAndThrowException('admin.view');
         
-        $conversations = Conversation::with(['user', 'lawyer', 'latestMessage'])
-            ->orderBy('last_message_at', 'desc')
+        $conversations = Conversation::with(['sender', 'receiver', 'messages'])
+            ->where(function($query) {
+                // Conversations between User and Lawyer
+                $query->where(function($q) {
+                    $q->where('sender_type', 'App\Models\User')
+                      ->where('receiver_type', 'Modules\Lawyer\app\Models\Lawyer');
+                })->orWhere(function($q) {
+                    $q->where('sender_type', 'Modules\Lawyer\app\Models\Lawyer')
+                      ->where('receiver_type', 'App\Models\User');
+                });
+            })
+            ->orderBy('updated_at', 'desc')
             ->paginate(20);
         
         return view('admin.messages.index', compact('conversations'));
@@ -77,7 +87,8 @@ class MessageController extends Controller
         checkAdminHasPermissionAndThrowException('admin.view');
         
         $conversation = Conversation::findOrFail($conversationId);
-        $conversation->update(['is_active' => !$conversation->is_active]);
+        $newStatus = $conversation->status == 'active' ? 'closed' : 'active';
+        $conversation->update(['status' => $newStatus]);
         
         return back()->with('success', __('Conversation status updated successfully'));
     }

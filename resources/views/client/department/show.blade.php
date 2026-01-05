@@ -231,21 +231,31 @@
                     @if ($lawyers->count() != 0)
                         @foreach ($lawyers as $lawyer)
                             <div class="col-lg-3 col-md-6 mt_30">
-                                <div class="team-item">
-                                    <div class="team-photo">
-                                        <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
-                                            alt="{{ $lawyer?->name }}" loading="lazy">
+                                <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="team-item-link" aria-label="{{ $lawyer?->name }}">
+                                    <div class="team-item">
+                                        <div class="team-photo">
+                                            <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
+                                                alt="{{ $lawyer?->name }}" loading="lazy">
+                                            <div class="team-overlay">
+                                                <div class="view-profile-btn">
+                                                    <i class="fas fa-eye"></i>
+                                                    <span>{{ __('View Profile') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="team-text">
+                                            <h4 class="team-name">{{ ucfirst($lawyer?->name) }}</h4>
+                                            <p><i class="fas fa-briefcase"></i> {{ ucfirst($lawyer?->department?->name) }}</p>
+                                            <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span>
+                                            </p>
+                                            <p><span><b><i class="fas fa-street-view"></i>
+                                                        {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
+                                            <div class="team-action-icon">
+                                                <i class="fas fa-arrow-left"></i>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="team-text">
-                                        <a aria-label="{{ $lawyer?->name }}"
-                                            href="{{ route('website.lawyer.details', $lawyer?->slug) }}">{{ ucfirst($lawyer?->name) }}</a>
-                                        <p>{{ ucfirst($lawyer?->department?->name) }}</p>
-                                        <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span>
-                                        </p>
-                                        <p><span><b><i class="fas fa-street-view"></i>
-                                                    {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
                         @endforeach
                     @else
