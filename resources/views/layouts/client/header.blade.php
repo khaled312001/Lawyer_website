@@ -6,7 +6,7 @@
 
 <head>
     <!-- Meta Tags -->
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -31,8 +31,6 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset($setting->favicon) ?? '' }}">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @include('layouts.client.style')
     @stack('css')

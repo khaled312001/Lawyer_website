@@ -5,12 +5,19 @@ Global Styles
 -------------------------------
 */
 
+html {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 body {
     font-family: var(--bodyFont);
     font-size: 16px;
     line-height: 1.5;
     color: var(--paraColor);
     overflow-x: hidden;
+    max-width: 100%;
+    position: relative;
 }
 
 .w_200 {
@@ -38,6 +45,16 @@ body {
     padding: 0;
     border: 0;
     outline: none;
+}
+
+img, video, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+.container, .container-fluid, .row {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 p {
@@ -191,6 +208,8 @@ Header-Area
     clear: both;
     background: var(--colorBlack);
     position: relative;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 .header-social ul {
@@ -4677,10 +4696,14 @@ Footer
 .main-footer {
     position: relative;
     background: #0b306e;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 .top-footer {
     position: relative;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .top-footer:before {
@@ -4706,6 +4729,12 @@ Footer
     height: 100%;
     background: #0b2c64;
     clip-path: polygon(0% 0%, 100% 0%, 99% 100%, 0% 100%, 0px 0px);
+    overflow: hidden;
+}
+
+.top-footer {
+    position: relative;
+    overflow: hidden;
 }
 
 .footer-logo img {

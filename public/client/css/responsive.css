@@ -950,3 +950,31 @@
         margin-bottom: 10px;
     }
 }
+
+/* Fix horizontal scrolling on mobile */
+@media only screen and (max-width: 767px) {
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+        position: relative;
+    }
+    
+    .container, .container-fluid {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+    }
+    
+    * {
+        max-width: 100%;
+    }
+    
+    img, video, iframe, embed, object {
+        max-width: 100% !important;
+        height: auto;
+    }
+    
+    .topfooter-bg {
+        width: 100% !important;
+        right: 0 !important;
+    }
+}
