@@ -390,7 +390,10 @@ class HomeController extends Controller {
         }
         $days = Day::select('id')->with([
             'translation' => function ($query) {
-                $query->select('day_id', 'title');
+                $query->select('day_id', 'title', 'lang_code');
+            },
+            'translations' => function ($query) {
+                $query->select('day_id', 'title', 'lang_code');
             },
         ])->active()->get();
 

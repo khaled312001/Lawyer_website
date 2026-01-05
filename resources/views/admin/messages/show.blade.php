@@ -51,7 +51,10 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>{{ __('Conversation between') }}: {{ $conversation->user->name }} & {{ $conversation->lawyer->name }}</h4>
+                            <h4>{{ __('Conversation between') }}: 
+                                {{ $conversation->user?->name ?? __('Client') }} & 
+                                {{ $conversation->lawyer?->name ?? __('Lawyer') }}
+                            </h4>
                             <div class="card-header-action">
                                 @if($conversation->status == 'active')
                                     <span class="badge badge-success">{{ __('Active') }}</span>
@@ -72,11 +75,11 @@
                                                 <div>
                                                     <strong>
                                                         @if($message->sender_type == 'App\Models\User')
-                                                            <i class="fas fa-user text-primary"></i> {{ $conversation->user->name }} ({{ __('Client') }})
+                                                            <i class="fas fa-user text-primary"></i> {{ $conversation->user?->name ?? $message->sender?->name ?? __('Client') }} ({{ __('Client') }})
                                                         @elseif($message->sender_type == 'Modules\Lawyer\app\Models\Lawyer')
-                                                            <i class="fas fa-gavel text-warning"></i> {{ $conversation->lawyer->name }} ({{ __('Lawyer') }})
+                                                            <i class="fas fa-gavel text-warning"></i> {{ $conversation->lawyer?->name ?? $message->sender?->name ?? __('Lawyer') }} ({{ __('Lawyer') }})
                                                         @else
-                                                            <i class="fas fa-user-shield text-danger"></i> {{ __('Admin') }}
+                                                            <i class="fas fa-user-shield text-danger"></i> {{ $message->sender?->name ?? __('Admin') }}
                                                         @endif
                                                     </strong>
                                                 </div>

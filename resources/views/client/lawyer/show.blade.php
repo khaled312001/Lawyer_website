@@ -145,11 +145,29 @@
                                                 @foreach ($days as $index => $day)
                                                     @php
                                                         $times = $lawyer?->schedules->where('day_id', $day?->id);
+                                                        // Get translation for current language with fallback
+                                                        $dayTitle = $day->translation?->title 
+                                                            ?? $day->translations->where('lang_code', getSessionLanguage())->first()?->title 
+                                                            ?? $day->translations->where('lang_code', 'ar')->first()?->title;
+                                                        
+                                                        // Fallback to Arabic translation if English
+                                                        if (!$dayTitle || in_array(strtolower($dayTitle), ['friday', 'saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday'])) {
+                                                            $dayTranslations = [
+                                                                'friday' => 'الجمعة',
+                                                                'saturday' => 'السبت',
+                                                                'sunday' => 'الأحد',
+                                                                'monday' => 'الإثنين',
+                                                                'tuesday' => 'الثلاثاء',
+                                                                'wednesday' => 'الأربعاء',
+                                                                'thursday' => 'الخميس'
+                                                            ];
+                                                            $dayTitle = $dayTranslations[strtolower($day->slug)] ?? $day->slug;
+                                                        }
                                                     @endphp
 
                                                     @if ($times->isNotEmpty())
                                                         <tr>
-                                                            <td>{{ $day?->title }}</td>
+                                                            <td>{{ $dayTitle }}</td>
                                                             <td>
                                                                 @foreach ($times as $time)
                                                                     <div class="sch">

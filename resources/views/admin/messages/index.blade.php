@@ -34,12 +34,12 @@
                                                     <tr>
                                                         <td>{{ $conversation->id }}</td>
                                                         <td>
-                                                            <strong>{{ $conversation->user->name }}</strong><br>
-                                                            <small class="text-muted">{{ $conversation->user->email }}</small>
+                                                            <strong>{{ $conversation->user?->name ?? __('Client') }}</strong><br>
+                                                            <small class="text-muted">{{ $conversation->user?->email ?? '-' }}</small>
                                                         </td>
                                                         <td>
-                                                            <strong>{{ $conversation->lawyer->name }}</strong><br>
-                                                            <small class="text-muted">{{ $conversation->lawyer->department->name ?? '' }}</small>
+                                                            <strong>{{ $conversation->lawyer?->name ?? __('Lawyer') }}</strong><br>
+                                                            <small class="text-muted">{{ $conversation->lawyer?->department?->name ?? '' }}</small>
                                                         </td>
                                                         <td>{{ $conversation->subject ?? __('Legal Consultation') }}</td>
                                                         <td>

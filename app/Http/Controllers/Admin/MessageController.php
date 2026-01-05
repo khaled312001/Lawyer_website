@@ -17,19 +17,30 @@ class MessageController extends Controller
     {
         checkAdminHasPermissionAndThrowException('admin.view');
         
-        $conversations = Conversation::with(['sender', 'receiver', 'messages'])
-            ->where(function($query) {
-                // Conversations between User and Lawyer
-                $query->where(function($q) {
-                    $q->where('sender_type', 'App\Models\User')
-                      ->where('receiver_type', 'Modules\Lawyer\app\Models\Lawyer');
-                })->orWhere(function($q) {
-                    $q->where('sender_type', 'Modules\Lawyer\app\Models\Lawyer')
-                      ->where('receiver_type', 'App\Models\User');
-                });
-            })
-            ->orderBy('updated_at', 'desc')
-            ->paginate(20);
+        $conversations = Conversation::with([
+            'sender', 
+            'receiver',
+            'messages'
+        ])
+        ->where(function($query) {
+            // Conversations between User and Lawyer
+            $query->where(function($q) {
+                $q->where('sender_type', 'App\Models\User')
+                  ->where('receiver_type', 'Modules\Lawyer\app\Models\Lawyer');
+            })->orWhere(function($q) {
+                $q->where('sender_type', 'Modules\Lawyer\app\Models\Lawyer')
+                  ->where('receiver_type', 'App\Models\User');
+            });
+        })
+        ->orderBy('updated_at', 'desc')
+        ->paginate(20);
+        
+        // Eager load department for lawyers after pagination
+        foreach ($conversations as $conversation) {
+            if ($conversation->lawyer && !$conversation->lawyer->relationLoaded('department')) {
+                $conversation->lawyer->load('department.translation');
+            }
+        }
         
         return view('admin.messages.index', compact('conversations'));
     }
@@ -41,8 +52,17 @@ class MessageController extends Controller
     {
         checkAdminHasPermissionAndThrowException('admin.view');
         
-        $conversation = Conversation::with(['user', 'lawyer', 'messages.sender'])
-            ->findOrFail($conversationId);
+        $conversation = Conversation::with([
+            'sender', 
+            'receiver', 
+            'messages.sender'
+        ])
+        ->findOrFail($conversationId);
+        
+        // Eager load department for lawyer if exists
+        if ($conversation->lawyer && !$conversation->lawyer->relationLoaded('department')) {
+            $conversation->lawyer->load('department.translation');
+        }
         
         return view('admin.messages.show', compact('conversation'));
     }
