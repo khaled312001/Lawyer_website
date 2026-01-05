@@ -30,8 +30,18 @@ use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 function file_upload(UploadedFile $file, string $path = 'uploads/custom-images/', string | null $oldFile = '', bool $optimize = false) {
     $extention = $file->getClientOriginalExtension();
     $file_name = 'wsus-img' . date('-Y-m-d-h-i-s-') . rand(999, 9999) . '.' . $extention;
+    
+    // Ensure the directory exists
+    $fullPath = public_path($path);
+    if (!File::exists($fullPath)) {
+        File::makeDirectory($fullPath, 0755, true);
+    }
+    
+    // Move file using just the filename (not the path)
+    $file->move($fullPath, $file_name);
+    
+    // Return the full relative path for database storage
     $file_name = $path . $file_name;
-    $file->move(public_path($path), $file_name);
 
     try {
         if ($oldFile && !str($oldFile)->contains('uploads/website-images') && File::exists(public_path($oldFile))) {
