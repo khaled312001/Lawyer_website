@@ -13,7 +13,7 @@ class UpdateBlogAuthors extends Command
      *
      * @var string
      */
-    protected $signature = 'blog:update-authors {--from=Khaled} {--to=Admin}';
+    protected $signature = 'blog:update-authors {--from=Khaled} {--to=Admin} {--force}';
 
     /**
      * The console command description.
@@ -71,7 +71,7 @@ class UpdateBlogAuthors extends Command
 
         $this->info("Found {$blogsCount} blog(s) to update.");
 
-        if ($this->confirm("Do you want to update {$blogsCount} blog(s) from '{$fromName}' to '{$toName}'?")) {
+        if ($this->option('force') || $this->confirm("Do you want to update {$blogsCount} blog(s) from '{$fromName}' to '{$toName}'?")) {
             // Update all blogs
             $updated = Blog::where('admin_id', $fromAdmin->id)
                 ->update(['admin_id' => $toAdmin->id]);
