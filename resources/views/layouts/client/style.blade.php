@@ -80,7 +80,7 @@
         background: linear-gradient(135deg, #ffe5e5 0%, #ffd6d6 100%);
         padding: 12px 0;
         position: relative;
-        z-index: 10000;
+        z-index: 1000;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
@@ -134,7 +134,7 @@
         padding: 10px 0;
         border-bottom: 1px solid #e0e0e0;
         position: relative;
-        z-index: 9998;
+        z-index: 999;
     }
 
     .header-bar-content {
@@ -242,7 +242,6 @@
         top: 0;
         z-index: 9999 !important;
         transition: all 0.3s ease;
-        isolation: isolate;
     }
 
     body.client-frontend .main-navbar.sticky {
@@ -255,7 +254,6 @@
         justify-content: space-between;
         padding: 15px 20px;
         position: relative;
-        z-index: 9999;
     }
 
     body.client-frontend .navbar-logo {
@@ -347,10 +345,9 @@
         visibility: hidden;
         transform: translateY(-10px);
         transition: all 0.3s ease;
-        z-index: 10003 !important;
+        z-index: 99999 !important;
         display: block !important;
         pointer-events: none;
-        isolation: isolate;
     }
 
     body.client-frontend .nav-item.has-dropdown:hover .dropdown-menu,
@@ -361,19 +358,6 @@
         transform: translateY(0) !important;
         pointer-events: auto !important;
         display: block !important;
-    }
-
-    /* Ensure dropdown appears above all sections */
-    body.client-frontend section,
-    body.client-frontend .section,
-    body.client-frontend [class*="section"] {
-        position: relative;
-        z-index: 1;
-    }
-
-    body.client-frontend .main-navbar,
-    body.client-frontend .main-navbar * {
-        position: relative;
     }
 
     body.client-frontend .dropdown-menu li {
@@ -421,6 +405,24 @@
         background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%);
         transform: translateY(-3px);
         box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
+
+    /* Ensure dropdown appears above all sections */
+    body.client-frontend section,
+    body.client-frontend .section,
+    body.client-frontend [class*="section"],
+    body.client-frontend .banner-area,
+    body.client-frontend .hero-section,
+    body.client-frontend [class*="banner"],
+    body.client-frontend [class*="hero"] {
+        position: relative;
+        z-index: 1 !important;
+    }
+
+    /* Ensure navbar and dropdown are above everything */
+    body.client-frontend .main-navbar,
+    body.client-frontend .main-navbar * {
+        position: relative;
     }
 
     /* Mobile Menu Toggle Button - Client Only */
