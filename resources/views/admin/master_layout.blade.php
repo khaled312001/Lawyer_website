@@ -22,8 +22,19 @@
             <div class="navbar-bg"></div>
             <nav class="navbar navbar-expand-lg main-navbar px-3 py-2">
                 <div class="navbar-left d-flex align-items-center">
-                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg me-3">
+                    {{-- Mobile Burger Menu Button (Left) --}}
+                    <button class="navbar-toggler d-lg-none me-3" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    {{-- Desktop Sidebar Toggle --}}
+                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg me-3 d-none d-lg-block">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                    
+                    {{-- Logo --}}
+                    <a href="{{ route('admin.dashboard') }}" class="navbar-logo d-flex align-items-center me-3">
+                        <img src="{{ asset($setting->logo) ?? asset($setting->favicon) }}" alt="{{ $setting->app_name ?? '' }}" class="navbar-logo-img">
                     </a>
                     
                     {{-- Desktop Menu Items --}}
@@ -88,11 +99,6 @@
                             </div>
                         </li>
                     </ul>
-                    
-                    {{-- Mobile Burger Menu Button --}}
-                    <button class="navbar-toggler d-lg-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-bars"></i>
-                    </button>
                 </div>
             </nav>
             
@@ -235,10 +241,21 @@
                 }
             });
             
-            // Close mobile menu when clicking outside
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('.navbar, .mobile-navbar-menu').length) {
-                    $('#mobileNavbarMenu').collapse('hide');
+            // Mobile menu toggle with backdrop
+            $('#mobileNavbarMenu').on('show.bs.collapse', function() {
+                $('body').addClass('mobile-menu-open');
+            });
+            
+            $('#mobileNavbarMenu').on('hide.bs.collapse', function() {
+                $('body').removeClass('mobile-menu-open');
+            });
+            
+            // Close mobile menu when clicking backdrop
+            $('body').on('click', function(e) {
+                if ($(e.target).is('body::before') || ($(e.target).closest('.mobile-navbar-menu').length === 0 && $(e.target).closest('.navbar-toggler').length === 0)) {
+                    if ($('#mobileNavbarMenu').hasClass('show')) {
+                        $('#mobileNavbarMenu').collapse('hide');
+                    }
                 }
             });
         });
