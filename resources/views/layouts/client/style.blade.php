@@ -256,9 +256,10 @@
         min-width: 200px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         border-radius: 4px;
-        margin-top: 5px;
+        margin-top: 0;
+        padding-top: 5px;
         z-index: 999;
-        padding: 10px 0;
+        padding: 15px 0 10px 0;
         display: none !important;
         opacity: 0;
         visibility: hidden;
@@ -266,7 +267,8 @@
         transition: all 0.3s ease;
     }
 
-    ul.nav-menu li.menu-item-has-children:hover > ul.sub-menu {
+    ul.nav-menu li.menu-item-has-children:hover > ul.sub-menu,
+    ul.nav-menu li.menu-item-has-children ul.sub-menu:hover {
         display: block !important;
         opacity: 1;
         visibility: visible;
@@ -277,6 +279,10 @@
         display: block;
         width: 100%;
         margin: 0;
+    }
+
+    ul.nav-menu li ul.sub-menu li:first-child a {
+        margin-top: -5px;
     }
 
     ul.nav-menu li ul.sub-menu li a {
