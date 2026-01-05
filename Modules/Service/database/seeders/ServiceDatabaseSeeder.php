@@ -297,7 +297,10 @@ class ServiceDatabaseSeeder extends Seeder {
                 $service->service_faq()->delete();
                 
                 foreach ($faqs as $faq) {
-                    $serviceFaq = ServiceFaq::create(['service_id' => $service->id]);
+                    $serviceFaq = ServiceFaq::create([
+                        'service_id' => $service->id,
+                        'status'      => 1, // Active
+                    ]);
                     foreach ($faq['translations'] as $value) {
                         ServiceFaqTranslation::create([
                             'service_faq_id' => $serviceFaq->id,
