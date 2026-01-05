@@ -184,7 +184,10 @@
 
 
 <script>
-    var isRtl = "{{ session()->get('text_direction') == 'rtl' }}"
+    @php
+        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+    @endphp
+    var isRtl = "{{ $textDirection == 'rtl' }}"
     var rtlTrue = false;
     if (isRtl) {
         rtlTrue = true;

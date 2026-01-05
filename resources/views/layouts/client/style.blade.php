@@ -20,7 +20,10 @@
 
 
 <link rel="stylesheet" href="{{ asset('client/css/style.css') }}?v={{ $setting?->version }}">
-@if (session()->get('text_direction') == 'rtl')
+@php
+    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+@endphp
+@if ($textDirection == 'rtl')
     <link rel="stylesheet" href="{{ asset('client/css/rtl.css') }}?v={{ $setting?->version }}">
 @endif
 <link rel="stylesheet" href="{{ asset('client/css/responsive.css') }}?v={{ $setting?->version }}">
@@ -351,7 +354,10 @@
     }
 
     /* RTL Support */
-    @if (session()->get('text_direction') == 'rtl')
+    @php
+        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+    @endphp
+    @if ($textDirection == 'rtl')
         ul.nav-menu li.special-button {
             margin-left: 0;
             margin-right: 20px;

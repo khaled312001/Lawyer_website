@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-@if (session()->get('text_direction') == 'rtl')
-    <html class="no-js" lang="{{ app()->getLocale() }}" dir="rtl">
-@else
-    <html class="no-js" lang="{{ app()->getLocale() }}">
-@endif
+@php
+    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+@endphp
+<html class="no-js" lang="{{ app()->getLocale() }}" dir="{{ $textDirection }}">
 
 <head>
     <!-- Meta Tags -->
