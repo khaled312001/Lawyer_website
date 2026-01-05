@@ -143,7 +143,7 @@
     "CSS": "CSS",
     "Cache Clear Confirmation": "ذاكرة التخزين المؤقت تأكيد واضح",
     "Cache cleared successfully": "تم مسح ذاكرة التخزين المؤقت بنجاح",
-    "Cancel": "يلغي",
+    "Cancel": "الغاء",
     "Cannot delete category, it has posts.": "لا يمكن حذف الفئة ، لديها منشورات.",
     "Cannot delete post, it has comments.": "لا يمكن حذف المنشور ، وله تعليقات.",
     "Cannot delete, department has lawyers.": "لا يمكن حذف ، القسم لديه محامون.",
