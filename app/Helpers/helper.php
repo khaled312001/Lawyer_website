@@ -151,6 +151,20 @@ if (!function_exists('customPages')) {
     }
 }
 
+if (!function_exists('getTextDirection')) {
+    function getTextDirection($languageCode = null): string {
+        if ($languageCode === null) {
+            $languageCode = getSessionLanguage();
+        }
+        
+        $rtlLanguageCodes = ["ar", "arc", "dv", "fa", "ha", "he", "khw", "ks", "ku", "ps", "ur", "yi"];
+        if (in_array($languageCode, $rtlLanguageCodes)) {
+            return 'rtl';
+        }
+        return 'ltr';
+    }
+}
+
 if (!function_exists('getSessionLanguage')) {
     function getSessionLanguage(): string {
         // Don't automatically create session, just return current or default
@@ -167,9 +181,12 @@ if (!function_exists('setLanguage')) {
                 sessionForgetLangChang();
             }
             
+            // Get direction from language model or auto-detect
+            $direction = $lang->direction ?? getTextDirection($lang->code);
+            
             // Set new language
             session()->put('lang', $lang->code);
-            session()->put('text_direction', $lang->direction);
+            session()->put('text_direction', $direction);
             
             // Immediately apply to current request
             app()->setLocale($lang->code);
@@ -183,9 +200,10 @@ if (!function_exists('setLanguage')) {
         }
         
         // Fallback to default locale
-        session()->put('lang', config('app.locale', 'ar'));
-        session()->put('text_direction', 'rtl');
-        app()->setLocale(config('app.locale', 'ar'));
+        $defaultLocale = config('app.locale', 'ar');
+        session()->put('lang', $defaultLocale);
+        session()->put('text_direction', getTextDirection($defaultLocale));
+        app()->setLocale($defaultLocale);
         
         return false;
     }

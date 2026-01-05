@@ -123,3 +123,4 @@ cd C:\xampp\mysql\bin
 - `C:\xampp\start_mysql_fixed.bat` - بدء MySQL بدون خدمة
 
 
+

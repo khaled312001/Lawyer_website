@@ -23,10 +23,17 @@ class SetLocaleMiddleware
         // Set application locale
         App::setLocale($locale);
         
-        // Set text direction if available in session
+        // Get or set text direction automatically based on language
         if (Session::has('text_direction')) {
-            config(['app.text_direction' => Session::get('text_direction')]);
+            $textDirection = Session::get('text_direction');
+        } else {
+            // Auto-detect direction based on language code
+            $rtlLanguageCodes = ["ar", "arc", "dv", "fa", "ha", "he", "khw", "ks", "ku", "ps", "ur", "yi"];
+            $textDirection = in_array($locale, $rtlLanguageCodes) ? 'rtl' : 'ltr';
+            Session::put('text_direction', $textDirection);
         }
+        
+        config(['app.text_direction' => $textDirection]);
 
         return $next($request);
     }

@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder {
             $language = new Language();
             $language->name = 'English';
             $language->code = 'en';
+            $language->direction = 'ltr';
             $language->is_default = false;
             $language->save();
 
