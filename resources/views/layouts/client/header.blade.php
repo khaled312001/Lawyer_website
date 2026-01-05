@@ -509,3 +509,25 @@
         </div>
     </div>
     <!-- // Modal -->
+
+    <!-- WhatsApp Floating Button -->
+    @if ($contactInfo?->top_bar_phone || $contactInfo?->phone)
+        @php
+            $whatsappNumber = $contactInfo?->top_bar_phone ?: $contactInfo?->phone;
+            // Remove any non-numeric characters except + for WhatsApp
+            $whatsappNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
+            // If number doesn't start with +, add country code (default +963 for Syria)
+            if (!str_starts_with($whatsappNumber, '+')) {
+                $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
+            }
+        @endphp
+        <a href="https://wa.me/{{ $whatsappNumber }}" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="whatsapp-float" 
+           aria-label="{{ __('Contact us on WhatsApp') }}"
+           title="{{ __('Contact us on WhatsApp') }}">
+            <i class="fab fa-whatsapp"></i>
+            <span class="whatsapp-tooltip">{{ __('Chat with us') }}</span>
+        </a>
+    @endif

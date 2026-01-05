@@ -150,9 +150,21 @@
 
     /* Menu Area - Gradient Background */
     .menu-area {
-        background: linear-gradient(90deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%) !important;
+        background: linear-gradient(135deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%) !important;
         padding: 0;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        position: relative;
+    }
+
+    .menu-area::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        pointer-events: none;
     }
 
     .menu-area .container {
@@ -220,22 +232,36 @@
         padding: 15px 20px !important;
         display: flex;
         align-items: center;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         color: #fff !important;
         font-weight: 500;
         font-size: 15px;
         text-decoration: none;
+        position: relative;
+        border-radius: 6px;
     }
 
     ul.nav-menu li a i {
-        font-size: 14px;
-        width: 18px;
+        font-size: 15px;
+        width: 20px;
         text-align: center;
+        margin-right: 8px;
+        transition: all 0.3s ease;
+        color: rgba(255, 255, 255, 0.95);
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
     }
 
     ul.nav-menu li a:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    ul.nav-menu li a:hover i {
+        color: #fff;
+        transform: scale(1.1);
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
 
     /* Dropdown Arrow - Removed */
@@ -288,15 +314,23 @@
     }
 
     ul.nav-menu li ul.sub-menu li a i {
-        font-size: 12px;
-        width: 16px;
+        font-size: 13px;
+        width: 18px;
         text-align: center;
         color: var(--colorPrimary);
+        transition: all 0.3s ease;
+        margin-right: 10px;
     }
 
     ul.nav-menu li ul.sub-menu li a:hover {
-        background: #f5f5f5;
+        background: linear-gradient(90deg, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.08) 0%, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.05) 100%);
         color: var(--colorPrimary) !important;
+        padding-left: 25px !important;
+    }
+
+    ul.nav-menu li ul.sub-menu li a:hover i {
+        transform: translateX(3px);
+        color: var(--colorSecondary);
     }
 
     /* Special Button - CTA */
@@ -305,25 +339,51 @@
     }
 
     ul.nav-menu li.special-button a {
-        padding: 12px 30px !important;
-        background: var(--colorPrimary) !important;
+        padding: 13px 32px !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
-        border-radius: 6px;
+        border-radius: 8px;
         font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        font-size: 15px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    ul.nav-menu li.special-button a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
+    }
+
+    ul.nav-menu li.special-button a:hover::before {
+        left: 100%;
     }
 
     ul.nav-menu li.special-button a:hover {
-        background: var(--colorSecondary) !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        border-color: rgba(255,255,255,0.3);
+    }
+
+    ul.nav-menu li.special-button a i {
+        margin-right: 8px;
+        font-size: 16px;
     }
 
     /* Sticky Menu Adjustments */
     #strickymenu.sticky {
-        background: linear-gradient(90deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%) !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        background: linear-gradient(135deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%) !important;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+        backdrop-filter: blur(10px);
     }
 
     #strickymenu.sticky ul.nav-menu li a {
@@ -536,6 +596,120 @@
     /* Ensure modals are properly hidden */
     .modal {
         display: none !important;
+    }
+
+    /* WhatsApp Floating Button */
+    .whatsapp-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 25px;
+        right: 25px;
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        animation: pulse-whatsapp 2s infinite;
+    }
+
+    .whatsapp-float:hover {
+        transform: scale(1.1) translateY(-5px);
+        box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+    }
+
+    .whatsapp-float i {
+        color: #fff;
+        font-size: 32px;
+        line-height: 1;
+    }
+
+    .whatsapp-tooltip {
+        position: absolute;
+        right: 70px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #333;
+        color: #fff;
+        padding: 8px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        font-weight: 500;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .whatsapp-tooltip::after {
+        content: '';
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 6px solid transparent;
+        border-left-color: #333;
+    }
+
+    .whatsapp-float:hover .whatsapp-tooltip {
+        opacity: 1;
+        visibility: visible;
+        right: 75px;
+    }
+
+    @keyframes pulse-whatsapp {
+        0% {
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        }
+        50% {
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4), 0 0 0 10px rgba(37, 211, 102, 0.1);
+        }
+        100% {
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        }
+    }
+
+    /* Responsive WhatsApp Button */
+    @media (max-width: 768px) {
+        .whatsapp-float {
+            width: 55px;
+            height: 55px;
+            bottom: 20px;
+            right: 20px;
+            font-size: 28px;
+        }
+
+        .whatsapp-float i {
+            font-size: 28px;
+        }
+
+        .whatsapp-tooltip {
+            display: none;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .whatsapp-float {
+            width: 50px;
+            height: 50px;
+            bottom: 15px;
+            right: 15px;
+            font-size: 24px;
+        }
+
+        .whatsapp-float i {
+            font-size: 24px;
+        }
     }
 
     .modal.show,
