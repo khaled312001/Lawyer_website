@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="{{ asset('client/css/unified-colors.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/image-fix.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/footer-icons-fix.css') }}?v={{ $setting?->version }}">
+<link rel="stylesheet" href="{{ asset('client/css/icon-colors-fix.css') }}?v={{ $setting?->version }}">
 
 
 <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
@@ -203,15 +204,14 @@
     .main-menu {
         float: none !important;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         width: 100%;
-        padding-right: 10px;
     }
 
     ul.nav-menu {
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: center;
         gap: 0;
         margin: 0;

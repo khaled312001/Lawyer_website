@@ -1,0 +1,328 @@
+/* ============================================
+   Icon Colors & Background Fix
+   Ensure all icons are visible with proper contrast
+   ============================================ */
+
+/* General Icon Visibility */
+i.fas,
+i.far,
+i.fab,
+i.fal,
+.fas,
+.far,
+.fab,
+.fal {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-family: "Font Awesome 5 Free", "Font Awesome 5 Brands" !important;
+    font-style: normal !important;
+}
+
+/* Benefit Icons - Ensure visibility */
+.benefit-icon {
+    width: 80px !important;
+    height: 80px !important;
+    background: var(--colorPrimary) !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 20px !important;
+    font-size: 32px !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.benefit-icon i {
+    color: #fff !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.benefit-item {
+    background: #fff !important;
+    color: var(--colorBlack) !important;
+    border: 1px solid #e0e0e0 !important;
+    transition: all 0.3s ease !important;
+}
+
+.benefit-item:hover {
+    background: var(--colorPrimary) !important;
+    color: #fff !important;
+    border-color: var(--colorPrimary) !important;
+}
+
+.benefit-item:hover .benefit-icon {
+    background: #fff !important;
+    color: var(--colorPrimary) !important;
+}
+
+.benefit-item:hover .benefit-icon i {
+    color: var(--colorPrimary) !important;
+}
+
+/* Choose/Why Us Icons - Ensure white icons on colored background */
+.choose-icon {
+    position: relative !important;
+    z-index: 2 !important;
+    margin-bottom: 20px !important;
+}
+
+.choose-icon i {
+    font-size: 60px !important;
+    color: #fff !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+.choose-item:before {
+    background: var(--colorPrimary) !important;
+    opacity: 0.9 !important;
+    z-index: 1 !important;
+}
+
+.choose-col:nth-of-type(2n) .choose-item:before {
+    background: var(--colorBlack) !important;
+    opacity: 0.9 !important;
+}
+
+/* Service Icons */
+.service-icon,
+.service-box .service-icon,
+.service-item .service-icon {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.service-icon i,
+.service-box .service-icon i,
+.service-item .service-icon i {
+    color: var(--colorPrimary) !important;
+    font-size: 48px !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transition: all 0.3s ease !important;
+}
+
+.service-box:hover .service-icon i,
+.service-item:hover .service-icon i {
+    color: var(--colorSecondary) !important;
+    transform: scale(1.1) !important;
+}
+
+/* Feature Icons */
+.feature-icon,
+.app-features .feature-icon {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #fff !important;
+    font-size: 24px !important;
+    box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3) !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.feature-icon i,
+.app-features .feature-icon i {
+    color: #fff !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Partnership Icons */
+.partnership-icon {
+    width: 80px !important;
+    height: 80px !important;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 25px !important;
+    font-size: 36px !important;
+    color: #fff !important;
+    box-shadow: 0 5px 20px rgba(200, 180, 126, 0.3) !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.partnership-icon i {
+    color: #fff !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Check Icon */
+.check-icon {
+    width: 100px !important;
+    height: 100px !important;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    font-size: 48px !important;
+    color: #fff !important;
+    box-shadow: 0 10px 30px rgba(200, 180, 126, 0.3) !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.check-icon i {
+    color: #fff !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Why Icon */
+.why-icon {
+    width: 95px !important;
+    height: 95px !important;
+    background: var(--colorPrimary) !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+    font-size: 40px !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.why-icon i {
+    color: #fff !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Card Icons - General fix for icons in cards */
+.card .icon,
+.card-icon {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.card .icon i,
+.card-icon i {
+    color: var(--colorPrimary) !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.card:hover .icon i,
+.card:hover .card-icon i {
+    color: var(--colorSecondary) !important;
+}
+
+/* White background cards - ensure icons are visible */
+.card[style*="background: #fff"],
+.card[style*="background-color: #fff"],
+.card[style*="background: white"],
+.card[style*="background-color: white"],
+.benefit-item,
+.service-box,
+.service-item {
+    background: #fff !important;
+}
+
+.card[style*="background: #fff"] .icon i,
+.card[style*="background-color: #fff"] .icon i,
+.card[style*="background: white"] .icon i,
+.card[style*="background-color: white"] .icon i {
+    color: var(--colorPrimary) !important;
+}
+
+/* Colored background cards - ensure icons are white */
+.card[style*="background: var(--colorPrimary)"],
+.card[style*="background-color: var(--colorPrimary)"],
+.card.bg-primary,
+.choose-item:before {
+    background: var(--colorPrimary) !important;
+}
+
+.card[style*="background: var(--colorPrimary)"] .icon i,
+.card[style*="background-color: var(--colorPrimary)"] .icon i,
+.card.bg-primary .icon i {
+    color: #fff !important;
+}
+
+/* Override any inline styles that hide icons */
+[style*="color: transparent"],
+[style*="opacity: 0"],
+[style*="visibility: hidden"] {
+    color: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Ensure icons in hover states are visible */
+*:hover .icon i,
+*:hover i.fas,
+*:hover i.far,
+*:hover i.fab {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline-block !important;
+}
+
+/* Fix for icons that might have same color as background */
+.benefit-item:not(:hover) .benefit-icon {
+    background: var(--colorPrimary) !important;
+    color: #fff !important;
+}
+
+.benefit-item:not(:hover) .benefit-icon i {
+    color: #fff !important;
+}
+
+/* Ensure text contrast */
+.benefit-item:not(:hover) h4,
+.benefit-item:not(:hover) p {
+    color: var(--colorBlack) !important;
+}
+
+.benefit-item:hover h4,
+.benefit-item:hover p {
+    color: #fff !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .benefit-icon,
+    .partnership-icon,
+    .check-icon {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 28px !important;
+    }
+
+    .choose-icon i {
+        font-size: 48px !important;
+    }
+
+    .service-icon i,
+    .service-box .service-icon i {
+        font-size: 40px !important;
+    }
+}
+
