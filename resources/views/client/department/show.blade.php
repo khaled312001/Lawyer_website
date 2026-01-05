@@ -245,15 +245,6 @@
                                         <p><span><b><i class="fas fa-street-view"></i>
                                                     {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
                                     </div>
-                                    <div class="team-social">
-                                        <ul>
-                                            @foreach ($lawyer?->socialMedia as $socialMedia)
-                                                <li><a target="_blank" aria-label="{{ $socialMedia?->link }}"
-                                                        href="{{ $socialMedia?->link }}"><i class="{{$socialMedia?->icon}}"></i></a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                         @endforeach

@@ -137,7 +137,6 @@
                                                 <tr>
                                                     <th>{{ __('Serial') }}</th>
                                                     <th>{{ __('Lawyer') }}</th>
-                                                    <th>{{ __('Phone') }}</th>
                                                     <th>{{ __('Schedule') }}</th>
                                                     <th>{{ __('Date') }}</th>
                                                     <th>{{ __('Fee') }}</th>
@@ -148,7 +147,6 @@
                                                     <tr>
                                                         <td>{{ ++$index }}</td>
                                                         <td>{{ ucfirst($item?->lawyer?->name) }}</td>
-                                                        <td>{{ $item?->lawyer?->phone }}</td>
                                                         <td>{{ strtoupper($item?->schedule?->start_time) . '-' . strtoupper($item?->schedule?->end_time) }}
                                                         </td>
                                                         <td>{{ formattedDate($item?->date) }}</td>

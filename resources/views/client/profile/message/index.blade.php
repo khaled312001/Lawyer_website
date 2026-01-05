@@ -57,7 +57,6 @@
 
                                                     <div class="media-body">
                                                         <p class="name">{{ $lawyer?->lawyer?->name }}</p>
-                                                        <p class="email">{{ $lawyer?->lawyer?->email }}</p>
                                                     </div>
                                                 </div>
                                             </li>
