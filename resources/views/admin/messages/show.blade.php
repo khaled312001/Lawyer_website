@@ -38,25 +38,53 @@
     .modal-backdrop {
         z-index: 1040 !important;
         background-color: rgba(0, 0, 0, 0.5) !important;
+        pointer-events: auto !important;
     }
     
     .modal {
         z-index: 1050 !important;
+        pointer-events: none !important;
     }
     
     .modal.show {
         display: block !important;
     }
     
-    /* Ensure backdrop is clickable */
+    .modal-dialog {
+        pointer-events: auto !important;
+    }
+    
+    .modal-content {
+        pointer-events: auto !important;
+    }
+    
+    /* Ensure backdrop is clickable and closes modal */
     .modal-backdrop.show {
         pointer-events: auto !important;
+        cursor: pointer !important;
     }
     
     /* Remove any fixed overlays that might block clicks */
     body.modal-open {
-        overflow: hidden;
+        overflow: hidden !important;
         padding-right: 0 !important;
+    }
+    
+    /* Force remove backdrop when modal is hidden */
+    body:not(.modal-open) .modal-backdrop {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    /* Remove all backdrops that shouldn't be there */
+    .modal-backdrop:not(.show) {
+        display: none !important;
+    }
+    
+    /* Ensure only one backdrop exists at a time */
+    .modal-backdrop ~ .modal-backdrop {
+        display: none !important;
     }
 </style>
 
@@ -225,33 +253,85 @@
 @push('js')
 <script>
 // Ensure modals close properly and backdrop is removed
-document.addEventListener('DOMContentLoaded', function() {
+(function() {
+    'use strict';
+    
+    // Function to clean up backdrop
+    function removeBackdrop() {
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(function(backdrop) {
+            backdrop.remove();
+        });
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }
+    
     // Handle modal close events
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(function(modal) {
-        modal.addEventListener('hidden.bs.modal', function() {
-            // Remove backdrop if it still exists
-            const backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) {
-                backdrop.remove();
-            }
-            // Remove modal-open class from body
-            document.body.classList.remove('modal-open');
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
+    document.addEventListener('DOMContentLoaded', function() {
+        const modals = document.querySelectorAll('.modal');
+        
+        modals.forEach(function(modal) {
+            // When modal is shown
+            modal.addEventListener('show.bs.modal', function() {
+                // Remove any existing backdrops first
+                removeBackdrop();
+            });
+            
+            // When modal is hidden
+            modal.addEventListener('hidden.bs.modal', function() {
+                // Force remove backdrop
+                removeBackdrop();
+            });
+            
+            // Handle click on backdrop to close
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    const bsModal = bootstrap.Modal.getInstance(modal);
+                    if (bsModal) {
+                        bsModal.hide();
+                    }
+                }
+            });
         });
         
-        // Also handle click on backdrop to close
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                const bsModal = bootstrap.Modal.getInstance(modal);
-                if (bsModal) {
-                    bsModal.hide();
+        // Also listen for backdrop clicks directly
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-backdrop')) {
+                const openModal = document.querySelector('.modal.show');
+                if (openModal) {
+                    const bsModal = bootstrap.Modal.getInstance(openModal);
+                    if (bsModal) {
+                        bsModal.hide();
+                    }
                 }
             }
         });
+        
+        // Monitor and remove orphaned backdrops
+        setInterval(function() {
+            const openModal = document.querySelector('.modal.show');
+            if (!openModal) {
+                removeBackdrop();
+            }
+        }, 100);
+        
+        // Clean up on page unload
+        window.addEventListener('beforeunload', function() {
+            removeBackdrop();
+        });
     });
-});
+    
+    // Also run cleanup immediately if DOM is already loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', removeBackdrop);
+    } else {
+        removeBackdrop();
+    }
+    
+    // Global cleanup function that can be called from anywhere
+    window.cleanupModalBackdrop = removeBackdrop;
+})();
 </script>
 @endpush
 @endsection
