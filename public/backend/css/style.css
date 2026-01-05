@@ -54,6 +54,22 @@
 /* 3. Bootstrap Override */
 /* 3.1 Misc */
 @import url("//fonts.googleapis.com/css?family=Nunito:400,600,700,800");
+
+/* Prevent horizontal scrolling */
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+img, video, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+.container, .container-fluid, .row {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 .btn:focus,
 .btn:active,
 .btn:active:focus,
@@ -1523,10 +1539,15 @@ h6 .badge {
 .navbar {
   height: 70px;
   left: 250px;
-  right: 5px;
+  right: 0;
   position: absolute;
   z-index: 890;
   background-color: transparent;
+  width: calc(100% - 250px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
 }
   .navbar.active {
     background-color: #6777ef;
@@ -1544,6 +1565,27 @@ h6 .badge {
 
 .navbar {
   align-items: center; }
+  
+.navbar-left,
+.navbar-center,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-toggler {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
   .navbar .navbar-brand {
     color: #fff;
     text-transform: uppercase;
@@ -1953,6 +1995,11 @@ ul.nav-tabs li.nav-item a.nav-link.active i {
   --light:  #e3eaef;
   --dark:  #191d21; }
 
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+  min-height: 100%; }
+
 body, html {
   min-height: 100%; }
 
@@ -1961,7 +2008,10 @@ body {
   font-size: 14px;
   font-weight: 400;
   font-family: "Nunito", "Segoe UI", arial;
-  color: #6c757d; }
+  color: #6c757d;
+  overflow-x: hidden;
+  max-width: 100%;
+  position: relative; }
 
 a.bb {
   text-decoration: none;
@@ -2465,6 +2515,16 @@ pre {
     width: 100%; } }
 
 /* 4.4 Layout */
+.main-wrapper {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.main-content {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 .main-sidebar {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
   position: fixed;
@@ -2473,7 +2533,8 @@ pre {
   width: 250px;
   background-color: #fff;
   z-index: 880;
-  left: 0; }
+  left: 0;
+  overflow-x: hidden; }
 
 .main-sidebar,
 .navbar,
@@ -2483,6 +2544,11 @@ pre {
 
 body.sidebar-gone .main-sidebar {
   left: -250px; }
+  
+body.sidebar-gone .navbar {
+  left: 0;
+  width: 100%;
+}
 
 body.sidebar-mini .hide-sidebar-mini {
   display: none !important; }
@@ -2591,7 +2657,8 @@ body.sidebar-mini .main-sidebar {
       padding: 0; }
 
 body.sidebar-mini .navbar {
-  left: 65px; }
+  left: 65px;
+  width: calc(100% - 65px); }
 
 body.sidebar-mini .main-content, body.sidebar-mini .main-footer {
   padding-left: 90px; }

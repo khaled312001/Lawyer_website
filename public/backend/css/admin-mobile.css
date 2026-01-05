@@ -2,6 +2,60 @@
    Admin Panel Mobile Responsive Improvements
    ============================================ */
 
+/* Fix horizontal scrolling on all devices */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  position: relative;
+}
+
+* {
+  max-width: 100%;
+}
+
+img, video, iframe, embed, object {
+  max-width: 100% !important;
+  height: auto;
+}
+
+.container, .container-fluid, .row {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* Navbar fixes */
+.navbar {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.navbar-bg {
+  width: 100% !important;
+}
+
+/* Mobile navbar toggler */
+.navbar-toggler {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-toggler {
+    display: block !important;
+  }
+  
+  .navbar {
+    left: 0 !important;
+    width: 100% !important;
+    right: 0 !important;
+  }
+  
+  body.sidebar-mini .navbar,
+  body.sidebar-gone .navbar {
+    left: 0 !important;
+    width: 100% !important;
+  }
+}
+
 /* Tablet and Below (1024px) */
 @media (max-width: 1024px) {
     .main-content {
@@ -84,6 +138,19 @@
     /* Improve navbar */
     .navbar {
         padding: 10px 15px;
+        left: 0 !important;
+        width: 100% !important;
+        right: 0 !important;
+    }
+    
+    .navbar-left,
+    .navbar-center,
+    .navbar-right {
+        flex: 1;
+    }
+    
+    .navbar-center {
+        display: none !important;
     }
 
     .navbar .search-box {
@@ -93,6 +160,101 @@
     .navbar .navbar-nav {
         flex-direction: row;
         align-items: center;
+    }
+    
+    /* Mobile Navbar Menu */
+    .mobile-navbar-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+    }
+    
+    .mobile-menu-content {
+        padding: 20px;
+    }
+    
+    .mobile-menu-section {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .mobile-menu-section:last-child {
+        border-bottom: none;
+    }
+    
+    .mobile-menu-title {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #6777ef;
+        margin-bottom: 15px;
+    }
+    
+    .mobile-menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        color: #34395e;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        transition: all 0.3s;
+        font-weight: 500;
+    }
+    
+    .mobile-menu-item:hover {
+        background: #f4f6f9;
+        color: #6777ef;
+    }
+    
+    .mobile-menu-item i {
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .mobile-user-info {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        background: #f4f6f9;
+        border-radius: 5px;
+        font-weight: 600;
+        color: #34395e;
+    }
+    
+    .search-box-mobile {
+        width: 100%;
+    }
+    
+    .search-box-mobile .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #e3e6f0;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    .mobile-navbar-menu .setLanguageHeader,
+    .mobile-navbar-menu .set-currency-header {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .mobile-navbar-menu .setLanguageHeader .nav-link,
+    .mobile-navbar-menu .set-currency-header .nav-link {
+        width: 100%;
+        padding: 12px 15px;
+        text-align: left;
     }
 
     /* Improve dropdowns */
@@ -105,6 +267,30 @@
 
 /* Mobile (768px and below) */
 @media (max-width: 768px) {
+    /* Fix horizontal scrolling */
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+        position: relative;
+    }
+    
+    .main-wrapper,
+    .main-content,
+    .main-sidebar,
+    .navbar {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+    }
+    
+    * {
+        max-width: 100%;
+    }
+    
+    img, video, iframe, embed, object {
+        max-width: 100% !important;
+        height: auto;
+    }
+    
     /* Main content adjustments */
     .main-content {
         padding: 15px 10px !important;
@@ -239,6 +425,27 @@
     /* Navbar improvements */
     .navbar {
         padding: 8px 10px;
+        left: 0 !important;
+        width: 100% !important;
+        right: 0 !important;
+    }
+    
+    .navbar-left,
+    .navbar-center,
+    .navbar-right {
+        flex: 1;
+    }
+    
+    .navbar-center {
+        display: none !important;
+    }
+
+    .navbar .navbar-nav {
+        display: none !important;
+    }
+    
+    .navbar-toggler {
+        display: block !important;
     }
 
     .navbar .navbar-nav .nav-link {
@@ -248,6 +455,101 @@
 
     .navbar .nav-link-lg {
         font-size: 18px;
+    }
+    
+    /* Mobile Navbar Menu */
+    .mobile-navbar-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
+    }
+    
+    .mobile-menu-content {
+        padding: 20px;
+    }
+    
+    .mobile-menu-section {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .mobile-menu-section:last-child {
+        border-bottom: none;
+    }
+    
+    .mobile-menu-title {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #6777ef;
+        margin-bottom: 15px;
+    }
+    
+    .mobile-menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        color: #34395e;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 8px;
+        transition: all 0.3s;
+        font-weight: 500;
+    }
+    
+    .mobile-menu-item:hover {
+        background: #f4f6f9;
+        color: #6777ef;
+    }
+    
+    .mobile-menu-item i {
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .mobile-user-info {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        background: #f4f6f9;
+        border-radius: 5px;
+        font-weight: 600;
+        color: #34395e;
+    }
+    
+    .search-box-mobile {
+        width: 100%;
+    }
+    
+    .search-box-mobile .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #e3e6f0;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    .mobile-navbar-menu .setLanguageHeader,
+    .mobile-navbar-menu .set-currency-header {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .mobile-navbar-menu .setLanguageHeader .nav-link,
+    .mobile-navbar-menu .set-currency-header .nav-link {
+        width: 100%;
+        padding: 12px 15px;
+        text-align: left;
     }
 
     /* Sidebar improvements */
@@ -439,6 +741,27 @@
 
 /* Small Mobile (480px and below) */
 @media (max-width: 480px) {
+    /* Fix horizontal scrolling */
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+        position: relative;
+    }
+    
+    .main-wrapper,
+    .main-content,
+    .main-sidebar,
+    .navbar,
+    .container,
+    .container-fluid {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+    }
+    
+    * {
+        max-width: 100%;
+    }
+    
     /* Further reduce sizes */
     body {
         font-size: 14px;

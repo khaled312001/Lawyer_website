@@ -21,18 +21,21 @@
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
             <nav class="navbar navbar-expand-lg main-navbar px-3 py-2">
-                <div class="form-inline">
-                    <ul class="navbar-nav d-flex align-items-center">
-                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
-                                    class="fas fa-bars"></i></a></li>
-
+                <div class="navbar-left d-flex align-items-center">
+                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg me-3">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                    
+                    {{-- Desktop Menu Items --}}
+                    <div class="d-none d-lg-flex align-items-center">
                         {{-- language select --}}
                         @include('backend_layouts.partials.language_select')
                         {{-- currency select --}}
                         @include('backend_layouts.partials.currency_select')
-                    </ul>
+                    </div>
                 </div>
-                <div class="me-auto search-box position-relative">
+                
+                <div class="navbar-center me-auto search-box position-relative d-none d-md-block">
                     <x-admin.form-input id="search_menu" :placeholder="__('Search option')" />
                     <div id="admin_menu_list" class="position-absolute d-none rounded-2">
                         @foreach (App\Enums\RouteList::getAll() as $route_item)
@@ -48,44 +51,114 @@
                         <a class="not-found-message d-none" href="javascript:;">{{ __('Not Found!') }}</a>
                     </div>
                 </div>
-                <ul class="navbar-nav">
-                    <li class="dropdown dropdown-list-toggle">
-                        <a target="_blank" href="{{ route('home') }}" class="nav-link nav-link-lg p-0">
-                            <i class="fas fa-home"></i> <span
-                                class="d-md-none d-lg-inline-block">{{ __('Visit Website') }}</span></i>
-                        </a>
-                    </li>
+                
+                <div class="navbar-right d-flex align-items-center">
+                    <ul class="navbar-nav d-none d-lg-flex align-items-center">
+                        <li class="dropdown dropdown-list-toggle">
+                            <a target="_blank" href="{{ route('home') }}" class="nav-link nav-link-lg p-0">
+                                <i class="fas fa-home"></i> <span class="d-md-none d-lg-inline-block">{{ __('Visit Website') }}</span>
+                            </a>
+                        </li>
 
-                    <li class="dropdown"><a href="javascript:;" data-bs-toggle="dropdown"
-                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                        <li class="dropdown">
+                            <a href="javascript:;" data-bs-toggle="dropdown"
+                                class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                                <img alt="image"
+                                    src="{{ !empty($header_admin->image) ? asset($header_admin->image) : asset($setting->default_avatar) }}"
+                                    class="me-1 my-1 rounded-circle">
+                                <div class="d-sm-none d-lg-inline-block">{{ $header_admin->name }}</div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                @adminCan('admin.profile.view')
+                                    <a href="{{ route('admin.edit-profile') }}"
+                                        class="dropdown-item has-icon d-flex align-items-center {{ isRoute('admin.edit-profile', 'text-primary') }}">
+                                        <i class="far fa-user"></i> {{ __('Profile') }}
+                                    </a>
+                                @endadminCan
+                                @adminCan('setting.view')
+                                    <a href="{{ route('admin.settings') }}"
+                                        class="dropdown-item has-icon d-flex align-items-center {{ isRoute('admin.settings', 'text-primary') }}">
+                                        <i class="fas fa-cog"></i> {{ __('Setting') }}
+                                    </a>
+                                @endadminCan
+                                <a href="javascript:;" class="dropdown-item has-icon d-flex align-items-center"
+                                    onclick="event.preventDefault(); $('#admin-logout-form').trigger('submit');">
+                                    <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    {{-- Mobile Burger Menu Button --}}
+                    <button class="navbar-toggler d-lg-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+            
+            {{-- Mobile Menu --}}
+            <div class="collapse navbar-collapse mobile-navbar-menu d-lg-none" id="mobileNavbarMenu">
+                <div class="mobile-menu-content">
+                    <div class="mobile-menu-section">
+                        <h6 class="mobile-menu-title">{{ __('Search') }}</h6>
+                        <div class="search-box-mobile position-relative mb-3">
+                            <x-admin.form-input id="search_menu_mobile" :placeholder="__('Search option')" />
+                            <div id="admin_menu_list_mobile" class="position-absolute d-none rounded-2 w-100">
+                                @foreach (App\Enums\RouteList::getAll() as $route_item)
+                                    @if (checkAdminHasPermission($route_item?->permission) || empty($route_item?->permission))
+                                        <a @isset($route_item->tab)
+                                                data-active-tab="{{ $route_item->tab }}" class="border-bottom search-menu-item"
+                                            @else
+                                                class="border-bottom"
+                                            @endisset
+                                            href="{{ $route_item?->route }}">{{ $route_item?->name }}</a>
+                                    @endif
+                                @endforeach
+                                <a class="not-found-message d-none" href="javascript:;">{{ __('Not Found!') }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-menu-section">
+                        <h6 class="mobile-menu-title">{{ __('Language & Currency') }}</h6>
+                        <div class="d-flex flex-column gap-2">
+                            @include('backend_layouts.partials.language_select')
+                            @include('backend_layouts.partials.currency_select')
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-menu-section">
+                        <h6 class="mobile-menu-title">{{ __('Quick Actions') }}</h6>
+                        <a target="_blank" href="{{ route('home') }}" class="mobile-menu-item">
+                            <i class="fas fa-home"></i> {{ __('Visit Website') }}
+                        </a>
+                    </div>
+                    
+                    <div class="mobile-menu-section">
+                        <h6 class="mobile-menu-title">{{ __('Account') }}</h6>
+                        <div class="mobile-user-info mb-3">
                             <img alt="image"
                                 src="{{ !empty($header_admin->image) ? asset($header_admin->image) : asset($setting->default_avatar) }}"
-                                class="me-1 my-1 rounded-circle">
-
-                            <div class="d-sm-none d-lg-inline-block">{{ $header_admin->name }}</div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            @adminCan('admin.profile.view')
-                                <a href="{{ route('admin.edit-profile') }}"
-                                    class="dropdown-item has-icon d-flex align-items-center {{ isRoute('admin.edit-profile', 'text-primary') }}">
-                                    <i class="far fa-user"></i> {{ __('Profile') }}
-                                </a>
-                            @endadminCan
-                            @adminCan('setting.view')
-                                <a href="{{ route('admin.settings') }}"
-                                    class="dropdown-item has-icon d-flex align-items-center {{ isRoute('admin.settings', 'text-primary') }}">
-                                    <i class="fas fa-cog"></i> {{ __('Setting') }}
-                                </a>
-                            @endadminCan
-                            <a href="javascript:;" class="dropdown-item has-icon d-flex align-items-center"
-                                onclick="event.preventDefault(); $('#admin-logout-form').trigger('submit');">
-                                <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
-                            </a>
+                                class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                            <span>{{ $header_admin->name }}</span>
                         </div>
-                    </li>
-
-                </ul>
-            </nav>
+                        @adminCan('admin.profile.view')
+                            <a href="{{ route('admin.edit-profile') }}" class="mobile-menu-item">
+                                <i class="far fa-user"></i> {{ __('Profile') }}
+                            </a>
+                        @endadminCan
+                        @adminCan('setting.view')
+                            <a href="{{ route('admin.settings') }}" class="mobile-menu-item">
+                                <i class="fas fa-cog"></i> {{ __('Setting') }}
+                            </a>
+                        @endadminCan
+                        <a href="javascript:;" class="mobile-menu-item text-danger"
+                            onclick="event.preventDefault(); $('#admin-logout-form').trigger('submit');">
+                            <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
 
             @if (request()->routeIs(
                     'admin.general-setting',
@@ -126,6 +199,50 @@
     @include('backend_layouts.partials.javascripts')
 
     @stack('js')
+    
+    <script>
+        // Mobile search functionality
+        $(document).ready(function() {
+            // Copy search functionality to mobile
+            $('#search_menu_mobile').on('input', function() {
+                var searchValue = $(this).val().toLowerCase();
+                var menuList = $('#admin_menu_list_mobile');
+                var menuItems = menuList.find('.search-menu-item, .border-bottom').not('.not-found-message');
+                var notFound = menuList.find('.not-found-message');
+                
+                if (searchValue.length > 0) {
+                    menuList.removeClass('d-none');
+                    var found = false;
+                    
+                    menuItems.each(function() {
+                        var text = $(this).text().toLowerCase();
+                        if (text.includes(searchValue)) {
+                            $(this).show();
+                            found = true;
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                    
+                    if (found) {
+                        notFound.addClass('d-none');
+                    } else {
+                        notFound.removeClass('d-none');
+                        menuItems.hide();
+                    }
+                } else {
+                    menuList.addClass('d-none');
+                }
+            });
+            
+            // Close mobile menu when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.navbar, .mobile-navbar-menu').length) {
+                    $('#mobileNavbarMenu').collapse('hide');
+                }
+            });
+        });
+    </script>
 
 </body>
 
