@@ -15,7 +15,11 @@ class CreateAndUpdateRatings extends Command
      *
      * @var string
      */
-    protected $signature = 'ratings:create-and-update {--min=4 : Minimum rating (4 or 5)} {--max=5 : Maximum rating (4 or 5)}';
+    protected $signature = 'ratings:create-and-update 
+                            {--min=4 : Minimum rating (4 or 5)} 
+                            {--max=5 : Maximum rating (4 or 5)}
+                            {--count=1 : Number of ratings per lawyer}
+                            {--all : Include all lawyers (not just active)}';
 
     /**
      * The console command description.
@@ -56,8 +60,17 @@ class CreateAndUpdateRatings extends Command
         $this->info("✅ تم العثور على الأدمن: {$admin->name} (ID: {$admin->id})");
         $this->newLine();
 
-        // الحصول على جميع المحاميين النشطين
-        $lawyers = Lawyer::where('status', 'active')->get();
+        // الحصول على المحاميين (نشطين أو جميعهم)
+        $includeAll = $this->option('all');
+        $countPerLawyer = (int) $this->option('count');
+        
+        if ($includeAll) {
+            $lawyers = Lawyer::all();
+            $this->info("ℹ️  سيتم معالجة جميع المحاميين (نشطين وغير نشطين)");
+        } else {
+            $lawyers = Lawyer::where('status', 1)->get();
+            $this->info("ℹ️  سيتم معالجة المحاميين النشطين فقط");
+        }
 
         if ($lawyers->isEmpty()) {
             $this->warn('⚠️  لا يوجد محاميين نشطين في قاعدة البيانات.');
@@ -111,19 +124,39 @@ class CreateAndUpdateRatings extends Command
                     ]);
                     $totalUpdated++;
                 }
+                
+                // إنشاء تقييمات إضافية إذا كان المطلوب أكثر من الموجودة
+                $neededRatings = $countPerLawyer - $existingRatings->count();
+                if ($neededRatings > 0) {
+                    for ($i = 0; $i < $neededRatings; $i++) {
+                        $newRating = rand($minRating, $maxRating);
+                        Rating::create([
+                            'lawyer_id' => $lawyer->id,
+                            'user_id' => null,
+                            'rating' => $newRating,
+                            'comment' => $comments[$newRating][array_rand($comments[$newRating])] ?? 'تقييم جيد',
+                            'is_admin_created' => true,
+                            'created_by_admin_id' => $admin->id,
+                            'status' => true,
+                        ]);
+                        $totalCreated++;
+                    }
+                }
             } else {
-                // إنشاء تقييم جديد للمحامي
-                $newRating = rand($minRating, $maxRating);
-                Rating::create([
-                    'lawyer_id' => $lawyer->id,
-                    'user_id' => null,
-                    'rating' => $newRating,
-                    'comment' => $comments[$newRating][array_rand($comments[$newRating])] ?? 'تقييم جيد',
-                    'is_admin_created' => true,
-                    'created_by_admin_id' => $admin->id,
-                    'status' => true,
-                ]);
-                $totalCreated++;
+                // إنشاء تقييمات جديدة للمحامي
+                for ($i = 0; $i < $countPerLawyer; $i++) {
+                    $newRating = rand($minRating, $maxRating);
+                    Rating::create([
+                        'lawyer_id' => $lawyer->id,
+                        'user_id' => null,
+                        'rating' => $newRating,
+                        'comment' => $comments[$newRating][array_rand($comments[$newRating])] ?? 'تقييم جيد',
+                        'is_admin_created' => true,
+                        'created_by_admin_id' => $admin->id,
+                        'status' => true,
+                    ]);
+                    $totalCreated++;
+                }
             }
 
             $bar->advance();
