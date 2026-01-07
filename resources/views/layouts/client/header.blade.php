@@ -269,6 +269,10 @@
                                         $icon = 'fas fa-quote-left';
                                     } elseif (strpos($label_lower, 'faq') !== false || strpos($label_lower, 'سؤال') !== false) {
                                         $icon = 'fas fa-question-circle';
+                                    } elseif (strpos($label_lower, 'real estate') !== false || strpos($label_lower, 'عقار') !== false || strpos($label_lower, 'عقارات') !== false) {
+                                        $icon = 'fas fa-building';
+                                    } elseif (strpos($label_lower, 'more') !== false || strpos($label_lower, 'المزيد') !== false || strpos($label_lower, 'أكثر') !== false) {
+                                        $icon = 'fas fa-ellipsis-h';
                                     }
                                 @endphp
                                 <li class="nav-item @if($is_child) has-dropdown @endif">
@@ -307,6 +311,8 @@
                                                         $child_icon = 'fas fa-quote-left';
                                                     } elseif (strpos($child_label_lower, 'faq') !== false || strpos($child_label_lower, 'سؤال') !== false) {
                                                         $child_icon = 'fas fa-question-circle';
+                                                    } elseif (strpos($child_label_lower, 'real estate') !== false || strpos($child_label_lower, 'عقار') !== false || strpos($child_label_lower, 'عقارات') !== false) {
+                                                        $child_icon = 'fas fa-building';
                                                     } else {
                                                         $child_icon = 'fas fa-chevron-right';
                                                     }
@@ -468,6 +474,10 @@
                                     $icon = 'fas fa-quote-left';
                                 } elseif (strpos($label_lower, 'faq') !== false || strpos($label_lower, 'سؤال') !== false) {
                                     $icon = 'fas fa-question-circle';
+                                } elseif (strpos($label_lower, 'real estate') !== false || strpos($label_lower, 'عقار') !== false || strpos($label_lower, 'عقارات') !== false) {
+                                    $icon = 'fas fa-building';
+                                } elseif (strpos($label_lower, 'more') !== false || strpos($label_lower, 'المزيد') !== false || strpos($label_lower, 'أكثر') !== false) {
+                                    $icon = 'fas fa-ellipsis-h';
                                 }
                             @endphp
                             <li class="side-menu-item @if($is_child) has-submenu @endif">
@@ -502,6 +512,8 @@
                                                     $child_icon = 'fas fa-quote-left';
                                                 } elseif (strpos($child_label_lower, 'faq') !== false || strpos($child_label_lower, 'سؤال') !== false) {
                                                     $child_icon = 'fas fa-question-circle';
+                                                } elseif (strpos($child_label_lower, 'real estate') !== false || strpos($child_label_lower, 'عقار') !== false || strpos($child_label_lower, 'عقارات') !== false) {
+                                                    $child_icon = 'fas fa-building';
                                                 } else {
                                                     $child_icon = 'fas fa-chevron-right';
                                                 }
