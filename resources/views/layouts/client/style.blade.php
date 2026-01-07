@@ -2469,34 +2469,87 @@
        SUBSCRIBE AREA - VERTICAL CENTER BUTTON
        ============================================ */
 
-    /* Center subscribe button vertically */
-    .subscribe-form .btn-sub {
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        -webkit-transform: translateY(-50%) !important;
-        -moz-transform: translateY(-50%) !important;
-        -ms-transform: translateY(-50%) !important;
-        -o-transform: translateY(-50%) !important;
+    /* Ensure subscribe form has proper positioning */
+    .subscribe-form {
+        position: relative;
     }
 
-    /* Ensure form wrapper has proper positioning */
+    /* Ensure form wrapper has proper positioning and layout */
     .subscribe-form-wrapper {
         position: relative;
         display: flex;
         align-items: center;
+        gap: 10px;
     }
 
     /* Make sure input wrapper allows for button positioning */
     .subscribe-input-wrapper {
         position: relative;
         flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Ensure input field has proper height */
+    .subscribe-form .subscribe-input,
+    .subscribe-form input {
+        height: 56px;
+        line-height: 56px;
+    }
+
+    /* Center subscribe button vertically - positioned relative to input wrapper */
+    .subscribe-form-wrapper .btn-sub {
+        position: relative !important;
+        height: 56px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 10px 20px !important;
+        border-radius: 6px !important;
+        background: var(--colorPrimary) !important;
+        border: none !important;
+        color: var(--colorWhite) !important;
+        font-weight: 500 !important;
+        font-size: 16px !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .subscribe-form-wrapper .btn-sub:hover {
+        background: var(--colorSecondary) !important;
+    }
+
+    /* Alternative: If button should be inside input field */
+    .subscribe-input-wrapper .btn-sub {
+        position: absolute !important;
+        right: 7px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        -webkit-transform: translateY(-50%) !important;
+        height: auto !important;
+        margin: 0 !important;
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-        .subscribe-form .btn-sub {
-            top: 50% !important;
-            transform: translateY(-50%) !important;
+        .subscribe-form-wrapper {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .subscribe-form-wrapper .btn-sub {
+            width: 100%;
+            height: 56px !important;
+        }
+
+        .subscribe-input-wrapper .btn-sub {
+            position: relative !important;
+            right: auto !important;
+            top: auto !important;
+            transform: none !important;
+            width: 100%;
+            margin-top: 10px !important;
         }
     }
 </style>
