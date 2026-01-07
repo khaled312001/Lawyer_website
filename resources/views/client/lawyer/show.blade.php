@@ -385,19 +385,14 @@
         
         .info-content table tbody td:first-child {
             font-weight: 600;
-            color: #6b5d47;
+            color: #2c3e50;
             width: 30%;
-            background: rgba(107, 93, 71, 0.08);
+            background: transparent;
         }
         
         .info-content table tbody tr:hover td:first-child {
-            background: rgba(107, 93, 71, 0.15);
-            color: #5a4d3a;
-        }
-        
-        /* تحسين الألوان للتوافق مع اللون الأساسي */
-        .info-content table tbody td:first-child {
-            border-right: 3px solid rgba(107, 93, 71, 0.2);
+            background: transparent;
+            color: #6b5d47;
         }
         
         /* تحسين القوائم - نمط CV */
