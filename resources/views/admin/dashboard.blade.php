@@ -439,5 +439,31 @@
                 });
             })(jQuery);
         </script>
+        
+        <script>
+            // JavaScript number_format function
+            function number_format(number, decimals, dec_point, thousands_sep) {
+                decimals = decimals !== undefined ? decimals : 2;
+                dec_point = dec_point !== undefined ? dec_point : '.';
+                thousands_sep = thousands_sep !== undefined ? thousands_sep : ',';
+                
+                number = parseFloat(number);
+                if (isNaN(number)) return '0';
+                
+                var negative = number < 0;
+                number = Math.abs(number);
+                
+                var s = number.toFixed(decimals);
+                var parts = s.split('.');
+                var integerPart = parts[0];
+                var decimalPart = parts.length > 1 ? dec_point + parts[1] : '';
+                
+                if (thousands_sep) {
+                    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+                }
+                
+                return (negative ? '-' : '') + integerPart + decimalPart;
+            }
+        </script>
     @endif
 @endpush

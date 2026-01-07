@@ -38,6 +38,11 @@
                         {{-- currency select --}}
                         @include('backend_layouts.partials.currency_select')
                     </div>
+                    
+                    {{-- Mobile Menu Toggle Button --}}
+                    <button class="navbar-toggler d-lg-none ms-auto border-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" aria-expanded="false" aria-label="Toggle navigation" style="padding: 8px;">
+                        <i class="fas fa-ellipsis-v text-white"></i>
+                    </button>
                 </div>
                 
                 <div class="navbar-center me-auto search-box position-relative d-none d-md-block">
@@ -93,11 +98,20 @@
                             </div>
                         </li>
                     </ul>
+                    
+                    {{-- Mobile User Avatar --}}
+                    <div class="d-lg-none ms-3">
+                        <a href="javascript:;" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" class="nav-link nav-link-lg nav-link-user p-0">
+                            <img alt="image"
+                                src="{{ !empty($header_admin->image) ? asset($header_admin->image) : ($setting?->default_avatar ? asset($setting->default_avatar) : '') }}"
+                                class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover;">
+                        </a>
+                    </div>
                 </div>
             </nav>
             
-            {{-- Mobile Menu - Hidden on mobile, sidebar is used instead --}}
-            <div class="collapse navbar-collapse mobile-navbar-menu d-none" id="mobileNavbarMenu">
+            {{-- Mobile Menu --}}
+            <div class="collapse navbar-collapse mobile-navbar-menu" id="mobileNavbarMenu">
                 <div class="mobile-menu-content">
                     <div class="mobile-menu-section">
                         <h6 class="mobile-menu-title">{{ __('Search') }}</h6>
