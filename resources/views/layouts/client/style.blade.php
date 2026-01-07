@@ -846,6 +846,93 @@
         color: #fff !important;
     }
 
+    /* Header Items in Side Menu */
+    .side-menu-header-items {
+        padding: 15px 20px;
+        border-bottom: 1px solid #e0e0e0;
+        background: #f8f9fa;
+    }
+
+    .side-menu-header-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 15px;
+        color: #333;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        position: relative;
+    }
+
+    .side-menu-header-link:last-child {
+        margin-bottom: 0;
+    }
+
+    .side-menu-header-link i {
+        color: var(--colorPrimary);
+        font-size: 16px;
+        width: 20px;
+        text-align: center;
+    }
+
+    .side-menu-header-link:hover {
+        background: rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.1);
+        color: var(--colorPrimary);
+        border-color: var(--colorPrimary);
+        transform: translateX(5px);
+    }
+
+    .side-menu-badge {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--colorPrimary);
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 10px;
+        min-width: 18px;
+        text-align: center;
+    }
+
+    .side-menu-selectors {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .side-menu-form {
+        width: 100%;
+    }
+
+    .side-menu-select {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background: #fff;
+        color: #333;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .side-menu-select:focus {
+        outline: none;
+        border-color: var(--colorPrimary);
+        box-shadow: 0 0 0 3px rgba(200, 180, 126, 0.1);
+    }
+
     .appointment-link:hover {
         background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%);
         transform: translateY(-2px);
@@ -1502,48 +1589,9 @@
             font-size: 12px;
         }
 
-        /* Header Bar */
+        /* Hide Header Bar on Mobile - Move to Side Menu */
         .top-header-bar {
-            padding: 10px 0;
-        }
-
-        .header-bar-content {
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .header-left,
-        .header-right {
-            width: 100%;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .header-contact-item {
-            font-size: 13px;
-            padding: 6px 10px;
-        }
-
-        .header-contact-item span {
-            display: inline;
-            font-size: 12px;
-        }
-
-        .header-select {
-            font-size: 13px;
-            padding: 6px 25px 6px 10px;
-            min-width: 100px;
-        }
-
-        .auth-links {
-            gap: 8px;
-        }
-
-        .login-link,
-        .register-link {
-            padding: 6px 12px;
-            font-size: 12px;
+            display: none !important;
         }
 
         /* Main Navbar */
@@ -1564,31 +1612,100 @@
             height: 2.5px;
         }
 
-        /* Side Menu */
+        /* Side Menu - Enhanced Design */
         .side-menu-content {
-            width: 300px;
+            width: 320px;
+            max-width: 85vw;
         }
 
         .side-menu-header {
-            padding: 15px;
+            padding: 18px 20px;
         }
 
         .side-menu-logo img {
-            max-height: 35px !important;
-            max-width: 140px !important;
+            max-height: 40px !important;
+            max-width: 160px !important;
             width: auto !important;
             height: auto !important;
             object-fit: contain !important;
         }
 
-        .side-menu-link {
+        /* Header Items in Side Menu */
+        .side-menu-header-items {
+            padding: 15px 20px;
+        }
+
+        .side-menu-header-link {
             padding: 12px 15px;
             font-size: 14px;
         }
 
+        .side-menu-select {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+
+        .side-menu-link {
+            padding: 14px 20px;
+            font-size: 15px;
+        }
+
         .side-submenu li a {
-            padding: 10px 15px 10px 45px;
-            font-size: 13px;
+            padding: 12px 20px 12px 50px;
+            font-size: 14px;
+        }
+
+        /* Improve overall mobile design */
+        body.client-frontend {
+            font-size: 15px;
+        }
+
+        h1 {
+            font-size: 28px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: 24px;
+            line-height: 1.3;
+        }
+
+        h3 {
+            font-size: 20px;
+            line-height: 1.3;
+        }
+
+        /* Better spacing on mobile */
+        .container,
+        .container-fluid {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        /* Improve cards on mobile */
+        .card {
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Better buttons on mobile */
+        .btn {
+            padding: 12px 24px;
+            font-size: 15px;
+            min-height: 48px;
+            border-radius: 8px;
+        }
+
+        /* Better forms on mobile */
+        .form-control,
+        .form-select {
+            font-size: 16px;
+            padding: 12px 15px;
+            border-radius: 8px;
         }
     }
 
@@ -1598,51 +1715,7 @@
             padding-right: 25px;
         }
 
-        .header-bar-content {
-            gap: 12px;
-        }
-
-        .header-left,
-        .header-right {
-            gap: 10px;
-            justify-content: space-around;
-        }
-
-        .cart-link {
-            font-size: 16px;
-            padding: 6px 10px;
-        }
-
-        .header-select {
-            font-size: 12px;
-            padding: 6px 22px 6px 8px;
-            min-width: 90px;
-        }
-
-        .header-contact-item {
-            font-size: 12px;
-            padding: 6px 8px;
-        }
-
-        .header-contact-item span {
-            display: none;
-        }
-
-        .auth-links {
-            width: 100%;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .login-link,
-        .register-link {
-            flex: 1;
-            max-width: 120px;
-            justify-content: center;
-            padding: 8px 10px;
-            font-size: 12px;
-        }
-
+        /* Main Navbar */
         .navbar-wrapper {
             padding: 10px 12px;
         }
@@ -1655,14 +1728,73 @@
             object-fit: contain !important;
         }
 
+        /* Side Menu - Smaller screens */
         .side-menu-content {
-            width: 280px;
-            max-width: 90vw;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        .side-menu-header {
+            padding: 15px;
+        }
+
+        .side-menu-logo img {
+            max-height: 35px !important;
+            max-width: 140px !important;
+        }
+
+        .side-menu-header-items {
+            padding: 12px 15px;
+        }
+
+        .side-menu-header-link {
+            padding: 10px 12px;
+            font-size: 13px;
+        }
+
+        .side-menu-select {
+            font-size: 13px;
+            padding: 10px 12px;
         }
 
         .side-menu-link {
             padding: 12px 15px;
             font-size: 14px;
+        }
+
+        .side-submenu li a {
+            padding: 10px 15px 10px 45px;
+            font-size: 13px;
+        }
+
+        /* Improve typography on small screens */
+        h1 {
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 18px;
+        }
+
+        /* Better spacing */
+        .container,
+        .container-fluid {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            min-height: 44px;
         }
     }
 

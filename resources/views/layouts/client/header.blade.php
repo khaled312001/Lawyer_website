@@ -363,6 +363,83 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            
+            <!-- Header Items in Side Menu -->
+            <div class="side-menu-header-items">
+                <div class="side-menu-cart">
+                    <a href="{{ route('client.payment') }}" class="side-menu-header-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>{{ __('Appointment List') }}</span>
+                        @if(Cart::count() > 0)
+                            <span class="side-menu-badge">{{ Cart::count() }}</span>
+                        @endif
+                    </a>
+                </div>
+                @if ($contactInfo?->top_bar_phone)
+                    <a href="tel:{{ $contactInfo->top_bar_phone }}" class="side-menu-header-link">
+                        <i class="fas fa-phone"></i>
+                        <span>{{ $contactInfo->top_bar_phone }}</span>
+                    </a>
+                @endif
+                @if ($contactInfo?->top_bar_email)
+                    <a href="mailto:{{ $contactInfo->top_bar_email }}" class="side-menu-header-link">
+                        <i class="far fa-envelope"></i>
+                        <span>{{ $contactInfo->top_bar_email }}</span>
+                    </a>
+                @endif
+                @guest
+                    <a href="{{ url('login') }}" class="side-menu-header-link">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>{{ __('Login') }}</span>
+                    </a>
+                    <a href="{{ url('register') }}" class="side-menu-header-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>{{ __('Register') }}</span>
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}" class="side-menu-header-link">
+                        <i class="fas fa-user"></i>
+                        <span>{{ __('My account') }}</span>
+                    </a>
+                @endguest
+                @if (allCurrencies()?->where('status', 'active')->count() > 1 || allLanguages()?->where('status', 1)->count() > 1)
+                    <div class="side-menu-selectors">
+                        @if (allCurrencies()?->where('status', 'active')->count() > 1)
+                            <form id="setCurrencySideMenu" action="{{ route('set-currency') }}" method="get" class="side-menu-form">
+                                <select class="side-menu-select" name="currency" onchange="this.form.submit()">
+                                    @forelse (allCurrencies()?->where('status', 'active') as $currency)
+                                        <option value="{{ $currency->currency_code }}"
+                                            {{ getSessionCurrency() == $currency->currency_code ? 'selected' : '' }}>
+                                            {{ $currency->currency_name }}
+                                        </option>
+                                    @empty
+                                        <option value="USD" {{ getSessionCurrency() == 'USD' ? 'selected' : '' }}>
+                                            {{ __('USD') }}
+                                        </option>
+                                    @endforelse
+                                </select>
+                            </form>
+                        @endif
+                        @if (allLanguages()?->where('status', 1)->count() > 1)
+                            <form id="setLanguageSideMenu" action="{{ route('set-language') }}" method="get" class="side-menu-form">
+                                <select class="side-menu-select" name="code" onchange="this.form.submit()">
+                                    @forelse (allLanguages()?->where('status', 1) as $language)
+                                        <option value="{{ $language->code }}"
+                                            {{ getSessionLanguage() == $language->code ? 'selected' : '' }}>
+                                            @if($language->code == 'en') 🇬🇧 @elseif($language->code == 'ar') 🇸🇦 @endif {{ $language->name }}
+                                        </option>
+                                    @empty
+                                        <option value="en" {{ getSessionLanguage() == 'en' ? 'selected' : '' }}>
+                                            🇬🇧 {{ __('English') }}
+                                        </option>
+                                    @endforelse
+                                </select>
+                            </form>
+                        @endif
+                    </div>
+                @endif
+            </div>
+            
             <div class="side-menu-body">
                 @if ($public_menu = mainMenu())
                     <ul class="side-menu-list">
