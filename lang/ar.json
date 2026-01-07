@@ -1585,5 +1585,8 @@
     "Start Conversation": "بدء المحادثة",
     "Conversation with Admin": "محادثة مع الإدارة",
     "General Inquiry": "استفسار عام",
-    "Book Consultation Appointment": "حجز موعد استشارة"
+    "Book Consultation Appointment": "حجز موعد استشارة",
+    "e.g., Criminal, Civil, Family, Commercial, Contract, etc.": "مثل: جنائي، مدني، عائلي، تجاري، عقد، إلخ",
+    "Specify the type of your case": "حدد نوع قضيتك",
+    "Please fix the following errors:": "يرجى إصلاح الأخطاء التالية:"
 }
