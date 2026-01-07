@@ -62,7 +62,7 @@ Route::middleware(['auth:web', 'translation', 'maintenance.mode'])->group(functi
             Route::get('messages/{conversation}/get-messages', 'getMessages')->name('messages.get');
             Route::post('messages/{conversation}/send', 'sendMessage')->name('messages.send');
             Route::post('messages/{conversation}/mark-read', 'markAsRead')->name('messages.markRead');
-            Route::get('messages/start-with-admin', 'startConversationWithAdmin')->name('messages.start-with-admin');
+            Route::post('messages/start-with-admin', 'startConversationWithAdmin')->name('messages.start-with-admin');
         });
 
         Route::controller(MeetingController::class)->group(function () {

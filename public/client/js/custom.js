@@ -566,6 +566,11 @@
 
 
     //======banner slider======
+    // Destroy existing slider if it exists
+    if ($(".banner_slider").hasClass('slick-initialized')) {
+        $(".banner_slider").slick('unslick');
+    }
+    
     $(".banner_slider").slick({
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -584,12 +589,17 @@
         lazyLoad: 'ondemand',
         adaptiveHeight: false,
         mobileFirst: true,
+        swipe: true,
+        touchMove: true,
+        touchThreshold: 5,
         responsive: [
             {
                 breakpoint: 768,
                 settings: {
                     speed: 600,
                     autoplaySpeed: 3500,
+                    swipe: true,
+                    touchMove: true,
                 }
             },
             {
@@ -597,10 +607,21 @@
                 settings: {
                     speed: 500,
                     autoplaySpeed: 3000,
+                    swipe: true,
+                    touchMove: true,
                 }
             }
         ]
     });
+    
+    // Force refresh on mobile devices
+    if (window.innerWidth <= 768) {
+        setTimeout(function() {
+            if ($(".banner_slider").hasClass('slick-initialized')) {
+                $(".banner_slider").slick('setPosition');
+            }
+        }, 100);
+    }
 
     //======testimonial slider======
     $(".testimonial_slider").slick({

@@ -221,8 +221,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-    @push('css')
+@push('css')
     <style>
         /* تحسين تصميم تبويبات معلومات المحامي */
         .event-detail-tab .nav-tabs {
@@ -787,9 +788,9 @@
             }
         }
     </style>
-    @endpush
+@endpush
 
-    @push('js')
+@push('js')
     <script>
     $(document).ready(function() {
         // تفعيل التبويبات بشكل صحيح
@@ -849,5 +850,4 @@
         });
     });
     </script>
-    @endpush
-@endsection
+@endpush

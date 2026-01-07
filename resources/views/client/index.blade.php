@@ -111,6 +111,56 @@
         <!--why Us End-->
     @endif
 
+    <!--Real Estate Services Section Start-->
+    <section class="real-estate-section bg-area pt_100 pb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                    <div class="main-headline text-center">
+                        <h2 class="title"><span>{{ __('Real Estate') }}</span> {{ __('Legal Services') }}</h2>
+                        <p>{{ __('Professional legal services for real estate purchase and investment cases through specialized and experienced lawyers, completing the task in the fastest time') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_50">
+                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="real-estate-item">
+                        <div class="real-estate-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3 class="title">{{ __('Property Purchase') }}</h3>
+                        <p>{{ __('Complete legal procedures for property purchase transactions with professional lawyers specialized in real estate law') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="real-estate-item">
+                        <div class="real-estate-icon">
+                            <i class="fas fa-city"></i>
+                        </div>
+                        <h3 class="title">{{ __('Real Estate Investment') }}</h3>
+                        <p>{{ __('Legal consultation and support for real estate investment projects with experienced lawyers') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="real-estate-item">
+                        <div class="real-estate-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <h3 class="title">{{ __('Legal Documentation') }}</h3>
+                        <p>{{ __('Preparation and review of all legal documents related to real estate transactions') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_30">
+                <div class="col-md-12 text-center">
+                    <a href="{{ route('website.real-estate') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-arrow-left me-2"></i>{{ __('View Real Estate Services') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Real Estate Services Section End-->
 
     @if (1 == $home_sections?->work_status)
         <!--Feature Start-->
@@ -235,57 +285,6 @@
         </section>
         <!--Service End-->
     @endif
-
-    <!--Real Estate Services Section Start-->
-    <section class="real-estate-section bg-area pt_100 pb_100">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                    <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('Real Estate') }}</span> {{ __('Legal Services') }}</h2>
-                        <p>{{ __('Professional legal services for real estate purchase and investment cases through specialized and experienced lawyers, completing the task in the fastest time') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt_50">
-                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="real-estate-item">
-                        <div class="real-estate-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <h3 class="title">{{ __('Property Purchase') }}</h3>
-                        <p>{{ __('Complete legal procedures for property purchase transactions with professional lawyers specialized in real estate law') }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="real-estate-item">
-                        <div class="real-estate-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3 class="title">{{ __('Real Estate Investment') }}</h3>
-                        <p>{{ __('Legal consultation and support for real estate investment projects with experienced lawyers') }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="real-estate-item">
-                        <div class="real-estate-icon">
-                            <i class="fas fa-file-contract"></i>
-                        </div>
-                        <h3 class="title">{{ __('Legal Documentation') }}</h3>
-                        <p>{{ __('Preparation and review of all legal documents related to real estate transactions') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt_30">
-                <div class="col-md-12 text-center">
-                    <a href="{{ route('website.real-estate') }}" class="btn btn-primary btn-lg">
-                        <i class="fas fa-arrow-left me-2"></i>{{ __('View Real Estate Services') }}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Real Estate Services Section End-->
 
     @if (1 == $home_sections?->department_status)
         <!--Department Start-->
@@ -666,25 +665,37 @@
                 </div>
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="fixed-price-content">
-                        <h2 class="title mb_30"><span>{{ __('سعر ثابت') }}</span> {{ __('ضمان') }}</h2>
-                        <p class="mb_30">{{ __('عند التعامل معنا، ستحصل دائماً على تقدير مسبق للأسعار. نعمل بأسعار ثابتة وشفافة، فلا داعي للقلق من أي رسوم مفاجئة أو مخفية.') }}</p>
+                        <h2 class="title mb_30"><span>{{ __('Fixed Price') }}</span> {{ __('Guarantee') }}</h2>
+                        <p class="mb_30">{{ __('When you work with us, you will always receive a price estimate in advance. We work with fixed and transparent prices, so you do not have to worry about any unexpected or hidden fees. You will know exactly what you will pay before starting any legal service.') }}</p>
                         
                         <div class="price-benefits">
                             <div class="benefit-item mb_20">
-                                <i class="fas fa-check-circle"></i>
-                                <span>{{ __('لا توجد رسوم مخفية') }}</span>
+                                <i class="fas fa-shield-alt"></i>
+                                <div class="benefit-content">
+                                    <strong>{{ __('No Hidden Fees') }}</strong>
+                                    <p>{{ __('All costs are clearly stated upfront. No surprises, no additional charges after service completion.') }}</p>
+                                </div>
                             </div>
                             <div class="benefit-item mb_20">
-                                <i class="fas fa-check-circle"></i>
-                                <span>{{ __('أسعار شفافة') }}</span>
+                                <i class="fas fa-eye"></i>
+                                <div class="benefit-content">
+                                    <strong>{{ __('Transparent Pricing') }}</strong>
+                                    <p>{{ __('Complete transparency in all our pricing. You see exactly what you pay for each service.') }}</p>
+                                </div>
                             </div>
                             <div class="benefit-item mb_20">
-                                <i class="fas fa-check-circle"></i>
-                                <span>{{ __('السعر متفق عليه مسبقاً') }}</span>
+                                <i class="fas fa-handshake"></i>
+                                <div class="benefit-content">
+                                    <strong>{{ __('Price Agreed Upfront') }}</strong>
+                                    <p>{{ __('The price is agreed upon before starting any work. No price changes during the service.') }}</p>
+                                </div>
                             </div>
                             <div class="benefit-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>{{ __('خطط دفع مرنة') }}</span>
+                                <i class="fas fa-credit-card"></i>
+                                <div class="benefit-content">
+                                    <strong>{{ __('Flexible Payment Plans') }}</strong>
+                                    <p>{{ __('We offer flexible payment options that suit your budget. Pay in installments if needed.') }}</p>
+                                </div>
                             </div>
                         </div>
 

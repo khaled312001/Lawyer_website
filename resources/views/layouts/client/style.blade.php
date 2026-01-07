@@ -106,6 +106,9 @@
     }
 
     .alert-close-btn {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
         position: absolute;
         right: 15px;
         top: 50%;
@@ -116,9 +119,6 @@
         border-radius: 50%;
         width: 28px;
         height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
         cursor: pointer;
         font-size: 14px;
         transition: all 0.3s ease;
@@ -701,8 +701,28 @@
         z-index: 9999;
         transition: right 0.3s ease;
         overflow-y: auto;
+        overflow-x: hidden;
         display: flex;
         flex-direction: column;
+    }
+    
+    /* Make main menu items visible without scroll */
+    @media (max-width: 991px) {
+        .side-menu-body {
+            overflow-y: visible !important;
+            overflow: visible !important;
+            max-height: none !important;
+            flex: 0 0 auto !important;
+        }
+        
+        .side-menu-body .side-menu-list {
+            overflow: visible !important;
+            max-height: none !important;
+        }
+        
+        .side-menu-item {
+            flex-shrink: 0;
+        }
     }
 
     .mobile-side-menu.active .side-menu-content {
@@ -713,9 +733,20 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 20px;
-        border-bottom: 1px solid #e0e0e0;
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
         background: linear-gradient(135deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%);
+        position: relative;
+        z-index: 10;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Mobile header improvements */
+    @media (max-width: 991px) {
+        .side-menu-header {
+            padding: 16px 18px;
+            min-height: 70px;
+        }
     }
 
     .side-menu-logo {
@@ -733,29 +764,72 @@
     }
 
     .side-menu-close {
-        background: rgba(255,255,255,0.2);
-        border: none;
+        background: rgba(255,255,255,0.25);
+        border: 2px solid rgba(255,255,255,0.4);
         color: #fff;
-        width: 35px;
-        height: 35px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        font-size: 18px;
+        font-size: 20px;
         transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: relative;
+        z-index: 10;
     }
 
     .side-menu-close:hover {
-        background: rgba(255,255,255,0.3);
-        transform: rotate(90deg);
+        background: rgba(255,255,255,0.35);
+        border-color: rgba(255,255,255,0.6);
+        transform: rotate(90deg) scale(1.1);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .side-menu-close:active {
+        transform: rotate(90deg) scale(0.95);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .side-menu-close i {
+        transition: all 0.3s ease;
+    }
+
+    .side-menu-close:hover i {
+        transform: scale(1.1);
+    }
+    
+    /* Mobile specific improvements for close button */
+    @media (max-width: 991px) {
+        .side-menu-close {
+            width: 42px;
+            height: 42px;
+            font-size: 22px;
+            background: rgba(255,255,255,0.3);
+            border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .side-menu-close:hover,
+        .side-menu-close:focus {
+            background: rgba(255,255,255,0.4);
+            border-color: rgba(255,255,255,0.7);
+            transform: rotate(90deg) scale(1.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .side-menu-close:active {
+            transform: rotate(90deg) scale(0.9);
+        }
     }
 
     .side-menu-body {
         flex: 1;
         padding: 0;
-        overflow-y: auto;
+        overflow-y: visible !important;
+        overflow: visible !important;
         display: flex;
         flex-direction: column;
         order: 1;
@@ -768,6 +842,8 @@
         padding: 0;
         order: 1;
         background: #fff;
+        overflow: visible !important;
+        max-height: none !important;
     }
 
     .side-menu-item {
@@ -1084,37 +1160,97 @@
 
     .app-download-buttons {
         display: flex;
-        gap: 15px;
+        gap: 20px;
         flex-wrap: wrap;
-        margin-top: 30px;
+        margin-top: 35px;
+        justify-content: flex-start;
+    }
+    
+    @media (max-width: 768px) {
+        .app-download-buttons {
+            flex-direction: column;
+            gap: 15px;
+        }
     }
 
     .app-download-btn {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        padding: 12px 24px;
-        background: var(--colorPrimary) !important;
+        justify-content: center;
+        gap: 12px;
+        padding: 16px 32px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
-        border-radius: 8px;
+        border-radius: 12px;
         text-decoration: none;
         font-weight: 600;
+        font-size: 16px;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        border: 2px solid var(--colorPrimary);
+        box-shadow: 0 4px 15px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.35);
+        border: 2px solid transparent;
+        min-width: 200px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .app-download-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .app-download-btn:hover::before {
+        left: 100%;
     }
 
     .app-download-btn:hover {
-        background: var(--colorSecondary) !important;
-        border-color: var(--colorSecondary);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.5);
         color: #fff !important;
+    }
+    
+    .app-download-btn:active {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 12px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.4);
+    }
+    
+    .app-download-btn i {
+        font-size: 18px;
+        transition: transform 0.3s ease;
+    }
+    
+    .app-download-btn:hover i {
+        transform: scale(1.15);
+    }
+    
+    .app-download-btn .btn-text {
+        font-weight: 600;
+        letter-spacing: 0.3px;
     }
 
     .app-download-btn img {
         height: 30px;
         width: auto;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .app-download-btn {
+            width: 100%;
+            min-width: 100%;
+            padding: 18px 24px;
+            font-size: 16px;
+        }
+        
+        .app-download-buttons {
+            width: 100%;
+        }
     }
 
     @media (max-width: 768px) {
@@ -2836,15 +2972,44 @@
 
     /* Fix for image transition issues - Prevent flickering */
     .banner_slider.slick-initialized .slick-slide {
-        display: block;
+        display: block !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 
     .banner_slider.slick-initialized .slick-slide:not(.slick-active) {
         opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
 
     .banner_slider.slick-initialized .slick-slide.slick-active {
-        opacity: 1;
+        opacity: 1 !important;
+        visibility: visible !important;
+        z-index: 10;
+        position: relative;
+    }
+    
+    /* Mobile specific fixes */
+    @media (max-width: 768px) {
+        .banner_slider.slick-initialized .slick-slide {
+            display: block !important;
+            opacity: 0;
+        }
+        
+        .banner_slider.slick-initialized .slick-slide.slick-active {
+            opacity: 1 !important;
+            display: block !important;
+            visibility: visible !important;
+        }
+        
+        .banner_slider .slick-list,
+        .banner_slider .slick-track {
+            height: 100% !important;
+        }
     }
 
     /* Ensure images are loaded before transition */
@@ -2864,12 +3029,40 @@
     }
 
     /* ============================================
-       SUBSCRIBE AREA - VERTICAL CENTER BUTTON
+       SUBSCRIBE AREA - ENHANCED DESIGN
+       تحسين تصميم قسم الاشتراك
        ============================================ */
+
+    /* Subscribe Area Background */
+    .subscribe-area {
+        position: relative;
+        padding: 60px 0;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+    .subscribe-area::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+    }
+    
+    .subscribe-area .container {
+        position: relative;
+        z-index: 2;
+    }
 
     /* Ensure subscribe form has proper positioning */
     .subscribe-form {
         position: relative;
+        max-width: 600px;
+        margin: 30px auto 0;
     }
 
     /* Ensure form wrapper has proper positioning and layout */
@@ -2877,7 +3070,11 @@
         position: relative;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        padding: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     }
 
     /* Make sure input wrapper allows for button positioning */
@@ -2887,67 +3084,171 @@
         display: flex;
         align-items: center;
     }
+    
+    .subscribe-icon {
+        position: absolute;
+        left: 18px;
+        color: var(--colorPrimary);
+        font-size: 18px;
+        z-index: 3;
+        pointer-events: none;
+    }
+    
+    [dir="rtl"] .subscribe-icon {
+        left: auto;
+        right: 18px;
+    }
 
-    /* Ensure input field has proper height */
+    /* Ensure input field has proper height and styling */
     .subscribe-form .subscribe-input,
     .subscribe-form input {
         height: 56px;
         line-height: 56px;
+        padding-left: 50px;
+        padding-right: 20px;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        font-size: 16px;
+        background: #fff;
+        color: #333;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+    
+    [dir="rtl"] .subscribe-form .subscribe-input,
+    [dir="rtl"] .subscribe-form input {
+        padding-left: 20px;
+        padding-right: 50px;
+    }
+    
+    .subscribe-form .subscribe-input:focus,
+    .subscribe-form input:focus {
+        outline: none;
+        border-color: var(--colorPrimary);
+        box-shadow: 0 0 0 3px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.1);
+    }
+    
+    .subscribe-form .subscribe-input::placeholder,
+    .subscribe-form input::placeholder {
+        color: #999;
+        font-size: 15px;
     }
 
-    /* Center subscribe button vertically - positioned relative to input wrapper */
+    /* Enhanced Subscribe Button - Prominent Design */
     .subscribe-form-wrapper .btn-sub {
         position: relative !important;
         height: 56px !important;
+        min-width: 140px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        gap: 8px !important;
         margin: 0 !important;
-        padding: 10px 20px !important;
-        border-radius: 6px !important;
-        background: var(--colorPrimary) !important;
+        padding: 12px 28px !important;
+        border-radius: 8px !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         border: none !important;
-        color: var(--colorWhite) !important;
-        font-weight: 500 !important;
+        color: #fff !important;
+        font-weight: 600 !important;
         font-size: 16px !important;
         cursor: pointer !important;
         transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.4) !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+    }
+    
+    .subscribe-form-wrapper .btn-sub span {
+        display: inline-block;
+    }
+    
+    .subscribe-form-wrapper .btn-sub i {
+        font-size: 16px;
+        transition: transform 0.3s ease;
     }
 
     .subscribe-form-wrapper .btn-sub:hover {
-        background: var(--colorSecondary) !important;
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.5) !important;
+    }
+    
+    .subscribe-form-wrapper .btn-sub:hover i {
+        transform: translateX(3px);
+    }
+    
+    [dir="rtl"] .subscribe-form-wrapper .btn-sub:hover i {
+        transform: translateX(-3px);
+    }
+
+    .subscribe-form-wrapper .btn-sub:active {
+        transform: translateY(0) !important;
+        box-shadow: 0 2px 10px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.3) !important;
     }
 
     /* Alternative: If button should be inside input field */
     .subscribe-input-wrapper .btn-sub {
         position: absolute !important;
-        right: 7px !important;
+        right: 8px !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
         -webkit-transform: translateY(-50%) !important;
-        height: auto !important;
+        height: 44px !important;
+        min-width: 120px !important;
         margin: 0 !important;
+    }
+    
+    [dir="rtl"] .subscribe-input-wrapper .btn-sub {
+        right: auto;
+        left: 8px;
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
+        .subscribe-area {
+            padding: 40px 0;
+        }
+        
+        .subscribe-form {
+            max-width: 100%;
+            margin: 20px auto 0;
+        }
+        
         .subscribe-form-wrapper {
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+        }
+        
+        .subscribe-input-wrapper {
+            width: 100%;
         }
 
         .subscribe-form-wrapper .btn-sub {
-            width: 100%;
+            width: 100% !important;
             height: 56px !important;
+            min-width: 100% !important;
         }
 
         .subscribe-input-wrapper .btn-sub {
             position: relative !important;
             right: auto !important;
+            left: auto !important;
             top: auto !important;
             transform: none !important;
-            width: 100%;
-            margin-top: 10px !important;
+            width: 100% !important;
+            margin-top: 0 !important;
+        }
+        
+        .subscribe-form .subscribe-input,
+        .subscribe-form input {
+            padding-right: 20px;
+        }
+        
+        [dir="rtl"] .subscribe-form .subscribe-input,
+        [dir="rtl"] .subscribe-form input {
+            padding-left: 20px;
         }
     }
 
@@ -3556,28 +3857,80 @@
 
         /* Reduce spacing in testimonial area */
         .testimonial-area {
-            padding-top: 40px !important;
-            padding-bottom: 40px !important;
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
         }
 
         .testimonial-area .row {
+            margin-bottom: 10px !important;
+            margin-top: 0 !important;
+        }
+        
+        .testimonial-area .row.mb_30 {
+            margin-bottom: 15px !important;
+        }
+        
+        .testimonial-area .main-headline {
+            margin-bottom: 20px !important;
+        }
+        
+        .testimonial-area .main-headline .title {
+            margin-bottom: 10px !important;
+        }
+        
+        .testimonial-area .main-headline p {
+            margin-bottom: 15px !important;
+        }
+        
+        .testimonial_slider {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .testimonial-item {
             margin-bottom: 15px !important;
         }
 
         /* Reduce spacing in team/lawyer area */
         .team-area,
         .team_slider_area {
-            padding-top: 40px !important;
-            padding-bottom: 40px !important;
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
         }
 
         .team-area .row,
         .team_slider_area .row {
+            margin-bottom: 10px !important;
+            margin-top: 0 !important;
+        }
+        
+        .team-area .row.mb_30 {
             margin-bottom: 15px !important;
         }
 
         .team-item {
+            margin-bottom: 15px !important;
+        }
+        
+        .team-area .main-headline {
             margin-bottom: 20px !important;
+        }
+        
+        .team-area .main-headline .title {
+            margin-bottom: 10px !important;
+        }
+        
+        .team-area .main-headline p {
+            margin-bottom: 15px !important;
+        }
+        
+        .lawyer_slider {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
         }
 
         /* Reduce spacing in blog area */
@@ -3628,6 +3981,77 @@
 
         /* Reduce spacing in fixed-price area */
         .fixed-price-area {
+            padding: 50px 0 !important;
+        }
+        
+        /* Enhanced Price Benefits Design */
+        .price-benefits {
+            margin: 30px 0;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .benefit-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+        
+        .benefit-item i {
+            font-size: 28px;
+            color: var(--colorPrimary);
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+        
+        .benefit-content {
+            flex: 1;
+        }
+        
+        .benefit-content strong {
+            display: block;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .benefit-content p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .fixed-price-content .title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .fixed-price-content .title span {
+            color: var(--colorPrimary);
+        }
+        
+        .fixed-price-content > p {
+            font-size: 17px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .fixed-price-area {
             padding-top: 40px !important;
             padding-bottom: 40px !important;
         }
@@ -3646,9 +4070,6 @@
             padding-bottom: 30px !important;
         }
 
-        .testimonial-area,
-        .team-area,
-        .team_slider_area,
         .blog-area,
         .service-area,
         .case-study-area,
@@ -3658,8 +4079,76 @@
         .how-it-works-area,
         .fixed-price-area,
         .legal-aid-check-home {
-            padding-top: 30px !important;
-            padding-bottom: 30px !important;
+            padding-top: 20px !important;
+            padding-bottom: 10px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* Testimonial area - even less spacing */
+        .testimonial-area {
+            padding-top: 15px !important;
+            padding-bottom: 10px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .testimonial-area .row {
+            margin-bottom: 8px !important;
+        }
+        
+        .testimonial-area .main-headline {
+            margin-bottom: 15px !important;
+        }
+        
+        .testimonial_slider {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        .testimonial-item {
+            margin-bottom: 12px !important;
+        }
+        
+        /* Team area - even less spacing */
+        .team-area,
+        .team_slider_area {
+            padding-top: 15px !important;
+            padding-bottom: 10px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .team-area .row,
+        .team_slider_area .row {
+            margin-bottom: 8px !important;
+        }
+        
+        .team-area .main-headline {
+            margin-bottom: 15px !important;
+        }
+        
+        .lawyer_slider {
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding-top: 0 !important;
+        }
+        
+        .team-item {
+            margin-bottom: 12px !important;
+        }
+        
+        /* Reduce gap between legal-aid-check and blog-area on mobile */
+        .legal-aid-check-home + .blog-area,
+        .blog-area + .legal-aid-check-home {
+            margin-top: 0 !important;
+            padding-top: 10px !important;
+        }
+        
+        .blog-area {
+            margin-top: 0 !important;
+            padding-top: 10px !important;
         }
 
         .pt_100 {
@@ -3935,6 +4424,23 @@
     @media (max-width: 768px) {
         /* Reduce gap between sections */
         section + section {
+            margin-top: 0 !important;
+        }
+        
+        /* Specifically reduce gap between legal-aid-check and blog-area */
+        .legal-aid-check-home {
+            padding-bottom: 10px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        .legal-aid-check-home + .blog-area,
+        .blog-area + .legal-aid-check-home {
+            margin-top: 0 !important;
+            padding-top: 10px !important;
+        }
+        
+        .blog-area {
+            padding-top: 10px !important;
             margin-top: 0 !important;
         }
 
@@ -4253,19 +4759,44 @@
 
     .footer-address ul li {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: right;
         padding: 15px 0;
         margin-bottom: 15px;
+        gap: 15px;
+    }
+    
+    [dir="ltr"] .footer-address ul li {
+        text-align: left;
+        flex-direction: row;
+    }
+    
+    [dir="rtl"] .footer-address ul li {
+        text-align: right;
+        flex-direction: row-reverse;
     }
 
     .footer-address ul li i {
         font-size: 24px;
         color: var(--colorPrimary);
-        margin-bottom: 10px;
-        display: block;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+    
+    [dir="ltr"] .footer-address ul li i {
+        margin-right: 0;
+    }
+    
+    [dir="rtl"] .footer-address ul li i {
+        margin-left: 0;
     }
 
     .footer-address ul li .title {
@@ -4274,6 +4805,15 @@
         color: #fff;
         margin-bottom: 8px;
         display: block;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .footer-address ul li .title {
+        text-align: left;
+    }
+    
+    [dir="rtl"] .footer-address ul li .title {
+        text-align: right;
     }
 
     .footer-address ul li p {
@@ -4281,7 +4821,21 @@
         color: rgba(255, 255, 255, 0.9);
         line-height: 1.6;
         margin: 0;
-        text-align: center;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .footer-address ul li p {
+        text-align: left;
+    }
+    
+    [dir="rtl"] .footer-address ul li p {
+        text-align: right;
+    }
+    
+    .footer-address ul li > div {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 
     /* Footer Area - Main Content */
@@ -4745,15 +5299,19 @@
     /* Main Menu Section - Show First */
     .side-menu-body {
         order: 1;
-        flex: 1;
-        overflow-y: auto;
+        flex: 0 0 auto;
+        overflow-y: visible !important;
+        overflow: visible !important;
         padding: 0;
         background: #fff;
+        max-height: none !important;
     }
 
     /* Main Menu Items - Enhanced Design */
     .side-menu-body .side-menu-list {
-        padding: 10px 0;
+        padding: 8px 0;
+        overflow: visible !important;
+        max-height: none !important;
     }
 
     .side-menu-item {
@@ -4765,24 +5323,24 @@
         border-top: 1px solid #f0f0f0;
     }
 
-    .side-menu-link {
+    .side-menu-body .side-menu-link {
         display: flex;
         align-items: center;
-        gap: 15px;
-        padding: 16px 20px;
+        gap: 12px;
+        padding: 10px 18px;
         color: #333;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 500;
         transition: all 0.3s ease;
         position: relative;
         background: #fff;
     }
 
-    .side-menu-link:hover {
+    .side-menu-body .side-menu-link:hover {
         background: rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.08);
         color: var(--colorPrimary);
-        padding-left: 25px;
+        padding-left: 22px;
     }
 
     .side-menu-link i {
@@ -5930,6 +6488,125 @@
         opacity: 1 !important;
         visibility: visible !important;
     }
+    
+    /* Counter Row - Mobile Fix */
+    @media (max-width: 991px) {
+        .counter-row {
+            position: relative !important;
+            width: 100% !important;
+            left: auto !important;
+            bottom: auto !important;
+            transform: none !important;
+            padding: 30px 20px !important;
+            margin: 20px 0 !important;
+            border-radius: 12px;
+            background: var(--colorPrimary) !important;
+            background-image: none !important;
+        }
+        
+        .counter-row .row {
+            margin: 0 !important;
+        }
+        
+        .counter-row [class*="col-"] {
+            margin-bottom: 20px !important;
+            padding: 0 10px !important;
+        }
+        
+        .counter-item {
+            margin-bottom: 0 !important;
+        }
+        
+        .counter-icon {
+            width: 60px !important;
+            height: 60px !important;
+            min-width: 60px !important;
+            min-height: 60px !important;
+            line-height: 60px !important;
+            font-size: 22px !important;
+            margin-bottom: 10px !important;
+        }
+        
+        .counter-icon i {
+            font-size: 22px !important;
+        }
+        
+        .counter {
+            font-size: 28px !important;
+            margin-bottom: 5px !important;
+        }
+        
+        .counter-item .title {
+            font-size: 16px !important;
+            line-height: 1.4 !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .counter-row {
+            padding: 25px 15px !important;
+            margin: 15px 0 !important;
+        }
+        
+        .counter-row [class*="col-"] {
+            margin-bottom: 25px !important;
+            padding: 0 5px !important;
+        }
+        
+        .counter-icon {
+            width: 55px !important;
+            height: 55px !important;
+            min-width: 55px !important;
+            min-height: 55px !important;
+            line-height: 55px !important;
+            font-size: 20px !important;
+        }
+        
+        .counter-icon i {
+            font-size: 20px !important;
+        }
+        
+        .counter {
+            font-size: 24px !important;
+        }
+        
+        .counter-item .title {
+            font-size: 14px !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .counter-row {
+            padding: 20px 10px !important;
+            margin: 10px 0 !important;
+        }
+        
+        .counter-row [class*="col-"] {
+            margin-bottom: 20px !important;
+            padding: 0 !important;
+        }
+        
+        .counter-icon {
+            width: 50px !important;
+            height: 50px !important;
+            min-width: 50px !important;
+            min-height: 50px !important;
+            line-height: 50px !important;
+            font-size: 18px !important;
+        }
+        
+        .counter-icon i {
+            font-size: 18px !important;
+        }
+        
+        .counter {
+            font-size: 22px !important;
+        }
+        
+        .counter-item .title {
+            font-size: 13px !important;
+        }
+    }
 
     /* Features Section - Choose Icons */
     .choose-icon {
@@ -6294,5 +6971,68 @@
     .step-number,
     .step-icon {
         flex-shrink: 0;
+    }
+    
+    /* Real Estate Icons - Building, City, Landmark */
+    .real-estate-icon {
+        width: 100px !important;
+        height: 100px !important;
+        min-width: 100px !important;
+        min-height: 100px !important;
+        margin: 0 auto 25px !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #fff !important;
+        font-size: 40px !important;
+        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.3) !important;
+        transition: all 0.3s ease !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .real-estate-icon i {
+        font-size: 40px !important;
+        color: #fff !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    
+    .real-estate-item:hover .real-estate-icon {
+        transform: scale(1.1) !important;
+        box-shadow: 0 8px 25px rgba(200, 180, 126, 0.4) !important;
+    }
+    
+    @media (max-width: 768px) {
+        .real-estate-icon {
+            width: 80px !important;
+            height: 80px !important;
+            min-width: 80px !important;
+            min-height: 80px !important;
+            font-size: 32px !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .real-estate-icon i {
+            font-size: 32px !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .real-estate-icon {
+            width: 70px !important;
+            height: 70px !important;
+            min-width: 70px !important;
+            min-height: 70px !important;
+            font-size: 28px !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .real-estate-icon i {
+            font-size: 28px !important;
+        }
     }
 </style>

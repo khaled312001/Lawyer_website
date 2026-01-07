@@ -9,9 +9,10 @@ class MeetingController extends Controller {
     public function meetingHistory() {
         $user = userAuth();
         $now = now();
-        $histories = MeetingHistory::where('user_id', $user->id)
+        $histories = MeetingHistory::with(['lawyer', 'meeting'])
+            ->where('user_id', $user->id)
             ->whereRaw('DATE_ADD(meeting_time, INTERVAL duration MINUTE) < ?', [$now])
-            ->orderBy('meeting_time', 'asc')
+            ->orderBy('meeting_time', 'desc')
             ->paginate(10);
         return view('client.profile.meeting-history', compact('histories', 'user'));
     }

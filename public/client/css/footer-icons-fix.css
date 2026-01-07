@@ -19,16 +19,44 @@
 }
 
 /* Footer Address Icons */
+.footer-address ul li {
+    position: relative;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+}
+
+[dir="ltr"] .footer-address ul li {
+    flex-direction: row !important;
+}
+
+[dir="rtl"] .footer-address ul li {
+    flex-direction: row-reverse !important;
+}
+
 .footer-address ul li i {
-    position: absolute;
-    left: 0px;
-    top: 6px;
-    font-size: 30px !important;
-    line-height: 30px;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
     color: var(--colorPrimary) !important;
-    display: inline-block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     visibility: visible !important;
     opacity: 1 !important;
+    flex-shrink: 0 !important;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+}
+
+.footer-address ul li > div {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
 }
 
 /* Social Media Icons in Footer */

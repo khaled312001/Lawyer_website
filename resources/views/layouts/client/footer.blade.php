@@ -68,8 +68,10 @@
                         <ul>
                             <li>
                                 <i class="far fa-envelope"></i>
-                                <p class="title">{{ __('Email Address') }} </p>
-                                <p>{!! nl2br(e($contactInfo?->email)) !!}</p>
+                                <div>
+                                    <p class="title">{{ __('Email Address') }} </p>
+                                    <p>{!! nl2br(e($contactInfo?->email)) !!}</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -79,9 +81,10 @@
                         <ul>
                             <li>
                                 <i class="fas fa-phone"></i>
-                                <p class="title">{{ __('Phone') }}</p>
-                                <p>{!! nl2br(e($contactInfo?->phone)) !!}</p>
-
+                                <div>
+                                    <p class="title">{{ __('Phone') }}</p>
+                                    <p>{!! nl2br(e($contactInfo?->phone)) !!}</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -91,8 +94,10 @@
                         <ul>
                             <li>
                                 <i class="fas fa-map-marker-alt"></i>
-                                <p class="title">{{ __('Address') }}</p>
-                                <p>{!! nl2br(e($contactInfo?->address)) !!}</p>
+                                <div>
+                                    <p class="title">{{ __('Address') }}</p>
+                                    <p>{!! nl2br(e($contactInfo?->address)) !!}</p>
+                                </div>
                             </li>
                         </ul>
                     </div>
