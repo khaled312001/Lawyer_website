@@ -104,165 +104,77 @@
                     <div class="event-detail-tab mt_20">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="active">
-                                <a aria-label="{{ __('Working Hours') }}" aria-selected="true" data-bs-toggle="tab"
-                                    class="active" href="#working_hour" data-bs-toggle="tab">{{ __('Working Hours') }}</a>
-                            </li>
-                            <li>
-                                <a aria-label="{{ __('Address') }}" aria-selected="false" data-bs-toggle="tab"
-                                    href="#address" data-bs-toggle="tab">{{ __('Address') }}</a>
-                            </li>
-                            <li>
-                                <a aria-label="{{ __('Education') }}" aria-selected="false" data-bs-toggle="tab"
-                                    href="#education" data-bs-toggle="tab">{{ __('Education') }}</a>
+                                <a aria-label="{{ __('Education') }}" aria-selected="true" data-bs-toggle="tab"
+                                    class="active" href="#education" data-bs-toggle="tab">
+                                    <i class="fas fa-graduation-cap me-2"></i>{{ __('Education') }}
+                                </a>
                             </li>
                             <li>
                                 <a aria-label="{{ __('Experience') }}" aria-selected="false" data-bs-toggle="tab"
-                                    href="#experience" data-bs-toggle="tab">{{ __('Experience') }}</a>
+                                    href="#experience" data-bs-toggle="tab">
+                                    <i class="fas fa-briefcase me-2"></i>{{ __('Experience') }}
+                                </a>
                             </li>
                             <li>
                                 <a aria-label="{{ __('Qualification') }}" aria-selected="false" data-bs-toggle="tab"
-                                    href="#qualification" data-bs-toggle="tab">{{ __('Qualification') }}</a>
-                            </li>
-                            <li>
-                                <a aria-label="{{ __('Appointment') }}" aria-selected="false" data-bs-toggle="tab"
-                                    href="#book_appointment" data-bs-toggle="tab">{{ __('Appointment') }}</a>
+                                    href="#qualification" data-bs-toggle="tab">
+                                    <i class="fas fa-certificate me-2"></i>{{ __('Qualification') }}
+                                </a>
                             </li>
                         </ul>
                     </div>
                     <div class="tab-content event-detail-content">
-                        <div id="working_hour" class="tab-pane fade show active">
+                        <div id="education" class="tab-pane fade show active">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="wh-table table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>{{ __('Week Day') }}</th>
-                                                    <th>{{ __('Schedule') }}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($days as $index => $day)
-                                                    @php
-                                                        $times = $lawyer?->schedules->where('day_id', $day?->id);
-                                                        // Get translation for current language with fallback
-                                                        $dayTitle = $day->translation?->title 
-                                                            ?? $day->translations->where('lang_code', getSessionLanguage())->first()?->title 
-                                                            ?? $day->translations->where('lang_code', 'ar')->first()?->title;
-                                                        
-                                                        // Fallback to Arabic translation if English
-                                                        if (!$dayTitle || in_array(strtolower($dayTitle), ['friday', 'saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday'])) {
-                                                            $dayTranslations = [
-                                                                'friday' => 'الجمعة',
-                                                                'saturday' => 'السبت',
-                                                                'sunday' => 'الأحد',
-                                                                'monday' => 'الإثنين',
-                                                                'tuesday' => 'الثلاثاء',
-                                                                'wednesday' => 'الأربعاء',
-                                                                'thursday' => 'الخميس'
-                                                            ];
-                                                            $dayTitle = $dayTranslations[strtolower($day->slug)] ?? $day->slug;
-                                                        }
-                                                    @endphp
-
-                                                    @if ($times->isNotEmpty())
-                                                        <tr>
-                                                            <td>{{ $dayTitle }}</td>
-                                                            <td>
-                                                                @foreach ($times as $time)
-                                                                    <div class="sch">
-                                                                        {{ strtoupper($time?->start_time) }} -
-                                                                        {{ strtoupper($time?->end_time) }}</div>
-                                                                @endforeach
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                    <div class="info-section">
+                                        @if($lawyer?->educations)
+                                            <div class="info-content">
+                                                {!! $lawyer->educations !!}
+                                            </div>
+                                        @else
+                                            <div class="no-data-message">
+                                                <i class="fas fa-info-circle"></i>
+                                                <p>{{ __('No data found!') }}</p>
+                                            </div>
+                                        @endif
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="address" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {!! $lawyer?->address ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div id="education" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {!! $lawyer?->educations ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
                                 </div>
                             </div>
                         </div>
                         <div id="experience" class="tab-pane fade">
                             <div class="row">
                                 <div class="col-md-12">
-                                    {!! $lawyer?->experience ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
+                                    <div class="info-section">
+                                        @if($lawyer?->experience)
+                                            <div class="info-content">
+                                                {!! $lawyer->experience !!}
+                                            </div>
+                                        @else
+                                            <div class="no-data-message">
+                                                <i class="fas fa-info-circle"></i>
+                                                <p>{{ __('No data found!') }}</p>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div id="qualification" class="tab-pane fade">
                             <div class="row">
                                 <div class="col-md-12">
-                                    {!! $lawyer?->qualifications ?? '<h3 class="text-danger">' . __('No data found!') . '</h3>' !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div id="book_appointment" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3>{{ __('Create Appointment') }}</h3>
-
-                                    <div class="book-appointment">
-
-                                        <form action="{{ route('website.create.appointment') }}" method="POST">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for=""
-                                                            class="form-label">{{ __('Select Date') }}</label>
-                                                        <input type="text" name="date"
-                                                            class="form-control datepicker" id="datepicker-value">
-                                                        <input type="hidden" name="lawyer_id"
-                                                            value="{{ $lawyer?->id }}" id="lawyer_id">
-                                                        <input type="hidden" value="{{ $lawyer?->department_id }}"
-                                                            name="department_id">
-                                                    </div>
-                                                </div>
+                                    <div class="info-section">
+                                        @if($lawyer?->qualifications)
+                                            <div class="info-content">
+                                                {!! $lawyer->qualifications !!}
                                             </div>
-                                            <div class="row d-none" id="schedule-box-outer">
-                                                <div class="col-md-6">
-                                                    <div class="mb-3">
-                                                        <label for=""
-                                                            class="form-label">{{ __('Select Schedule') }}</label>
-                                                        <select name="schedule_id" class="form-control"
-                                                            id="lawyer-available-schedule">
-
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                        @else
+                                            <div class="no-data-message">
+                                                <i class="fas fa-info-circle"></i>
+                                                <p>{{ __('No data found!') }}</p>
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6 d-none" id="lawyer-schedule-error">
-
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="">
-                                                <button type="submit" class="submit_btn" id="sub"
-                                                    disabled>{{ __('Submit') }}</button>
-                                            </div>
-                                        </form>
+                                        @endif
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -312,6 +224,167 @@
             </div>
         </div>
     </div>
+
+    @push('css')
+    <style>
+        /* تحسين تصميم تبويبات معلومات المحامي */
+        .event-detail-tab .nav-tabs {
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+        
+        .event-detail-tab .nav-tabs li {
+            margin-bottom: -2px;
+        }
+        
+        .event-detail-tab .nav-tabs li a {
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            border: none;
+            border-bottom: 3px solid transparent;
+            background: transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-detail-tab .nav-tabs li a:hover {
+            color: var(--colorPrimary);
+            border-bottom-color: var(--colorPrimary);
+            background: rgba(200, 180, 126, 0.05);
+        }
+        
+        .event-detail-tab .nav-tabs li.active a,
+        .event-detail-tab .nav-tabs li a.active {
+            color: var(--colorPrimary);
+            border-bottom-color: var(--colorPrimary);
+            background: rgba(200, 180, 126, 0.05);
+        }
+        
+        .event-detail-tab .nav-tabs li a i {
+            font-size: 18px;
+            margin-left: 8px;
+        }
+        
+        /* تحسين تصميم محتوى المعلومات */
+        .info-section {
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            min-height: 200px;
+        }
+        
+        .info-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .info-content ul,
+        .info-content ol {
+            margin: 20px 0;
+            padding-right: 25px;
+        }
+        
+        .info-content li {
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        .info-content ul li::before {
+            content: "•";
+            color: var(--colorPrimary);
+            font-weight: bold;
+            font-size: 20px;
+            position: absolute;
+            right: -20px;
+        }
+        
+        .info-content h3,
+        .info-content h4 {
+            color: var(--colorPrimary);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .info-content h3:first-child,
+        .info-content h4:first-child {
+            margin-top: 0;
+        }
+        
+        .info-content p {
+            margin-bottom: 15px;
+        }
+        
+        .info-content strong {
+            color: #333;
+            font-weight: 600;
+        }
+        
+        /* تصميم رسالة عدم وجود بيانات */
+        .no-data-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .no-data-message i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .no-data-message p {
+            font-size: 18px;
+            margin: 0;
+        }
+        
+        /* تحسين تصميم العنوان الرئيسي */
+        .team-headline h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        /* تحسين تصميم بطاقة المحامي */
+        .team-detail-text h4 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .team-detail-text span {
+            font-size: 18px;
+            color: var(--colorPrimary);
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        /* تحسين التصميم على الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .info-section {
+                padding: 25px 20px;
+            }
+            
+            .event-detail-tab .nav-tabs li a {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .team-headline h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+    @endpush
 
     @push('js')
     <script>
