@@ -376,19 +376,19 @@
                                 }
                             },
                             scales: {
-                                xAxes: [{
+                                x: {
                                     time: {
                                         unit: 'date'
                                     },
-                                    gridLines: {
+                                    grid: {
                                         display: false,
                                         drawBorder: false
                                     },
                                     ticks: {
                                         maxTicksLimit: 7
                                     }
-                                }],
-                                yAxes: [{
+                                },
+                                y: {
                                     ticks: {
                                         maxTicksLimit: 5,
                                         padding: 10,
@@ -398,14 +398,14 @@
                                                 number_format(value);
                                         }
                                     },
-                                    gridLines: {
+                                    grid: {
                                         color: "rgb(234, 236, 244)",
-                                        zeroLineColor: "rgb(234, 236, 244)",
+                                        borderColor: "rgb(234, 236, 244)",
                                         drawBorder: false,
                                         borderDash: [2],
-                                        zeroLineBorderDash: [2]
+                                        borderDashOffset: 0
                                     }
-                                }],
+                                }
                             },
                             legend: {
                                 display: false
