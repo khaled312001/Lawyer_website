@@ -113,6 +113,7 @@
                                             <th>{{ __('Phone') }}</th>
                                             <th>{{ __('Schedule') }}</th>
                                             <th>{{ __('Date') }}</th>
+                                            <th>{{ __('Case Type') }}</th>
                                             <th>{{ __('Fee') }}</th>
                                         </tr>
 
@@ -125,11 +126,12 @@
                                                 <td>{{ strtoupper($appointment?->schedule?->start_time) . '-' . strtoupper($appointment?->schedule?->end_time) }}
                                                 </td>
                                                 <td>{{ formattedDate($appointment->date) }}</td>
+                                                <td>{{ $appointment?->case_type ?? __('N/A') }}</td>
                                                 <td>{{ specific_currency_with_icon($appointment?->payable_currency, $appointment->appointment_fee) }}</td>
                                             </tr>
                                         @empty
                                             <x-empty-table :name="__('')" route="" create="no" :message="__('No data found!')"
-                                                colspan="7"></x-empty-table>
+                                                colspan="8"></x-empty-table>
                                         @endforelse
                                     </table>
                                 </div>

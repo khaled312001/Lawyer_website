@@ -217,34 +217,58 @@
         });
 
         // Brand
-        brand_carousel.owlCarousel({
-            rtl: rtlTrue ? true : false,
-            loop: true,
-            autoplay: true,
-            autoplayHoverPause: true,
-            autoplaySpeed: 1500,
-            smartSpeed: 1500,
-            margin: 30,
-            nav: false,
-            navText: [
-                "<i class='fa fa-caret-left'></i>",
-                "<i class='fa fa-caret-right'></i>",
-            ],
-            responsive: {
-                0: {
-                    items: 2,
+        if (brand_carousel.length > 0) {
+            brand_carousel.owlCarousel({
+                rtl: rtlTrue ? true : false,
+                loop: true,
+                autoplay: true,
+                autoplayHoverPause: true,
+                autoplaySpeed: 2000,
+                smartSpeed: 1000,
+                margin: 15,
+                nav: false,
+                dots: false,
+                navText: [
+                    "<i class='fa fa-caret-left'></i>",
+                    "<i class='fa fa-caret-right'></i>",
+                ],
+                responsive: {
+                    0: {
+                        items: 2,
+                        margin: 10,
+                        autoplaySpeed: 2500,
+                    },
+                    480: {
+                        items: 2,
+                        margin: 15,
+                    },
+                    750: {
+                        items: 3,
+                        margin: 20,
+                    },
+                    991: {
+                        items: 3,
+                        margin: 25,
+                    },
+                    1200: {
+                        items: 4,
+                        margin: 30,
+                    },
                 },
-                750: {
-                    items: 3,
+                onInitialized: function() {
+                    // Ensure carousel is visible after initialization
+                    brand_carousel.css('display', 'block');
+                    brand_carousel.css('visibility', 'visible');
+                    brand_carousel.css('opacity', '1');
                 },
-                991: {
-                    items: 3,
-                },
-                1200: {
-                    items: 4,
-                },
-            },
-        });
+                onRefreshed: function() {
+                    // Ensure carousel is visible after refresh
+                    brand_carousel.css('display', 'block');
+                    brand_carousel.css('visibility', 'visible');
+                    brand_carousel.css('opacity', '1');
+                }
+            });
+        }
 
         // Portfolio Nav
         portfolioNav.owlCarousel({
@@ -547,10 +571,35 @@
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 4000,
+        speed: 800,
         fade: true,
+        cssEase: 'linear',
         dots: true,
         arrows: false,
         rtl: isRtl,
+        pauseOnHover: true,
+        pauseOnFocus: true,
+        pauseOnDotsHover: false,
+        infinite: true,
+        lazyLoad: 'ondemand',
+        adaptiveHeight: false,
+        mobileFirst: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    speed: 600,
+                    autoplaySpeed: 3500,
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    speed: 500,
+                    autoplaySpeed: 3000,
+                }
+            }
+        ]
     });
 
     //======testimonial slider======

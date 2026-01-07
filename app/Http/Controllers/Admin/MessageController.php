@@ -24,24 +24,17 @@ class MessageController extends Controller
             'messages'
         ])
         ->where(function($query) {
-            // Conversations between User and Lawyer
+            // Only conversations between User and Admin
             $query->where(function($q) {
                 $q->where('sender_type', 'App\Models\User')
-                  ->where('receiver_type', 'Modules\Lawyer\app\Models\Lawyer');
+                  ->where('receiver_type', 'App\Models\Admin');
             })->orWhere(function($q) {
-                $q->where('sender_type', 'Modules\Lawyer\app\Models\Lawyer')
+                $q->where('sender_type', 'App\Models\Admin')
                   ->where('receiver_type', 'App\Models\User');
             });
         })
         ->orderBy('updated_at', 'desc')
         ->paginate(20);
-        
-        // Eager load department for lawyers after pagination
-        foreach ($conversations as $conversation) {
-            if ($conversation->lawyer && !$conversation->lawyer->relationLoaded('department')) {
-                $conversation->lawyer->load('department.translation');
-            }
-        }
         
         return view('admin.messages.index', compact('conversations'));
     }

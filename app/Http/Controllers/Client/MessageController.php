@@ -9,20 +9,24 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Modules\Lawyer\app\Models\Lawyer;
 
 class MessageController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
+        // Only show conversations between client and admin
         $conversations = Conversation::where(function($query) use ($user) {
                 $query->where(function($q) use ($user) {
+                    // Client is sender, Admin is receiver
                     $q->where('sender_id', $user->id)
-                      ->where('sender_type', User::class);
+                      ->where('sender_type', User::class)
+                      ->where('receiver_type', Admin::class);
                 })->orWhere(function($q) use ($user) {
+                    // Admin is sender, Client is receiver
                     $q->where('receiver_id', $user->id)
-                      ->where('receiver_type', User::class);
+                      ->where('receiver_type', User::class)
+                      ->where('sender_type', Admin::class);
                 });
             })
             ->with(['receiver', 'sender', 'latestMessage'])
@@ -94,38 +98,6 @@ class MessageController extends Controller
         return response()->json(['status' => 'success', 'message' => __('Message sent successfully')]);
     }
 
-    public function startConversation(Request $request, Lawyer $lawyer)
-    {
-        $user = Auth::user();
-
-        // Check if a conversation already exists
-        $conversation = Conversation::where(function($query) use ($user, $lawyer) {
-                $query->where(function($q) use ($user, $lawyer) {
-                    $q->where('sender_id', $user->id)
-                      ->where('sender_type', User::class)
-                      ->where('receiver_id', $lawyer->id)
-                      ->where('receiver_type', Lawyer::class);
-                })->orWhere(function($q) use ($user, $lawyer) {
-                    $q->where('sender_id', $lawyer->id)
-                      ->where('sender_type', Lawyer::class)
-                      ->where('receiver_id', $user->id)
-                      ->where('receiver_type', User::class);
-                });
-            })
-            ->first();
-
-        if (!$conversation) {
-            $conversation = Conversation::create([
-                'sender_id' => $user->id,
-                'sender_type' => User::class,
-                'receiver_id' => $lawyer->id,
-                'receiver_type' => Lawyer::class,
-                'status' => 'active',
-            ]);
-        }
-
-        return redirect()->route('client.messages.show', $conversation->id);
-    }
 
     public function getMessages(Conversation $conversation)
     {
@@ -206,7 +178,13 @@ class MessageController extends Controller
                     'receiver_type' => Admin::class,
                     'status' => 'active',
                     'last_message_at' => now(),
+                    'problem_type' => $request->problem_type ?? null,
                 ]);
+            } else {
+                // Update problem_type if provided and conversation exists
+                if ($request->has('problem_type') && $request->problem_type) {
+                    $conversation->update(['problem_type' => $request->problem_type]);
+                }
             }
 
             return redirect()->route('client.messages.show', $conversation->id)

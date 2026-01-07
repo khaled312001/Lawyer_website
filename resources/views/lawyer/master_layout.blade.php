@@ -91,6 +91,37 @@
     @include('backend_layouts.partials.javascripts')
 
     @stack('js')
+    
+    <script>
+        // Close sidebar when clicking backdrop on mobile (Lawyer Dashboard)
+        $(document).ready(function() {
+            $(document).on('click', function(e) {
+                if ($(window).width() <= 1024) {
+                    if ($('body').hasClass('sidebar-show')) {
+                        // Check if click is outside sidebar and not on toggle button
+                        if (!$(e.target).closest('.main-sidebar').length && 
+                            !$(e.target).closest('[data-toggle="sidebar"]').length &&
+                            !$(e.target).is('[data-toggle="sidebar"]')) {
+                            $('body').removeClass('sidebar-show');
+                        }
+                    }
+                }
+            });
+            
+            // Prevent body scroll when sidebar is open on mobile
+            $('[data-toggle="sidebar"]').on('click', function() {
+                if ($(window).width() <= 1024) {
+                    setTimeout(function() {
+                        if ($('body').hasClass('sidebar-show')) {
+                            $('body').css('overflow', 'hidden');
+                        } else {
+                            $('body').css('overflow', 'auto');
+                        }
+                    }, 100);
+                }
+            });
+        });
+    </script>
 
 </body>
 

@@ -217,8 +217,8 @@
                     @endif
                     @guest
                         <a href="{{ url('login') }}" class="header-contact-item account-link">
-                            <i class="fas fa-user"></i>
-                            <span>{{ __('My account') }}</span>
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>{{ __('Login') }}</span>
                         </a>
                     @else
                         <a href="{{ route('dashboard') }}" class="header-contact-item account-link">
@@ -324,9 +324,9 @@
                                 </li>
                             @endforeach
                             <li class="nav-item appointment-btn-wrapper">
-                                <a href="{{ route('website.book.appointment') }}" class="nav-link appointment-btn">
+                                <a href="{{ route('website.book.consultation.appointment') }}" class="nav-link appointment-btn">
                                     <i class="fas fa-calendar-check"></i>
-                                    <span>{{ __('Appointment') }}</span>
+                                    <span>{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                             </li>
                         @else
@@ -526,9 +526,9 @@
                             </li>
                         @endforeach
                         <li class="side-menu-item appointment-item">
-                            <a href="{{ route('website.book.appointment') }}" class="side-menu-link appointment-link">
+                            <a href="{{ route('website.book.consultation.appointment') }}" class="side-menu-link appointment-link">
                                 <i class="fas fa-calendar-check"></i>
-                                <span>{{ __('Appointment') }}</span>
+                                <span>{{ __('Book Consultation Appointment') }}</span>
                             </a>
                         </li>
                     </ul>

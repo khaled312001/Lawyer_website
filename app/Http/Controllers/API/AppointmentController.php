@@ -110,6 +110,7 @@ class AppointmentController extends Controller {
         $item->time = $schedule->start_time . '-' . $schedule->end_time;
         $item->schedule_id = $schedule->id;
         $item->day_id = $schedule->day_id;
+        $item->case_type = $request->case_type ?? null;
         $item->save();
 
         // Wrap the price with the currency conversion function

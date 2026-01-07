@@ -113,6 +113,7 @@
                                             <th>{{ __('Phone') }}</th>
                                             <th>{{ __('Date') }}</th>
                                             <th>{{ __('Schedule') }}</th>
+                                            <th>{{ __('Case Type') }}</th>
                                             <th>{{ __('Payment') }}</th>
                                             <th>{{ __('Consulted') }}</th>
                                             <th>{{ __('Action') }}</th>
@@ -129,7 +130,7 @@
                                                 <td>{{ formattedDate($appointment?->date) }}</td>
                                                 <td>{{ $appointment?->schedule?->start_time . ' - ' . $appointment?->schedule?->end_time }}
                                                 </td>
-
+                                                <td>{{ $appointment?->case_type ?? __('N/A') }}</td>
                                                 <td>
                                                     @if ($appointment?->order->payment_status == 1)
                                                         <div class="badge bg-success">{{ __('Success') }}</div>
@@ -152,7 +153,7 @@
                                             </tr>
                                         @empty
                                             <x-empty-table :name="__('Appointment')" route="" create="no"
-                                                :message="__('No data found!')" colspan="8" />
+                                                :message="__('No data found!')" colspan="10" />
                                         @endforelse
                                     </table>
                                 </div>

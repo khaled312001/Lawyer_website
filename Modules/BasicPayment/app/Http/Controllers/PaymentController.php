@@ -108,6 +108,7 @@ class PaymentController extends Controller {
                     'appointment_fee'     => currency($item->price, false),
                     'payable_currency'    => $calculatePayableCharge?->currency_code,
                     'payment_method'      => $method,
+                    'case_type'           => $item->options->case_type ?? null,
 
                 ]);
 

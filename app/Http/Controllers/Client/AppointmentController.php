@@ -138,6 +138,7 @@ class AppointmentController extends Controller {
         $date = $request->date;
         $schedule_id = $request->schedule_id;
         $duration = (int)($request->duration ?? 15); // Get duration from request
+        $case_type = $request->case_type; // Get case type from request
 
         $schedule = Schedule::find($schedule_id);
         $lawyer = Lawyer::find($lawyer_id);
@@ -162,6 +163,7 @@ class AppointmentController extends Controller {
         $options['duration'] = $duration;
         $options['start_time'] = $this->formatTime($startTime);
         $options['end_time'] = $this->formatTime($endTime);
+        $options['case_type'] = $case_type; // Add case type to options
         
         Cart::add(date('ymdis'), $lawyer?->name, 1, $calculatedFee, 0, $options);
 

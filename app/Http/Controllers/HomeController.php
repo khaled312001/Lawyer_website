@@ -193,6 +193,10 @@ class HomeController extends Controller {
 
         return view('client.service.show', compact('service', 'services'));
     }
+
+    public function realEstate() {
+        return view('client.real-estate.index');
+    }
     public function department() {
         if (cache()->has('CustomPagination')) {
             $pagination_qty = cache()->get('CustomPagination')->department;
@@ -492,5 +496,15 @@ class HomeController extends Controller {
         ])->active()->get();
 
         return view('client.book-appointment', compact('lawyers', 'days'));
+    }
+
+    public function bookConsultationAppointment() {
+        $departments = Department::select('id')->with([
+            'translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
+        ])->active()->get();
+
+        return view('client.book-consultation-appointment', compact('departments'));
     }
 }

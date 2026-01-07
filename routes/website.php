@@ -15,6 +15,7 @@ Route::middleware(['translation', 'maintenance.mode'])->group(function () {
             Route::get('/about-us', 'aboutUs');
             Route::get('/service', 'service')->name('services');
             Route::get('service-details/{slug}', 'serviceDetails')->name('service.details');
+            Route::get('/real-estate', 'realEstate')->name('real-estate');
             Route::get('/department', 'department')->name('departments');
             Route::get('/department-details/{slug}', 'departmentDetails')->name('department.details');
             Route::get('lawyers', 'lawyers')->name('lawyers');
@@ -28,6 +29,7 @@ Route::middleware(['translation', 'maintenance.mode'])->group(function () {
             Route::get('/partnerships', 'partnerships')->name('partnerships');
             Route::get('/legal-aid-check', 'legalAidCheck')->name('legal.aid.check');
             Route::get('/book-appointment', 'bookAppointment')->name('book.appointment');
+            Route::get('/book-consultation-appointment', 'bookConsultationAppointment')->name('book.consultation.appointment');
         });
         Route::controller(BlogController::class)->group(function () {
             Route::get('/blog', 'blog')->name('blogs');
@@ -45,6 +47,10 @@ Route::middleware(['translation', 'maintenance.mode'])->group(function () {
             //appointment add to cart
             Route::post('create-appointment', 'createAppointment')->name('create.appointment');
             Route::get('remove-appointment/{id}', 'removeAppointment');
+        });
+
+        Route::controller(\App\Http\Controllers\Client\ConsultationAppointmentController::class)->group(function () {
+            Route::post('create-consultation-appointment', 'store')->name('create.consultation.appointment');
         });
 
         Route::get('page/{slug}', [HomeController::class, 'customPage'])->name('page');

@@ -64,22 +64,13 @@
 
                         {!! $lawyer?->about !!}
                         
-                        {{-- أزرار التواصل والحجز --}}
+                        {{-- زر الحجز فقط --}}
                         <div class="mt-3 d-flex gap-2 flex-wrap">
                             @auth('web')
-                            <form action="{{ route('client.messages.start', $lawyer->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-primary btn-lg">
-                                    <i class="fas fa-comments"></i> {{ __('Contact Lawyer') }}
-                                </button>
-                            </form>
                             <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookAppointmentModal{{ $lawyer->id }}">
                                 <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
                             </button>
                             @else
-                            <a href="{{ route('login') }}" class="btn btn-outline-primary btn-lg">
-                                <i class="fas fa-comments"></i> {{ __('Contact Lawyer') }}
-                            </a>
                             <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
                                 <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
                             </a>
@@ -211,6 +202,12 @@
                             <select name="schedule_id" class="form-control" id="lawyer-detail-schedule-{{ $lawyer->id }}" required>
                                 <option value="">{{ __('Select time') }}</option>
                             </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="lawyer-detail-case-type-{{ $lawyer->id }}">{{ __('Case Type') }}</label>
+                            <input type="text" name="case_type" class="form-control" id="lawyer-detail-case-type-{{ $lawyer->id }}" required placeholder="{{ __('Enter case type (e.g., Criminal, Civil, Family, Commercial, etc.)') }}">
+                            <small class="form-text text-muted">{{ __('Please specify the type of case you need consultation for') }}</small>
                         </div>
 
                         <div id="lawyer-detail-error-{{ $lawyer->id }}" class="alert alert-danger d-none"></div>
@@ -346,16 +343,12 @@
         }
         
         /* إذا كان اللون الأساسي داكن، استخدمه مباشرة */
-        @supports (background: color-mix(in srgb, var(--colorPrimary) 100%, black)) {
+        @supports (background: color-mix(in srgb, #000 100%, black)) {
             .info-content table thead {
-                background: linear-gradient(135deg, 
-                    color-mix(in srgb, var(--colorPrimary) 60%, black) 0%, 
-                    color-mix(in srgb, var(--colorPrimary) 70%, black) 100%);
+                background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
             }
             .info-content table thead th {
-                background: linear-gradient(135deg, 
-                    color-mix(in srgb, var(--colorPrimary) 60%, black) 0%, 
-                    color-mix(in srgb, var(--colorPrimary) 70%, black) 100%) !important;
+                background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
             }
         }
         

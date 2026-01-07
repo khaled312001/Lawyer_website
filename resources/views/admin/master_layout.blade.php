@@ -22,19 +22,13 @@
             <div class="navbar-bg"></div>
             <nav class="navbar navbar-expand-lg main-navbar px-3 py-2">
                 <div class="navbar-left d-flex align-items-center">
-                    {{-- Mobile Burger Menu Button (Left) --}}
-                    <button class="navbar-toggler d-lg-none me-3" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    
-                    {{-- Desktop Sidebar Toggle --}}
-                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg me-3 d-none d-lg-block">
+                    {{-- Mobile & Desktop Sidebar Toggle --}}
+                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg me-3">
                         <i class="fas fa-bars"></i>
                     </a>
                     
                     {{-- Logo --}}
                     <a href="{{ route('admin.dashboard') }}" class="navbar-logo d-flex align-items-center me-3">
-                        <img src="{{ $setting?->logo ? asset($setting->logo) : ($setting?->favicon ? asset($setting->favicon) : '') }}" alt="{{ $setting?->app_name ?? '' }}" class="navbar-logo-img">
                     </a>
                     
                     {{-- Desktop Menu Items --}}
@@ -102,8 +96,8 @@
                 </div>
             </nav>
             
-            {{-- Mobile Menu --}}
-            <div class="collapse navbar-collapse mobile-navbar-menu d-lg-none" id="mobileNavbarMenu">
+            {{-- Mobile Menu - Hidden on mobile, sidebar is used instead --}}
+            <div class="collapse navbar-collapse mobile-navbar-menu d-none" id="mobileNavbarMenu">
                 <div class="mobile-menu-content">
                     <div class="mobile-menu-section">
                         <h6 class="mobile-menu-title">{{ __('Search') }}</h6>
@@ -241,21 +235,30 @@
                 }
             });
             
-            // Mobile menu toggle with backdrop
-            $('#mobileNavbarMenu').on('show.bs.collapse', function() {
-                $('body').addClass('mobile-menu-open');
-            });
-            
-            $('#mobileNavbarMenu').on('hide.bs.collapse', function() {
-                $('body').removeClass('mobile-menu-open');
-            });
-            
-            // Close mobile menu when clicking backdrop
-            $('body').on('click', function(e) {
-                if ($(e.target).is('body::before') || ($(e.target).closest('.mobile-navbar-menu').length === 0 && $(e.target).closest('.navbar-toggler').length === 0)) {
-                    if ($('#mobileNavbarMenu').hasClass('show')) {
-                        $('#mobileNavbarMenu').collapse('hide');
+            // Close sidebar when clicking backdrop on mobile
+            $(document).on('click', function(e) {
+                if ($(window).width() <= 1024) {
+                    if ($('body').hasClass('sidebar-show')) {
+                        // Check if click is outside sidebar and not on toggle button
+                        if (!$(e.target).closest('.main-sidebar').length && 
+                            !$(e.target).closest('[data-toggle="sidebar"]').length &&
+                            !$(e.target).is('[data-toggle="sidebar"]')) {
+                            $('body').removeClass('sidebar-show');
+                        }
                     }
+                }
+            });
+            
+            // Prevent body scroll when sidebar is open on mobile
+            $('[data-toggle="sidebar"]').on('click', function() {
+                if ($(window).width() <= 1024) {
+                    setTimeout(function() {
+                        if ($('body').hasClass('sidebar-show')) {
+                            $('body').css('overflow', 'hidden');
+                        } else {
+                            $('body').css('overflow', 'auto');
+                        }
+                    }, 100);
                 }
             });
         });

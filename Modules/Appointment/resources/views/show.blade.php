@@ -82,6 +82,10 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td>{{ __('Case Type') }}</td>
+                                            <td>{{ $appointment?->case_type ?? __('N/A') }}</td>
+                                        </tr>
+                                        <tr>
                                             <td>{{ __('Already Consulted') }}</td>
                                             <td>
                                                 @if ($appointment->already_treated == 0)

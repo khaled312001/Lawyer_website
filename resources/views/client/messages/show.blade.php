@@ -12,13 +12,12 @@
                 <div class="col-lg-9">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h4>{{ __('Conversation with') }}
-                                @php
-                                    $otherParticipant = $conversation->sender_id == Auth::user()->id && $conversation->sender_type == App\Models\User::class
-                                        ? $conversation->receiver
-                                        : $conversation->sender;
-                                @endphp
-                                {{ $otherParticipant->name ?? __('Unknown') }}
+                            <h4>
+                                @if($conversation->problem_type)
+                                    {{ $conversation->problem_type }}
+                                @else
+                                    {{ __('Conversation with Admin') }}
+                                @endif
                             </h4>
                             <a href="{{ route('client.messages.index') }}" class="btn btn-primary btn-sm">{{ __('Back to Messages') }}</a>
                         </div>

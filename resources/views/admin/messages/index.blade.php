@@ -21,8 +21,7 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>{{ __('Client') }}</th>
-                                                    <th>{{ __('Lawyer') }}</th>
-                                                    <th>{{ __('Subject') }}</th>
+                                                    <th>{{ __('Problem Type') }}</th>
                                                     <th>{{ __('Messages Count') }}</th>
                                                     <th>{{ __('Last Update') }}</th>
                                                     <th>{{ __('Status') }}</th>
@@ -38,10 +37,8 @@
                                                             <small class="text-muted">{{ $conversation->user?->email ?? '-' }}</small>
                                                         </td>
                                                         <td>
-                                                            <strong>{{ $conversation->lawyer?->name ?? __('Lawyer') }}</strong><br>
-                                                            <small class="text-muted">{{ $conversation->lawyer?->department?->name ?? '' }}</small>
+                                                            <strong>{{ $conversation->problem_type ?? __('General Inquiry') }}</strong>
                                                         </td>
-                                                        <td>{{ $conversation->subject ?? __('Legal Consultation') }}</td>
                                                         <td>
                                                             <span class="badge badge-info">{{ $conversation->messages->count() }} {{ __('messages') }}</span>
                                                         </td>

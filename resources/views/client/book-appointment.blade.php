@@ -153,6 +153,14 @@
                         </select>
                     </div>
 
+                    <div class="form-group mb-3">
+                        <label for="modal-case-type" class="form-label">
+                            <i class="fas fa-gavel me-2"></i>{{ __('Case Type') }}
+                        </label>
+                        <input type="text" name="case_type" id="modal-case-type" class="form-control" required placeholder="{{ __('Enter case type (e.g., Criminal, Civil, Family, Commercial, etc.)') }}">
+                        <small class="form-text text-muted">{{ __('Please specify the type of case you need consultation for') }}</small>
+                    </div>
+
                     <div id="modal-error-message" class="alert alert-danger d-none"></div>
 
                     <div class="modal-footer">
@@ -514,9 +522,10 @@ $(document).ready(function() {
         const departmentId = $('#modal-department-id').val();
         const date = $('#modal-appointment-date').val();
         const scheduleId = $('#modal-schedule-id').val() || $('#modal-appointment-time').val();
+        const caseType = $('#modal-case-type').val();
         
         // Validation
-        if (!lawyerId || !departmentId || !date || !scheduleId) {
+        if (!lawyerId || !departmentId || !date || !scheduleId || !caseType) {
             $('#modal-error-message').removeClass('d-none').html('{{ __("Every field are required") }}');
             return false;
         }
@@ -573,6 +582,12 @@ $(document).ready(function() {
             'type': 'hidden',
             'name': 'duration',
             'value': selectedDuration
+        }));
+        
+        hiddenForm.append($('<input>', {
+            'type': 'hidden',
+            'name': 'case_type',
+            'value': caseType
         }));
         
         $('body').append(hiddenForm);

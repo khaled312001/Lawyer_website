@@ -1,0 +1,398 @@
+/* ============================================
+   Admin Panel Mobile Design Improvements
+   تحسينات تصميم لوحة الأدمن على الموبايل
+   ============================================ */
+
+/* Sidebar Mobile Improvements */
+@media (max-width: 1024px) {
+    /* Sidebar overlay style */
+    .main-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 280px !important;
+        max-width: 85vw !important;
+        height: 100vh !important;
+        z-index: 9999 !important;
+        background: #fff !important;
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
+        transition: left 0.3s ease !important;
+        overflow-y: auto !important;
+        display: block !important;
+    }
+    
+    body.sidebar-show .main-sidebar {
+        left: 0 !important;
+    }
+    
+    /* Sidebar backdrop */
+    body.sidebar-show::before {
+        content: '' !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        z-index: 9998 !important;
+        display: block !important;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    /* Sidebar brand */
+    .main-sidebar .sidebar-brand {
+        padding: 20px 15px !important;
+        text-align: center !important;
+        border-bottom: 1px solid #e3e6f0 !important;
+        background: #f8f9fa !important;
+    }
+    
+    .main-sidebar .sidebar-brand img {
+        max-width: 150px !important;
+        height: auto !important;
+    }
+    
+    /* Sidebar menu */
+    .main-sidebar .sidebar-menu {
+        padding: 10px 0 !important;
+    }
+    
+    .main-sidebar .sidebar-menu > li > a {
+        padding: 14px 20px !important;
+        font-size: 15px !important;
+        display: flex !important;
+        align-items: center !important;
+        min-height: 50px !important;
+        border-radius: 0 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .main-sidebar .sidebar-menu > li > a:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+        padding-right: 25px !important;
+    }
+    
+    .main-sidebar .sidebar-menu > li.active > a {
+        background: var(--colorPrimary, #6b5d47) !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+    }
+    
+    .main-sidebar .sidebar-menu > li > a i {
+        width: 24px !important;
+        margin-right: 12px !important;
+        font-size: 18px !important;
+        text-align: center !important;
+    }
+    
+    /* Menu header */
+    .main-sidebar .sidebar-menu > li.menu-header {
+        padding: 15px 20px 10px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        color: #6c757d !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    /* Dropdown menu */
+    .main-sidebar .sidebar-menu .menu-dropdown {
+        padding-left: 0 !important;
+        background: #f8f9fa !important;
+    }
+    
+    .main-sidebar .sidebar-menu .menu-dropdown li a {
+        padding: 12px 20px 12px 56px !important;
+        font-size: 14px !important;
+        min-height: 45px !important;
+    }
+    
+    .main-sidebar .sidebar-menu .menu-dropdown li.active > a {
+        background: rgba(107, 93, 71, 0.1) !important;
+        color: var(--colorPrimary, #6b5d47) !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Adjust main content */
+    .main-content {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    body.sidebar-show .main-content {
+        margin-left: 0 !important;
+    }
+    
+    /* Navbar improvements */
+    .navbar {
+        padding: 10px 15px !important;
+        left: 0 !important;
+        width: 100% !important;
+        z-index: 1000 !important;
+    }
+    
+    .navbar-left a[data-toggle="sidebar"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 42px !important;
+        height: 42px !important;
+        color: #fff !important;
+        font-size: 20px !important;
+        border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        transition: all 0.3s ease !important;
+        text-decoration: none !important;
+    }
+    
+    .navbar-left a[data-toggle="sidebar"]:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        border-color: rgba(255, 255, 255, 0.5) !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .navbar-left a[data-toggle="sidebar"]:active {
+        transform: scale(0.95) !important;
+    }
+    
+    /* Hide mobile navbar menu (header menu) */
+    .mobile-navbar-menu {
+        display: none !important;
+    }
+}
+
+/* Mobile specific improvements (768px and below) */
+@media (max-width: 768px) {
+    /* Section improvements */
+    .section {
+        padding: 20px 0 !important;
+    }
+    
+    .section .section-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .section .section-header h1 {
+        font-size: 24px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Card improvements */
+    .card {
+        margin-bottom: 20px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .card-header {
+        padding: 15px 20px !important;
+        background: #f8f9fa !important;
+        border-bottom: 1px solid #e3e6f0 !important;
+        border-radius: 12px 12px 0 0 !important;
+    }
+    
+    .card-body {
+        padding: 20px !important;
+    }
+    
+    .card-footer {
+        padding: 15px 20px !important;
+        background: #f8f9fa !important;
+        border-top: 1px solid #e3e6f0 !important;
+        border-radius: 0 0 12px 12px !important;
+    }
+    
+    /* Table improvements */
+    .table-responsive {
+        border-radius: 8px !important;
+        overflow: hidden !important;
+    }
+    
+    table {
+        font-size: 13px !important;
+    }
+    
+    table th,
+    table td {
+        padding: 10px 8px !important;
+        white-space: nowrap !important;
+    }
+    
+    /* Form improvements */
+    .form-group {
+        margin-bottom: 20px !important;
+    }
+    
+    .form-label {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        margin-bottom: 8px !important;
+        color: #333 !important;
+    }
+    
+    .form-control,
+    .form-select {
+        font-size: 16px !important;
+        padding: 12px 15px !important;
+        border-radius: 8px !important;
+        border: 1px solid #ddd !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--colorPrimary, #6b5d47) !important;
+        box-shadow: 0 0 0 3px rgba(107, 93, 71, 0.1) !important;
+    }
+    
+    /* Button improvements */
+    .btn {
+        padding: 12px 24px !important;
+        font-size: 15px !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+        min-height: 44px !important;
+    }
+    
+    .btn-sm {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+        min-height: 36px !important;
+    }
+    
+    /* Badge improvements */
+    .badge {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        border-radius: 6px !important;
+    }
+    
+    /* Sidebar width on small mobile */
+    .main-sidebar {
+        width: 260px !important;
+        max-width: 90vw !important;
+    }
+}
+
+/* Very small mobile (480px and below) */
+@media (max-width: 480px) {
+    .section .section-header h1 {
+        font-size: 20px !important;
+    }
+    
+    .card-body {
+        padding: 15px !important;
+    }
+    
+    table {
+        font-size: 12px !important;
+    }
+    
+    table th,
+    table td {
+        padding: 8px 6px !important;
+    }
+    
+    .main-sidebar {
+        width: 240px !important;
+        max-width: 95vw !important;
+    }
+    
+    .main-sidebar .sidebar-menu > li > a {
+        padding: 12px 15px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* General Admin Page Improvements */
+@media (max-width: 1024px) {
+    /* Improve page layout */
+    .main-wrapper {
+        overflow-x: hidden !important;
+    }
+    
+    /* Improve breadcrumb */
+    .breadcrumb {
+        font-size: 13px !important;
+        padding: 10px 15px !important;
+        margin-bottom: 20px !important;
+        background: #f8f9fa !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Improve section headers */
+    .section-header {
+        padding: 15px 0 !important;
+    }
+    
+    .section-header h1 {
+        font-size: 22px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    /* Improve tables */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch !important;
+        border: 1px solid #e3e6f0 !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Improve pagination */
+    .pagination {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+    
+    .pagination .page-link {
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        margin: 2px !important;
+    }
+    
+    /* Improve alerts */
+    .alert {
+        padding: 12px 15px !important;
+        font-size: 14px !important;
+        border-radius: 8px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Improve modals */
+    .modal-dialog {
+        margin: 10px !important;
+    }
+    
+    .modal-content {
+        border-radius: 12px !important;
+    }
+    
+    .modal-header {
+        padding: 15px 20px !important;
+        border-bottom: 1px solid #e3e6f0 !important;
+    }
+    
+    .modal-body {
+        padding: 20px !important;
+    }
+    
+    .modal-footer {
+        padding: 15px 20px !important;
+        border-top: 1px solid #e3e6f0 !important;
+    }
+}
+

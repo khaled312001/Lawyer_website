@@ -146,6 +146,7 @@ class PaymentController extends Controller {
                     'appointment_fee'     => apiCurrency($payable_currency, $item->price, false),
                     'payable_currency'    => $calculatePayableCharge?->currency_code,
                     'payment_method'      => $method,
+                    'case_type'           => $item->case_type ?? null,
 
                 ]);
 
@@ -259,6 +260,7 @@ class PaymentController extends Controller {
                     'appointment_fee'     => apiCurrency($payable_currency, $item->price, false),
                     'payable_currency'    => $calculatePayableCharge?->currency_code,
                     'payment_method'      => $paymentMethod,
+                    'case_type'           => $item->case_type ?? null,
 
                 ]);
 

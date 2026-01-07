@@ -1,0 +1,727 @@
+/* ============================================
+   Client & Lawyer Dashboard Mobile Improvements
+   تحسينات داشبورد العميل والمحامي على الموبايل
+   ============================================ */
+
+/* Client Dashboard Mobile Styles */
+@media (max-width: 991px) {
+    /* Dashboard Area */
+    .dashboard-area {
+        padding: 20px 0 !important;
+    }
+    
+    .dashboard-area .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    
+    /* Row adjustments */
+    .dashboard-area .row {
+        margin: 0;
+    }
+    
+    .dashboard-area .col-lg-3,
+    .dashboard-area .col-lg-9 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    /* Dashboard Sidebar - Mobile */
+    .dashboard-widget {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+    }
+    
+    .dashboard-account-info {
+        background: linear-gradient(135deg, var(--colorPrimary, #6b5d47) 0%, #5a4d3a 100%);
+        padding: 25px 20px;
+        text-align: center;
+        color: #fff;
+    }
+    
+    .dashboard-account-info img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 4px solid rgba(255,255,255,0.3);
+        margin-bottom: 15px;
+        object-fit: cover;
+    }
+    
+    .dashboard-account-info h3 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    
+    .dashboard-account-info p {
+        color: rgba(255,255,255,0.9);
+        font-size: 13px;
+        margin: 0;
+    }
+    
+    /* Sidebar Menu */
+    .dashboard-widget ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .dashboard-widget ul li {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .dashboard-widget ul li:last-child {
+        border-bottom: none;
+    }
+    
+    .dashboard-widget ul li a {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        color: #333;
+        text-decoration: none;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        min-height: 50px;
+    }
+    
+    .dashboard-widget ul li a:hover,
+    .dashboard-widget ul li.active a {
+        background: var(--colorPrimary, #6b5d47);
+        color: #fff;
+        padding-right: 25px;
+    }
+    
+    .dashboard-widget ul li a i {
+        margin-left: 10px;
+        font-size: 14px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .dashboard-widget ul li a .beep {
+        position: relative;
+    }
+    
+    .dashboard-widget ul li a .beep.parent::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 8px;
+        height: 8px;
+        background: #ff4444;
+        border-radius: 50%;
+        border: 2px solid #fff;
+    }
+    
+    /* Dashboard Content */
+    .detail-dashboard {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px !important;
+        margin-bottom: 20px;
+    }
+    
+    /* Dashboard Stats Cards */
+    .dash-item {
+        border-radius: 12px !important;
+        padding: 25px 20px !important;
+        margin-bottom: 15px !important;
+        text-align: center;
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .dash-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    
+    .dash-item i {
+        font-size: 36px !important;
+        margin-bottom: 15px;
+        opacity: 0.9;
+    }
+    
+    .dash-item h2 {
+        font-size: 32px !important;
+        font-weight: 700;
+        margin: 10px 0;
+        color: #fff;
+    }
+    
+    .dash-item h4 {
+        font-size: 14px !important;
+        font-weight: 500;
+        color: rgba(255,255,255,0.9);
+        margin: 0;
+    }
+    
+    .db-yellow {
+        background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%) !important;
+    }
+    
+    .db-red {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%) !important;
+    }
+    
+    .db-blue {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
+    }
+    
+    /* Profile Info */
+    .profile_info_area {
+        margin-top: 20px;
+    }
+    
+    .wsus__profile_info {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .wsus__profile_info_top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .d-headline {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+    
+    .edit_btn {
+        padding: 8px 16px;
+        background: var(--colorPrimary, #6b5d47);
+        color: #fff;
+        border-radius: 6px;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .edit_btn:hover {
+        background: #5a4d3a;
+        color: #fff;
+    }
+    
+    .wsus__profile_info ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .wsus__profile_info ul li {
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .wsus__profile_info ul li:last-child {
+        border-bottom: none;
+    }
+    
+    .wsus__profile_info ul li span {
+        font-weight: 600;
+        color: #666;
+        min-width: 120px;
+        margin-left: 10px;
+    }
+    
+    /* Forms */
+    .add-form {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+    }
+    
+    .form-row {
+        margin: 0;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: var(--colorPrimary, #6b5d47);
+        box-shadow: 0 0 0 3px rgba(107, 93, 71, 0.1);
+    }
+    
+    /* Tables */
+    .table-responsive {
+        border-radius: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid #e3e6f0;
+        margin-bottom: 20px;
+    }
+    
+    .table_border {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .dashboard-table {
+        font-size: 13px;
+        min-width: 600px;
+    }
+    
+    .dashboard-table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        padding: 12px 8px;
+        font-size: 12px;
+        white-space: nowrap;
+        text-align: center;
+    }
+    
+    .dashboard-table td {
+        padding: 12px 8px;
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    /* Table Actions */
+    .db-bt-ed {
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        min-width: 36px;
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Message Page */
+    .user-wrapper {
+        height: 500px !important;
+        margin-bottom: 20px;
+        border-radius: 8px;
+    }
+    
+    .message-wrapper {
+        height: 450px !important;
+        border-radius: 8px;
+    }
+    
+    .user {
+        padding: 12px !important;
+    }
+    
+    .media-left img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .received,
+    .sent {
+        max-width: 85% !important;
+    }
+    
+    /* Prescription/Appointment Details */
+    .prescription {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .table-no-border td {
+        padding: 10px 0;
+        font-size: 14px;
+    }
+    
+    /* Input Groups */
+    .input-group {
+        flex-wrap: wrap;
+    }
+    
+    .input-group .form-control {
+        margin-bottom: 10px;
+    }
+    
+    .input-group .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        min-height: 44px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-sm {
+        padding: 8px 16px;
+        font-size: 13px;
+        min-height: 36px;
+    }
+    
+    /* Badges */
+    .badge {
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+}
+
+/* Very Small Mobile (480px and below) */
+@media (max-width: 480px) {
+    .dashboard-area {
+        padding: 15px 0 !important;
+    }
+    
+    .dash-item {
+        padding: 20px 15px !important;
+        min-height: 120px;
+    }
+    
+    .dash-item i {
+        font-size: 28px !important;
+    }
+    
+    .dash-item h2 {
+        font-size: 28px !important;
+    }
+    
+    .dash-item h4 {
+        font-size: 12px !important;
+    }
+    
+    .detail-dashboard {
+        padding: 15px !important;
+    }
+    
+    .d-headline {
+        font-size: 18px;
+    }
+    
+    .dashboard-table {
+        font-size: 12px;
+    }
+    
+    .dashboard-table th,
+    .dashboard-table td {
+        padding: 10px 6px;
+    }
+}
+
+/* Lawyer Dashboard Mobile Styles */
+@media (max-width: 991px) {
+    /* Lawyer Dashboard Cards */
+    .card-statistic-1 {
+        margin-bottom: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .card-statistic-1 .card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin: 15px auto;
+    }
+    
+    .card-statistic-1 .card-wrap {
+        padding: 15px;
+    }
+    
+    .card-statistic-1 .card-header h4 {
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 10px;
+    }
+    
+    .card-statistic-1 .card-body {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    /* Chart Card */
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    
+    .card-header {
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .card-header h6 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .chart-area {
+        height: 250px;
+    }
+    
+    /* Form Controls in Cards */
+    .card-header .form-control {
+        font-size: 14px;
+        padding: 8px 12px;
+        min-height: 38px;
+    }
+    
+    /* Tables */
+    .table {
+        font-size: 13px;
+    }
+    
+    .table th {
+        font-size: 12px;
+        padding: 10px 8px;
+        white-space: nowrap;
+    }
+    
+    .table td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+}
+
+/* Lawyer Sidebar Mobile */
+@media (max-width: 1024px) {
+    .lawyer_dashboard_layout .main-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 280px !important;
+        max-width: 85vw !important;
+        height: 100vh !important;
+        z-index: 9999 !important;
+        background: #fff !important;
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
+        transition: left 0.3s ease !important;
+        overflow-y: auto !important;
+    }
+    
+    .lawyer_dashboard_layout body.sidebar-show .main-sidebar,
+    body.sidebar-show .lawyer_dashboard_layout .main-sidebar {
+        left: 0 !important;
+    }
+    
+    .lawyer_dashboard_layout body.sidebar-show::before,
+    body.sidebar-show.lawyer_dashboard_layout::before {
+        content: '' !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        z-index: 9998 !important;
+    }
+    
+    .lawyer_dashboard_layout .main-sidebar .sidebar-menu > li > a {
+        padding: 14px 20px !important;
+        font-size: 15px !important;
+        min-height: 50px !important;
+    }
+    
+    .lawyer_dashboard_layout .main-sidebar .sidebar-menu > li.active > a {
+        background: var(--colorPrimary, #6b5d47) !important;
+        color: #fff !important;
+    }
+    
+    /* Lawyer Navbar Mobile */
+    .lawyer_dashboard_layout .navbar {
+        padding: 10px 15px !important;
+        left: 0 !important;
+        width: 100% !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar .nav-link-lg {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .lawyer_dashboard_layout .navbar .nav-link-lg:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+    }
+    
+    /* Lawyer Main Content */
+    .lawyer_dashboard_layout .main-content {
+        padding: 15px 10px !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    body.sidebar-show .lawyer_dashboard_layout .main-content {
+        margin-left: 0 !important;
+    }
+}
+
+/* Common Mobile Improvements */
+@media (max-width: 768px) {
+    /* Section Headers */
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        margin-bottom: 20px;
+    }
+    
+    .section-header h1 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    
+    /* Breadcrumb */
+    .banner-text {
+        padding: 20px 0;
+    }
+    
+    .banner-text h1 {
+        font-size: 24px;
+    }
+    
+    /* Empty States */
+    .empty-table {
+        padding: 40px 20px;
+        text-align: center;
+    }
+    
+    /* Pagination */
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    .pagination .page-link {
+        padding: 8px 12px;
+        font-size: 14px;
+        margin: 2px;
+    }
+    
+    /* Modal Improvements */
+    .modal-dialog {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .modal-content {
+        border-radius: 12px;
+    }
+    
+    .modal-header {
+        padding: 15px 20px;
+        border-bottom: 1px solid #e3e6f0;
+    }
+    
+    .modal-body {
+        padding: 20px;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+    }
+    
+    .modal-footer {
+        padding: 15px 20px;
+        border-top: 1px solid #e3e6f0;
+    }
+    
+    /* Alert Improvements */
+    .alert {
+        padding: 12px 15px;
+        font-size: 14px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    /* Card Improvements */
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    
+    .card-header {
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e3e6f0;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .card-footer {
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-top: 1px solid #e3e6f0;
+        border-radius: 0 0 12px 12px;
+    }
+}
+

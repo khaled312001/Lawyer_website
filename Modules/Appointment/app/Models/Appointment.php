@@ -19,7 +19,7 @@ class Appointment extends Model {
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'order_id', 'lawyer_id', 'user_id', 'day_id', 'schedule_id', 'date', 'appointment_fee_usd', 'appointment_fee', 'payable_currency', 'payment_status', 'payment_transaction_id', 'payment_method', 'payment_description', 'subject','description', 'already_treated', 'status',
+        'order_id', 'lawyer_id', 'user_id', 'day_id', 'schedule_id', 'date', 'appointment_fee_usd', 'appointment_fee', 'payable_currency', 'payment_status', 'payment_transaction_id', 'payment_method', 'payment_description', 'subject','description', 'case_type', 'already_treated', 'status',
     ];
     protected $hidden = ['order_id', 'lawyer_id', 'user_id', 'day_id', 'schedule_id', 'appointment_fee_usd', 'payment_description', 'updated_at', 'created_at'];
 

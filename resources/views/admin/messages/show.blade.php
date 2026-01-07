@@ -104,9 +104,9 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>{{ __('Conversation between') }}: 
-                                {{ $conversation->user?->name ?? __('Client') }} & 
-                                {{ $conversation->lawyer?->name ?? __('Lawyer') }}
+                            <h4>
+                                {{ __('Client') }}: {{ $conversation->user?->name ?? __('Client') }} | 
+                                {{ __('Problem Type') }}: {{ $conversation->problem_type ?? __('General Inquiry') }}
                             </h4>
                             <div class="card-header-action">
                                 @if($conversation->status == 'active')
@@ -121,18 +121,15 @@
                                 @foreach($conversation->messages as $message)
                                     <div class="message-row" id="message-{{ $message->id }}">
                                         <div class="message-card {{ 
-                                            $message->sender_type == 'App\Models\User' ? 'from-client' : 
-                                            ($message->sender_type == 'Modules\Lawyer\app\Models\Lawyer' ? 'from-lawyer' : 'from-admin') 
+                                            $message->sender_type == 'App\Models\User' ? 'from-client' : 'from-admin' 
                                         }}">
                                             <div class="d-flex justify-content-between align-items-start">
                                                 <div>
                                                     <strong>
                                                         @if($message->sender_type == 'App\Models\User')
                                                             <i class="fas fa-user text-primary"></i> {{ $conversation->user?->name ?? $message->sender?->name ?? __('Client') }} ({{ __('Client') }})
-                                                        @elseif($message->sender_type == 'Modules\Lawyer\app\Models\Lawyer')
-                                                            <i class="fas fa-gavel text-warning"></i> {{ $conversation->lawyer?->name ?? $message->sender?->name ?? __('Lawyer') }} ({{ __('Lawyer') }})
                                                         @else
-                                                            <i class="fas fa-user-shield text-danger"></i> {{ $message->sender?->name ?? __('Admin') }}
+                                                            <i class="fas fa-user-shield text-danger"></i> {{ $message->sender?->name ?? __('Admin') }} ({{ __('Admin') }})
                                                         @endif
                                                     </strong>
                                                 </div>
