@@ -283,8 +283,16 @@ class ServiceDatabaseSeeder extends Seeder {
                 ['slug' => $slug],
                 [
                     'icon' => $item['icon'],
+                    'show_homepage' => 1,
+                    'status' => 1,
                 ]
             );
+            
+            // Update existing services to ensure they are active and shown on homepage
+            $service->update([
+                'show_homepage' => 1,
+                'status' => 1,
+            ]);
 
             foreach ($item['translations'] as $translation) {
                 ServiceTranslation::firstOrCreate(

@@ -614,7 +614,7 @@
                 </div>
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="fixed-price-content">
-                        <h2 class="title mb_30"><span>{{ __('Fixed Price') }}</span> {{ __('Guarantee') }}</h2>
+                        <h2 class="title mb_30">{{ __('Fixed Price Guarantee') }}</h2>
                         <p class="mb_30">{{ __('When you work with us, you will always receive a price estimate in advance. We work with fixed and transparent prices, so you do not have to worry about any unexpected or hidden fees. You will know exactly what you will pay before starting any legal service.') }}</p>
                         
                         <div class="price-benefits">
