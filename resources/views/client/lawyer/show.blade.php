@@ -433,13 +433,13 @@
         .info-content h2,
         .info-content h3,
         .info-content h4 {
-            color: var(--colorPrimary);
+            color: #6b5d47;
             margin-top: 35px;
             margin-bottom: 20px;
             font-weight: 700;
             position: relative;
             padding-bottom: 12px;
-            border-bottom: 2px solid rgba(200, 180, 126, 0.2);
+            border-bottom: 2px solid rgba(107, 93, 71, 0.2);
         }
         
         .info-content h2 {
@@ -469,7 +469,7 @@
             right: 0;
             width: 60px;
             height: 2px;
-            background: var(--colorPrimary);
+            background: #6b5d47;
         }
         
         /* تحسين الفقرات */
@@ -504,7 +504,7 @@
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
-            border-right: 4px solid var(--colorPrimary);
+            border-right: 4px solid #6b5d47;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
         }
         
@@ -527,7 +527,7 @@
             top: 0;
             width: 28px;
             height: 28px;
-            background: var(--colorPrimary);
+            background: #6b5d47;
             color: #fff;
             border-radius: 50%;
             display: flex;
@@ -535,7 +535,8 @@
             justify-content: center;
             font-weight: 700;
             font-size: 14px;
-            box-shadow: 0 2px 5px rgba(200, 180, 126, 0.3);
+            box-shadow: 0 2px 5px rgba(107, 93, 71, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         
         /* تصميم رسالة عدم وجود بيانات */
