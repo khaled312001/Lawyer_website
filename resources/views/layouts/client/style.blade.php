@@ -623,14 +623,19 @@
 
     /* Mobile Menu Toggle Button - Client Only */
     body.client-frontend .mobile-menu-toggle {
-        display: none;
+        display: none !important;
         flex-direction: column;
         gap: 5px;
         background: transparent;
         border: none;
         cursor: pointer;
-        padding: 5px;
+        padding: 8px;
         z-index: 1001;
+        position: relative;
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        align-items: center;
     }
 
     body.client-frontend .mobile-menu-toggle span {
@@ -639,6 +644,7 @@
         background: #fff;
         border-radius: 3px;
         transition: all 0.3s ease;
+        display: block;
     }
 
     body.client-frontend .mobile-menu-toggle.active span:nth-child(1) {
@@ -655,7 +661,13 @@
 
     /* Mobile Side Menu */
     .mobile-side-menu {
-        display: none;
+        display: none !important;
+    }
+    
+    @media (max-width: 991px) {
+        .mobile-side-menu {
+            display: block !important;
+        }
     }
 
     .side-menu-overlay {
@@ -1533,15 +1545,15 @@
     @media (max-width: 991px) {
         /* Hide desktop menu, show mobile toggle */
         .navbar-menu {
-            display: none;
+            display: none !important;
         }
 
-        .mobile-menu-toggle {
-            display: flex;
+        body.client-frontend .mobile-menu-toggle {
+            display: flex !important;
         }
 
         .mobile-side-menu {
-            display: block;
+            display: block !important;
         }
 
         /* Adjust header bar for tablet */
@@ -1607,7 +1619,13 @@
             object-fit: contain !important;
         }
 
-        .mobile-menu-toggle span {
+        body.client-frontend .mobile-menu-toggle {
+            display: flex !important;
+            width: 38px;
+            height: 38px;
+        }
+
+        body.client-frontend .mobile-menu-toggle span {
             width: 22px;
             height: 2.5px;
         }
