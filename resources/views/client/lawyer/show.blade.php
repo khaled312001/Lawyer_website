@@ -268,7 +268,7 @@
             margin-left: 8px;
         }
         
-        /* تحسين تصميم محتوى المعلومات */
+        /* تحسين تصميم محتوى المعلومات - نمط CV احترافي */
         .info-section {
             background: #fff;
             border-radius: 12px;
@@ -279,50 +279,263 @@
         
         .info-content {
             font-size: 16px;
-            line-height: 1.8;
-            color: #333;
+            line-height: 1.9;
+            color: #2c3e50;
         }
         
+        /* تحسين الجداول - نمط CV */
+        .info-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: #fff;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        /* حساب لون داكن من اللون الأساسي لضمان التباين */
+        .info-content table thead {
+            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
+            background-color: #6b5d47;
+            color: #ffffff;
+        }
+        
+        .info-content table thead th {
+            padding: 18px 20px;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: right;
+            border: none;
+            letter-spacing: 0.5px;
+            color: #ffffff !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
+        }
+        
+        /* ضمان التباين الجيد في جميع الحالات */
+        .info-content table thead[style*="background"] th,
+        .info-content table thead th,
+        .info-content table thead th[style*="color"] {
+            color: #ffffff !important;
+            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        /* إذا كان اللون الأساسي داكن، استخدمه مباشرة */
+        @supports (background: color-mix(in srgb, var(--colorPrimary) 100%, black)) {
+            .info-content table thead {
+                background: linear-gradient(135deg, 
+                    color-mix(in srgb, var(--colorPrimary) 60%, black) 0%, 
+                    color-mix(in srgb, var(--colorPrimary) 70%, black) 100%);
+            }
+            .info-content table thead th {
+                background: linear-gradient(135deg, 
+                    color-mix(in srgb, var(--colorPrimary) 60%, black) 0%, 
+                    color-mix(in srgb, var(--colorPrimary) 70%, black) 100%) !important;
+            }
+        }
+        
+        .info-content table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+        
+        .info-content table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+        
+        .info-content table tbody tr:hover {
+            background: #f5f3f0;
+            transform: translateX(-2px);
+            box-shadow: 0 2px 8px rgba(139, 115, 85, 0.15);
+        }
+        
+        .info-content table tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        .info-content table tbody td {
+            padding: 16px 20px;
+            color: #2c3e50;
+            font-size: 15px;
+            border: none;
+            background: transparent;
+        }
+        
+        .info-content table tbody tr:nth-child(even) td {
+            background: transparent;
+        }
+        
+        .info-content table tbody td:first-child {
+            font-weight: 600;
+            color: #6b5d47;
+            width: 30%;
+            background: rgba(107, 93, 71, 0.08);
+        }
+        
+        .info-content table tbody tr:hover td:first-child {
+            background: rgba(107, 93, 71, 0.15);
+            color: #5a4d3a;
+        }
+        
+        /* تحسين الألوان للتوافق مع اللون الأساسي */
+        .info-content table tbody td:first-child {
+            border-right: 3px solid rgba(107, 93, 71, 0.2);
+        }
+        
+        /* تحسين القوائم - نمط CV */
         .info-content ul,
         .info-content ol {
-            margin: 20px 0;
-            padding-right: 25px;
+            margin: 25px 0;
+            padding-right: 0;
+            list-style: none;
         }
         
-        .info-content li {
-            margin-bottom: 12px;
+        .info-content ul li {
+            margin-bottom: 18px;
             position: relative;
+            padding-right: 35px;
+            padding-top: 5px;
+            line-height: 1.8;
         }
         
         .info-content ul li::before {
-            content: "•";
-            color: var(--colorPrimary);
-            font-weight: bold;
-            font-size: 20px;
+            content: "";
             position: absolute;
-            right: -20px;
+            right: 0;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            background: #6b5d47;
+            border-radius: 50%;
+            border: 3px solid rgba(107, 93, 71, 0.2);
+            box-shadow: 0 0 0 3px rgba(107, 93, 71, 0.1);
         }
         
+        .info-content ul li::after {
+            content: "";
+            position: absolute;
+            right: 5px;
+            top: 25px;
+            width: 2px;
+            height: calc(100% + 5px);
+            background: linear-gradient(to bottom, #6b5d47, transparent);
+            opacity: 0.3;
+        }
+        
+        .info-content ul li:last-child::after {
+            display: none;
+        }
+        
+        /* تحسين العناوين */
+        .info-content h2,
         .info-content h3,
         .info-content h4 {
             color: var(--colorPrimary);
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(200, 180, 126, 0.2);
         }
         
+        .info-content h2 {
+            font-size: 24px;
+        }
+        
+        .info-content h3 {
+            font-size: 20px;
+        }
+        
+        .info-content h4 {
+            font-size: 18px;
+        }
+        
+        .info-content h2:first-child,
         .info-content h3:first-child,
         .info-content h4:first-child {
             margin-top: 0;
         }
         
+        .info-content h2::after,
+        .info-content h3::after,
+        .info-content h4::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--colorPrimary);
+        }
+        
+        /* تحسين الفقرات */
         .info-content p {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            color: #2c3e50;
+            line-height: 1.9;
         }
         
         .info-content strong {
-            color: #333;
-            font-weight: 600;
+            color: #1a252f;
+            font-weight: 700;
+        }
+        
+        /* تحسين الروابط */
+        .info-content a {
+            color: var(--colorPrimary);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--colorPrimary);
+            transition: all 0.3s ease;
+        }
+        
+        .info-content a:hover {
+            color: var(--colorSecondary);
+            border-bottom-color: var(--colorSecondary);
+        }
+        
+        /* بطاقات CV للعناصر المهمة */
+        .info-content > div,
+        .info-content > section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-right: 4px solid var(--colorPrimary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        }
+        
+        /* تحسين القوائم المرقمة */
+        .info-content ol {
+            counter-reset: cv-counter;
+        }
+        
+        .info-content ol li {
+            counter-increment: cv-counter;
+            position: relative;
+            padding-right: 40px;
+            margin-bottom: 18px;
+        }
+        
+        .info-content ol li::before {
+            content: counter(cv-counter);
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--colorPrimary);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(200, 180, 126, 0.3);
         }
         
         /* تصميم رسالة عدم وجود بيانات */
@@ -348,16 +561,30 @@
         .team-headline h2 {
             font-size: 32px;
             font-weight: 700;
-            color: #333;
+            color: #2c3e50;
             margin-bottom: 10px;
             text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .team-headline h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--colorPrimary), var(--colorSecondary));
+            border-radius: 2px;
         }
         
         /* تحسين تصميم بطاقة المحامي */
         .team-detail-text h4 {
             font-size: 28px;
             font-weight: 700;
-            color: #333;
+            color: #2c3e50;
             margin-bottom: 10px;
         }
         
@@ -381,6 +608,27 @@
             
             .team-headline h2 {
                 font-size: 24px;
+            }
+            
+            .info-content table {
+                font-size: 14px;
+            }
+            
+            .info-content table thead th,
+            .info-content table tbody td {
+                padding: 12px 15px;
+            }
+            
+            .info-content h2 {
+                font-size: 20px;
+            }
+            
+            .info-content h3 {
+                font-size: 18px;
+            }
+            
+            .info-content h4 {
+                font-size: 16px;
             }
         }
     </style>
