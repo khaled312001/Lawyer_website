@@ -702,41 +702,67 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownItems.forEach(function(item) {
             var navLink = item.querySelector('.nav-link');
             var dropdownMenu = item.querySelector('.dropdown-menu');
+            var closeTimeout = null;
             
             if (navLink && dropdownMenu) {
-                // Mouse enter - show dropdown
-                item.addEventListener('mouseenter', function() {
+                // Function to show dropdown
+                function showDropdown() {
+                    if (closeTimeout) {
+                        clearTimeout(closeTimeout);
+                        closeTimeout = null;
+                    }
                     item.classList.add('active');
                     dropdownMenu.style.opacity = '1';
                     dropdownMenu.style.visibility = 'visible';
                     dropdownMenu.style.transform = 'translateY(0)';
                     dropdownMenu.style.pointerEvents = 'auto';
+                }
+                
+                // Function to hide dropdown
+                function hideDropdown() {
+                    if (closeTimeout) {
+                        clearTimeout(closeTimeout);
+                    }
+                    closeTimeout = setTimeout(function() {
+                        item.classList.remove('active');
+                        dropdownMenu.style.opacity = '0';
+                        dropdownMenu.style.visibility = 'hidden';
+                        dropdownMenu.style.transform = 'translateY(-10px)';
+                        dropdownMenu.style.pointerEvents = 'none';
+                        closeTimeout = null;
+                    }, 200);
+                }
+                
+                // Mouse enter on nav item - show dropdown immediately
+                item.addEventListener('mouseenter', function() {
+                    showDropdown();
                 });
                 
-                // Mouse leave - hide dropdown
-                item.addEventListener('mouseleave', function() {
-                    item.classList.remove('active');
-                    dropdownMenu.style.opacity = '0';
-                    dropdownMenu.style.visibility = 'hidden';
-                    dropdownMenu.style.transform = 'translateY(-10px)';
-                    dropdownMenu.style.pointerEvents = 'none';
+                // Mouse leave from nav item - hide dropdown with delay
+                item.addEventListener('mouseleave', function(e) {
+                    // Check if mouse is moving to dropdown menu
+                    var relatedTarget = e.relatedTarget;
+                    if (relatedTarget && dropdownMenu.contains(relatedTarget)) {
+                        // Mouse is moving to dropdown, don't hide
+                        return;
+                    }
+                    hideDropdown();
                 });
                 
                 // Keep dropdown open when hovering over it
                 dropdownMenu.addEventListener('mouseenter', function() {
-                    item.classList.add('active');
-                    dropdownMenu.style.opacity = '1';
-                    dropdownMenu.style.visibility = 'visible';
-                    dropdownMenu.style.transform = 'translateY(0)';
-                    dropdownMenu.style.pointerEvents = 'auto';
+                    showDropdown();
                 });
                 
-                dropdownMenu.addEventListener('mouseleave', function() {
-                    item.classList.remove('active');
-                    dropdownMenu.style.opacity = '0';
-                    dropdownMenu.style.visibility = 'hidden';
-                    dropdownMenu.style.transform = 'translateY(-10px)';
-                    dropdownMenu.style.pointerEvents = 'none';
+                // Close dropdown when mouse leaves it
+                dropdownMenu.addEventListener('mouseleave', function(e) {
+                    // Check if mouse is moving back to nav item
+                    var relatedTarget = e.relatedTarget;
+                    if (relatedTarget && item.contains(relatedTarget)) {
+                        // Mouse is moving to nav item, don't hide
+                        return;
+                    }
+                    hideDropdown();
                 });
             }
         });

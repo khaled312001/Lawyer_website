@@ -378,7 +378,7 @@ trait PermissionsTrait {
             'feature.delete',
         ],
     ];
-    public static array $addonsPermissions = [
+    public     static array $addonsPermissions = [
         'group_name' => 'Addons',
         'permissions' => [
             'addon.view',
@@ -386,6 +386,18 @@ trait PermissionsTrait {
             'addon.update',
             'addon.status.change',
             'addon.remove',
+        ],
+    ];
+
+    static array $ratingPermissions = [
+        'group_name' => 'rating',
+        'permissions' => [
+            'rating.view',
+            'rating.create',
+            'rating.store',
+            'rating.edit',
+            'rating.update',
+            'rating.delete',
         ],
     ];
     private static function getSuperAdminPermissions(): array {

@@ -145,6 +145,32 @@ i.fal,
 
 .choose-item:hover:before {
     opacity: 0.95 !important;
+    transform: scale(1.05) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Hover effect for all three cards */
+.choose-col:nth-of-type(1) .choose-item:hover,
+.choose-col:nth-of-type(2) .choose-item:hover,
+.choose-col:nth-of-type(3) .choose-item:hover {
+    transform: translateY(-10px) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+.choose-col:nth-of-type(1) .choose-item:hover:before,
+.choose-col:nth-of-type(2) .choose-item:hover:before,
+.choose-col:nth-of-type(3) .choose-item:hover:before {
+    opacity: 0.95 !important;
+    transform: scale(1.05) !important;
+    transition: all 0.3s ease !important;
+}
+
+.choose-col:nth-of-type(1) .choose-item:hover .choose-icon i,
+.choose-col:nth-of-type(2) .choose-item:hover .choose-icon i,
+.choose-col:nth-of-type(3) .choose-item:hover .choose-icon i {
+    transform: rotate(360deg) scale(1.1) !important;
+    transition: transform 0.6s ease !important;
 }
 
 /* Service Icons */

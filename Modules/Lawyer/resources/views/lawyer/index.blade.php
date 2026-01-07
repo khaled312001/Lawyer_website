@@ -88,6 +88,16 @@
                                                 data-bs-target="#verifyModal" :text="__('Send Verify Link to All')" />
                                         @endif
                                     @endadminCan
+                                    @adminCan('rating.create')
+                                        <x-admin.button variant="info" class="me-2" data-bs-toggle="modal"
+                                            data-bs-target="#fakeReviewModal" :text="__('Add Fake Review')" />
+                                    @endadminCan
+                                    <form action="{{ route('admin.rating.add-high-ratings-to-all') }}" method="POST" class="d-inline-block me-2" onsubmit="return confirm('{{ __('Are you sure you want to add high ratings (5-10 reviews per lawyer with 4-5 stars) to all lawyers?') }}');">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="fas fa-star"></i> {{ __('Add High Ratings to All Lawyers') }}
+                                        </button>
+                                    </form>
                                     <x-admin.add-button :href="route('admin.lawyer.create')" />
                                 </div>
                             </div>
@@ -137,6 +147,14 @@
                                                             'lawyer' => $lawyer->id,
                                                             'code' => getSessionLanguage(),
                                                         ])" />
+                                                        @adminCan('rating.create')
+                                                            <button type="button" class="btn btn-sm btn-info me-1" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#fakeReviewModal{{ $lawyer->id }}"
+                                                                title="{{ __('Add Fake Review') }}">
+                                                                <i class="fas fa-star"></i>
+                                                            </button>
+                                                        @endadminCan
                                                         <x-admin.delete-button :id="$lawyer->id" onclick="deleteData" />
                                                 </tr>
                                             @empty
@@ -191,6 +209,89 @@
             <!-- End Verify modal -->
         @endif
     @endadminCan
+
+    @adminCan('rating.create')
+        <!-- Fake Review Modal for All Lawyers -->
+        <div class="modal fade" id="fakeReviewModal" tabindex="-1" role="dialog" aria-labelledby="fakeReviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="fakeReviewModalLabel">{{ __('Add Fake Review') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="{{ route('admin.rating.fake-review', 0) }}" method="POST" id="fakeReviewForm">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group mb-3">
+                                <label>{{ __('Select Lawyer') }}</label>
+                                <select name="lawyer_id" class="form-select" required>
+                                    <option value="">{{ __('Select Lawyer') }}</option>
+                                    @foreach ($lawyers as $lawyer)
+                                        <option value="{{ $lawyer->id }}">{{ $lawyer->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>{{ __('Rating') }} (1-5)</label>
+                                <select name="rating" class="form-select" required>
+                                    <option value="5" selected>5 ⭐</option>
+                                    <option value="4">4 ⭐</option>
+                                    <option value="3">3 ⭐</option>
+                                    <option value="2">2 ⭐</option>
+                                    <option value="1">1 ⭐</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>{{ __('Comment') }} ({{ __('Optional') }})</label>
+                                <textarea name="comment" class="form-control" rows="3" placeholder="{{ __('Leave empty for random comment') }}"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ __('Add Review') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Individual Fake Review Modals for Each Lawyer -->
+        @foreach ($lawyers as $lawyer)
+            <div class="modal fade" id="fakeReviewModal{{ $lawyer->id }}" tabindex="-1" role="dialog" aria-labelledby="fakeReviewModalLabel{{ $lawyer->id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="fakeReviewModalLabel{{ $lawyer->id }}">{{ __('Add Fake Review for') }}: {{ $lawyer->name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form action="{{ route('admin.rating.fake-review', $lawyer->id) }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group mb-3">
+                                    <label>{{ __('Rating') }} (1-5)</label>
+                                    <select name="rating" class="form-select" required>
+                                        <option value="5" selected>5 ⭐</option>
+                                        <option value="4">4 ⭐</option>
+                                        <option value="3">3 ⭐</option>
+                                        <option value="2">2 ⭐</option>
+                                        <option value="1">1 ⭐</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label>{{ __('Comment') }} ({{ __('Optional') }})</label>
+                                    <textarea name="comment" class="form-control" rows="3" placeholder="{{ __('Leave empty for random comment') }}"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Add Review') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endadminCan
 @endsection
 
 @push('js')
@@ -200,6 +301,16 @@
         function deleteData(id) {
             $("#deleteForm").attr("action", '{{ url('/admin/lawyer/') }}' + "/" + id)
         }
+
+        // Update fake review form action when lawyer is selected
+        $(document).ready(function() {
+            $('#fakeReviewForm select[name="lawyer_id"]').on('change', function() {
+                var lawyerId = $(this).val();
+                if (lawyerId) {
+                    $('#fakeReviewForm').attr('action', '{{ url('/admin/ratings/lawyer/') }}/' + lawyerId + '/fake-review');
+                }
+            });
+        });
         "use strict"
 
         function changeStatus(id) {

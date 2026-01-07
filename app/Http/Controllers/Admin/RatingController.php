@@ -154,5 +154,153 @@ class RatingController extends Controller {
 
         return redirect()->back()->with($notification);
     }
+
+    /**
+     * Create a fake review for a lawyer.
+     */
+    public function createFakeReview(Request $request, $lawyerId): RedirectResponse {
+        checkAdminHasPermissionAndThrowException('rating.create');
+
+        // If lawyerId is 0, get it from request
+        if ($lawyerId == 0 && $request->filled('lawyer_id')) {
+            $lawyerId = $request->lawyer_id;
+        }
+
+        $lawyer = Lawyer::findOrFail($lawyerId);
+
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1000',
+        ]);
+
+        // Fake review data
+        $fakeNames = [
+            'أحمد محمد', 'فاطمة علي', 'محمد حسن', 'سارة أحمد', 'خالد إبراهيم',
+            'نورا محمود', 'عمر يوسف', 'ليلى عبدالله', 'يوسف كمال', 'مريم سالم'
+        ];
+        $fakeComments = [
+            'محامي ممتاز ومحترف جداً. ساعدني في حل قضيتي بسرعة وفعالية.',
+            'خدمة رائعة ومهنية عالية. أنصح الجميع بالتعامل معه.',
+            'خبرة واسعة ومعرفة عميقة بالقانون. استشارة قيمة جداً.',
+            'محامي محترف ومتفهم. شرح لي كل شيء بوضوح.',
+            'خدمة ممتازة وتواصل سريع. راضٍ جداً عن الخدمة.',
+            'محامي خبير ومتمكن. ساعدني في الحصول على حقوقي.',
+            'خدمة احترافية ومتابعة دقيقة. أنصح به بشدة.',
+            'محامي متميز وذو خبرة عالية. استشارة مفيدة جداً.',
+            'خدمة رائعة وسريعة. محامي محترف ومتفهم.',
+            'محامي ممتاز ومحترف. ساعدني في حل مشكلتي القانونية.'
+        ];
+
+        // Get random fake name and comment
+        $fakeName = $fakeNames[array_rand($fakeNames)];
+        $fakeComment = $validated['comment'] ?? $fakeComments[array_rand($fakeComments)];
+
+        // Create a fake user or use null
+        $fakeUser = User::where('name', 'like', '%' . $fakeName . '%')->first();
+        
+        // Create rating
+        Rating::create([
+            'lawyer_id' => $lawyer->id,
+            'user_id' => $fakeUser?->id ?? null,
+            'rating' => $validated['rating'],
+            'comment' => $fakeComment,
+            'is_admin_created' => true,
+            'created_by_admin_id' => Auth::guard('admin')->user()->id,
+            'status' => true,
+        ]);
+
+        $notification = ['message' => __('Fake Review Added Successfully'), 'alert-type' => 'success'];
+        return redirect()->back()->with($notification);
+    }
+
+    /**
+     * Add high ratings (5-10 reviews per lawyer with 4-5 stars) to all lawyers.
+     */
+    public function addHighRatingsToAllLawyers(): RedirectResponse {
+        // Check if admin is authenticated
+        $admin = Auth::guard('admin')->user();
+        if (!$admin) {
+            $notification = ['message' => __('Please login first'), 'alert-type' => 'error'];
+            return redirect()->route('admin.login')->with($notification);
+        }
+
+        // Allow if has rating.create, rating.store, or is super admin
+        $hasPermission = checkAdminHasPermission('rating.create') || 
+                        checkAdminHasPermission('rating.store') || 
+                        ($admin->is_super_admin ?? false);
+        
+        if (!$hasPermission) {
+            $notification = ['message' => __('Permission denied, you cannot perform this action!'), 'alert-type' => 'error'];
+            return redirect()->back()->with($notification);
+        }
+
+        $lawyers = Lawyer::active()->get();
+
+        if ($lawyers->isEmpty()) {
+            $notification = ['message' => __('No active lawyers found'), 'alert-type' => 'warning'];
+            return redirect()->back()->with($notification);
+        }
+
+        // Fake comments in Arabic
+        $fakeComments = [
+            'محامي ممتاز ومحترف جداً. ساعدني في حل قضيتي بسرعة وفعالية.',
+            'خدمة رائعة ومهنية عالية. أنصح الجميع بالتعامل معه.',
+            'خبرة واسعة ومعرفة عميقة بالقانون. استشارة قيمة جداً.',
+            'محامي محترف ومتفهم. شرح لي كل شيء بوضوح.',
+            'خدمة ممتازة وتواصل سريع. راضٍ جداً عن الخدمة.',
+            'محامي خبير ومتمكن. ساعدني في الحصول على حقوقي.',
+            'خدمة احترافية ومتابعة دقيقة. أنصح به بشدة.',
+            'محامي متميز وذو خبرة عالية. استشارة مفيدة جداً.',
+            'خدمة رائعة وسريعة. محامي محترف ومتفهم.',
+            'محامي ممتاز ومحترف. ساعدني في حل مشكلتي القانونية.',
+            'تجربة ممتازة مع هذا المحامي. أوصي به بشدة.',
+            'محامي ذو خبرة عالية ومتعاون. حل مشكلتي بكفاءة.',
+            'خدمة قانونية سريعة وفعالة. محامي محترف.',
+            'أفضل محامي تعاملت معه على الإطلاق.',
+            'دقيق في عمله ويقدم نصائح قيمة.',
+            'استشارة مفيدة جداً، شكراً جزيلاً.',
+            'فهم عميق للقانون وقدرة على التوجيه الصحيح.',
+            'تجاوز توقعاتي، خدمة 5 نجوم.',
+            'محامي محترف ومتفاني في عمله.',
+            'خدمة ممتازة، أنصح به بشدة.'
+        ];
+
+        $totalRatingsAdded = 0;
+
+        foreach ($lawyers as $lawyer) {
+            // Random number of reviews between 5 and 10
+            $numberOfReviews = rand(5, 10);
+
+            for ($i = 0; $i < $numberOfReviews; $i++) {
+                // Random rating between 4 and 5 stars
+                $rating = rand(4, 5);
+                
+                // Random comment
+                $comment = $fakeComments[array_rand($fakeComments)];
+
+                Rating::create([
+                    'lawyer_id' => $lawyer->id,
+                    'user_id' => null, // Fake reviews are not tied to a specific client user
+                    'rating' => $rating,
+                    'comment' => $comment,
+                    'is_admin_created' => true,
+                    'created_by_admin_id' => Auth::guard('admin')->user()->id,
+                    'status' => true,
+                ]);
+
+                $totalRatingsAdded++;
+            }
+        }
+
+        $notification = [
+            'message' => __('High ratings added successfully! Total :count ratings added to :lawyers lawyers.', [
+                'count' => $totalRatingsAdded,
+                'lawyers' => $lawyers->count()
+            ]),
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->back()->with($notification);
+    }
 }
 

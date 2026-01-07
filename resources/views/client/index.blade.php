@@ -489,7 +489,7 @@
                 <div class="col-lg-6 wow fadeInLeft">
                     <div class="mobile-app-content">
                         <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
-                        <p class="mb_30">{{ __('With your account on our website, you always have access to our legal experts. Plus, you can easily track your case, see when we need more information, and get a clear overview of how far along the process is.') }}</p>
+                        <p class="mb_30">{{ __('تابع قضيتك بسهولة من خلال حسابك الشخصي. احصل على تحديثات فورية، تابع تقدم القضية، وتواصل مع محاميك في أي وقت ومن أي مكان.') }}</p>
                         
                         <div class="app-features mb_40">
                             <div class="feature-item mb_20">
@@ -497,8 +497,8 @@
                                     <i class="fas fa-user-circle"></i>
                                 </div>
                                 <div class="feature-text">
-                                    <h4>{{ __('1. Create your account') }}</h4>
-                                    <p>{{ __('Easily create an account using your email. Access all our legal services and manage your cases from anywhere.') }}</p>
+                                    <h4>{{ __('1. أنشئ حسابك') }}</h4>
+                                    <p>{{ __('سجل حسابك ببساطة باستخدام بريدك الإلكتروني. احصل على وصول كامل لجميع خدماتنا القانونية وأدر قضاياك بسهولة.') }}</p>
                                 </div>
                             </div>
                             <div class="feature-item mb_20">
@@ -506,8 +506,8 @@
                                     <i class="fas fa-chart-line"></i>
                                 </div>
                                 <div class="feature-text">
-                                    <h4>{{ __('2. Track your case status') }}</h4>
-                                    <p>{{ __('Stay updated on any required information and get a clear view of your case\'s progress through your dashboard.') }}</p>
+                                    <h4>{{ __('2. تابع حالة قضيتك') }}</h4>
+                                    <p>{{ __('ابق على اطلاع دائم بآخر التحديثات. تابع تقدم قضيتك خطوة بخطوة من خلال لوحة التحكم الخاصة بك.') }}</p>
                                 </div>
                             </div>
                             <div class="feature-item">
@@ -515,8 +515,8 @@
                                     <i class="fas fa-calendar-check"></i>
                                 </div>
                                 <div class="feature-text">
-                                    <h4>{{ __('3. Book consultations') }}</h4>
-                                    <p>{{ __('Need legal help? Schedule an appointment with our expert lawyers directly through the website, available throughout the week.') }}</p>
+                                    <h4>{{ __('3. احجز استشاراتك') }}</h4>
+                                    <p>{{ __('احجز موعدك مع محامينا الخبراء مباشرة من الموقع. متاح طوال الأسبوع لمساعدتك في أي وقت تحتاجه.') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -559,8 +559,8 @@
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                     <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('How') }}</span> {{ __('It Works') }}</h2>
-                        <p>{{ __('Getting legal help has never been easier. Follow these simple steps to get started.') }}</p>
+                        <h2 class="title"><span>{{ __('كيف') }}</span> {{ __('يعمل') }}</h2>
+                        <p>{{ __('الحصول على المساعدة القانونية لم يكن أسهل من قبل. اتبع هذه الخطوات البسيطة للبدء.') }}</p>
                     </div>
                 </div>
             </div>
@@ -571,8 +571,8 @@
                         <div class="step-icon">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
-                        <h3 class="step-title">{{ __('Choose date, lawyer and time') }}</h3>
-                        <p class="step-description">{{ __('Start by choosing a date for your appointment. Then choose the lawyer you want to speak to and the time that suits you best.') }}</p>
+                        <h3 class="step-title">{{ __('اختر التاريخ والمحامي والوقت') }}</h3>
+                        <p class="step-description">{{ __('ابدأ باختيار تاريخ مناسب لموعدك. ثم اختر المحامي الذي تريد التحدث معه والوقت الذي يناسبك.') }}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mt_30">
@@ -581,8 +581,8 @@
                         <div class="step-icon">
                             <i class="fas fa-credit-card"></i>
                         </div>
-                        <h3 class="step-title">{{ __('Easy and secure payments') }}</h3>
-                        <p class="step-description">{{ __('When you\'ve chosen a date and time for your appointment, you\'ll be directed to a secure page for payments. Choose to pay with card or Klarna.') }}</p>
+                        <h3 class="step-title">{{ __('دفع سهل وآمن') }}</h3>
+                        <p class="step-description">{{ __('بعد اختيارك للتاريخ والوقت، ستنتقل تلقائياً إلى صفحة دفع آمنة. يمكنك الدفع بالبطاقة الائتمانية أو أي طريقة دفع متاحة.') }}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mt_30">
@@ -591,8 +591,8 @@
                         <div class="step-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <h3 class="step-title">{{ __('Link to meeting in email') }}</h3>
-                        <p class="step-description">{{ __('After payment, you\'ll get a confirmation sent to your email, with a Google Meet-link. When it\'s time for your appointment, simply click on the link to start your meeting.') }}</p>
+                        <h3 class="step-title">{{ __('رابط الاجتماع في بريدك') }}</h3>
+                        <p class="step-description">{{ __('بعد الدفع، ستصلك رسالة تأكيد على بريدك الإلكتروني تحتوي على رابط الاجتماع. عند موعد استشارتك، اضغط على الرابط للبدء.') }}</p>
                     </div>
                 </div>
             </div>
@@ -616,25 +616,25 @@
                 </div>
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="fixed-price-content">
-                        <h2 class="title mb_30"><span>{{ __('Fixed Price') }}</span> {{ __('Guarantee') }}</h2>
-                        <p class="mb_30">{{ __('When you hire us, you\'ll always receive an estimate in advance so you know exactly what the assistance will cost. We always work with fixed prices, so you don\'t have to worry about any unexpected fees.') }}</p>
+                        <h2 class="title mb_30"><span>{{ __('سعر ثابت') }}</span> {{ __('ضمان') }}</h2>
+                        <p class="mb_30">{{ __('عند التعامل معنا، ستحصل دائماً على تقدير مسبق للأسعار. نعمل بأسعار ثابتة وشفافة، فلا داعي للقلق من أي رسوم مفاجئة أو مخفية.') }}</p>
                         
                         <div class="price-benefits">
                             <div class="benefit-item mb_20">
                                 <i class="fas fa-check-circle"></i>
-                                <span>{{ __('No hidden fees') }}</span>
+                                <span>{{ __('لا توجد رسوم مخفية') }}</span>
                             </div>
                             <div class="benefit-item mb_20">
                                 <i class="fas fa-check-circle"></i>
-                                <span>{{ __('Transparent pricing') }}</span>
+                                <span>{{ __('أسعار شفافة') }}</span>
                             </div>
                             <div class="benefit-item mb_20">
                                 <i class="fas fa-check-circle"></i>
-                                <span>{{ __('Price agreed upfront') }}</span>
+                                <span>{{ __('السعر متفق عليه مسبقاً') }}</span>
                             </div>
                             <div class="benefit-item">
                                 <i class="fas fa-check-circle"></i>
-                                <span>{{ __('Payment plans available') }}</span>
+                                <span>{{ __('خطط دفع مرنة') }}</span>
                             </div>
                         </div>
 
@@ -657,9 +657,9 @@
                         <div class="check-icon mb_30">
                             <i class="fas fa-question-circle"></i>
                         </div>
-                        <h2 class="title mb_30">{{ __('Are you eligible for legal aid or legal protection insurance?') }}</h2>
-                        <p class="mb_40">{{ __('If you need a lawyer for legal assistance, you may be eligible to have part of the cost covered through legal protection insurance or government-funded legal aid. This means you could receive financial support to cover a portion of your lawyer\'s fees—provided you meet certain criteria.') }}</p>
-                        <a href="{{ route('website.legal.aid.check') }}" class="btn btn-primary btn-lg">{{ __('Find out now') }}</a>
+                        <h2 class="title mb_30">{{ __('هل أنت مؤهل للحصول على المساعدة القانونية؟') }}</h2>
+                        <p class="mb_40">{{ __('إذا كنت بحاجة إلى محامٍ للحصول على المساعدة القانونية، فقد تكون مؤهلاً لتغطية جزء من التكاليف من خلال تأمين الحماية القانونية أو المساعدة القانونية الممولة من الحكومة. اكتشف الآن إذا كنت مؤهلاً للحصول على الدعم المالي.') }}</p>
+                        <a href="{{ route('website.legal.aid.check') }}" class="btn btn-primary btn-lg">{{ __('اكتشف الآن') }}</a>
                     </div>
                 </div>
             </div>

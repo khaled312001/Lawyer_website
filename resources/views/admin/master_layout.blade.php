@@ -11,7 +11,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
 
     @yield('title')
-    <link rel="icon" href="{{ asset($setting->favicon) }}">
+    <link rel="icon" href="{{ $setting?->favicon ? asset($setting->favicon) : '' }}">
     @include('backend_layouts.partials.styles')
     @stack('css')
 </head>
@@ -34,7 +34,7 @@
                     
                     {{-- Logo --}}
                     <a href="{{ route('admin.dashboard') }}" class="navbar-logo d-flex align-items-center me-3">
-                        <img src="{{ asset($setting->logo) ?? asset($setting->favicon) }}" alt="{{ $setting->app_name ?? '' }}" class="navbar-logo-img">
+                        <img src="{{ $setting?->logo ? asset($setting->logo) : ($setting?->favicon ? asset($setting->favicon) : '') }}" alt="{{ $setting?->app_name ?? '' }}" class="navbar-logo-img">
                     </a>
                     
                     {{-- Desktop Menu Items --}}
@@ -75,7 +75,7 @@
                             <a href="javascript:;" data-bs-toggle="dropdown"
                                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                                 <img alt="image"
-                                    src="{{ !empty($header_admin->image) ? asset($header_admin->image) : asset($setting->default_avatar) }}"
+                                    src="{{ !empty($header_admin->image) ? asset($header_admin->image) : ($setting?->default_avatar ? asset($setting->default_avatar) : '') }}"
                                     class="me-1 my-1 rounded-circle">
                                 <div class="d-sm-none d-lg-inline-block">{{ $header_admin->name }}</div>
                             </a>
@@ -144,7 +144,7 @@
                         <h6 class="mobile-menu-title">{{ __('Account') }}</h6>
                         <div class="mobile-user-info mb-3">
                             <img alt="image"
-                                src="{{ !empty($header_admin->image) ? asset($header_admin->image) : asset($setting->default_avatar) }}"
+                                src="{{ !empty($header_admin->image) ? asset($header_admin->image) : ($setting?->default_avatar ? asset($setting->default_avatar) : '') }}"
                                 class="rounded-circle me-2" style="width: 40px; height: 40px;">
                             <span>{{ $header_admin->name }}</span>
                         </div>

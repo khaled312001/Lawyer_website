@@ -63,4 +63,17 @@ Route::group(['middleware'=>'translation', 'as' => 'admin.', 'prefix' => 'admin'
         Route::put('/message/{message}', 'updateMessage')->name('update');
         Route::delete('/message/{message}', 'deleteMessage')->name('delete');
     });
+
+    // Ratings Management Routes
+    Route::controller(App\Http\Controllers\Admin\RatingController::class)->prefix('ratings')->name('rating.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}/edit', 'edit')->name('edit');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+        Route::put('/status/{id}', 'changeStatus')->name('status');
+        Route::post('/lawyer/{lawyerId}/fake-review', 'createFakeReview')->name('fake-review');
+        Route::post('/add-high-ratings-to-all', 'addHighRatingsToAllLawyers')->name('add-high-ratings-to-all');
+    });
 });

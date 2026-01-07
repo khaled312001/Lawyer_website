@@ -14,10 +14,16 @@
             <div class="row ov_hd">
                 <div class="col-md-12 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="subscribe-form">
-                        <form method="POST" action="{{ route('newsletter-request') }}">
+                        <form method="POST" action="{{ route('newsletter-request') }}" class="subscribe-form-wrapper">
                             @csrf
-                            <input type="email" required name="email" placeholder="{{ __('Email') }}">
-                            <button type="submit" class="btn-sub">{{ __('Subscribe') }}</button>
+                            <div class="subscribe-input-wrapper">
+                                <i class="fas fa-envelope subscribe-icon"></i>
+                                <input type="email" required name="email" placeholder="{{ __('بريد إلكتروني') }}" class="subscribe-input">
+                            </div>
+                            <button type="submit" class="btn-sub">
+                                <span>{{ __('اشترك') }}</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
                         </form>
                     </div>
                 </div>

@@ -130,11 +130,12 @@
 
     /* Top Header Bar */
     .top-header-bar {
-        background: #fff;
-        padding: 10px 0;
-        border-bottom: 1px solid #e0e0e0;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        padding: 12px 0;
+        border-bottom: 1px solid #e9ecef;
         position: relative;
         z-index: 999;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
     .header-bar-content {
@@ -142,15 +143,23 @@
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 15px;
+        gap: 20px;
     }
 
     .header-left,
     .header-right {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 25px;
         flex-wrap: wrap;
+    }
+
+    .header-left {
+        justify-content: flex-start;
+    }
+
+    .header-right {
+        justify-content: flex-end;
     }
 
     .cart-wrapper {
@@ -160,31 +169,38 @@
     .cart-link {
         display: flex;
         align-items: center;
-        color: #333;
+        color: #555;
         font-size: 18px;
         text-decoration: none;
         transition: all 0.3s ease;
         position: relative;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: rgba(200, 180, 126, 0.05);
     }
 
     .cart-link:hover {
         color: var(--colorPrimary);
+        background: rgba(200, 180, 126, 0.1);
+        transform: translateY(-2px);
     }
 
     .cart-badge {
         position: absolute;
-        top: -8px;
-        right: -8px;
-        background: var(--colorPrimary);
+        top: -5px;
+        right: -5px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
         color: #fff;
         border-radius: 50%;
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 11px;
-        font-weight: 600;
+        font-weight: 700;
+        box-shadow: 0 2px 8px rgba(200, 180, 126, 0.4);
+        border: 2px solid #fff;
     }
 
     .currency-selector,
@@ -193,51 +209,110 @@
     }
 
     .header-select {
-        border: none;
-        background: transparent;
-        padding: 5px 25px 5px 8px;
+        border: 1px solid #e0e0e0;
+        background: #fff;
+        padding: 8px 30px 8px 12px;
         cursor: pointer;
         font-size: 14px;
-        color: #333;
+        color: #555;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23555' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
-        background-position: right 8px center;
+        background-position: right 10px center;
         background-size: 12px;
+        min-width: 120px;
+    }
+
+    .header-select:hover {
+        border-color: var(--colorPrimary);
+        color: var(--colorPrimary);
+        box-shadow: 0 2px 8px rgba(200, 180, 126, 0.1);
     }
 
     .header-select:focus {
         outline: none;
+        border-color: var(--colorPrimary);
+        box-shadow: 0 0 0 3px rgba(200, 180, 126, 0.1);
     }
 
     .header-contact-item {
         display: flex;
         align-items: center;
-        gap: 8px;
-        color: #333;
+        gap: 10px;
+        color: #555;
         text-decoration: none;
         font-size: 14px;
         transition: all 0.3s ease;
+        padding: 8px 12px;
+        border-radius: 6px;
+        white-space: nowrap;
     }
 
     .header-contact-item i {
         color: var(--colorPrimary);
         font-size: 16px;
+        min-width: 18px;
     }
 
     .header-contact-item:hover {
         color: var(--colorPrimary);
+        background: rgba(200, 180, 126, 0.08);
+        transform: translateY(-1px);
     }
 
     .account-link {
         font-weight: 500;
     }
 
+    .auth-links {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .login-link,
+    .register-link {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+    }
+
+    .login-link {
+        background: rgba(200, 180, 126, 0.1);
+        color: var(--colorPrimary);
+    }
+
+    .login-link:hover {
+        background: var(--colorPrimary);
+        color: #fff;
+    }
+
+    .login-link:hover i {
+        color: #fff;
+    }
+
+    .register-link {
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        color: #fff;
+    }
+
+    .register-link i {
+        color: #fff;
+    }
+
+    .register-link:hover {
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(200, 180, 126, 0.3);
+    }
+
     /* Main Navigation Bar - Client Only */
     body.client-frontend .main-navbar {
-        background: linear-gradient(135deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%);
+        background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%) !important;
         padding: 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         position: sticky;
         top: 0;
         z-index: 9999 !important;
@@ -262,11 +337,31 @@
         flex-shrink: 0;
     }
 
-    body.client-frontend .navbar-logo img {
-        max-height: 50px;
-        width: auto;
-        height: auto;
+    body.client-frontend .navbar-logo {
+        overflow: visible !important;
+    }
+
+    body.client-frontend .navbar-logo a {
         display: block;
+        overflow: visible !important;
+    }
+
+    body.client-frontend .navbar-logo img {
+        max-height: 50px !important;
+        max-width: 200px !important;
+        width: auto !important;
+        height: auto !important;
+        display: block;
+        object-fit: contain !important;
+        object-position: center !important;
+    }
+
+    /* Override any conflicting styles from main CSS */
+    body.client-frontend .logo img {
+        height: auto !important;
+        max-height: 50px !important;
+        object-fit: contain !important;
+        object-position: center !important;
     }
 
     body.client-frontend .navbar-menu {
@@ -306,22 +401,30 @@
         align-items: center;
         gap: 8px;
         padding: 12px 18px;
-        color: #fff;
+        color: #fff !important;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 500;
         border-radius: 6px;
         transition: all 0.3s ease;
         white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     body.client-frontend .nav-link i {
         font-size: 16px;
+        color: #fff !important;
     }
 
     body.client-frontend .nav-link:hover {
-        background: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.2) !important;
+        color: #fff !important;
         transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    body.client-frontend .nav-link:hover i {
+        color: #fff !important;
     }
 
     body.client-frontend .nav-item.has-dropdown .nav-link .dropdown-icon {
@@ -358,14 +461,28 @@
         clip-path: none !important;
     }
 
-    body.client-frontend .nav-item.has-dropdown:hover .dropdown-menu,
-    body.client-frontend .nav-item.has-dropdown.active .dropdown-menu,
-    body.client-frontend .nav-item.has-dropdown .dropdown-menu:hover {
+    /* Only show dropdown when active class is present (controlled by JavaScript) */
+    body.client-frontend .nav-item.has-dropdown.active .dropdown-menu {
         opacity: 1 !important;
         visibility: visible !important;
         transform: translateY(0) !important;
         pointer-events: auto !important;
         display: block !important;
+    }
+
+    /* Ensure dropdown is hidden by default and only shown when active */
+    body.client-frontend .nav-item.has-dropdown:not(.active) .dropdown-menu {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transform: translateY(-10px) !important;
+    }
+
+    /* Remove all hover-based CSS that conflicts with JavaScript */
+    body.client-frontend .nav-item.has-dropdown:hover:not(.active) .dropdown-menu {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
     }
 
     body.client-frontend .dropdown-menu li {
@@ -400,19 +517,27 @@
     }
 
     body.client-frontend .appointment-btn {
-        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        background: var(--colorPrimary) !important;
         color: #fff !important;
         padding: 12px 24px !important;
         border-radius: 8px;
         font-weight: 600;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-        border: 2px solid rgba(255,255,255,0.2);
+        box-shadow: 0 4px 15px rgba(200, 180, 126, 0.4);
+        border: 2px solid var(--colorPrimary);
+        transition: all 0.3s ease;
+        text-shadow: none;
     }
 
     body.client-frontend .appointment-btn:hover {
-        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        background: var(--colorSecondary) !important;
+        border-color: var(--colorSecondary);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.5);
+        color: #fff !important;
+    }
+
+    body.client-frontend .appointment-btn i {
+        color: #fff !important;
     }
 
     /* Ensure dropdown appears above all sections */
@@ -580,9 +705,18 @@
         background: linear-gradient(135deg, var(--navGradientStart) 0%, var(--navGradientEnd) 100%);
     }
 
+    .side-menu-logo {
+        overflow: visible !important;
+    }
+
     .side-menu-logo img {
         max-height: 40px;
+        max-width: 180px;
         width: auto;
+        height: auto;
+        object-fit: contain !important;
+        object-position: center !important;
+        display: block;
     }
 
     .side-menu-close {
@@ -1370,32 +1504,46 @@
 
         /* Header Bar */
         .top-header-bar {
-            padding: 8px 0;
+            padding: 10px 0;
         }
 
         .header-bar-content {
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
         }
 
         .header-left,
         .header-right {
             width: 100%;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .header-contact-item {
-            font-size: 12px;
+            font-size: 13px;
+            padding: 6px 10px;
         }
 
         .header-contact-item span {
-            display: none;
+            display: inline;
+            font-size: 12px;
         }
 
         .header-select {
+            font-size: 13px;
+            padding: 6px 25px 6px 10px;
+            min-width: 100px;
+        }
+
+        .auth-links {
+            gap: 8px;
+        }
+
+        .login-link,
+        .register-link {
+            padding: 6px 12px;
             font-size: 12px;
-            padding: 4px 20px 4px 6px;
         }
 
         /* Main Navbar */
@@ -1404,7 +1552,11 @@
         }
 
         .navbar-logo img {
-            max-height: 40px;
+            max-height: 40px !important;
+            max-width: 160px !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
         }
 
         .mobile-menu-toggle span {
@@ -1422,7 +1574,11 @@
         }
 
         .side-menu-logo img {
-            max-height: 35px;
+            max-height: 35px !important;
+            max-width: 140px !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
         }
 
         .side-menu-link {
@@ -1443,20 +1599,48 @@
         }
 
         .header-bar-content {
-            gap: 8px;
+            gap: 12px;
         }
 
         .header-left,
         .header-right {
-            gap: 8px;
+            gap: 10px;
+            justify-content: space-around;
         }
 
         .cart-link {
             font-size: 16px;
+            padding: 6px 10px;
         }
 
         .header-select {
-            font-size: 11px;
+            font-size: 12px;
+            padding: 6px 22px 6px 8px;
+            min-width: 90px;
+        }
+
+        .header-contact-item {
+            font-size: 12px;
+            padding: 6px 8px;
+        }
+
+        .header-contact-item span {
+            display: none;
+        }
+
+        .auth-links {
+            width: 100%;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .login-link,
+        .register-link {
+            flex: 1;
+            max-width: 120px;
+            justify-content: center;
+            padding: 8px 10px;
+            font-size: 12px;
         }
 
         .navbar-wrapper {
@@ -1464,7 +1648,11 @@
         }
 
         .navbar-logo img {
-            max-height: 35px;
+            max-height: 35px !important;
+            max-width: 140px !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
         }
 
         .side-menu-content {
@@ -1746,6 +1934,569 @@
         input:focus {
             outline: 2px solid var(--colorPrimary);
             outline-offset: 2px;
+        }
+    }
+
+    /* ============================================
+       REGISTER PAGE - MODERN DESIGN IMPROVEMENTS
+       ============================================ */
+
+    /* Register Area Container */
+    .register-area {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+        min-height: calc(100vh - 200px);
+        padding: 60px 0 !important;
+    }
+
+    /* Banner Area for Register Page */
+    .register-area + .banner-area,
+    .banner-area {
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+        padding: 40px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .banner-area::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        opacity: 0.3;
+    }
+
+    .banner-text {
+        position: relative;
+        z-index: 1;
+    }
+
+    .banner-text h1 {
+        color: #fff;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .banner-text ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .banner-text ul li {
+        color: rgba(255,255,255,0.9);
+        font-size: 15px;
+    }
+
+    .banner-text ul li a {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .banner-text ul li a:hover {
+        color: #fff;
+    }
+
+    .banner-text ul li span {
+        color: rgba(255,255,255,0.7);
+    }
+
+    /* Login Area Background - Modern Card Design */
+    .login_area_bg {
+        background: #ffffff;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        padding: 40px 35px !important;
+        border-radius: 16px !important;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .login_area_bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    }
+
+    .login_area_bg:hover {
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        transform: translateY(-2px);
+    }
+
+    /* Tab Navigation - Modern Design */
+    .login_area_bg .nav-pills {
+        margin-bottom: 30px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 10px;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 15px;
+        width: 100%;
+    }
+
+    .login_area_bg .nav-pills .nav-item {
+        width: auto;
+        flex: 0 0 auto;
+        max-width: 200px;
+        min-width: 150px;
+    }
+
+    .login_area_bg .nav-pills .nav-item .nav-link {
+        width: 100%;
+        color: #333 !important;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 12px 20px;
+        background: #fff !important;
+        position: relative;
+        text-align: center;
+        display: block;
+    }
+
+    .login_area_bg .nav-pills .nav-item .nav-link:hover {
+        color: var(--colorPrimary) !important;
+        background: rgba(200, 180, 126, 0.1) !important;
+        border-color: var(--colorPrimary);
+        transform: translateY(-2px);
+    }
+
+    .login_area_bg .nav-pills .nav-item .nav-link.active {
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+        color: #fff !important;
+        border-color: transparent;
+        box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3);
+    }
+
+    .login_area_bg .nav-pills .nav-item .nav-link:not(.active) {
+        color: #333 !important;
+        background: #fff !important;
+    }
+
+    /* Title in Register Form */
+    .login_area_bg h4 {
+        text-align: center;
+        color: var(--colorPrimary);
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    /* Form Inputs - Modern Design */
+    .login_area_bg form,
+    .regiser-form.login-form {
+        margin-top: 20px;
+    }
+
+    .login_area_bg form .form-row,
+    .regiser-form.login-form .form-row {
+        margin: 0;
+    }
+
+    .login_area_bg form label,
+    .regiser-form.login-form label {
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .login_area_bg form input[type="text"],
+    .login_area_bg form input[type="email"],
+    .login_area_bg form input[type="password"],
+    .login_area_bg form input[type="tel"],
+    .login_area_bg form .form-control,
+    .regiser-form.login-form input[type="text"],
+    .regiser-form.login-form input[type="email"],
+    .regiser-form.login-form input[type="password"],
+    .regiser-form.login-form input[type="tel"],
+    .regiser-form.login-form .form-control {
+        border: 2px solid #e0e0e0;
+        height: 50px;
+        margin-bottom: 20px !important;
+        border-radius: 10px;
+        padding: 12px 18px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background: #fafafa;
+        color: #333;
+    }
+
+    .login_area_bg form input:focus,
+    .login_area_bg form .form-control:focus,
+    .regiser-form.login-form input:focus,
+    .regiser-form.login-form .form-control:focus {
+        border-color: var(--colorPrimary);
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.1);
+        outline: none;
+    }
+
+    /* Select Dropdowns */
+    .login_area_bg .select2-container--default .select2-selection--single {
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        height: 50px;
+        line-height: 50px;
+        background: #fafafa;
+        transition: all 0.3s ease;
+    }
+
+    .login_area_bg .select2-container--default .select2-selection--single:focus,
+    .login_area_bg .select2-container--default.select2-container--focus .select2-selection--single {
+        border-color: var(--colorPrimary);
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.1);
+    }
+
+    .login_area_bg .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 50px;
+        padding-left: 18px;
+        color: #333;
+        font-size: 15px;
+    }
+
+    .login_area_bg .select2-container {
+        margin-bottom: 20px !important;
+    }
+
+    /* Submit Button - Modern Design */
+    .login_area_bg form button[type="submit"],
+    .login_area_bg form .btn-primary,
+    .regiser-form.login-form button[type="submit"],
+    .regiser-form.login-form .btn-primary {
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 10px !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+        margin-bottom: 20px;
+        border: none;
+        padding: 14px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .login_area_bg form button[type="submit"]:hover,
+    .login_area_bg form .btn-primary:hover,
+    .regiser-form.login-form button[type="submit"]:hover,
+    .regiser-form.login-form .btn-primary:hover {
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.4);
+    }
+
+    .login_area_bg form button[type="submit"]:active,
+    .login_area_bg form .btn-primary:active {
+        transform: translateY(0);
+    }
+
+    /* Link to Login */
+    .login_area_bg form p,
+    .regiser-form.login-form p {
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 0;
+        color: #666;
+        font-size: 15px;
+    }
+
+    .login_area_bg form p a.link,
+    .regiser-form.login-form p a.link {
+        color: var(--colorPrimary);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-bottom: 2px solid transparent;
+    }
+
+    .login_area_bg form p a.link:hover,
+    .regiser-form.login-form p a.link:hover {
+        color: var(--colorSecondary);
+        border-bottom-color: var(--colorSecondary);
+    }
+
+    /* Google Login Button */
+    .account__social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        padding: 14px 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        background: #fff;
+        color: #333;
+        font-weight: 600;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+    }
+
+    .account__social-btn:hover {
+        border-color: var(--colorPrimary);
+        background: rgba(200, 180, 126, 0.05);
+        color: var(--colorPrimary);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .account__social-btn img {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Divider */
+    .account__divider {
+        text-align: center;
+        margin: 25px 0;
+        position: relative;
+    }
+
+    .account__divider::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: #e0e0e0;
+    }
+
+    .account__divider span {
+        position: relative;
+        background: #fff;
+        padding: 0 15px;
+        color: #999;
+        font-size: 14px;
+    }
+
+    /* Recaptcha */
+    .login_area_bg .g-recaptcha {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Error Messages */
+    .login_area_bg .text-danger,
+    .regiser-form.login-form .text-danger {
+        color: #dc3545;
+        font-size: 13px;
+        margin-top: -15px;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .register-area {
+            padding: 40px 0 !important;
+        }
+
+        .login_area_bg {
+            padding: 30px 20px !important;
+            border-radius: 12px !important;
+        }
+
+        .banner-text h1 {
+            font-size: 28px;
+        }
+
+        .login_area_bg h4 {
+            font-size: 20px;
+        }
+
+        .login_area_bg .nav-pills .nav-item .nav-link {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .login_area_bg {
+            padding: 25px 15px !important;
+        }
+
+        .banner-text h1 {
+            font-size: 24px;
+        }
+
+        .login_area_bg form input,
+        .login_area_bg form .form-control {
+            height: 45px;
+            font-size: 14px;
+        }
+
+        .login_area_bg form button[type="submit"] {
+            padding: 12px 20px;
+            font-size: 14px;
+        }
+    }
+
+    /* ============================================
+       REMOVE UNNECESSARY SCROLLBARS FROM SECTIONS
+       ============================================ */
+
+    /* Remove scrollbar from feature sections and accordion containers */
+    .feature-section-text,
+    .feature-accordion,
+    .faq-service,
+    .faq-body,
+    .collapse,
+    section,
+    .container,
+    .row {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+        max-height: none !important;
+    }
+
+    /* Ensure sections take full width */
+    .feature-section-text,
+    .feature-accordion,
+    .faq-service,
+    section {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Remove scrollbar from blog sections */
+    .blog-area,
+    .blog-page,
+    .blog-text {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+        max-height: none !important;
+    }
+
+    /* Ensure blog section takes full width */
+    .blog-area,
+    .blog-page {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Remove any max-height restrictions from accordion content */
+    .feature-accordion .faq-body,
+    .feature-accordion .collapse,
+    .feature-accordion .collapse.show,
+    .feature-accordion .collapse:not(.show) {
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        overflow-y: visible !important;
+    }
+
+    /* Remove scrollbar from all main containers (but keep Bootstrap grid intact) */
+    body.client-frontend .container,
+    body.client-frontend .container-fluid,
+    body.client-frontend section,
+    body.client-frontend .row {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        overflow-y: visible !important;
+    }
+
+    /* Ensure full width on all screen sizes */
+    @media (max-width: 991px) {
+        .feature-section-text,
+        .feature-accordion,
+        .faq-service,
+        .blog-area,
+        .blog-page,
+        section {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: visible !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .feature-section-text,
+        .feature-accordion,
+        .faq-service,
+        .blog-area,
+        .blog-page,
+        section {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: visible !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .feature-section-text,
+        .feature-accordion,
+        .faq-service,
+        .blog-area,
+        .blog-page,
+        section {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: visible !important;
+        }
+    }
+
+    /* ============================================
+       SUBSCRIBE AREA - VERTICAL CENTER BUTTON
+       ============================================ */
+
+    /* Center subscribe button vertically */
+    .subscribe-form .btn-sub {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        -webkit-transform: translateY(-50%) !important;
+        -moz-transform: translateY(-50%) !important;
+        -ms-transform: translateY(-50%) !important;
+        -o-transform: translateY(-50%) !important;
+    }
+
+    /* Ensure form wrapper has proper positioning */
+    .subscribe-form-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Make sure input wrapper allows for button positioning */
+    .subscribe-input-wrapper {
+        position: relative;
+        flex: 1;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .subscribe-form .btn-sub {
+            top: 50% !important;
+            transform: translateY(-50%) !important;
         }
     }
 </style>

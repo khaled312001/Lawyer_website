@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Lawyer\app\Models\Lawyer;
+use Modules\Appointment\app\Models\Appointment;
 
 class RatingController extends Controller {
     use RedirectHelperTrait;
@@ -30,6 +31,18 @@ class RatingController extends Controller {
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
         ]);
+
+        // Check if user has completed at least one appointment with this lawyer
+        $hasCompletedAppointment = Appointment::where('lawyer_id', $validated['lawyer_id'])
+            ->where('user_id', $user->id)
+            ->where('payment_status', 1)
+            ->where('already_treated', 1)
+            ->exists();
+
+        if (!$hasCompletedAppointment) {
+            $notification = ['message' => __('You can only rate a lawyer after completing a service'), 'alert-type' => 'error'];
+            return redirect()->back()->with($notification);
+        }
 
         // Check if user already rated this lawyer
         $existingRating = Rating::where('lawyer_id', $validated['lawyer_id'])
