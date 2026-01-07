@@ -251,21 +251,36 @@
         }
         
         .event-detail-tab .nav-tabs li a:hover {
-            color: var(--colorPrimary);
-            border-bottom-color: var(--colorPrimary);
-            background: rgba(200, 180, 126, 0.05);
+            color: #6b5d47;
+            border-bottom-color: #6b5d47;
+            background: rgba(107, 93, 71, 0.08);
         }
         
+        /* تحسين التبويب النشط - نمط CV احترافي */
         .event-detail-tab .nav-tabs li.active a,
-        .event-detail-tab .nav-tabs li a.active {
-            color: var(--colorPrimary);
-            border-bottom-color: var(--colorPrimary);
-            background: rgba(200, 180, 126, 0.05);
+        .event-detail-tab .nav-tabs li a.active,
+        .event-detail-tab .nav-tabs li a.active.show {
+            color: #ffffff !important;
+            border-bottom-color: #6b5d47;
+            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 -2px 8px rgba(107, 93, 71, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .event-detail-tab .nav-tabs li.active a i,
+        .event-detail-tab .nav-tabs li a.active i {
+            color: #ffffff !important;
         }
         
         .event-detail-tab .nav-tabs li a i {
             font-size: 18px;
             margin-left: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .event-detail-tab .nav-tabs li a:hover i {
+            color: #6b5d47;
         }
         
         /* تحسين تصميم محتوى المعلومات - نمط CV احترافي */
