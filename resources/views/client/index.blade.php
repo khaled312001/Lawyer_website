@@ -111,57 +111,6 @@
         <!--why Us End-->
     @endif
 
-    <!--Real Estate Services Section Start-->
-    <section class="real-estate-section bg-area pt_100 pb_100">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                    <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('Real Estate') }}</span> {{ __('Legal Services') }}</h2>
-                        <p>{{ __('Professional legal services for real estate purchase and investment cases through specialized and experienced lawyers, completing the task in the fastest time') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt_50">
-                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="real-estate-item">
-                        <div class="real-estate-icon">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <h3 class="title">{{ __('Property Purchase') }}</h3>
-                        <p>{{ __('Complete legal procedures for property purchase transactions with professional lawyers specialized in real estate law') }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.2s">
-                    <div class="real-estate-item">
-                        <div class="real-estate-icon">
-                            <i class="fas fa-city"></i>
-                        </div>
-                        <h3 class="title">{{ __('Real Estate Investment') }}</h3>
-                        <p>{{ __('Legal consultation and support for real estate investment projects with experienced lawyers') }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mb_30 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="real-estate-item">
-                        <div class="real-estate-icon">
-                            <i class="fas fa-landmark"></i>
-                        </div>
-                        <h3 class="title">{{ __('Legal Documentation') }}</h3>
-                        <p>{{ __('Preparation and review of all legal documents related to real estate transactions') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt_30">
-                <div class="col-md-12 text-center">
-                    <a href="{{ route('website.real-estate') }}" class="btn btn-primary btn-lg">
-                        <i class="fas fa-arrow-left me-2"></i>{{ __('View Real Estate Services') }}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Real Estate Services Section End-->
-
     @if (1 == $home_sections?->work_status)
         <!--Feature Start-->
         <section class="about-area">

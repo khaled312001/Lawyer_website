@@ -157,7 +157,8 @@ class HomeController extends Controller {
         }
         $services = Service::select('id', 'icon', 'slug')->with([
             'translation' => function ($query) {
-                $query->select('service_id', 'title', 'sort_description');
+                $query->where('lang_code', getSessionLanguage())
+                    ->select('service_id', 'title', 'sort_description');
             },
         ])->active()->orderBy('slug', 'asc')->paginate($pagination_qty);
         return view('client.service.index', compact('services'));
@@ -166,7 +167,8 @@ class HomeController extends Controller {
     public function serviceDetails($slug) {
         $service = Service::select('id', 'icon', 'slug')->with([
             'translation'             => function ($query) {
-                $query->select('service_id', 'title', 'description', 'seo_title', 'seo_description');
+                $query->where('lang_code', getSessionLanguage())
+                    ->select('service_id', 'title', 'description', 'seo_title', 'seo_description');
             },
             'images'                  => function ($query) {
                 $query->select('service_id', 'small_image', 'large_image');

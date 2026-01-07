@@ -9,12 +9,18 @@ class MeetingController extends Controller {
     public function meetingHistory() {
         $user = userAuth();
         $now = now();
-        $histories = MeetingHistory::with(['lawyer', 'meeting'])
+        $histories = MeetingHistory::with(['lawyer.department', 'meeting'])
             ->where('user_id', $user->id)
             ->whereRaw('DATE_ADD(meeting_time, INTERVAL duration MINUTE) < ?', [$now])
             ->orderBy('meeting_time', 'desc')
-            ->paginate(10);
-        return view('client.profile.meeting-history', compact('histories', 'user'));
+            ->get();
+        
+        // Group meetings by department
+        $meetingsByDepartment = $histories->groupBy(function($meeting) {
+            return $meeting->lawyer->department_id ?? 'no-department';
+        });
+        
+        return view('client.profile.meeting-history', compact('meetingsByDepartment', 'user'));
     }
 
     public function upCommingMeeting() {

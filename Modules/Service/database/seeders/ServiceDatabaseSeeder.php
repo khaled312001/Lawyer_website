@@ -138,6 +138,40 @@ class ServiceDatabaseSeeder extends Seeder {
                     ],
                 ],
             ],
+            [
+                'icon'         => 'fas fa-building',
+                'translations' => [
+                    [
+                        'lang_code'        => 'en',
+                        'title'            => 'Real Estate Legal Services',
+                        'sort_description' => 'Professional legal services for real estate purchase and investment cases through specialized and experienced lawyers, completing the task in the fastest time',
+                        'description'      => '<p>We provide comprehensive legal services for real estate transactions including property purchase, real estate investment, legal documentation, and dispute resolution. Our specialized lawyers ensure all legal procedures are completed efficiently and your rights are protected throughout the process.</p>',
+                    ],
+                    [
+                        'lang_code'        => 'ar',
+                        'title'            => 'خدمات العقارات القانونية',
+                        'sort_description' => 'خدمات قانونية متخصصة لمعاملات شراء العقارات والاستثمار العقاري من خلال محامين متخصصين وذوي خبرة، إتمام المهمة في أسرع وقت',
+                        'description'      => '<p>نقدم خدمات قانونية شاملة لمعاملات العقارات بما في ذلك شراء العقارات والاستثمار العقاري والوثائق القانونية وحل النزاعات. يضمن محامونا المتخصصون إتمام جميع الإجراءات القانونية بكفاءة وحماية حقوقك طوال العملية.</p>',
+                    ],
+                ],
+            ],
+            [
+                'icon'         => 'fas fa-shield-alt',
+                'translations' => [
+                    [
+                        'lang_code'        => 'en',
+                        'title'            => 'Compliance',
+                        'sort_description' => 'Legal compliance services to ensure your business meets all regulatory requirements and standards',
+                        'description'      => '<p>We provide comprehensive compliance services to help businesses and individuals meet all legal and regulatory requirements. Our experts ensure you stay compliant with local and international regulations, avoiding penalties and legal issues.</p>',
+                    ],
+                    [
+                        'lang_code'        => 'ar',
+                        'title'            => 'الامتثال',
+                        'sort_description' => 'خدمات الامتثال القانوني لضمان استيفاء عملك لجميع المتطلبات والمعايير التنظيمية',
+                        'description'      => '<p>نقدم خدمات الامتثال الشاملة لمساعدة الشركات والأفراد على الوفاء بجميع المتطلبات القانونية والتنظيمية. يضمن خبراؤنا بقاءك متوافقاً مع اللوائح المحلية والدولية، وتجنب الغرامات والمشاكل القانونية.</p>',
+                    ],
+                ],
+            ],
         ];
 
         $videos = [
