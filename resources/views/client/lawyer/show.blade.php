@@ -103,21 +103,21 @@
                     <!--Tab Start-->
                     <div class="event-detail-tab mt_20">
                         <ul class="nav nav-tabs" role="tablist">
-                            <li class="active">
-                                <a aria-label="{{ __('Education') }}" aria-selected="true" data-bs-toggle="tab"
-                                    class="active" href="#education" data-bs-toggle="tab">
+                            <li class="nav-item">
+                                <a aria-label="{{ __('Education') }}" aria-selected="true" 
+                                    class="nav-link active" data-bs-toggle="tab" href="#education">
                                     <i class="fas fa-graduation-cap me-2"></i>{{ __('Education') }}
                                 </a>
                             </li>
-                            <li>
-                                <a aria-label="{{ __('Experience') }}" aria-selected="false" data-bs-toggle="tab"
-                                    href="#experience" data-bs-toggle="tab">
+                            <li class="nav-item">
+                                <a aria-label="{{ __('Experience') }}" aria-selected="false" 
+                                    class="nav-link" data-bs-toggle="tab" href="#experience">
                                     <i class="fas fa-briefcase me-2"></i>{{ __('Experience') }}
                                 </a>
                             </li>
-                            <li>
-                                <a aria-label="{{ __('Qualification') }}" aria-selected="false" data-bs-toggle="tab"
-                                    href="#qualification" data-bs-toggle="tab">
+                            <li class="nav-item">
+                                <a aria-label="{{ __('Qualification') }}" aria-selected="false" 
+                                    class="nav-link" data-bs-toggle="tab" href="#qualification">
                                     <i class="fas fa-certificate me-2"></i>{{ __('Qualification') }}
                                 </a>
                             </li>
@@ -259,7 +259,8 @@
         /* تحسين التبويب النشط - نمط CV احترافي */
         .event-detail-tab .nav-tabs li.active a,
         .event-detail-tab .nav-tabs li a.active,
-        .event-detail-tab .nav-tabs li a.active.show {
+        .event-detail-tab .nav-tabs li a.active.show,
+        .event-detail-tab .nav-tabs .nav-link.active {
             color: #ffffff !important;
             border-bottom-color: #6b5d47;
             background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
@@ -269,8 +270,15 @@
         }
         
         .event-detail-tab .nav-tabs li.active a i,
-        .event-detail-tab .nav-tabs li a.active i {
+        .event-detail-tab .nav-tabs li a.active i,
+        .event-detail-tab .nav-tabs .nav-link.active i {
             color: #ffffff !important;
+        }
+        
+        /* إزالة التمييز من التبويبات غير النشطة عند النقر */
+        .event-detail-tab .nav-tabs .nav-link:not(.active) {
+            color: #666;
+            background: transparent;
         }
         
         .event-detail-tab .nav-tabs li a i {
@@ -609,29 +617,103 @@
         /* تحسين التصميم على الشاشات الصغيرة */
         @media (max-width: 768px) {
             .info-section {
-                padding: 25px 20px;
+                padding: 20px 15px;
+                border-radius: 8px;
+            }
+            
+            /* تحسين التبويبات على الموبايل */
+            .event-detail-tab .nav-tabs {
+                display: flex;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                border-bottom: 2px solid #e0e0e0;
+                margin-bottom: 20px;
+            }
+            
+            .event-detail-tab .nav-tabs::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .event-detail-tab .nav-tabs li {
+                flex: 0 0 auto;
+                white-space: nowrap;
             }
             
             .event-detail-tab .nav-tabs li a {
-                padding: 12px 15px;
+                padding: 12px 18px;
                 font-size: 14px;
+                white-space: nowrap;
+            }
+            
+            .event-detail-tab .nav-tabs li a i {
+                font-size: 16px;
+                margin-left: 6px;
             }
             
             .team-headline h2 {
-                font-size: 24px;
+                font-size: 22px;
+                margin-bottom: 15px;
             }
             
+            /* تحسين الجداول على الموبايل */
             .info-content table {
-                font-size: 14px;
+                font-size: 13px;
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
             
-            .info-content table thead th,
+            .info-content table thead {
+                display: block;
+            }
+            
+            .info-content table thead th {
+                padding: 12px 10px;
+                font-size: 13px;
+                display: inline-block;
+                min-width: 120px;
+            }
+            
+            .info-content table tbody {
+                display: block;
+            }
+            
+            .info-content table tbody tr {
+                display: block;
+                margin-bottom: 10px;
+                border: 1px solid #e0e0e0;
+                border-radius: 6px;
+                padding: 10px;
+            }
+            
             .info-content table tbody td {
-                padding: 12px 15px;
+                padding: 8px 10px;
+                display: block;
+                text-align: right;
+                border: none;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .info-content table tbody td:last-child {
+                border-bottom: none;
+            }
+            
+            .info-content table tbody td:before {
+                content: attr(data-label) ": ";
+                font-weight: 600;
+                color: #6b5d47;
+                display: inline-block;
+                min-width: 100px;
             }
             
             .info-content h2 {
                 font-size: 20px;
+                margin-top: 25px;
             }
             
             .info-content h3 {
@@ -641,6 +723,75 @@
             .info-content h4 {
                 font-size: 16px;
             }
+            
+            .info-content ul li {
+                padding-right: 30px;
+                margin-bottom: 15px;
+            }
+            
+            .info-content ul li::before {
+                width: 10px;
+                height: 10px;
+                top: 8px;
+            }
+            
+            /* تحسين بطاقة المحامي */
+            .team-detail-photo {
+                margin-bottom: 20px;
+            }
+            
+            .team-detail-text h4 {
+                font-size: 24px;
+            }
+            
+            .team-detail-text span {
+                font-size: 16px;
+            }
+            
+            /* تحسين الأزرار */
+            .team-detail-text .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .info-section {
+                padding: 15px 12px;
+            }
+            
+            .event-detail-tab .nav-tabs li a {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+            
+            .team-headline h2 {
+                font-size: 20px;
+            }
+            
+            .info-content table thead th,
+            .info-content table tbody td {
+                padding: 8px;
+                font-size: 12px;
+            }
+            
+            .info-content h2 {
+                font-size: 18px;
+            }
+            
+            .info-content h3 {
+                font-size: 16px;
+            }
+            
+            .info-content h4 {
+                font-size: 14px;
+            }
+            
+            .team-detail-text h4 {
+                font-size: 20px;
+            }
         }
     </style>
     @endpush
@@ -648,6 +799,31 @@
     @push('js')
     <script>
     $(document).ready(function() {
+        // تفعيل التبويبات بشكل صحيح
+        $('.event-detail-tab .nav-tabs a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // إزالة class active من جميع التبويبات
+            $('.event-detail-tab .nav-tabs li').removeClass('active');
+            $('.event-detail-tab .nav-tabs .nav-link').removeClass('active');
+            
+            // إضافة class active للتبويب المختار
+            $(this).addClass('active');
+            $(this).closest('li').addClass('active');
+            
+            // إزالة show active من جميع المحتويات
+            $('.tab-content .tab-pane').removeClass('show active');
+            
+            // إضافة show active للمحتوى المختار
+            var target = $(this).attr('href');
+            $(target).addClass('show active');
+        });
+        
+        // التأكد من أن التبويب الأول نشط عند التحميل
+        var firstTab = $('.event-detail-tab .nav-tabs .nav-link').first();
+        if (firstTab.length && !firstTab.hasClass('active')) {
+            firstTab.addClass('active');
+            firstTab.closest('li').addClass('active');
+        }
+        
         $('#lawyer-detail-date-{{ $lawyer->id }}').on('change', function() {
             const date = $(this).val();
             const lawyerId = {{ $lawyer->id }};
