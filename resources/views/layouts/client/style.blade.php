@@ -179,7 +179,7 @@
         border-radius: 8px;
         background: rgba(200, 180, 126, 0.05);
     }
-
+   
     .cart-link:hover {
         color: var(--colorPrimary);
         background: rgba(200, 180, 126, 0.1);
