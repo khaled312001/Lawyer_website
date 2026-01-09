@@ -24,27 +24,34 @@
                                     <div class="col-md-4">
                                         <div class="user-wrapper">
                                             <ul class="users">
-                                                @foreach ($users as $user)
-                                                    <li class="user" id="{{ $user->user->id }}">
-                                                        @php
-                                                            $lawyer = lawyerAuth();
-                                                            $count = App\Models\Message::where([
-                                                                'lawyer_id' => $lawyer->id,
-                                                                'user_id' => $user->user->id,
-                                                                'lawyer_view' => 0,
-                                                            ])->count();
-                                                        @endphp
+                                                @foreach ($admins as $admin)
+                                                    @php
+                                                        $lawyer = lawyerAuth();
+                                                        // Find conversation between lawyer and admin
+                                                        $conversation = $conversations->first(function($conv) use ($admin, $lawyer) {
+                                                            return ($conv->sender_type == 'App\Models\Admin' && $conv->sender_id == $admin->id && $conv->receiver_id == $lawyer->id) ||
+                                                                   ($conv->receiver_type == 'App\Models\Admin' && $conv->receiver_id == $admin->id && $conv->sender_id == $lawyer->id);
+                                                        });
                                                         
+                                                        $count = 0;
+                                                        if ($conversation) {
+                                                            $count = $conversation->messages()
+                                                                ->where('sender_type', 'App\Models\Admin')
+                                                                ->where('is_read', false)
+                                                                ->count();
+                                                        }
+                                                    @endphp
+                                                    <li class="user" id="{{ $admin->id }}">
                                                         <div class="d-flex align-items-center mt-2">
-                                                            <div class="media-left profile-wrapper" data-id="{{$user?->user->id}}">
+                                                            <div class="media-left profile-wrapper" data-id="{{ $admin->id }}">
                                                                 <span class="pending @if ($count <= 0) d-none @endif">{{ $count }}</span>
-                                                                <img src="{{ !empty($user?->user->image) && file_exists(public_path($user?->user->image)) ? asset($user?->user->image) : asset($setting?->default_avatar) }}"
-                                                                    alt="{{ $user?->user->name }}" class="media-object">
-                                                                    <span class="status inactive"></span>
+                                                                <img src="{{ !empty($admin->image) && file_exists(public_path($admin->image)) ? asset($admin->image) : asset($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}"
+                                                                    alt="{{ $admin->name }}" class="media-object">
+                                                                    <span class="status active"></span>
                                                             </div>
                                                             <div>
-                                                                <h6 class="mb-0">{{ $user?->user->name }}</h6>
-                                                                <p class="mb-0">{{ $user?->user->email }}</p>
+                                                                <h6 class="mb-0">{{ $admin->name }}</h6>
+                                                                <p class="mb-0">{{ $admin->email }}</p>
                                                             </div>
                                                         </div>
                                                     </li>
@@ -385,7 +392,7 @@
                             cache: false,
                             success: function(data) {
                                 scrollToBottomFunc();
-                                $('#' + data.user_id).click();
+                                $('#' + data.admin_id).click();
                             },
                             error: function(jqXHR, status, err) {}
                         })
@@ -444,7 +451,7 @@
                 cache: false,
                 success: function(data) {
                     scrollToBottomFunc();
-                    $('#' + data.user_id).click();
+                    $('#' + data.admin_id).click();
 
                 },
                 error: function(jqXHR, status, err) {}

@@ -2,40 +2,187 @@
 
 namespace App\Http\Controllers\Lawyer;
 
-use App\Models\User;
+use App\Models\Admin;
+use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Events\ClientChatMessage;
 use App\Http\Controllers\Controller;
 use Modules\GlobalSetting\app\Models\Setting;
-use Modules\Appointment\app\Models\Appointment;
+use Modules\Lawyer\app\Models\Lawyer;
+use App\Notifications\NewMessageNotification;
 
 class LawyerMessageController extends Controller {
     public function index() {
-        $users = Appointment::with('user')->where('lawyer_id', lawyerAuth()?->id)->groupBy('user_id')->select('user_id')->get();
-        return view('lawyer.message.index', compact('users'));
+        $lawyer = lawyerAuth();
+        
+        // Get all conversations between this lawyer and admins only
+        $conversations = Conversation::where(function($query) use ($lawyer) {
+            // Lawyer is receiver and Admin is sender
+            $query->where(function($q) use ($lawyer) {
+                $q->where('receiver_type', Lawyer::class)
+                  ->where('receiver_id', $lawyer->id)
+                  ->where('sender_type', Admin::class);
+            })
+            // Or lawyer is sender and Admin is receiver
+            ->orWhere(function($q) use ($lawyer) {
+                $q->where('sender_type', Lawyer::class)
+                  ->where('sender_id', $lawyer->id)
+                  ->where('receiver_type', Admin::class);
+            });
+        })
+        ->with(['sender', 'receiver', 'messages' => function($query) {
+            $query->latest()->limit(1);
+        }])
+        ->orderBy('last_message_at', 'desc')
+        ->get();
+        
+        // Get unique admins from conversations
+        $admins = collect();
+        foreach ($conversations as $conversation) {
+            $admin = $conversation->admin;
+            if ($admin && !$admins->contains('id', $admin->id)) {
+                $admins->push($admin);
+            }
+        }
+        
+        // If no conversations exist, get all admins to show in the list
+        if ($admins->isEmpty()) {
+            $admins = Admin::all();
+        }
+        
+        return view('lawyer.message.index', compact('admins', 'conversations'));
     }
 
     public function messageBox($id) {
-        $user = User::find($id);
-        $user_id = $user->id;
-        $my_id = lawyerAuth()?->id;
-        Message::where(['lawyer_id' => $my_id, 'user_id' => $user_id])->update(['lawyer_view' => 1]);
-        $messages = Message::where(['lawyer_id' => $my_id, 'user_id' => $user_id])->get();
-        $users = Appointment::with('user')->where('lawyer_id', $my_id)->groupBy('user_id')->select('user_id')->get();
-        return view('lawyer.message.single-message', compact('users', 'messages', 'user_id'));
-
+        $admin = Admin::findOrFail($id);
+        $lawyer = lawyerAuth();
+        $my_id = $lawyer->id;
+        
+        // Find or create conversation between lawyer and admin
+        $conversation = Conversation::where(function($query) use ($my_id, $admin) {
+            $query->where(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Lawyer::class)
+                  ->where('sender_id', $my_id)
+                  ->where('receiver_type', Admin::class)
+                  ->where('receiver_id', $admin->id);
+            })->orWhere(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Admin::class)
+                  ->where('sender_id', $admin->id)
+                  ->where('receiver_type', Lawyer::class)
+                  ->where('receiver_id', $my_id);
+            });
+        })->first();
+        
+        if (!$conversation) {
+            // Create new conversation
+            $conversation = Conversation::create([
+                'sender_type' => Lawyer::class,
+                'sender_id' => $my_id,
+                'receiver_type' => Admin::class,
+                'receiver_id' => $admin->id,
+                'status' => 'active',
+                'last_message_at' => now(),
+            ]);
+        }
+        
+        // Mark messages as read
+        $conversation->messages()
+            ->where('sender_type', Admin::class)
+            ->where('is_read', false)
+            ->update(['is_read' => true, 'read_at' => now()]);
+        
+        $messages = $conversation->messages()->with('sender')->orderBy('created_at', 'asc')->get();
+        
+        // Get all admins for sidebar
+        $conversations = Conversation::where(function($query) use ($lawyer) {
+            $query->where(function($q) use ($lawyer) {
+                $q->where('receiver_type', Lawyer::class)
+                  ->where('receiver_id', $lawyer->id)
+                  ->where('sender_type', Admin::class);
+            })->orWhere(function($q) use ($lawyer) {
+                $q->where('sender_type', Lawyer::class)
+                  ->where('sender_id', $lawyer->id)
+                  ->where('receiver_type', Admin::class);
+            });
+        })->with(['sender', 'receiver'])->get();
+        
+        $admins = collect();
+        foreach ($conversations as $conv) {
+            $adm = $conv->admin;
+            if ($adm && !$admins->contains('id', $adm->id)) {
+                $admins->push($adm);
+            }
+        }
+        
+        if ($admins->isEmpty()) {
+            $admins = Admin::all();
+        }
+        
+        return view('lawyer.message.single-message', compact('admins', 'messages', 'admin', 'conversation'));
     }
 
-    public function getMessage($user_id) {
-        $my_id = lawyerAuth()?->id;
-        Message::where(['lawyer_id' => $my_id, 'user_id' => $user_id])->update(['lawyer_view' => 1]);
-        $messages = Message::where(['lawyer_id' => $my_id, 'user_id' => $user_id])->get();
-        return view('lawyer.message.message-box', compact('messages'));
+    public function getMessage($admin_id) {
+        $lawyer = lawyerAuth();
+        $my_id = $lawyer->id;
+        $admin = Admin::findOrFail($admin_id);
+        
+        // Find conversation
+        $conversation = Conversation::where(function($query) use ($my_id, $admin) {
+            $query->where(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Lawyer::class)
+                  ->where('sender_id', $my_id)
+                  ->where('receiver_type', Admin::class)
+                  ->where('receiver_id', $admin->id);
+            })->orWhere(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Admin::class)
+                  ->where('sender_id', $admin->id)
+                  ->where('receiver_type', Lawyer::class)
+                  ->where('receiver_id', $my_id);
+            });
+        })->first();
+        
+        if (!$conversation) {
+            $messages = collect();
+        } else {
+            // Mark messages as read
+            $conversation->messages()
+                ->where('sender_type', Admin::class)
+                ->where('is_read', false)
+                ->update(['is_read' => true, 'read_at' => now()]);
+            
+            $messages = $conversation->messages()->with('sender')->orderBy('created_at', 'asc')->get();
+        }
+        
+        return view('lawyer.message.message-box', compact('messages', 'conversation'));
     }
-    public function seenMessage($user_id) {
-        $my_id = lawyerAuth()?->id;
-        Message::where(['lawyer_id' => $my_id, 'user_id' => $user_id])->update(['lawyer_view' => 1]);
+    
+    public function seenMessage($admin_id) {
+        $lawyer = lawyerAuth();
+        $my_id = $lawyer->id;
+        $admin = Admin::findOrFail($admin_id);
+        
+        $conversation = Conversation::where(function($query) use ($my_id, $admin) {
+            $query->where(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Lawyer::class)
+                  ->where('sender_id', $my_id)
+                  ->where('receiver_type', Admin::class)
+                  ->where('receiver_id', $admin->id);
+            })->orWhere(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Admin::class)
+                  ->where('sender_id', $admin->id)
+                  ->where('receiver_type', Lawyer::class)
+                  ->where('receiver_id', $my_id);
+            });
+        })->first();
+        
+        if ($conversation) {
+            $conversation->messages()
+                ->where('sender_type', Admin::class)
+                ->where('is_read', false)
+                ->update(['is_read' => true, 'read_at' => now()]);
+        }
+        
         return response()->json(['status' => 'success'], 200);
     }
 
@@ -44,45 +191,71 @@ class LawyerMessageController extends Controller {
             'receiver_id' => 'required',
             'message'     => 'required',
         ]);
-        $my_id = lawyerAuth()?->id;
+        $lawyer = lawyerAuth();
+        $my_id = $lawyer->id;
+        $admin = Admin::findOrFail($request->receiver_id);
+
+        // Find or create conversation
+        $conversation = Conversation::where(function($query) use ($my_id, $admin) {
+            $query->where(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Lawyer::class)
+                  ->where('sender_id', $my_id)
+                  ->where('receiver_type', Admin::class)
+                  ->where('receiver_id', $admin->id);
+            })->orWhere(function($q) use ($my_id, $admin) {
+                $q->where('sender_type', Admin::class)
+                  ->where('sender_id', $admin->id)
+                  ->where('receiver_type', Lawyer::class)
+                  ->where('receiver_id', $my_id);
+            });
+        })->first();
+        
+        if (!$conversation) {
+            $conversation = Conversation::create([
+                'sender_type' => Lawyer::class,
+                'sender_id' => $my_id,
+                'receiver_type' => Admin::class,
+                'receiver_id' => $admin->id,
+                'status' => 'active',
+                'last_message_at' => now(),
+            ]);
+        }
 
         // Save message to the database
-        $message = new Message();
-        $message->lawyer_id = $my_id;
-        $message->user_id = $request->receiver_id;
-        $message->message = strip_tags($request->message);
-        $message->send_lawyer = true;
-        $message->save();
+        $message = Message::create([
+            'conversation_id' => $conversation->id,
+            'sender_type' => Lawyer::class,
+            'sender_id' => $my_id,
+            'message' => strip_tags($request->message),
+        ]);
+        
+        $conversation->update(['last_message_at' => now()]);
 
         // Broadcast the event
         $data = (object) [
             'message' => $message->message,
             'sender_id' => $my_id,
-            'receiver_id' => $message->user_id,
+            'receiver_id' => $admin->id,
             'created_at' => formattedDateTime($message->created_at),
-            'un_seen'     => Message::where([
-                'user_id' => $message->user_id,
-                'lawyer_id' => $message->lawyer_id,
-                'user_view' => 0,
-            ])->count(),
+            'un_seen' => $conversation->messages()
+                ->where('sender_type', Lawyer::class)
+                ->where('is_read', false)
+                ->count(),
         ];
         $pusher_status = cache('setting')?->pusher_status ?? Setting::where('key', 'pusher_status')->value('value');
         if($pusher_status == 'active'){
             event(new ClientChatMessage($data));
         }
 
-        // Send notification to user
+        // Send notification to admin
         try {
-            $user = User::find($request->receiver_id);
-            $lawyer = lawyerAuth();
-            if ($user && $lawyer) {
-                $user->notify(new \App\Notifications\NewMessageNotification($message->message, $lawyer->name, 'lawyer'));
+            if ($admin && $lawyer) {
+                $admin->notify(new NewMessageNotification($message->message, $lawyer->name, 'lawyer', $conversation->id));
             }
         } catch (\Exception $e) {
-            info('User notification error: ' . $e->getMessage());
+            info('Admin notification error: ' . $e->getMessage());
         }
 
-        return response()->json(['user_id' => $request->receiver_id]);
-
+        return response()->json(['admin_id' => $request->receiver_id]);
     }
 }
