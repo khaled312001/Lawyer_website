@@ -360,9 +360,9 @@
 
     @if (1 == $home_sections?->lawyer_status)
         <!--Lawyer Area Start-->
-        <section class="team-area team_slider_area">
+        <section class="lawyer-area-modern">
             <div class="container">
-                <div class="row mb_30">
+                <div class="row">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                         <div class="main-headline">
                             <h2 class="title"><span>{{ ucfirst($home_sections?->lawyer_first_heading) }}</span>
@@ -372,51 +372,79 @@
                     </div>
                 </div>
 
-                <div class="row lawyer_slider">
-                    @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $lawyer)
-                        <div class="col-xl-4">
-                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="team-item-link" aria-label="{{ $lawyer?->name }}">
-                                <div class="team-item">
-                                    <div class="team-photo">
-                                        <img src="{{ url($lawyer?->image) }}" alt="{{ $lawyer?->name }}" loading="lazy">
-                                        <div class="team-overlay">
-                                            <div class="view-profile-btn">
-                                                <i class="fas fa-eye"></i>
-                                                <span>{{ __('View Profile') }}</span>
+                <div class="lawyer-swiper-wrapper">
+                    <div class="swiper lawyer-swiper-modern">
+                        <div class="swiper-wrapper">
+                            @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $lawyer)
+                                <div class="swiper-slide">
+                                    <div class="lawyer-card-modern">
+                                        <div class="lawyer-image-wrapper">
+                                            <a aria-label="{{ $lawyer?->name }}"
+                                                href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="lawyer-image-link">
+                                                <img src="{{ url($lawyer?->image) }}" alt="{{ $lawyer?->name }}" loading="lazy" class="lawyer-image">
+                                                <div class="lawyer-image-overlay">
+                                                    <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="lawyer-content">
+                                            <h3 class="lawyer-name">
+                                                <a aria-label="{{ $lawyer?->name }}"
+                                                    href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
+                                                    {{ $lawyer?->name }}
+                                                </a>
+                                            </h3>
+                                            <div class="lawyer-meta">
+                                                @if($lawyer->department)
+                                                <span class="lawyer-department-meta">
+                                                    <i class="fas fa-briefcase"></i>
+                                                    <span>{{ $lawyer->department->name }}</span>
+                                                </span>
+                                                @endif
+                                                @if($lawyer->location)
+                                                <span class="lawyer-location-meta">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span>{{ ucfirst($lawyer->location->name) }}</span>
+                                                </span>
+                                                @endif
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="team-text">
-                                        <h4 class="team-name">{{ $lawyer?->name }}</h4>
-                                        <p><i class="fas fa-briefcase"></i> {{ $lawyer?->department->name }}</p>
-                                        <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span>
-                                        </p>
-                                        <p><span><b><i class="fas fa-street-view"></i>
-                                                    {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
-                                        @if($lawyer->total_ratings > 0)
-                                        <div class="mt-2">
-                                            {!! displayStars($lawyer->average_rating) !!}
-                                            <span class="ms-1" style="color: #666; font-size: 12px;">
-                                                <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
-                                                ({{ $lawyer->total_ratings }})
-                                            </span>
-                                        </div>
-                                        @else
-                                        <div class="mt-2">
-                                            {!! displayStars(0) !!}
-                                            <span class="ms-1" style="color: #999; font-size: 12px;">{{ __('No ratings') }}</span>
-                                        </div>
-                                        @endif
-                                        <div class="team-action-icon">
-                                            <i class="fas fa-arrow-left"></i>
+                                            @if($lawyer->designations)
+                                            <p class="lawyer-designations">
+                                                <i class="fas fa-graduation-cap"></i>
+                                                {{ $lawyer->designations }}
+                                            </p>
+                                            @endif
+                                            @if($lawyer->total_ratings > 0)
+                                            <div class="lawyer-rating">
+                                                {!! displayStars($lawyer->average_rating) !!}
+                                                <span class="rating-text">
+                                                    <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
+                                                    ({{ $lawyer->total_ratings }})
+                                                </span>
+                                            </div>
+                                            @else
+                                            <div class="lawyer-rating">
+                                                {!! displayStars(0) !!}
+                                                <span class="rating-text no-rating">{{ __('No ratings') }}</span>
+                                            </div>
+                                            @endif
+                                            <a class="lawyer-view-profile" aria-label="{{ __('View Profile') }}"
+                                                href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
+                                                <span>{{ __('View Profile') }}</span>
+                                                <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            @endforeach
                         </div>
-                    @endforeach
+                        <!-- Navigation -->
+                        <div class="swiper-button-next lawyer-next"></div>
+                        <div class="swiper-button-prev lawyer-prev"></div>
+                        <!-- Pagination -->
+                        <div class="swiper-pagination lawyer-pagination"></div>
+                    </div>
                 </div>
-
             </div>
         </section>
         <!--Lawyer Area End-->
@@ -1486,6 +1514,370 @@
         }
     }
 
+    /* Lawyer Modern Styles */
+    .lawyer-area-modern {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        padding: 100px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .lawyer-area-modern::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(107,93,71,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .lawyer-swiper-wrapper {
+        padding: 60px 0 80px;
+        position: relative;
+    }
+
+    .lawyer-swiper-modern {
+        padding: 20px 0 60px;
+        overflow: visible;
+    }
+
+    .lawyer-card-modern {
+        background: #ffffff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+        margin: 20px 10px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .lawyer-card-modern:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(107, 93, 71, 0.2);
+        border-color: var(--colorPrimary);
+    }
+
+    .lawyer-image-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 320px;
+        background: #f0f0f0;
+    }
+
+    .lawyer-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.5s ease;
+    }
+
+    .lawyer-image-link {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .lawyer-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.8) 0%, rgba(90, 77, 58, 0.8) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+
+    .lawyer-image-overlay i {
+        color: #ffffff;
+        font-size: 32px;
+        transform: scale(0);
+        transition: all 0.4s ease;
+    }
+
+    .lawyer-card-modern:hover .lawyer-image {
+        transform: scale(1.1);
+    }
+
+    .lawyer-card-modern:hover .lawyer-image-overlay {
+        opacity: 1;
+    }
+
+    .lawyer-card-modern:hover .lawyer-image-overlay i {
+        transform: scale(1);
+    }
+
+    .lawyer-content {
+        padding: 30px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .lawyer-name {
+        margin: 0 0 15px 0;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.4;
+    }
+
+    .lawyer-name a {
+        color: var(--colorBlack);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .lawyer-card-modern:hover .lawyer-name a {
+        color: var(--colorPrimary);
+    }
+
+    .lawyer-meta {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+
+    .lawyer-department-meta,
+    .lawyer-location-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .lawyer-department-meta i,
+    .lawyer-location-meta i {
+        color: var(--colorPrimary);
+        font-size: 14px;
+    }
+
+    .lawyer-designations {
+        color: #666;
+        line-height: 1.6;
+        margin: 0 0 15px 0;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .lawyer-designations i {
+        color: var(--colorPrimary);
+        font-size: 14px;
+    }
+
+    .lawyer-rating {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 10px 0;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .lawyer-rating .rating-text {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .lawyer-rating .rating-text.no-rating {
+        color: #999;
+    }
+
+    .lawyer-view-profile {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--colorPrimary);
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: auto;
+        padding: 12px 0;
+    }
+
+    .lawyer-view-profile i {
+        font-size: 14px;
+        transition: transform 0.3s ease;
+    }
+
+    .lawyer-card-modern:hover .lawyer-view-profile {
+        color: var(--colorSecondary);
+        transform: translateX(5px);
+    }
+
+    [dir="rtl"] .lawyer-card-modern:hover .lawyer-view-profile {
+        transform: translateX(-5px);
+    }
+
+    .lawyer-card-modern:hover .lawyer-view-profile i {
+        transform: translateX(3px);
+    }
+
+    [dir="rtl"] .lawyer-card-modern:hover .lawyer-view-profile i {
+        transform: translateX(-3px);
+    }
+
+    /* Swiper Navigation */
+    .lawyer-next,
+    .lawyer-prev {
+        width: 60px;
+        height: 60px;
+        background: var(--colorPrimary);
+        border-radius: 50%;
+        color: #fff;
+        margin-top: -30px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
+    }
+
+    .lawyer-next::after,
+    .lawyer-prev::after {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .lawyer-next:hover,
+    .lawyer-prev:hover {
+        background: var(--colorSecondary);
+        transform: scale(1.15);
+        box-shadow: 0 8px 30px rgba(107, 93, 71, 0.4);
+    }
+
+    .lawyer-prev {
+        left: -30px;
+    }
+
+    .lawyer-next {
+        right: -30px;
+    }
+
+    /* Pagination */
+    .lawyer-pagination {
+        bottom: 10px !important;
+        position: absolute;
+    }
+
+    .lawyer-pagination .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+        background: var(--colorPrimary);
+        opacity: 0.3;
+        transition: all 0.3s ease;
+        margin: 0 5px;
+    }
+
+    .lawyer-pagination .swiper-pagination-bullet-active {
+        opacity: 1;
+        width: 35px;
+        border-radius: 6px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .lawyer-prev {
+            left: 10px;
+        }
+
+        .lawyer-next {
+            right: 10px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .lawyer-area-modern {
+            padding: 60px 0;
+        }
+
+        .lawyer-image-wrapper {
+            height: 280px;
+        }
+
+        .lawyer-content {
+            padding: 25px 20px;
+        }
+
+        .lawyer-name {
+            font-size: 20px;
+        }
+
+        .lawyer-next,
+        .lawyer-prev {
+            width: 50px;
+            height: 50px;
+            margin-top: -25px;
+        }
+
+        .lawyer-next::after,
+        .lawyer-prev::after {
+            font-size: 20px;
+        }
+
+        .lawyer-prev {
+            left: 5px;
+        }
+
+        .lawyer-next {
+            right: 5px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .lawyer-image-wrapper {
+            height: 240px;
+        }
+
+        .lawyer-content {
+            padding: 20px 15px;
+        }
+
+        .lawyer-name {
+            font-size: 18px;
+        }
+
+        .lawyer-meta {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    /* RTL Support */
+    [dir="rtl"] .lawyer-prev {
+        left: auto;
+        right: -30px;
+    }
+
+    [dir="rtl"] .lawyer-next {
+        right: auto;
+        left: -30px;
+    }
+
+    @media (max-width: 1200px) {
+        [dir="rtl"] .lawyer-prev {
+            right: 10px;
+        }
+
+        [dir="rtl"] .lawyer-next {
+            left: 10px;
+        }
+    }
+
     /* Service Swiper Styles */
     .service-swiper-container {
         padding: 40px 0 80px;
@@ -2028,6 +2420,80 @@
                 });
                 swiperContainer.addEventListener('mouseleave', function() {
                     serviceSwiper.autoplay.start();
+                });
+            }
+
+            // Lawyer Swiper
+            const lawyerSwiper = new Swiper('.lawyer-swiper-modern', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                speed: 800,
+                effect: 'slide',
+                grabCursor: true,
+                navigation: {
+                    nextEl: '.lawyer-next',
+                    prevEl: '.lawyer-prev',
+                },
+                pagination: {
+                    el: '.lawyer-pagination',
+                    clickable: true,
+                    dynamicBullets: true,
+                },
+                breakpoints: {
+                    480: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 25,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    992: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1200: {
+                        slidesPerView: 3,
+                        spaceBetween: 40,
+                    },
+                },
+                // Animation on slide change
+                on: {
+                    slideChange: function() {
+                        const slides = this.slides;
+                        slides.forEach((slide) => {
+                            if (slide.classList.contains('swiper-slide-active')) {
+                                slide.style.opacity = '0';
+                                slide.style.transform = 'scale(0.95)';
+                                setTimeout(() => {
+                                    slide.style.transition = 'all 0.5s ease';
+                                    slide.style.opacity = '1';
+                                    slide.style.transform = 'scale(1)';
+                                }, 50);
+                            }
+                        });
+                    },
+                },
+            });
+
+            // Pause autoplay on hover
+            const lawyerContainer = document.querySelector('.lawyer-swiper-modern');
+            if (lawyerContainer) {
+                lawyerContainer.addEventListener('mouseenter', function() {
+                    lawyerSwiper.autoplay.stop();
+                });
+                lawyerContainer.addEventListener('mouseleave', function() {
+                    lawyerSwiper.autoplay.start();
                 });
             }
         }
