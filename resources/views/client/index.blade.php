@@ -541,6 +541,22 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 wow fadeInLeft">
+                    <div class="mobile-app-image text-center">
+                        <img src="{{ asset('client/img/mobile-app-illustration.png') }}" alt="{{ __('Online Platform') }}" class="img-fluid mobile-app-illustration" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <div class="app-mockup-placeholder" style="display: none;">
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <div class="screen-content">
+                                        <i class="fas fa-laptop"></i>
+                                        <h3>{{ __('Online Platform') }}</h3>
+                                        <p>{{ __('Access from Anywhere') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInRight">
                     <div class="mobile-app-content">
                         <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
                         <p class="mb_30">{{ __('تابع قضيتك بسهولة من خلال حسابك الشخصي. احصل على تحديثات فورية، تابع تقدم القضية، وتواصل مع محاميك في أي وقت ومن أي مكان.') }}</p>
@@ -587,21 +603,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 wow fadeInRight">
-                    <div class="mobile-app-image text-center">
-                        <div class="app-mockup-placeholder">
-                            <div class="phone-mockup">
-                                <div class="phone-screen">
-                                    <div class="screen-content">
-                                        <i class="fas fa-laptop"></i>
-                                        <h3>{{ __('Online Platform') }}</h3>
-                                        <p>{{ __('Access from Anywhere') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -620,7 +621,7 @@
             </div>
             <div class="row mt_50">
                 <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item text-center">
+                    <div class="how-it-works-item text-center step-item-1">
                         <div class="step-number">1</div>
                         <div class="step-icon">
                             <i class="fas fa-calendar-alt"></i>
@@ -630,7 +631,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item text-center">
+                    <div class="how-it-works-item text-center step-item-2">
                         <div class="step-number">2</div>
                         <div class="step-icon">
                             <i class="fas fa-credit-card"></i>
@@ -640,7 +641,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item text-center">
+                    <div class="how-it-works-item text-center step-item-3">
                         <div class="step-number">3</div>
                         <div class="step-icon">
                             <i class="fas fa-envelope"></i>
@@ -2198,6 +2199,392 @@
 
         [dir="rtl"] .service-swiper-next {
             left: 10px;
+        }
+    }
+
+    /* ============================================
+       How It Works Section - Enhanced Design
+       تحسين تصميم قسم كيف يعمل
+       ============================================ */
+    .how-it-works-area {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f4f8 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .how-it-works-area::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: 
+            radial-gradient(circle at 20% 30%, rgba(107, 93, 71, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(107, 93, 71, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .how-it-works-item {
+        position: relative;
+        padding: 50px 35px;
+        background: #ffffff;
+        border-radius: 25px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid transparent;
+        height: 100%;
+        overflow: visible;
+        z-index: 1;
+    }
+
+    .how-it-works-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #6b5d47 0%, #8b7355 50%, #6b5d47 100%);
+        border-radius: 25px 25px 0 0;
+        transform: scaleX(0);
+        transition: transform 0.4s ease;
+        transform-origin: left;
+    }
+
+    .how-it-works-item:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 20px 60px rgba(107, 93, 71, 0.2);
+        border-color: #6b5d47;
+    }
+
+    .how-it-works-item:hover::before {
+        transform: scaleX(1);
+    }
+
+    .step-number {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+        color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 800;
+        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        z-index: 10;
+        border: 4px solid #ffffff;
+        transition: all 0.4s ease;
+    }
+
+    .how-it-works-item:hover .step-number {
+        transform: translateX(-50%) scale(1.15) rotate(5deg);
+        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5);
+        background: linear-gradient(135deg, #f4d03f 0%, #ffd700 50%, #f4d03f 100%);
+    }
+
+    .step-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #6b5d47 0%, #8b7355 50%, #a0826d 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 30px auto 30px;
+        font-size: 42px;
+        color: #ffffff;
+        box-shadow: 0 10px 30px rgba(107, 93, 71, 0.3);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .step-icon::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .step-icon i {
+        font-size: 42px;
+        color: #ffffff;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s ease;
+    }
+
+    .how-it-works-item:hover .step-icon {
+        transform: scale(1.15) rotate(5deg);
+        box-shadow: 0 15px 40px rgba(107, 93, 71, 0.4);
+        background: linear-gradient(135deg, #8b7355 0%, #a0826d 50%, #8b7355 100%);
+    }
+
+    .how-it-works-item:hover .step-icon::before {
+        opacity: 1;
+    }
+
+    .how-it-works-item:hover .step-icon i {
+        transform: scale(1.1);
+    }
+
+    /* Different gradient colors for each step */
+    .step-item-1 .step-icon {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .step-item-1:hover .step-icon {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .step-item-2 .step-icon {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+    }
+
+    .step-item-2:hover .step-icon {
+        background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+        box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4);
+    }
+
+    .step-item-3 .step-icon {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+    }
+
+    .step-item-3:hover .step-icon {
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4);
+    }
+
+    .step-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 18px;
+        transition: color 0.3s ease;
+        line-height: 1.4;
+    }
+
+    .how-it-works-item:hover .step-title {
+        color: #6b5d47;
+    }
+
+    .step-description {
+        color: #5a6c7d;
+        line-height: 1.9;
+        margin: 0;
+        font-size: 16px;
+        transition: color 0.3s ease;
+    }
+
+    .how-it-works-item:hover .step-description {
+        color: #4a5568;
+    }
+
+    /* Button Enhancement */
+    .how-it-works-area .btn-primary {
+        background: linear-gradient(135deg, #6b5d47 0%, #8b7355 100%);
+        border: none;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 50px;
+        box-shadow: 0 8px 25px rgba(107, 93, 71, 0.3);
+        transition: all 0.3s ease;
+        text-transform: none;
+    }
+
+    .how-it-works-area .btn-primary:hover {
+        background: linear-gradient(135deg, #8b7355 0%, #6b5d47 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(107, 93, 71, 0.4);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 991px) {
+        .how-it-works-item {
+            padding: 40px 25px;
+            margin-bottom: 40px;
+        }
+
+        .step-number {
+            width: 55px;
+            height: 55px;
+            font-size: 24px;
+            top: -25px;
+        }
+
+        .step-icon {
+            width: 90px;
+            height: 90px;
+            font-size: 38px;
+            margin: 25px auto 25px;
+        }
+
+        .step-icon i {
+            font-size: 38px;
+        }
+
+        .step-title {
+            font-size: 22px;
+        }
+
+        .step-description {
+            font-size: 15px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .how-it-works-item {
+            padding: 35px 20px;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            font-size: 22px;
+            top: -20px;
+            border-width: 3px;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            font-size: 34px;
+            margin: 20px auto 20px;
+        }
+
+        .step-icon i {
+            font-size: 34px;
+        }
+
+        .step-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .step-description {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .how-it-works-item {
+            padding: 30px 15px;
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            top: -18px;
+            border-width: 3px;
+        }
+
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            font-size: 30px;
+            margin: 15px auto 15px;
+        }
+
+        .step-icon i {
+            font-size: 30px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .step-description {
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .how-it-works-area .btn-primary {
+            padding: 12px 30px;
+            font-size: 16px;
+        }
+    }
+
+    /* ============================================
+       Mobile App Section - Image Enhancement
+       تحسين عرض الصورة في قسم Mobile App
+       ============================================ */
+    .mobile-app-image {
+        position: relative;
+        z-index: 1;
+    }
+
+    .mobile-app-illustration {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+        border-radius: 20px;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .mobile-app-illustration:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    /* RTL Support - Swap columns order */
+    [dir="rtl"] .mobile-app-area .row {
+        flex-direction: row-reverse;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 991px) {
+        .mobile-app-illustration {
+            margin-bottom: 30px;
+            max-width: 90%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .mobile-app-illustration {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        [dir="rtl"] .mobile-app-area .row {
+            flex-direction: column;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .mobile-app-illustration {
+            max-width: 100%;
+            border-radius: 15px;
         }
     }
 </style>
