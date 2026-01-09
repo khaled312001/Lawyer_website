@@ -54,6 +54,16 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="s-box">
+                                <select name="lawyer" class="form-control select2">
+                                    <option value="">{{ __('Select Lawyer') }}</option>
+                                    @foreach ($lawyersForSearch as $lawyer)
+                                        <option {{ @$lawyer_id == $lawyer->id ? 'selected' : '' }}
+                                            value="{{ $lawyer?->id }}">
+                                            {{ ucwords($lawyer?->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="s-button">
                                 <button type="submit">{{ __('Search') }}</button>
                             </div>

@@ -33,16 +33,6 @@ class SectionControlTranslation extends Model {
         'blog_first_heading',
         'blog_second_heading',
         'blog_description',
-        'hero_title',
-        'hero_description',
-        'hero_feature_1_title',
-        'hero_feature_1_description',
-        'hero_feature_2_title',
-        'hero_feature_2_description',
-        'hero_feature_3_title',
-        'hero_feature_3_description',
-        'hero_search_title',
-        'hero_search_subtitle',
     ];
 
     public function section_control(): ?BelongsTo {

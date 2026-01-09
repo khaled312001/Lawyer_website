@@ -7,100 +7,81 @@
 @endsection
 @section('client-content')
 
-    <!--Hero Section Start-->
-    <section class="hero-section-modern">
-        <div class="hero-background">
-            <div class="hero-slider">
-                @foreach ($sliders as $item)
-                    <div class="hero-slide">
-                        <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="hero-image">
-                    </div>
-                @endforeach
-            </div>
-            <div class="hero-overlay"></div>
-        </div>
-        
-        <div class="hero-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="hero-text text-center">
-                            @if($home_sections?->hero_status == 1)
-                            <div class="hero-badge">
-                                <i class="fas fa-gavel"></i>
-                                <span>{{ $home_sections?->hero_badge_text ?? __('Legal Excellence Since') }} {{ date('Y') - 10 }}</span>
-                            </div>
-                            <h1 class="hero-title">{{ $home_sections?->hero_title ?? ($setting->app_name ?? __('Our Law Firm')) }}</h1>
-                            <p class="hero-description">
-                                {{ $home_sections?->hero_description ?? __('Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.') }}
-                            </p>
-                            
-                            <div class="hero-features">
-                                <div class="hero-feature-item">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <h4>{{ $home_sections?->hero_feature_1_title ?? __('Expert Legal Team') }}</h4>
-                                    <p>{{ $home_sections?->hero_feature_1_description ?? __('Experienced professionals dedicated to your success') }}</p>
+    <!--Slider Start-->
+    <div class="slider" id="main-slider">
+        <div class="doc-search-item">
+            <div class="d-flex align-items-center h_100_p">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-xxl-9">
+                            <div class="v-mid-content">
+                                <div class="heading">
+                                    <h2>{{ __('Search The Best lawyers') }}</h2>
+                                    <p>{{ __('Find out department and location based lawyers near your area') }}</p>
                                 </div>
-                                <div class="hero-feature-item">
-                                    <i class="fas fa-handshake"></i>
-                                    <h4>{{ $home_sections?->hero_feature_2_title ?? __('Trusted Service') }}</h4>
-                                    <p>{{ $home_sections?->hero_feature_2_description ?? __('Reliable and transparent legal solutions') }}</p>
-                                </div>
-                                <div class="hero-feature-item">
-                                    <i class="fas fa-clock"></i>
-                                    <h4>{{ $home_sections?->hero_feature_3_title ?? __('24/7 Support') }}</h4>
-                                    <p>{{ $home_sections?->hero_feature_3_description ?? __('Always available to assist you') }}</p>
-                                </div>
-                            </div>
-
-                            <div class="hero-search">
-                                <h3>{{ $home_sections?->hero_search_title ?? __('Find Legal Services') }}</h3>
-                                <p class="search-subtitle">{{ $home_sections?->hero_search_subtitle ?? __('Search by location and department to find the right legal assistance') }}</p>
-                                <form action="{{ route('website.search.lawyer') }}" class="search-form">
-                                    <div class="search-inputs">
-                                        <div class="input-group">
-                                            <i class="fas fa-map-marker-alt"></i>
+                                <div class="doc-search-section">
+                                    <form action="{{ route('website.search.lawyer') }}">
+                                        <div class="box">
                                             <select name="location" class="form-control select2">
                                                 <option value="">{{ __('Select Location') }}</option>
                                                 @foreach ($locations as $location)
                                                     <option {{ @$location_id == $location?->id ? 'selected' : '' }}
-                                                        value="{{ $location?->id }}">{{ ucwords($location?->name) }}</option>
+                                                        value="{{ $location?->id }}">{{ ucwords($location?->name) }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="input-group">
-                                            <i class="fas fa-briefcase"></i>
+                                        <div class="box">
                                             <select name="department" class="form-control select2">
-                                                <option value="">{{ __('Select Department') }}</option>
+                                                <option value="">
+                                                    {{ __('Select Department') }}</option>
                                                 @foreach ($departmentsForSearch as $department)
                                                     <option {{ @$department_id == $department?->id ? 'selected' : '' }}
-                                                        value="{{ $department?->id }}">{{ ucwords($department?->name) }}</option>
+                                                        value="{{ $department?->id }}">{{ ucwords($department?->name) }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-primary search-btn">
-                                            <i class="fas fa-search"></i> {{ __('Search') }}
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                        <div class="box">
+                                            <select name="lawyer" class="form-control select2">
+                                                <option value="">
+                                                    {{ __('Select Lawyer') }}</option>
+                                                @foreach ($lawyersForSearch as $lawyer)
+                                                    <option {{ @$lawyer_id == $lawyer?->id ? 'selected' : '' }}
+                                                        value="{{ $lawyer?->id }}">
+                                                        {{ ucwords($lawyer?->name) }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="doc-search-button">
+                                            <button type="submit" class="btn btn-danger">{{ __('Search') }}</button>
+                                        </div>
+                                    </form>
+                                </div>
 
-                            <div class="hero-buttons">
-                                <a href="{{ route('website.contact-us') }}" class="btn btn-outline-light">
-                                    <i class="fas fa-envelope"></i> {{ __('Contact Us') }}
-                                </a>
-                                <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-light">
-                                    <i class="fas fa-calendar-check"></i> {{ __('Book Consultation') }}
-                                </a>
                             </div>
-                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!--Hero Section End-->
+
+        <div class="banner_slider_area">
+            <div class="banner_slider_overlay">
+                <div class="row banner_slider">
+                    @foreach ($sliders as $item)
+                        <div class="col-12">
+                            <div class="banner_slider_item">
+                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--Slider End-->
 
 
     <!--Why Us Start-->
@@ -578,7 +559,7 @@
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="mobile-app-content">
                         <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
-                        <p class="mb_30">{{ __('تابع قضيتك بسهولة من خلال حسابك الشخصي. احصل على تحديثات فورية، تابع تقدم القضية، وتواصل مع الإدارة في أي وقت ومن أي مكان.') }}</p>
+                        <p class="mb_30">{{ __('تابع قضيتك بسهولة من خلال حسابك الشخصي. احصل على تحديثات فورية، تابع تقدم القضية، وتواصل مع محاميك في أي وقت ومن أي مكان.') }}</p>
                         
                         <div class="app-features mb_40">
                             <div class="feature-item mb_20">
@@ -605,7 +586,7 @@
                                 </div>
                                 <div class="feature-text">
                                     <h4>{{ __('3. احجز استشاراتك') }}</h4>
-                                    <p>{{ __('احجز موعدك مع الإدارة مباشرة من الموقع. متاح طوال الأسبوع لمساعدتك في أي وقت تحتاجه.') }}</p>
+                                    <p>{{ __('احجز موعدك مع محامينا الخبراء مباشرة من الموقع. متاح طوال الأسبوع لمساعدتك في أي وقت تحتاجه.') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -755,386 +736,6 @@
 
 @push('css')
 <style>
-    /* ============================================
-       HERO SECTION - Clean Design
-       ============================================ */
-    .hero-section-modern {
-        position: relative;
-        min-height: 650px;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-    }
-
-    .hero-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
-
-    .hero-slider {
-        width: 100%;
-        height: 100%;
-    }
-
-    .hero-slider .slick-list,
-    .hero-slider .slick-track {
-        height: 100%;
-    }
-
-    .hero-slide {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
-    .hero-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-
-    .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(0, 32, 76, 0.85) 0%, rgba(107, 93, 71, 0.75) 100%);
-        z-index: 2;
-    }
-
-    .hero-content {
-        position: relative;
-        z-index: 10;
-        width: 100%;
-        padding: 80px 0;
-    }
-
-    .hero-text {
-        color: #ffffff;
-    }
-
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        padding: 12px 24px;
-        border-radius: 50px;
-        margin-bottom: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .hero-badge i {
-        color: var(--colorPrimary);
-        font-size: 18px;
-    }
-
-    .hero-badge span {
-        font-size: 14px;
-        font-weight: 600;
-        color: #ffffff;
-    }
-
-    .hero-title {
-        font-size: 56px;
-        font-weight: 800;
-        line-height: 1.2;
-        margin-bottom: 25px;
-        color: #ffffff;
-        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .hero-description {
-        font-size: 20px;
-        line-height: 1.8;
-        max-width: 800px;
-        margin: 0 auto 40px;
-        color: rgba(255, 255, 255, 0.95);
-        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .hero-features {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        margin-bottom: 40px;
-        flex-wrap: wrap;
-    }
-
-    .hero-feature-item {
-        text-align: center;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        padding: 25px 30px;
-        border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.3s ease;
-        min-width: 220px;
-    }
-
-    .hero-feature-item:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-5px);
-    }
-
-    .hero-feature-item i {
-        font-size: 40px;
-        color: var(--colorPrimary);
-        margin-bottom: 15px;
-        display: block;
-    }
-
-    .hero-feature-item h4 {
-        font-size: 18px;
-        font-weight: 700;
-        margin: 0 0 10px 0;
-        color: #ffffff;
-    }
-
-    .hero-feature-item p {
-        font-size: 14px;
-        margin: 0;
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.6;
-    }
-
-    .hero-search {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        padding: 40px;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        margin-bottom: 30px;
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero-search h3 {
-        font-size: 28px;
-        font-weight: 700;
-        color: var(--colorBlack);
-        margin-bottom: 10px;
-    }
-
-    .search-subtitle {
-        font-size: 16px;
-        color: #666;
-        margin-bottom: 25px;
-    }
-
-    .search-form .search-inputs {
-        display: flex;
-        gap: 15px;
-        align-items: flex-end;
-        flex-wrap: wrap;
-    }
-
-    .search-form .input-group {
-        flex: 1;
-        min-width: 200px;
-        position: relative;
-    }
-
-    .search-form .input-group i {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--colorPrimary);
-        z-index: 5;
-        pointer-events: none;
-    }
-
-    .search-form .input-group .form-control {
-        padding-right: 45px;
-        height: 55px;
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        font-size: 16px;
-    }
-
-    .search-form .input-group .form-control:focus {
-        border-color: var(--colorPrimary);
-        box-shadow: 0 0 0 3px rgba(107, 93, 71, 0.1);
-    }
-
-    .search-btn {
-        height: 55px;
-        padding: 0 35px;
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 12px;
-        white-space: nowrap;
-    }
-
-    .hero-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
-
-    .hero-buttons .btn {
-        padding: 15px 35px;
-        font-size: 16px;
-        font-weight: 600;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-
-    .hero-buttons .btn-outline-light {
-        border: 2px solid rgba(255, 255, 255, 0.5);
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .hero-buttons .btn-outline-light:hover {
-        background: rgba(255, 255, 255, 0.2);
-        border-color: #ffffff;
-    }
-
-    .hero-buttons .btn-light {
-        background: #ffffff;
-        color: var(--colorPrimary);
-    }
-
-    .hero-buttons .btn-light:hover {
-        background: var(--colorPrimary);
-        color: #ffffff;
-    }
-
-    /* Hero Slider Dots */
-    .hero-slider .slick-dots {
-        bottom: 30px;
-        z-index: 15;
-    }
-
-    .hero-slider .slick-dots li button {
-        width: 40px;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 20px;
-    }
-
-    .hero-slider .slick-dots li.slick-active button {
-        background: var(--colorPrimary);
-        width: 50px;
-    }
-
-    /* Responsive */
-    @media (max-width: 991px) {
-        .hero-section-modern {
-            min-height: 600px;
-        }
-
-        .hero-content {
-            padding: 60px 0;
-        }
-
-        .hero-title {
-            font-size: 40px;
-        }
-
-        .hero-description {
-            font-size: 18px;
-        }
-
-        .hero-features {
-            gap: 20px;
-        }
-
-        .hero-search {
-            padding: 30px 25px;
-        }
-
-        .search-form .search-inputs {
-            flex-direction: column;
-        }
-
-        .search-form .input-group {
-            width: 100%;
-        }
-
-        .search-btn {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .hero-section-modern {
-            min-height: 550px;
-        }
-
-        .hero-content {
-            padding: 40px 0;
-        }
-
-        .hero-title {
-            font-size: 32px;
-        }
-
-        .hero-description {
-            font-size: 16px;
-            padding: 0 15px;
-        }
-
-        .hero-features {
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .hero-feature-item {
-            width: 100%;
-            min-width: auto;
-        }
-
-        .hero-search {
-            padding: 25px 20px;
-        }
-
-        .hero-buttons {
-            flex-direction: column;
-        }
-
-        .hero-buttons .btn {
-            width: 100%;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .hero-section-modern {
-            min-height: 500px;
-        }
-
-        .hero-title {
-            font-size: 28px;
-        }
-
-        .hero-badge {
-            padding: 10px 20px;
-            font-size: 12px;
-        }
-    }
-
-    /* RTL Support */
-    [dir="rtl"] .search-form .input-group i {
-        right: auto;
-        left: 15px;
-    }
-
-    [dir="rtl"] .search-form .input-group .form-control {
-        padding-right: 15px;
-        padding-left: 45px;
-    }
-
     /* Testimonial Modern Styles */
     .testimonial-area-modern {
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
@@ -1165,16 +766,6 @@
         overflow: visible;
     }
 
-    .testimonial-swiper-modern .swiper-wrapper {
-        display: flex;
-        align-items: stretch;
-    }
-
-    .testimonial-swiper-modern .swiper-slide {
-        height: auto;
-        display: flex;
-    }
-
     .testimonial-card-modern {
         background: #ffffff;
         border-radius: 25px;
@@ -1184,12 +775,10 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border: 2px solid transparent;
         margin: 20px 10px;
-        height: 100%;
-        min-height: 450px;
+        min-height: 400px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        width: 100%;
     }
 
     .testimonial-card-modern::before {
@@ -1435,7 +1024,7 @@
         .testimonial-card-modern {
             padding: 40px 30px;
             margin: 15px 5px;
-            min-height: 400px;
+            min-height: 380px;
         }
 
         .testimonial-text {
@@ -1483,7 +1072,7 @@
     @media (max-width: 480px) {
         .testimonial-card-modern {
             padding: 30px 20px;
-            min-height: 380px;
+            min-height: 360px;
         }
 
         .testimonial-text {
@@ -1560,16 +1149,6 @@
         overflow: visible;
     }
 
-    .blog-swiper-modern .swiper-wrapper {
-        display: flex;
-        align-items: stretch;
-    }
-
-    .blog-swiper-modern .swiper-slide {
-        height: auto;
-        display: flex;
-    }
-
     .blog-card-modern {
         background: #ffffff;
         border-radius: 20px;
@@ -1579,10 +1158,8 @@
         border: 2px solid transparent;
         margin: 20px 10px;
         height: 100%;
-        min-height: 450px;
         display: flex;
         flex-direction: column;
-        width: 100%;
     }
 
     .blog-card-modern:hover {
@@ -1595,9 +1172,7 @@
         position: relative;
         overflow: hidden;
         height: 280px;
-        min-height: 280px;
         background: #f0f0f0;
-        flex-shrink: 0;
     }
 
     .blog-image {
@@ -1847,13 +1422,8 @@
             padding: 30px 0;
         }
 
-        .blog-card-modern {
-            min-height: 400px;
-        }
-
         .blog-image-wrapper {
             height: 240px;
-            min-height: 240px;
         }
 
         .blog-content {
@@ -1901,13 +1471,8 @@
     }
 
     @media (max-width: 480px) {
-        .blog-card-modern {
-            min-height: 380px;
-        }
-
         .blog-image-wrapper {
             height: 200px;
-            min-height: 200px;
         }
 
         .blog-content {
@@ -2850,116 +2415,111 @@
         box-shadow: 0 12px 35px rgba(107, 93, 71, 0.4);
     }
 
-    /* Responsive Design - Keep same design as desktop */
+    /* Responsive Design */
     @media (max-width: 991px) {
         .how-it-works-item {
-            padding: 50px 35px;
-            margin-bottom: 30px;
+            padding: 40px 25px;
+            margin-bottom: 40px;
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
-            font-size: 28px;
-            top: -30px;
+            width: 55px;
+            height: 55px;
+            font-size: 24px;
+            top: -25px;
         }
 
         .step-icon {
-            width: 100px;
-            height: 100px;
-            font-size: 42px;
-            margin: 30px auto 30px;
+            width: 90px;
+            height: 90px;
+            font-size: 38px;
+            margin: 25px auto 25px;
         }
 
         .step-icon i {
-            font-size: 42px;
+            font-size: 38px;
         }
 
         .step-title {
-            font-size: 24px;
-            margin-bottom: 18px;
+            font-size: 22px;
         }
 
         .step-description {
-            font-size: 16px;
-            line-height: 1.9;
+            font-size: 15px;
         }
     }
 
     @media (max-width: 768px) {
         .how-it-works-item {
-            padding: 50px 35px;
-            margin-bottom: 30px;
+            padding: 35px 20px;
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
-            font-size: 28px;
-            top: -30px;
-            border-width: 4px;
+            width: 50px;
+            height: 50px;
+            font-size: 22px;
+            top: -20px;
+            border-width: 3px;
         }
 
         .step-icon {
-            width: 100px;
-            height: 100px;
-            font-size: 42px;
-            margin: 30px auto 30px;
+            width: 80px;
+            height: 80px;
+            font-size: 34px;
+            margin: 20px auto 20px;
         }
 
         .step-icon i {
-            font-size: 42px;
+            font-size: 34px;
         }
 
         .step-title {
-            font-size: 24px;
-            margin-bottom: 18px;
+            font-size: 20px;
+            margin-bottom: 15px;
         }
 
         .step-description {
-            font-size: 16px;
-            line-height: 1.9;
+            font-size: 14px;
         }
     }
 
     @media (max-width: 480px) {
         .how-it-works-item {
-            padding: 50px 30px;
-            margin-bottom: 30px;
+            padding: 30px 15px;
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
-            font-size: 28px;
-            top: -30px;
-            border-width: 4px;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            top: -18px;
+            border-width: 3px;
         }
 
         .step-icon {
-            width: 100px;
-            height: 100px;
-            font-size: 42px;
-            margin: 30px auto 30px;
+            width: 70px;
+            height: 70px;
+            font-size: 30px;
+            margin: 15px auto 15px;
         }
 
         .step-icon i {
-            font-size: 42px;
+            font-size: 30px;
         }
 
         .step-title {
-            font-size: 24px;
-            margin-bottom: 18px;
+            font-size: 18px;
+            margin-bottom: 12px;
         }
 
         .step-description {
-            font-size: 16px;
-            line-height: 1.9;
+            font-size: 13px;
+            line-height: 1.7;
         }
 
         .how-it-works-area .btn-primary {
-            padding: 15px 40px;
-            font-size: 18px;
+            padding: 12px 30px;
+            font-size: 16px;
         }
     }
 
@@ -3098,42 +2658,12 @@
 @push('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize Hero Slider
-        if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
-            const isRtl = document.documentElement.dir === 'rtl';
-            
-            setTimeout(function() {
-                if (jQuery('.hero-slider').hasClass('slick-initialized')) {
-                    jQuery('.hero-slider').slick('unslick');
-                }
-                
-                jQuery('.hero-slider').slick({
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                    autoplaySpeed: 5000,
-                    speed: 1000,
-                    fade: true,
-                    cssEase: 'linear',
-                    dots: true,
-                    arrows: false,
-                    rtl: isRtl,
-                    pauseOnHover: true,
-                    infinite: true,
-                    swipe: true,
-                    touchMove: true
-                });
-            }, 100);
-        }
-        
-        // Original code continues
         if (typeof Swiper !== 'undefined') {
             // Testimonial Swiper
             const testimonialSwiper = new Swiper('.testimonial-swiper-modern', {
                 slidesPerView: 1,
                 spaceBetween: 30,
                 loop: true,
-                autoHeight: false,
                 autoplay: {
                     delay: 5000,
                     disableOnInteraction: false,
@@ -3204,7 +2734,6 @@
                 slidesPerView: 1,
                 spaceBetween: 30,
                 loop: true,
-                autoHeight: false,
                 autoplay: {
                     delay: 4000,
                     disableOnInteraction: false,

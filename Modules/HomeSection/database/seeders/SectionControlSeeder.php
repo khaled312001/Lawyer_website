@@ -56,10 +56,7 @@ class SectionControlSeeder extends Seeder {
             ],
         ];
 
-        $sectionControl = SectionControl::create([
-            'hero_badge_text' => 'Legal Excellence Since',
-            'hero_status' => true,
-        ]);
+        $sectionControl = SectionControl::create();
         // Insert section control translations
         foreach ($translations as $translation) {
             SectionControlTranslation::create([
@@ -83,16 +80,6 @@ class SectionControlSeeder extends Seeder {
                 'blog_first_heading'        => $translation['blog_first_heading'],
                 'blog_second_heading'       => $translation['blog_second_heading'],
                 'blog_description'          => $translation['blog_description'],
-                'hero_title'                => $translation['lang_code'] == 'en' ? 'Our Law Firm' : 'مكتبنا القانوني',
-                'hero_description'           => $translation['lang_code'] == 'en' ? 'Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.' : 'شريكك الموثوق للحلول القانونية الشاملة. نقدم خدمات قانونية متخصصة بنزاهة واحترافية وتفانٍ لتحقيق أفضل النتائج لعملائنا.',
-                'hero_feature_1_title'      => $translation['lang_code'] == 'en' ? 'Expert Legal Team' : 'فريق قانوني متخصص',
-                'hero_feature_1_description' => $translation['lang_code'] == 'en' ? 'Experienced professionals dedicated to your success' : 'محترفون ذوو خبرة مكرسون لنجاحك',
-                'hero_feature_2_title'      => $translation['lang_code'] == 'en' ? 'Trusted Service' : 'خدمة موثوقة',
-                'hero_feature_2_description' => $translation['lang_code'] == 'en' ? 'Reliable and transparent legal solutions' : 'حلول قانونية موثوقة وشفافة',
-                'hero_feature_3_title'      => $translation['lang_code'] == 'en' ? '24/7 Support' : 'دعم على مدار الساعة',
-                'hero_feature_3_description' => $translation['lang_code'] == 'en' ? 'Always available to assist you' : 'متاح دائماً لمساعدتك',
-                'hero_search_title'         => $translation['lang_code'] == 'en' ? 'Find Legal Services' : 'ابحث عن الخدمات القانونية',
-                'hero_search_subtitle'      => $translation['lang_code'] == 'en' ? 'Search by location and department to find the right legal assistance' : 'ابحث حسب الموقع والقسم للعثور على المساعدة القانونية المناسبة',
             ]);
         }
     }

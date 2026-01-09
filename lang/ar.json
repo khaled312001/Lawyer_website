@@ -695,7 +695,6 @@
     "Minimum Amount": "الحد الأدنى للمبلغ",
     "Minutes": "دقائق",
     "Mission Section": "قسم المهمة",
-    "ratings":"تقييمات",
     "Mollie": "مولي",
     "Mollie credentials not found": "لم يتم العثور على أوراق اعتماد مولي",
     "Mollie key": "مفتاح مولي",
@@ -1647,16 +1646,5 @@
     "Invalid OTP. Please try again.": "رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.",
     "Too many attempts. Please request a new OTP.": "محاولات كثيرة. يرجى طلب رمز تحقق جديد.",
     "Phone number not found. Please try again.": "رقم الهاتف غير موجود. يرجى المحاولة مرة أخرى.",
-    "Your verification code is: :otp. Valid for 10 minutes.": "رمز التحقق الخاص بك هو: :otp. صالح لمدة 10 دقائق.",
-    "Legal Excellence Since": "التميز القانوني منذ",
-    "Our Law Firm": "مكتبنا القانوني",
-    "Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.": "شريكك الموثوق للحلول القانونية الشاملة. نقدم خدمات قانونية متخصصة بنزاهة واحترافية وتفانٍ لتحقيق أفضل النتائج لعملائنا.",
-    "Expert Legal Team": "فريق قانوني متخصص",
-    "Experienced professionals dedicated to your success": "محترفون ذوو خبرة مكرسون لنجاحك",
-    "Trusted Service": "خدمة موثوقة",
-    "Reliable and transparent legal solutions": "حلول قانونية موثوقة وشفافة",
-    "24/7 Support": "دعم على مدار الساعة",
-    "Always available to assist you": "متاح دائماً لمساعدتك",
-    "Find Legal Services": "ابحث عن الخدمات القانونية",
-    "Search by location and department to find the right legal assistance": "ابحث حسب الموقع والقسم للعثور على المساعدة القانونية المناسبة"
+    "Your verification code is: :otp. Valid for 10 minutes.": "رمز التحقق الخاص بك هو: :otp. صالح لمدة 10 دقائق."
 }

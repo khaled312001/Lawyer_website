@@ -63,6 +63,19 @@
                         {{-- تم حذف الرسوم - سيتم تحديدها بعد استشارة الحالة --}}
 
                         {!! $lawyer?->about !!}
+                        
+                        {{-- زر الحجز فقط --}}
+                        <div class="mt-3 d-flex gap-2 flex-wrap">
+                            @auth('web')
+                            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookAppointmentModal{{ $lawyer->id }}">
+                                <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
+                            </button>
+                            @else
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
+                            </a>
+                            @endauth
+                        </div>
 
                     </div>
                 </div>
@@ -164,6 +177,50 @@
         </div>
     </div>
     <!--Team Detail End-->
+
+    <!--Book Appointment Modal for Lawyer Detail Page-->
+    <div class="modal fade" id="bookAppointmentModal{{ $lawyer->id }}" tabindex="-1" aria-labelledby="bookAppointmentModalLabel{{ $lawyer->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookAppointmentModalLabel{{ $lawyer->id }}">{{ __('Book a web meeting with') }} {{ $lawyer->name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('website.create.appointment') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="lawyer_id" value="{{ $lawyer->id }}">
+                        <input type="hidden" name="department_id" value="{{ $lawyer->department_id }}">
+                        
+                        <div class="form-group mb-3">
+                            <label for="lawyer-detail-date-{{ $lawyer->id }}">{{ __('Select Date') }}</label>
+                            <input type="text" name="date" class="form-control datepicker" id="lawyer-detail-date-{{ $lawyer->id }}" required>
+                        </div>
+
+                        <div class="form-group mb-3 d-none" id="lawyer-detail-schedule-box-{{ $lawyer->id }}">
+                            <label for="lawyer-detail-schedule-{{ $lawyer->id }}">{{ __('Select Time') }}</label>
+                            <select name="schedule_id" class="form-control" id="lawyer-detail-schedule-{{ $lawyer->id }}" required>
+                                <option value="">{{ __('Select time') }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="lawyer-detail-case-type-{{ $lawyer->id }}">{{ __('Case Type') }}</label>
+                            <input type="text" name="case_type" class="form-control" id="lawyer-detail-case-type-{{ $lawyer->id }}" required placeholder="{{ __('Enter case type (e.g., Criminal, Civil, Family, Commercial, etc.)') }}">
+                            <small class="form-text text-muted">{{ __('Please specify the type of case you need consultation for') }}</small>
+                        </div>
+
+                        <div id="lawyer-detail-error-{{ $lawyer->id }}" class="alert alert-danger d-none"></div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                            <button type="submit" class="btn btn-primary" id="lawyer-detail-submit-{{ $lawyer->id }}" disabled>{{ __('Book Appointment') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('css')
@@ -761,6 +818,36 @@
             firstTab.closest('li').addClass('active');
         }
         
+        $('#lawyer-detail-date-{{ $lawyer->id }}').on('change', function() {
+            const date = $(this).val();
+            const lawyerId = {{ $lawyer->id }};
+            
+            if (!date) return;
+            
+            $.ajax({
+                url: '{{ url("/get-appointment") }}',
+                method: 'GET',
+                data: {
+                    lawyer_id: lawyerId,
+                    date: date
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#lawyer-detail-schedule-{{ $lawyer->id }}').html(response.success);
+                        $('#lawyer-detail-schedule-box-{{ $lawyer->id }}').removeClass('d-none');
+                        $('#lawyer-detail-submit-{{ $lawyer->id }}').prop('disabled', false);
+                        $('#lawyer-detail-error-{{ $lawyer->id }}').addClass('d-none');
+                    } else if (response.error) {
+                        $('#lawyer-detail-schedule-box-{{ $lawyer->id }}').addClass('d-none');
+                        $('#lawyer-detail-submit-{{ $lawyer->id }}').prop('disabled', true);
+                        $('#lawyer-detail-error-{{ $lawyer->id }}').removeClass('d-none').html(response.error);
+                    }
+                },
+                error: function() {
+                    $('#lawyer-detail-error-{{ $lawyer->id }}').removeClass('d-none').html('{{ __("Error loading available times") }}');
+                }
+            });
+        });
     });
     </script>
 @endpush
