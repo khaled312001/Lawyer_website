@@ -1393,38 +1393,51 @@
 
     /* RTL: الأرقام على اليسار والمحتوى على اليمين */
     [dir="rtl"] .row.align-items-center {
-        flex-direction: row-reverse;
+        flex-direction: row;
+        display: flex;
     }
 
     [dir="rtl"] .col-lg-5.order-lg-2 {
         order: 1 !important;
         padding-right: 0 !important;
         padding-left: 50px !important;
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
     }
 
     [dir="rtl"] .col-lg-7.order-lg-1 {
         order: 2 !important;
         padding-left: 0 !important;
         padding-right: 50px !important;
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
     }
 
     /* زيادة التباعد بين الأقسام في RTL */
     [dir="rtl"] .row.align-items-center > .col-lg-5.order-lg-2 {
         margin-right: 0;
-        margin-left: 30px;
+        margin-left: 0;
     }
 
     [dir="rtl"] .row.align-items-center > .col-lg-7.order-lg-1 {
         margin-left: 0;
-        margin-right: 30px;
+        margin-right: 0;
     }
 
     /* LTR: الأرقام على اليمين والمحتوى على اليسار (ثابت) */
+    [dir="ltr"] .row.align-items-center,
+    html:not([dir="rtl"]) .row.align-items-center {
+        flex-direction: row;
+        display: flex;
+    }
+
     [dir="ltr"] .col-lg-5.order-lg-2,
     html:not([dir="rtl"]) .col-lg-5.order-lg-2 {
         order: 2;
         padding-left: 50px;
         padding-right: 0;
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
     }
 
     [dir="ltr"] .col-lg-7.order-lg-1,
@@ -1432,18 +1445,20 @@
         order: 1;
         padding-right: 50px;
         padding-left: 0;
+        flex: 0 0 58.333333%;
+        max-width: 58.333333%;
     }
 
     /* زيادة التباعد بين الأقسام في LTR */
     [dir="ltr"] .row.align-items-center > .col-lg-5.order-lg-2,
     html:not([dir="rtl"]) .row.align-items-center > .col-lg-5.order-lg-2 {
-        margin-left: 30px;
+        margin-left: 0;
         margin-right: 0;
     }
 
     [dir="ltr"] .row.align-items-center > .col-lg-7.order-lg-1,
     html:not([dir="rtl"]) .row.align-items-center > .col-lg-7.order-lg-1 {
-        margin-right: 30px;
+        margin-right: 0;
         margin-left: 0;
     }
 
@@ -3253,6 +3268,7 @@
             height: 55px;
             font-size: 24px;
             top: -25px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%) !important;
         }
 
         .step-icon {
@@ -3266,18 +3282,37 @@
             font-size: 38px;
         }
 
+        /* الحفاظ على ألوان الأيقونات في الموبايل */
+        .step-item-1 .step-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3) !important;
+        }
+
+        .step-item-2 .step-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3) !important;
+        }
+
+        .step-item-3 .step-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3) !important;
+        }
+
         .step-title {
             font-size: 22px;
+            color: #2c3e50 !important;
         }
 
         .step-description {
             font-size: 15px;
+            color: #5a6c7d !important;
         }
     }
 
     @media (max-width: 768px) {
         .how-it-works-item {
             padding: 35px 20px;
+            background: #ffffff !important;
         }
 
         .step-number {
@@ -3286,6 +3321,7 @@
             font-size: 22px;
             top: -20px;
             border-width: 3px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%) !important;
         }
 
         .step-icon {
@@ -3297,21 +3333,56 @@
 
         .step-icon i {
             font-size: 34px;
+            color: #ffffff !important;
+        }
+
+        /* الحفاظ على ألوان الأيقونات في الموبايل */
+        .step-item-1 .step-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3) !important;
+        }
+
+        .step-item-1:hover .step-icon {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%) !important;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4) !important;
+        }
+
+        .step-item-2 .step-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3) !important;
+        }
+
+        .step-item-2:hover .step-icon {
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%) !important;
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4) !important;
+        }
+
+        .step-item-3 .step-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3) !important;
+        }
+
+        .step-item-3:hover .step-icon {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%) !important;
+            box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4) !important;
         }
 
         .step-title {
             font-size: 20px;
             margin-bottom: 15px;
+            color: #2c3e50 !important;
         }
 
         .step-description {
             font-size: 14px;
+            color: #5a6c7d !important;
         }
     }
 
     @media (max-width: 480px) {
         .how-it-works-item {
             padding: 30px 15px;
+            background: #ffffff !important;
         }
 
         .step-number {
@@ -3320,6 +3391,7 @@
             font-size: 20px;
             top: -18px;
             border-width: 3px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%) !important;
         }
 
         .step-icon {
@@ -3331,21 +3403,56 @@
 
         .step-icon i {
             font-size: 30px;
+            color: #ffffff !important;
+        }
+
+        /* الحفاظ على ألوان الأيقونات في الموبايل */
+        .step-item-1 .step-icon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3) !important;
+        }
+
+        .step-item-1:hover .step-icon {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%) !important;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4) !important;
+        }
+
+        .step-item-2 .step-icon {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3) !important;
+        }
+
+        .step-item-2:hover .step-icon {
+            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%) !important;
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4) !important;
+        }
+
+        .step-item-3 .step-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3) !important;
+        }
+
+        .step-item-3:hover .step-icon {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%) !important;
+            box-shadow: 0 15px 40px rgba(79, 172, 254, 0.4) !important;
         }
 
         .step-title {
             font-size: 18px;
             margin-bottom: 12px;
+            color: #2c3e50 !important;
         }
 
         .step-description {
             font-size: 13px;
             line-height: 1.7;
+            color: #5a6c7d !important;
         }
 
         .how-it-works-area .btn-primary {
             padding: 12px 30px;
             font-size: 16px;
+            background: linear-gradient(135deg, #6b5d47 0%, #8b7355 100%) !important;
         }
     }
 
@@ -3435,6 +3542,19 @@
     /* Reduce spacing for department section */
     .case-study-home-page {
         padding-bottom: 30px !important;
+        margin-top: 60px !important;
+    }
+
+    @media (max-width: 768px) {
+        .case-study-home-page {
+            margin-top: 40px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .case-study-home-page {
+            margin-top: 30px !important;
+        }
     }
 
     /* Reduce large margin top */

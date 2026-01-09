@@ -58,12 +58,12 @@
                 var nextElement = strickymenu.next();
                 if (nextElement.length && nextElement.offset()) {
                     var strickyScrollPos = nextElement.offset().top;
-                    if (mainWindow.scrollTop() > strickyScrollPos) {
-                        strickymenu.addClass("sticky");
-                        mainBody.addClass("sticky");
-                    } else if (mainWindow.scrollTop() <= strickyScrollPos) {
-                        strickymenu.removeClass("sticky");
-                        mainBody.removeClass("sticky");
+                if (mainWindow.scrollTop() > strickyScrollPos) {
+                    strickymenu.addClass("sticky");
+                    mainBody.addClass("sticky");
+                } else if (mainWindow.scrollTop() <= strickyScrollPos) {
+                    strickymenu.removeClass("sticky");
+                    mainBody.removeClass("sticky");
                     }
                 } else {
                     // Fallback: use menu position if next element doesn't exist
