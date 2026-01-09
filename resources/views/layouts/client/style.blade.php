@@ -1219,6 +1219,23 @@
             margin-left: 0;
             margin-right: 15px;
         }
+        
+        /* RTL: البرجر منيو في أقصى اليمين */
+        @media (max-width: 991px) {
+            body.client-frontend .mobile-menu-toggle {
+                order: 1;
+                margin-right: 0;
+                margin-left: 15px;
+            }
+            .navbar-logo {
+                order: 0;
+                margin-right: 0;
+                margin-left: auto;
+            }
+            .navbar-wrapper {
+                justify-content: flex-start !important;
+            }
+        }
     @endif
 
     @if ($setting->tawk_status != 'active')
@@ -1861,10 +1878,27 @@
 
         body.client-frontend .mobile-menu-toggle {
             display: flex !important;
+            order: -1;
+            margin-right: 15px;
+            margin-left: 0;
         }
 
         .mobile-side-menu {
             display: block !important;
+        }
+
+        /* إعادة ترتيب العناصر في الموبايل - البرجر منيو في أقصى اليسار */
+        .navbar-wrapper {
+            justify-content: flex-start !important;
+        }
+
+        .navbar-logo {
+            order: 0;
+            margin-right: auto;
+        }
+
+        .navbar-menu {
+            order: 1;
         }
 
         /* Adjust header bar for tablet */
@@ -1934,11 +1968,28 @@
             display: flex !important;
             width: 38px;
             height: 38px;
+            order: -1;
+            margin-right: 15px;
+            margin-left: 0;
         }
 
         body.client-frontend .mobile-menu-toggle span {
             width: 22px;
             height: 2.5px;
+        }
+
+        /* إعادة ترتيب العناصر في الموبايل */
+        .navbar-wrapper {
+            justify-content: flex-start !important;
+        }
+
+        .navbar-logo {
+            order: 0;
+            margin-right: auto;
+        }
+
+        .navbar-menu {
+            order: 1;
         }
 
         /* Side Menu - Enhanced Design */
