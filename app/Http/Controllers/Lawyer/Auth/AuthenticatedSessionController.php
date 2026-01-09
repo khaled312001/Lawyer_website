@@ -40,40 +40,45 @@ class AuthenticatedSessionController extends Controller {
 
         $lawyer = Lawyer::where('email', $request->email)->first();
 
-        if ($lawyer) {
-            if ($lawyer->status == LawyerStatus::ACTIVE->value) {
-                if ($lawyer->email_verified_at == null) {
-                    $notification = __('Please verify your email');
-                    $notification = ['message' => $notification, 'alert-type' => 'error'];
-                    return redirect()->route('login', ['type' => 'lawyer'])->with($notification);
-                }
-
-                if (Hash::check($request->password, $lawyer->password)) {
-                    Auth::guard('lawyer')->login($lawyer, $request->lawyer_remember ?? false);
-
-                    $notification = __('Logged in successfully.');
-                    $notification = ['message' => $notification, 'alert-type' => 'success'];
-
-                    $intendedUrl = session()->get('url.intended');
-                    if ($intendedUrl && Str::contains($intendedUrl, '/lawyer')) {
-                        return redirect()->intended(route('lawyer.dashboard'))->with($notification);
-                    }
-                    return redirect()->route('lawyer.dashboard')->with($notification);
-                } else {
-                    $notification = __('Invalid Credentials');
-                    $notification = ['message' => $notification, 'alert-type' => 'error'];
-                    return redirect()->route('login', ['type' => 'lawyer'])->with($notification);
-                }
-            } else {
-                $notification = __('Inactive account');
-                $notification = ['message' => $notification, 'alert-type' => 'error'];
-                return redirect()->route('login', ['type' => 'lawyer'])->with($notification);
-            }
-        } else {
+        if (!$lawyer) {
             $notification = __('Invalid Credentials');
             $notification = ['message' => $notification, 'alert-type' => 'error'];
             return redirect()->route('login', ['type' => 'lawyer'])->with($notification);
         }
+
+        if ($lawyer->status != LawyerStatus::ACTIVE->value) {
+            $notification = __('Inactive account');
+            $notification = ['message' => $notification, 'alert-type' => 'error'];
+            return redirect()->route('login', ['type' => 'lawyer'])->with($notification);
+        }
+
+        if ($lawyer->email_verified_at == null) {
+            $notification = __('Please verify your email');
+            $notification = ['message' => $notification, 'alert-type' => 'error'];
+            return redirect()->route('login', ['type' => 'lawyer'])->with($notification);
+        }
+
+        // Get the raw password hash from database to avoid issues with 'hashed' cast
+        $lawyerPassword = $lawyer->getRawOriginal('password');
+        
+        // Verify password manually
+        if (Hash::check($request->password, $lawyerPassword)) {
+            // Login the lawyer directly
+            Auth::guard('lawyer')->login($lawyer, $request->lawyer_remember ?? false);
+
+            $notification = __('Logged in successfully.');
+            $notification = ['message' => $notification, 'alert-type' => 'success'];
+
+            $intendedUrl = session()->get('url.intended');
+            if ($intendedUrl && Str::contains($intendedUrl, '/lawyer')) {
+                return redirect()->intended(route('lawyer.dashboard'))->with($notification);
+            }
+            return redirect()->route('lawyer.dashboard')->with($notification);
+        }
+
+        $notification = __('Invalid Credentials');
+        $notification = ['message' => $notification, 'alert-type' => 'error'];
+        return redirect()->route('login', ['type' => 'lawyer'])->with($notification);
     }
 
     /**
