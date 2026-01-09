@@ -250,11 +250,17 @@
                     url: '{{ route("admin.notifications.fetch") }}',
                     method: 'GET',
                     success: function(response) {
-                        updateNotificationCount(response.unread_count);
-                        renderNotifications(response.notifications);
+                        if (response && response.unread_count !== undefined) {
+                            updateNotificationCount(response.unread_count || 0);
+                            renderNotifications(response.notifications || []);
+                        } else {
+                            $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                        }
                     },
-                    error: function() {
+                    error: function(xhr, status, error) {
+                        console.error('Notification fetch error:', error);
                         $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        updateNotificationCount(0);
                     }
                 });
             }
@@ -270,31 +276,36 @@
 
             function renderNotifications(notifications) {
                 const list = $('#notifications-list');
-                if (notifications.length === 0) {
+                if (!notifications || notifications.length === 0) {
                     list.html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
                     return;
                 }
 
                 let html = '';
                 notifications.forEach(function(notification) {
-                    const isRead = notification.read_at !== null;
-                    const readClass = isRead ? '' : 'bg-light';
-                    const icon = getNotificationIcon(notification.data.type);
-                    html += `
-                        <a href="${notification.data.url || '#'}" class="dropdown-item notification-item ${readClass}" data-id="${notification.id}">
-                            <div class="d-flex align-items-start">
-                                <div class="notification-icon-wrapper me-2">
-                                    <i class="${icon}"></i>
+                    try {
+                        const isRead = notification.read_at !== null && notification.read_at !== '';
+                        const readClass = isRead ? '' : 'bg-light';
+                        const notificationData = notification.data || {};
+                        const icon = getNotificationIcon(notificationData.type || '');
+                        html += `
+                            <a href="${notificationData.url || '#'}" class="dropdown-item notification-item ${readClass}" data-id="${notification.id || ''}">
+                                <div class="d-flex align-items-start">
+                                    <div class="notification-icon-wrapper me-2">
+                                        <i class="${icon}"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-bold small">${notificationData.title || '{{ __("Notification") }}'}</div>
+                                        <div class="text-muted small" style="font-size: 0.85rem;">${notificationData.message || ''}</div>
+                                        <div class="text-muted" style="font-size: 0.75rem; margin-top: 4px;">${formatTime(notification.created_at)}</div>
+                                    </div>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-bold small">${notification.data.title || ''}</div>
-                                    <div class="text-muted small" style="font-size: 0.85rem;">${notification.data.message || ''}</div>
-                                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 4px;">${formatTime(notification.created_at)}</div>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    `;
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        `;
+                    } catch (e) {
+                        console.error('Error rendering notification:', e, notification);
+                    }
                 });
                 list.html(html);
 

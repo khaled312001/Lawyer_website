@@ -179,3 +179,119 @@ address {
     margin-right: 0 !important;
     margin-left: 10px !important;
 }
+
+/* Ensure navbar elements are visible in RTL mode */
+.navbar-right {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .navbar-nav {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .navbar-nav li {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .navbar-nav li a,
+.navbar-right .navbar-nav li .nav-link {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+/* Ensure notification icon is visible */
+.navbar-right .notification-icon {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+.navbar-right .notification-icon i {
+    color: #fff !important;
+    visibility: visible !important;
+}
+
+/* Ensure home icon is visible */
+.navbar-right .nav-link i.fa-home {
+    color: #fff !important;
+    visibility: visible !important;
+}
+
+/* Ensure user dropdown is visible */
+.navbar-right .nav-link-user {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+.navbar-right .nav-link-user img {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .nav-link-user div {
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+/* Ensure navbar elements are visible on large screens in RTL */
+@media (min-width: 992px) {
+    .navbar-right {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .navbar-right .navbar-nav {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .navbar-right .navbar-nav.d-none {
+        display: flex !important;
+    }
+    
+    .navbar-right .navbar-nav.d-none.d-lg-flex {
+        display: flex !important;
+    }
+    
+    .navbar-right .navbar-nav li {
+        display: flex !important;
+        visibility: visible !important;
+    }
+    
+    .navbar-right .navbar-nav li a,
+    .navbar-right .navbar-nav li .nav-link {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Fix for navbar elements being hidden in RTL */
+.main-navbar .navbar-right {
+    z-index: 1000 !important;
+    position: relative !important;
+}
+
+.main-navbar .navbar-right .navbar-nav {
+    z-index: 1001 !important;
+    position: relative !important;
+}
+
+.main-navbar .navbar-right .navbar-nav li {
+    z-index: 1002 !important;
+    position: relative !important;
+}

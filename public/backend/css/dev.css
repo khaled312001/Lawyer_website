@@ -1138,3 +1138,127 @@ select.wsus-select {
     width: 18px !important;
     text-align: center !important;
 }
+
+/* Ensure navbar elements are visible */
+.navbar-right {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .navbar-nav {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .navbar-nav li {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .navbar-nav li a {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+.navbar-right .navbar-nav li .nav-link {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+/* Ensure notification icon is visible */
+.navbar-right .notification-icon {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+.navbar-right .notification-icon i {
+    color: #fff !important;
+    visibility: visible !important;
+}
+
+/* Ensure home icon is visible */
+.navbar-right .nav-link i.fa-home {
+    color: #fff !important;
+    visibility: visible !important;
+}
+
+/* Ensure user dropdown is visible */
+.navbar-right .nav-link-user {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+.navbar-right .nav-link-user img {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.navbar-right .nav-link-user div {
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+}
+
+/* Ensure navbar elements are visible on large screens */
+@media (min-width: 992px) {
+    .navbar-right {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .navbar-right .navbar-nav {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .navbar-right .navbar-nav.d-none {
+        display: flex !important;
+    }
+    
+    /* Override any d-none classes on large screens */
+    .navbar-right .navbar-nav.d-none.d-lg-flex {
+        display: flex !important;
+    }
+    
+    /* Ensure all navbar nav items are visible */
+    .navbar-right .navbar-nav li {
+        display: flex !important;
+        visibility: visible !important;
+    }
+    
+    .navbar-right .navbar-nav li a,
+    .navbar-right .navbar-nav li .nav-link {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Fix for navbar elements being hidden */
+.main-navbar .navbar-right {
+    z-index: 1000 !important;
+    position: relative !important;
+}
+
+.main-navbar .navbar-right .navbar-nav {
+    z-index: 1001 !important;
+    position: relative !important;
+}
+
+.main-navbar .navbar-right .navbar-nav li {
+    z-index: 1002 !important;
+    position: relative !important;
+}
