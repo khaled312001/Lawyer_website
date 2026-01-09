@@ -488,31 +488,37 @@ img.mr-3.ml-3.rounded-circle {
         display: flex !important;
         align-items: center !important;
         flex-direction: row !important;
-        gap: 4px !important;
+        gap: 2px !important;
+        padding: 0 !important;
     }
     
     .lawyer_nav li {
         display: flex !important;
         align-items: center !important;
         margin: 0 !important;
-        padding: 0 2px !important;
+        padding: 0 !important;
     }
     
     .lawyer_nav .nav-link-lg {
-        padding: 6px 8px !important;
+        padding: 4px 6px !important;
         margin: 0 !important;
     }
     
     .lawyer_nav .nav-link-user {
-        padding: 4px 8px !important;
+        padding: 2px 6px !important;
         margin: 0 !important;
         white-space: nowrap !important;
     }
     
     .lawyer_nav .nav-link-user img {
-        width: 28px !important;
-        height: 28px !important;
-        margin-right: 6px !important;
+        width: 26px !important;
+        height: 26px !important;
+        margin-right: 4px !important;
+    }
+    
+    .lawyer_nav .nav-link-user div {
+        font-size: 0.9rem !important;
+        padding: 0 !important;
     }
 
     .lawyer_dashboard_layout .main-content {
@@ -744,11 +750,11 @@ select.wsus-select {
     display: flex !important;
     align-items: center !important;
     flex-wrap: nowrap !important;
-    padding: 8px 12px !important;
+    padding: 8px 8px !important;
     width: 100% !important;
     box-sizing: border-box !important;
     justify-content: space-between !important;
-    gap: 4px !important;
+    gap: 2px !important;
     position: relative !important;
 }
 

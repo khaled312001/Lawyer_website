@@ -21,9 +21,9 @@
     <div id="app" class="lawyer_dashboard_layout">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
-            <nav class="navbar navbar-expand-lg main-navbar px-3 py-2">
+            <nav class="navbar navbar-expand-lg main-navbar px-2 py-2">
                 <div class="me-auto form-inline">
-                    <ul class="me-3 navbar-nav d-flex align-items-center">
+                    <ul class="me-2 navbar-nav d-flex align-items-center">
                         <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
                                     class="fas fa-bars"></i></a></li>
                         {{-- language select --}}
