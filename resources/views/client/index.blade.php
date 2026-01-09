@@ -1371,14 +1371,24 @@
         justify-content: flex-start;
     }
 
+    [dir="rtl"] .hero-features {
+        flex-direction: row-reverse;
+        justify-content: flex-start;
+    }
+
     [dir="rtl"] .hero-feature-item {
         flex-direction: row-reverse;
         justify-content: flex-start;
     }
 
     [dir="rtl"] .hero-feature-item i {
+        order: 2;
         margin-left: 10px;
         margin-right: 0;
+    }
+
+    [dir="rtl"] .hero-feature-item span {
+        order: 1;
     }
 
     /* RTL: الأرقام على اليسار والمحتوى على اليمين */
@@ -1388,21 +1398,53 @@
 
     [dir="rtl"] .col-lg-5.order-lg-2 {
         order: 1 !important;
+        padding-right: 0 !important;
+        padding-left: 50px !important;
     }
 
     [dir="rtl"] .col-lg-7.order-lg-1 {
         order: 2 !important;
+        padding-left: 0 !important;
+        padding-right: 50px !important;
+    }
+
+    /* زيادة التباعد بين الأقسام في RTL */
+    [dir="rtl"] .row.align-items-center > .col-lg-5.order-lg-2 {
+        margin-right: 0;
+        margin-left: 30px;
+    }
+
+    [dir="rtl"] .row.align-items-center > .col-lg-7.order-lg-1 {
+        margin-left: 0;
+        margin-right: 30px;
     }
 
     /* LTR: الأرقام على اليمين والمحتوى على اليسار (ثابت) */
     [dir="ltr"] .col-lg-5.order-lg-2,
     html:not([dir="rtl"]) .col-lg-5.order-lg-2 {
         order: 2;
+        padding-left: 50px;
+        padding-right: 0;
     }
 
     [dir="ltr"] .col-lg-7.order-lg-1,
     html:not([dir="rtl"]) .col-lg-7.order-lg-1 {
         order: 1;
+        padding-right: 50px;
+        padding-left: 0;
+    }
+
+    /* زيادة التباعد بين الأقسام في LTR */
+    [dir="ltr"] .row.align-items-center > .col-lg-5.order-lg-2,
+    html:not([dir="rtl"]) .row.align-items-center > .col-lg-5.order-lg-2 {
+        margin-left: 30px;
+        margin-right: 0;
+    }
+
+    [dir="ltr"] .row.align-items-center > .col-lg-7.order-lg-1,
+    html:not([dir="rtl"]) .row.align-items-center > .col-lg-7.order-lg-1 {
+        margin-right: 30px;
+        margin-left: 0;
     }
 
     [dir="rtl"] .hero-stats {
@@ -1418,10 +1460,34 @@
         /* على الموبايل، الترتيب الطبيعي (الأرقام أولاً ثم المحتوى) */
         [dir="rtl"] .col-lg-5.order-lg-2 {
             order: 1 !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
         }
 
         [dir="rtl"] .col-lg-7.order-lg-1 {
             order: 2 !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        [dir="ltr"] .col-lg-5.order-lg-2,
+        html:not([dir="rtl"]) .col-lg-5.order-lg-2 {
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        [dir="ltr"] .col-lg-7.order-lg-1,
+        html:not([dir="rtl"]) .col-lg-7.order-lg-1 {
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
         }
 
         [dir="rtl"] .hero-content {
