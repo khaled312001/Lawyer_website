@@ -139,6 +139,19 @@
         z-index: 2 !important;
     }
 
+    /* Force all brand images to be visible - Global fix */
+    .brand-area img,
+    .brand-carousel img,
+    .brand-item img,
+    .brand-colume img,
+    .brand-logo-img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
     .brand-bg {
         display: none !important;
     }
@@ -172,14 +185,59 @@
     @media (max-width: 768px) {
         .brand-area {
             padding: 30px 0 !important;
+            background-color: #ffffff !important;
+        }
+
+        .brand-area .container {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .brand-area .row {
+            display: block !important;
+            visibility: visible !important;
+            margin: 0 !important;
+        }
+
+        .brand-area .col-12 {
+            display: block !important;
+            visibility: visible !important;
+            padding: 0 15px !important;
         }
 
         .brand-carousel {
-            padding: 0 15px !important;
+            padding: 0 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+
+        .brand-carousel.owl-carousel {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .brand-carousel .owl-stage-outer {
+            overflow: visible !important;
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .brand-carousel .owl-stage {
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
         }
 
         .brand-carousel .owl-item {
             padding: 0 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: auto !important;
         }
 
         .brand-item {
@@ -188,11 +246,26 @@
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
+            width: 100% !important;
+            position: relative !important;
+        }
+
+        .brand-item a {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         .brand-colume {
             padding: 12px !important;
             min-height: 120px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            position: relative !important;
         }
 
         .brand-logo-img,
@@ -200,41 +273,117 @@
         .brand-colume img {
             max-width: 130px !important;
             max-height: 100px !important;
+            width: auto !important;
+            height: auto !important;
             padding: 0 !important;
+            margin: 0 auto !important;
             opacity: 1 !important;
             visibility: visible !important;
             display: block !important;
             position: relative !important;
             z-index: 10 !important;
+            object-fit: contain !important;
+            object-position: center !important;
         }
 
-        .brand-carousel .owl-stage-outer {
-            overflow: visible !important;
-        }
-
-        .brand-carousel .owl-stage {
-            display: flex !important;
-            align-items: center !important;
+        /* Force image visibility */
+        .brand-carousel img,
+        .brand-item img,
+        .brand-colume img,
+        .brand-logo-img {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 10 !important;
         }
     }
 
     @media (max-width: 480px) {
         .brand-area {
             padding: 25px 0 !important;
+            background-color: #ffffff !important;
+        }
+
+        .brand-area .container {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            padding: 0 15px !important;
+        }
+
+        .brand-area .row {
+            display: block !important;
+            visibility: visible !important;
+            margin: 0 !important;
+        }
+
+        .brand-area .col-12 {
+            display: block !important;
+            visibility: visible !important;
+            padding: 0 !important;
         }
 
         .brand-carousel {
-            padding: 0 10px !important;
+            padding: 0 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+
+        .brand-carousel.owl-carousel {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .brand-carousel .owl-stage-outer {
+            overflow: visible !important;
+            width: 100% !important;
+            display: block !important;
+        }
+
+        .brand-carousel .owl-stage {
+            display: flex !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
+
+        .brand-carousel .owl-item {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: auto !important;
+            padding: 0 5px !important;
         }
 
         .brand-item {
             margin: 0 5px !important;
             min-height: 100px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            position: relative !important;
+        }
+
+        .brand-item a {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         .brand-colume {
             padding: 10px !important;
             min-height: 100px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            position: relative !important;
         }
 
         .brand-logo-img,
@@ -242,9 +391,27 @@
         .brand-colume img {
             max-width: 110px !important;
             max-height: 80px !important;
+            width: auto !important;
+            height: auto !important;
+            padding: 0 !important;
+            margin: 0 auto !important;
             opacity: 1 !important;
             visibility: visible !important;
             display: block !important;
+            position: relative !important;
+            z-index: 10 !important;
+            object-fit: contain !important;
+            object-position: center !important;
+        }
+
+        /* Force image visibility */
+        .brand-carousel img,
+        .brand-item img,
+        .brand-colume img,
+        .brand-logo-img {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
             position: relative !important;
             z-index: 10 !important;
         }
@@ -552,6 +719,15 @@
                     brandCarousel.trigger('destroy.owl.carousel');
                 }
                 
+                // Force images to be visible before initialization
+                $('.brand-carousel img').css({
+                    'display': 'block',
+                    'visibility': 'visible',
+                    'opacity': '1',
+                    'position': 'relative',
+                    'z-index': '10'
+                });
+                
                 // Reinitialize with mobile-friendly settings
                 const isRtl = $('html').attr('dir') === 'rtl';
                 brandCarousel.owlCarousel({
@@ -591,14 +767,43 @@
 
                 // Force images to be visible after carousel initialization
                 setTimeout(function() {
-                    $('.brand-carousel img').css({
+                    $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').css({
+                        'display': 'block',
+                        'visibility': 'visible',
+                        'opacity': '1',
+                        'position': 'relative',
+                        'z-index': '10'
+                    });
+                    
+                    // Ensure carousel is visible
+                    brandCarousel.css({
                         'display': 'block',
                         'visibility': 'visible',
                         'opacity': '1'
                     });
-                }, 500);
+                }, 100);
+                
+                // Additional check after a longer delay
+                setTimeout(function() {
+                    $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').css({
+                        'display': 'block',
+                        'visibility': 'visible',
+                        'opacity': '1'
+                    });
+                }, 1000);
             }
         }
+        
+        // Fallback: Force visibility on window resize
+        window.addEventListener('resize', function() {
+            setTimeout(function() {
+                $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').css({
+                    'display': 'block',
+                    'visibility': 'visible',
+                    'opacity': '1'
+                });
+            }, 100);
+        });
     });
 </script>
 @endpush
