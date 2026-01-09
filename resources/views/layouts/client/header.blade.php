@@ -365,7 +365,7 @@
                 <a href="{{ url('/') }}" class="side-menu-logo" aria-label="{{ $setting?->app_name }}">
                     <img src="{{ url($setting->logo) }}" alt="{{ $setting?->app_name }}" loading="lazy">
                 </a>
-                <button class="side-menu-close" onclick="toggleMobileMenu()" aria-label="Close Menu">
+                <button class="side-menu-close" onclick="toggleMobileMenu()" aria-label="Close Menu" title="{{ __('Close Menu') }}">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
