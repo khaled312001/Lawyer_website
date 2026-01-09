@@ -80,7 +80,7 @@ class ConsultationAppointmentController extends Controller
             return redirect()->route('client.dashboard')
                 ->with('success', __('Consultation appointment request submitted successfully. We will contact you soon.'));
         } else {
-            return redirect()->route('book.consultation.appointment')
+            return redirect()->route('website.book.consultation.appointment')
                 ->with('success', __('Consultation appointment request submitted successfully. We will contact you soon.'));
         }
     }
