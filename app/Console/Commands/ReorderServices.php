@@ -8,7 +8,7 @@ use Modules\Service\app\Models\ServiceTranslation;
 
 class ReorderServices extends Command
 {
-    protected $signature = 'services:reorder';
+    protected $signature = 'app:reorder-services';
     protected $description = 'Reorder services: استخراج وثائق and خدمات العقارات first';
 
     public function handle()
