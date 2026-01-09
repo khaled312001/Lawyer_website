@@ -2858,6 +2858,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
     }
 
     .account__divider::before {
@@ -2866,13 +2867,14 @@
         top: 50%;
         left: 0;
         right: 0;
+        width: 100%;
         height: 1px;
         background: #e0e0e0;
         transform: translateY(-50%);
     }
 
     .account__divider span {
-        position: relative;
+        position: absolute;
         background: #ffffff;
         padding: 6px 16px;
         color: #888;
@@ -2881,7 +2883,11 @@
         border: 1px solid #e0e0e0;
         border-radius: 20px;
         display: inline-block;
-        z-index: 1;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
     }
 
     /* Recaptcha - Premium Design */
