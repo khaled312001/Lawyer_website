@@ -151,6 +151,17 @@
         position: relative !important;
         z-index: 10 !important;
     }
+    
+    /* Override any inline styles that might hide images */
+    .brand-area img[style],
+    .brand-carousel img[style],
+    .brand-item img[style],
+    .brand-colume img[style],
+    .brand-logo-img[style] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
 
     .brand-bg {
         display: none !important;
@@ -238,6 +249,15 @@
             align-items: center !important;
             justify-content: center !important;
             width: auto !important;
+            min-width: 0 !important;
+            max-width: 50% !important;
+            flex: 0 0 auto !important;
+        }
+        
+        /* Fix owl-item width calculation on mobile */
+        .brand-carousel .owl-item[style*="width"] {
+            width: calc(50% - 10px) !important;
+            max-width: calc(50% - 10px) !important;
         }
 
         .brand-item {
@@ -271,11 +291,11 @@
         .brand-logo-img,
         .brand-item img,
         .brand-colume img {
-            max-width: 130px !important;
+            max-width: 100% !important;
+            width: 100% !important;
             max-height: 100px !important;
-            width: auto !important;
             height: auto !important;
-            padding: 0 !important;
+            padding: 10px !important;
             margin: 0 auto !important;
             opacity: 1 !important;
             visibility: visible !important;
@@ -296,6 +316,26 @@
             opacity: 1 !important;
             position: relative !important;
             z-index: 10 !important;
+        }
+        
+        /* Override owl-carousel inline styles on mobile */
+        .brand-carousel .owl-item[style] {
+            width: calc(50% - 10px) !important;
+            max-width: calc(50% - 10px) !important;
+            min-width: 0 !important;
+        }
+        
+        /* Ensure stage doesn't overflow */
+        .brand-carousel .owl-stage {
+            width: auto !important;
+        }
+        
+        /* Make sure images are not hidden by parent containers */
+        .brand-carousel .owl-item .brand-item,
+        .brand-carousel .owl-item .brand-colume {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: visible !important;
         }
     }
 
@@ -355,7 +395,16 @@
             align-items: center !important;
             justify-content: center !important;
             width: auto !important;
+            min-width: 0 !important;
+            max-width: 50% !important;
             padding: 0 5px !important;
+            flex: 0 0 auto !important;
+        }
+        
+        /* Fix owl-item width on very small screens */
+        .brand-carousel .owl-item[style*="width"] {
+            width: calc(50% - 10px) !important;
+            max-width: calc(50% - 10px) !important;
         }
 
         .brand-item {
@@ -389,11 +438,11 @@
         .brand-logo-img,
         .brand-item img,
         .brand-colume img {
-            max-width: 110px !important;
+            max-width: 100% !important;
+            width: 100% !important;
             max-height: 80px !important;
-            width: auto !important;
             height: auto !important;
-            padding: 0 !important;
+            padding: 8px !important;
             margin: 0 auto !important;
             opacity: 1 !important;
             visibility: visible !important;
@@ -414,6 +463,21 @@
             opacity: 1 !important;
             position: relative !important;
             z-index: 10 !important;
+        }
+        
+        /* Override owl-carousel inline styles on very small screens */
+        .brand-carousel .owl-item[style] {
+            width: calc(50% - 10px) !important;
+            max-width: calc(50% - 10px) !important;
+            min-width: 0 !important;
+        }
+        
+        /* Ensure containers don't hide images */
+        .brand-carousel .owl-item .brand-item,
+        .brand-carousel .owl-item .brand-colume {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: visible !important;
         }
     }
 
@@ -767,13 +831,30 @@
 
                 // Force images to be visible after carousel initialization
                 setTimeout(function() {
-                    $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').css({
-                        'display': 'block',
-                        'visibility': 'visible',
-                        'opacity': '1',
-                        'position': 'relative',
-                        'z-index': '10'
+                    // Force all images to be visible
+                    $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').each(function() {
+                        $(this).css({
+                            'display': 'block',
+                            'visibility': 'visible',
+                            'opacity': '1',
+                            'position': 'relative',
+                            'z-index': '10',
+                            'width': '100%',
+                            'max-width': '100%',
+                            'height': 'auto'
+                        });
                     });
+                    
+                    // Fix owl-item widths on mobile
+                    if (window.innerWidth <= 768) {
+                        $('.brand-carousel .owl-item').each(function() {
+                            $(this).css({
+                                'width': 'calc(50% - 10px)',
+                                'max-width': 'calc(50% - 10px)',
+                                'min-width': '0'
+                            });
+                        });
+                    }
                     
                     // Ensure carousel is visible
                     brandCarousel.css({
@@ -785,11 +866,23 @@
                 
                 // Additional check after a longer delay
                 setTimeout(function() {
-                    $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').css({
-                        'display': 'block',
-                        'visibility': 'visible',
-                        'opacity': '1'
+                    $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').each(function() {
+                        $(this).css({
+                            'display': 'block',
+                            'visibility': 'visible',
+                            'opacity': '1',
+                            'width': '100%',
+                            'max-width': '100%'
+                        });
                     });
+                    
+                    // Re-apply mobile fixes
+                    if (window.innerWidth <= 768) {
+                        $('.brand-carousel .owl-item').css({
+                            'width': 'calc(50% - 10px)',
+                            'max-width': 'calc(50% - 10px)'
+                        });
+                    }
                 }, 1000);
             }
         }
@@ -797,13 +890,41 @@
         // Fallback: Force visibility on window resize
         window.addEventListener('resize', function() {
             setTimeout(function() {
-                $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').css({
-                    'display': 'block',
-                    'visibility': 'visible',
-                    'opacity': '1'
+                $('.brand-carousel img, .brand-item img, .brand-colume img, .brand-logo-img').each(function() {
+                    $(this).css({
+                        'display': 'block',
+                        'visibility': 'visible',
+                        'opacity': '1',
+                        'width': '100%',
+                        'max-width': '100%'
+                    });
                 });
+                
+                // Fix owl-item widths on mobile after resize
+                if (window.innerWidth <= 768) {
+                    $('.brand-carousel .owl-item').css({
+                        'width': 'calc(50% - 10px)',
+                        'max-width': 'calc(50% - 10px)',
+                        'min-width': '0'
+                    });
+                }
             }, 100);
         });
+        
+        // Additional mobile-specific fix
+        if (window.innerWidth <= 768) {
+            setTimeout(function() {
+                $('.brand-carousel .owl-item').css({
+                    'width': 'calc(50% - 10px) !important',
+                    'max-width': 'calc(50% - 10px) !important'
+                });
+                $('.brand-carousel img').css({
+                    'display': 'block !important',
+                    'visibility': 'visible !important',
+                    'opacity': '1 !important'
+                });
+            }, 500);
+        }
     });
 </script>
 @endpush

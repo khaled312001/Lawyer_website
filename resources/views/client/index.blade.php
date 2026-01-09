@@ -1403,7 +1403,7 @@
         order: 1;
     }
 
-    /* RTL: الإحصائيات على اليسار والمحتوى على اليمين */
+    /* RTL: نفس الترتيب - الإحصائيات على اليسار والمحتوى على اليمين */
     [dir="rtl"] .legal-hero-section .row.align-items-center {
         flex-direction: row;
         display: flex;
@@ -1411,14 +1411,14 @@
 
     [dir="rtl"] .legal-hero-section .col-lg-5 {
         order: 1 !important;
-        padding-right: 0 !important;
-        padding-left: 50px !important;
+        padding-left: 0 !important;
+        padding-right: 50px !important;
     }
 
     [dir="rtl"] .legal-hero-section .col-lg-7 {
         order: 2 !important;
-        padding-left: 0 !important;
-        padding-right: 50px !important;
+        padding-right: 0 !important;
+        padding-left: 50px !important;
     }
 
     [dir="rtl"] .legal-hero-stats {
