@@ -307,6 +307,169 @@
 @endif
 
 @stack('js')
+
+{{-- Client Header Notifications Script --}}
+@auth
+<script>
+    $(document).ready(function() {
+        // Initialize Bootstrap dropdown for header notifications
+        var dropdownElement = document.getElementById('client-header-notification-dropdown');
+        if (dropdownElement && typeof bootstrap !== 'undefined') {
+            var dropdown = new bootstrap.Dropdown(dropdownElement.querySelector('[data-bs-toggle="dropdown"]'));
+        }
+
+        // Load header notifications
+        function loadHeaderNotifications() {
+            $.ajax({
+                url: '{{ route("client.notifications.fetch") }}',
+                method: 'GET',
+                success: function(response) {
+                    if (response && response.unread_count !== undefined) {
+                        updateHeaderNotificationCount(response.unread_count || 0);
+                        renderHeaderNotifications(response.notifications || []);
+                    } else {
+                        $('#client-header-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Notification fetch error:', error);
+                    $('#client-header-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                    updateHeaderNotificationCount(0);
+                }
+            });
+        }
+
+        function updateHeaderNotificationCount(count) {
+            const badge = $('#client-header-notification-count');
+            if (count > 0) {
+                badge.text(count > 99 ? '99+' : count).show();
+            } else {
+                badge.hide();
+            }
+        }
+
+        function renderHeaderNotifications(notifications) {
+            const list = $('#client-header-notifications-list');
+            if (!notifications || notifications.length === 0) {
+                list.html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                return;
+            }
+
+            let html = '';
+            notifications.forEach(function(notification) {
+                try {
+                    const isRead = notification.read_at !== null && notification.read_at !== '';
+                    const readClass = isRead ? '' : 'bg-light';
+                    const notificationData = notification.data || {};
+                    const icon = getHeaderNotificationIcon(notificationData.type || '');
+                    html += `
+                        <a href="${notificationData.url || '#'}" class="dropdown-item notification-item-header ${readClass}" data-id="${notification.id || ''}">
+                            <div class="d-flex align-items-start">
+                                <div class="notification-icon-wrapper me-2">
+                                    <i class="${icon}"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold small">${notificationData.title || '{{ __("Notification") }}'}</div>
+                                    <div class="text-muted small" style="font-size: 0.85rem;">${notificationData.message || ''}</div>
+                                    <div class="text-muted" style="font-size: 0.75rem; margin-top: 4px;">${formatHeaderTime(notification.created_at)}</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    `;
+                } catch (e) {
+                    console.error('Error rendering notification:', e, notification);
+                }
+            });
+            list.html(html);
+
+            // Mark as read on click
+            $('.notification-item-header').on('click', function(e) {
+                const notificationId = $(this).data('id');
+                if (!$(this).hasClass('bg-light')) return; // Already read
+                
+                $.ajax({
+                    url: '{{ route("client.notifications.mark-read", ":id") }}'.replace(':id', notificationId),
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function() {
+                        loadHeaderNotifications();
+                    }
+                });
+            });
+        }
+
+        function getHeaderNotificationIcon(type) {
+            const icons = {
+                'new_order': 'fas fa-shopping-cart text-primary',
+                'new_message': 'fas fa-envelope text-info',
+                'new_appointment': 'fas fa-calendar-check text-success',
+                'payment_approved': 'fas fa-check-circle text-success'
+            };
+            return icons[type] || 'fas fa-bell text-secondary';
+        }
+
+        function formatHeaderTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 1) return '{{ __("Just now") }}';
+            if (minutes < 60) return minutes + ' {{ __("minutes ago") }}';
+            if (hours < 24) return hours + ' {{ __("hours ago") }}';
+            if (days < 7) return days + ' {{ __("days ago") }}';
+            return date.toLocaleDateString();
+        }
+
+        // Mark all as read
+        $('.mark-all-read-header').on('click', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '{{ route("client.notifications.mark-all-read") }}',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function() {
+                    loadHeaderNotifications();
+                }
+            });
+        });
+
+        // Load notifications on page load
+        loadHeaderNotifications();
+        
+        // Refresh notifications every 30 seconds
+        setInterval(loadHeaderNotifications, 30000);
+
+        // Toggle dropdown on button click (fallback)
+        $('#client-header-notification-btn').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var menu = $('#client-header-notification-menu');
+            if (menu.hasClass('show')) {
+                menu.removeClass('show');
+            } else {
+                menu.addClass('show');
+                loadHeaderNotifications();
+            }
+        });
+
+        // Close dropdown when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#client-header-notification-dropdown').length) {
+                $('#client-header-notification-menu').removeClass('show');
+            }
+        });
+    });
+</script>
+@endauth
+
 @if (customCode()?->footer_javascript)
     <script>
         "use strict";

@@ -32,13 +32,13 @@
                 <div class="col-lg-9">
                     <!-- Notifications Button -->
                     <div class="mb-3 d-flex justify-content-end">
-                        <div class="dropdown">
-                            <a href="javascript:;" data-bs-toggle="dropdown" class="btn btn-primary position-relative notification-btn">
+                        <div class="dropdown" id="client-dashboard-notification-dropdown">
+                            <button type="button" class="btn btn-primary position-relative notification-btn" id="client-dashboard-notification-btn" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-bell"></i>
                                 <span class="notification-badge badge bg-danger" id="client-notification-count" style="display: none; position: absolute; top: -5px; right: -5px; border-radius: 50%; padding: 2px 6px; font-size: 10px;">0</span>
                                 <span class="ms-2">{{ __('Notifications') }}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu" id="client-dashboard-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
                                 <div class="dropdown-header d-flex justify-content-between align-items-center">
                                     <h6 class="mb-0">{{ __('Notifications') }}</h6>
                                     <a href="javascript:;" class="text-primary small mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
@@ -354,6 +354,26 @@
         
         // Refresh notifications every 30 seconds
         setInterval(loadNotifications, 30000);
+
+        // Toggle dropdown on button click (fallback)
+        $('#client-dashboard-notification-btn').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var menu = $('#client-dashboard-notification-menu');
+            if (menu.hasClass('show')) {
+                menu.removeClass('show');
+            } else {
+                menu.addClass('show');
+                loadNotifications();
+            }
+        });
+
+        // Close dropdown when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#client-dashboard-notification-dropdown').length) {
+                $('#client-dashboard-notification-menu').removeClass('show');
+            }
+        });
     });
 </script>
 @endpush

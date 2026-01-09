@@ -49,17 +49,16 @@ class AuthenticatedSessionController extends Controller {
                 }
 
                 if (Hash::check($request->password, $lawyer->password)) {
-                    if (Auth::guard('lawyer')->attempt($credential, $request->lawyer_remember)) {
+                    Auth::guard('lawyer')->login($lawyer, $request->lawyer_remember ?? false);
 
-                        $notification = __('Logged in successfully.');
-                        $notification = ['message' => $notification, 'alert-type' => 'success'];
+                    $notification = __('Logged in successfully.');
+                    $notification = ['message' => $notification, 'alert-type' => 'success'];
 
-                        $intendedUrl = session()->get('url.intended');
-                        if ($intendedUrl && Str::contains($intendedUrl, '/lawyer')) {
-                            return redirect()->intended(route('lawyer.dashboard'))->with($notification);
-                        }
-                        return redirect()->route('lawyer.dashboard')->with($notification);
+                    $intendedUrl = session()->get('url.intended');
+                    if ($intendedUrl && Str::contains($intendedUrl, '/lawyer')) {
+                        return redirect()->intended(route('lawyer.dashboard'))->with($notification);
                     }
+                    return redirect()->route('lawyer.dashboard')->with($notification);
                 } else {
                     $notification = __('Invalid Credentials');
                     $notification = ['message' => $notification, 'alert-type' => 'error'];

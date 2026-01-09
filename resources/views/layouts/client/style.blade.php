@@ -8219,4 +8219,76 @@
             font-size: 36px;
         }
     }
+
+    /* Client Header Notifications Styles */
+    .notification-dropdown-header {
+        position: relative;
+        display: inline-block;
+    }
+
+    .notification-dropdown-header .header-contact-item {
+        position: relative;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .notification-badge-header {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: #dc3545;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 10px;
+        min-width: 18px;
+        text-align: center;
+        font-weight: bold;
+        z-index: 10;
+    }
+
+    .notification-dropdown-menu-header {
+        position: absolute;
+        right: 0;
+        margin-top: 10px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 1000;
+        min-width: 350px;
+        max-width: 350px;
+    }
+
+    .notification-dropdown-menu-header.show {
+        display: block !important;
+    }
+
+    .notification-item-header {
+        padding: 12px 16px;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        transition: background-color 0.2s;
+    }
+
+    .notification-item-header:hover {
+        background-color: #f8f9fa;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .notification-item-header.bg-light {
+        background-color: #f8f9fa !important;
+    }
+
+    @media (max-width: 768px) {
+        .notification-dropdown-menu-header {
+            min-width: 300px;
+            max-width: 300px;
+            right: -50px;
+        }
+    }
 </style>
