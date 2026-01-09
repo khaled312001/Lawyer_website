@@ -24,8 +24,10 @@ class AppServiceProvider extends ServiceProvider {
      * Bootstrap any application services.
      */
     public function boot(): void {
-        // Load JSON translations from lang directory
-        $this->app->make('translator')->addJsonPath(lang_path());
+        // Load JSON translations from lang directory (root/lang not resources/lang)
+        $langPath = base_path('lang');
+        $this->loadJsonTranslationsFrom($langPath);
+        $this->app->make('translator')->addJsonPath($langPath);
         
         try {
             $setting = Cache::rememberForever('setting', function () {

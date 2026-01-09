@@ -25,11 +25,8 @@
     <!--Register Start-->
     <div class="register-area pt_70 pb_70">
         <div class="container wow fadeIn">
-            <div class="row">
-                @if (session()->get('text_direction') == 'rtl')
-                    <div class="col-lg-3"></div>
-                @endif
-                <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4 m-auto">
+            <div class="row justify-content-center">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
                     <div class="login_area_bg">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
                             @if ($setting->client_can_register)

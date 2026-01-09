@@ -191,10 +191,25 @@ if (!function_exists('setLanguage')) {
             // Immediately apply to current request
             app()->setLocale($lang->code);
             
-            // Clear translation cache
+            // Ensure JSON path is added from root/lang directory
+            $translator = app('translator');
+            $langPath = base_path('lang');
+            $translator->addJsonPath($langPath);
+            
+            // Clear all translation caches
             if (function_exists('cache')) {
                 cache()->forget('translations.' . $lang->code);
+                cache()->forget('translations.*');
             }
+            
+            // Force reload JSON translations by clearing loader cache
+            $loader = $translator->getLoader();
+            if (method_exists($loader, 'clearCache')) {
+                $loader->clearCache();
+            }
+            
+            // Force reload translations
+            $translator->load('*', '*', $lang->code);
             
             return true;
         }
@@ -204,6 +219,12 @@ if (!function_exists('setLanguage')) {
         session()->put('lang', $defaultLocale);
         session()->put('text_direction', getTextDirection($defaultLocale));
         app()->setLocale($defaultLocale);
+        
+        // Ensure JSON path is added for default locale too
+        $translator = app('translator');
+        $langPath = base_path('lang');
+        $translator->addJsonPath($langPath);
+        $translator->load('*', '*', $defaultLocale);
         
         return false;
     }

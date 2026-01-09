@@ -20,7 +20,12 @@ class SetLocaleMiddleware
         // Get language from session or use default
         $locale = Session::get('lang', config('app.locale', 'ar'));
         
-        // Set application locale
+        // Ensure JSON translations are loaded from root/lang directory
+        $translator = app('translator');
+        $langPath = base_path('lang');
+        $translator->addJsonPath($langPath);
+        
+        // Set application locale (this automatically loads translations for the locale)
         App::setLocale($locale);
         
         // Get or set text direction automatically based on language

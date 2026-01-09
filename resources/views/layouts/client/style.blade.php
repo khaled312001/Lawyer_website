@@ -2257,9 +2257,20 @@
 
     /* Register Area Container */
     .register-area {
-        background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-        min-height: calc(100vh - 200px);
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: calc(100vh - 300px);
         padding: 60px 0 !important;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Login Area Container */
+    .login-area {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: calc(100vh - 300px);
+        padding: 60px 0 !important;
+        display: flex;
+        align-items: center;
     }
 
     /* Banner Area for Register Page */
@@ -2324,15 +2335,54 @@
     }
 
     /* Login Area Background - Modern Card Design */
+    .login-area,
+    .register-area {
+        min-height: calc(100vh - 300px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 60px 0 !important;
+    }
+    
+    .login-area .container,
+    .register-area .container {
+        width: 100%;
+        max-width: 1200px;
+    }
+    
+    .login-area .row,
+    .register-area .row {
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
     .login_area_bg {
         background: #ffffff;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.05);
-        padding: 40px 35px !important;
-        border-radius: 16px !important;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        padding: 50px 45px !important;
+        border-radius: 20px !important;
         border: none;
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
+        max-width: 100%;
+        width: 100%;
+        animation: fadeInUp 0.5s ease-out;
+    }
+    
+    /* Add subtle animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .login_area_bg::before {
@@ -2346,8 +2396,8 @@
     }
 
     .login_area_bg:hover {
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-        transform: translateY(-2px);
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+        transform: translateY(-3px);
     }
 
     /* Tab Navigation - Modern Design */
@@ -2430,8 +2480,9 @@
         color: #333;
         font-weight: 600;
         font-size: 14px;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         display: block;
+        letter-spacing: 0.3px;
     }
 
     .login_area_bg form input[type="text"],
@@ -2445,14 +2496,22 @@
     .regiser-form.login-form input[type="tel"],
     .regiser-form.login-form .form-control {
         border: 2px solid #e0e0e0;
-        height: 50px;
-        margin-bottom: 20px !important;
-        border-radius: 10px;
-        padding: 12px 18px;
+        height: 55px;
+        margin-bottom: 22px !important;
+        border-radius: 12px;
+        padding: 14px 20px;
         font-size: 15px;
         transition: all 0.3s ease;
         background: #fafafa;
         color: #333;
+        width: 100%;
+        font-weight: 400;
+    }
+    
+    .login_area_bg form input::placeholder,
+    .regiser-form.login-form input::placeholder {
+        color: #999;
+        font-weight: 400;
     }
 
     .login_area_bg form input:focus,
@@ -2461,16 +2520,17 @@
     .regiser-form.login-form .form-control:focus {
         border-color: var(--colorPrimary);
         background: #fff;
-        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.1);
+        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.15), 0 4px 12px rgba(200, 180, 126, 0.1);
         outline: none;
+        transform: translateY(-1px);
     }
 
     /* Select Dropdowns */
     .login_area_bg .select2-container--default .select2-selection--single {
         border: 2px solid #e0e0e0;
-        border-radius: 10px;
-        height: 50px;
-        line-height: 50px;
+        border-radius: 12px;
+        height: 55px;
+        line-height: 55px;
         background: #fafafa;
         transition: all 0.3s ease;
     }
@@ -2479,18 +2539,23 @@
     .login_area_bg .select2-container--default.select2-container--focus .select2-selection--single {
         border-color: var(--colorPrimary);
         background: #fff;
-        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.1);
+        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.15), 0 4px 12px rgba(200, 180, 126, 0.1);
     }
 
     .login_area_bg .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 50px;
-        padding-left: 18px;
+        line-height: 55px;
+        padding-left: 20px;
         color: #333;
         font-size: 15px;
     }
+    
+    .login_area_bg .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 55px;
+        right: 15px;
+    }
 
     .login_area_bg .select2-container {
-        margin-bottom: 20px !important;
+        margin-bottom: 22px !important;
     }
 
     /* Submit Button - Modern Design */
@@ -2499,19 +2564,38 @@
     .regiser-form.login-form button[type="submit"],
     .regiser-form.login-form .btn-primary {
         width: 100%;
-        border-radius: 10px;
-        margin-top: 10px !important;
+        border-radius: 12px;
+        margin-top: 15px !important;
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         margin-bottom: 20px;
         border: none;
-        padding: 14px 30px;
+        padding: 16px 30px;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 700;
         color: #fff;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3);
+        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.35);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login_area_bg form button[type="submit"]::before,
+    .regiser-form.login-form button[type="submit"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+    
+    .login_area_bg form button[type="submit"]:hover::before,
+    .regiser-form.login-form button[type="submit"]:hover::before {
+        left: 100%;
     }
 
     .login_area_bg form button[type="submit"]:hover,
@@ -2627,15 +2711,82 @@
         display: block;
     }
 
+    /* Remember Me & Checkbox Styling */
+    .login_area_bg .remember,
+    .regiser-form.login-form .remember {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .login_area_bg .form-check,
+    .regiser-form.login-form .form-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .login_area_bg .form-check-input {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 0;
+        flex-shrink: 0;
+    }
+    
+    .login_area_bg .form-check-input:checked {
+        background-color: var(--colorPrimary);
+        border-color: var(--colorPrimary);
+    }
+    
+    .login_area_bg .form-check-input:focus {
+        box-shadow: 0 0 0 3px rgba(200, 180, 126, 0.2);
+        border-color: var(--colorPrimary);
+    }
+    
+    .login_area_bg .form-check-label {
+        color: #555;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        margin: 0;
+    }
+    
+    .login_area_bg .link {
+        color: var(--colorPrimary);
+        font-weight: 600;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .login_area_bg .link:hover {
+        color: var(--colorSecondary);
+        text-decoration: underline;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
-        .register-area {
+        .register-area,
+        .login-area {
             padding: 40px 0 !important;
+            min-height: auto;
+        }
+        
+        .register-area .row,
+        .login-area .row {
+            min-height: auto;
         }
 
         .login_area_bg {
-            padding: 30px 20px !important;
-            border-radius: 12px !important;
+            padding: 35px 25px !important;
+            border-radius: 16px !important;
         }
 
         .banner-text h1 {
@@ -2650,11 +2801,25 @@
             font-size: 14px;
             padding: 10px 15px;
         }
+        
+        .login_area_bg form input[type="text"],
+        .login_area_bg form input[type="email"],
+        .login_area_bg form input[type="password"],
+        .login_area_bg form input[type="tel"],
+        .login_area_bg form .form-control,
+        .regiser-form.login-form input[type="text"],
+        .regiser-form.login-form input[type="email"],
+        .regiser-form.login-form input[type="password"],
+        .regiser-form.login-form input[type="tel"],
+        .regiser-form.login-form .form-control {
+            height: 50px;
+            padding: 12px 16px;
+        }
     }
 
     @media (max-width: 480px) {
         .login_area_bg {
-            padding: 25px 15px !important;
+            padding: 30px 20px !important;
         }
 
         .banner-text h1 {
@@ -2663,7 +2828,25 @@
 
         .login_area_bg form input,
         .login_area_bg form .form-control {
-            height: 45px;
+            height: 48px;
+            padding: 10px 14px;
+            font-size: 14px;
+        }
+        
+        .login_area_bg .select2-container--default .select2-selection--single {
+            height: 48px;
+            line-height: 48px;
+        }
+        
+        .login_area_bg .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 48px;
+        }
+        
+        .login_area_bg form button[type="submit"],
+        .regiser-form.login-form button[type="submit"] {
+            padding: 14px 25px;
+            font-size: 15px;
+        }
             font-size: 14px;
         }
 
@@ -4012,6 +4195,15 @@
             transition: all 0.3s ease;
         }
         
+        /* RTL Support for benefit items */
+        [dir="rtl"] .benefit-item {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="ltr"] .benefit-item {
+            flex-direction: row;
+        }
+        
         .benefit-item:hover {
             transform: translateY(-3px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.12);
@@ -4022,10 +4214,32 @@
             color: var(--colorPrimary);
             flex-shrink: 0;
             margin-top: 5px;
+            min-width: 32px;
+            text-align: center;
+        }
+        
+        /* RTL Support for icons */
+        [dir="rtl"] .benefit-item i {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        [dir="ltr"] .benefit-item i {
+            margin-left: 0;
+            margin-right: 0;
         }
         
         .benefit-content {
             flex: 1;
+        }
+        
+        /* RTL Support for benefit content */
+        [dir="rtl"] .benefit-content {
+            text-align: right;
+        }
+        
+        [dir="ltr"] .benefit-content {
+            text-align: left;
         }
         
         .benefit-content strong {
