@@ -29,7 +29,7 @@
             <div class="d-flex align-items-center h_100_p">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-5 order-lg-2">
+                        <div class="col-lg-5 order-lg-1">
                             <div class="hero-stats">
                                 @if($overviews->count() > 0)
                                     @foreach($overviews->take(4) as $overview)
@@ -83,7 +83,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-7 order-lg-1">
+                        <div class="col-lg-7 order-lg-2">
                             <div class="hero-content">
                                 <div class="hero-badge">
                                     <i class="fas fa-shield-alt"></i>
