@@ -32,7 +32,7 @@
                         @include('backend_layouts.partials.currency_select')
                     </ul>
                 </div>
-                <ul class="navbar-nav lawyer_nav">
+                <ul class="navbar-nav lawyer_nav ms-auto d-flex align-items-center">
                     <li class="dropdown dropdown-list-toggle">
                         <a target="_blank" href="{{ route('home') }}" class="nav-link nav-link-lg">
                             <i class="fas fa-home"></i> {{ __('Visit Website') }}</i>
