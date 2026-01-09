@@ -1448,7 +1448,8 @@
     [dir="rtl"] .legal-hero-section .col-lg-5 {
         order: 1 !important;
         padding-right: 80px !important;
-        padding-left: 20px !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
     }
 
     [dir="rtl"] .legal-hero-section .col-lg-7 {
