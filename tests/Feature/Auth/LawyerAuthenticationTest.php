@@ -174,5 +174,31 @@ class LawyerAuthenticationTest extends TestCase
         $this->assertAuthenticated('lawyer');
         $response->assertRedirect(route('lawyer.dashboard'));
     }
+
+    public function test_james_anderson_login_with_seeded_data(): void
+    {
+        // This test assumes the database has been seeded
+        // Run: php artisan db:seed
+        
+        $lawyer = Lawyer::where('email', 'james.anderson@law.com')->first();
+        
+        if (!$lawyer) {
+            $this->markTestSkipped('Lawyer james.anderson@law.com not found. Please run: php artisan db:seed');
+        }
+
+        // Ensure the lawyer is active and verified
+        $lawyer->update([
+            'status' => LawyerStatus::ACTIVE->value,
+            'email_verified_at' => now(),
+        ]);
+
+        $response = $this->post('/lawyer/lawyer-login', [
+            'email' => 'james.anderson@law.com',
+            'password' => '1234',
+        ]);
+
+        $this->assertAuthenticated('lawyer');
+        $response->assertRedirect(route('lawyer.dashboard'));
+    }
 }
 
