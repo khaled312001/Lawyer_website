@@ -113,6 +113,124 @@
         </div>
     </div>
     <!--Counter End-->
+
+    <!--Company Information Start-->
+    <div class="company-info-area pt_70 pb_70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-headline text-center mb_50">
+                        <h2 class="title">{{ __('Company Information') }}</h2>
+                        <p>{{ __('Get to know more about our law firm') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="company-info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h4>{{ __('Company Name') }}</h4>
+                        <p>{{ $setting?->app_name ?? __('Law Firm') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="company-info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4>{{ __('Email') }}</h4>
+                        <p>
+                            @if($contactInfo?->email)
+                                <a href="mailto:{{ $contactInfo->email }}">{{ $contactInfo->email }}</a>
+                            @elseif($contactInfo?->top_bar_email)
+                                <a href="mailto:{{ $contactInfo->top_bar_email }}">{{ $contactInfo->top_bar_email }}</a>
+                            @else
+                                {{ __('Not available') }}
+                            @endif
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="company-info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h4>{{ __('Phone') }}</h4>
+                        <p>
+                            @if($contactInfo?->phone)
+                                <a href="tel:{{ $contactInfo->phone }}">{{ $contactInfo->phone }}</a>
+                            @elseif($contactInfo?->top_bar_phone)
+                                <a href="tel:{{ $contactInfo->top_bar_phone }}">{{ $contactInfo->top_bar_phone }}</a>
+                            @else
+                                {{ __('Not available') }}
+                            @endif
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4">
+                    <div class="company-info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>{{ __('Address') }}</h4>
+                        <p>{{ $contactInfo?->address ?? __('Not available') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--Statistics Section-->
+            <div class="row mt_50">
+                <div class="col-lg-12">
+                    <div class="main-headline text-center mb_50">
+                        <h2 class="title">{{ __('Our Statistics') }}</h2>
+                        <p>{{ __('Numbers that reflect our success') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="stat-number">{{ $totalLawyers ?? 0 }}</h3>
+                        <p class="stat-label">{{ __('Expert Lawyers') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <h3 class="stat-number">{{ $totalDepartments ?? 0 }}</h3>
+                        <p class="stat-label">{{ __('Departments') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3 class="stat-number">{{ $totalServices ?? 0 }}</h3>
+                        <p class="stat-label">{{ __('Services') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="stat-number">{{ $totalTestimonials ?? 0 }}</h3>
+                        <p class="stat-label">{{ __('Testimonials') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Company Information End-->
+
     @if (1 == $home_sections?->work_status)
         <!--Feature Start-->
         <div class="about-area">

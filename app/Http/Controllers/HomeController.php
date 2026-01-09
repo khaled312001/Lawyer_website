@@ -146,7 +146,17 @@ class HomeController extends Controller {
             },
         ])->active()->get();
 
-        return view('client.about',compact('about','home_sections','work','workFaqs','overviews'));
+        // Get company information
+        $contactInfo = contactInfo();
+        $setting = setting();
+        
+        // Get statistics from database
+        $totalLawyers = Lawyer::where('status', 1)->count();
+        $totalDepartments = Department::where('status', 1)->count();
+        $totalServices = Service::where('status', 1)->count();
+        $totalTestimonials = Testimonial::where('status', 1)->count();
+
+        return view('client.about',compact('about','home_sections','work','workFaqs','overviews','contactInfo','setting','totalLawyers','totalDepartments','totalServices','totalTestimonials'));
     }
 
     public function service() {

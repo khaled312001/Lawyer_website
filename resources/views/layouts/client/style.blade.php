@@ -8111,4 +8111,112 @@
             font-size: 28px !important;
         }
     }
+
+    /* Company Information Section Styles */
+    .company-info-area {
+        background: #f8f9fa;
+    }
+
+    .company-info-card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .company-info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .company-info-card .info-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, var(--colorPrimary), var(--colorSecondary));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 28px;
+    }
+
+    .company-info-card h4 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--colorBlack);
+    }
+
+    .company-info-card p {
+        margin: 0;
+        color: #666;
+        font-size: 16px;
+    }
+
+    .company-info-card p a {
+        color: var(--colorPrimary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .company-info-card p a:hover {
+        color: var(--colorSecondary);
+        text-decoration: underline;
+    }
+
+    /* Statistics Section Styles */
+    .stat-card {
+        background: linear-gradient(135deg, var(--colorPrimary), var(--colorSecondary));
+        padding: 40px 20px;
+        border-radius: 10px;
+        text-align: center;
+        color: #fff;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .stat-card .stat-icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        opacity: 0.9;
+    }
+
+    .stat-card .stat-number {
+        font-size: 42px;
+        font-weight: 700;
+        margin: 10px 0;
+        color: #fff;
+    }
+
+    .stat-card .stat-label {
+        font-size: 16px;
+        margin: 0;
+        opacity: 0.95;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    @media (max-width: 768px) {
+        .company-info-card {
+            padding: 20px;
+        }
+
+        .stat-card {
+            padding: 30px 15px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 36px;
+        }
+    }
 </style>
