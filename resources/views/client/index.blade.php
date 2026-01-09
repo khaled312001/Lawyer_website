@@ -25,36 +25,37 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="hero-text text-center">
+                            @if($home_sections?->hero_status == 1)
                             <div class="hero-badge">
                                 <i class="fas fa-gavel"></i>
-                                <span>{{ __('Legal Excellence Since') }} {{ date('Y') - 10 }}</span>
+                                <span>{{ $home_sections?->hero_badge_text ?? __('Legal Excellence Since') }} {{ date('Y') - 10 }}</span>
                             </div>
-                            <h1 class="hero-title">{{ $setting->app_name ?? __('Our Law Firm') }}</h1>
+                            <h1 class="hero-title">{{ $home_sections?->hero_title ?? ($setting->app_name ?? __('Our Law Firm')) }}</h1>
                             <p class="hero-description">
-                                {{ __('Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.') }}
+                                {{ $home_sections?->hero_description ?? __('Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.') }}
                             </p>
                             
                             <div class="hero-features">
                                 <div class="hero-feature-item">
                                     <i class="fas fa-shield-alt"></i>
-                                    <h4>{{ __('Expert Legal Team') }}</h4>
-                                    <p>{{ __('Experienced professionals dedicated to your success') }}</p>
+                                    <h4>{{ $home_sections?->hero_feature_1_title ?? __('Expert Legal Team') }}</h4>
+                                    <p>{{ $home_sections?->hero_feature_1_description ?? __('Experienced professionals dedicated to your success') }}</p>
                                 </div>
                                 <div class="hero-feature-item">
                                     <i class="fas fa-handshake"></i>
-                                    <h4>{{ __('Trusted Service') }}</h4>
-                                    <p>{{ __('Reliable and transparent legal solutions') }}</p>
+                                    <h4>{{ $home_sections?->hero_feature_2_title ?? __('Trusted Service') }}</h4>
+                                    <p>{{ $home_sections?->hero_feature_2_description ?? __('Reliable and transparent legal solutions') }}</p>
                                 </div>
                                 <div class="hero-feature-item">
                                     <i class="fas fa-clock"></i>
-                                    <h4>{{ __('24/7 Support') }}</h4>
-                                    <p>{{ __('Always available to assist you') }}</p>
+                                    <h4>{{ $home_sections?->hero_feature_3_title ?? __('24/7 Support') }}</h4>
+                                    <p>{{ $home_sections?->hero_feature_3_description ?? __('Always available to assist you') }}</p>
                                 </div>
                             </div>
 
                             <div class="hero-search">
-                                <h3>{{ __('Find Legal Services') }}</h3>
-                                <p class="search-subtitle">{{ __('Search by location and department to find the right legal assistance') }}</p>
+                                <h3>{{ $home_sections?->hero_search_title ?? __('Find Legal Services') }}</h3>
+                                <p class="search-subtitle">{{ $home_sections?->hero_search_subtitle ?? __('Search by location and department to find the right legal assistance') }}</p>
                                 <form action="{{ route('website.search.lawyer') }}" class="search-form">
                                     <div class="search-inputs">
                                         <div class="input-group">
@@ -92,6 +93,7 @@
                                     <i class="fas fa-calendar-check"></i> {{ __('Book Consultation') }}
                                 </a>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -2848,111 +2850,116 @@
         box-shadow: 0 12px 35px rgba(107, 93, 71, 0.4);
     }
 
-    /* Responsive Design */
+    /* Responsive Design - Keep same design as desktop */
     @media (max-width: 991px) {
         .how-it-works-item {
-            padding: 40px 25px;
-            margin-bottom: 40px;
+            padding: 50px 35px;
+            margin-bottom: 30px;
         }
 
         .step-number {
-            width: 55px;
-            height: 55px;
-            font-size: 24px;
-            top: -25px;
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            top: -30px;
         }
 
         .step-icon {
-            width: 90px;
-            height: 90px;
-            font-size: 38px;
-            margin: 25px auto 25px;
+            width: 100px;
+            height: 100px;
+            font-size: 42px;
+            margin: 30px auto 30px;
         }
 
         .step-icon i {
-            font-size: 38px;
+            font-size: 42px;
         }
 
         .step-title {
-            font-size: 22px;
+            font-size: 24px;
+            margin-bottom: 18px;
         }
 
         .step-description {
-            font-size: 15px;
+            font-size: 16px;
+            line-height: 1.9;
         }
     }
 
     @media (max-width: 768px) {
         .how-it-works-item {
-            padding: 35px 20px;
+            padding: 50px 35px;
+            margin-bottom: 30px;
         }
 
         .step-number {
-            width: 50px;
-            height: 50px;
-            font-size: 22px;
-            top: -20px;
-            border-width: 3px;
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            top: -30px;
+            border-width: 4px;
         }
 
         .step-icon {
-            width: 80px;
-            height: 80px;
-            font-size: 34px;
-            margin: 20px auto 20px;
+            width: 100px;
+            height: 100px;
+            font-size: 42px;
+            margin: 30px auto 30px;
         }
 
         .step-icon i {
-            font-size: 34px;
+            font-size: 42px;
         }
 
         .step-title {
-            font-size: 20px;
-            margin-bottom: 15px;
+            font-size: 24px;
+            margin-bottom: 18px;
         }
 
         .step-description {
-            font-size: 14px;
+            font-size: 16px;
+            line-height: 1.9;
         }
     }
 
     @media (max-width: 480px) {
         .how-it-works-item {
-            padding: 30px 15px;
+            padding: 50px 30px;
+            margin-bottom: 30px;
         }
 
         .step-number {
-            width: 45px;
-            height: 45px;
-            font-size: 20px;
-            top: -18px;
-            border-width: 3px;
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            top: -30px;
+            border-width: 4px;
         }
 
         .step-icon {
-            width: 70px;
-            height: 70px;
-            font-size: 30px;
-            margin: 15px auto 15px;
+            width: 100px;
+            height: 100px;
+            font-size: 42px;
+            margin: 30px auto 30px;
         }
 
         .step-icon i {
-            font-size: 30px;
+            font-size: 42px;
         }
 
         .step-title {
-            font-size: 18px;
-            margin-bottom: 12px;
+            font-size: 24px;
+            margin-bottom: 18px;
         }
 
         .step-description {
-            font-size: 13px;
-            line-height: 1.7;
+            font-size: 16px;
+            line-height: 1.9;
         }
 
         .how-it-works-area .btn-primary {
-            padding: 12px 30px;
-            font-size: 16px;
+            padding: 15px 40px;
+            font-size: 18px;
         }
     }
 

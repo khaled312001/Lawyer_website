@@ -60,6 +60,7 @@
                             <div class="card-body">
                                 <div class="tab-content" id="myTabContent2">
                                     @if ($code == $languages->first()->code)
+                                        @include('homesection::section_control.sections.hero')
                                         @include('homesection::section_control.sections.feature')
                                     @endif
                                     @include('homesection::section_control.sections.work')

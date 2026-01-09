@@ -84,6 +84,11 @@ class SectionControlController extends Controller {
             $this->validate($request, $rules, $messages);
             $this->sectionUpdatingService->updateSection(request: $request, section_control: $section_control);
         }
+        if ($request->tab == 'hero_section') {
+            [$rules, $messages] = $this->sectionValidatingService->validateHeroSection($request);
+            $this->validate($request, $rules, $messages);
+            $this->sectionUpdatingService->updateSection(request: $request, section_control: $section_control);
+        }
 
         return $this->redirectWithMessage(RedirectType::UPDATE->value);
     }

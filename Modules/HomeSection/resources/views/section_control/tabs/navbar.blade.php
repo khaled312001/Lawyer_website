@@ -1,12 +1,16 @@
 @if ($code == $languages->first()->code)
     <li class="nav-item">
-        <a class="nav-link active show" id="feature-tab" data-bs-toggle="tab" href="#feature_tab" role="tab"
-            aria-controls="feature" aria-selected="true">{{ __('Feature Section') }}</a>
+        <a class="nav-link active show" id="hero-tab" data-bs-toggle="tab" href="#hero_tab" role="tab"
+            aria-controls="hero" aria-selected="true">{{ __('Hero Section') }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="feature-tab" data-bs-toggle="tab" href="#feature_tab" role="tab"
+            aria-controls="feature" aria-selected="false">{{ __('Feature Section') }}</a>
     </li>
 @endif
 <li class="nav-item">
     <a class="nav-link {{$code == $languages->first()->code ? '': 'active show'}}" id="work-tab" data-bs-toggle="tab" href="#work_tab" role="tab" aria-controls="work"
-        aria-selected="true">{{ __('Work Section') }}</a>
+        aria-selected="{{$code == $languages->first()->code ? 'false' : 'true'}}">{{ __('Work Section') }}</a>
 </li>
 <li class="nav-item">
     <a class="nav-link" id="service-tab" data-bs-toggle="tab" href="#service_tab" role="tab" aria-controls="service"

@@ -25,6 +25,8 @@ class SectionControl extends Model {
         'lawyer_status',
         'blog_how_many',
         'blog_status',
+        'hero_badge_text',
+        'hero_status',
     ];
 
     public function getWorkFirstHeadingAttribute(): ?string {
@@ -80,6 +82,36 @@ class SectionControl extends Model {
     }
     public function getBlogDescriptionAttribute(): ?string {
         return $this?->translation?->blog_description;
+    }
+    public function getHeroTitleAttribute(): ?string {
+        return $this?->translation?->hero_title;
+    }
+    public function getHeroDescriptionAttribute(): ?string {
+        return $this?->translation?->hero_description;
+    }
+    public function getHeroFeature1TitleAttribute(): ?string {
+        return $this?->translation?->hero_feature_1_title;
+    }
+    public function getHeroFeature1DescriptionAttribute(): ?string {
+        return $this?->translation?->hero_feature_1_description;
+    }
+    public function getHeroFeature2TitleAttribute(): ?string {
+        return $this?->translation?->hero_feature_2_title;
+    }
+    public function getHeroFeature2DescriptionAttribute(): ?string {
+        return $this?->translation?->hero_feature_2_description;
+    }
+    public function getHeroFeature3TitleAttribute(): ?string {
+        return $this?->translation?->hero_feature_3_title;
+    }
+    public function getHeroFeature3DescriptionAttribute(): ?string {
+        return $this?->translation?->hero_feature_3_description;
+    }
+    public function getHeroSearchTitleAttribute(): ?string {
+        return $this?->translation?->hero_search_title;
+    }
+    public function getHeroSearchSubtitleAttribute(): ?string {
+        return $this?->translation?->hero_search_subtitle;
     }
 
     public function translation(): ?HasOne {

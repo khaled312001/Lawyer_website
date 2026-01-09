@@ -36,7 +36,11 @@ class HomeController extends Controller {
         ])->active()->latest()->get();
         $lawyersForSearch = Lawyer::select('id', 'name')->orderBy('name', 'asc')->active()->verify()->get();
         $sliders = Slider::select('image','title')->active()->get();
-        $home_sections = SectionControl::first();
+        $home_sections = SectionControl::select('id', 'feature_how_many', 'feature_status', 'work_how_many', 'work_status', 'service_how_many', 'service_status', 'department_how_many', 'department_status', 'client_how_many', 'client_status', 'lawyer_how_many', 'lawyer_status', 'blog_how_many', 'blog_status', 'hero_badge_text', 'hero_status')->with([
+            'translation' => function ($query) {
+                $query->select('section_control_id', 'work_first_heading', 'work_second_heading', 'work_description', 'service_first_heading', 'service_second_heading', 'service_description', 'department_first_heading', 'department_second_heading', 'department_description', 'client_first_heading', 'client_second_heading', 'client_description', 'lawyer_first_heading', 'lawyer_second_heading', 'lawyer_description', 'blog_first_heading', 'blog_second_heading', 'blog_description', 'hero_title', 'hero_description', 'hero_feature_1_title', 'hero_feature_1_description', 'hero_feature_2_title', 'hero_feature_2_description', 'hero_feature_3_title', 'hero_feature_3_description', 'hero_search_title', 'hero_search_subtitle');
+            },
+        ])->first();
         $features = Feature::select('id', 'image', 'icon')->with([
             'translation' => function ($query) {
                 $query->select('feature_id', 'title', 'description');
