@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use App\Models\Admin;
 use App\Notifications\NewOrderNotification;
+use App\Notifications\NewAppointmentNotification;
 use Modules\Appointment\app\Models\Appointment;
 use Modules\BasicPayment\app\Enums\BasicPaymentSupportedCurrencyListEnum;
 use Modules\BasicPayment\app\Http\Controllers\FrontPaymentController;
@@ -97,8 +98,9 @@ class PaymentController extends Controller {
 
             $order_details = "";
             $cartItems = Cart::content(); // Save cart items before destroying
+            $appointments = [];
             foreach ($cartItems as $item) {
-                Appointment::create([
+                $appointment = Appointment::create([
                     'user_id'             => $user->id,
                     'order_id'            => $order->id,
                     'day_id'              => $item->options->day_id,
@@ -112,6 +114,7 @@ class PaymentController extends Controller {
                     'case_type'           => $item->options->case_type ?? null,
 
                 ]);
+                $appointments[] = $appointment;
 
                 $lawyer = Lawyer::find($item->options->lawyer_id);
                 $order_details .= 'Lawyer: ' . $lawyer?->name . '<br>';
@@ -121,6 +124,23 @@ class PaymentController extends Controller {
                 $order_details .= 'Price: ' . currency($item->price) . '<br><hr>';
             }
             DB::commit();
+
+            // Send notifications for appointments
+            foreach ($appointments as $appointment) {
+                try {
+                    $appointment->load(['user', 'lawyer', 'schedule']);
+                    // Notify client
+                    if ($appointment->user) {
+                        $appointment->user->notify(new NewAppointmentNotification($appointment, false));
+                    }
+                    // Notify lawyer
+                    if ($appointment->lawyer) {
+                        $appointment->lawyer->notify(new NewAppointmentNotification($appointment, true));
+                    }
+                } catch (\Exception $e) {
+                    info('Appointment notification error: ' . $e->getMessage());
+                }
+            }
 
             Cart::destroy();
 

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Appointment\app\Models\Appointment;
 use Modules\Lawyer\app\Enums\LawyerStatus;
@@ -20,7 +21,7 @@ use Modules\Leave\app\Models\Leave;
 use Modules\Schedule\app\Models\Schedule;
 
 class Lawyer extends Authenticatable {
-    use HasApiTokens, HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'department_id',

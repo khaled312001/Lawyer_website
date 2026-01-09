@@ -85,6 +85,16 @@ class MessageController extends Controller {
             event(new LawyerChatMessage($data));
         }
 
+        // Send notification to lawyer
+        try {
+            $lawyer = \Modules\Lawyer\app\Models\Lawyer::find($request->receiver_id);
+            if ($lawyer) {
+                $lawyer->notify(new \App\Notifications\NewMessageNotification($message->message, $user->name, 'user'));
+            }
+        } catch (\Exception $e) {
+            info('Lawyer notification error: ' . $e->getMessage());
+        }
+
         return response()->json(['status' => 'success', 'message' => Message::where('id', $message?->id)->first()], 200);
     }
 }

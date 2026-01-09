@@ -71,6 +71,17 @@ class LawyerMessageController extends Controller {
             event(new ClientChatMessage($data));
         }
 
+        // Send notification to user
+        try {
+            $user = User::find($request->receiver_id);
+            $lawyer = lawyerAuth();
+            if ($user && $lawyer) {
+                $user->notify(new \App\Notifications\NewMessageNotification($message->message, $lawyer->name, 'lawyer'));
+            }
+        } catch (\Exception $e) {
+            info('User notification error: ' . $e->getMessage());
+        }
+
         return response()->json(['user_id' => $request->receiver_id]);
 
     }

@@ -114,6 +114,13 @@ class OrderController extends Controller {
             info($e->getMessage());
         }
 
+        // Send notification to user
+        try {
+            $user->notify(new \App\Notifications\PaymentApprovedNotification($order));
+        } catch (\Exception $e) {
+            info('User notification error: ' . $e->getMessage());
+        }
+
         $notification = __('Payment approved successfully');
         $notification = ['message' => $notification, 'alert-type' => 'success'];
 

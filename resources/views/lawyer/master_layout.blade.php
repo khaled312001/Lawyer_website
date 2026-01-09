@@ -39,6 +39,32 @@
                         </a>
                     </li>
 
+                    {{-- Notifications Dropdown --}}
+                    <li class="dropdown dropdown-list-toggle notification-dropdown">
+                        <a href="javascript:;" data-bs-toggle="dropdown" class="nav-link nav-link-lg notification-icon p-0 position-relative">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notification-count" style="display: none;">0</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right notification-dropdown-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                            <div class="dropdown-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">{{ __('Notifications') }}</h6>
+                                <a href="javascript:;" class="text-primary small mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div id="notifications-list">
+                                <div class="text-center p-3">
+                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-footer text-center">
+                                <a href="{{ route('lawyer.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
+                            </div>
+                        </div>
+                    </li>
+
                     <li class="dropdown"><a href="javascript:;" data-bs-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             @if ($header_lawyer->image)
@@ -93,6 +119,138 @@
     @stack('js')
     
     <script>
+        // Notifications functionality for Lawyer
+        $(document).ready(function() {
+            // Load notifications
+            function loadNotifications() {
+                $.ajax({
+                    url: '{{ route("lawyer.notifications.fetch") }}',
+                    method: 'GET',
+                    success: function(response) {
+                        if (response && response.unread_count !== undefined) {
+                            updateNotificationCount(response.unread_count || 0);
+                            renderNotifications(response.notifications || []);
+                        } else {
+                            $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Notification fetch error:', error);
+                        $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        updateNotificationCount(0);
+                    }
+                });
+            }
+
+            function updateNotificationCount(count) {
+                const badge = $('#notification-count');
+                if (count > 0) {
+                    badge.text(count > 99 ? '99+' : count).show();
+                } else {
+                    badge.hide();
+                }
+            }
+
+            function renderNotifications(notifications) {
+                const list = $('#notifications-list');
+                if (!notifications || notifications.length === 0) {
+                    list.html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                    return;
+                }
+
+                let html = '';
+                notifications.forEach(function(notification) {
+                    try {
+                        const isRead = notification.read_at !== null && notification.read_at !== '';
+                        const readClass = isRead ? '' : 'bg-light';
+                        const notificationData = notification.data || {};
+                        const icon = getNotificationIcon(notificationData.type || '');
+                        html += `
+                            <a href="${notificationData.url || '#'}" class="dropdown-item notification-item ${readClass}" data-id="${notification.id || ''}">
+                                <div class="d-flex align-items-start">
+                                    <div class="notification-icon-wrapper me-2">
+                                        <i class="${icon}"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-bold small">${notificationData.title || '{{ __("Notification") }}'}</div>
+                                        <div class="text-muted small" style="font-size: 0.85rem;">${notificationData.message || ''}</div>
+                                        <div class="text-muted" style="font-size: 0.75rem; margin-top: 4px;">${formatTime(notification.created_at)}</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        `;
+                    } catch (e) {
+                        console.error('Error rendering notification:', e, notification);
+                    }
+                });
+                list.html(html);
+
+                // Mark as read on click
+                $('.notification-item').on('click', function(e) {
+                    const notificationId = $(this).data('id');
+                    if (!$(this).hasClass('bg-light')) return; // Already read
+                    
+                    $.ajax({
+                        url: '{{ route("lawyer.notifications.mark-read", ":id") }}'.replace(':id', notificationId),
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function() {
+                            loadNotifications();
+                        }
+                    });
+                });
+            }
+
+            function getNotificationIcon(type) {
+                const icons = {
+                    'new_order': 'fas fa-shopping-cart text-primary',
+                    'new_message': 'fas fa-envelope text-info',
+                    'new_appointment': 'fas fa-calendar-check text-success',
+                    'payment_approved': 'fas fa-check-circle text-success'
+                };
+                return icons[type] || 'fas fa-bell text-secondary';
+            }
+
+            function formatTime(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diff = now - date;
+                const minutes = Math.floor(diff / 60000);
+                const hours = Math.floor(diff / 3600000);
+                const days = Math.floor(diff / 86400000);
+                
+                if (minutes < 1) return '{{ __("Just now") }}';
+                if (minutes < 60) return minutes + ' {{ __("minutes ago") }}';
+                if (hours < 24) return hours + ' {{ __("hours ago") }}';
+                if (days < 7) return days + ' {{ __("days ago") }}';
+                return date.toLocaleDateString();
+            }
+
+            // Mark all as read
+            $('.mark-all-read').on('click', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '{{ route("lawyer.notifications.mark-all-read") }}',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function() {
+                        loadNotifications();
+                    }
+                });
+            });
+
+            // Load notifications on page load
+            loadNotifications();
+            
+            // Refresh notifications every 30 seconds
+            setInterval(loadNotifications, 30000);
+        });
+
         // Close sidebar when clicking backdrop on mobile (Lawyer Dashboard)
         $(document).ready(function() {
             $(document).on('click', function(e) {

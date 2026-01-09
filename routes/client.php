@@ -81,6 +81,14 @@ Route::middleware(['auth:web', 'translation', 'maintenance.mode'])->group(functi
         });
 
         Route::get('payment', [PaymentController::class,'payment'])->name('payment');
+
+        // Notifications Routes
+        Route::controller(\App\Http\Controllers\Client\NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/fetch', 'fetch')->name('fetch');
+            Route::post('/mark-read/{id}', 'markAsRead')->name('mark-read');
+            Route::post('/mark-all-read', 'markAllAsRead')->name('mark-all-read');
+        });
     });
 
 });

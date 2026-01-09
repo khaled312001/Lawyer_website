@@ -79,6 +79,17 @@ class MessageController extends Controller
             event(new ClientChatMessage($data));
         }
 
+        // Send notification to user
+        try {
+            $user = \App\Models\User::find($request->receiver_id);
+            $lawyer = auth()->guard('lawyer_api')->user();
+            if ($user && $lawyer) {
+                $user->notify(new \App\Notifications\NewMessageNotification($message->message, $lawyer->name, 'lawyer'));
+            }
+        } catch (\Exception $e) {
+            info('User notification error: ' . $e->getMessage());
+        }
+
         return response()->json(['status' => 'success','message'=> Message::where('id',$message?->id)->first()], 200);
     }
     public function seenMessage($client_id): JsonResponse {

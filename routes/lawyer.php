@@ -93,6 +93,14 @@ Route::group(['as' => 'lawyer.', 'prefix' => 'lawyer', 'middleware' => ['mainten
         Route::post('social-link/{id}', [LawyerSocialMediaController::class, 'update'])->name('social-link.update');
         Route::delete('social-link/{id}', [LawyerSocialMediaController::class, 'destroy'])->name('social-link.destroy');
         Route::put('social-link/status-update/{id}', [LawyerSocialMediaController::class, 'statusUpdate'])->name('social-link.status-update');
+
+        // Notifications Routes
+        Route::controller(\App\Http\Controllers\Lawyer\NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/fetch', 'fetch')->name('fetch');
+            Route::post('/mark-read/{id}', 'markAsRead')->name('mark-read');
+            Route::post('/mark-all-read', 'markAllAsRead')->name('mark-all-read');
+        });
     });
 
 });
