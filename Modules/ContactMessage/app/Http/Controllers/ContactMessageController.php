@@ -56,16 +56,21 @@ class ContactMessageController extends Controller {
             info($e->getMessage());
         }
 
-        // Send notification to all admins
-        if ($contactMessage) {
-            try {
-                $admins = Admin::all();
-                foreach ($admins as $admin) {
-                    $admin->notify(new NewContactMessageNotification($contactMessage));
-                }
-            } catch (\Exception $e) {
-                info('Admin notification error: ' . $e->getMessage());
+        // Send notification to all admins (even if message is not saved)
+        try {
+            $admins = Admin::all();
+            // Create a temporary object if contactMessage is null
+            $notificationData = $contactMessage ?: (object)[
+                'name' => $request->name,
+                'email' => $request->email,
+                'subject' => $request->subject,
+                'message' => $request->message,
+            ];
+            foreach ($admins as $admin) {
+                $admin->notify(new NewContactMessageNotification($notificationData));
             }
+        } catch (\Exception $e) {
+            info('Admin notification error: ' . $e->getMessage());
         }
 
         $notification = __('Message Sent Successfully');

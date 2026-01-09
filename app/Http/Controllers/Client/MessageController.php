@@ -106,11 +106,11 @@ class MessageController extends Controller
 
             $conversation->update(['last_message_at' => now()]);
 
-            // Send notification to admin if receiver is admin
+            // Send notification to all admins when user sends message
             if ($conversation->receiver_type === Admin::class) {
                 try {
-                    $admin = Admin::find($conversation->receiver_id);
-                    if ($admin) {
+                    $admins = Admin::all();
+                    foreach ($admins as $admin) {
                         $admin->notify(new NewMessageNotification($message->message, $user->name, 'user', $conversation->id));
                     }
                 } catch (\Exception $e) {

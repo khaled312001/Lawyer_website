@@ -468,6 +468,104 @@
                 }
             });
         });
+        
+        // Fix dropdown menus position on mobile
+        $(document).ready(function() {
+            function fixDropdownPosition() {
+                if ($(window).width() <= 991.98) {
+                    $('.navbar .dropdown-menu.show').each(function() {
+                        const $dropdown = $(this);
+                        const $dropdownParent = $dropdown.closest('.dropdown');
+                        const $toggle = $dropdownParent.find('a[data-bs-toggle="dropdown"]').first();
+                        
+                        if ($toggle.length) {
+                            const toggleOffset = $toggle.offset();
+                            const toggleHeight = $toggle.outerHeight();
+                            const toggleWidth = $toggle.outerWidth();
+                            const windowHeight = $(window).height();
+                            const windowWidth = $(window).width();
+                            
+                            // Calculate position - position below toggle button
+                            let top = toggleOffset.top + toggleHeight + 5;
+                            let left = toggleOffset.left;
+                            
+                            // Get dropdown width (or use min-width)
+                            const dropdownWidth = Math.max($dropdown.outerWidth(), 200);
+                            
+                            // Adjust if dropdown goes off right edge
+                            if (left + dropdownWidth > windowWidth - 10) {
+                                left = windowWidth - dropdownWidth - 10;
+                            }
+                            
+                            // Adjust if dropdown goes off left edge
+                            if (left < 10) {
+                                left = 10;
+                            }
+                            
+                            // Adjust if dropdown goes off bottom
+                            const dropdownHeight = Math.min($dropdown.outerHeight(), windowHeight - top - 20);
+                            if (top + dropdownHeight > windowHeight - 10) {
+                                top = Math.max(10, windowHeight - dropdownHeight - 10);
+                            }
+                            
+                            // Apply position
+                            $dropdown.css({
+                                'position': 'fixed',
+                                'top': top + 'px',
+                                'left': left + 'px',
+                                'z-index': '99999',
+                                'max-width': (windowWidth - 20) + 'px',
+                                'max-height': (windowHeight - top - 20) + 'px',
+                                'overflow-y': 'auto',
+                                'overflow-x': 'hidden'
+                            });
+                        }
+                    });
+                } else {
+                    // Reset on desktop
+                    $('.navbar .dropdown-menu').css({
+                        'position': '',
+                        'top': '',
+                        'left': '',
+                        'z-index': '',
+                        'max-width': '',
+                        'max-height': ''
+                    });
+                }
+            }
+            
+            // Fix on dropdown show
+            $(document).on('shown.bs.dropdown', '.navbar .dropdown', function() {
+                setTimeout(fixDropdownPosition, 10);
+            });
+            
+            // Fix on dropdown hide (reset)
+            $(document).on('hidden.bs.dropdown', '.navbar .dropdown', function() {
+                const $dropdown = $(this).find('.dropdown-menu');
+                if ($(window).width() > 991.98) {
+                    $dropdown.css({
+                        'position': '',
+                        'top': '',
+                        'left': '',
+                        'z-index': '',
+                        'max-width': '',
+                        'max-height': ''
+                    });
+                }
+            });
+            
+            // Fix on window resize
+            $(window).on('resize', function() {
+                fixDropdownPosition();
+            });
+            
+            // Fix on scroll (for fixed navbar)
+            $(window).on('scroll', function() {
+                if ($(window).width() <= 991.98) {
+                    fixDropdownPosition();
+                }
+            });
+        });
     </script>
 
 </body>

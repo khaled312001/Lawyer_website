@@ -1186,6 +1186,102 @@ select.wsus-select {
         max-width: 220px !important;
         min-width: 150px !important;
     }
+    
+    /* Fix dropdown menus on mobile - ensure they appear outside navbar with high z-index */
+    .navbar {
+        overflow: visible !important;
+        position: relative !important;
+        z-index: 1000 !important;
+    }
+    
+    .navbar-left,
+    .navbar-right,
+    .navbar-nav,
+    .navbar-nav li {
+        overflow: visible !important;
+        position: relative !important;
+    }
+    
+    .navbar .dropdown {
+        position: static !important;
+        overflow: visible !important;
+    }
+    
+    /* Ensure all dropdown menus appear outside navbar */
+    .navbar .dropdown-menu {
+        position: fixed !important;
+        z-index: 99999 !important;
+        margin-top: 5px !important;
+        max-width: calc(100vw - 20px) !important;
+        width: auto !important;
+        min-width: 200px !important;
+        max-height: calc(100vh - 100px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+        transform: none !important;
+    }
+    
+    /* Language and Currency dropdowns */
+    .navbar-left .setLanguageHeader .dropdown-menu,
+    .navbar-left .set-currency-header .dropdown-menu {
+        position: fixed !important;
+        z-index: 99999 !important;
+        margin-top: 5px !important;
+        max-width: calc(100vw - 20px) !important;
+        width: auto !important;
+        min-width: 150px !important;
+        max-height: calc(100vh - 100px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+        transform: none !important;
+    }
+    
+    /* Notification dropdown */
+    .notification-dropdown-menu {
+        position: fixed !important;
+        z-index: 99999 !important;
+        margin-top: 5px !important;
+        max-width: calc(100vw - 20px) !important;
+        width: 350px !important;
+        max-width: calc(100vw - 20px) !important;
+        max-height: calc(100vh - 100px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+        transform: none !important;
+    }
+    
+    /* User dropdown */
+    .navbar-right .dropdown-menu {
+        position: fixed !important;
+        z-index: 99999 !important;
+        margin-top: 5px !important;
+        max-width: calc(100vw - 20px) !important;
+        width: auto !important;
+        min-width: 200px !important;
+        max-height: calc(100vh - 100px) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+        transform: none !important;
+    }
+    
+    /* Ensure main-wrapper doesn't clip dropdowns */
+    .main-wrapper {
+        overflow: visible !important;
+    }
+    
+    /* Prevent navbar from clipping dropdowns */
+    .navbar * {
+        overflow: visible !important;
+    }
+    
+    .navbar .container-fluid,
+    .navbar .container {
+        overflow: visible !important;
+    }
 }
 
 /* Ensure dropdown menus appear correctly */
