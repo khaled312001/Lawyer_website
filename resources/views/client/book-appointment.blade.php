@@ -3,7 +3,7 @@
     <title>{{ __('Book an appointment today') }} - {{ $setting?->app_name }}</title>
 @endsection
 @section('meta')
-    <meta name="description" content="{{ __('Book an appointment with our lawyers') }}">
+    <meta name="description" content="{{ __('Book an appointment with our admin team') }}">
 @endsection
 @section('client-content')
 
@@ -32,7 +32,7 @@
             <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                 <div class="main-headline text-center mb_50">
                     <h2 class="title"><span>{{ __('Book an appointment') }}</span> {{ __('today') }}</h2>
-                    <p>{{ __('At our platform, you can always connect with a lawyer who listens, offers advice, and helps you move forward in your legal matters. This means you get quick answers and suggestions of solutions to your issues, so you can let go of your worries and feel confident about what to do next.') }}</p>
+                    <p>{{ __('At our platform, you can always connect with our admin team who listens, offers advice, and helps you move forward in your legal matters. This means you get quick answers and suggestions of solutions to your issues, so you can let go of your worries and feel confident about what to do next.') }}</p>
                     <p>{{ __('A video meeting is ideal when you need answers to your questions and guidance on how to handle your case.') }}</p>
                 </div>
             </div>

@@ -7,21 +7,82 @@
 @endsection
 @section('client-content')
 
-    <!--Slider Start-->
-    <div class="slider" id="main-slider">
-        <div class="doc-search-item">
-            <div class="d-flex align-items-center h_100_p">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-xl-10 col-xxl-9">
-                            <div class="v-mid-content">
-                                <div class="heading">
-                                    <h2>{{ __('Search The Best lawyers') }}</h2>
-                                    <p>{{ __('Find out department and location based lawyers near your area') }}</p>
+    <!--Hero Section Start-->
+    <div class="hero-section" id="main-hero">
+        <div class="hero-slider-area">
+            <div class="hero-slider-overlay">
+                <div class="row hero-slider">
+                    @foreach ($sliders as $item)
+                        <div class="col-12">
+                            <div class="hero-slider-item">
+                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-content-wrapper">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-11 col-xxl-10">
+                        <div class="hero-content">
+                            <!-- Company Introduction -->
+                            <div class="hero-company-intro">
+                                <div class="company-badge">
+                                    <i class="fas fa-gavel"></i>
+                                    <span>{{ __('Legal Excellence Since') }} {{ date('Y') - 10 }}</span>
                                 </div>
-                                <div class="doc-search-section">
-                                    <form action="{{ route('website.search.lawyer') }}">
-                                        <div class="box">
+                                <h1 class="hero-title">
+                                    <span class="title-highlight">{{ $setting->app_name ?? __('Our Law Firm') }}</span>
+                                </h1>
+                                <p class="hero-subtitle">
+                                    {{ __('Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.') }}
+                                </p>
+                            </div>
+
+                            <!-- Company Features -->
+                            <div class="hero-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-shield-alt"></i>
+                                    </div>
+                                    <div class="feature-content">
+                                        <h4>{{ __('Expert Legal Team') }}</h4>
+                                        <p>{{ __('Experienced professionals dedicated to your success') }}</p>
+                                    </div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-handshake"></i>
+                                    </div>
+                                    <div class="feature-content">
+                                        <h4>{{ __('Trusted Service') }}</h4>
+                                        <p>{{ __('Reliable and transparent legal solutions') }}</p>
+                                    </div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="feature-content">
+                                        <h4>{{ __('24/7 Support') }}</h4>
+                                        <p>{{ __('Always available to assist you') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Search Section -->
+                            <div class="hero-search-section">
+                                <div class="search-header">
+                                    <h3>{{ __('Find Legal Services') }}</h3>
+                                    <p>{{ __('Search by location and department to find the right legal assistance') }}</p>
+                                </div>
+                                <form action="{{ route('website.search.lawyer') }}" class="hero-search-form">
+                                    <div class="search-boxes">
+                                        <div class="search-box">
+                                            <i class="fas fa-map-marker-alt"></i>
                                             <select name="location" class="form-control select2">
                                                 <option value="">{{ __('Select Location') }}</option>
                                                 @foreach ($locations as $location)
@@ -31,10 +92,10 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="box">
+                                        <div class="search-box">
+                                            <i class="fas fa-briefcase"></i>
                                             <select name="department" class="form-control select2">
-                                                <option value="">
-                                                    {{ __('Select Department') }}</option>
+                                                <option value="">{{ __('Select Department') }}</option>
                                                 @foreach ($departmentsForSearch as $department)
                                                     <option {{ @$department_id == $department?->id ? 'selected' : '' }}
                                                         value="{{ $department?->id }}">{{ ucwords($department?->name) }}
@@ -42,46 +103,31 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="box">
-                                            <select name="lawyer" class="form-control select2">
-                                                <option value="">
-                                                    {{ __('Select Lawyer') }}</option>
-                                                @foreach ($lawyersForSearch as $lawyer)
-                                                    <option {{ @$lawyer_id == $lawyer?->id ? 'selected' : '' }}
-                                                        value="{{ $lawyer?->id }}">
-                                                        {{ ucwords($lawyer?->name) }}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="search-button">
+                                            <button type="submit" class="btn btn-primary btn-lg">
+                                                <i class="fas fa-search me-2"></i>{{ __('Search') }}
+                                            </button>
                                         </div>
-                                        <div class="doc-search-button">
-                                            <button type="submit" class="btn btn-danger">{{ __('Search') }}</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
+                            </div>
 
+                            <!-- Call to Action -->
+                            <div class="hero-cta">
+                                <a href="{{ route('website.contact-us') }}" class="btn btn-outline-light btn-lg me-3">
+                                    <i class="fas fa-envelope me-2"></i>{{ __('Contact Us') }}
+                                </a>
+                                <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-light btn-lg">
+                                    <i class="fas fa-calendar-check me-2"></i>{{ __('Book Consultation') }}
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="banner_slider_area">
-            <div class="banner_slider_overlay">
-                <div class="row banner_slider">
-                    @foreach ($sliders as $item)
-                        <div class="col-12">
-                            <div class="banner_slider_item">
-                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
     </div>
-    <!--Slider End-->
+    <!--Hero Section End-->
 
 
     <!--Why Us Start-->
@@ -559,7 +605,7 @@
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="mobile-app-content">
                         <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
-                        <p class="mb_30">{{ __('تابع قضيتك بسهولة من خلال حسابك الشخصي. احصل على تحديثات فورية، تابع تقدم القضية، وتواصل مع محاميك في أي وقت ومن أي مكان.') }}</p>
+                        <p class="mb_30">{{ __('تابع قضيتك بسهولة من خلال حسابك الشخصي. احصل على تحديثات فورية، تابع تقدم القضية، وتواصل مع الإدارة في أي وقت ومن أي مكان.') }}</p>
                         
                         <div class="app-features mb_40">
                             <div class="feature-item mb_20">
@@ -586,7 +632,7 @@
                                 </div>
                                 <div class="feature-text">
                                     <h4>{{ __('3. احجز استشاراتك') }}</h4>
-                                    <p>{{ __('احجز موعدك مع محامينا الخبراء مباشرة من الموقع. متاح طوال الأسبوع لمساعدتك في أي وقت تحتاجه.') }}</p>
+                                    <p>{{ __('احجز موعدك مع الإدارة مباشرة من الموقع. متاح طوال الأسبوع لمساعدتك في أي وقت تحتاجه.') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -736,10 +782,542 @@
 
 @push('css')
 <style>
+    /* ============================================
+       HERO SECTION - Enhanced Design
+       ============================================ */
+    .hero-section {
+        position: relative;
+        min-height: 700px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .hero-slider-area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .hero-slider-overlay {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-slider-item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
+
+    .hero-slider-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .hero-slider-item.slick-active {
+        opacity: 1;
+        z-index: 2;
+    }
+
+    /* Hero Slider Dots Styling */
+    .hero-slider-area .slick-dots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 30px;
+        gap: 8px;
+        z-index: 15;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .hero-slider-area .slick-dots li {
+        margin: 0;
+        width: auto;
+        height: auto;
+    }
+
+    .hero-slider-area .slick-dots li button {
+        width: 40px;
+        height: 6px;
+        font-size: 0;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+        padding: 0;
+    }
+
+    .hero-slider-area .slick-dots li.slick-active button {
+        background: var(--colorPrimary);
+        width: 50px;
+        opacity: 1;
+    }
+
+    .hero-slider-area .slick-dots li button:hover {
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Dark overlay for better text readability */
+    .hero-slider-area::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 32, 76, 0.85) 0%, rgba(107, 93, 71, 0.75) 100%);
+        z-index: 3;
+        pointer-events: none;
+    }
+
+    .hero-content-wrapper {
+        position: relative;
+        z-index: 10;
+        padding: 80px 0;
+        width: 100%;
+    }
+
+    .hero-content {
+        text-align: center;
+        color: #ffffff;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Company Introduction */
+    .hero-company-intro {
+        margin-bottom: 50px;
+    }
+
+    .company-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 12px 24px;
+        border-radius: 50px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        animation: fadeInDown 0.8s ease-out;
+    }
+
+    .company-badge i {
+        color: var(--colorPrimary);
+        font-size: 18px;
+    }
+
+    .company-badge span {
+        font-size: 14px;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    .hero-title {
+        font-size: 56px;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 25px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    .title-highlight {
+        background: linear-gradient(135deg, #ffffff 0%, var(--colorPrimary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block;
+    }
+
+    .hero-subtitle {
+        font-size: 20px;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto 40px;
+        color: rgba(255, 255, 255, 0.95);
+        text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+        animation: fadeInUp 1s ease-out 0.4s both;
+    }
+
+    /* Company Features */
+    .hero-features {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-bottom: 50px;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease-out 0.6s both;
+    }
+
+    .hero-features .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 20px 30px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+        min-width: 250px;
+    }
+
+    .hero-features .feature-item:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-features .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .hero-features .feature-icon i {
+        font-size: 24px;
+        color: #ffffff;
+    }
+
+    .hero-features .feature-content h4 {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 5px 0;
+        color: #ffffff;
+    }
+
+    .hero-features .feature-content p {
+        font-size: 14px;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.5;
+    }
+
+    /* Search Section */
+    .hero-search-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 40px;
+        animation: fadeInUp 1s ease-out 0.8s both;
+    }
+
+    .search-header {
+        margin-bottom: 30px;
+    }
+
+    .search-header h3 {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--colorBlack);
+        margin-bottom: 10px;
+    }
+
+    .search-header p {
+        font-size: 16px;
+        color: #666;
+        margin: 0;
+    }
+
+    .hero-search-form .search-boxes {
+        display: flex;
+        gap: 15px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        flex: 1;
+        min-width: 200px;
+        position: relative;
+    }
+
+    .search-box i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--colorPrimary);
+        z-index: 5;
+        pointer-events: none;
+    }
+
+    .search-box .form-control {
+        padding-right: 45px;
+        height: 55px;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .search-box .form-control:focus {
+        border-color: var(--colorPrimary);
+        box-shadow: 0 0 0 3px rgba(107, 93, 71, 0.1);
+    }
+
+    .search-button {
+        flex-shrink: 0;
+    }
+
+    .search-button .btn {
+        height: 55px;
+        padding: 0 35px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 12px;
+        white-space: nowrap;
+    }
+
+    /* Call to Action */
+    .hero-cta {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease-out 1s both;
+    }
+
+    .hero-cta .btn {
+        padding: 15px 35px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .hero-cta .btn-outline-light {
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .hero-cta .btn-outline-light:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+    .hero-cta .btn-light {
+        background: #ffffff;
+        color: var(--colorPrimary);
+        border: 2px solid #ffffff;
+    }
+
+    .hero-cta .btn-light:hover {
+        background: var(--colorPrimary);
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(107, 93, 71, 0.3);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+        .hero-title {
+            font-size: 48px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+        }
+
+        .hero-features {
+            gap: 30px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .hero-section {
+            min-height: 600px;
+        }
+
+        .hero-content-wrapper {
+            padding: 60px 0;
+        }
+
+        .hero-title {
+            font-size: 40px;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+        }
+
+        .hero-features {
+            gap: 20px;
+        }
+
+        .hero-features .feature-item {
+            min-width: 200px;
+            padding: 15px 20px;
+        }
+
+        .hero-search-section {
+            padding: 30px 25px;
+        }
+
+        .search-boxes {
+            flex-direction: column;
+        }
+
+        .search-box {
+            width: 100%;
+        }
+
+        .search-button {
+            width: 100%;
+        }
+
+        .search-button .btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            min-height: 550px;
+        }
+
+        .hero-content-wrapper {
+            padding: 40px 0;
+        }
+
+        .hero-title {
+            font-size: 32px;
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            padding: 0 15px;
+        }
+
+        .hero-features {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .hero-features .feature-item {
+            width: 100%;
+            min-width: auto;
+        }
+
+        .hero-search-section {
+            padding: 25px 20px;
+            border-radius: 15px;
+        }
+
+        .search-header h3 {
+            font-size: 22px;
+        }
+
+        .search-header p {
+            font-size: 14px;
+        }
+
+        .hero-cta {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .hero-cta .btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section {
+            min-height: 500px;
+        }
+
+        .hero-title {
+            font-size: 28px;
+        }
+
+        .company-badge {
+            padding: 10px 20px;
+            font-size: 12px;
+        }
+
+        .hero-features .feature-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .hero-features .feature-icon i {
+            font-size: 20px;
+        }
+
+        .hero-features .feature-content h4 {
+            font-size: 16px;
+        }
+
+        .hero-features .feature-content p {
+            font-size: 13px;
+        }
+
+        .hero-slider-area .slick-dots {
+            bottom: 20px;
+            gap: 6px;
+        }
+
+        .hero-slider-area .slick-dots li button {
+            width: 30px;
+            height: 4px;
+        }
+
+        .hero-slider-area .slick-dots li.slick-active button {
+            width: 40px;
+        }
+    }
+
+    /* RTL Support */
+    [dir="rtl"] .search-box i {
+        right: auto;
+        left: 15px;
+    }
+
+    [dir="rtl"] .search-box .form-control {
+        padding-right: 15px;
+        padding-left: 45px;
+    }
+
     /* Testimonial Modern Styles */
     .testimonial-area-modern {
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        padding: 100px 0;
+        padding: 50px 0;
         position: relative;
         overflow: hidden;
     }
@@ -757,7 +1335,7 @@
     }
 
     .testimonial-swiper-wrapper {
-        padding: 60px 0 80px;
+        padding: 30px 0 40px;
         position: relative;
     }
 
@@ -1018,7 +1596,7 @@
 
     @media (max-width: 768px) {
         .testimonial-area-modern {
-            padding: 60px 0;
+            padding: 30px 0;
         }
 
         .testimonial-card-modern {
@@ -1122,7 +1700,7 @@
     /* Blog Modern Styles */
     .blog-area-modern {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-        padding: 100px 0;
+        padding: 50px 0;
         position: relative;
         overflow: hidden;
     }
@@ -1140,7 +1718,7 @@
     }
 
     .blog-swiper-wrapper {
-        padding: 60px 0 80px;
+        padding: 30px 0 40px;
         position: relative;
     }
 
@@ -1419,7 +1997,7 @@
 
     @media (max-width: 768px) {
         .blog-area-modern {
-            padding: 60px 0;
+            padding: 30px 0;
         }
 
         .blog-image-wrapper {
@@ -1518,7 +2096,7 @@
     /* Lawyer Modern Styles */
     .lawyer-area-modern {
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        padding: 100px 0;
+        padding: 50px 0;
         position: relative;
         overflow: hidden;
     }
@@ -1536,7 +2114,7 @@
     }
 
     .lawyer-swiper-wrapper {
-        padding: 60px 0 80px;
+        padding: 30px 0 40px;
         position: relative;
     }
 
@@ -1803,7 +2381,7 @@
 
     @media (max-width: 768px) {
         .lawyer-area-modern {
-            padding: 60px 0;
+            padding: 30px 0;
         }
 
         .lawyer-image-wrapper {
@@ -1881,7 +2459,7 @@
 
     /* Service Swiper Styles */
     .service-swiper-container {
-        padding: 40px 0 80px;
+        padding: 20px 0 40px;
         position: relative;
     }
 
@@ -2116,7 +2694,7 @@
 
     @media (max-width: 768px) {
         .service-swiper-container {
-            padding: 30px 0 60px;
+            padding: 15px 0 30px;
         }
 
         .service-item {
@@ -2587,12 +3165,125 @@
             border-radius: 15px;
         }
     }
+
+    /* Reduce spacing for all sections */
+    .mobile-app-area,
+    .how-it-works-area,
+    .fixed-price-area,
+    .legal-aid-check-home {
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+
+    /* Reduce spacing for service area and other sections */
+    .service-area,
+    .about-area,
+    .why-us-area,
+    .case-study-area {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+    }
+
+    /* Reduce spacing for department section */
+    .case-study-home-page {
+        padding-bottom: 30px !important;
+    }
+
+    /* Reduce large margin top */
+    .mt_200 {
+        margin-top: 50px !important;
+    }
+
+    /* Mobile responsive - further reduce spacing */
+    @media (max-width: 768px) {
+        .mobile-app-area,
+        .how-it-works-area,
+        .fixed-price-area,
+        .legal-aid-check-home {
+            padding-top: 30px !important;
+            padding-bottom: 30px !important;
+        }
+
+        .service-area,
+        .about-area,
+        .why-us-area,
+        .case-study-area {
+            padding-top: 25px !important;
+            padding-bottom: 25px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .mobile-app-area,
+        .how-it-works-area,
+        .fixed-price-area,
+        .legal-aid-check-home {
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+        }
+
+        .service-area,
+        .about-area,
+        .why-us-area,
+        .case-study-area {
+            padding-top: 20px !important;
+            padding-bottom: 20px !important;
+        }
+    }
 </style>
 @endpush
 
 @push('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Hero Slider
+        if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
+            const isRtl = document.documentElement.dir === 'rtl';
+            
+            // Destroy existing slider if any
+            if (jQuery('.hero-slider').hasClass('slick-initialized')) {
+                jQuery('.hero-slider').slick('unslick');
+            }
+            
+            // Initialize hero slider
+            jQuery('.hero-slider').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 5000,
+                speed: 1000,
+                fade: true,
+                cssEase: 'linear',
+                dots: true,
+                arrows: false,
+                rtl: isRtl,
+                pauseOnHover: true,
+                pauseOnFocus: true,
+                infinite: true,
+                lazyLoad: 'ondemand',
+                adaptiveHeight: false,
+                swipe: true,
+                touchMove: true,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            speed: 800,
+                            autoplaySpeed: 4000,
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            speed: 600,
+                            autoplaySpeed: 3500,
+                        }
+                    }
+                ]
+            });
+        }
+        
+        // Original code continues
         if (typeof Swiper !== 'undefined') {
             // Testimonial Swiper
             const testimonialSwiper = new Swiper('.testimonial-swiper-modern', {
@@ -2887,5 +3578,7 @@
     });
 </script>
 @endpush
+
+@endsection
 
 @endsection
