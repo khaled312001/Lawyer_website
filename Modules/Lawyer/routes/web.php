@@ -34,6 +34,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admi
 
     Route::resource('lawyer', LawyerController::class)->names('lawyer')->except('show');
     Route::put('/lawyer/status-update/{id}', [LawyerController::class, 'statusUpdate'])->name('lawyer.status-update');
+    Route::put('/lawyer/update-credentials/{id}', [LawyerController::class, 'updateCredentials'])->name('lawyer.update-credentials');
     Route::post('lawyer-send-verify-mail/{id}', [LawyerController::class, 'send_verify_request'])->name('lawyer-send-verify-mail');
     Route::post('lawyer-send-verify-mail-to-all', [LawyerController::class, 'send_verify_request_to_all'])->name('lawyer-send-verify-mail-to-all');
 

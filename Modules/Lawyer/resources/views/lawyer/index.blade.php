@@ -147,6 +147,14 @@
                                                             'lawyer' => $lawyer->id,
                                                             'code' => getSessionLanguage(),
                                                         ])" />
+                                                        @adminCan('lawyer.update')
+                                                            <button type="button" class="btn btn-sm btn-warning me-1" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#credentialsModal{{ $lawyer->id }}"
+                                                                title="{{ __('Change Email/Password') }}">
+                                                                <i class="fas fa-key"></i>
+                                                            </button>
+                                                        @endadminCan
                                                         @adminCan('rating.create')
                                                             <button type="button" class="btn btn-sm btn-info me-1" 
                                                                 data-bs-toggle="modal" 
@@ -292,6 +300,40 @@
             </div>
         @endforeach
     @endadminCan
+
+    @adminCan('lawyer.update')
+        <!-- Credentials Modal for Each Lawyer -->
+        @foreach ($lawyers as $lawyer)
+            <div class="modal fade" id="credentialsModal{{ $lawyer->id }}" tabindex="-1" role="dialog" aria-labelledby="credentialsModalLabel{{ $lawyer->id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="credentialsModalLabel{{ $lawyer->id }}">{{ __('Change Email/Password for') }}: {{ $lawyer->name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form id="credentialsForm{{ $lawyer->id }}" onsubmit="updateCredentials(event, {{ $lawyer->id }})">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="form-group mb-3">
+                                    <label>{{ __('Email') }} <span class="text-danger">*</span></label>
+                                    <input type="email" name="email" class="form-control" value="{{ $lawyer->email }}" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label>{{ __('New Password') }} ({{ __('Leave empty to keep current password') }})</label>
+                                    <input type="password" name="password" class="form-control" minlength="4" placeholder="{{ __('Enter new password') }}">
+                                    <small class="text-muted">{{ __('Minimum 4 characters') }}</small>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endadminCan
 @endsection
 
 @push('js')
@@ -334,6 +376,48 @@
                 },
                 error: function(err) {
                     console.log(err);
+                }
+            });
+        }
+
+        function updateCredentials(event, lawyerId) {
+            event.preventDefault();
+            var isDemo = "{{ env('APP_MODE') ?? 'LIVE' }}"
+            if (isDemo == 'DEMO') {
+                toastr.error("{{ __('This Is Demo Version. You Can Not Change Anything') }}");
+                return;
+            }
+
+            var form = $('#credentialsForm' + lawyerId);
+            var formData = form.serialize();
+
+            $.ajax({
+                type: "PUT",
+                url: "{{ url('/admin/lawyer/update-credentials') }}/" + lawyerId,
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        $('#credentialsModal' + lawyerId).modal('hide');
+                        // Reload page after 1 second to show updated email
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        toastr.error(response.message || '{{ __('Something went wrong') }}');
+                    }
+                },
+                error: function(xhr) {
+                    var errors = xhr.responseJSON?.errors || {};
+                    var errorMessage = xhr.responseJSON?.message || '{{ __('Something went wrong') }}';
+                    
+                    if (Object.keys(errors).length > 0) {
+                        $.each(errors, function(key, value) {
+                            toastr.error(value[0]);
+                        });
+                    } else {
+                        toastr.error(errorMessage);
+                    }
                 }
             });
         }

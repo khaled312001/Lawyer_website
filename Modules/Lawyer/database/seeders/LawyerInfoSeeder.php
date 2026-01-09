@@ -314,8 +314,11 @@ class LawyerInfoSeeder extends Seeder {
         foreach ($lawyers as $key => $lawyer) {
             $index = ++$key;
             $now = now();
+            
+            // Use email as the unique identifier to find existing lawyer
+            $existingLawyer = Lawyer::where('email', $lawyer['email'])->first();
+            
             $lawyerData = [
-                'id'                  => $index,
                 'department_id'       => $lawyer['department_id'],
                 'location_id'         => $lawyer['location_id'],
                 'name'                => $lawyer['name'],
@@ -330,56 +333,78 @@ class LawyerInfoSeeder extends Seeder {
                 'show_homepage'       => 1,
                 'wallet_balance'       => $lawyer['wallet_balance'] ?? 0.00,
                 'email_verified_at'   => $now,
-                'created_at'          => $now,
                 'updated_at'          => $now,
             ];
-
-            Lawyer::updateOrCreate(['id' => $index], $lawyerData);
-
-            foreach ($lawyer['translations'] as $translation) {
-                LawyerTranslation::updateOrCreate(
-                    [
-                        'lawyer_id' => $index,
-                        'lang_code' => $translation['lang_code'],
-                    ],
-                    [
-                        ...$translation,
-                        'about' => $lawyer['about'],
-                        'address' => $lawyer['address'],
-                        'educations' => $lawyer['educations'],
-                        'experience' => $lawyer['experience'],
-                        'qualifications' => $lawyer['qualifications'],
-                    ]
-                );
+            
+            // Only set created_at if creating new record
+            if (!$existingLawyer) {
+                $lawyerData['created_at'] = $now;
             }
 
-            LawyerSocialMedia::insert([
+            // Use email as the unique identifier instead of id to avoid conflicts
+            $lawyerModel = Lawyer::updateOrCreate(['email' => $lawyer['email']], $lawyerData);
+            $lawyerId = $lawyerModel->id;
+
+            // Delete existing translations and social media for this lawyer
+            LawyerTranslation::where('lawyer_id', $lawyerId)->delete();
+            LawyerSocialMedia::where('lawyer_id', $lawyerId)->delete();
+            
+            foreach ($lawyer['translations'] as $translation) {
+                LawyerTranslation::create([
+                    'lawyer_id' => $lawyerId,
+                    'lang_code' => $translation['lang_code'],
+                    ...$translation,
+                    'about' => $lawyer['about'],
+                    'address' => $lawyer['address'],
+                    'educations' => $lawyer['educations'],
+                    'experience' => $lawyer['experience'],
+                    'qualifications' => $lawyer['qualifications'],
+                ]);
+            }
+
+            $socialMediaData = [
                 [
-                    'lawyer_id' => $index,
+                    'lawyer_id' => $lawyerId,
                     'icon'      => 'fab fa-facebook-f',
                     'link'      => 'https://www.facebook.com',
+                    'status'    => 1,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ],
                 [
-                    'lawyer_id' => $index,
+                    'lawyer_id' => $lawyerId,
                     'icon'      => 'fab fa-twitter',
                     'link'      => 'https://www.twitter.com',
+                    'status'    => 1,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ],
                 [
-                    'lawyer_id' => $index,
+                    'lawyer_id' => $lawyerId,
                     'icon'      => 'fab fa-linkedin-in',
                     'link'      => 'https://www.linkedin.com',
+                    'status'    => 1,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ],
                 [
-                    'lawyer_id' => $index,
+                    'lawyer_id' => $lawyerId,
                     'icon'      => 'fab fa-instagram',
                     'link'      => 'https://www.instagram.com',
+                    'status'    => 1,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ],
                 [
-                    'lawyer_id' => $index,
+                    'lawyer_id' => $lawyerId,
                     'icon'      => 'fas fa-globe',
                     'link'      => 'https://www.yourwebsite.com',
+                    'status'    => 1,
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ]
-            ]);
+            ];
+            LawyerSocialMedia::insert($socialMediaData);
         }
     }
 }

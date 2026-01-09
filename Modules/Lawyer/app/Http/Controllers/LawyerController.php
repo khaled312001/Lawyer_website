@@ -210,6 +210,37 @@ class LawyerController extends Controller {
         ]);
     }
 
+    public function updateCredentials(Request $request, $id) {
+        checkAdminHasPermissionAndThrowException('lawyer.update');
+
+        $request->validate([
+            'email' => 'required|email|max:255|unique:lawyers,email,' . $id,
+            'password' => 'nullable|min:4|max:100',
+        ], [
+            'email.required' => __('Email is required'),
+            'email.email' => __('Email must be a valid email address'),
+            'email.unique' => __('Email already exists'),
+            'password.min' => __('Password must be at least 4 characters'),
+        ]);
+
+        $lawyer = Lawyer::findOrFail($id);
+        
+        $lawyer->email = $request->email;
+        
+        if ($request->filled('password')) {
+            $lawyer->password = Hash::make($request->password);
+        }
+        
+        $lawyer->save();
+
+        $notification = __('Credentials updated successfully');
+
+        return response()->json([
+            'success' => true,
+            'message' => $notification,
+        ]);
+    }
+
     public function send_verify_request($id) {
         try {
             DB::beginTransaction();
