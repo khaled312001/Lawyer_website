@@ -26,6 +26,15 @@
         
         <div class="legal-hero-section">
             <div class="legal-hero-overlay"></div>
+            <!-- Animated Legal Icons -->
+            <div class="legal-hero-animated-icons">
+                <i class="fas fa-gavel legal-icon-1"></i>
+                <i class="fas fa-balance-scale legal-icon-2"></i>
+                <i class="fas fa-book-law legal-icon-3"></i>
+                <i class="fas fa-landmark legal-icon-4"></i>
+                <i class="fas fa-file-contract legal-icon-5"></i>
+                <i class="fas fa-handshake legal-icon-6"></i>
+            </div>
             <div class="d-flex align-items-center h_100_p">
                 <div class="container">
                     <div class="row align-items-center">
@@ -1130,6 +1139,80 @@
         }
     }
 
+    /* Animated Legal Icons */
+    .legal-hero-animated-icons {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .legal-hero-animated-icons i {
+        position: absolute;
+        font-size: 80px;
+        color: rgba(212, 175, 55, 0.08);
+        animation: legalIconFloat 15s infinite ease-in-out;
+    }
+
+    .legal-icon-1 {
+        top: 10%;
+        left: 5%;
+        animation-delay: 0s;
+    }
+
+    .legal-icon-2 {
+        top: 20%;
+        right: 8%;
+        animation-delay: 2s;
+    }
+
+    .legal-icon-3 {
+        top: 50%;
+        left: 3%;
+        animation-delay: 4s;
+    }
+
+    .legal-icon-4 {
+        bottom: 20%;
+        right: 5%;
+        animation-delay: 6s;
+    }
+
+    .legal-icon-5 {
+        top: 30%;
+        left: 50%;
+        animation-delay: 8s;
+    }
+
+    .legal-icon-6 {
+        bottom: 10%;
+        left: 15%;
+        animation-delay: 10s;
+    }
+
+    @keyframes legalIconFloat {
+        0%, 100% {
+            transform: translate(0, 0) rotate(0deg) scale(1);
+            opacity: 0.08;
+        }
+        25% {
+            transform: translate(30px, -30px) rotate(5deg) scale(1.1);
+            opacity: 0.12;
+        }
+        50% {
+            transform: translate(-20px, 20px) rotate(-5deg) scale(0.95);
+            opacity: 0.1;
+        }
+        75% {
+            transform: translate(20px, 30px) rotate(3deg) scale(1.05);
+            opacity: 0.15;
+        }
+    }
+
     /* Ensure slider works as background */
     #main-slider .banner_slider_area {
         position: absolute;
@@ -1164,6 +1247,9 @@
 
     /* Legal Hero Responsive Design */
     @media (max-width: 991px) {
+        .legal-hero-animated-icons i {
+            font-size: 60px;
+        }
         .legal-hero-section .container {
             padding-left: 30px;
             padding-right: 30px;
@@ -1210,6 +1296,40 @@
         .legal-hero-section {
             min-height: 550px;
             padding: 30px 0;
+        }
+
+        .legal-hero-animated-icons i {
+            font-size: 50px;
+        }
+
+        .legal-icon-1 {
+            top: 5%;
+            left: 2%;
+        }
+
+        .legal-icon-2 {
+            top: 15%;
+            right: 3%;
+        }
+
+        .legal-icon-3 {
+            top: 45%;
+            left: 1%;
+        }
+
+        .legal-icon-4 {
+            bottom: 15%;
+            right: 2%;
+        }
+
+        .legal-icon-5 {
+            top: 25%;
+            left: 45%;
+        }
+
+        .legal-icon-6 {
+            bottom: 5%;
+            left: 10%;
         }
 
         .legal-hero-content {
@@ -1305,6 +1425,10 @@
         .legal-hero-section {
             min-height: 500px;
             padding: 25px 0;
+        }
+
+        .legal-hero-animated-icons i {
+            font-size: 40px;
         }
 
         .legal-hero-content {
