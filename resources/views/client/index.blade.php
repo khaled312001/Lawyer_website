@@ -30,13 +30,13 @@
             <div class="legal-hero-animated-icons">
                 <i class="fas fa-gavel legal-icon-1"></i>
                 <i class="fas fa-balance-scale legal-icon-2"></i>
-                <i class="fas fa-book-law legal-icon-3"></i>
+                <i class="fas fa-book legal-icon-3"></i>
                 <i class="fas fa-landmark legal-icon-4"></i>
-                <i class="fas fa-file-contract legal-icon-5"></i>
+                <i class="fas fa-file-alt legal-icon-5"></i>
                 <i class="fas fa-handshake legal-icon-6"></i>
             </div>
             <div class="d-flex align-items-center h_100_p">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-lg-5">
                             <div class="legal-hero-stats">
@@ -874,9 +874,11 @@
         padding: 60px 0;
     }
 
-    .legal-hero-section .container {
+    .legal-hero-section .container-fluid {
         padding-left: 40px;
         padding-right: 40px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .legal-hero-overlay {
@@ -957,7 +959,6 @@
         line-height: 1.8;
         color: rgba(255, 255, 255, 0.9);
         margin-bottom: 30px;
-        max-width: 600px;
         animation: legalFadeInUp 0.8s ease 0.4s both;
     }
 
@@ -1146,7 +1147,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        z-index: 1;
+        z-index: 2;
         pointer-events: none;
         overflow: hidden;
     }
@@ -1154,8 +1155,11 @@
     .legal-hero-animated-icons i {
         position: absolute;
         font-size: 80px;
-        color: rgba(212, 175, 55, 0.08);
+        color: rgba(212, 175, 55, 0.2);
         animation: legalIconFloat 15s infinite ease-in-out;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 0.2 !important;
     }
 
     .legal-icon-1 {
@@ -1197,19 +1201,19 @@
     @keyframes legalIconFloat {
         0%, 100% {
             transform: translate(0, 0) rotate(0deg) scale(1);
-            opacity: 0.08;
+            opacity: 0.2;
         }
         25% {
             transform: translate(30px, -30px) rotate(5deg) scale(1.1);
-            opacity: 0.12;
+            opacity: 0.25;
         }
         50% {
             transform: translate(-20px, 20px) rotate(-5deg) scale(0.95);
-            opacity: 0.1;
+            opacity: 0.22;
         }
         75% {
             transform: translate(20px, 30px) rotate(3deg) scale(1.05);
-            opacity: 0.15;
+            opacity: 0.28;
         }
     }
 
@@ -1250,7 +1254,7 @@
         .legal-hero-animated-icons i {
             font-size: 60px;
         }
-        .legal-hero-section .container {
+        .legal-hero-section .container-fluid {
             padding-left: 30px;
             padding-right: 30px;
         }
@@ -1614,7 +1618,7 @@
 
     /* RTL Mobile Support */
     @media (max-width: 768px) {
-        .legal-hero-section .container {
+        .legal-hero-section .container-fluid {
             padding-left: 20px;
             padding-right: 20px;
         }
