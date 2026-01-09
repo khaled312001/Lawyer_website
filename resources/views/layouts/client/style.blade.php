@@ -868,8 +868,8 @@
     .side-menu-link {
         display: flex;
         align-items: center;
-        gap: 15px;
-        padding: 16px 22px;
+        gap: 10px;
+        padding: 16px 20px;
         color: #2c3e50;
         text-decoration: none;
         font-size: 15px;
@@ -880,6 +880,13 @@
         border-left: 3px solid transparent;
         width: 100%;
         box-sizing: border-box;
+        direction: ltr;
+    }
+
+    [dir="rtl"] .side-menu-link {
+        direction: rtl;
+        border-left: none;
+        border-right: 3px solid transparent;
     }
 
     .side-menu-link::before {
@@ -893,21 +900,49 @@
         transition: width 0.3s ease;
     }
 
+    [dir="rtl"] .side-menu-link::before {
+        left: auto;
+        right: 0;
+        background: linear-gradient(270deg, var(--colorPrimary, #c8b47e) 0%, rgba(200, 180, 126, 0.1) 100%);
+    }
+
     .side-menu-link i {
         color: var(--colorPrimary, #c8b47e);
-        font-size: 20px;
-        width: 26px;
+        font-size: 18px;
+        width: 22px;
+        min-width: 22px;
         text-align: center;
         transition: all 0.3s ease;
         position: relative;
         z-index: 1;
+        flex-shrink: 0;
+    }
+
+    [dir="rtl"] .side-menu-link i {
+        order: 2;
+    }
+
+    .side-menu-link span {
+        flex: 1;
+        text-align: left;
+    }
+
+    [dir="rtl"] .side-menu-link span {
+        text-align: right;
     }
 
     .side-menu-link:hover {
         background: linear-gradient(90deg, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.08) 0%, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.03) 100%);
         color: var(--colorPrimary, #c8b47e);
-        padding-left: 28px;
+        padding-left: 24px;
         border-left-color: var(--colorPrimary, #c8b47e);
+    }
+
+    [dir="rtl"] .side-menu-link:hover {
+        padding-left: 20px;
+        padding-right: 24px;
+        border-left: none;
+        border-right-color: var(--colorPrimary, #c8b47e);
     }
 
     .side-menu-link:hover::before {
@@ -961,8 +996,8 @@
     .side-submenu li a {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 12px 20px 12px 55px;
+        gap: 8px;
+        padding: 12px 20px 12px 50px;
         color: #555;
         text-decoration: none;
         font-size: 14px;
@@ -972,6 +1007,14 @@
         border-left: 2px solid transparent;
         width: 100%;
         box-sizing: border-box;
+        direction: ltr;
+    }
+
+    [dir="rtl"] .side-submenu li a {
+        direction: rtl;
+        padding: 12px 50px 12px 20px;
+        border-left: none;
+        border-right: 2px solid transparent;
     }
 
     .side-submenu li a::before {
@@ -985,18 +1028,46 @@
         transition: width 0.3s ease;
     }
 
+    [dir="rtl"] .side-submenu li a::before {
+        left: auto;
+        right: 0;
+    }
+
     .side-submenu li a i {
         color: var(--colorPrimary, #c8b47e);
-        font-size: 15px;
-        width: 18px;
+        font-size: 14px;
+        width: 16px;
+        min-width: 16px;
+        text-align: center;
         transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    [dir="rtl"] .side-submenu li a i {
+        order: 2;
+    }
+
+    .side-submenu li a span {
+        flex: 1;
+        text-align: left;
+    }
+
+    [dir="rtl"] .side-submenu li a span {
+        text-align: right;
     }
 
     .side-submenu li a:hover {
         background: linear-gradient(90deg, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.1) 0%, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.05) 100%);
         color: var(--colorPrimary, #c8b47e);
-        padding-left: 60px;
+        padding-left: 54px;
         border-left-color: var(--colorPrimary, #c8b47e);
+    }
+
+    [dir="rtl"] .side-submenu li a:hover {
+        padding-left: 20px;
+        padding-right: 54px;
+        border-left: none;
+        border-right-color: var(--colorPrimary, #c8b47e);
     }
 
     .side-submenu li a:hover::before {
@@ -1004,7 +1075,11 @@
     }
 
     .side-submenu li a:hover i {
-        transform: translateX(3px) scale(1.1);
+        transform: translateX(2px) scale(1.1);
+    }
+
+    [dir="rtl"] .side-submenu li a:hover i {
+        transform: translateX(-2px) scale(1.1);
     }
 
     /* Appointment Button - Show After Main Menu Items */
@@ -1036,6 +1111,7 @@
         margin: 0 20px;
         padding: 16px 24px;
         justify-content: center;
+        align-items: center;
         font-weight: 700;
         font-size: 16px;
         box-shadow: 0 6px 20px rgba(107, 93, 71, 0.4) !important;
@@ -1046,6 +1122,12 @@
         width: calc(100% - 40px);
         box-sizing: border-box;
         display: flex;
+        gap: 10px;
+        direction: ltr;
+    }
+
+    [dir="rtl"] .appointment-link {
+        direction: rtl;
     }
 
     .appointment-link::before {
@@ -1065,9 +1147,17 @@
 
     .appointment-link i {
         color: #fff !important;
-        font-size: 20px;
-        margin-right: 8px;
+        font-size: 18px;
         transition: transform 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    [dir="rtl"] .appointment-link i {
+        order: 2;
+    }
+
+    .appointment-link span {
+        text-align: center;
     }
     
     .appointment-link:hover {
@@ -1225,7 +1315,7 @@
             body.client-frontend .mobile-menu-toggle {
                 order: 1;
                 margin-right: 0;
-                margin-left: 15px;
+                margin-left: 20px;
             }
             .navbar-logo {
                 order: 0;
@@ -1234,6 +1324,7 @@
             }
             .navbar-wrapper {
                 justify-content: flex-start !important;
+                gap: 20px;
             }
         }
     @endif
@@ -1879,7 +1970,7 @@
         body.client-frontend .mobile-menu-toggle {
             display: flex !important;
             order: -1;
-            margin-right: 15px;
+            margin-right: 20px;
             margin-left: 0;
         }
 
@@ -1890,11 +1981,13 @@
         /* إعادة ترتيب العناصر في الموبايل - البرجر منيو في أقصى اليسار */
         .navbar-wrapper {
             justify-content: flex-start !important;
+            gap: 20px;
         }
 
         .navbar-logo {
             order: 0;
             margin-right: auto;
+            margin-left: 0;
         }
 
         .navbar-menu {
@@ -1969,7 +2062,7 @@
             width: 38px;
             height: 38px;
             order: -1;
-            margin-right: 15px;
+            margin-right: 20px;
             margin-left: 0;
         }
 
@@ -1981,11 +2074,13 @@
         /* إعادة ترتيب العناصر في الموبايل */
         .navbar-wrapper {
             justify-content: flex-start !important;
+            gap: 20px;
         }
 
         .navbar-logo {
             order: 0;
             margin-right: auto;
+            margin-left: 0;
         }
 
         .navbar-menu {
@@ -6163,7 +6258,7 @@
     .side-menu-body .side-menu-link {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         padding: 10px 18px;
         color: #333;
         text-decoration: none;
@@ -6174,6 +6269,11 @@
         background: #fff;
         width: 100%;
         box-sizing: border-box;
+        direction: ltr;
+    }
+
+    [dir="rtl"] .side-menu-body .side-menu-link {
+        direction: rtl;
     }
 
     .side-menu-body .side-menu-link:hover {
@@ -6182,12 +6282,32 @@
         padding-left: 22px;
     }
 
+    [dir="rtl"] .side-menu-body .side-menu-link:hover {
+        padding-left: 18px;
+        padding-right: 22px;
+    }
+
     .side-menu-link i {
         color: var(--colorPrimary);
         font-size: 18px;
-        width: 24px;
+        width: 22px;
+        min-width: 22px;
         text-align: center;
         transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    [dir="rtl"] .side-menu-link i {
+        order: 2;
+    }
+
+    .side-menu-link span {
+        flex: 1;
+        text-align: left;
+    }
+
+    [dir="rtl"] .side-menu-link span {
+        text-align: right;
     }
 
     .side-menu-link:hover i {
@@ -6234,8 +6354,8 @@
     .side-submenu li a {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 12px 20px 12px 55px;
+        gap: 8px;
+        padding: 12px 20px 12px 50px;
         color: #555;
         text-decoration: none;
         font-size: 14px;
@@ -6244,6 +6364,16 @@
         position: relative;
         border-left: 2px solid transparent;
         background: #f8f9fa;
+        width: 100%;
+        box-sizing: border-box;
+        direction: ltr;
+    }
+
+    [dir="rtl"] .side-submenu li a {
+        direction: rtl;
+        padding: 12px 50px 12px 20px;
+        border-left: none;
+        border-right: 2px solid transparent;
     }
 
     .side-submenu li a::before {
@@ -6257,18 +6387,46 @@
         transition: width 0.3s ease;
     }
 
+    [dir="rtl"] .side-submenu li a::before {
+        left: auto;
+        right: 0;
+    }
+
     .side-submenu li a i {
         color: var(--colorPrimary, #c8b47e);
-        font-size: 15px;
-        width: 18px;
+        font-size: 14px;
+        width: 16px;
+        min-width: 16px;
+        text-align: center;
         transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    [dir="rtl"] .side-submenu li a i {
+        order: 2;
+    }
+
+    .side-submenu li a span {
+        flex: 1;
+        text-align: left;
+    }
+
+    [dir="rtl"] .side-submenu li a span {
+        text-align: right;
     }
 
     .side-submenu li a:hover {
         background: linear-gradient(90deg, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.1) 0%, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.05) 100%);
         color: var(--colorPrimary, #c8b47e);
-        padding-left: 60px;
+        padding-left: 54px;
         border-left-color: var(--colorPrimary, #c8b47e);
+    }
+
+    [dir="rtl"] .side-submenu li a:hover {
+        padding-left: 20px;
+        padding-right: 54px;
+        border-left: none;
+        border-right-color: var(--colorPrimary, #c8b47e);
     }
 
     .side-submenu li a:hover::before {
@@ -6276,7 +6434,11 @@
     }
 
     .side-submenu li a:hover i {
-        transform: translateX(3px) scale(1.1);
+        transform: translateX(2px) scale(1.1);
+    }
+
+    [dir="rtl"] .side-submenu li a:hover i {
+        transform: translateX(-2px) scale(1.1);
     }
 
     /* Appointment Button - Show After Main Menu */
@@ -6519,11 +6681,16 @@
     @media (max-width: 768px) {
         [dir="rtl"] .side-menu-link:hover {
             padding-left: 20px;
-            padding-right: 25px;
+            padding-right: 24px;
+        }
+
+        [dir="rtl"] .side-menu-body .side-menu-link:hover {
+            padding-left: 18px;
+            padding-right: 22px;
         }
 
         [dir="rtl"] .side-submenu li a:hover {
-            padding-right: 60px;
+            padding-right: 54px;
             padding-left: 20px;
         }
 
