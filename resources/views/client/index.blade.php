@@ -849,9 +849,18 @@
 
     .hero-content {
         position: relative;
-        z-index: 2;
+        z-index: 3;
         color: #ffffff;
         padding: 40px 0;
+    }
+    
+    .hero-stats {
+        position: relative;
+        z-index: 3;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px 0;
     }
 
     .hero-badge {
@@ -975,14 +984,6 @@
         color: #ffffff;
     }
 
-    .hero-stats {
-        position: relative;
-        z-index: 2;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 20px 0;
-    }
 
     .hero-stat-card {
         background: rgba(255, 255, 255, 0.1);
