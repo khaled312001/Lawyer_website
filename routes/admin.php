@@ -84,4 +84,21 @@ Route::group(['middleware'=>'translation', 'as' => 'admin.', 'prefix' => 'admin'
         Route::put('/{id}/status', 'updateStatus')->name('update-status');
         Route::delete('/{id}', 'destroy')->name('destroy');
     });
+
+    // Partnership Requests Management Routes
+    Route::controller(App\Http\Controllers\Admin\PartnershipRequestController::class)->prefix('partnership-requests')->name('partnership-requests.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+
+    // Notifications Routes
+    Route::controller(App\Http\Controllers\Admin\NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/fetch', 'fetch')->name('fetch');
+        Route::post('/mark-read/{id}', 'markAsRead')->name('mark-read');
+        Route::post('/mark-all-read', 'markAllAsRead')->name('mark-all-read');
+        Route::get('/unread-messages-count', 'getUnreadMessagesCount')->name('unread-messages-count');
+    });
 });

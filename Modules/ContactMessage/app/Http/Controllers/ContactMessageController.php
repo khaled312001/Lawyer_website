@@ -3,6 +3,8 @@
 namespace Modules\ContactMessage\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Notifications\NewContactMessageNotification;
 use App\Rules\CustomRecaptcha;
 use App\Traits\GlobalMailTrait;
 use Illuminate\Http\Request;
@@ -28,8 +30,9 @@ class ContactMessageController extends Controller {
             'message.required'              => __('Message is required'),
             'g-recaptcha-response.required' => __('Please complete the recaptcha to submit the form'),
         ]);
+        $contactMessage = null;
         if ($setting?->save_contact_message) {
-            ContactMessage::create([
+            $contactMessage = ContactMessage::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'subject' => $request->subject,
@@ -51,6 +54,18 @@ class ContactMessageController extends Controller {
             $this->sendMail($setting->contact_message_receiver_mail, $subject, $message);
         } catch (\Exception $e) {
             info($e->getMessage());
+        }
+
+        // Send notification to all admins
+        if ($contactMessage) {
+            try {
+                $admins = Admin::all();
+                foreach ($admins as $admin) {
+                    $admin->notify(new NewContactMessageNotification($contactMessage));
+                }
+            } catch (\Exception $e) {
+                info('Admin notification error: ' . $e->getMessage());
+            }
         }
 
         $notification = __('Message Sent Successfully');

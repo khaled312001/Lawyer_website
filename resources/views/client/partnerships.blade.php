@@ -92,27 +92,55 @@
                 <div class="partnership-form-section">
                     <h3>{{ __('Interested in Partnering?') }}</h3>
                     <p>{{ __('Fill out the form below and we\'ll get back to you as soon as possible.') }}</p>
-                    <form action="{{ route('website.contact-us') }}" method="GET" class="partnership-form">
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    <form action="{{ route('website.partnership-request.store') }}" method="POST" class="partnership-form">
+                        @csrf
                         <div class="form-group">
-                            <input type="text" name="name" class="form-control" placeholder="{{ __('Your Name') }}" required>
+                            <input type="text" name="name" class="form-control" placeholder="{{ __('Your Name') }}" value="{{ old('name') }}" required>
+                            @error('name')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <input type="email" name="email" class="form-control" placeholder="{{ __('Your Email') }}" required>
+                            <input type="email" name="email" class="form-control" placeholder="{{ __('Your Email') }}" value="{{ old('email') }}" required>
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <input type="text" name="company" class="form-control" placeholder="{{ __('Company Name') }}">
+                            <input type="text" name="company" class="form-control" placeholder="{{ __('Company Name') }}" value="{{ old('company') }}">
+                            @error('company')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <select name="partnership_type" class="form-control" required>
                                 <option value="">{{ __('Partnership Type') }}</option>
-                                <option value="law_firm">{{ __('Law Firm') }}</option>
-                                <option value="legal_tech">{{ __('Legal Tech Company') }}</option>
-                                <option value="business">{{ __('Business Partner') }}</option>
-                                <option value="other">{{ __('Other') }}</option>
+                                <option value="law_firm" {{ old('partnership_type') == 'law_firm' ? 'selected' : '' }}>{{ __('Law Firm') }}</option>
+                                <option value="legal_tech" {{ old('partnership_type') == 'legal_tech' ? 'selected' : '' }}>{{ __('Legal Tech Company') }}</option>
+                                <option value="business" {{ old('partnership_type') == 'business' ? 'selected' : '' }}>{{ __('Business Partner') }}</option>
+                                <option value="other" {{ old('partnership_type') == 'other' ? 'selected' : '' }}>{{ __('Other') }}</option>
                             </select>
+                            @error('partnership_type')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="form-group">
-                            <textarea name="message" class="form-control" rows="5" placeholder="{{ __('Tell us about your partnership interest') }}" required></textarea>
+                            <textarea name="message" class="form-control" rows="5" placeholder="{{ __('Tell us about your partnership interest') }}" required>{{ old('message') }}</textarea>
+                            @error('message')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
                     </form>

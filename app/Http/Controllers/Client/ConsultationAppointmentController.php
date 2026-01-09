@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\AdminAppointment;
+use App\Notifications\NewAppointmentRequestNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,6 +76,16 @@ class ConsultationAppointmentController extends Controller
             'additional_info' => $request->additional_info,
             'status' => 'pending',
         ]);
+
+        // Send notification to all admins
+        try {
+            $admins = Admin::all();
+            foreach ($admins as $admin) {
+                $admin->notify(new NewAppointmentRequestNotification($appointment));
+            }
+        } catch (\Exception $e) {
+            info('Admin notification error: ' . $e->getMessage());
+        }
 
         // Redirect based on whether user is logged in
         if ($user) {

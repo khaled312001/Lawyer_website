@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use App\Models\Admin;
+use App\Notifications\NewOrderNotification;
 use Modules\Appointment\app\Models\Appointment;
 use Modules\BasicPayment\app\Enums\BasicPaymentSupportedCurrencyListEnum;
 use Modules\BasicPayment\app\Http\Controllers\FrontPaymentController;
@@ -148,6 +149,18 @@ class PaymentController extends Controller {
                     $admin_message .= '<hr><p><strong>' . __('Appointment Details') . ':</strong></p>';
                     $admin_message .= $order_details;
                     $this->sendMail($setting->contact_message_receiver_mail, $admin_subject, $admin_message);
+                }
+            } catch (Exception $e) {
+                info('Admin notification error: ' . $e->getMessage());
+            }
+
+            // Send notification to all admins
+            try {
+                // Reload order with user relationship
+                $order->load('user');
+                $admins = Admin::all();
+                foreach ($admins as $admin) {
+                    $admin->notify(new NewOrderNotification($order));
                 }
             } catch (Exception $e) {
                 info('Admin notification error: ' . $e->getMessage());

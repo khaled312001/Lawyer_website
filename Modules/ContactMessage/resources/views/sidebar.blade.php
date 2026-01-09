@@ -1,7 +1,7 @@
 <li
     class="nav-item dropdown {{ isRoute(['admin.prescription-contact','admin.contact-message','admin.contact-messages','admin.contact-info']) ? 'active' : '' }}">
     <a href="javascript:void()" class="nav-link has-dropdown"><i
-            class="fas fa-envelope"></i><span>{{ __('Contact') }}</span></a>
+            class="fas fa-envelope"></i><span>{{ __('Contact Information') }}</span></a>
 
     <ul class="dropdown-menu">
         @adminCan('contact.info.view')

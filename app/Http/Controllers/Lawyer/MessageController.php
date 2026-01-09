@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Lawyer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Notifications\NewMessageNotification;
 use Modules\Lawyer\app\Models\Lawyer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +70,7 @@ class MessageController extends Controller
             $attachmentPath = $request->file('attachment')->store('message-attachments', 'public');
         }
         
-        Message::create([
+        $message = Message::create([
             'conversation_id' => $conversation->id,
             'sender_type' => Lawyer::class,
             'sender_id' => $lawyer->id,
@@ -77,6 +79,16 @@ class MessageController extends Controller
         ]);
         
         $conversation->update(['last_message_at' => now()]);
+
+        // Send notification to all admins when lawyer sends message
+        try {
+            $admins = Admin::all();
+            foreach ($admins as $admin) {
+                $admin->notify(new NewMessageNotification($message->message, $lawyer->name, 'lawyer'));
+            }
+        } catch (\Exception $e) {
+            info('Admin notification error: ' . $e->getMessage());
+        }
         
         return back()->with('success', __('Message sent successfully'));
     }

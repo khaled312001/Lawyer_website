@@ -41,7 +41,7 @@
             <div class="col-lg-8 m-auto">
                 <div class="legal-aid-check-form">
                     <h3 class="text-center mb_40">{{ __('Find out now') }}</h3>
-                    <form id="legalAidCheckForm" class="check-form">
+                    <form id="legalAidCheckForm" class="check-form" action="{{ route('website.legal-aid-check.store') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label>{{ __('What type of legal assistance do you need?') }}</label>
@@ -176,37 +176,75 @@
     document.getElementById('legalAidCheckForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Simulate eligibility check (in real implementation, this would be an AJAX call)
-        const formData = new FormData(this);
-        const hasInsurance = formData.get('has_insurance');
-        const incomeRange = formData.get('income_range');
+        const form = this;
+        const formData = new FormData(form);
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
         
-        const resultDiv = document.getElementById('eligibilityResult');
-        const resultTitle = document.getElementById('resultTitle');
-        const resultDescription = document.getElementById('resultDescription');
-        const resultActions = document.getElementById('resultActions');
+        // Disable submit button
+        submitButton.disabled = true;
+        submitButton.textContent = '{{ __("Processing...") }}';
         
-        resultDiv.classList.remove('d-none');
-        
-        // Simple eligibility logic (this should be handled server-side in production)
-        if (hasInsurance === 'yes' || incomeRange === 'low') {
-            resultTitle.textContent = '{{ __("You may be eligible!") }}';
-            resultDescription.textContent = '{{ __("Based on your answers, you may be eligible for financial assistance. Our team will review your information and contact you within 24 hours to discuss your options.") }}';
-            resultActions.innerHTML = `
-                <a href="{{ route('website.contact-us') }}" class="btn btn-primary">{{ __('Contact Us Now') }}</a>
-                <a href="{{ route('website.lawyers') }}" class="btn btn-outline-primary">{{ __('Browse Lawyers') }}</a>
-            `;
-        } else {
-            resultTitle.textContent = '{{ __("Let\'s discuss your options") }}';
-            resultDescription.textContent = '{{ __("While you may not qualify for traditional legal aid, we offer affordable fixed-price legal services. Contact us to discuss payment plans and options that work for you.") }}';
-            resultActions.innerHTML = `
-                <a href="{{ route('website.contact-us') }}" class="btn btn-primary">{{ __('Get a Quote') }}</a>
-                <a href="{{ route('website.lawyers') }}" class="btn btn-outline-primary">{{ __('View Our Services') }}</a>
-            `;
-        }
-        
-        // Scroll to result
-        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Send AJAX request
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || formData.get('_token')
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => Promise.reject(err));
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data.success) {
+                throw new Error(data.message || '{{ __("An error occurred") }}');
+            }
+            
+            const resultDiv = document.getElementById('eligibilityResult');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultDescription = document.getElementById('resultDescription');
+            const resultActions = document.getElementById('resultActions');
+            
+            resultDiv.classList.remove('d-none');
+            
+            if (data.eligible) {
+                resultTitle.textContent = '{{ __("You may be eligible!") }}';
+                resultDescription.textContent = data.message;
+                resultActions.innerHTML = `
+                    <a href="{{ route('website.contact-us') }}" class="btn btn-primary">{{ __('Contact Us Now') }}</a>
+                    <a href="{{ route('website.lawyers') }}" class="btn btn-outline-primary">{{ __('Browse Lawyers') }}</a>
+                `;
+            } else {
+                resultTitle.textContent = '{{ __("Let\'s discuss your options") }}';
+                resultDescription.textContent = data.message;
+                resultActions.innerHTML = `
+                    <a href="{{ route('website.contact-us') }}" class="btn btn-primary">{{ __('Get a Quote') }}</a>
+                    <a href="{{ route('website.lawyers') }}" class="btn btn-outline-primary">{{ __('View Our Services') }}</a>
+                `;
+            }
+            
+            // Scroll to result
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Reset form
+            form.reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const errorMessage = error.message || '{{ __("An error occurred. Please try again.") }}';
+            alert(errorMessage);
+        })
+        .finally(() => {
+            // Re-enable submit button
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText;
+        });
     });
 </script>
 @endpush

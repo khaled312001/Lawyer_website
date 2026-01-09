@@ -49,6 +49,15 @@
                     </li>
                 @endif
 
+                @if (checkAdminHasPermission('admin.view'))
+                    <li class="{{ isRoute('admin.partnership-requests.*', 'active') }}">
+                        <a class="nav-link" href="{{ route('admin.partnership-requests.index') }}">
+                            <i class="fas fa-handshake"></i>
+                            <span>{{ __('Partnership Requests') }}</span>
+                        </a>
+                    </li>
+                @endif
+
                 @if (Module::isEnabled('Order') && checkAdminHasPermission('order.management'))
                     @include('order::sidebar')
                 @endif
@@ -62,6 +71,7 @@
                         <a class="nav-link" href="{{ route('admin.messages.index') }}">
                             <i class="fas fa-comments"></i>
                             <span>{{ __('Messages') }}</span>
+                            <span class="badge badge-danger messages-badge" id="sidebar-messages-count" style="display: none;">0</span>
                         </a>
                     </li>
                 @endif

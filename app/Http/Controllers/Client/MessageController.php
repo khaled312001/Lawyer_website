@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Notifications\NewMessageNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -94,6 +95,18 @@ class MessageController extends Controller
         ]);
 
         $conversation->update(['last_message_at' => now()]);
+
+        // Send notification to admin if receiver is admin
+        if ($conversation->receiver_type === Admin::class) {
+            try {
+                $admin = Admin::find($conversation->receiver_id);
+                if ($admin) {
+                    $admin->notify(new NewMessageNotification($message->message, $user->name, 'user'));
+                }
+            } catch (\Exception $e) {
+                info('Admin notification error: ' . $e->getMessage());
+            }
+        }
 
         return response()->json(['status' => 'success', 'message' => __('Message sent successfully')]);
     }

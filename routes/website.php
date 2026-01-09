@@ -53,6 +53,14 @@ Route::middleware(['translation', 'maintenance.mode'])->group(function () {
             Route::post('create-consultation-appointment', 'store')->name('create.consultation.appointment');
         });
 
+        Route::controller(\App\Http\Controllers\Client\PartnershipRequestController::class)->group(function () {
+            Route::post('partnership-request', 'store')->name('partnership-request.store');
+        });
+
+        Route::controller(\App\Http\Controllers\Client\LegalAidCheckController::class)->group(function () {
+            Route::post('legal-aid-check', 'store')->name('legal-aid-check.store');
+        });
+
         Route::get('page/{slug}', [HomeController::class, 'customPage'])->name('page');
     });
 });

@@ -66,15 +66,9 @@
                         
                         {{-- زر الحجز فقط --}}
                         <div class="mt-3 d-flex gap-2 flex-wrap">
-                            @auth('web')
-                            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookAppointmentModal{{ $lawyer->id }}">
-                                <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
-                            </button>
-                            @else
-                            <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
-                                <i class="fas fa-calendar-check"></i> {{ __('Book a web meeting') }}
+                            <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-check"></i> {{ __('Book Consultation Appointment') }}
                             </a>
-                            @endauth
                         </div>
 
                     </div>
@@ -178,49 +172,6 @@
     </div>
     <!--Team Detail End-->
 
-    <!--Book Appointment Modal for Lawyer Detail Page-->
-    <div class="modal fade" id="bookAppointmentModal{{ $lawyer->id }}" tabindex="-1" aria-labelledby="bookAppointmentModalLabel{{ $lawyer->id }}" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="bookAppointmentModalLabel{{ $lawyer->id }}">{{ __('Book a web meeting with') }} {{ $lawyer->name }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ __('Close') }}"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('website.create.appointment') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="lawyer_id" value="{{ $lawyer->id }}">
-                        <input type="hidden" name="department_id" value="{{ $lawyer->department_id }}">
-                        
-                        <div class="form-group mb-3">
-                            <label for="lawyer-detail-date-{{ $lawyer->id }}">{{ __('Select Date') }}</label>
-                            <input type="text" name="date" class="form-control datepicker" id="lawyer-detail-date-{{ $lawyer->id }}" required>
-                        </div>
-
-                        <div class="form-group mb-3 d-none" id="lawyer-detail-schedule-box-{{ $lawyer->id }}">
-                            <label for="lawyer-detail-schedule-{{ $lawyer->id }}">{{ __('Select Time') }}</label>
-                            <select name="schedule_id" class="form-control" id="lawyer-detail-schedule-{{ $lawyer->id }}" required>
-                                <option value="">{{ __('Select time') }}</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label for="lawyer-detail-case-type-{{ $lawyer->id }}">{{ __('Case Type') }}</label>
-                            <input type="text" name="case_type" class="form-control" id="lawyer-detail-case-type-{{ $lawyer->id }}" required placeholder="{{ __('Enter case type (e.g., Criminal, Civil, Family, Commercial, etc.)') }}">
-                            <small class="form-text text-muted">{{ __('Please specify the type of case you need consultation for') }}</small>
-                        </div>
-
-                        <div id="lawyer-detail-error-{{ $lawyer->id }}" class="alert alert-danger d-none"></div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
-                            <button type="submit" class="btn btn-primary" id="lawyer-detail-submit-{{ $lawyer->id }}" disabled>{{ __('Book Appointment') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('css')
@@ -302,36 +253,97 @@
             font-size: 16px;
             line-height: 1.9;
             color: #2c3e50;
+            direction: inherit;
         }
         
-        /* تحسين الجداول - نمط CV */
+        /* دعم RTL/LTR للمحتوى */
+        [dir="rtl"] .info-content {
+            direction: rtl;
+            text-align: right;
+        }
+        
+        [dir="ltr"] .info-content {
+            direction: ltr;
+            text-align: left;
+        }
+        
+        /* تحسين الجداول - نمط CV احترافي مع دعم RTL/LTR */
         .info-content table {
             width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 30px 0;
             background: #fff;
-            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
             overflow: hidden;
+            border: 1px solid #e8e8e8;
+            direction: inherit;
         }
         
-        /* حساب لون داكن من اللون الأساسي لضمان التباين */
+        /* دعم RTL/LTR للجداول */
+        [dir="rtl"] .info-content table,
+        .info-content table[dir="rtl"] {
+            direction: rtl;
+        }
+        
+        [dir="ltr"] .info-content table,
+        .info-content table[dir="ltr"] {
+            direction: ltr;
+        }
+        
+        /* رأس الجدول - تصميم احترافي */
         .info-content table thead {
             background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
             background-color: #6b5d47;
             color: #ffffff;
+            position: relative;
+        }
+        
+        .info-content table thead::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
         }
         
         .info-content table thead th {
-            padding: 18px 20px;
+            padding: 20px 24px;
             font-weight: 700;
             font-size: 15px;
-            text-align: right;
-            border: none;
             letter-spacing: 0.5px;
             color: #ffffff !important;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
             background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            white-space: nowrap;
+        }
+        
+        /* محاذاة النص حسب الاتجاه */
+        [dir="rtl"] .info-content table thead th,
+        .info-content table[dir="rtl"] thead th {
+            text-align: right;
+        }
+        
+        [dir="ltr"] .info-content table thead th,
+        .info-content table[dir="ltr"] thead th {
+            text-align: left;
+        }
+        
+        /* خط فاصل بين الأعمدة في الرأس */
+        .info-content table thead th:not(:last-child) {
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        [dir="rtl"] .info-content table thead th:not(:last-child),
+        .info-content table[dir="rtl"] thead th:not(:last-child) {
+            border-left: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
         }
         
         /* ضمان التباين الجيد في جميع الحالات */
@@ -343,58 +355,159 @@
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
         }
         
-        /* إذا كان اللون الأساسي داكن، استخدمه مباشرة */
-        @supports (background: color-mix(in srgb, #000 100%, black)) {
-            .info-content table thead {
-                background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
-            }
-            .info-content table thead th {
-                background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
-            }
+        /* صفوف الجدول - تصميم منظم */
+        .info-content table tbody {
+            background: #fff;
         }
         
         .info-content table tbody tr {
             border-bottom: 1px solid #f0f0f0;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #ffffff;
-        }
-        
-        .info-content table tbody tr:nth-child(even) {
-            background: #fafafa;
-        }
-        
-        .info-content table tbody tr:hover {
-            background: #f5f3f0;
-            transform: translateX(-2px);
-            box-shadow: 0 2px 8px rgba(139, 115, 85, 0.15);
+            position: relative;
         }
         
         .info-content table tbody tr:last-child {
             border-bottom: none;
         }
         
-        .info-content table tbody td {
-            padding: 16px 20px;
-            color: #2c3e50;
-            font-size: 15px;
-            border: none;
-            background: transparent;
+        .info-content table tbody tr:nth-child(even) {
+            background: #fafbfc;
         }
         
+        .info-content table tbody tr:hover {
+            background: #f5f3f0;
+            box-shadow: 0 4px 12px rgba(107, 93, 71, 0.12);
+            transform: translateY(-1px);
+        }
+        
+        /* خلايا الجدول - تصميم احترافي */
+        .info-content table tbody td {
+            padding: 18px 24px;
+            color: #2c3e50;
+            font-size: 15px;
+            line-height: 1.7;
+            border: none;
+            background: transparent;
+            vertical-align: middle;
+            position: relative;
+        }
+        
+        /* محاذاة النص في الخلايا حسب الاتجاه */
+        [dir="rtl"] .info-content table tbody td,
+        .info-content table[dir="rtl"] tbody td {
+            text-align: right;
+        }
+        
+        [dir="ltr"] .info-content table tbody td,
+        .info-content table[dir="ltr"] tbody td {
+            text-align: left;
+        }
+        
+        /* خط فاصل بين الأعمدة */
+        .info-content table tbody td:not(:last-child) {
+            border-left: 1px solid #f0f0f0;
+        }
+        
+        [dir="rtl"] .info-content table tbody td:not(:last-child),
+        .info-content table[dir="rtl"] tbody td:not(:last-child) {
+            border-left: none;
+            border-right: 1px solid #f0f0f0;
+        }
+        
+        .info-content table tbody tr:hover td:not(:last-child) {
+            border-left-color: rgba(107, 93, 71, 0.2);
+        }
+        
+        [dir="rtl"] .info-content table tbody tr:hover td:not(:last-child),
+        .info-content table[dir="rtl"] tbody tr:hover td:not(:last-child) {
+            border-left-color: transparent;
+            border-right-color: rgba(107, 93, 71, 0.2);
+        }
+        
+        /* العمود الأول - تصميم مميز */
+        .info-content table tbody td:first-child {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 150px;
+            width: 25%;
+            background: transparent;
+            position: relative;
+        }
+        
+        [dir="rtl"] .info-content table tbody td:first-child::after,
+        .info-content table[dir="rtl"] tbody td:first-child::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 3px;
+            background: linear-gradient(to bottom, #6b5d47, transparent);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        [dir="ltr"] .info-content table tbody td:first-child::after,
+        .info-content table[dir="ltr"] tbody td:first-child::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 3px;
+            background: linear-gradient(to bottom, #6b5d47, transparent);
+            border-radius: 2px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .info-content table tbody tr:hover td:first-child {
+            color: #6b5d47;
+        }
+        
+        .info-content table tbody tr:hover td:first-child::after {
+            opacity: 1;
+        }
+        
+        /* تحسين الألوان للصفوف الزوجية */
         .info-content table tbody tr:nth-child(even) td {
             background: transparent;
         }
         
-        .info-content table tbody td:first-child {
-            font-weight: 600;
-            color: #2c3e50;
-            width: 30%;
-            background: transparent;
+        /* تحسين الخطوط والتباعد */
+        .info-content table tbody td strong {
+            color: #1a252f;
+            font-weight: 700;
         }
         
-        .info-content table tbody tr:hover td:first-child {
-            background: transparent;
+        .info-content table tbody td em {
             color: #6b5d47;
+            font-style: italic;
+        }
+        
+        /* تحسين الجدول على الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .info-content table {
+                border-radius: 8px;
+                margin: 20px 0;
+            }
+            
+            .info-content table thead th {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+            
+            .info-content table tbody td {
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+            
+            .info-content table tbody td:first-child {
+                min-width: 120px;
+                width: 30%;
+            }
         }
         
         /* تحسين القوائم - نمط CV */
@@ -653,24 +766,19 @@
                 margin-bottom: 15px;
             }
             
-            /* تحسين الجداول على الموبايل */
+            /* تحسين الجداول على الموبايل مع دعم RTL/LTR */
             .info-content table {
                 font-size: 13px;
                 display: block;
                 width: 100%;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
+                border-radius: 8px;
             }
             
+            /* على الشاشات الصغيرة، نعرض الجدول بشكل عمودي */
             .info-content table thead {
-                display: block;
-            }
-            
-            .info-content table thead th {
-                padding: 12px 10px;
-                font-size: 13px;
-                display: inline-block;
-                min-width: 120px;
+                display: none;
             }
             
             .info-content table tbody {
@@ -679,30 +787,72 @@
             
             .info-content table tbody tr {
                 display: block;
-                margin-bottom: 10px;
+                margin-bottom: 15px;
                 border: 1px solid #e0e0e0;
-                border-radius: 6px;
-                padding: 10px;
+                border-radius: 8px;
+                padding: 0;
+                background: #fff;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+                overflow: hidden;
+            }
+            
+            .info-content table tbody tr:last-child {
+                margin-bottom: 0;
             }
             
             .info-content table tbody td {
-                padding: 8px 10px;
+                padding: 12px 16px;
                 display: block;
-                text-align: right;
                 border: none;
                 border-bottom: 1px solid #f0f0f0;
+                position: relative;
+            }
+            
+            /* محاذاة النص حسب الاتجاه */
+            [dir="rtl"] .info-content table tbody td,
+            .info-content table[dir="rtl"] tbody td {
+                text-align: right;
+            }
+            
+            [dir="ltr"] .info-content table tbody td,
+            .info-content table[dir="ltr"] tbody td {
+                text-align: left;
             }
             
             .info-content table tbody td:last-child {
                 border-bottom: none;
             }
             
-            .info-content table tbody td:before {
-                content: attr(data-label) ": ";
-                font-weight: 600;
-                color: #6b5d47;
-                display: inline-block;
-                min-width: 100px;
+            /* إضافة تسمية للعمود الأول */
+            .info-content table tbody td:first-child {
+                background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
+                color: #ffffff !important;
+                font-weight: 700;
+                font-size: 14px;
+                padding: 14px 16px;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+            
+            [dir="rtl"] .info-content table tbody td:first-child::after,
+            .info-content table[dir="rtl"] tbody td:first-child::after {
+                display: none;
+            }
+            
+            [dir="ltr"] .info-content table tbody td:first-child::after,
+            .info-content table[dir="ltr"] tbody td:first-child::after {
+                display: none;
+            }
+            
+            /* إزالة الحدود الجانبية على الموبايل */
+            .info-content table tbody td:not(:last-child) {
+                border-left: none;
+                border-right: none;
+            }
+            
+            .info-content table tbody tr:hover {
+                transform: none;
+                box-shadow: 0 3px 12px rgba(107, 93, 71, 0.15);
             }
             
             .info-content h2 {
@@ -765,10 +915,19 @@
                 font-size: 20px;
             }
             
-            .info-content table thead th,
+            .info-content table thead th {
+                padding: 12px 14px;
+                font-size: 13px;
+            }
+            
             .info-content table tbody td {
-                padding: 8px;
-                font-size: 12px;
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+            
+            .info-content table tbody td:first-child {
+                padding: 12px 14px;
+                font-size: 13px;
             }
             
             .info-content h2 {
@@ -817,37 +976,6 @@
             firstTab.addClass('active');
             firstTab.closest('li').addClass('active');
         }
-        
-        $('#lawyer-detail-date-{{ $lawyer->id }}').on('change', function() {
-            const date = $(this).val();
-            const lawyerId = {{ $lawyer->id }};
-            
-            if (!date) return;
-            
-            $.ajax({
-                url: '{{ url("/get-appointment") }}',
-                method: 'GET',
-                data: {
-                    lawyer_id: lawyerId,
-                    date: date
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#lawyer-detail-schedule-{{ $lawyer->id }}').html(response.success);
-                        $('#lawyer-detail-schedule-box-{{ $lawyer->id }}').removeClass('d-none');
-                        $('#lawyer-detail-submit-{{ $lawyer->id }}').prop('disabled', false);
-                        $('#lawyer-detail-error-{{ $lawyer->id }}').addClass('d-none');
-                    } else if (response.error) {
-                        $('#lawyer-detail-schedule-box-{{ $lawyer->id }}').addClass('d-none');
-                        $('#lawyer-detail-submit-{{ $lawyer->id }}').prop('disabled', true);
-                        $('#lawyer-detail-error-{{ $lawyer->id }}').removeClass('d-none').html(response.error);
-                    }
-                },
-                error: function() {
-                    $('#lawyer-detail-error-{{ $lawyer->id }}').removeClass('d-none').html('{{ __("Error loading available times") }}');
-                }
-            });
-        });
     });
     </script>
 @endpush

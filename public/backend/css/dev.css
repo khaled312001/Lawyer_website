@@ -777,13 +777,13 @@ select.wsus-select {
     justify-content: center !important;
     min-width: 0 !important;
     margin: 0 15px !important;
-    max-width: 500px !important;
+    max-width: 300px !important;
 }
 
 .navbar-center .search-box {
     width: 100% !important;
-    max-width: 400px !important;
-    min-width: 200px !important;
+    max-width: 250px !important;
+    min-width: 150px !important;
 }
 
 /* Navbar right section */
@@ -895,6 +895,110 @@ select.wsus-select {
     z-index: 1000 !important;
     max-height: 300px !important;
     overflow-y: auto !important;
+}
+
+/* Notifications Dropdown */
+.notification-dropdown {
+    position: relative !important;
+}
+
+.notification-icon {
+    position: relative !important;
+    font-size: 18px !important;
+    color: #fff !important;
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+}
+
+.notification-icon:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.notification-badge {
+    position: absolute !important;
+    top: 2px !important;
+    right: 2px !important;
+    background: #ff4444 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    min-width: 18px !important;
+    text-align: center !important;
+    line-height: 14px !important;
+}
+
+.notification-dropdown-menu {
+    width: 350px !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.notification-item {
+    padding: 12px 15px !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    transition: background 0.2s ease !important;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.notification-item:hover {
+    background: #f8f9fa !important;
+}
+
+.notification-item.bg-light {
+    background: #f8f9fa !important;
+}
+
+.notification-icon-wrapper {
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+}
+
+.notification-icon-wrapper i {
+    font-size: 16px !important;
+}
+
+/* Sidebar Messages Badge */
+.sidebar-menu .nav-link {
+    position: relative !important;
+}
+
+.sidebar-menu .messages-badge {
+    position: absolute !important;
+    top: 8px !important;
+    right: 15px !important;
+    background: #ff4444 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    min-width: 18px !important;
+    text-align: center !important;
+    line-height: 14px !important;
+    animation: pulse 2s infinite !important;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 5px rgba(255, 68, 68, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+    }
 }
 
 /* Language and Currency dropdowns in navbar */

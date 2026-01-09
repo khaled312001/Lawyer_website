@@ -18,10 +18,10 @@
                             @csrf
                             <div class="subscribe-input-wrapper">
                                 <i class="fas fa-envelope subscribe-icon"></i>
-                                <input type="email" required name="email" placeholder="{{ __('بريد إلكتروني') }}" class="subscribe-input">
+                                <input type="email" required name="email" placeholder="{{ __('Email') }}" class="subscribe-input">
                             </div>
                             <button type="submit" class="btn-sub">
-                                <span>{{ __('اشترك') }}</span>
+                                <span>{{ __('Subscribe') }}</span>
                                 <i class="fas fa-paper-plane"></i>
                             </button>
                         </form>
