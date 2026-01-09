@@ -241,7 +241,7 @@
                 @endif
 
                 @if (checkAdminHasPermission('addon.view'))
-                    @if (Module::isEnabled('Addon'))
+                    @if (Module::has('Addon') && Module::isEnabled('Addon'))
                         @include('addon::sidebar')
                     @endif
                 @endif
