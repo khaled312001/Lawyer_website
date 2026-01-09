@@ -29,47 +29,7 @@
             <div class="d-flex align-items-center h_100_p">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="hero-content">
-                                <div class="hero-badge">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span>{{ __('Trusted Legal Services') }}</span>
-                                </div>
-                                <h1 class="hero-title">
-                                    {{ __('Professional Legal') }} 
-                                    <span class="highlight">{{ __('Consultation') }}</span>
-                                    {{ __('at Your Fingertips') }}
-                                </h1>
-                                <p class="hero-description">
-                                    {{ __('Get expert legal advice from experienced lawyers. Book your consultation online and receive professional guidance for all your legal matters. Fast, secure, and reliable legal services.') }}
-                                </p>
-                                <div class="hero-features">
-                                    <div class="hero-feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Expert Lawyers') }}</span>
-                                    </div>
-                                    <div class="hero-feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Online Consultation') }}</span>
-                                    </div>
-                                    <div class="hero-feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Fixed Prices') }}</span>
-                                    </div>
-                                </div>
-                                <div class="hero-buttons">
-                                    <a href="{{ route('website.book.appointment') }}" class="btn btn-hero-primary">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <span>{{ __('Book Consultation Now') }}</span>
-                                    </a>
-                                    <a href="{{ route('website.services') }}" class="btn btn-hero-secondary">
-                                        <i class="fas fa-info-circle"></i>
-                                        <span>{{ __('Our Services') }}</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-5 order-lg-2">
                             <div class="hero-stats">
                                 @if($overviews->count() > 0)
                                     @foreach($overviews->take(4) as $overview)
@@ -121,6 +81,46 @@
                                         </div>
                                     </div>
                                 @endif
+                            </div>
+                        </div>
+                        <div class="col-lg-7 order-lg-1">
+                            <div class="hero-content">
+                                <div class="hero-badge">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>{{ __('Trusted Legal Services') }}</span>
+                                </div>
+                                <h1 class="hero-title">
+                                    {{ __('Professional Legal') }} 
+                                    <span class="highlight">{{ __('Consultation') }}</span>
+                                    {{ __('at Your Fingertips') }}
+                                </h1>
+                                <p class="hero-description">
+                                    {{ __('Get expert legal advice from experienced lawyers. Book your consultation online and receive professional guidance for all your legal matters. Fast, secure, and reliable legal services.') }}
+                                </p>
+                                <div class="hero-features">
+                                    <div class="hero-feature-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>{{ __('Expert Lawyers') }}</span>
+                                    </div>
+                                    <div class="hero-feature-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>{{ __('Online Consultation') }}</span>
+                                    </div>
+                                    <div class="hero-feature-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>{{ __('Fixed Prices') }}</span>
+                                    </div>
+                                </div>
+                                <div class="hero-buttons">
+                                    <a href="{{ route('website.book.appointment') }}" class="btn btn-hero-primary">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>{{ __('Book Consultation Now') }}</span>
+                                    </a>
+                                    <a href="{{ route('website.services') }}" class="btn btn-hero-secondary">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>{{ __('Our Services') }}</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -798,22 +798,40 @@
         bottom: 0;
         z-index: 0;
         overflow: hidden;
+        width: 100%;
+        height: 100%;
     }
 
     .banner_slider_area .banner_slider {
-        height: 100%;
+        height: 100% !important;
+        width: 100%;
+    }
+
+    .banner_slider_area .banner_slider .slick-list,
+    .banner_slider_area .banner_slider .slick-track {
+        height: 100% !important;
+    }
+
+    .banner_slider_area .banner_slider .slick-slide {
+        height: 100% !important;
+    }
+
+    .banner_slider_area .banner_slider .slick-slide > div {
+        height: 100% !important;
     }
 
     .banner_slider_area .banner_slider_item {
-        height: 100%;
+        height: 100% !important;
         position: relative;
+        display: block !important;
     }
 
     .banner_slider_area .banner_slider_item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        display: block !important;
     }
 
     .banner_slider_overlay {
@@ -824,6 +842,7 @@
         bottom: 0;
         background: linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.80) 50%, rgba(15, 52, 96, 0.85) 100%);
         z-index: 1;
+        pointer-events: none;
     }
 
     /* Hero Section Styles */
@@ -1083,20 +1102,26 @@
     }
 
     #main-slider .banner_slider {
-        height: 100%;
+        height: 100% !important;
     }
 
     #main-slider .banner_slider .slick-list,
     #main-slider .banner_slider .slick-track {
-        height: 100%;
+        height: 100% !important;
     }
 
     #main-slider .banner_slider .slick-slide {
-        height: 100%;
+        height: 100% !important;
     }
 
     #main-slider .banner_slider .slick-slide > div {
-        height: 100%;
+        height: 100% !important;
+    }
+
+    #main-slider .banner_slider .slick-slide img {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
     /* Responsive Design */
@@ -1193,6 +1218,18 @@
 
     [dir="rtl"] .hero-feature-item {
         flex-direction: row-reverse;
+    }
+
+    [dir="rtl"] .row.align-items-center {
+        flex-direction: row-reverse;
+    }
+
+    [dir="rtl"] .col-lg-5.order-lg-2 {
+        order: 1;
+    }
+
+    [dir="rtl"] .col-lg-7.order-lg-1 {
+        order: 2;
     }
 
     /* Testimonial Modern Styles */
@@ -3161,6 +3198,34 @@
         statNumbers.forEach(stat => {
             observer.observe(stat);
         });
+
+        // Initialize banner slider if it exists and Slick is available
+        if (typeof jQuery !== 'undefined' && jQuery('.banner_slider').length) {
+            setTimeout(function() {
+                if (typeof jQuery.fn.slick !== 'undefined') {
+                    var bannerSlider = jQuery('.banner_slider');
+                    if (!bannerSlider.hasClass('slick-initialized')) {
+                        bannerSlider.slick({
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 4000,
+                            speed: 800,
+                            fade: true,
+                            cssEase: 'linear',
+                            dots: true,
+                            arrows: false,
+                            pauseOnHover: true,
+                            pauseOnFocus: true,
+                            infinite: true,
+                            adaptiveHeight: false,
+                            swipe: true,
+                            touchMove: true
+                        });
+                    }
+                }
+            }, 200);
+        }
 
         if (typeof Swiper !== 'undefined') {
             // Testimonial Swiper

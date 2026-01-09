@@ -54,14 +54,29 @@
 
         // StickyHeader
         function stickyHeader() {
-            var strickyScrollPos = strickymenu.next().offset().top;
             if (strickymenu.length) {
-                if (mainWindow.scrollTop() > strickyScrollPos) {
-                    strickymenu.addClass("sticky");
-                    mainBody.addClass("sticky");
-                } else if (mainWindow.scrollTop() <= strickyScrollPos) {
-                    strickymenu.removeClass("sticky");
-                    mainBody.removeClass("sticky");
+                var nextElement = strickymenu.next();
+                if (nextElement.length && nextElement.offset()) {
+                    var strickyScrollPos = nextElement.offset().top;
+                    if (mainWindow.scrollTop() > strickyScrollPos) {
+                        strickymenu.addClass("sticky");
+                        mainBody.addClass("sticky");
+                    } else if (mainWindow.scrollTop() <= strickyScrollPos) {
+                        strickymenu.removeClass("sticky");
+                        mainBody.removeClass("sticky");
+                    }
+                } else {
+                    // Fallback: use menu position if next element doesn't exist
+                    if (strickymenu.offset()) {
+                        var menuPos = strickymenu.offset().top;
+                        if (mainWindow.scrollTop() > menuPos) {
+                            strickymenu.addClass("sticky");
+                            mainBody.addClass("sticky");
+                        } else {
+                            strickymenu.removeClass("sticky");
+                            mainBody.removeClass("sticky");
+                        }
+                    }
                 }
             }
         }
