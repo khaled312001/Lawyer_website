@@ -862,6 +862,12 @@
         display: flex;
         align-items: center;
         z-index: 2;
+        padding: 60px 0;
+    }
+
+    .legal-hero-section .container {
+        padding-left: 40px;
+        padding-right: 40px;
     }
 
     .legal-hero-overlay {
@@ -1158,6 +1164,33 @@
 
     /* Legal Hero Responsive Design */
     @media (max-width: 991px) {
+        .legal-hero-section .container {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        [dir="rtl"] .legal-hero-section .col-lg-5 {
+            padding-right: 50px !important;
+            padding-left: 15px !important;
+        }
+
+        [dir="rtl"] .legal-hero-section .col-lg-7 {
+            padding-left: 50px !important;
+            padding-right: 15px !important;
+        }
+
+        [dir="ltr"] .legal-hero-section .col-lg-5,
+        html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
+            padding-right: 50px;
+            padding-left: 15px;
+        }
+
+        [dir="ltr"] .legal-hero-section .col-lg-7,
+        html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
+            padding-left: 50px;
+            padding-right: 15px;
+        }
+
         .legal-hero-stats {
             margin-top: 40px;
         }
@@ -1412,14 +1445,14 @@
 
     [dir="rtl"] .legal-hero-section .col-lg-5 {
         order: 1 !important;
-        padding-right: 50px !important;
-        padding-left: 0 !important;
+        padding-right: 80px !important;
+        padding-left: 20px !important;
     }
 
     [dir="rtl"] .legal-hero-section .col-lg-7 {
         order: 2 !important;
-        padding-left: 50px !important;
-        padding-right: 0 !important;
+        padding-left: 80px !important;
+        padding-right: 20px !important;
     }
 
     [dir="rtl"] .legal-hero-stats {
@@ -1440,19 +1473,24 @@
     [dir="ltr"] .legal-hero-section .col-lg-5,
     html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
         order: 1;
-        padding-right: 50px;
-        padding-left: 0;
+        padding-right: 80px;
+        padding-left: 20px;
     }
 
     [dir="ltr"] .legal-hero-section .col-lg-7,
     html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
         order: 2;
-        padding-left: 50px;
-        padding-right: 0;
+        padding-left: 80px;
+        padding-right: 20px;
     }
 
     /* RTL Mobile Support */
     @media (max-width: 768px) {
+        .legal-hero-section .container {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
         [dir="rtl"] .legal-hero-section .col-lg-5,
         [dir="rtl"] .legal-hero-section .col-lg-7 {
             padding-left: 15px !important;
