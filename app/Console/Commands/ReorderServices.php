@@ -13,33 +13,39 @@ class ReorderServices extends Command
 
     public function handle()
     {
-        // ترتيب الخدمات
-        $order = [
-            'استخراج وثائق حكوميه من الدوله' => '0-document-extraction',
-            'خدمات العقارات القانونية' => '1-real-estate-legal-services',
-            'قانون التأمين' => '2-insurance-law',
-            'قانون الأسرة' => '3-family-law',
-            'القانون البيئي' => '4-environmental-law',
-            'القانون الجنائي' => '5-criminal-law',
-            'القانون التجاري' => '6-commercial-law',
-        ];
+        try {
+            // ترتيب الخدمات
+            $order = [
+                'استخراج وثائق حكوميه من الدوله' => '0-document-extraction',
+                'استخراج وثائق حكومية من الدوله' => '0-document-extraction',
+                'خدمات العقارات القانونية' => '1-real-estate-legal-services',
+                'قانون التأمين' => '2-insurance-law',
+                'قانون الأسرة' => '3-family-law',
+                'القانون البيئي' => '4-environmental-law',
+                'القانون الجنائي' => '5-criminal-law',
+                'القانون التجاري' => '6-commercial-law',
+            ];
 
-        foreach ($order as $title => $slug) {
-            $translation = ServiceTranslation::where('title', 'like', '%' . $title . '%')
-                ->orWhere('title', 'like', '%' . str_replace('حكوميه', 'حكومية', $title) . '%')
-                ->first();
-            
-            if ($translation) {
-                $service = Service::find($translation->service_id);
-                if ($service) {
-                    $service->slug = $slug;
-                    $service->save();
-                    $this->info("Updated: {$title} -> {$slug}");
+            foreach ($order as $title => $slug) {
+                $translation = ServiceTranslation::where('title', 'like', '%' . $title . '%')->first();
+                
+                if ($translation) {
+                    $service = Service::find($translation->service_id);
+                    if ($service) {
+                        $service->slug = $slug;
+                        $service->save();
+                        $this->info("Updated: {$title} -> {$slug}");
+                    }
                 }
             }
-        }
 
-        $this->info('Services reordered successfully!');
+            $this->info('Services reordered successfully!');
+        } catch (\Exception $e) {
+            $this->error('Error: ' . $e->getMessage());
+            return 1;
+        }
+        
+        return 0;
     }
 }
 
