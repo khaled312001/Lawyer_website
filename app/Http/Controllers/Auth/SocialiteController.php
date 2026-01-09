@@ -23,13 +23,19 @@ class SocialiteController extends Controller {
     }
 
     public function redirectToDriver($driver) {
-        if (in_array($driver, SocialiteDriverType::getAll())) {
-            return Socialite::driver($driver)->redirect();
+        if (!in_array($driver, SocialiteDriverType::getAll())) {
+            $notification = __('Invalid Social Login Type!');
+            $notification = ['message' => $notification, 'alert-type' => 'error'];
+            return redirect()->back()->with($notification);
         }
-        $notification = __('Invalid Social Login Type!');
-        $notification = ['message' => $notification, 'alert-type' => 'error'];
-
-        return redirect()->back()->with($notification);
+        
+        // Handle WhatsApp differently (not OAuth) - Redirect to phone input form
+        if ($driver == SocialiteDriverType::WHATSAPP->value) {
+            return redirect()->route('whatsapp.phone');
+        }
+        
+        // Handle OAuth providers (Google, etc.)
+        return Socialite::driver($driver)->redirect();
     }
 
     public function handleDriverCallback($driver) {
@@ -39,6 +45,14 @@ class SocialiteController extends Controller {
 
             return redirect()->back()->with($notification);
         }
+        
+        // WhatsApp doesn't use OAuth callback
+        if ($driver == SocialiteDriverType::WHATSAPP->value) {
+            $notification = __('Please contact us via WhatsApp to complete your login');
+            $notification = ['message' => $notification, 'alert-type' => 'info'];
+            return redirect()->route('login')->with($notification);
+        }
+        
         try {
             $provider_name = SocialiteDriverType::from($driver)->value;
             $callbackUser = Socialite::driver($provider_name)->stateless()->user();

@@ -45,7 +45,7 @@
                                 <div class="brand-item">
                                     <div class="brand-colume">
                                         <div class="brand-bg"></div>
-                                        <img src="{{ url($item->image) }}" alt="{{ __('Partner') }}" loading="lazy">
+                                        <img src="{{ url($item->image) }}" alt="{{ __('Partner') }}" loading="lazy" class="brand-logo-img">
                                     </div>
                                 </div>
                             </a>
@@ -57,6 +57,217 @@
     </div>
     <!--Brand-Area End-->
 @endif
+
+@push('css')
+<style>
+    /* Brand Area Mobile Fix - إصلاح قسم الشعارات على الموبايل */
+    .brand-area {
+        position: relative;
+        overflow: visible;
+        width: 100%;
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    .brand-carousel {
+        width: 100%;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .brand-carousel.owl-carousel {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .brand-carousel .owl-stage-outer {
+        overflow: visible !important;
+        width: 100% !important;
+    }
+
+    .brand-carousel .owl-stage {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+
+    .brand-carousel .owl-item {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: auto !important;
+    }
+
+    .brand-item {
+        width: 100% !important;
+        display: block !important;
+        margin: 0 auto !important;
+        position: relative;
+    }
+
+    .brand-item a {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .brand-colume {
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 20px;
+        position: relative;
+    }
+
+    .brand-logo-img,
+    .brand-item img,
+    .brand-colume img {
+        width: 100% !important;
+        max-width: 180px !important;
+        height: auto !important;
+        max-height: 140px !important;
+        object-fit: contain !important;
+        object-position: center !important;
+        display: block !important;
+        margin: 0 auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .brand-bg {
+        display: none !important;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 991px) {
+        .brand-area {
+            padding: 40px 0 !important;
+        }
+
+        .brand-carousel {
+            padding: 0 20px !important;
+        }
+
+        .brand-item {
+            margin: 0 10px !important;
+        }
+
+        .brand-colume {
+            padding: 15px !important;
+        }
+
+        .brand-logo-img,
+        .brand-item img,
+        .brand-colume img {
+            max-width: 150px !important;
+            max-height: 120px !important;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .brand-area {
+            padding: 30px 0 !important;
+        }
+
+        .brand-carousel {
+            padding: 0 15px !important;
+        }
+
+        .brand-carousel .owl-item {
+            padding: 0 8px !important;
+        }
+
+        .brand-item {
+            margin: 0 5px !important;
+            min-height: 120px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .brand-colume {
+            padding: 12px !important;
+            min-height: 120px !important;
+        }
+
+        .brand-logo-img,
+        .brand-item img,
+        .brand-colume img {
+            max-width: 130px !important;
+            max-height: 100px !important;
+            padding: 0 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+
+        .brand-carousel .owl-stage-outer {
+            overflow: visible !important;
+        }
+
+        .brand-carousel .owl-stage {
+            display: flex !important;
+            align-items: center !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .brand-area {
+            padding: 25px 0 !important;
+        }
+
+        .brand-carousel {
+            padding: 0 10px !important;
+        }
+
+        .brand-item {
+            margin: 0 5px !important;
+            min-height: 100px !important;
+        }
+
+        .brand-colume {
+            padding: 10px !important;
+            min-height: 100px !important;
+        }
+
+        .brand-logo-img,
+        .brand-item img,
+        .brand-colume img {
+            max-width: 110px !important;
+            max-height: 80px !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+    }
+
+    /* Force visibility on all screen sizes */
+    .brand-area .container,
+    .brand-area .row,
+    .brand-area .col-12 {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    /* RTL Support */
+    [dir="rtl"] .brand-item {
+        direction: ltr;
+    }
+
+    [dir="rtl"] .brand-item img {
+        direction: ltr;
+    }
+</style>
+@endpush
 
 <!--Footer Start-->
 <div class="main-footer">
@@ -329,6 +540,69 @@
         });
     </script>
 @endif
+@push('js')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Force brand carousel to initialize on mobile
+        if (typeof $ !== 'undefined' && $.fn.owlCarousel) {
+            const brandCarousel = $('.brand-carousel');
+            if (brandCarousel.length > 0) {
+                // Destroy existing carousel if any
+                if (brandCarousel.data('owl.carousel')) {
+                    brandCarousel.trigger('destroy.owl.carousel');
+                }
+                
+                // Reinitialize with mobile-friendly settings
+                const isRtl = $('html').attr('dir') === 'rtl';
+                brandCarousel.owlCarousel({
+                    rtl: isRtl,
+                    loop: true,
+                    autoplay: true,
+                    autoplayHoverPause: true,
+                    autoplaySpeed: 2000,
+                    smartSpeed: 1000,
+                    margin: 15,
+                    nav: false,
+                    dots: false,
+                    responsive: {
+                        0: {
+                            items: 2,
+                            margin: 10,
+                            autoplaySpeed: 2500,
+                        },
+                        480: {
+                            items: 2,
+                            margin: 15,
+                        },
+                        750: {
+                            items: 3,
+                            margin: 20,
+                        },
+                        991: {
+                            items: 4,
+                            margin: 20,
+                        },
+                        1200: {
+                            items: 4,
+                            margin: 25,
+                        },
+                    },
+                });
+
+                // Force images to be visible after carousel initialization
+                setTimeout(function() {
+                    $('.brand-carousel img').css({
+                        'display': 'block',
+                        'visibility': 'visible',
+                        'opacity': '1'
+                    });
+                }, 500);
+            }
+        }
+    });
+</script>
+@endpush
+
 @stack('js')
 @if (customCode()?->footer_javascript)
     <script>

@@ -19,8 +19,26 @@ class ServiceDatabaseSeeder extends Seeder {
 
         $services = [
             [
+                'icon'         => 'fas fa-building',
+                'slug_prefix'  => '0-real-estate-legal-services',
+                'translations' => [
+                    [
+                        'lang_code'        => 'en',
+                        'title'            => 'Real Estate Legal Services',
+                        'sort_description' => 'Professional legal services for real estate purchase and investment cases through specialized and experienced lawyers, completing the task in the fastest time',
+                        'description'      => '<p>We provide comprehensive legal services for real estate transactions including property purchase, real estate investment, legal documentation, and dispute resolution. Our specialized lawyers ensure all legal procedures are completed efficiently and your rights are protected throughout the process.</p>',
+                    ],
+                    [
+                        'lang_code'        => 'ar',
+                        'title'            => 'خدمات العقارات القانونية',
+                        'sort_description' => 'خدمات قانونية متخصصة لمعاملات شراء العقارات والاستثمار العقاري من خلال محامين متخصصين وذوي خبرة، إتمام المهمة في أسرع وقت',
+                        'description'      => '<p>نقدم خدمات قانونية شاملة لمعاملات العقارات بما في ذلك شراء العقارات والاستثمار العقاري والوثائق القانونية وحل النزاعات. يضمن محامونا المتخصصون إتمام جميع الإجراءات القانونية بكفاءة وحماية حقوقك طوال العملية.</p>',
+                    ],
+                ],
+            ],
+            [
                 'icon'         => 'fas fa-file-alt',
-                'slug_prefix'  => '0-government-document-extraction',
+                'slug_prefix'  => '1-government-document-extraction',
                 'translations' => [
                     [
                         'lang_code'        => 'en',
@@ -88,23 +106,6 @@ class ServiceDatabaseSeeder extends Seeder {
                 ],
             ],
             [
-                'icon'         => 'fas fa-gavel',
-                'translations' => [
-                    [
-                        'lang_code'        => 'en',
-                        'title'            => 'Business Law',
-                        'sort_description' => 'Legal guidance for business formation & contracts',
-                        'description'      => '<p>We help businesses navigate legal challenges with expert advice on contracts, compliance, mergers, and more.</p>',
-                    ],
-                    [
-                        'lang_code'        => 'ar',
-                        'title'            => 'القانون التجاري',
-                        'sort_description' => 'إرشاد قانوني لتأسيس الشركات والعقود والامتثال',
-                        'description'      => '<p>نساعد الشركات على التغلب على التحديات القانونية من خلال تقديم المشورة المتخصصة بشأن العقود والامتثال والاندماجات والمزيد.</p>',
-                    ],
-                ],
-            ],
-            [
                 'icon'         => 'far fa-snowflake',
                 'translations' => [
                     [
@@ -135,23 +136,6 @@ class ServiceDatabaseSeeder extends Seeder {
                         'title'            => 'القانون البيئي',
                         'sort_description' => 'حلول قانونية للتشريعات البيئية والامتثال',
                         'description'      => '<p>نقدم المشورة بشأن القوانين البيئية والامتثال والتقاضي للشركات والأفراد الذين يتأثرون أو يؤثرون على البيئة.</p>',
-                    ],
-                ],
-            ],
-            [
-                'icon'         => 'fas fa-building',
-                'translations' => [
-                    [
-                        'lang_code'        => 'en',
-                        'title'            => 'Real Estate Legal Services',
-                        'sort_description' => 'Professional legal services for real estate purchase and investment cases through specialized and experienced lawyers, completing the task in the fastest time',
-                        'description'      => '<p>We provide comprehensive legal services for real estate transactions including property purchase, real estate investment, legal documentation, and dispute resolution. Our specialized lawyers ensure all legal procedures are completed efficiently and your rights are protected throughout the process.</p>',
-                    ],
-                    [
-                        'lang_code'        => 'ar',
-                        'title'            => 'خدمات العقارات القانونية',
-                        'sort_description' => 'خدمات قانونية متخصصة لمعاملات شراء العقارات والاستثمار العقاري من خلال محامين متخصصين وذوي خبرة، إتمام المهمة في أسرع وقت',
-                        'description'      => '<p>نقدم خدمات قانونية شاملة لمعاملات العقارات بما في ذلك شراء العقارات والاستثمار العقاري والوثائق القانونية وحل النزاعات. يضمن محامونا المتخصصون إتمام جميع الإجراءات القانونية بكفاءة وحماية حقوقك طوال العملية.</p>',
                     ],
                 ],
             ],
@@ -333,8 +317,8 @@ class ServiceDatabaseSeeder extends Seeder {
                 );
             }
             
-            // Add FAQs only for the first service (Government Document Extraction)
-            if ($slug === '0-government-document-extraction') {
+            // Add FAQs only for the document extraction service
+            if ($slug === '1-government-document-extraction') {
                 // Delete existing FAQs for this service to avoid duplicates
                 $service->service_faq()->delete();
                 

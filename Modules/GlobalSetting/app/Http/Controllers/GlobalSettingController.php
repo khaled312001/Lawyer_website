@@ -447,6 +447,8 @@ class GlobalSettingController extends Controller {
             'google_login_status' => 'required',
             'gmail_client_id'     => 'required',
             'gmail_secret_id'     => 'required',
+            'whatsapp_login_status' => 'sometimes',
+            'whatsapp_number'     => 'sometimes',
         ];
         $customMessages = [
             'google_login_status.required' => __('Google is required'),
@@ -455,14 +457,28 @@ class GlobalSettingController extends Controller {
         ];
         $request->validate($rules, $customMessages);
 
-        Setting::where('key', 'facebook_login_status')->update(['value' => $request->facebook_login_status]);
-        Setting::where('key', 'facebook_app_id')->update(['value' => $request->facebook_app_id]);
-        Setting::where('key', 'facebook_app_secret')->update(['value' => $request->facebook_app_secret]);
-        Setting::where('key', 'facebook_redirect_url')->update(['value' => $request->facebook_redirect_url]);
+        Setting::where('key', 'facebook_login_status')->update(['value' => $request->facebook_login_status ?? 'inactive']);
+        Setting::where('key', 'facebook_app_id')->update(['value' => $request->facebook_app_id ?? '']);
+        Setting::where('key', 'facebook_app_secret')->update(['value' => $request->facebook_app_secret ?? '']);
+        Setting::where('key', 'facebook_redirect_url')->update(['value' => $request->facebook_redirect_url ?? '']);
         Setting::where('key', 'google_login_status')->update(['value' => $request->google_login_status]);
         Setting::where('key', 'gmail_client_id')->update(['value' => $request->gmail_client_id]);
         Setting::where('key', 'gmail_secret_id')->update(['value' => $request->gmail_secret_id]);
-        Setting::where('key', 'gmail_redirect_url')->update(['value' => $request->gmail_redirect_url]);
+        Setting::where('key', 'gmail_redirect_url')->update(['value' => $request->gmail_redirect_url ?? '']);
+        
+        // Update WhatsApp settings
+        if ($request->has('whatsapp_login_status')) {
+            Setting::updateOrCreate(
+                ['key' => 'whatsapp_login_status'],
+                ['value' => $request->whatsapp_login_status]
+            );
+        }
+        if ($request->has('whatsapp_number')) {
+            Setting::updateOrCreate(
+                ['key' => 'whatsapp_number'],
+                ['value' => $request->whatsapp_number]
+            );
+        }
 
         Cache::forget('setting');
 

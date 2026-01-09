@@ -47,13 +47,24 @@
                                 @if (enum_exists('App\Enums\SocialiteDriverType'))
                                     @php
                                         $socialiteEnum = 'App\Enums\SocialiteDriverType';
+                                        $googleActive = ($setting->google_login_status ?? 'inactive') == 'active';
+                                        $whatsappActive = ($setting->whatsapp_login_status ?? 'inactive') == 'active';
                                     @endphp
-                                    @if ($setting->google_login_status == 'active')
-                                        <a href="{{ route('auth.social', $socialiteEnum::GOOGLE->value) }}"
-                                            class="account__social-btn">
-                                            <img src="{{ asset($socialiteEnum::GOOGLE_ICON->value) }}"
-                                                alt="img">{{ __('Continue with google') }}
-                                        </a>
+                                    @if ($googleActive || $whatsappActive)
+                                        @if ($googleActive)
+                                            <a href="{{ route('auth.social', $socialiteEnum::GOOGLE->value) }}"
+                                                class="account__social-btn">
+                                                <img src="{{ asset($socialiteEnum::GOOGLE_ICON->value) }}"
+                                                    alt="img">{{ __('Continue with google') }}
+                                            </a>
+                                        @endif
+                                        @if ($whatsappActive)
+                                            <a href="{{ route('auth.social', $socialiteEnum::WHATSAPP->value) }}"
+                                                class="account__social-btn account__social-btn--whatsapp">
+                                                <img src="{{ asset($socialiteEnum::WHATSAPP_ICON->value) }}"
+                                                    alt="WhatsApp" style="width: 20px; height: 20px;">{{ __('Continue with WhatsApp') }}
+                                            </a>
+                                        @endif
                                         <div class="account__divider">
                                             <span>{{ __('or') }}</span>
                                         </div>

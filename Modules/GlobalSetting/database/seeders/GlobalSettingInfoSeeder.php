@@ -45,6 +45,8 @@ class GlobalSettingInfoSeeder extends Seeder
             'google_login_status'           => 'inactive',
             'gmail_client_id'               => 'google_client_id',
             'gmail_secret_id'               => 'google_secret_id',
+            'whatsapp_login_status'          => 'inactive',
+            'whatsapp_number'               => '963912345678',
             'default_avatar'                => 'uploads/website-images/default-avatar.png',
             'breadcrumb_image'              => 'uploads/website-images/breadcrumb-image.webp',
             'error_page_image'              => 'uploads/website-images/error_img.png',

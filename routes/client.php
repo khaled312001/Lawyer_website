@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\WhatsAppAuthController;
 
 Route::middleware(['guest:web', 'maintenance.mode', 'translation'])->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
@@ -26,6 +27,15 @@ Route::middleware(['guest:web', 'maintenance.mode', 'translation'])->group(funct
     Route::get('/reset-password-page/{token}', [NewPasswordController::class, 'custom_reset_password_page'])->name('reset-password-page');
     Route::post('/reset-password-store/{token}', [NewPasswordController::class, 'custom_reset_password_store'])->name('reset-password-store');
     Route::get('/client-verification/{token}', [RegisteredUserController::class, 'custom_user_verification'])->name('user-verification');
+    
+    // WhatsApp Authentication Routes
+    Route::controller(WhatsAppAuthController::class)->group(function () {
+        Route::get('whatsapp/phone', 'showPhoneForm')->name('whatsapp.phone');
+        Route::post('whatsapp/send-otp', 'sendOtp')->name('whatsapp.send-otp');
+        Route::get('whatsapp/verify', 'showVerifyForm')->name('whatsapp.verify');
+        Route::post('whatsapp/verify-otp', 'verifyOtp')->name('whatsapp.verify-otp');
+    });
+    
     Route::controller(SocialiteController::class)->group(function () {
         Route::get('auth/{driver}', 'redirectToDriver')->name('auth.social');
         Route::get('auth/{driver}/callback', 'handleDriverCallback')->name('auth.social.callback');

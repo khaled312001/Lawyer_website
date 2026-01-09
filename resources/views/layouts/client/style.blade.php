@@ -2334,21 +2334,28 @@
         color: rgba(255,255,255,0.7);
     }
 
-    /* Login Area Background - Modern Card Design */
+    /* ============================================
+       LOGIN & REGISTER - PROFESSIONAL FRAMED DESIGN
+       ============================================ */
+    
     .login-area,
     .register-area {
-        min-height: calc(100vh - 300px);
+        min-height: calc(100vh - 200px);
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        padding: 60px 0 !important;
+        background: #ffffff;
+        padding: 80px 20px !important;
+        position: relative;
+        overflow: hidden;
     }
     
     .login-area .container,
     .register-area .container {
         width: 100%;
         max-width: 1200px;
+        position: relative;
+        z-index: 1;
     }
     
     .login-area .row,
@@ -2359,98 +2366,157 @@
         justify-content: center;
     }
     
+    /* Professional Framed Card */
     .login_area_bg {
         background: #ffffff;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.05);
-        padding: 50px 45px !important;
+        box-shadow: 
+            0 10px 40px rgba(0, 0, 0, 0.08),
+            0 2px 8px rgba(0, 0, 0, 0.04);
+        padding: 60px 50px !important;
         border-radius: 20px !important;
-        border: none;
+        border: 1px solid #e8e8e8;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
         transition: all 0.3s ease;
         max-width: 100%;
         width: 100%;
-        animation: fadeInUp 0.5s ease-out;
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    /* Decorative Frame Elements - Full Border */
+    .login_area_bg::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(135deg, 
+            rgba(200, 180, 126, 0.3) 0%, 
+            rgba(241, 99, 76, 0.3) 50%,
+            rgba(200, 180, 126, 0.3) 100%);
+        border-radius: 22px;
+        pointer-events: none;
+        z-index: -1;
     }
     
     /* Add subtle animation */
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px) scale(0.95);
         }
         to {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
     }
 
-    .login_area_bg::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
-    }
-
     .login_area_bg:hover {
-        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-        transform: translateY(-3px);
+        box-shadow: 
+            0 15px 50px rgba(0, 0, 0, 0.12),
+            0 3px 12px rgba(0, 0, 0, 0.06);
+        transform: translateY(-2px);
+    }
+    
+    .login_area_bg:hover::before {
+        background: linear-gradient(135deg, 
+            rgba(200, 180, 126, 0.4) 0%, 
+            rgba(241, 99, 76, 0.4) 50%,
+            rgba(200, 180, 126, 0.4) 100%);
     }
 
-    /* Tab Navigation - Modern Design */
+    /* Tab Navigation - Premium Design */
     .login_area_bg .nav-pills {
-        margin-bottom: 30px !important;
+        margin-bottom: 35px !important;
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
-        gap: 10px;
+        gap: 15px;
         border-bottom: 2px solid #f0f0f0;
-        padding-bottom: 15px;
+        padding-bottom: 18px;
         width: 100%;
+        position: relative;
+    }
+    
+    .login_area_bg .nav-pills::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        transition: width 0.3s ease;
     }
 
     .login_area_bg .nav-pills .nav-item {
         width: auto;
         flex: 0 0 auto;
-        max-width: 200px;
-        min-width: 150px;
+        max-width: 220px;
+        min-width: 160px;
     }
 
     .login_area_bg .nav-pills .nav-item .nav-link {
         width: 100%;
-        color: #333 !important;
-        font-size: 16px;
+        color: #666 !important;
+        font-size: 15px;
         font-weight: 600;
         transition: all 0.3s ease;
-        border: 2px solid #e0e0e0;
+        border: 1.5px solid #e0e0e0;
         border-radius: 10px;
-        padding: 12px 20px;
-        background: #fff !important;
+        padding: 12px 22px;
+        background: #ffffff !important;
         position: relative;
         text-align: center;
         display: block;
+        overflow: hidden;
+    }
+    
+    .login_area_bg .nav-pills .nav-item .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
     }
 
     .login_area_bg .nav-pills .nav-item .nav-link:hover {
         color: var(--colorPrimary) !important;
-        background: rgba(200, 180, 126, 0.1) !important;
+        background: rgba(200, 180, 126, 0.08) !important;
         border-color: var(--colorPrimary);
-        transform: translateY(-2px);
+    }
+    
+    .login_area_bg .nav-pills .nav-item .nav-link:hover::before {
+        left: 100%;
     }
 
     .login_area_bg .nav-pills .nav-item .nav-link.active {
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
         border-color: transparent;
-        box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3);
+        box-shadow: 0 4px 12px rgba(200, 180, 126, 0.25);
+    }
+    
+    .login_area_bg .nav-pills .nav-item .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 3px;
+        background: var(--colorPrimary);
+        border-radius: 2px;
     }
 
     .login_area_bg .nav-pills .nav-item .nav-link:not(.active) {
-        color: #333 !important;
-        background: #fff !important;
+        color: #555 !important;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
     }
 
     /* Title in Register Form */
@@ -2477,12 +2543,29 @@
 
     .login_area_bg form label,
     .regiser-form.login-form label {
-        color: #333;
-        font-weight: 600;
+        color: #2c3e50;
+        font-weight: 700;
         font-size: 14px;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         display: block;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        font-size: 12px;
+        position: relative;
+        padding-left: 8px;
+    }
+    
+    .login_area_bg form label::before,
+    .regiser-form.login-form label::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 16px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 2px;
     }
 
     .login_area_bg form input[type="text"],
@@ -2495,23 +2578,31 @@
     .regiser-form.login-form input[type="password"],
     .regiser-form.login-form input[type="tel"],
     .regiser-form.login-form .form-control {
-        border: 2px solid #e0e0e0;
+        border: 1.5px solid #e0e0e0;
         height: 55px;
         margin-bottom: 22px !important;
         border-radius: 12px;
         padding: 14px 20px;
         font-size: 15px;
         transition: all 0.3s ease;
-        background: #fafafa;
+        background: #ffffff;
         color: #333;
         width: 100%;
         font-weight: 400;
+        position: relative;
     }
     
     .login_area_bg form input::placeholder,
     .regiser-form.login-form input::placeholder {
-        color: #999;
+        color: #aaa;
         font-weight: 400;
+        transition: all 0.3s ease;
+    }
+    
+    .login_area_bg form input:focus::placeholder,
+    .regiser-form.login-form input:focus::placeholder {
+        color: #ccc;
+        transform: translateX(5px);
     }
 
     .login_area_bg form input:focus,
@@ -2520,65 +2611,75 @@
     .regiser-form.login-form .form-control:focus {
         border-color: var(--colorPrimary);
         background: #fff;
-        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.15), 0 4px 12px rgba(200, 180, 126, 0.1);
+        box-shadow: 
+            0 0 0 3px rgba(200, 180, 126, 0.1), 
+            0 2px 8px rgba(200, 180, 126, 0.08);
         outline: none;
-        transform: translateY(-1px);
     }
 
-    /* Select Dropdowns */
+    /* Select Dropdowns - Premium Design */
     .login_area_bg .select2-container--default .select2-selection--single {
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        height: 55px;
-        line-height: 55px;
-        background: #fafafa;
-        transition: all 0.3s ease;
+        border: 2px solid #e8e8e8;
+        border-radius: 14px;
+        height: 58px;
+        line-height: 58px;
+        background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
     }
 
     .login_area_bg .select2-container--default .select2-selection--single:focus,
     .login_area_bg .select2-container--default.select2-container--focus .select2-selection--single {
         border-color: var(--colorPrimary);
         background: #fff;
-        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.15), 0 4px 12px rgba(200, 180, 126, 0.1);
+        box-shadow: 
+            0 0 0 5px rgba(200, 180, 126, 0.15), 
+            0 6px 20px rgba(200, 180, 126, 0.15),
+            inset 0 1px 3px rgba(0,0,0,0.05);
+        transform: translateY(-2px);
     }
 
     .login_area_bg .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 55px;
-        padding-left: 20px;
+        line-height: 58px;
+        padding-left: 24px;
         color: #333;
         font-size: 15px;
+        font-weight: 500;
     }
     
     .login_area_bg .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 55px;
-        right: 15px;
+        height: 58px;
+        right: 20px;
     }
 
     .login_area_bg .select2-container {
-        margin-bottom: 22px !important;
+        margin-bottom: 25px !important;
     }
 
-    /* Submit Button - Modern Design */
+    /* Submit Button - Premium Design */
     .login_area_bg form button[type="submit"],
     .login_area_bg form .btn-primary,
     .regiser-form.login-form button[type="submit"],
     .regiser-form.login-form .btn-primary {
         width: 100%;
-        border-radius: 12px;
-        margin-top: 15px !important;
+        border-radius: 14px;
+        margin-top: 20px !important;
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         border: none;
-        padding: 16px 30px;
+        padding: 18px 35px;
         font-size: 16px;
-        font-weight: 700;
+        font-weight: 800;
         color: #fff;
-        transition: all 0.3s ease;
-        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.35);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 
+            0 8px 25px rgba(200, 180, 126, 0.4),
+            0 0 0 0 rgba(200, 180, 126, 0.5);
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
     }
     
     .login_area_bg form button[type="submit"]::before,
@@ -2589,13 +2690,33 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s;
+    }
+    
+    .login_area_bg form button[type="submit"]::after,
+    .regiser-form.login-form button[type="submit"]::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
     }
     
     .login_area_bg form button[type="submit"]:hover::before,
     .regiser-form.login-form button[type="submit"]:hover::before {
         left: 100%;
+    }
+    
+    .login_area_bg form button[type="submit"]:active::after,
+    .regiser-form.login-form button[type="submit"]:active::after {
+        width: 300px;
+        height: 300px;
     }
 
     .login_area_bg form button[type="submit"]:hover,
@@ -2604,62 +2725,103 @@
     .regiser-form.login-form .btn-primary:hover {
         background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.4);
+        box-shadow: 
+            0 8px 25px rgba(200, 180, 126, 0.35),
+            0 0 0 3px rgba(200, 180, 126, 0.15);
     }
-
+    
     .login_area_bg form button[type="submit"]:active,
-    .login_area_bg form .btn-primary:active {
-        transform: translateY(0);
+    .regiser-form.login-form button[type="submit"]:active {
+        transform: translateY(-1px) scale(0.98);
     }
 
-    /* Link to Login */
+    /* Link to Login - Premium Design */
     .login_area_bg form p,
     .regiser-form.login-form p {
         text-align: center;
-        margin-top: 20px;
+        margin-top: 25px;
         margin-bottom: 0;
-        color: #666;
+        color: #555;
         font-size: 15px;
+        font-weight: 500;
     }
 
     .login_area_bg form p a.link,
     .regiser-form.login-form p a.link {
         color: var(--colorPrimary);
-        font-weight: 600;
+        font-weight: 700;
         text-decoration: none;
         transition: all 0.3s ease;
         border-bottom: 2px solid transparent;
+        position: relative;
+        padding-bottom: 2px;
+    }
+    
+    .login_area_bg form p a.link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        transition: width 0.3s ease;
     }
 
     .login_area_bg form p a.link:hover,
     .regiser-form.login-form p a.link:hover {
         color: var(--colorSecondary);
-        border-bottom-color: var(--colorSecondary);
+    }
+    
+    .login_area_bg form p a.link:hover::after,
+    .regiser-form.login-form p a.link:hover::after {
+        width: 100%;
     }
 
-    /* Google Login Button */
+    /* Google Login Button - Premium Design */
     .account__social-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
+        gap: 14px;
         width: 100%;
-        padding: 14px 20px;
-        border: 2px solid #e0e0e0;
-        border-radius: 10px;
-        background: #fff;
+        padding: 16px 24px;
+        border: 2px solid #e8e8e8;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         color: #333;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 15px;
         text-decoration: none;
-        transition: all 0.3s ease;
-        margin-bottom: 20px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .account__social-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(200, 180, 126, 0.1), transparent);
+        transition: left 0.5s;
     }
 
     .account__social-btn:hover {
         border-color: var(--colorPrimary);
-        background: rgba(200, 180, 126, 0.05);
+        background: linear-gradient(135deg, rgba(200, 180, 126, 0.08) 0%, rgba(241, 99, 76, 0.08) 100%);
         color: var(--colorPrimary);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.2);
+    }
+    
+    .account__social-btn:hover::before {
+        left: 100%;
+    }
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
@@ -2668,12 +2830,34 @@
         width: 20px;
         height: 20px;
     }
+    
+    /* WhatsApp Button Special Styling */
+    .account__social-btn--whatsapp {
+        background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+        color: #fff !important;
+        border-color: #25D366 !important;
+    }
+    
+    .account__social-btn--whatsapp:hover {
+        background: linear-gradient(135deg, #128C7E 0%, #25D366 100%) !important;
+        border-color: #128C7E !important;
+        color: #fff !important;
+        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3) !important;
+    }
+    
+    .account__social-btn--whatsapp::before {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    }
 
     /* Divider */
+    /* Divider - Premium Design */
     .account__divider {
         text-align: center;
-        margin: 25px 0;
+        margin: 20px 0 25px 0;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .account__divider::before {
@@ -2684,91 +2868,167 @@
         right: 0;
         height: 1px;
         background: #e0e0e0;
+        transform: translateY(-50%);
     }
 
     .account__divider span {
         position: relative;
-        background: #fff;
-        padding: 0 15px;
-        color: #999;
+        background: #ffffff;
+        padding: 6px 16px;
+        color: #888;
         font-size: 14px;
+        font-weight: 500;
+        border: 1px solid #e0e0e0;
+        border-radius: 20px;
+        display: inline-block;
+        z-index: 1;
     }
 
-    /* Recaptcha */
+    /* Recaptcha - Premium Design */
     .login_area_bg .g-recaptcha {
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         display: flex;
         justify-content: center;
+        padding: 15px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 14px;
+        border: 2px solid #e8e8e8;
+        transition: all 0.3s ease;
+    }
+    
+    .login_area_bg .g-recaptcha:hover {
+        border-color: var(--colorPrimary);
+        box-shadow: 0 4px 12px rgba(200, 180, 126, 0.1);
     }
 
-    /* Error Messages */
+    /* Error Messages - Premium Design */
     .login_area_bg .text-danger,
     .regiser-form.login-form .text-danger {
         color: #dc3545;
         font-size: 13px;
-        margin-top: -15px;
-        margin-bottom: 15px;
+        font-weight: 600;
+        margin-top: -20px;
+        margin-bottom: 18px;
         display: block;
+        padding: 8px 12px;
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.1) 0%, rgba(220, 53, 69, 0.05) 100%);
+        border-left: 3px solid #dc3545;
+        border-radius: 6px;
+        animation: shake 0.5s ease;
+    }
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
     }
 
     /* Remember Me & Checkbox Styling */
+    /* Remember Me & Forgot Password - Premium Design */
     .login_area_bg .remember,
     .regiser-form.login-form .remember {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 20px;
+        margin-bottom: 25px;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 15px;
+        padding: 15px 0;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
     }
     
     .login_area_bg .form-check,
     .regiser-form.login-form .form-check {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
     }
     
     .login_area_bg .form-check-input {
-        width: 18px;
-        height: 18px;
-        border: 2px solid #ddd;
-        border-radius: 4px;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #d0d0d0;
+        border-radius: 6px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         margin: 0;
         flex-shrink: 0;
+        background: #fff;
+        position: relative;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
     }
     
     .login_area_bg .form-check-input:checked {
-        background-color: var(--colorPrimary);
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
         border-color: var(--colorPrimary);
+        box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.2), inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .login_area_bg .form-check-input:checked::after {
+        content: '✓';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 900;
+        line-height: 1;
     }
     
     .login_area_bg .form-check-input:focus {
-        box-shadow: 0 0 0 3px rgba(200, 180, 126, 0.2);
+        box-shadow: 0 0 0 5px rgba(200, 180, 126, 0.25);
         border-color: var(--colorPrimary);
+        transform: scale(1.1);
+    }
+    
+    .login_area_bg .form-check-input:hover {
+        border-color: var(--colorPrimary);
+        transform: scale(1.05);
     }
     
     .login_area_bg .form-check-label {
         color: #555;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
         cursor: pointer;
         margin: 0;
+        user-select: none;
+        transition: color 0.3s ease;
+    }
+    
+    .login_area_bg .form-check:hover .form-check-label {
+        color: var(--colorPrimary);
     }
     
     .login_area_bg .link {
         color: var(--colorPrimary);
-        font-weight: 600;
+        font-weight: 700;
         font-size: 14px;
         text-decoration: none;
         transition: all 0.3s ease;
+        position: relative;
+        padding-bottom: 2px;
+    }
+    
+    .login_area_bg .link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        transition: width 0.3s ease;
     }
     
     .login_area_bg .link:hover {
         color: var(--colorSecondary);
-        text-decoration: underline;
+    }
+    
+    .login_area_bg .link:hover::after {
+        width: 100%;
     }
 
     /* Responsive Design */
