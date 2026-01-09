@@ -87,7 +87,8 @@
                             }
 
                             if (message.attachment) {
-                                const attachmentUrl = message.attachment.startsWith('http') ? message.attachment : `/storage/${message.attachment}`;
+                                // Files are stored in public/uploads/store, so use /uploads/store path
+                                const attachmentUrl = message.attachment.startsWith('http') ? message.attachment : `/uploads/store/${message.attachment}`;
                                 const fileName = message.attachment.split('/').pop();
                                 const fileExt = fileName.split('.').pop().toLowerCase();
                                 const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];

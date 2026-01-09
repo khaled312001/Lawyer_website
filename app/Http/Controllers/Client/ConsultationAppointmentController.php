@@ -42,6 +42,9 @@ class ConsultationAppointmentController extends Controller
         ]);
 
         $user = Auth::user();
+        
+        // If user is not logged in, user_id will be null
+        $userId = $user ? $user->id : null;
 
         // Check if appointment already exists for this date and time
         $existingAppointment = AdminAppointment::where('appointment_date', $request->appointment_date)
@@ -54,7 +57,7 @@ class ConsultationAppointmentController extends Controller
         }
 
         $appointment = AdminAppointment::create([
-            'user_id' => $user->id,
+            'user_id' => $userId,
             'admin_id' => null, // Will be assigned by admin later
             'department_id' => $request->department_id,
             'appointment_date' => $request->appointment_date,
@@ -72,8 +75,14 @@ class ConsultationAppointmentController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('client.dashboard')
-            ->with('success', __('Consultation appointment request submitted successfully. We will contact you soon.'));
+        // Redirect based on whether user is logged in
+        if ($user) {
+            return redirect()->route('client.dashboard')
+                ->with('success', __('Consultation appointment request submitted successfully. We will contact you soon.'));
+        } else {
+            return redirect()->route('book.consultation.appointment')
+                ->with('success', __('Consultation appointment request submitted successfully. We will contact you soon.'));
+        }
     }
 }
 

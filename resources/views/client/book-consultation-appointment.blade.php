@@ -76,14 +76,20 @@
                                     <label for="appointment_date" class="form-label">
                                         <i class="fas fa-calendar-alt me-2"></i>{{ __('Appointment Date') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="date" name="appointment_date" id="appointment_date" class="form-control" required min="{{ date('Y-m-d') }}">
+                                    <input type="date" name="appointment_date" id="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}">
+                                    @error('appointment_date')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                     <small class="form-text text-muted">{{ __('Please select a date for your consultation') }}</small>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="appointment_time" class="form-label">
                                         <i class="fas fa-clock me-2"></i>{{ __('Appointment Time') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="time" name="appointment_time" id="appointment_time" class="form-control" required>
+                                    <input type="time" name="appointment_time" id="appointment_time" class="form-control @error('appointment_time') is-invalid @enderror" required value="{{ old('appointment_time') }}">
+                                    @error('appointment_time')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                     <small class="form-text text-muted">{{ __('Please select a time for your consultation') }}</small>
                                 </div>
                             </div>
@@ -94,19 +100,25 @@
                                     <label for="department_id" class="form-label">
                                         <i class="fas fa-building me-2"></i>{{ __('Department') }} <span class="text-danger">*</span>
                                     </label>
-                                    <select name="department_id" id="department_id" class="form-select" required>
+                                    <select name="department_id" id="department_id" class="form-select @error('department_id') is-invalid @enderror" required>
                                         <option value="">{{ __('Select Department') }}</option>
                                         @foreach($departments as $department)
-                                            <option value="{{ $department->id }}">{{ $department->translation->name ?? $department->name ?? __('Department') }}</option>
+                                            <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : '' }}>{{ $department->translation->name ?? $department->name ?? __('Department') }}</option>
                                         @endforeach
                                     </select>
+                                    @error('department_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                     <small class="form-text text-muted">{{ __('Select the department related to your case') }}</small>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="case_type" class="form-label">
                                         <i class="fas fa-gavel me-2"></i>{{ __('Case Type') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" name="case_type" id="case_type" class="form-control" required placeholder="{{ __('e.g., Criminal, Civil, Family, Commercial, Contract, etc.') }}">
+                                    <input type="text" name="case_type" id="case_type" class="form-control @error('case_type') is-invalid @enderror" required placeholder="{{ __('e.g., Criminal, Civil, Family, Commercial, Contract, etc.') }}" value="{{ old('case_type') }}">
+                                    @error('case_type')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                     <small class="form-text text-muted">{{ __('Specify the type of your case') }}</small>
                                 </div>
                             </div>
@@ -116,7 +128,10 @@
                                 <label for="case_details" class="form-label">
                                     <i class="fas fa-file-alt me-2"></i>{{ __('Case Details') }} <span class="text-danger">*</span>
                                 </label>
-                                <textarea name="case_details" id="case_details" class="form-control" rows="5" required placeholder="{{ __('Provide detailed information about your case...') }}"></textarea>
+                                <textarea name="case_details" id="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="5" required placeholder="{{ __('Provide detailed information about your case...') }}">{{ old('case_details') }}</textarea>
+                                @error('case_details')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                                 <small class="form-text text-muted">{{ __('Please provide comprehensive details about your case') }}</small>
                             </div>
 
@@ -126,15 +141,24 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="client_name" class="form-label">{{ __('Full Name') }} <span class="text-danger">*</span></label>
-                                        <input type="text" name="client_name" id="client_name" class="form-control" required value="{{ Auth::user()->name ?? '' }}" placeholder="{{ __('Enter your full name') }}">
+                                        <input type="text" name="client_name" id="client_name" class="form-control @error('client_name') is-invalid @enderror" required value="{{ old('client_name', Auth::user()->name ?? '') }}" placeholder="{{ __('Enter your full name') }}">
+                                        @error('client_name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="client_email" class="form-label">{{ __('Email Address') }} <span class="text-danger">*</span></label>
-                                        <input type="email" name="client_email" id="client_email" class="form-control" required value="{{ Auth::user()->email ?? '' }}" placeholder="{{ __('Enter your email address') }}">
+                                        <input type="email" name="client_email" id="client_email" class="form-control @error('client_email') is-invalid @enderror" required value="{{ old('client_email', Auth::user()->email ?? '') }}" placeholder="{{ __('Enter your email address') }}">
+                                        @error('client_email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span></label>
-                                        <input type="tel" name="client_phone" id="client_phone" class="form-control" required value="{{ Auth::user()->details->phone ?? '' }}" placeholder="{{ __('Enter your phone number') }}">
+                                        <input type="tel" name="client_phone" id="client_phone" class="form-control @error('client_phone') is-invalid @enderror" required value="{{ old('client_phone', Auth::user()->details->phone ?? '') }}" placeholder="{{ __('Enter your phone number') }}">
+                                        @error('client_phone')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="client_city" class="form-label">{{ __('City') }}</label>
@@ -156,7 +180,10 @@
                                 <label for="problem_description" class="form-label">
                                     <i class="fas fa-exclamation-triangle me-2"></i>{{ __('Problem Description') }} <span class="text-danger">*</span>
                                 </label>
-                                <textarea name="problem_description" id="problem_description" class="form-control" rows="6" required placeholder="{{ __('Describe your problem in detail...') }}"></textarea>
+                                <textarea name="problem_description" id="problem_description" class="form-control @error('problem_description') is-invalid @enderror" rows="6" required placeholder="{{ __('Describe your problem in detail...') }}">{{ old('problem_description') }}</textarea>
+                                @error('problem_description')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                                 <small class="form-text text-muted">{{ __('Please provide a detailed description of the problem you are facing') }}</small>
                             </div>
 
@@ -165,7 +192,7 @@
                                 <label for="additional_info" class="form-label">
                                     <i class="fas fa-info-circle me-2"></i>{{ __('Additional Information') }}
                                 </label>
-                                <textarea name="additional_info" id="additional_info" class="form-control" rows="4" placeholder="{{ __('Any additional information you would like to share...') }}"></textarea>
+                                <textarea name="additional_info" id="additional_info" class="form-control" rows="4" placeholder="{{ __('Any additional information you would like to share...') }}">{{ old('additional_info') }}</textarea>
                                 <small class="form-text text-muted">{{ __('Optional: Any other relevant information') }}</small>
                             </div>
 

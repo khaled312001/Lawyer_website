@@ -76,4 +76,12 @@ Route::group(['middleware'=>'translation', 'as' => 'admin.', 'prefix' => 'admin'
         Route::post('/lawyer/{lawyerId}/fake-review', 'createFakeReview')->name('fake-review');
         Route::post('/add-high-ratings-to-all', 'addHighRatingsToAllLawyers')->name('add-high-ratings-to-all');
     });
+
+    // Consultation Appointments Management Routes
+    Route::controller(App\Http\Controllers\Admin\ConsultationAppointmentController::class)->prefix('consultation-appointments')->name('consultation-appointments.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::put('/{id}/status', 'updateStatus')->name('update-status');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
 });

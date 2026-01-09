@@ -39,30 +39,62 @@
                     </div>
                     <form action="{{ route('send-contact-message') }}" method="POST">
                         @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('message'))
+                            <div class="alert alert-{{ session('alert-type', 'success') }}">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                         <div class="row contact-form">
                             <div class="col-md-6 form-group">
                                 <label>{{ __('Name') }} *</label>
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>{{ __('Email') }} *</label>
-                                <input type="email" id="email" class="form-control" name="email">
+                                <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
+                                @error('email')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>{{ __('Phone') }}</label>
-                                <input type="text" id="phone" name="phone" class="form-control">
+                                <input type="text" id="phone" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone') }}">
+                                @error('phone')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>{{ __('Subject') }} *</label>
-                                <input type="text" id="subject" class="form-control" name="subject">
+                                <input type="text" id="subject" class="form-control @error('subject') is-invalid @enderror" name="subject" value="{{ old('subject') }}" required>
+                                @error('subject')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-lg-12 form-group">
                                 <label>{{ __('Message') }} *</label>
-                                <textarea name="message" class="form-control" id="massege"></textarea>
+                                <textarea name="message" class="form-control @error('message') is-invalid @enderror" id="massege" required>{{ old('message') }}</textarea>
+                                @error('message')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             @if ($setting->recaptcha_status == 'active')
                                 <div class="form-group col-12">
                                     <div class="g-recaptcha" data-sitekey="{{ $setting->recaptcha_site_key }}"></div>
+                                    @error('g-recaptcha-response')
+                                        <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             @endif
                             <div class="col-md-12 form-group">

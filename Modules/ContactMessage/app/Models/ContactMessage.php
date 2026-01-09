@@ -12,7 +12,13 @@ class ContactMessage extends Model {
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'subject',
+        'message',
+    ];
 
     /**
      * Prepare a date for array / JSON serialization.

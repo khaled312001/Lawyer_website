@@ -29,13 +29,13 @@ class ContactMessageController extends Controller {
             'g-recaptcha-response.required' => __('Please complete the recaptcha to submit the form'),
         ]);
         if ($setting?->save_contact_message) {
-            $new_message = new ContactMessage();
-            $new_message->name = $request->name;
-            $new_message->email = $request->email;
-            $new_message->subject = $request->subject;
-            $new_message->message = $request->message;
-            $new_message->phone = $request->phone;
-            $new_message->save();
+            ContactMessage::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'phone' => $request->phone,
+            ]);
         }
 
         //mail send

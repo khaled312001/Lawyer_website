@@ -69,23 +69,29 @@ class MessageController extends Controller
         checkAdminHasPermissionAndThrowException('admin.view');
         
         $request->validate([
-            'message' => 'required|string',
-            'attachment' => 'nullable|file|max:10240',
+            'message' => 'nullable|string|max:2000',
+            'attachment' => 'nullable|file|max:10240', // 10MB max
         ]);
+
+        // Ensure at least one field is provided
+        if (!$request->filled('message') && !$request->hasFile('attachment')) {
+            return back()->with('error', __('Please provide a message or attachment'));
+        }
         
         $conversation = Conversation::findOrFail($conversationId);
         
         $attachmentPath = null;
         if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('message-attachments', 'public');
+            $attachmentPath = $request->file('attachment')->store('attachments/messages', 'public');
         }
         
         Message::create([
             'conversation_id' => $conversation->id,
             'sender_type' => Admin::class,
             'sender_id' => auth()->guard('admin')->id(),
-            'message' => $request->message,
+            'message' => $request->message ?? '',
             'attachment' => $attachmentPath,
+            'is_read' => false,
         ]);
         
         $conversation->update(['last_message_at' => now()]);

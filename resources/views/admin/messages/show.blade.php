@@ -146,15 +146,51 @@
                                                 </div>
                                             </div>
                                             <div class="mt-2" id="message-content-{{ $message->id }}">
-                                                {{ $message->message }}
+                                                @if($message->message)
+                                                    <p class="mb-2">{{ $message->message }}</p>
+                                                @endif
+                                                @if($message->attachment)
+                                                    @php
+                                                        // Files are stored in public/uploads/store, so use /uploads/store path
+                                                        $attachmentUrl = (str_starts_with($message->attachment, 'http')) ? $message->attachment : asset('uploads/store/' . $message->attachment);
+                                                        $fileName = basename($message->attachment);
+                                                        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                                                        $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];
+                                                    @endphp
+                                                    <div class="mt-2">
+                                                        @if(in_array($fileExt, $imageExtensions))
+                                                            <div class="mb-2">
+                                                                <a href="{{ $attachmentUrl }}" target="_blank">
+                                                                    <img src="{{ $attachmentUrl }}" alt="{{ $fileName }}" 
+                                                                         style="max-width: 300px; max-height: 300px;" 
+                                                                         class="img-thumbnail"
+                                                                         onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\'%3E%3Crect fill=\'%23ddd\' width=\'300\' height=\'300\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\'%3E{{ __('Image not found') }}%3C/text%3E%3C/svg%3E';">
+                                                                </a>
+                                                            </div>
+                                                            <a href="{{ $attachmentUrl }}" target="_blank" class="btn btn-sm btn-info">
+                                                                <i class="fas fa-download"></i> {{ __('Download Image') }}
+                                                            </a>
+                                                        @else
+                                                            @php
+                                                                $fileIcons = [
+                                                                    'pdf' => 'fas fa-file-pdf text-danger',
+                                                                    'doc' => 'fas fa-file-word text-primary',
+                                                                    'docx' => 'fas fa-file-word text-primary',
+                                                                    'xls' => 'fas fa-file-excel text-success',
+                                                                    'xlsx' => 'fas fa-file-excel text-success',
+                                                                    'txt' => 'fas fa-file-alt',
+                                                                    'zip' => 'fas fa-file-archive',
+                                                                    'rar' => 'fas fa-file-archive',
+                                                                ];
+                                                                $fileIcon = $fileIcons[$fileExt] ?? 'fas fa-file';
+                                                            @endphp
+                                                            <a href="{{ $attachmentUrl }}" target="_blank" class="btn btn-sm btn-info">
+                                                                <i class="{{ $fileIcon }}"></i> {{ __('Download') }} {{ $fileName }}
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                @endif
                                             </div>
-                                            @if($message->attachment)
-                                                <div class="mt-2">
-                                                    <a href="{{ asset('storage/' . $message->attachment) }}" target="_blank" class="btn btn-sm btn-info">
-                                                        <i class="fas fa-paperclip"></i> {{ __('View Attachment') }}
-                                                    </a>
-                                                </div>
-                                            @endif
                                         </div>
                                     </div>
 
@@ -225,15 +261,27 @@
 
                             <hr>
                             <h5>{{ __('Send Message as Admin') }}</h5>
-                            <form action="{{ route('admin.messages.send', $conversation->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('admin.messages.send', $conversation->id) }}" method="POST" enctype="multipart/form-data" id="admin-message-form">
                                 @csrf
+                                <div id="admin-file-preview-container" class="mb-2" style="display: none;">
+                                    <div class="position-relative d-inline-block">
+                                        <img id="admin-image-preview" src="" alt="{{ __('Preview') }}" style="max-width: 200px; max-height: 200px; display: none;" class="img-thumbnail">
+                                        <div id="admin-file-info-preview" style="display: none;" class="alert alert-info">
+                                            <i class="fas fa-file"></i> <span id="admin-file-name-preview"></span>
+                                            <br><small id="admin-file-size-preview"></small>
+                                        </div>
+                                        <button type="button" id="admin-remove-file-btn" class="btn btn-sm btn-danger position-absolute" style="top: 5px; right: 5px;">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 <div class="form-group">
-                                    <label>{{ __('Message') }}</label>
-                                    <textarea name="message" class="form-control" rows="4" required></textarea>
+                                    <label>{{ __('Message') }} <small class="text-muted">({{ __('optional if attachment is provided') }})</small></label>
+                                    <textarea name="message" id="admin-message-input" class="form-control" rows="4"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>{{ __('Attachment (optional)') }}</label>
-                                    <input type="file" name="attachment" class="form-control-file">
+                                    <input type="file" name="attachment" id="admin-attachment-input" class="form-control-file" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx,.txt">
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-paper-plane"></i> {{ __('Send') }}
@@ -328,6 +376,89 @@
     
     // Global cleanup function that can be called from anywhere
     window.cleanupModalBackdrop = removeBackdrop;
+})();
+
+// File preview functionality for admin message form
+(function() {
+    'use strict';
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const attachmentInput = document.getElementById('admin-attachment-input');
+        const imagePreview = document.getElementById('admin-image-preview');
+        const fileInfoPreview = document.getElementById('admin-file-info-preview');
+        const fileNamePreview = document.getElementById('admin-file-name-preview');
+        const fileSizePreview = document.getElementById('admin-file-size-preview');
+        const filePreviewContainer = document.getElementById('admin-file-preview-container');
+        const removeFileBtn = document.getElementById('admin-remove-file-btn');
+        
+        if (attachmentInput) {
+            attachmentInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const fileName = file.name;
+                    const fileSize = formatFileSize(file.size);
+                    const fileExt = fileName.split('.').pop().toLowerCase();
+                    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];
+                    
+                    filePreviewContainer.style.display = 'block';
+                    
+                    if (imageExtensions.includes(fileExt)) {
+                        // Preview image
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            imagePreview.src = e.target.result;
+                            imagePreview.style.display = 'block';
+                            fileInfoPreview.style.display = 'none';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Preview file info
+                        imagePreview.style.display = 'none';
+                        fileNamePreview.textContent = fileName;
+                        fileSizePreview.textContent = fileSize;
+                        fileInfoPreview.style.display = 'block';
+                    }
+                }
+            });
+        }
+        
+        if (removeFileBtn) {
+            removeFileBtn.addEventListener('click', function() {
+                if (attachmentInput) attachmentInput.value = '';
+                filePreviewContainer.style.display = 'none';
+                if (imagePreview) {
+                    imagePreview.src = '';
+                    imagePreview.style.display = 'none';
+                }
+                if (fileInfoPreview) fileInfoPreview.style.display = 'none';
+            });
+        }
+        
+        // Reset form after successful submission
+        const messageForm = document.getElementById('admin-message-form');
+        if (messageForm) {
+            messageForm.addEventListener('submit', function() {
+                // Reset will happen after page reload, but we can clear preview
+                setTimeout(function() {
+                    if (attachmentInput) attachmentInput.value = '';
+                    filePreviewContainer.style.display = 'none';
+                    if (imagePreview) {
+                        imagePreview.src = '';
+                        imagePreview.style.display = 'none';
+                    }
+                    if (fileInfoPreview) fileInfoPreview.style.display = 'none';
+                }, 100);
+            });
+        }
+    });
 })();
 </script>
 @endpush
