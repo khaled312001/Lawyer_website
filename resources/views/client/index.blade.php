@@ -3580,5 +3580,3 @@
 @endpush
 
 @endsection
-
-@endsection
