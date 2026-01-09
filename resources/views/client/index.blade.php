@@ -16,49 +16,60 @@
                         <div class="col-xl-10 col-xxl-9">
                             <div class="v-mid-content">
                                 <div class="heading">
-                                    <h2>{{ __('Search The Best lawyers') }}</h2>
-                                    <p>{{ __('Find out department and location based lawyers near your area') }}</p>
+                                    <h2>{{ __('Contact Us') }}</h2>
+                                    <p>{{ __('Get in touch with our team for legal consultation and support') }}</p>
                                 </div>
-                                <div class="doc-search-section">
-                                    <form action="{{ route('website.search.lawyer') }}">
-                                        <div class="box">
-                                            <select name="location" class="form-control select2">
-                                                <option value="">{{ __('Select Location') }}</option>
-                                                @foreach ($locations as $location)
-                                                    <option {{ @$location_id == $location?->id ? 'selected' : '' }}
-                                                        value="{{ $location?->id }}">{{ ucwords($location?->name) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                <div class="company-info-section">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3 mb-md-0">
+                                            <div class="company-info-item">
+                                                <div class="company-info-icon">
+                                                    <i class="fas fa-phone"></i>
+                                                </div>
+                                                <div class="company-info-content">
+                                                    <h4>{{ __('Phone') }}</h4>
+                                                    <p>
+                                                        <a href="tel:{{ $contactInfo?->phone }}" aria-label="{{ __('Call us') }}">
+                                                            {!! nl2br(e($contactInfo?->phone)) !!}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="box">
-                                            <select name="department" class="form-control select2">
-                                                <option value="">
-                                                    {{ __('Select Department') }}</option>
-                                                @foreach ($departmentsForSearch as $department)
-                                                    <option {{ @$department_id == $department?->id ? 'selected' : '' }}
-                                                        value="{{ $department?->id }}">{{ ucwords($department?->name) }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col-md-4 mb-3 mb-md-0">
+                                            <div class="company-info-item">
+                                                <div class="company-info-icon">
+                                                    <i class="far fa-envelope"></i>
+                                                </div>
+                                                <div class="company-info-content">
+                                                    <h4>{{ __('Email') }}</h4>
+                                                    <p>
+                                                        <a href="mailto:{{ $contactInfo?->email }}" aria-label="{{ __('Email us') }}">
+                                                            {!! nl2br(e($contactInfo?->email)) !!}
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="box">
-                                            <select name="lawyer" class="form-control select2">
-                                                <option value="">
-                                                    {{ __('Select Lawyer') }}</option>
-                                                @foreach ($lawyersForSearch as $lawyer)
-                                                    <option {{ @$lawyer_id == $lawyer?->id ? 'selected' : '' }}
-                                                        value="{{ $lawyer?->id }}">
-                                                        {{ ucwords($lawyer?->name) }}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="col-md-4">
+                                            <div class="company-info-item">
+                                                <div class="company-info-icon">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                </div>
+                                                <div class="company-info-content">
+                                                    <h4>{{ __('Address') }}</h4>
+                                                    <p>{!! nl2br(e($contactInfo?->address)) !!}</p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="doc-search-button">
-                                            <button type="submit" class="btn btn-danger">{{ __('Search') }}</button>
-                                        </div>
-                                    </form>
+                                    </div>
+                                    <div class="book-appointment-button-wrapper mt-4">
+                                        <a href="{{ route('website.book.appointment') }}" class="btn btn-primary btn-lg book-appointment-btn">
+                                            <i class="fas fa-calendar-check"></i>
+                                            <span>{{ __('Book Appointment') }}</span>
+                                        </a>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -736,6 +747,144 @@
 
 @push('css')
 <style>
+    /* Company Info Section Styles */
+    .company-info-section {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+    }
+
+    .company-info-item {
+        text-align: center;
+        padding: 20px;
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .company-info-item:hover {
+        background: rgba(107, 93, 71, 0.05);
+        transform: translateY(-5px);
+    }
+
+    .company-info-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .company-info-item:hover .company-info-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 30px rgba(107, 93, 71, 0.4);
+    }
+
+    .company-info-icon i {
+        font-size: 28px;
+        color: #ffffff;
+    }
+
+    .company-info-content h4 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--colorBlack);
+        margin-bottom: 10px;
+    }
+
+    .company-info-content p {
+        margin: 0;
+        color: #666;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .company-info-content a {
+        color: var(--colorPrimary);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .company-info-content a:hover {
+        color: var(--colorSecondary);
+        text-decoration: underline;
+    }
+
+    .book-appointment-button-wrapper {
+        text-align: center;
+    }
+
+    .book-appointment-btn {
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 50px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border: none;
+        box-shadow: 0 8px 25px rgba(107, 93, 71, 0.3);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .book-appointment-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px rgba(107, 93, 71, 0.4);
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%);
+    }
+
+    .book-appointment-btn i {
+        font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .company-info-section {
+            padding: 30px 20px;
+        }
+
+        .company-info-item {
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .company-info-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .company-info-icon i {
+            font-size: 24px;
+        }
+
+        .company-info-content h4 {
+            font-size: 16px;
+        }
+
+        .company-info-content p {
+            font-size: 14px;
+        }
+
+        .book-appointment-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
     /* Testimonial Modern Styles */
     .testimonial-area-modern {
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
