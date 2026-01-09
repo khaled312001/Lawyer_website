@@ -8,113 +8,88 @@
 @section('client-content')
 
     <!--Hero Section Start-->
-    <div class="hero-section" id="main-hero">
-        <div class="hero-slider-area">
+    <section class="hero-section-modern">
+        <div class="hero-background">
             <div class="hero-slider">
                 @foreach ($sliders as $item)
-                    <div class="hero-slider-item">
-                        <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
+                    <div class="hero-slide">
+                        <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="hero-image">
                     </div>
                 @endforeach
             </div>
+            <div class="hero-overlay"></div>
         </div>
-
-        <div class="hero-content-wrapper">
+        
+        <div class="hero-content">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-11 col-xxl-10">
-                        <div class="hero-content">
-                            <!-- Company Introduction -->
-                            <div class="hero-company-intro">
-                                <div class="company-badge">
-                                    <i class="fas fa-gavel"></i>
-                                    <span>{{ __('Legal Excellence Since') }} {{ date('Y') - 10 }}</span>
-                                </div>
-                                <h1 class="hero-title">
-                                    <span class="title-highlight">{{ $setting->app_name ?? __('Our Law Firm') }}</span>
-                                </h1>
-                                <p class="hero-subtitle">
-                                    {{ __('Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.') }}
-                                </p>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="hero-text text-center">
+                            <div class="hero-badge">
+                                <i class="fas fa-gavel"></i>
+                                <span>{{ __('Legal Excellence Since') }} {{ date('Y') - 10 }}</span>
                             </div>
-
-                            <!-- Company Features -->
+                            <h1 class="hero-title">{{ $setting->app_name ?? __('Our Law Firm') }}</h1>
+                            <p class="hero-description">
+                                {{ __('Your trusted partner for comprehensive legal solutions. We provide expert legal services with integrity, professionalism, and dedication to achieving the best outcomes for our clients.') }}
+                            </p>
+                            
                             <div class="hero-features">
-                                <div class="feature-item">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-shield-alt"></i>
-                                    </div>
-                                    <div class="feature-content">
-                                        <h4>{{ __('Expert Legal Team') }}</h4>
-                                        <p>{{ __('Experienced professionals dedicated to your success') }}</p>
-                                    </div>
+                                <div class="hero-feature-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <h4>{{ __('Expert Legal Team') }}</h4>
+                                    <p>{{ __('Experienced professionals dedicated to your success') }}</p>
                                 </div>
-                                <div class="feature-item">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-handshake"></i>
-                                    </div>
-                                    <div class="feature-content">
-                                        <h4>{{ __('Trusted Service') }}</h4>
-                                        <p>{{ __('Reliable and transparent legal solutions') }}</p>
-                                    </div>
+                                <div class="hero-feature-item">
+                                    <i class="fas fa-handshake"></i>
+                                    <h4>{{ __('Trusted Service') }}</h4>
+                                    <p>{{ __('Reliable and transparent legal solutions') }}</p>
                                 </div>
-                                <div class="feature-item">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-clock"></i>
-                                    </div>
-                                    <div class="feature-content">
-                                        <h4>{{ __('24/7 Support') }}</h4>
-                                        <p>{{ __('Always available to assist you') }}</p>
-                                    </div>
+                                <div class="hero-feature-item">
+                                    <i class="fas fa-clock"></i>
+                                    <h4>{{ __('24/7 Support') }}</h4>
+                                    <p>{{ __('Always available to assist you') }}</p>
                                 </div>
                             </div>
 
-                            <!-- Search Section -->
-                            <div class="hero-search-section">
-                                <div class="search-header">
-                                    <h3>{{ __('Find Legal Services') }}</h3>
-                                    <p>{{ __('Search by location and department to find the right legal assistance') }}</p>
-                                </div>
-                                <form action="{{ route('website.search.lawyer') }}" class="hero-search-form">
-                                    <div class="search-boxes">
-                                        <div class="search-box">
+                            <div class="hero-search">
+                                <h3>{{ __('Find Legal Services') }}</h3>
+                                <p class="search-subtitle">{{ __('Search by location and department to find the right legal assistance') }}</p>
+                                <form action="{{ route('website.search.lawyer') }}" class="search-form">
+                                    <div class="search-inputs">
+                                        <div class="input-group">
                                             <i class="fas fa-map-marker-alt"></i>
                                             <select name="location" class="form-control select2">
                                                 <option value="">{{ __('Select Location') }}</option>
                                                 @foreach ($locations as $location)
                                                     <option {{ @$location_id == $location?->id ? 'selected' : '' }}
-                                                        value="{{ $location?->id }}">{{ ucwords($location?->name) }}
-                                                    </option>
+                                                        value="{{ $location?->id }}">{{ ucwords($location?->name) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="search-box">
+                                        <div class="input-group">
                                             <i class="fas fa-briefcase"></i>
                                             <select name="department" class="form-control select2">
                                                 <option value="">{{ __('Select Department') }}</option>
                                                 @foreach ($departmentsForSearch as $department)
                                                     <option {{ @$department_id == $department?->id ? 'selected' : '' }}
-                                                        value="{{ $department?->id }}">{{ ucwords($department?->name) }}
-                                                    </option>
+                                                        value="{{ $department?->id }}">{{ ucwords($department?->name) }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="search-button">
-                                            <button type="submit" class="btn btn-primary btn-lg">
-                                                <i class="fas fa-search me-2"></i>{{ __('Search') }}
-                                            </button>
-                                        </div>
+                                        <button type="submit" class="btn btn-primary search-btn">
+                                            <i class="fas fa-search"></i> {{ __('Search') }}
+                                        </button>
                                     </div>
                                 </form>
                             </div>
 
-                            <!-- Call to Action -->
-                            <div class="hero-cta">
-                                <a href="{{ route('website.contact-us') }}" class="btn btn-outline-light btn-lg me-3">
-                                    <i class="fas fa-envelope me-2"></i>{{ __('Contact Us') }}
+                            <div class="hero-buttons">
+                                <a href="{{ route('website.contact-us') }}" class="btn btn-outline-light">
+                                    <i class="fas fa-envelope"></i> {{ __('Contact Us') }}
                                 </a>
-                                <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-light btn-lg">
-                                    <i class="fas fa-calendar-check me-2"></i>{{ __('Book Consultation') }}
+                                <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-light">
+                                    <i class="fas fa-calendar-check"></i> {{ __('Book Consultation') }}
                                 </a>
                             </div>
                         </div>
@@ -122,7 +97,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!--Hero Section End-->
 
 
@@ -779,17 +754,17 @@
 @push('css')
 <style>
     /* ============================================
-       HERO SECTION - Enhanced Design
+       HERO SECTION - Clean Design
        ============================================ */
-    .hero-section {
+    .hero-section-modern {
         position: relative;
-        min-height: 700px;
+        min-height: 650px;
         display: flex;
         align-items: center;
         overflow: hidden;
     }
 
-    .hero-slider-area {
+    .hero-background {
         position: absolute;
         top: 0;
         left: 0;
@@ -808,126 +783,41 @@
         height: 100%;
     }
 
-    .hero-slider .slick-slide {
-        height: 100%;
-    }
-
-    .hero-slider .slick-slide > div {
-        height: 100%;
-    }
-
-    .hero-slider-item {
+    .hero-slide {
         position: relative;
         width: 100%;
         height: 100%;
-        overflow: hidden;
     }
 
-    .hero-slider-item img {
+    .hero-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
         object-position: center;
-        display: block;
     }
 
-    /* Hero Slider Dots Styling */
-    .hero-slider-area .slick-dots {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        bottom: 30px;
-        gap: 8px;
-        z-index: 15;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .hero-slider-area .slick-dots li {
-        margin: 0;
-        width: auto;
-        height: auto;
-    }
-
-    .hero-slider-area .slick-dots li button {
-        width: 40px;
-        height: 6px;
-        font-size: 0;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-        padding: 0;
-    }
-
-    .hero-slider-area .slick-dots li.slick-active button {
-        background: var(--colorPrimary);
-        width: 50px;
-        opacity: 1;
-    }
-
-    .hero-slider-area .slick-dots li button:hover {
-        background: rgba(255, 255, 255, 0.8);
-    }
-
-    /* Dark overlay for better text readability */
-    .hero-slider-area::after {
-        content: '';
+    .hero-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         background: linear-gradient(135deg, rgba(0, 32, 76, 0.85) 0%, rgba(107, 93, 71, 0.75) 100%);
-        z-index: 3;
-        pointer-events: none;
-    }
-
-    /* Ensure slick slider works properly */
-    .hero-slider.slick-initialized .slick-slide {
-        display: block;
-    }
-
-    .hero-slider.slick-initialized .slick-slide:not(.slick-active) {
-        opacity: 0;
-    }
-
-    .hero-slider.slick-initialized .slick-slide.slick-active {
-        opacity: 1;
-    }
-
-    .hero-content-wrapper {
-        position: relative;
-        z-index: 10;
-        padding: 80px 0;
-        width: 100%;
+        z-index: 2;
     }
 
     .hero-content {
-        text-align: center;
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        padding: 80px 0;
+    }
+
+    .hero-text {
         color: #ffffff;
-        animation: fadeInUp 1s ease-out;
     }
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Company Introduction */
-    .hero-company-intro {
-        margin-bottom: 50px;
-    }
-
-    .company-badge {
+    .hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 10px;
@@ -937,15 +827,14 @@
         border-radius: 50px;
         margin-bottom: 25px;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        animation: fadeInDown 0.8s ease-out;
     }
 
-    .company-badge i {
+    .hero-badge i {
         color: var(--colorPrimary);
         font-size: 18px;
     }
 
-    .company-badge span {
+    .hero-badge span {
         font-size: 14px;
         font-weight: 600;
         color: #ffffff;
@@ -956,129 +845,103 @@
         font-weight: 800;
         line-height: 1.2;
         margin-bottom: 25px;
+        color: #ffffff;
         text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-        animation: fadeInUp 1s ease-out 0.2s both;
     }
 
-    .title-highlight {
-        background: linear-gradient(135deg, #ffffff 0%, var(--colorPrimary) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        display: inline-block;
-    }
-
-    .hero-subtitle {
+    .hero-description {
         font-size: 20px;
         line-height: 1.8;
         max-width: 800px;
         margin: 0 auto 40px;
         color: rgba(255, 255, 255, 0.95);
         text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-        animation: fadeInUp 1s ease-out 0.4s both;
     }
 
-    /* Company Features */
     .hero-features {
         display: flex;
         justify-content: center;
-        gap: 40px;
-        margin-bottom: 50px;
+        gap: 30px;
+        margin-bottom: 40px;
         flex-wrap: wrap;
-        animation: fadeInUp 1s ease-out 0.6s both;
     }
 
-    .hero-features .feature-item {
-        display: flex;
-        align-items: center;
-        gap: 15px;
+    .hero-feature-item {
+        text-align: center;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
-        padding: 20px 30px;
+        padding: 25px 30px;
         border-radius: 15px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
-        min-width: 250px;
+        min-width: 220px;
     }
 
-    .hero-features .feature-item:hover {
+    .hero-feature-item:hover {
         background: rgba(255, 255, 255, 0.2);
         transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
-    .hero-features .feature-icon {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
+    .hero-feature-item i {
+        font-size: 40px;
+        color: var(--colorPrimary);
+        margin-bottom: 15px;
+        display: block;
     }
 
-    .hero-features .feature-icon i {
-        font-size: 24px;
-        color: #ffffff;
-    }
-
-    .hero-features .feature-content h4 {
+    .hero-feature-item h4 {
         font-size: 18px;
         font-weight: 700;
-        margin: 0 0 5px 0;
+        margin: 0 0 10px 0;
         color: #ffffff;
     }
 
-    .hero-features .feature-content p {
+    .hero-feature-item p {
         font-size: 14px;
         margin: 0;
         color: rgba(255, 255, 255, 0.9);
-        line-height: 1.5;
+        line-height: 1.6;
     }
 
-    /* Search Section */
-    .hero-search-section {
+    .hero-search {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         padding: 40px;
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        margin-bottom: 40px;
-        animation: fadeInUp 1s ease-out 0.8s both;
-    }
-
-    .search-header {
         margin-bottom: 30px;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .search-header h3 {
+    .hero-search h3 {
         font-size: 28px;
         font-weight: 700;
         color: var(--colorBlack);
         margin-bottom: 10px;
     }
 
-    .search-header p {
+    .search-subtitle {
         font-size: 16px;
         color: #666;
-        margin: 0;
+        margin-bottom: 25px;
     }
 
-    .hero-search-form .search-boxes {
+    .search-form .search-inputs {
         display: flex;
         gap: 15px;
         align-items: flex-end;
         flex-wrap: wrap;
     }
 
-    .search-box {
+    .search-form .input-group {
         flex: 1;
         min-width: 200px;
         position: relative;
     }
 
-    .search-box i {
+    .search-form .input-group i {
         position: absolute;
         right: 15px;
         top: 50%;
@@ -1088,25 +951,20 @@
         pointer-events: none;
     }
 
-    .search-box .form-control {
+    .search-form .input-group .form-control {
         padding-right: 45px;
         height: 55px;
         border: 2px solid #e0e0e0;
         border-radius: 12px;
         font-size: 16px;
-        transition: all 0.3s ease;
     }
 
-    .search-box .form-control:focus {
+    .search-form .input-group .form-control:focus {
         border-color: var(--colorPrimary);
         box-shadow: 0 0 0 3px rgba(107, 93, 71, 0.1);
     }
 
-    .search-button {
-        flex-shrink: 0;
-    }
-
-    .search-button .btn {
+    .search-btn {
         height: 55px;
         padding: 0 35px;
         font-size: 16px;
@@ -1115,16 +973,14 @@
         white-space: nowrap;
     }
 
-    /* Call to Action */
-    .hero-cta {
+    .hero-buttons {
         display: flex;
         justify-content: center;
         gap: 20px;
         flex-wrap: wrap;
-        animation: fadeInUp 1s ease-out 1s both;
     }
 
-    .hero-cta .btn {
+    .hero-buttons .btn {
         padding: 15px 35px;
         font-size: 16px;
         font-weight: 600;
@@ -1132,53 +988,52 @@
         transition: all 0.3s ease;
     }
 
-    .hero-cta .btn-outline-light {
+    .hero-buttons .btn-outline-light {
         border: 2px solid rgba(255, 255, 255, 0.5);
         color: #ffffff;
         background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
     }
 
-    .hero-cta .btn-outline-light:hover {
+    .hero-buttons .btn-outline-light:hover {
         background: rgba(255, 255, 255, 0.2);
         border-color: #ffffff;
-        transform: translateY(-2px);
     }
 
-    .hero-cta .btn-light {
+    .hero-buttons .btn-light {
         background: #ffffff;
         color: var(--colorPrimary);
-        border: 2px solid #ffffff;
     }
 
-    .hero-cta .btn-light:hover {
+    .hero-buttons .btn-light:hover {
         background: var(--colorPrimary);
         color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(107, 93, 71, 0.3);
     }
 
-    /* Responsive Design */
-    @media (max-width: 1200px) {
-        .hero-title {
-            font-size: 48px;
-        }
-
-        .hero-subtitle {
-            font-size: 18px;
-        }
-
-        .hero-features {
-            gap: 30px;
-        }
+    /* Hero Slider Dots */
+    .hero-slider .slick-dots {
+        bottom: 30px;
+        z-index: 15;
     }
 
+    .hero-slider .slick-dots li button {
+        width: 40px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+    }
+
+    .hero-slider .slick-dots li.slick-active button {
+        background: var(--colorPrimary);
+        width: 50px;
+    }
+
+    /* Responsive */
     @media (max-width: 991px) {
-        .hero-section {
+        .hero-section-modern {
             min-height: 600px;
         }
 
-        .hero-content-wrapper {
+        .hero-content {
             padding: 60px 0;
         }
 
@@ -1186,46 +1041,37 @@
             font-size: 40px;
         }
 
-        .hero-subtitle {
-            font-size: 16px;
+        .hero-description {
+            font-size: 18px;
         }
 
         .hero-features {
             gap: 20px;
         }
 
-        .hero-features .feature-item {
-            min-width: 200px;
-            padding: 15px 20px;
-        }
-
-        .hero-search-section {
+        .hero-search {
             padding: 30px 25px;
         }
 
-        .search-boxes {
+        .search-form .search-inputs {
             flex-direction: column;
         }
 
-        .search-box {
+        .search-form .input-group {
             width: 100%;
         }
 
-        .search-button {
-            width: 100%;
-        }
-
-        .search-button .btn {
+        .search-btn {
             width: 100%;
         }
     }
 
     @media (max-width: 768px) {
-        .hero-section {
+        .hero-section-modern {
             min-height: 550px;
         }
 
-        .hero-content-wrapper {
+        .hero-content {
             padding: 40px 0;
         }
 
@@ -1233,8 +1079,8 @@
             font-size: 32px;
         }
 
-        .hero-subtitle {
-            font-size: 15px;
+        .hero-description {
+            font-size: 16px;
             padding: 0 15px;
         }
 
@@ -1243,36 +1089,26 @@
             gap: 15px;
         }
 
-        .hero-features .feature-item {
+        .hero-feature-item {
             width: 100%;
             min-width: auto;
         }
 
-        .hero-search-section {
+        .hero-search {
             padding: 25px 20px;
-            border-radius: 15px;
         }
 
-        .search-header h3 {
-            font-size: 22px;
-        }
-
-        .search-header p {
-            font-size: 14px;
-        }
-
-        .hero-cta {
+        .hero-buttons {
             flex-direction: column;
-            width: 100%;
         }
 
-        .hero-cta .btn {
+        .hero-buttons .btn {
             width: 100%;
         }
     }
 
     @media (max-width: 480px) {
-        .hero-section {
+        .hero-section-modern {
             min-height: 500px;
         }
 
@@ -1280,50 +1116,19 @@
             font-size: 28px;
         }
 
-        .company-badge {
+        .hero-badge {
             padding: 10px 20px;
             font-size: 12px;
-        }
-
-        .hero-features .feature-icon {
-            width: 50px;
-            height: 50px;
-        }
-
-        .hero-features .feature-icon i {
-            font-size: 20px;
-        }
-
-        .hero-features .feature-content h4 {
-            font-size: 16px;
-        }
-
-        .hero-features .feature-content p {
-            font-size: 13px;
-        }
-
-        .hero-slider-area .slick-dots {
-            bottom: 20px;
-            gap: 6px;
-        }
-
-        .hero-slider-area .slick-dots li button {
-            width: 30px;
-            height: 4px;
-        }
-
-        .hero-slider-area .slick-dots li.slick-active button {
-            width: 40px;
         }
     }
 
     /* RTL Support */
-    [dir="rtl"] .search-box i {
+    [dir="rtl"] .search-form .input-group i {
         right: auto;
         left: 15px;
     }
 
-    [dir="rtl"] .search-box .form-control {
+    [dir="rtl"] .search-form .input-group .form-control {
         padding-right: 15px;
         padding-left: 45px;
     }
@@ -1358,6 +1163,16 @@
         overflow: visible;
     }
 
+    .testimonial-swiper-modern .swiper-wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .testimonial-swiper-modern .swiper-slide {
+        height: auto;
+        display: flex;
+    }
+
     .testimonial-card-modern {
         background: #ffffff;
         border-radius: 25px;
@@ -1367,10 +1182,12 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border: 2px solid transparent;
         margin: 20px 10px;
-        min-height: 400px;
+        height: 100%;
+        min-height: 450px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        width: 100%;
     }
 
     .testimonial-card-modern::before {
@@ -1616,7 +1433,7 @@
         .testimonial-card-modern {
             padding: 40px 30px;
             margin: 15px 5px;
-            min-height: 380px;
+            min-height: 400px;
         }
 
         .testimonial-text {
@@ -1664,7 +1481,7 @@
     @media (max-width: 480px) {
         .testimonial-card-modern {
             padding: 30px 20px;
-            min-height: 360px;
+            min-height: 380px;
         }
 
         .testimonial-text {
@@ -1741,6 +1558,16 @@
         overflow: visible;
     }
 
+    .blog-swiper-modern .swiper-wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .blog-swiper-modern .swiper-slide {
+        height: auto;
+        display: flex;
+    }
+
     .blog-card-modern {
         background: #ffffff;
         border-radius: 20px;
@@ -1750,8 +1577,10 @@
         border: 2px solid transparent;
         margin: 20px 10px;
         height: 100%;
+        min-height: 450px;
         display: flex;
         flex-direction: column;
+        width: 100%;
     }
 
     .blog-card-modern:hover {
@@ -1764,7 +1593,9 @@
         position: relative;
         overflow: hidden;
         height: 280px;
+        min-height: 280px;
         background: #f0f0f0;
+        flex-shrink: 0;
     }
 
     .blog-image {
@@ -2014,8 +1845,13 @@
             padding: 30px 0;
         }
 
+        .blog-card-modern {
+            min-height: 400px;
+        }
+
         .blog-image-wrapper {
             height: 240px;
+            min-height: 240px;
         }
 
         .blog-content {
@@ -2063,8 +1899,13 @@
     }
 
     @media (max-width: 480px) {
+        .blog-card-modern {
+            min-height: 380px;
+        }
+
         .blog-image-wrapper {
             height: 200px;
+            min-height: 200px;
         }
 
         .blog-content {
@@ -3254,14 +3095,11 @@
         if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
             const isRtl = document.documentElement.dir === 'rtl';
             
-            // Wait for slider to be ready
             setTimeout(function() {
-                // Destroy existing slider if any
                 if (jQuery('.hero-slider').hasClass('slick-initialized')) {
                     jQuery('.hero-slider').slick('unslick');
                 }
                 
-                // Initialize hero slider
                 jQuery('.hero-slider').slick({
                     slidesToShow: 1,
                     slidesToScroll: 1,
@@ -3274,28 +3112,9 @@
                     arrows: false,
                     rtl: isRtl,
                     pauseOnHover: true,
-                    pauseOnFocus: true,
                     infinite: true,
-                    lazyLoad: 'ondemand',
-                    adaptiveHeight: false,
                     swipe: true,
-                    touchMove: true,
-                    responsive: [
-                        {
-                            breakpoint: 768,
-                            settings: {
-                                speed: 800,
-                                autoplaySpeed: 4000,
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                speed: 600,
-                                autoplaySpeed: 3500,
-                            }
-                        }
-                    ]
+                    touchMove: true
                 });
             }, 100);
         }
@@ -3307,6 +3126,7 @@
                 slidesPerView: 1,
                 spaceBetween: 30,
                 loop: true,
+                autoHeight: false,
                 autoplay: {
                     delay: 5000,
                     disableOnInteraction: false,
@@ -3377,6 +3197,7 @@
                 slidesPerView: 1,
                 spaceBetween: 30,
                 loop: true,
+                autoHeight: false,
                 autoplay: {
                     delay: 4000,
                     disableOnInteraction: false,
