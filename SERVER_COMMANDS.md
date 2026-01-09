@@ -46,6 +46,23 @@ echo 'Settings updated and cache cleared!' . PHP_EOL;
 "
 ```
 
+## إذا كان whatsapp_login_status غير موجود (NOT FOUND)، قم بإنشائه:
+
+```bash
+php artisan tinker --execute="
+\Modules\GlobalSetting\app\Models\Setting::updateOrCreate(
+    ['key' => 'whatsapp_login_status'],
+    ['value' => 'active']
+);
+\Modules\GlobalSetting\app\Models\Setting::updateOrCreate(
+    ['key' => 'whatsapp_number'],
+    ['value' => '963912345678']
+);
+Cache::forget('setting');
+echo 'WhatsApp settings created and cache cleared!' . PHP_EOL;
+"
+```
+
 ## ملاحظة:
 بعد تنفيذ الأوامر، قم بتحديث الصفحة في المتصفح (Ctrl+F5) للتحقق من ظهور الأزرار.
 
