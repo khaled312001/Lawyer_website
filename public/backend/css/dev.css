@@ -1003,6 +1003,7 @@ select.wsus-select {
     overflow-y: auto !important;
     border-radius: 8px !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    background-color: #fff !important;
 }
 
 .notification-item {
@@ -1010,7 +1011,7 @@ select.wsus-select {
     border-bottom: 1px solid #f0f0f0 !important;
     transition: background 0.2s ease !important;
     text-decoration: none !important;
-    color: inherit !important;
+    color: #6c757d !important;
 }
 
 .notification-item:hover {
@@ -1131,6 +1132,7 @@ select.wsus-select {
     border: none !important;
     padding: 8px 0 !important;
     min-width: 150px !important;
+    background-color: #fff !important;
 }
 
 .navbar-left .setLanguageHeader .dropdown-menu .dropdown-item,
@@ -1139,6 +1141,7 @@ select.wsus-select {
     font-size: 14px !important;
     transition: all 0.2s ease !important;
     white-space: nowrap !important;
+    color: #6c757d !important;
 }
 
 .navbar-left .setLanguageHeader .dropdown-menu .dropdown-item:hover,
@@ -1192,12 +1195,14 @@ select.wsus-select {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     border: none !important;
     padding: 8px 0 !important;
+    background-color: #fff !important;
 }
 
 .navbar .dropdown-menu .dropdown-item {
     padding: 10px 20px !important;
     font-size: 14px !important;
     transition: all 0.2s ease !important;
+    color: #6c757d !important;
 }
 
 .navbar .dropdown-menu .dropdown-item:hover {
@@ -1209,6 +1214,23 @@ select.wsus-select {
     margin-right: 10px !important;
     width: 18px !important;
     text-align: center !important;
+    color: #6c757d !important;
+}
+
+.navbar .dropdown-menu .dropdown-header {
+    color: #191d21 !important;
+}
+
+.navbar .dropdown-menu .dropdown-header h6 {
+    color: #191d21 !important;
+}
+
+.navbar .dropdown-menu .dropdown-footer {
+    color: #6c757d !important;
+}
+
+.navbar .dropdown-menu .dropdown-footer a {
+    color: #6777ef !important;
 }
 
 /* Ensure navbar elements are visible */

@@ -267,18 +267,33 @@
             text-align: left;
         }
         
-        /* تحسين الجداول - نمط CV احترافي مع دعم RTL/LTR */
+        /* تحسين الجداول - تصميم مخطط احترافي مع دعم RTL/LTR */
         .info-content table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin: 30px 0;
+            margin: 35px 0;
             background: #fff;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             overflow: hidden;
-            border: 1px solid #e8e8e8;
+            border: 2px solid #e0e0e0;
             direction: inherit;
+            position: relative;
+        }
+        
+        /* إطار خارجي للجدول */
+        .info-content table::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0.1;
         }
         
         /* دعم RTL/LTR للجداول */
@@ -292,12 +307,13 @@
             direction: ltr;
         }
         
-        /* رأس الجدول - تصميم احترافي */
+        /* رأس الجدول - تصميم مخطط احترافي */
         .info-content table thead {
             background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
             background-color: #6b5d47;
             color: #ffffff;
             position: relative;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
         }
         
         .info-content table thead::after {
@@ -306,22 +322,36 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            height: 4px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.4) 100%);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .info-content table thead th {
-            padding: 20px 24px;
+            padding: 22px 28px;
             font-weight: 700;
-            font-size: 15px;
-            letter-spacing: 0.5px;
+            font-size: 16px;
+            letter-spacing: 0.8px;
             color: #ffffff !important;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
             border: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.25);
             position: relative;
             white-space: nowrap;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        
+        /* خط فاصل واضح بين الأعمدة في الرأس */
+        .info-content table thead th:not(:first-child) {
+            border-left: 2px solid rgba(255, 255, 255, 0.25);
+        }
+        
+        [dir="rtl"] .info-content table thead th:not(:first-child),
+        .info-content table[dir="rtl"] thead th:not(:first-child) {
+            border-left: none;
+            border-right: 2px solid rgba(255, 255, 255, 0.25);
         }
         
         /* محاذاة النص حسب الاتجاه */
@@ -335,33 +365,22 @@
             text-align: left;
         }
         
-        /* خط فاصل بين الأعمدة في الرأس */
-        .info-content table thead th:not(:last-child) {
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        
-        [dir="rtl"] .info-content table thead th:not(:last-child),
-        .info-content table[dir="rtl"] thead th:not(:last-child) {
-            border-left: none;
-            border-right: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        
         /* ضمان التباين الجيد في جميع الحالات */
         .info-content table thead[style*="background"] th,
         .info-content table thead th,
         .info-content table thead th[style*="color"] {
             color: #ffffff !important;
             background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
         }
         
-        /* صفوف الجدول - تصميم منظم */
+        /* صفوف الجدول - تصميم مخطط منظم */
         .info-content table tbody {
             background: #fff;
         }
         
         .info-content table tbody tr {
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 2px solid #e8e8e8;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #ffffff;
             position: relative;
@@ -372,25 +391,75 @@
         }
         
         .info-content table tbody tr:nth-child(even) {
-            background: #fafbfc;
+            background: #f8f9fa;
+        }
+        
+        .info-content table tbody tr:nth-child(odd) {
+            background: #ffffff;
         }
         
         .info-content table tbody tr:hover {
             background: #f5f3f0;
-            box-shadow: 0 4px 12px rgba(107, 93, 71, 0.12);
-            transform: translateY(-1px);
+            box-shadow: inset 0 0 0 2px rgba(107, 93, 71, 0.15), 0 4px 15px rgba(107, 93, 71, 0.15);
+            transform: translateY(-2px);
+            border-bottom-color: rgba(107, 93, 71, 0.3);
         }
         
-        /* خلايا الجدول - تصميم احترافي */
+        /* خلايا الجدول - تصميم مخطط احترافي */
         .info-content table tbody td {
-            padding: 18px 24px;
+            padding: 20px 28px;
             color: #2c3e50;
             font-size: 15px;
-            line-height: 1.7;
+            line-height: 1.8;
             border: none;
             background: transparent;
             vertical-align: middle;
             position: relative;
+            border-top: 1px solid transparent;
+        }
+        
+        /* خط فاصل واضح بين الأعمدة - مخطط احترافي */
+        .info-content table tbody td:not(:first-child) {
+            border-left: 2px solid #d0d0d0;
+            position: relative;
+        }
+        
+        [dir="rtl"] .info-content table tbody td:not(:first-child),
+        .info-content table[dir="rtl"] tbody td:not(:first-child) {
+            border-left: none;
+            border-right: 2px solid #d0d0d0;
+        }
+        
+        /* خط فاصل داخلي رفيع */
+        .info-content table tbody td:not(:first-child)::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 15%;
+            bottom: 15%;
+            width: 1px;
+            background: rgba(107, 93, 71, 0.1);
+        }
+        
+        [dir="rtl"] .info-content table tbody td:not(:first-child)::before,
+        .info-content table[dir="rtl"] tbody td:not(:first-child)::before {
+            left: auto;
+            right: -1px;
+        }
+        
+        /* تحسين الخط الفاصل عند hover */
+        .info-content table tbody tr:hover td:not(:first-child) {
+            border-left-color: rgba(107, 93, 71, 0.4);
+        }
+        
+        [dir="rtl"] .info-content table tbody tr:hover td:not(:first-child),
+        .info-content table[dir="rtl"] tbody tr:hover td:not(:first-child) {
+            border-left-color: transparent;
+            border-right-color: rgba(107, 93, 71, 0.4);
+        }
+        
+        .info-content table tbody tr:hover td:not(:first-child)::before {
+            background: rgba(107, 93, 71, 0.25);
         }
         
         /* محاذاة النص في الخلايا حسب الاتجاه */
@@ -404,70 +473,60 @@
             text-align: left;
         }
         
-        /* خط فاصل بين الأعمدة */
-        .info-content table tbody td:not(:last-child) {
-            border-left: 1px solid #f0f0f0;
-        }
-        
-        [dir="rtl"] .info-content table tbody td:not(:last-child),
-        .info-content table[dir="rtl"] tbody td:not(:last-child) {
-            border-left: none;
-            border-right: 1px solid #f0f0f0;
-        }
-        
-        .info-content table tbody tr:hover td:not(:last-child) {
-            border-left-color: rgba(107, 93, 71, 0.2);
-        }
-        
-        [dir="rtl"] .info-content table tbody tr:hover td:not(:last-child),
-        .info-content table[dir="rtl"] tbody tr:hover td:not(:last-child) {
-            border-left-color: transparent;
-            border-right-color: rgba(107, 93, 71, 0.2);
-        }
-        
-        /* العمود الأول - تصميم مميز */
+        /* العمود الأول - تصميم مخطط مميز */
         .info-content table tbody td:first-child {
-            font-weight: 600;
-            color: #2c3e50;
-            min-width: 150px;
-            width: 25%;
-            background: transparent;
+            font-weight: 700;
+            color: #1a252f;
+            min-width: 180px;
+            width: 28%;
+            background: linear-gradient(to right, rgba(107, 93, 71, 0.03), transparent);
             position: relative;
+            border-right: 2px solid #e8e8e8;
         }
         
-        [dir="rtl"] .info-content table tbody td:first-child::after,
-        .info-content table[dir="rtl"] tbody td:first-child::after {
+        [dir="rtl"] .info-content table tbody td:first-child {
+            background: linear-gradient(to left, rgba(107, 93, 71, 0.03), transparent);
+            border-right: none;
+            border-left: 2px solid #e8e8e8;
+        }
+        
+        /* خط عمودي مميز للعمود الأول */
+        [dir="rtl"] .info-content table tbody td:first-child::before,
+        .info-content table[dir="rtl"] tbody td:first-child::before {
             content: '';
             position: absolute;
             left: 0;
-            top: 20%;
-            bottom: 20%;
-            width: 3px;
-            background: linear-gradient(to bottom, #6b5d47, transparent);
-            border-radius: 2px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #6b5d47, rgba(107, 93, 71, 0.3));
             opacity: 0;
             transition: opacity 0.3s ease;
         }
         
-        [dir="ltr"] .info-content table tbody td:first-child::after,
-        .info-content table[dir="ltr"] tbody td:first-child::after {
+        [dir="ltr"] .info-content table tbody td:first-child::before,
+        .info-content table[dir="ltr"] tbody td:first-child::before {
             content: '';
             position: absolute;
             right: 0;
-            top: 20%;
-            bottom: 20%;
-            width: 3px;
-            background: linear-gradient(to bottom, #6b5d47, transparent);
-            border-radius: 2px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #6b5d47, rgba(107, 93, 71, 0.3));
             opacity: 0;
             transition: opacity 0.3s ease;
         }
         
         .info-content table tbody tr:hover td:first-child {
             color: #6b5d47;
+            background: linear-gradient(to right, rgba(107, 93, 71, 0.08), transparent);
         }
         
-        .info-content table tbody tr:hover td:first-child::after {
+        [dir="rtl"] .info-content table tbody tr:hover td:first-child {
+            background: linear-gradient(to left, rgba(107, 93, 71, 0.08), transparent);
+        }
+        
+        .info-content table tbody tr:hover td:first-child::before {
             opacity: 1;
         }
         
@@ -476,37 +535,63 @@
             background: transparent;
         }
         
+        .info-content table tbody tr:nth-child(even) td:first-child {
+            background: linear-gradient(to right, rgba(107, 93, 71, 0.02), transparent);
+        }
+        
+        [dir="rtl"] .info-content table tbody tr:nth-child(even) td:first-child {
+            background: linear-gradient(to left, rgba(107, 93, 71, 0.02), transparent);
+        }
+        
         /* تحسين الخطوط والتباعد */
         .info-content table tbody td strong {
             color: #1a252f;
             font-weight: 700;
+            font-size: 16px;
         }
         
         .info-content table tbody td em {
             color: #6b5d47;
             font-style: italic;
+            font-weight: 500;
+        }
+        
+        /* خط فاصل بين الصفوف - مخطط واضح */
+        .info-content table tbody tr:not(:first-child) {
+            border-top: 2px solid #e8e8e8;
+        }
+        
+        /* خط فاصل رفيع إضافي بين الصفوف */
+        .info-content table tbody tr + tr td {
+            border-top: 1px solid #f0f0f0;
         }
         
         /* تحسين الجدول على الشاشات الصغيرة */
         @media (max-width: 768px) {
             .info-content table {
                 border-radius: 8px;
-                margin: 20px 0;
+                margin: 25px 0;
+                border-width: 1px;
+            }
+            
+            .info-content table::before {
+                display: none;
             }
             
             .info-content table thead th {
-                padding: 14px 16px;
-                font-size: 14px;
+                padding: 16px 18px;
+                font-size: 13px;
+                letter-spacing: 0.5px;
             }
             
             .info-content table tbody td {
-                padding: 14px 16px;
+                padding: 16px 18px;
                 font-size: 14px;
             }
             
             .info-content table tbody td:first-child {
-                min-width: 120px;
-                width: 30%;
+                min-width: 140px;
+                width: 32%;
             }
         }
         
@@ -766,7 +851,7 @@
                 margin-bottom: 15px;
             }
             
-            /* تحسين الجداول على الموبايل مع دعم RTL/LTR */
+            /* تحسين الجداول على الموبايل مع دعم RTL/LTR - تصميم مخطط */
             .info-content table {
                 font-size: 13px;
                 display: block;
@@ -774,9 +859,10 @@
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 border-radius: 8px;
+                border-width: 1px;
             }
             
-            /* على الشاشات الصغيرة، نعرض الجدول بشكل عمودي */
+            /* على الشاشات الصغيرة، نعرض الجدول بشكل عمودي مخطط */
             .info-content table thead {
                 display: none;
             }
@@ -787,13 +873,28 @@
             
             .info-content table tbody tr {
                 display: block;
-                margin-bottom: 15px;
-                border: 1px solid #e0e0e0;
-                border-radius: 8px;
+                margin-bottom: 18px;
+                border: 2px solid #e0e0e0;
+                border-radius: 10px;
                 padding: 0;
                 background: #fff;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+                box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
                 overflow: hidden;
+                position: relative;
+            }
+            
+            .info-content table tbody tr::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(90deg, #6b5d47 0%, rgba(107, 93, 71, 0.5) 100%);
+            }
+            
+            [dir="rtl"] .info-content table tbody tr::before {
+                background: linear-gradient(270deg, #6b5d47 0%, rgba(107, 93, 71, 0.5) 100%);
             }
             
             .info-content table tbody tr:last-child {
@@ -801,10 +902,10 @@
             }
             
             .info-content table tbody td {
-                padding: 12px 16px;
+                padding: 14px 18px;
                 display: block;
                 border: none;
-                border-bottom: 1px solid #f0f0f0;
+                border-bottom: 2px solid #f0f0f0;
                 position: relative;
             }
             
@@ -823,36 +924,62 @@
                 border-bottom: none;
             }
             
-            /* إضافة تسمية للعمود الأول */
+            /* إضافة تسمية مخطط للعمود الأول */
             .info-content table tbody td:first-child {
                 background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
                 color: #ffffff !important;
                 font-weight: 700;
-                font-size: 14px;
-                padding: 14px 16px;
-                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+                font-size: 15px;
+                padding: 16px 18px;
+                border-bottom: 3px solid rgba(255, 255, 255, 0.25);
+                text-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                position: relative;
             }
             
-            [dir="rtl"] .info-content table tbody td:first-child::after,
-            .info-content table[dir="rtl"] tbody td:first-child::after {
+            .info-content table tbody td:first-child::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
+            }
+            
+            [dir="rtl"] .info-content table tbody td:first-child::after {
+                background: linear-gradient(270deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
+            }
+            
+            [dir="rtl"] .info-content table tbody td:first-child::before,
+            .info-content table[dir="rtl"] tbody td:first-child::before {
                 display: none;
             }
             
-            [dir="ltr"] .info-content table tbody td:first-child::after,
-            .info-content table[dir="ltr"] tbody td:first-child::after {
+            [dir="ltr"] .info-content table tbody td:first-child::before,
+            .info-content table[dir="ltr"] tbody td:first-child::before {
                 display: none;
             }
             
             /* إزالة الحدود الجانبية على الموبايل */
-            .info-content table tbody td:not(:last-child) {
+            .info-content table tbody td:not(:first-child) {
                 border-left: none;
                 border-right: none;
             }
             
             .info-content table tbody tr:hover {
                 transform: none;
-                box-shadow: 0 3px 12px rgba(107, 93, 71, 0.15);
+                box-shadow: 0 4px 15px rgba(107, 93, 71, 0.2);
+                border-color: rgba(107, 93, 71, 0.4);
+            }
+            
+            .info-content table tbody tr:hover::before {
+                background: linear-gradient(90deg, #6b5d47 0%, #8b7a5f 100%);
+            }
+            
+            [dir="rtl"] .info-content table tbody tr:hover::before {
+                background: linear-gradient(270deg, #6b5d47 0%, #8b7a5f 100%);
             }
             
             .info-content h2 {
