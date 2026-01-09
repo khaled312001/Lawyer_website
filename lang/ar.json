@@ -1646,5 +1646,18 @@
     "Invalid OTP. Please try again.": "رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.",
     "Too many attempts. Please request a new OTP.": "محاولات كثيرة. يرجى طلب رمز تحقق جديد.",
     "Phone number not found. Please try again.": "رقم الهاتف غير موجود. يرجى المحاولة مرة أخرى.",
-    "Your verification code is: :otp. Valid for 10 minutes.": "رمز التحقق الخاص بك هو: :otp. صالح لمدة 10 دقائق."
+    "Your verification code is: :otp. Valid for 10 minutes.": "رمز التحقق الخاص بك هو: :otp. صالح لمدة 10 دقائق.",
+    "Trusted Legal Services": "خدمات قانونية موثوقة",
+    "Professional Legal": "استشارة قانونية",
+    "Consultation": "احترافية",
+    "at Your Fingertips": "بين يديك",
+    "Get expert legal advice from experienced lawyers. Book your consultation online and receive professional guidance for all your legal matters. Fast, secure, and reliable legal services.": "احصل على استشارة قانونية من محامين ذوي خبرة. احجز استشارتك عبر الإنترنت واحصل على إرشادات احترافية لجميع شؤونك القانونية. خدمات قانونية سريعة وآمنة وموثوقة.",
+    "Expert Lawyers": "محامون خبراء",
+    "Online Consultation": "استشارة عبر الإنترنت",
+    "Fixed Prices": "أسعار ثابتة",
+    "Book Consultation Now": "احجز استشارة الآن",
+    "Our Services": "خدماتنا",
+    "Satisfied Clients": "عميل راضٍ",
+    "Cases Resolved": "قضية محلولة",
+    "Average Rating": "التقييم المتوسط"
 }

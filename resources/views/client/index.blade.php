@@ -10,11 +10,30 @@
     <!--Slider Start-->
     <div class="slider" id="main-slider">
         <div class="hero-section">
+            <!-- Background Slider -->
+            <div class="hero-background-slider">
+                @if($sliders->count() > 0)
+                    <div class="swiper hero-bg-swiper">
+                        <div class="swiper-wrapper">
+                            @foreach ($sliders as $item)
+                                <div class="swiper-slide">
+                                    <div class="hero-bg-slide" style="background-image: url('{{ url($item->image) }}');"></div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+            
+            <!-- Overlay -->
             <div class="hero-overlay"></div>
+            
+            <!-- Content -->
             <div class="d-flex align-items-center h_100_p">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-7">
+                        <!-- Left Section: Hero Content -->
+                        <div class="col-lg-6">
                             <div class="hero-content">
                                 <div class="hero-badge">
                                     <i class="fas fa-shield-alt"></i>
@@ -54,7 +73,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5">
+                        
+                        <!-- Right Section: Statistics -->
+                        <div class="col-lg-6">
                             <div class="hero-stats">
                                 @if($overviews->count() > 0)
                                     @foreach($overviews->take(4) as $overview)
@@ -112,21 +133,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="banner_slider_area">
-            <div class="banner_slider_overlay">
-                <div class="row banner_slider">
-                    @foreach ($sliders as $item)
-                        <div class="col-12">
-                            <div class="banner_slider_item">
-                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
     </div>
     <!--Slider End-->
 
@@ -789,19 +795,43 @@
         min-height: 600px;
         display: flex;
         align-items: center;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
         overflow: hidden;
     }
 
-    .hero-section::before {
+    /* Background Slider */
+    .hero-background-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+
+    .hero-bg-swiper {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-bg-slide {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .hero-bg-slide::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-        opacity: 0.5;
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.8) 50%, rgba(15, 52, 96, 0.85) 100%);
     }
 
     .hero-overlay {
@@ -813,6 +843,7 @@
         background: radial-gradient(circle at 30% 50%, rgba(107, 93, 71, 0.15) 0%, transparent 50%),
                     radial-gradient(circle at 70% 80%, rgba(107, 93, 71, 0.1) 0%, transparent 50%);
         pointer-events: none;
+        z-index: 1;
     }
 
     .hero-content {
@@ -820,6 +851,11 @@
         z-index: 2;
         color: #ffffff;
         padding: 40px 0;
+    }
+
+    .hero-stats {
+        position: relative;
+        z-index: 2;
     }
 
     .hero-badge {
@@ -944,8 +980,6 @@
     }
 
     .hero-stats {
-        position: relative;
-        z-index: 2;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
@@ -3073,6 +3107,24 @@
                     element.textContent = Math.floor(current).toLocaleString();
                 }
             }, 16);
+        }
+
+        // Hero Background Slider
+        if (typeof Swiper !== 'undefined') {
+            const heroBgSwiper = new Swiper('.hero-bg-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                speed: 1500,
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+            });
         }
 
         // Intersection Observer for counter animation
