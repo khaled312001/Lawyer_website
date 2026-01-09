@@ -24,99 +24,99 @@
             @endif
         </div>
         
-        <div class="hero-section">
-            <div class="hero-overlay"></div>
+        <div class="legal-hero-section">
+            <div class="legal-hero-overlay"></div>
             <div class="d-flex align-items-center h_100_p">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-5 order-lg-1">
-                            <div class="hero-stats">
+                        <div class="col-lg-5">
+                            <div class="legal-hero-stats">
                                 @if($overviews->count() > 0)
                                     @foreach($overviews->take(4) as $overview)
-                                        <div class="hero-stat-card">
-                                            <div class="stat-icon">
+                                        <div class="legal-stat-card">
+                                            <div class="legal-stat-icon">
                                                 <i class="{{ $overview?->icon }}"></i>
                                             </div>
-                                            <div class="stat-content">
-                                                <h3 class="stat-number" data-count="{{ $overview?->qty }}">0</h3>
-                                                <p class="stat-label">{{ $overview?->title }}</p>
+                                            <div class="legal-stat-content">
+                                                <h3 class="legal-stat-number" data-count="{{ $overview?->qty }}">0</h3>
+                                                <p class="legal-stat-label">{{ $overview?->title }}</p>
                                             </div>
                                         </div>
                                     @endforeach
                                 @else
-                                    <div class="hero-stat-card">
-                                        <div class="stat-icon">
+                                    <div class="legal-stat-card">
+                                        <div class="legal-stat-icon">
                                             <i class="fas fa-users"></i>
                                         </div>
-                                        <div class="stat-content">
-                                            <h3 class="stat-number">500+</h3>
-                                            <p class="stat-label">{{ __('Satisfied Clients') }}</p>
+                                        <div class="legal-stat-content">
+                                            <h3 class="legal-stat-number">500+</h3>
+                                            <p class="legal-stat-label">{{ __('Satisfied Clients') }}</p>
                                         </div>
                                     </div>
-                                    <div class="hero-stat-card">
-                                        <div class="stat-icon">
+                                    <div class="legal-stat-card">
+                                        <div class="legal-stat-icon">
                                             <i class="fas fa-gavel"></i>
                                         </div>
-                                        <div class="stat-content">
-                                            <h3 class="stat-number">50+</h3>
-                                            <p class="stat-label">{{ __('Expert Lawyers') }}</p>
+                                        <div class="legal-stat-content">
+                                            <h3 class="legal-stat-number">50+</h3>
+                                            <p class="legal-stat-label">{{ __('Expert Lawyers') }}</p>
                                         </div>
                                     </div>
-                                    <div class="hero-stat-card">
-                                        <div class="stat-icon">
+                                    <div class="legal-stat-card">
+                                        <div class="legal-stat-icon">
                                             <i class="fas fa-briefcase"></i>
                                         </div>
-                                        <div class="stat-content">
-                                            <h3 class="stat-number">1000+</h3>
-                                            <p class="stat-label">{{ __('Cases Resolved') }}</p>
+                                        <div class="legal-stat-content">
+                                            <h3 class="legal-stat-number">1000+</h3>
+                                            <p class="legal-stat-label">{{ __('Cases Resolved') }}</p>
                                         </div>
                                     </div>
-                                    <div class="hero-stat-card">
-                                        <div class="stat-icon">
+                                    <div class="legal-stat-card">
+                                        <div class="legal-stat-icon">
                                             <i class="fas fa-star"></i>
                                         </div>
-                                        <div class="stat-content">
-                                            <h3 class="stat-number">4.9</h3>
-                                            <p class="stat-label">{{ __('Average Rating') }}</p>
+                                        <div class="legal-stat-content">
+                                            <h3 class="legal-stat-number">4.9</h3>
+                                            <p class="legal-stat-label">{{ __('Average Rating') }}</p>
                                         </div>
                                     </div>
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-7 order-lg-2">
-                            <div class="hero-content">
-                                <div class="hero-badge">
+                        <div class="col-lg-7">
+                            <div class="legal-hero-content">
+                                <div class="legal-hero-badge">
                                     <i class="fas fa-shield-alt"></i>
                                     <span>{{ __('Trusted Legal Services') }}</span>
                                 </div>
-                                <h1 class="hero-title">
+                                <h1 class="legal-hero-title">
                                     {{ __('Professional Legal') }} 
-                                    <span class="highlight">{{ __('Consultation') }}</span>
+                                    <span class="legal-highlight">{{ __('Consultation') }}</span>
                                     {{ __('at Your Fingertips') }}
                                 </h1>
-                                <p class="hero-description">
+                                <p class="legal-hero-description">
                                     {{ __('Get expert legal advice from experienced lawyers. Book your consultation online and receive professional guidance for all your legal matters. Fast, secure, and reliable legal services.') }}
                                 </p>
-                                <div class="hero-features">
-                                    <div class="hero-feature-item">
+                                <div class="legal-hero-features">
+                                    <div class="legal-hero-feature-item">
                                         <i class="fas fa-check-circle"></i>
                                         <span>{{ __('Expert Lawyers') }}</span>
                                     </div>
-                                    <div class="hero-feature-item">
+                                    <div class="legal-hero-feature-item">
                                         <i class="fas fa-check-circle"></i>
                                         <span>{{ __('Online Consultation') }}</span>
                                     </div>
-                                    <div class="hero-feature-item">
+                                    <div class="legal-hero-feature-item">
                                         <i class="fas fa-check-circle"></i>
                                         <span>{{ __('Fixed Prices') }}</span>
                                     </div>
                                 </div>
-                                <div class="hero-buttons">
-                                    <a href="{{ route('website.book.appointment') }}" class="btn btn-hero-primary">
+                                <div class="legal-hero-buttons">
+                                    <a href="{{ route('website.book.appointment') }}" class="legal-hero-btn-primary">
                                         <i class="fas fa-calendar-check"></i>
                                         <span>{{ __('Book Consultation Now') }}</span>
                                     </a>
-                                    <a href="{{ route('website.services') }}" class="btn btn-hero-secondary">
+                                    <a href="{{ route('website.services') }}" class="legal-hero-btn-secondary">
                                         <i class="fas fa-info-circle"></i>
                                         <span>{{ __('Our Services') }}</span>
                                     </a>
@@ -855,8 +855,8 @@
         pointer-events: none;
     }
 
-    /* Hero Section Styles */
-    .hero-section {
+    /* Legal Hero Section Styles - New Classes */
+    .legal-hero-section {
         position: relative;
         min-height: 600px;
         display: flex;
@@ -864,7 +864,7 @@
         z-index: 2;
     }
 
-    .hero-overlay {
+    .legal-hero-overlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -879,14 +879,14 @@
         z-index: 1;
     }
 
-    .hero-content {
+    .legal-hero-content {
         position: relative;
         z-index: 3;
         color: #ffffff;
         padding: 40px 0;
     }
     
-    .hero-stats {
+    .legal-hero-stats {
         position: relative;
         z-index: 3;
         display: grid;
@@ -895,7 +895,7 @@
         padding: 20px 0;
     }
 
-    .hero-badge {
+    .legal-hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 8px;
@@ -908,28 +908,28 @@
         font-size: 14px;
         font-weight: 600;
         color: #ffffff;
-        animation: fadeInDown 0.8s ease;
+        animation: legalFadeInDown 0.8s ease;
     }
 
-    .hero-badge i {
+    .legal-hero-badge i {
         color: #d4af37;
         flex-shrink: 0;
     }
 
-    [dir="rtl"] .hero-badge {
+    [dir="rtl"] .legal-hero-badge {
         flex-direction: row-reverse;
     }
 
-    .hero-title {
+    .legal-hero-title {
         font-size: 48px;
         font-weight: 800;
         line-height: 1.2;
         margin-bottom: 20px;
         color: #ffffff;
-        animation: fadeInUp 0.8s ease 0.2s both;
+        animation: legalFadeInUp 0.8s ease 0.2s both;
     }
 
-    .hero-title .highlight {
+    .legal-hero-title .legal-highlight {
         background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -937,24 +937,24 @@
         position: relative;
     }
 
-    .hero-description {
+    .legal-hero-description {
         font-size: 18px;
         line-height: 1.8;
         color: rgba(255, 255, 255, 0.9);
         margin-bottom: 30px;
         max-width: 600px;
-        animation: fadeInUp 0.8s ease 0.4s both;
+        animation: legalFadeInUp 0.8s ease 0.4s both;
     }
 
-    .hero-features {
+    .legal-hero-features {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
         margin-bottom: 35px;
-        animation: fadeInUp 0.8s ease 0.6s both;
+        animation: legalFadeInUp 0.8s ease 0.6s both;
     }
 
-    .hero-feature-item {
+    .legal-hero-feature-item {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -963,24 +963,24 @@
         font-weight: 500;
     }
 
-    .hero-feature-item i {
+    .legal-hero-feature-item i {
         color: #d4af37;
         font-size: 18px;
         flex-shrink: 0;
     }
 
-    [dir="rtl"] .hero-feature-item {
+    [dir="rtl"] .legal-hero-feature-item {
         flex-direction: row-reverse;
     }
 
-    .hero-buttons {
+    .legal-hero-buttons {
         display: flex;
         gap: 15px;
         flex-wrap: wrap;
-        animation: fadeInUp 0.8s ease 0.8s both;
+        animation: legalFadeInUp 0.8s ease 0.8s both;
     }
 
-    .btn-hero-primary {
+    .legal-hero-btn-primary {
         padding: 16px 35px;
         font-size: 18px;
         font-weight: 700;
@@ -996,24 +996,24 @@
         text-decoration: none;
     }
 
-    .btn-hero-primary i,
-    .btn-hero-secondary i {
+    .legal-hero-btn-primary i,
+    .legal-hero-btn-secondary i {
         flex-shrink: 0;
     }
 
-    [dir="rtl"] .btn-hero-primary,
-    [dir="rtl"] .btn-hero-secondary {
+    [dir="rtl"] .legal-hero-btn-primary,
+    [dir="rtl"] .legal-hero-btn-secondary {
         flex-direction: row-reverse;
     }
 
-    .btn-hero-primary:hover {
+    .legal-hero-btn-primary:hover {
         transform: translateY(-3px);
         box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
         background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
         color: #1a1a2e;
     }
 
-    .btn-hero-secondary {
+    .legal-hero-btn-secondary {
         padding: 16px 35px;
         font-size: 18px;
         font-weight: 600;
@@ -1029,37 +1029,36 @@
         text-decoration: none;
     }
 
-    .btn-hero-secondary:hover {
+    .legal-hero-btn-secondary:hover {
         background: rgba(255, 255, 255, 0.2);
         border-color: rgba(255, 255, 255, 0.5);
         transform: translateY(-3px);
         color: #ffffff;
     }
 
-
-    .hero-stat-card {
+    .legal-stat-card {
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(15px);
         border-radius: 20px;
         padding: 25px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.4s ease;
-        animation: fadeInRight 0.8s ease both;
+        animation: legalFadeInRight 0.8s ease both;
     }
 
-    .hero-stat-card:nth-child(1) { animation-delay: 0.2s; }
-    .hero-stat-card:nth-child(2) { animation-delay: 0.4s; }
-    .hero-stat-card:nth-child(3) { animation-delay: 0.6s; }
-    .hero-stat-card:nth-child(4) { animation-delay: 0.8s; }
+    .legal-stat-card:nth-child(1) { animation-delay: 0.2s; }
+    .legal-stat-card:nth-child(2) { animation-delay: 0.4s; }
+    .legal-stat-card:nth-child(3) { animation-delay: 0.6s; }
+    .legal-stat-card:nth-child(4) { animation-delay: 0.8s; }
 
-    .hero-stat-card:hover {
+    .legal-stat-card:hover {
         transform: translateY(-10px);
         background: rgba(255, 255, 255, 0.15);
         box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         border-color: rgba(212, 175, 55, 0.5);
     }
 
-    .stat-icon {
+    .legal-stat-icon {
         width: 60px;
         height: 60px;
         background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
@@ -1071,12 +1070,12 @@
         box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
     }
 
-    .stat-icon i {
+    .legal-stat-icon i {
         font-size: 28px;
         color: #1a1a2e;
     }
 
-    .stat-number {
+    .legal-stat-number {
         font-size: 36px;
         font-weight: 800;
         color: #ffffff;
@@ -1084,15 +1083,15 @@
         line-height: 1;
     }
 
-    .stat-label {
+    .legal-stat-label {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.8);
         margin: 0;
         font-weight: 500;
     }
 
-    /* Animations */
-    @keyframes fadeInDown {
+    /* Legal Hero Animations */
+    @keyframes legalFadeInDown {
         from {
             opacity: 0;
             transform: translateY(-20px);
@@ -1103,7 +1102,7 @@
         }
     }
 
-    @keyframes fadeInUp {
+    @keyframes legalFadeInUp {
         from {
             opacity: 0;
             transform: translateY(30px);
@@ -1114,7 +1113,7 @@
         }
     }
 
-    @keyframes fadeInRight {
+    @keyframes legalFadeInRight {
         from {
             opacity: 0;
             transform: translateX(30px);
@@ -1157,9 +1156,9 @@
         visibility: visible !important;
     }
 
-    /* Responsive Design */
+    /* Legal Hero Responsive Design */
     @media (max-width: 991px) {
-        .hero-stats {
+        .legal-hero-stats {
             margin-top: 40px;
         }
         
@@ -1173,36 +1172,36 @@
             min-height: 550px;
         }
         
-        .hero-section {
+        .legal-hero-section {
             min-height: 550px;
             padding: 30px 0;
         }
 
-        .hero-content {
+        .legal-hero-content {
             padding: 20px 0;
             text-align: center;
         }
 
-        .hero-badge {
+        .legal-hero-badge {
             font-size: 12px;
             padding: 6px 16px;
             margin-bottom: 20px;
         }
 
-        .hero-title {
+        .legal-hero-title {
             font-size: 28px;
             line-height: 1.3;
             margin-bottom: 15px;
         }
 
-        .hero-description {
+        .legal-hero-description {
             font-size: 15px;
             line-height: 1.7;
             margin-bottom: 25px;
             padding: 0 10px;
         }
 
-        .hero-features {
+        .legal-hero-features {
             flex-direction: column;
             gap: 12px;
             margin-bottom: 25px;
@@ -1210,19 +1209,19 @@
             align-items: center;
         }
 
-        .hero-feature-item {
+        .legal-hero-feature-item {
             font-size: 14px;
             justify-content: center;
         }
 
-        .hero-buttons {
+        .legal-hero-buttons {
             flex-direction: column;
             gap: 12px;
             width: 100%;
         }
 
-        .btn-hero-primary,
-        .btn-hero-secondary {
+        .legal-hero-btn-primary,
+        .legal-hero-btn-secondary {
             width: 100%;
             max-width: 300px;
             margin: 0 auto;
@@ -1231,33 +1230,33 @@
             font-size: 15px;
         }
 
-        .hero-stats {
+        .legal-hero-stats {
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
             padding: 15px 0;
             margin-top: 30px;
         }
 
-        .hero-stat-card {
+        .legal-stat-card {
             padding: 18px 15px;
         }
 
-        .stat-icon {
+        .legal-stat-icon {
             width: 45px;
             height: 45px;
             margin-bottom: 12px;
         }
 
-        .stat-icon i {
+        .legal-stat-icon i {
             font-size: 22px;
         }
 
-        .stat-number {
+        .legal-stat-number {
             font-size: 26px;
             margin-bottom: 5px;
         }
 
-        .stat-label {
+        .legal-stat-label {
             font-size: 12px;
             line-height: 1.4;
         }
@@ -1268,327 +1267,245 @@
             min-height: 500px;
         }
 
-        .hero-section {
+        .legal-hero-section {
             min-height: 500px;
             padding: 25px 0;
         }
 
-        .hero-content {
+        .legal-hero-content {
             padding: 15px 0;
         }
 
-        .hero-badge {
+        .legal-hero-badge {
             font-size: 11px;
             padding: 5px 14px;
             margin-bottom: 15px;
         }
 
-        .hero-badge i {
+        .legal-hero-badge i {
             font-size: 12px;
         }
 
-        .hero-title {
+        .legal-hero-title {
             font-size: 24px;
             line-height: 1.25;
             margin-bottom: 12px;
         }
 
-        .hero-description {
+        .legal-hero-description {
             font-size: 14px;
             line-height: 1.6;
             margin-bottom: 20px;
             padding: 0 5px;
         }
 
-        .hero-features {
+        .legal-hero-features {
             gap: 10px;
             margin-bottom: 20px;
         }
 
-        .hero-feature-item {
+        .legal-hero-feature-item {
             font-size: 13px;
         }
 
-        .hero-feature-item i {
+        .legal-hero-feature-item i {
             font-size: 14px;
         }
 
-        .btn-hero-primary,
-        .btn-hero-secondary {
+        .legal-hero-btn-primary,
+        .legal-hero-btn-secondary {
             padding: 12px 20px;
             font-size: 14px;
             max-width: 100%;
         }
 
-        .btn-hero-primary i,
-        .btn-hero-secondary i {
+        .legal-hero-btn-primary i,
+        .legal-hero-btn-secondary i {
             font-size: 14px;
         }
 
-        .hero-stats {
+        .legal-hero-stats {
             grid-template-columns: 1fr;
             gap: 10px;
             padding: 10px 0;
             margin-top: 25px;
         }
 
-        .hero-stat-card {
+        .legal-stat-card {
             padding: 15px;
         }
 
-        .stat-icon {
+        .legal-stat-icon {
             width: 40px;
             height: 40px;
             margin-bottom: 10px;
         }
 
-        .stat-icon i {
+        .legal-stat-icon i {
             font-size: 20px;
         }
 
-        .stat-number {
+        .legal-stat-number {
             font-size: 22px;
         }
 
-        .stat-label {
+        .legal-stat-label {
             font-size: 11px;
         }
     }
 
-    /* RTL Support */
-    [dir="rtl"] .hero-content {
+    /* Legal Hero RTL Support */
+    [dir="rtl"] .legal-hero-content {
         text-align: right;
     }
 
-    [dir="rtl"] .hero-badge {
+    [dir="rtl"] .legal-hero-badge {
         direction: rtl;
     }
 
-    [dir="rtl"] .hero-badge i {
+    [dir="rtl"] .legal-hero-badge i {
         margin-left: 8px;
         margin-right: 0;
     }
 
-    [dir="rtl"] .hero-title {
+    [dir="rtl"] .legal-hero-title {
         text-align: right;
         direction: rtl;
     }
 
-    [dir="rtl"] .hero-description {
+    [dir="rtl"] .legal-hero-description {
         text-align: right;
         direction: rtl;
     }
 
-    [dir="rtl"] .hero-buttons {
+    [dir="rtl"] .legal-hero-buttons {
         flex-direction: row-reverse;
         justify-content: flex-start;
     }
 
-    [dir="rtl"] .hero-features {
+    [dir="rtl"] .legal-hero-features {
         flex-direction: row-reverse;
         justify-content: flex-start;
     }
 
-    [dir="rtl"] .hero-feature-item {
+    [dir="rtl"] .legal-hero-feature-item {
         flex-direction: row-reverse;
         justify-content: flex-start;
     }
 
-    [dir="rtl"] .hero-feature-item i {
+    [dir="rtl"] .legal-hero-feature-item i {
         order: 2;
         margin-left: 10px;
         margin-right: 0;
     }
 
-    [dir="rtl"] .hero-feature-item span {
+    [dir="rtl"] .legal-hero-feature-item span {
         order: 1;
-    }
-
-    /* RTL: الأرقام على اليسار والمحتوى على اليمين */
-    [dir="rtl"] .row.align-items-center {
-        flex-direction: row;
-        display: flex;
     }
 
     /* RTL: الإحصائيات على اليسار والمحتوى على اليمين */
-    [dir="rtl"] .col-lg-5.order-lg-1 {
-        order: 1 !important;
-        padding-right: 0 !important;
-        padding-left: 50px !important;
-        flex: 0 0 41.666667%;
-        max-width: 41.666667%;
-    }
-
-    [dir="rtl"] .col-lg-7.order-lg-2 {
-        order: 2 !important;
-        padding-left: 0 !important;
-        padding-right: 50px !important;
-        flex: 0 0 58.333333%;
-        max-width: 58.333333%;
-    }
-
-    /* زيادة التباعد بين الأقسام في RTL */
-    [dir="rtl"] .row.align-items-center > .col-lg-5.order-lg-1 {
-        margin-right: 0;
-        margin-left: 0;
-    }
-
-    [dir="rtl"] .row.align-items-center > .col-lg-7.order-lg-2 {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    /* LTR: الأرقام على اليمين والمحتوى على اليسار (ثابت) */
-    [dir="ltr"] .row.align-items-center,
-    html:not([dir="rtl"]) .row.align-items-center {
+    [dir="rtl"] .legal-hero-section .row.align-items-center {
         flex-direction: row;
         display: flex;
     }
 
-    /* LTR: الإحصائيات على اليسار والمحتوى على اليمين */
-    [dir="ltr"] .col-lg-5.order-lg-1,
-    html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
-        order: 1;
-        padding-right: 50px;
-        padding-left: 0;
-        flex: 0 0 41.666667%;
-        max-width: 41.666667%;
+    [dir="rtl"] .legal-hero-section .col-lg-5 {
+        order: 1 !important;
+        padding-right: 0 !important;
+        padding-left: 50px !important;
     }
 
-    [dir="ltr"] .col-lg-7.order-lg-2,
-    html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
-        order: 2;
-        padding-left: 50px;
-        padding-right: 0;
-        flex: 0 0 58.333333%;
-        max-width: 58.333333%;
+    [dir="rtl"] .legal-hero-section .col-lg-7 {
+        order: 2 !important;
+        padding-left: 0 !important;
+        padding-right: 50px !important;
     }
 
-    /* زيادة التباعد بين الأقسام في LTR */
-    [dir="ltr"] .row.align-items-center > .col-lg-5.order-lg-1,
-    html:not([dir="rtl"]) .row.align-items-center > .col-lg-5.order-lg-1 {
-        margin-left: 0;
-        margin-right: 0;
-    }
-
-    [dir="ltr"] .row.align-items-center > .col-lg-7.order-lg-2,
-    html:not([dir="rtl"]) .row.align-items-center > .col-lg-7.order-lg-2 {
-        margin-right: 0;
-        margin-left: 0;
-    }
-
-    [dir="rtl"] .hero-stats {
+    [dir="rtl"] .legal-hero-stats {
         direction: rtl;
     }
 
-    [dir="rtl"] .stat-content {
+    [dir="rtl"] .legal-stat-content {
         text-align: right;
+    }
+
+    /* LTR: الإحصائيات على اليسار والمحتوى على اليمين */
+    [dir="ltr"] .legal-hero-section .row.align-items-center,
+    html:not([dir="rtl"]) .legal-hero-section .row.align-items-center {
+        flex-direction: row;
+        display: flex;
+    }
+
+    [dir="ltr"] .legal-hero-section .col-lg-5,
+    html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
+        order: 1;
+        padding-right: 50px;
+        padding-left: 0;
+    }
+
+    [dir="ltr"] .legal-hero-section .col-lg-7,
+    html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
+        order: 2;
+        padding-left: 50px;
+        padding-right: 0;
     }
 
     /* RTL Mobile Support */
     @media (max-width: 768px) {
-        /* على الموبايل، الترتيب الطبيعي (الإحصائيات أولاً ثم المحتوى) */
-        [dir="rtl"] .col-lg-5.order-lg-1 {
-            order: 1 !important;
+        [dir="rtl"] .legal-hero-section .col-lg-5,
+        [dir="rtl"] .legal-hero-section .col-lg-7 {
             padding-left: 15px !important;
             padding-right: 15px !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
         }
 
-        [dir="rtl"] .col-lg-7.order-lg-2 {
-            order: 2 !important;
+        [dir="ltr"] .legal-hero-section .col-lg-5,
+        [dir="ltr"] .legal-hero-section .col-lg-7,
+        html:not([dir="rtl"]) .legal-hero-section .col-lg-5,
+        html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
             padding-left: 15px !important;
             padding-right: 15px !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
         }
 
-        [dir="ltr"] .col-lg-5.order-lg-1,
-        html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-        }
-
-        [dir="ltr"] .col-lg-7.order-lg-2,
-        html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-        }
-
-        [dir="rtl"] .hero-content {
+        [dir="rtl"] .legal-hero-content {
             text-align: center;
         }
 
-        [dir="rtl"] .hero-title {
+        [dir="rtl"] .legal-hero-title {
             text-align: center;
         }
 
-        [dir="rtl"] .hero-description {
+        [dir="rtl"] .legal-hero-description {
             text-align: center;
         }
 
-        [dir="rtl"] .hero-features {
+        [dir="rtl"] .legal-hero-features {
             align-items: center;
         }
 
-        [dir="rtl"] .hero-feature-item {
+        [dir="rtl"] .legal-hero-feature-item {
             justify-content: center;
         }
 
-        [dir="rtl"] .hero-buttons {
+        [dir="rtl"] .legal-hero-buttons {
             justify-content: center;
         }
 
-        [dir="rtl"] .stat-content {
+        [dir="rtl"] .legal-stat-content {
             text-align: center;
-        }
-
-        /* LTR على الموبايل: الإحصائيات أولاً ثم المحتوى */
-        [dir="ltr"] .col-lg-5.order-lg-1,
-        html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
-            order: 1 !important;
-        }
-
-        [dir="ltr"] .col-lg-7.order-lg-2,
-        html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
-            order: 2 !important;
         }
     }
 
     @media (max-width: 480px) {
-        [dir="rtl"] .col-lg-5.order-lg-1 {
-            order: 1 !important;
-        }
-
-        [dir="rtl"] .col-lg-7.order-lg-2 {
-            order: 2 !important;
-        }
-
-        [dir="rtl"] .hero-content {
+        [dir="rtl"] .legal-hero-content {
             text-align: center;
         }
 
-        [dir="rtl"] .hero-title {
+        [dir="rtl"] .legal-hero-title {
             text-align: center;
         }
 
-        [dir="rtl"] .hero-description {
+        [dir="rtl"] .legal-hero-description {
             text-align: center;
-        }
-
-        [dir="ltr"] .col-lg-5.order-lg-1,
-        html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
-            order: 1 !important;
-        }
-
-        [dir="ltr"] .col-lg-7.order-lg-2,
-        html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
-            order: 2 !important;
         }
     }
 
