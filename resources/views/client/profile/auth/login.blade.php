@@ -30,15 +30,14 @@
                     <div class="login_area_bg">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link @if (request('type') != 'lawyer') active @endif" id="pills-home-tab"
-                                    data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab"
-                                    aria-controls="pills-home" aria-selected="true">{{ __('Client') }}</button>
+                                <a href="{{ route('login') }}" class="nav-link @if (request('type') != 'lawyer') active @endif" id="pills-home-tab"
+                                    role="tab"
+                                    aria-controls="pills-home" aria-selected="true">{{ __('Client') }}</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link @if (request('type') == 'lawyer') active @endif"
-                                    id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
-                                    type="button" role="tab" aria-controls="pills-profile"
-                                    aria-selected="false">{{ __('Lawyer') }}</button>
+                                <a href="{{ route('login', ['type' => 'lawyer']) }}" class="nav-link @if (request('type') == 'lawyer') active @endif"
+                                    id="pills-profile-tab" role="tab" aria-controls="pills-profile"
+                                    aria-selected="false">{{ __('Lawyer') }}</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="pills-tabContent">
@@ -191,4 +190,39 @@
 @endsection
 @push('js')
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        // Ensure correct tab is shown based on URL parameter
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type');
+            
+            if (type === 'lawyer') {
+                // Show lawyer tab
+                const lawyerTab = document.getElementById('pills-profile-tab');
+                const lawyerPane = document.getElementById('pills-profile');
+                const clientTab = document.getElementById('pills-home-tab');
+                const clientPane = document.getElementById('pills-home');
+                
+                if (lawyerTab && lawyerPane && clientTab && clientPane) {
+                    lawyerTab.classList.add('active');
+                    lawyerPane.classList.add('show', 'active');
+                    clientTab.classList.remove('active');
+                    clientPane.classList.remove('show', 'active');
+                }
+            } else {
+                // Show client tab (default)
+                const lawyerTab = document.getElementById('pills-profile-tab');
+                const lawyerPane = document.getElementById('pills-profile');
+                const clientTab = document.getElementById('pills-home-tab');
+                const clientPane = document.getElementById('pills-home');
+                
+                if (lawyerTab && lawyerPane && clientTab && clientPane) {
+                    clientTab.classList.add('active');
+                    clientPane.classList.add('show', 'active');
+                    lawyerTab.classList.remove('active');
+                    lawyerPane.classList.remove('show', 'active');
+                }
+            }
+        });
+    </script>
 @endpush

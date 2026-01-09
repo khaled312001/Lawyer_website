@@ -1,9 +1,19 @@
 @php
     $lawyer = lawyerAuth();
-    $un_seen_message = App\Models\Message::where([
-        'lawyer_id' => $lawyer?->id,
-        'lawyer_view' => 0,
-    ])->count();
+    
+    // Get unread messages for lawyer using new structure
+    // Messages where lawyer is receiver and message is not read and sender is not the lawyer
+    $un_seen_message = App\Models\Message::whereHas('conversation', function($query) use ($lawyer) {
+        $query->where(function($q) use ($lawyer) {
+            // Lawyer is receiver
+            $q->where('receiver_type', 'Modules\Lawyer\app\Models\Lawyer')
+              ->where('receiver_id', $lawyer?->id);
+        });
+    })
+    ->where('is_read', false)
+    ->where('sender_type', '!=', 'Modules\Lawyer\app\Models\Lawyer')
+    ->count();
+    
     $not_treated = $lawyer->appointments()->paymentSuccess()->notTreated()->count();
 
     $now = now();

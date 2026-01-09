@@ -20,10 +20,21 @@ class MessageController extends Controller
     {
         $lawyer = Auth::guard('lawyer')->user();
         
-        $conversations = Conversation::where('lawyer_id', $lawyer->id)
-            ->with(['user', 'latestMessage'])
-            ->orderBy('last_message_at', 'desc')
-            ->get();
+        $conversations = Conversation::where(function($query) use ($lawyer) {
+            // Lawyer is receiver
+            $query->where(function($q) use ($lawyer) {
+                $q->where('receiver_type', Lawyer::class)
+                  ->where('receiver_id', $lawyer->id);
+            })
+            // Or lawyer is sender
+            ->orWhere(function($q) use ($lawyer) {
+                $q->where('sender_type', Lawyer::class)
+                  ->where('sender_id', $lawyer->id);
+            });
+        })
+        ->with(['sender', 'receiver', 'latestMessage'])
+        ->orderBy('last_message_at', 'desc')
+        ->get();
         
         return view('lawyer.messages.index', compact('conversations'));
     }
@@ -36,13 +47,24 @@ class MessageController extends Controller
         $lawyer = Auth::guard('lawyer')->user();
         
         $conversation = Conversation::where('id', $conversationId)
-            ->where('lawyer_id', $lawyer->id)
-            ->with(['user', 'messages.sender'])
+            ->where(function($query) use ($lawyer) {
+                // Lawyer is receiver
+                $query->where(function($q) use ($lawyer) {
+                    $q->where('receiver_type', Lawyer::class)
+                      ->where('receiver_id', $lawyer->id);
+                })
+                // Or lawyer is sender
+                ->orWhere(function($q) use ($lawyer) {
+                    $q->where('sender_type', Lawyer::class)
+                      ->where('sender_id', $lawyer->id);
+                });
+            })
+            ->with(['sender', 'receiver', 'messages.sender'])
             ->firstOrFail();
         
-        // Mark all client messages as read
+        // Mark all client messages as read (messages not sent by lawyer)
         $conversation->messages()
-            ->where('sender_type', 'App\Models\User')
+            ->where('sender_type', '!=', Lawyer::class)
             ->where('is_read', false)
             ->update(['is_read' => true, 'read_at' => now()]);
         
@@ -62,7 +84,18 @@ class MessageController extends Controller
         $lawyer = Auth::guard('lawyer')->user();
         
         $conversation = Conversation::where('id', $conversationId)
-            ->where('lawyer_id', $lawyer->id)
+            ->where(function($query) use ($lawyer) {
+                // Lawyer is receiver
+                $query->where(function($q) use ($lawyer) {
+                    $q->where('receiver_type', Lawyer::class)
+                      ->where('receiver_id', $lawyer->id);
+                })
+                // Or lawyer is sender
+                ->orWhere(function($q) use ($lawyer) {
+                    $q->where('sender_type', Lawyer::class)
+                      ->where('sender_id', $lawyer->id);
+                });
+            })
             ->firstOrFail();
         
         $attachmentPath = null;
