@@ -17,7 +17,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\WhatsAppAuthController;
 
-Route::middleware(['guest:web', 'maintenance.mode', 'translation'])->group(function () {
+Route::middleware(['guest:web,lawyer,admin', 'maintenance.mode', 'translation'])->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store'])->name('client-register');
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');

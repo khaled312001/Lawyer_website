@@ -17,7 +17,19 @@ class RedirectIfAuthenticated {
     public function handle(Request $request, Closure $next, string ...$guards): Response {
         $guards = empty($guards) ? [null] : $guards;
 
+        // Parse comma-separated guards if any
+        $parsedGuards = [];
         foreach ($guards as $guard) {
+            if (str_contains($guard, ',')) {
+                $parsedGuards = array_merge($parsedGuards, explode(',', $guard));
+            } else {
+                $parsedGuards[] = $guard;
+            }
+        }
+        $guards = $parsedGuards;
+
+        foreach ($guards as $guard) {
+            $guard = trim($guard);
             if (Auth::guard($guard)->check()) {
                 if ($guard == 'admin') {
                     return redirect(RouteServiceProvider::ADMIN);
