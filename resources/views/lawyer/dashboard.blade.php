@@ -9,13 +9,13 @@
 
             <!-- Notifications Button -->
             <div class="mb-3 d-flex justify-content-end">
-                <div class="dropdown">
-                    <a href="javascript:;" data-bs-toggle="dropdown" class="btn btn-primary position-relative notification-btn">
+                <div class="dropdown" id="lawyer-dashboard-notification-dropdown">
+                    <button type="button" class="btn btn-primary position-relative notification-btn" id="lawyer-dashboard-notification-btn" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell"></i>
                         <span class="notification-badge badge bg-danger" id="lawyer-dashboard-notification-count" style="display: none; position: absolute; top: -5px; right: -5px; border-radius: 50%; padding: 2px 6px; font-size: 10px;">0</span>
                         <span class="ms-2">{{ __('Notifications') }}</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu" id="lawyer-dashboard-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
                         <div class="dropdown-header d-flex justify-content-between align-items-center">
                             <h6 class="mb-0">{{ __('Notifications') }}</h6>
                             <a href="javascript:;" class="text-primary small mark-all-read-dashboard" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
@@ -324,6 +324,12 @@
 
         // Notifications functionality for Lawyer Dashboard
         $(document).ready(function() {
+            // Initialize Bootstrap dropdown
+            var dropdownElement = document.getElementById('lawyer-dashboard-notification-dropdown');
+            if (dropdownElement) {
+                var dropdown = new bootstrap.Dropdown(dropdownElement.querySelector('[data-bs-toggle="dropdown"]'));
+            }
+
             // Load notifications
             function loadDashboardNotifications() {
                 $.ajax({
@@ -452,6 +458,26 @@
             
             // Refresh notifications every 30 seconds
             setInterval(loadDashboardNotifications, 30000);
+
+            // Toggle dropdown on button click (fallback)
+            $('#lawyer-dashboard-notification-btn').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var menu = $('#lawyer-dashboard-notification-menu');
+                if (menu.hasClass('show')) {
+                    menu.removeClass('show');
+                } else {
+                    menu.addClass('show');
+                    loadDashboardNotifications();
+                }
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#lawyer-dashboard-notification-dropdown').length) {
+                    $('#lawyer-dashboard-notification-menu').removeClass('show');
+                }
+            });
         });
     </script>
 @endpush
