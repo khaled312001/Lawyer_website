@@ -488,11 +488,31 @@ img.mr-3.ml-3.rounded-circle {
         display: flex !important;
         align-items: center !important;
         flex-direction: row !important;
+        gap: 4px !important;
     }
     
     .lawyer_nav li {
         display: flex !important;
         align-items: center !important;
+        margin: 0 !important;
+        padding: 0 2px !important;
+    }
+    
+    .lawyer_nav .nav-link-lg {
+        padding: 6px 8px !important;
+        margin: 0 !important;
+    }
+    
+    .lawyer_nav .nav-link-user {
+        padding: 4px 8px !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+    }
+    
+    .lawyer_nav .nav-link-user img {
+        width: 28px !important;
+        height: 28px !important;
+        margin-right: 6px !important;
     }
 
     .lawyer_dashboard_layout .main-content {
@@ -728,13 +748,32 @@ select.wsus-select {
     width: 100% !important;
     box-sizing: border-box !important;
     justify-content: space-between !important;
-    gap: 6px !important;
+    gap: 4px !important;
     position: relative !important;
 }
 
 /* Ensure navbar container uses full width */
 .main-navbar > * {
     flex-shrink: 0 !important;
+}
+
+/* Lawyer Navbar - Ensure all elements are visible */
+.main-navbar .lawyer_nav {
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+    overflow: visible !important;
+}
+
+.main-navbar .lawyer_nav .nav-link-user {
+    max-width: 200px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.main-navbar .lawyer_nav .nav-link-user div {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 120px !important;
 }
 
 /* Prevent overflow issues */

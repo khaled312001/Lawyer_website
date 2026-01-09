@@ -26,7 +26,7 @@ class ContactInfoSeeder extends Seeder {
                 'header'      => 'Contact Us',
                 'description' => 'Please fill in the following form to contact us quickly.',
                 'about'       => 'We provide expert legal services in Syria with professional legal representation and consultation. Our experienced legal team specializes in all areas of Syrian law and ensures personalized, dedicated representation for your legal matters. Book your consultation today for trusted legal support.',
-                'copyright'   => "Copyright 2025, Syrian Law Firm. All Rights Reserved.",
+                'copyright'   => "Copyright 2026, Syrian Law Firm. All Rights Reserved.",
             ],
             [
                 'lang_code'   => 'ar',
