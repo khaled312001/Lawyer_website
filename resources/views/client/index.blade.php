@@ -9,31 +9,27 @@
 
     <!--Slider Start-->
     <div class="slider" id="main-slider">
-        <div class="hero-section">
-            <!-- Background Slider -->
-            <div class="hero-background-slider">
-                @if($sliders->count() > 0)
-                    <div class="swiper hero-bg-swiper">
-                        <div class="swiper-wrapper">
-                            @foreach ($sliders as $item)
-                                <div class="swiper-slide">
-                                    <div class="hero-bg-slide" style="background-image: url('{{ url($item->image) }}');"></div>
-                                </div>
-                            @endforeach
+        <div class="banner_slider_area">
+            <div class="banner_slider_overlay"></div>
+            @if($sliders->count() > 0)
+                <div class="row banner_slider">
+                    @foreach ($sliders as $item)
+                        <div class="col-12">
+                            <div class="banner_slider_item">
+                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
+                            </div>
                         </div>
-                    </div>
-                @endif
-            </div>
-            
-            <!-- Overlay -->
+                    @endforeach
+                </div>
+            @endif
+        </div>
+        
+        <div class="hero-section">
             <div class="hero-overlay"></div>
-            
-            <!-- Content -->
             <div class="d-flex align-items-center h_100_p">
                 <div class="container">
                     <div class="row align-items-center">
-                        <!-- Left Section: Hero Content -->
-                        <div class="col-lg-6">
+                        <div class="col-lg-7">
                             <div class="hero-content">
                                 <div class="hero-badge">
                                     <i class="fas fa-shield-alt"></i>
@@ -73,9 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Right Section: Statistics -->
-                        <div class="col-lg-6">
+                        <div class="col-lg-5">
                             <div class="hero-stats">
                                 @if($overviews->count() > 0)
                                     @foreach($overviews->take(4) as $overview)
@@ -789,49 +783,56 @@
 
 @push('css')
 <style>
+    /* Slider Background Styles */
+    #main-slider {
+        position: relative;
+        min-height: 600px;
+        overflow: hidden;
+    }
+
+    .banner_slider_area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .banner_slider_area .banner_slider {
+        height: 100%;
+    }
+
+    .banner_slider_area .banner_slider_item {
+        height: 100%;
+        position: relative;
+    }
+
+    .banner_slider_area .banner_slider_item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .banner_slider_overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.80) 50%, rgba(15, 52, 96, 0.85) 100%);
+        z-index: 1;
+    }
+
     /* Hero Section Styles */
     .hero-section {
         position: relative;
         min-height: 600px;
         display: flex;
         align-items: center;
-        overflow: hidden;
-    }
-
-    /* Background Slider */
-    .hero-background-slider {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-    }
-
-    .hero-bg-swiper {
-        width: 100%;
-        height: 100%;
-    }
-
-    .hero-bg-slide {
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: relative;
-    }
-
-    .hero-bg-slide::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.8) 50%, rgba(15, 52, 96, 0.85) 100%);
+        z-index: 2;
     }
 
     .hero-overlay {
@@ -840,8 +841,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at 30% 50%, rgba(107, 93, 71, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 70% 80%, rgba(107, 93, 71, 0.1) 0%, transparent 50%);
+        background: radial-gradient(circle at 30% 50%, rgba(107, 93, 71, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 80%, rgba(107, 93, 71, 0.08) 0%, transparent 50%);
         pointer-events: none;
         z-index: 1;
     }
@@ -851,11 +852,6 @@
         z-index: 2;
         color: #ffffff;
         padding: 40px 0;
-    }
-
-    .hero-stats {
-        position: relative;
-        z-index: 2;
     }
 
     .hero-badge {
@@ -980,6 +976,8 @@
     }
 
     .hero-stats {
+        position: relative;
+        z-index: 2;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
@@ -1074,14 +1072,48 @@
         }
     }
 
+    /* Ensure slider works as background */
+    #main-slider .banner_slider_area {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #main-slider .banner_slider {
+        height: 100%;
+    }
+
+    #main-slider .banner_slider .slick-list,
+    #main-slider .banner_slider .slick-track {
+        height: 100%;
+    }
+
+    #main-slider .banner_slider .slick-slide {
+        height: 100%;
+    }
+
+    #main-slider .banner_slider .slick-slide > div {
+        height: 100%;
+    }
+
     /* Responsive Design */
     @media (max-width: 991px) {
         .hero-stats {
             margin-top: 40px;
         }
+        
+        #main-slider {
+            min-height: 500px;
+        }
     }
 
     @media (max-width: 768px) {
+        #main-slider {
+            min-height: 500px;
+        }
+        
         .hero-section {
             min-height: 500px;
             padding: 40px 0;
@@ -3107,24 +3139,6 @@
                     element.textContent = Math.floor(current).toLocaleString();
                 }
             }, 16);
-        }
-
-        // Hero Background Slider
-        if (typeof Swiper !== 'undefined') {
-            const heroBgSwiper = new Swiper('.hero-bg-swiper', {
-                slidesPerView: 1,
-                spaceBetween: 0,
-                loop: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                speed: 1500,
-                effect: 'fade',
-                fadeEffect: {
-                    crossFade: true
-                },
-            });
         }
 
         // Intersection Observer for counter animation
