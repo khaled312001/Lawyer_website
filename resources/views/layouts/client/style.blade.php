@@ -850,11 +850,15 @@
         background: #fff;
         overflow: visible !important;
         max-height: none !important;
+        width: 100%;
+        display: block;
     }
 
     .side-menu-item {
         border-bottom: 1px solid #f0f0f0;
         position: relative;
+        width: 100%;
+        display: block;
     }
 
     .side-menu-item:last-child {
@@ -874,6 +878,8 @@
         position: relative;
         background: #fff;
         border-left: 3px solid transparent;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .side-menu-link::before {
@@ -913,10 +919,15 @@
         color: var(--colorPrimary, #c8b47e);
     }
 
+    .side-menu-item.has-submenu .side-menu-link {
+        width: 100%;
+    }
+
     .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
         margin-left: auto;
         font-size: 12px;
         transition: transform 0.3s ease;
+        flex-shrink: 0;
     }
 
     .side-menu-item.has-submenu.active .side-menu-link .submenu-toggle {
@@ -937,6 +948,16 @@
         max-height: 500px;
     }
 
+    .side-submenu {
+        width: 100%;
+        display: block;
+    }
+
+    .side-submenu li {
+        width: 100%;
+        display: block;
+    }
+
     .side-submenu li a {
         display: flex;
         align-items: center;
@@ -949,6 +970,8 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         border-left: 2px solid transparent;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .side-submenu li a::before {
@@ -992,6 +1015,8 @@
         background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
         padding: 20px 0;
         position: relative;
+        width: 100%;
+        display: block;
     }
 
     .appointment-item::before {
@@ -1018,6 +1043,9 @@
         border: none !important;
         position: relative;
         overflow: hidden;
+        width: calc(100% - 40px);
+        box-sizing: border-box;
+        display: flex;
     }
 
     .appointment-link::before {
@@ -6066,11 +6094,15 @@
         padding: 8px 0;
         overflow: visible !important;
         max-height: none !important;
+        width: 100%;
+        display: block;
     }
 
     .side-menu-item {
         border-bottom: 1px solid #f0f0f0;
         transition: all 0.3s ease;
+        width: 100%;
+        display: block;
     }
 
     .side-menu-item:first-child {
@@ -6089,6 +6121,8 @@
         transition: all 0.3s ease;
         position: relative;
         background: #fff;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .side-menu-body .side-menu-link:hover {
@@ -6110,11 +6144,16 @@
     }
 
     /* Submenu Design */
+    .side-menu-item.has-submenu .side-menu-link {
+        width: 100%;
+    }
+
     .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
         margin-left: auto;
         font-size: 12px;
         color: #999;
         transition: transform 0.3s ease;
+        flex-shrink: 0;
     }
 
     .side-menu-item.has-submenu.active .side-menu-link {
@@ -6197,6 +6236,8 @@
         border-bottom: none;
         background: #f8f9fa;
         padding: 15px 0;
+        width: 100%;
+        display: block;
     }
 
     .appointment-link {
@@ -6211,6 +6252,9 @@
         box-shadow: 0 4px 15px rgba(107, 93, 71, 0.5) !important;
         transition: all 0.3s ease;
         border: 2px solid var(--colorPrimary) !important;
+        width: calc(100% - 40px);
+        box-sizing: border-box;
+        display: flex;
     }
 
     .appointment-link:hover {
