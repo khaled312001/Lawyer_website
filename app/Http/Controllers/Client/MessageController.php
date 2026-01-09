@@ -62,53 +62,71 @@ class MessageController extends Controller
 
     public function sendMessage(Request $request, Conversation $conversation)
     {
-        $request->validate([
-            'message' => 'nullable|string|max:2000',
-            'attachment' => 'nullable|file|max:10240', // 10MB max
-        ]);
+        try {
+            $request->validate([
+                'message' => 'nullable|string|max:2000',
+                'attachment' => 'nullable|file|max:10240', // 10MB max
+            ]);
 
-        // Ensure at least one field is provided
-        if (!$request->filled('message') && !$request->hasFile('attachment')) {
-            return response()->json(['error' => __('Please provide a message or attachment')], 422);
-        }
-
-        $user = Auth::user();
-
-        $isSender = $conversation->sender_id == $user->id && $conversation->sender_type == User::class;
-        $isReceiver = $conversation->receiver_id == $user->id && $conversation->receiver_type == User::class;
-        
-        if (!$isSender && !$isReceiver) {
-            return response()->json(['error' => __('Unauthorized')], 403);
-        }
-
-        $attachmentPath = null;
-        if ($request->hasFile('attachment')) {
-            $attachmentPath = $request->file('attachment')->store('attachments/messages', 'public');
-        }
-
-        $message = $conversation->messages()->create([
-            'sender_id' => $user->id,
-            'sender_type' => User::class,
-            'message' => $request->message ?? '',
-            'attachment' => $attachmentPath,
-            'is_read' => false,
-        ]);
-
-        $conversation->update(['last_message_at' => now()]);
-
-        // Send notification to admin if receiver is admin
-        if ($conversation->receiver_type === Admin::class) {
-            try {
-                $admin = Admin::find($conversation->receiver_id);
-                if ($admin) {
-                    $admin->notify(new NewMessageNotification($message->message, $user->name, 'user', $conversation->id));
-                }
-            } catch (\Exception $e) {
-                info('Admin notification error: ' . $e->getMessage());
+            // Ensure at least one field is provided
+            if (!$request->filled('message') && !$request->hasFile('attachment')) {
+                return response()->json(['error' => __('Please provide a message or attachment')], 422);
             }
-        }
 
-        return response()->json(['status' => 'success', 'message' => __('Message sent successfully')]);
+            $user = Auth::user();
+
+            if (!$user) {
+                return response()->json(['error' => __('Unauthorized. Please login.')], 401);
+            }
+
+            $isSender = $conversation->sender_id == $user->id && $conversation->sender_type == User::class;
+            $isReceiver = $conversation->receiver_id == $user->id && $conversation->receiver_type == User::class;
+            
+            if (!$isSender && !$isReceiver) {
+                return response()->json(['error' => __('Unauthorized')], 403);
+            }
+
+            $attachmentPath = null;
+            if ($request->hasFile('attachment')) {
+                try {
+                    $attachmentPath = $request->file('attachment')->store('attachments/messages', 'public');
+                } catch (\Exception $e) {
+                    \Log::error('Attachment upload error: ' . $e->getMessage());
+                    return response()->json(['error' => __('Failed to upload attachment. Please try again.')], 500);
+                }
+            }
+
+            $message = $conversation->messages()->create([
+                'sender_id' => $user->id,
+                'sender_type' => User::class,
+                'message' => $request->message ?? '',
+                'attachment' => $attachmentPath,
+                'is_read' => false,
+            ]);
+
+            $conversation->update(['last_message_at' => now()]);
+
+            // Send notification to admin if receiver is admin
+            if ($conversation->receiver_type === Admin::class) {
+                try {
+                    $admin = Admin::find($conversation->receiver_id);
+                    if ($admin) {
+                        $admin->notify(new NewMessageNotification($message->message, $user->name, 'user', $conversation->id));
+                    }
+                } catch (\Exception $e) {
+                    \Log::error('Admin notification error: ' . $e->getMessage());
+                    // Don't fail the request if notification fails
+                }
+            }
+
+            return response()->json(['status' => 'success', 'message' => __('Message sent successfully')]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => $e->getMessage(), 'errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            \Log::error('Send message error: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            return response()->json(['error' => __('An error occurred while sending the message. Please try again.')], 500);
+        }
     }
 
 

@@ -183,6 +183,15 @@
                 $('#message-form').on('submit', function(e) {
                     e.preventDefault();
 
+                    // Check if message or attachment is provided
+                    const messageText = $('#message-input').val().trim();
+                    const hasAttachment = $('#attachment-input')[0].files.length > 0;
+                    
+                    if (!messageText && !hasAttachment) {
+                        alert('{{ __("Please provide a message or attachment") }}');
+                        return;
+                    }
+
                     const formData = new FormData(this);
                     formData.append('_token', '{{ csrf_token() }}');
 
@@ -193,16 +202,40 @@
                         processData: false,
                         contentType: false,
                         success: function(response) {
-                            $('#message-input').val('');
-                            $('#attachment-input').val('');
-                            $('#file-preview-container').hide();
-                            $('#image-preview').attr('src', '').hide();
-                            $('#file-info-preview').hide();
-                            fetchMessages();
+                            if (response.status === 'success') {
+                                $('#message-input').val('');
+                                $('#attachment-input').val('');
+                                $('#file-preview-container').hide();
+                                $('#image-preview').attr('src', '').hide();
+                                $('#file-info-preview').hide();
+                                fetchMessages();
+                            } else {
+                                alert(response.error || response.message || '{{ __("Error sending message. Please try again.") }}');
+                            }
                         },
                         error: function(xhr) {
-                            console.error(xhr.responseText);
-                            alert('{{ __("Error sending message. Please try again.") }}');
+                            console.error('Error:', xhr);
+                            let errorMessage = '{{ __("Error sending message. Please try again.") }}';
+                            
+                            if (xhr.responseJSON) {
+                                if (xhr.responseJSON.error) {
+                                    errorMessage = xhr.responseJSON.error;
+                                } else if (xhr.responseJSON.message) {
+                                    errorMessage = xhr.responseJSON.message;
+                                } else if (xhr.responseJSON.errors) {
+                                    const errors = Object.values(xhr.responseJSON.errors).flat();
+                                    errorMessage = errors.join('\n');
+                                }
+                            } else if (xhr.responseText) {
+                                try {
+                                    const response = JSON.parse(xhr.responseText);
+                                    errorMessage = response.error || response.message || errorMessage;
+                                } catch (e) {
+                                    console.error('Failed to parse error response');
+                                }
+                            }
+                            
+                            alert(errorMessage);
                         }
                     });
                 });

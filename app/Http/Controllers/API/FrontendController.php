@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Notifications\NewContactMessageNotification;
 use App\Traits\GlobalMailTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -210,14 +212,15 @@ class FrontendController extends Controller {
         }
 
         // Save contact message if the setting allows it
+        $contactMessage = null;
         if ($setting?->save_contact_message) {
-            $new_message = new ContactMessage();
-            $new_message->name = $request->name;
-            $new_message->email = $request->email;
-            $new_message->subject = $request->subject;
-            $new_message->message = $request->message;
-            $new_message->phone = $request->phone;
-            $new_message->save();
+            $contactMessage = ContactMessage::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'subject' => $request->subject,
+                'message' => $request->message,
+                'phone' => $request->phone,
+            ]);
         }
 
         // Prepare the email
@@ -237,6 +240,19 @@ class FrontendController extends Controller {
             info($e->getMessage());
             return $this->handleMailException($e, true);
         }
+
+        // Send notification to all admins
+        if ($contactMessage) {
+            try {
+                $admins = Admin::all();
+                foreach ($admins as $admin) {
+                    $admin->notify(new NewContactMessageNotification($contactMessage));
+                }
+            } catch (\Exception $e) {
+                info('Admin notification error: ' . $e->getMessage());
+            }
+        }
+
         return response()->json(['status' => 'success', 'message' => __('Message Sent Successfully')], 200);
     }
     public function newsletter_request(Request $request): JsonResponse {
