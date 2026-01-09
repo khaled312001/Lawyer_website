@@ -4,6 +4,7 @@ namespace Modules\GlobalSetting\app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Setting extends Model
 {
@@ -14,4 +15,28 @@ class Setting extends Model
      */
     protected $fillable = [];
     protected $hidden = ['updated_at','created_at'];
+
+    /**
+     * Boot method to clear cache when settings are updated
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saved(function () {
+            Cache::forget('setting');
+        });
+
+        static::updated(function () {
+            Cache::forget('setting');
+        });
+
+        static::created(function () {
+            Cache::forget('setting');
+        });
+
+        static::deleted(function () {
+            Cache::forget('setting');
+        });
+    }
 }
