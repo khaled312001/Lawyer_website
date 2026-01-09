@@ -49,7 +49,7 @@
                     </li>
                 @endif
 
-                @if (checkAdminHasPermission('admin.view'))
+                @if (checkAdminHasPermission('partnership.request.view'))
                     <li class="{{ isRoute('admin.partnership-requests.*', 'active') }}">
                         <a class="nav-link" href="{{ route('admin.partnership-requests.index') }}">
                             <i class="fas fa-handshake"></i>

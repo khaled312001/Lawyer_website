@@ -84,7 +84,7 @@ class MessageController extends Controller
         try {
             $admins = Admin::all();
             foreach ($admins as $admin) {
-                $admin->notify(new NewMessageNotification($message->message, $lawyer->name, 'lawyer'));
+                $admin->notify(new NewMessageNotification($message->message, $lawyer->name, 'lawyer', $conversation->id));
             }
         } catch (\Exception $e) {
             info('Admin notification error: ' . $e->getMessage());

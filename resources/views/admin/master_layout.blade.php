@@ -21,7 +21,7 @@
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
-            <nav class="navbar navbar-expand-lg main-navbar px-3 py-2">
+            <nav class="navbar navbar-expand-lg main-navbar" style="padding: 8px 12px;">
                 <div class="navbar-left d-flex align-items-center">
                     {{-- Mobile & Desktop Sidebar Toggle --}}
                     <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg me-3">

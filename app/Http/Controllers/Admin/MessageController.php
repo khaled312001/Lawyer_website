@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Admin;
+use App\Models\User;
+use App\Notifications\NewMessageNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -85,7 +87,7 @@ class MessageController extends Controller
             $attachmentPath = $request->file('attachment')->store('attachments/messages', 'public');
         }
         
-        Message::create([
+        $message = Message::create([
             'conversation_id' => $conversation->id,
             'sender_type' => Admin::class,
             'sender_id' => auth()->guard('admin')->id(),
@@ -95,6 +97,19 @@ class MessageController extends Controller
         ]);
         
         $conversation->update(['last_message_at' => now()]);
+        
+        // Send notification to user if receiver is user
+        if ($conversation->receiver_type === User::class) {
+            try {
+                $user = User::find($conversation->receiver_id);
+                if ($user) {
+                    $admin = auth()->guard('admin')->user();
+                    $user->notify(new NewMessageNotification($message->message, $admin->name, 'admin', $conversation->id));
+                }
+            } catch (\Exception $e) {
+                info('User notification error: ' . $e->getMessage());
+            }
+        }
         
         return back()->with('success', __('Message sent successfully'));
     }

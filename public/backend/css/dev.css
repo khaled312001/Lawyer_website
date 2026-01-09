@@ -715,7 +715,24 @@ select.wsus-select {
     display: flex !important;
     align-items: center !important;
     flex-wrap: nowrap !important;
-    padding: 8px 15px !important;
+    padding: 8px 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+    position: relative !important;
+}
+
+/* Ensure navbar container uses full width */
+.main-navbar > * {
+    flex-shrink: 0 !important;
+}
+
+/* Prevent overflow issues */
+.main-navbar .navbar-left,
+.main-navbar .navbar-center,
+.main-navbar .navbar-right {
+    overflow: visible !important;
 }
 
 /* Navbar background - ensure it covers full height */
@@ -729,8 +746,10 @@ select.wsus-select {
     display: flex !important;
     align-items: center !important;
     flex-shrink: 0 !important;
-    gap: 10px !important;
+    gap: 8px !important;
     min-width: fit-content !important;
+    max-width: none !important;
+    overflow: visible !important;
 }
 
 /* Sidebar toggle button */
@@ -738,14 +757,17 @@ select.wsus-select {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    min-width: 40px !important;
-    height: 40px !important;
+    min-width: 38px !important;
+    width: 38px !important;
+    height: 38px !important;
     padding: 0 !important;
     color: #fff !important;
     font-size: 18px !important;
     text-decoration: none !important;
     border-radius: 6px !important;
     transition: all 0.3s ease !important;
+    flex-shrink: 0 !important;
+    margin-right: 8px !important;
 }
 
 .navbar-left a[data-toggle="sidebar"]:hover {
@@ -758,32 +780,38 @@ select.wsus-select {
     align-items: center !important;
     flex-shrink: 0 !important;
     min-width: fit-content !important;
+    margin-right: 8px !important;
+    overflow: visible !important;
 }
 
 /* Language and Currency selects in navbar-left */
 .navbar-left .d-none.d-lg-flex {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 6px !important;
     flex-shrink: 0 !important;
-    margin-left: 10px !important;
+    margin-left: 8px !important;
+    overflow: visible !important;
 }
 
 /* Navbar center - search box */
 .navbar-center {
-    flex: 1 !important;
+    flex: 1 1 auto !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     min-width: 0 !important;
-    margin: 0 15px !important;
-    max-width: 300px !important;
+    margin: 0 8px !important;
+    max-width: none !important;
+    overflow: visible !important;
+    position: relative !important;
 }
 
 .navbar-center .search-box {
     width: 100% !important;
-    max-width: 250px !important;
-    min-width: 150px !important;
+    max-width: 100% !important;
+    min-width: 180px !important;
+    flex: 1 1 auto !important;
 }
 
 /* Navbar right section */
@@ -791,18 +819,23 @@ select.wsus-select {
     display: flex !important;
     align-items: center !important;
     flex-shrink: 0 !important;
-    gap: 10px !important;
+    gap: 6px !important;
     min-width: fit-content !important;
+    max-width: none !important;
+    overflow: visible !important;
+    margin-left: 10px !important;
 }
 
 /* Navbar nav items */
 .navbar-right .navbar-nav {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
+    gap: 4px !important;
     margin: 0 !important;
     padding: 0 !important;
     list-style: none !important;
+    flex-wrap: nowrap !important;
+    overflow: visible !important;
 }
 
 .navbar-right .navbar-nav li {
@@ -815,10 +848,12 @@ select.wsus-select {
     display: flex !important;
     align-items: center !important;
     white-space: nowrap !important;
-    padding: 8px 12px !important;
+    padding: 6px 10px !important;
     color: #fff !important;
     text-decoration: none !important;
     transition: all 0.3s ease !important;
+    overflow: visible !important;
+    flex-shrink: 0 !important;
 }
 
 .navbar .nav-link:hover {
@@ -830,10 +865,13 @@ select.wsus-select {
 .navbar .nav-link-user {
     display: flex !important;
     align-items: center !important;
-    gap: 8px !important;
-    padding: 6px 12px !important;
+    gap: 6px !important;
+    padding: 5px 10px !important;
     border-radius: 6px !important;
     transition: all 0.3s ease !important;
+    flex-shrink: 0 !important;
+    max-width: 250px !important;
+    overflow: hidden !important;
 }
 
 .navbar .nav-link-user:hover {
@@ -850,26 +888,29 @@ select.wsus-select {
 .navbar .nav-link-user div {
     font-size: 14px !important;
     font-weight: 500 !important;
-    max-width: 150px !important;
+    max-width: 180px !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    white-space: nowrap !important;
 }
 
 /* Search box improvements */
 .search-box {
     position: relative !important;
     width: 100% !important;
+    max-width: 100% !important;
 }
 
 .search-box input {
     width: 100% !important;
-    padding: 8px 15px !important;
+    padding: 8px 12px !important;
     border-radius: 6px !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     background: rgba(255, 255, 255, 0.95) !important;
     color: #333 !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
 }
 
 .search-box input:focus {
@@ -900,15 +941,21 @@ select.wsus-select {
 /* Notifications Dropdown */
 .notification-dropdown {
     position: relative !important;
+    flex-shrink: 0 !important;
 }
 
 .notification-icon {
     position: relative !important;
     font-size: 18px !important;
     color: #fff !important;
-    padding: 8px 12px !important;
+    padding: 6px 10px !important;
     border-radius: 6px !important;
     transition: all 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 36px !important;
+    height: 36px !important;
 }
 
 .notification-icon:hover {
@@ -1015,18 +1062,21 @@ select.wsus-select {
 .navbar-left .set-currency-header .nav-link {
     display: flex !important;
     align-items: center !important;
-    padding: 6px 12px !important;
+    padding: 6px 10px !important;
     border-radius: 6px !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     background: rgba(255, 255, 255, 0.15) !important;
     color: #fff !important;
-    font-size: 13px !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
-    min-width: 80px !important;
+    min-width: 70px !important;
+    max-width: 100px !important;
     text-decoration: none !important;
     white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .navbar-left .setLanguageHeader .nav-link:hover,

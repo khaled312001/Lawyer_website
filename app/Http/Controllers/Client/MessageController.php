@@ -101,7 +101,7 @@ class MessageController extends Controller
             try {
                 $admin = Admin::find($conversation->receiver_id);
                 if ($admin) {
-                    $admin->notify(new NewMessageNotification($message->message, $user->name, 'user'));
+                    $admin->notify(new NewMessageNotification($message->message, $user->name, 'user', $conversation->id));
                 }
             } catch (\Exception $e) {
                 info('Admin notification error: ' . $e->getMessage());
