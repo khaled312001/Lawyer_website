@@ -142,10 +142,21 @@ class LawyerController extends Controller {
 
         $lawyer = Lawyer::findOrFail($id);
 
+        // Remove password from validated data if present, we'll handle it separately
+        $password = null;
+        if (isset($validatedData['password'])) {
+            $password = $validatedData['password'];
+            unset($validatedData['password']);
+        }
+
         $lawyer->update($validatedData);
 
-        if ($request->has('password')) {
-            $lawyer->password = Hash::make($request->password);
+        if ($password) {
+            // Hash the password and update directly in database to bypass the 'hashed' cast
+            // This prevents double hashing since the model has 'password' => 'hashed' in casts
+            DB::table('lawyers')->where('id', $id)->update([
+                'password' => Hash::make($password)
+            ]);
         }
 
         if ($lawyer && $request->hasFile('lawyer_image')) {
@@ -155,8 +166,8 @@ class LawyerController extends Controller {
                 resize: [500, 500]
             );
             $lawyer->image = $file_name;
+            $lawyer->save();
         }
-        $lawyer->save();
 
         $this->updateTranslations(
             $lawyer,
@@ -225,13 +236,18 @@ class LawyerController extends Controller {
 
         $lawyer = Lawyer::findOrFail($id);
         
-        $lawyer->email = $request->email;
+        $updateData = [
+            'email' => $request->email,
+        ];
         
         if ($request->filled('password')) {
-            $lawyer->password = Hash::make($request->password);
+            // Hash the password and update directly in database to bypass the 'hashed' cast
+            // This prevents double hashing since the model has 'password' => 'hashed' in casts
+            $updateData['password'] = Hash::make($request->password);
         }
         
-        $lawyer->save();
+        // Update directly in database to bypass the cast
+        DB::table('lawyers')->where('id', $id)->update($updateData);
 
         $notification = __('Credentials updated successfully');
 
