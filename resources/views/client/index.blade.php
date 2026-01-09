@@ -10,16 +10,12 @@
     <!--Hero Section Start-->
     <div class="hero-section" id="main-hero">
         <div class="hero-slider-area">
-            <div class="hero-slider-overlay">
-                <div class="row hero-slider">
-                    @foreach ($sliders as $item)
-                        <div class="col-12">
-                            <div class="hero-slider-item">
-                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
+            <div class="hero-slider">
+                @foreach ($sliders as $item)
+                    <div class="hero-slider-item">
+                        <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -802,20 +798,29 @@
         z-index: 1;
     }
 
-    .hero-slider-overlay {
-        position: relative;
+    .hero-slider {
         width: 100%;
         height: 100%;
     }
 
+    .hero-slider .slick-list,
+    .hero-slider .slick-track {
+        height: 100%;
+    }
+
+    .hero-slider .slick-slide {
+        height: 100%;
+    }
+
+    .hero-slider .slick-slide > div {
+        height: 100%;
+    }
+
     .hero-slider-item {
-        position: absolute;
-        top: 0;
-        left: 0;
+        position: relative;
         width: 100%;
         height: 100%;
-        opacity: 0;
-        transition: opacity 1s ease-in-out;
+        overflow: hidden;
     }
 
     .hero-slider-item img {
@@ -823,11 +828,7 @@
         height: 100%;
         object-fit: cover;
         object-position: center;
-    }
-
-    .hero-slider-item.slick-active {
-        opacity: 1;
-        z-index: 2;
+        display: block;
     }
 
     /* Hero Slider Dots Styling */
@@ -882,6 +883,19 @@
         background: linear-gradient(135deg, rgba(0, 32, 76, 0.85) 0%, rgba(107, 93, 71, 0.75) 100%);
         z-index: 3;
         pointer-events: none;
+    }
+
+    /* Ensure slick slider works properly */
+    .hero-slider.slick-initialized .slick-slide {
+        display: block;
+    }
+
+    .hero-slider.slick-initialized .slick-slide:not(.slick-active) {
+        opacity: 0;
+    }
+
+    .hero-slider.slick-initialized .slick-slide.slick-active {
+        opacity: 1;
     }
 
     .hero-content-wrapper {
@@ -3240,47 +3254,50 @@
         if (typeof jQuery !== 'undefined' && typeof jQuery.fn.slick !== 'undefined') {
             const isRtl = document.documentElement.dir === 'rtl';
             
-            // Destroy existing slider if any
-            if (jQuery('.hero-slider').hasClass('slick-initialized')) {
-                jQuery('.hero-slider').slick('unslick');
-            }
-            
-            // Initialize hero slider
-            jQuery('.hero-slider').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 5000,
-                speed: 1000,
-                fade: true,
-                cssEase: 'linear',
-                dots: true,
-                arrows: false,
-                rtl: isRtl,
-                pauseOnHover: true,
-                pauseOnFocus: true,
-                infinite: true,
-                lazyLoad: 'ondemand',
-                adaptiveHeight: false,
-                swipe: true,
-                touchMove: true,
-                responsive: [
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            speed: 800,
-                            autoplaySpeed: 4000,
+            // Wait for slider to be ready
+            setTimeout(function() {
+                // Destroy existing slider if any
+                if (jQuery('.hero-slider').hasClass('slick-initialized')) {
+                    jQuery('.hero-slider').slick('unslick');
+                }
+                
+                // Initialize hero slider
+                jQuery('.hero-slider').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    autoplaySpeed: 5000,
+                    speed: 1000,
+                    fade: true,
+                    cssEase: 'linear',
+                    dots: true,
+                    arrows: false,
+                    rtl: isRtl,
+                    pauseOnHover: true,
+                    pauseOnFocus: true,
+                    infinite: true,
+                    lazyLoad: 'ondemand',
+                    adaptiveHeight: false,
+                    swipe: true,
+                    touchMove: true,
+                    responsive: [
+                        {
+                            breakpoint: 768,
+                            settings: {
+                                speed: 800,
+                                autoplaySpeed: 4000,
+                            }
+                        },
+                        {
+                            breakpoint: 480,
+                            settings: {
+                                speed: 600,
+                                autoplaySpeed: 3500,
+                            }
                         }
-                    },
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            speed: 600,
-                            autoplaySpeed: 3500,
-                        }
-                    }
-                ]
-            });
+                    ]
+                });
+            }, 100);
         }
         
         // Original code continues
