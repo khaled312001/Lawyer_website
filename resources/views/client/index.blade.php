@@ -1171,7 +1171,8 @@
 
         [dir="rtl"] .legal-hero-section .col-lg-5 {
             padding-right: 50px !important;
-            padding-left: 15px !important;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
         }
 
         [dir="rtl"] .legal-hero-section .col-lg-7 {
@@ -1182,7 +1183,8 @@
         [dir="ltr"] .legal-hero-section .col-lg-5,
         html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
             padding-right: 50px;
-            padding-left: 15px;
+            padding-left: 0;
+            margin-left: 0;
         }
 
         [dir="ltr"] .legal-hero-section .col-lg-7,
@@ -1474,7 +1476,8 @@
     html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
         order: 1;
         padding-right: 80px;
-        padding-left: 20px;
+        padding-left: 0;
+        margin-left: 0;
     }
 
     [dir="ltr"] .legal-hero-section .col-lg-7,
@@ -3601,7 +3604,7 @@
         }
 
         // Intersection Observer for counter animation
-        const statNumbers = document.querySelectorAll('.stat-number');
+        const statNumbers = document.querySelectorAll('.legal-stat-number[data-count]');
         const observerOptions = {
             threshold: 0.5,
             rootMargin: '0px'
