@@ -840,7 +840,17 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(135deg, rgba(26, 26, 46, 0.85) 0%, rgba(22, 33, 62, 0.80) 50%, rgba(15, 52, 96, 0.85) 100%);
+        background: 
+            linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.95) 0%, 
+                rgba(30, 41, 59, 0.92) 25%, 
+                rgba(51, 65, 85, 0.90) 50%, 
+                rgba(30, 58, 138, 0.88) 75%, 
+                rgba(15, 23, 42, 0.95) 100%
+            ),
+            radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, rgba(244, 208, 63, 0.12) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
         z-index: 1;
         pointer-events: none;
     }
@@ -860,8 +870,11 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at 30% 50%, rgba(107, 93, 71, 0.1) 0%, transparent 50%),
-                    radial-gradient(circle at 70% 80%, rgba(107, 93, 71, 0.08) 0%, transparent 50%);
+        background: 
+            radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.2) 0%, transparent 40%),
+            radial-gradient(circle at 85% 75%, rgba(244, 208, 63, 0.15) 0%, transparent 40%),
+            radial-gradient(ellipse at 50% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 60%),
+            linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.3) 100%);
         pointer-events: none;
         z-index: 1;
     }
@@ -1397,7 +1410,8 @@
         display: flex;
     }
 
-    [dir="rtl"] .col-lg-5.order-lg-2 {
+    /* RTL: الإحصائيات على اليسار والمحتوى على اليمين */
+    [dir="rtl"] .col-lg-5.order-lg-1 {
         order: 1 !important;
         padding-right: 0 !important;
         padding-left: 50px !important;
@@ -1405,7 +1419,7 @@
         max-width: 41.666667%;
     }
 
-    [dir="rtl"] .col-lg-7.order-lg-1 {
+    [dir="rtl"] .col-lg-7.order-lg-2 {
         order: 2 !important;
         padding-left: 0 !important;
         padding-right: 50px !important;
@@ -1414,12 +1428,12 @@
     }
 
     /* زيادة التباعد بين الأقسام في RTL */
-    [dir="rtl"] .row.align-items-center > .col-lg-5.order-lg-2 {
+    [dir="rtl"] .row.align-items-center > .col-lg-5.order-lg-1 {
         margin-right: 0;
         margin-left: 0;
     }
 
-    [dir="rtl"] .row.align-items-center > .col-lg-7.order-lg-1 {
+    [dir="rtl"] .row.align-items-center > .col-lg-7.order-lg-2 {
         margin-left: 0;
         margin-right: 0;
     }
@@ -1431,33 +1445,34 @@
         display: flex;
     }
 
-    [dir="ltr"] .col-lg-5.order-lg-2,
-    html:not([dir="rtl"]) .col-lg-5.order-lg-2 {
-        order: 2;
-        padding-left: 50px;
-        padding-right: 0;
+    /* LTR: الإحصائيات على اليسار والمحتوى على اليمين */
+    [dir="ltr"] .col-lg-5.order-lg-1,
+    html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
+        order: 1;
+        padding-right: 50px;
+        padding-left: 0;
         flex: 0 0 41.666667%;
         max-width: 41.666667%;
     }
 
-    [dir="ltr"] .col-lg-7.order-lg-1,
-    html:not([dir="rtl"]) .col-lg-7.order-lg-1 {
-        order: 1;
-        padding-right: 50px;
-        padding-left: 0;
+    [dir="ltr"] .col-lg-7.order-lg-2,
+    html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
+        order: 2;
+        padding-left: 50px;
+        padding-right: 0;
         flex: 0 0 58.333333%;
         max-width: 58.333333%;
     }
 
     /* زيادة التباعد بين الأقسام في LTR */
-    [dir="ltr"] .row.align-items-center > .col-lg-5.order-lg-2,
-    html:not([dir="rtl"]) .row.align-items-center > .col-lg-5.order-lg-2 {
+    [dir="ltr"] .row.align-items-center > .col-lg-5.order-lg-1,
+    html:not([dir="rtl"]) .row.align-items-center > .col-lg-5.order-lg-1 {
         margin-left: 0;
         margin-right: 0;
     }
 
-    [dir="ltr"] .row.align-items-center > .col-lg-7.order-lg-1,
-    html:not([dir="rtl"]) .row.align-items-center > .col-lg-7.order-lg-1 {
+    [dir="ltr"] .row.align-items-center > .col-lg-7.order-lg-2,
+    html:not([dir="rtl"]) .row.align-items-center > .col-lg-7.order-lg-2 {
         margin-right: 0;
         margin-left: 0;
     }
@@ -1472,8 +1487,8 @@
 
     /* RTL Mobile Support */
     @media (max-width: 768px) {
-        /* على الموبايل، الترتيب الطبيعي (الأرقام أولاً ثم المحتوى) */
-        [dir="rtl"] .col-lg-5.order-lg-2 {
+        /* على الموبايل، الترتيب الطبيعي (الإحصائيات أولاً ثم المحتوى) */
+        [dir="rtl"] .col-lg-5.order-lg-1 {
             order: 1 !important;
             padding-left: 15px !important;
             padding-right: 15px !important;
@@ -1481,7 +1496,7 @@
             margin-right: 0 !important;
         }
 
-        [dir="rtl"] .col-lg-7.order-lg-1 {
+        [dir="rtl"] .col-lg-7.order-lg-2 {
             order: 2 !important;
             padding-left: 15px !important;
             padding-right: 15px !important;
@@ -1489,16 +1504,16 @@
             margin-right: 0 !important;
         }
 
-        [dir="ltr"] .col-lg-5.order-lg-2,
-        html:not([dir="rtl"]) .col-lg-5.order-lg-2 {
+        [dir="ltr"] .col-lg-5.order-lg-1,
+        html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
             padding-left: 15px !important;
             padding-right: 15px !important;
             margin-left: 0 !important;
             margin-right: 0 !important;
         }
 
-        [dir="ltr"] .col-lg-7.order-lg-1,
-        html:not([dir="rtl"]) .col-lg-7.order-lg-1 {
+        [dir="ltr"] .col-lg-7.order-lg-2,
+        html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
             padding-left: 15px !important;
             padding-right: 15px !important;
             margin-left: 0 !important;
@@ -1533,24 +1548,24 @@
             text-align: center;
         }
 
-        /* LTR على الموبايل: المحتوى أولاً ثم الأرقام */
-        [dir="ltr"] .col-lg-5.order-lg-2,
-        html:not([dir="rtl"]) .col-lg-5.order-lg-2 {
-            order: 2 !important;
+        /* LTR على الموبايل: الإحصائيات أولاً ثم المحتوى */
+        [dir="ltr"] .col-lg-5.order-lg-1,
+        html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
+            order: 1 !important;
         }
 
-        [dir="ltr"] .col-lg-7.order-lg-1,
-        html:not([dir="rtl"]) .col-lg-7.order-lg-1 {
-            order: 1 !important;
+        [dir="ltr"] .col-lg-7.order-lg-2,
+        html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
+            order: 2 !important;
         }
     }
 
     @media (max-width: 480px) {
-        [dir="rtl"] .col-lg-5.order-lg-2 {
+        [dir="rtl"] .col-lg-5.order-lg-1 {
             order: 1 !important;
         }
 
-        [dir="rtl"] .col-lg-7.order-lg-1 {
+        [dir="rtl"] .col-lg-7.order-lg-2 {
             order: 2 !important;
         }
 
@@ -1566,14 +1581,14 @@
             text-align: center;
         }
 
-        [dir="ltr"] .col-lg-5.order-lg-2,
-        html:not([dir="rtl"]) .col-lg-5.order-lg-2 {
-            order: 2 !important;
+        [dir="ltr"] .col-lg-5.order-lg-1,
+        html:not([dir="rtl"]) .col-lg-5.order-lg-1 {
+            order: 1 !important;
         }
 
-        [dir="ltr"] .col-lg-7.order-lg-1,
-        html:not([dir="rtl"]) .col-lg-7.order-lg-1 {
-            order: 1 !important;
+        [dir="ltr"] .col-lg-7.order-lg-2,
+        html:not([dir="rtl"]) .col-lg-7.order-lg-2 {
+            order: 2 !important;
         }
     }
 
@@ -3542,7 +3557,7 @@
     /* Reduce spacing for department section */
     .case-study-home-page {
         padding-bottom: 30px !important;
-        margin-top: 60px !important;
+        margin-top: 100px !important;
     }
 
     @media (max-width: 768px) {
