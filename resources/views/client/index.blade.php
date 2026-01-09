@@ -9,67 +9,103 @@
 
     <!--Slider Start-->
     <div class="slider" id="main-slider">
-        <div class="doc-search-item">
+        <div class="hero-section">
+            <div class="hero-overlay"></div>
             <div class="d-flex align-items-center h_100_p">
                 <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-xl-10 col-xxl-9">
-                            <div class="v-mid-content">
-                                <div class="heading">
-                                    <h2>{{ __('Contact Us') }}</h2>
-                                    <p>{{ __('Get in touch with our team for legal consultation and support') }}</p>
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <div class="hero-content">
+                                <div class="hero-badge">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>{{ __('Trusted Legal Services') }}</span>
                                 </div>
-                                <div class="company-info-section">
-                                    <div class="row">
-                                        <div class="col-md-4 mb-3 mb-md-0">
-                                            <div class="company-info-item">
-                                                <div class="company-info-icon">
-                                                    <i class="fas fa-phone"></i>
-                                                </div>
-                                                <div class="company-info-content">
-                                                    <h4>{{ __('Phone') }}</h4>
-                                                    <p>
-                                                        <a href="tel:{{ $contactInfo?->phone }}" aria-label="{{ __('Call us') }}">
-                                                            {!! nl2br(e($contactInfo?->phone)) !!}
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 mb-3 mb-md-0">
-                                            <div class="company-info-item">
-                                                <div class="company-info-icon">
-                                                    <i class="far fa-envelope"></i>
-                                                </div>
-                                                <div class="company-info-content">
-                                                    <h4>{{ __('Email') }}</h4>
-                                                    <p>
-                                                        <a href="mailto:{{ $contactInfo?->email }}" aria-label="{{ __('Email us') }}">
-                                                            {!! nl2br(e($contactInfo?->email)) !!}
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="company-info-item">
-                                                <div class="company-info-icon">
-                                                    <i class="fas fa-map-marker-alt"></i>
-                                                </div>
-                                                <div class="company-info-content">
-                                                    <h4>{{ __('Address') }}</h4>
-                                                    <p>{!! nl2br(e($contactInfo?->address)) !!}</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <h1 class="hero-title">
+                                    {{ __('Professional Legal') }} 
+                                    <span class="highlight">{{ __('Consultation') }}</span>
+                                    {{ __('at Your Fingertips') }}
+                                </h1>
+                                <p class="hero-description">
+                                    {{ __('Get expert legal advice from experienced lawyers. Book your consultation online and receive professional guidance for all your legal matters. Fast, secure, and reliable legal services.') }}
+                                </p>
+                                <div class="hero-features">
+                                    <div class="hero-feature-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>{{ __('Expert Lawyers') }}</span>
                                     </div>
-                                    <div class="book-appointment-button-wrapper mt-4">
-                                        <a href="{{ route('website.book.appointment') }}" class="btn btn-primary btn-lg book-appointment-btn">
-                                            <i class="fas fa-calendar-check"></i>
-                                            <span>{{ __('Book Appointment') }}</span>
-                                        </a>
+                                    <div class="hero-feature-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>{{ __('Online Consultation') }}</span>
+                                    </div>
+                                    <div class="hero-feature-item">
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>{{ __('Fixed Prices') }}</span>
                                     </div>
                                 </div>
+                                <div class="hero-buttons">
+                                    <a href="{{ route('website.book.appointment') }}" class="btn btn-hero-primary">
+                                        <i class="fas fa-calendar-check"></i>
+                                        <span>{{ __('Book Consultation Now') }}</span>
+                                    </a>
+                                    <a href="{{ route('website.services') }}" class="btn btn-hero-secondary">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>{{ __('Our Services') }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="hero-stats">
+                                @if($overviews->count() > 0)
+                                    @foreach($overviews->take(4) as $overview)
+                                        <div class="hero-stat-card">
+                                            <div class="stat-icon">
+                                                <i class="{{ $overview?->icon }}"></i>
+                                            </div>
+                                            <div class="stat-content">
+                                                <h3 class="stat-number" data-count="{{ $overview?->qty }}">0</h3>
+                                                <p class="stat-label">{{ $overview?->title }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="hero-stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <h3 class="stat-number">500+</h3>
+                                            <p class="stat-label">{{ __('Satisfied Clients') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="hero-stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-gavel"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <h3 class="stat-number">50+</h3>
+                                            <p class="stat-label">{{ __('Expert Lawyers') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="hero-stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-briefcase"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <h3 class="stat-number">1000+</h3>
+                                            <p class="stat-label">{{ __('Cases Resolved') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="hero-stat-card">
+                                        <div class="stat-icon">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="stat-content">
+                                            <h3 class="stat-number">4.9</h3>
+                                            <p class="stat-label">{{ __('Average Rating') }}</p>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -747,142 +783,349 @@
 
 @push('css')
 <style>
-    /* Company Info Section Styles */
-    .company-info-section {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 40px 30px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        margin-top: 30px;
-    }
-
-    .company-info-item {
-        text-align: center;
-        padding: 20px;
-        transition: all 0.3s ease;
-        border-radius: 15px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .company-info-item:hover {
-        background: rgba(107, 93, 71, 0.05);
-        transform: translateY(-5px);
-    }
-
-    .company-info-icon {
-        width: 70px;
-        height: 70px;
-        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
-        border-radius: 50%;
+    /* Hero Section Styles */
+    .hero-section {
+        position: relative;
+        min-height: 600px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px;
-        box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
-        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        overflow: hidden;
     }
 
-    .company-info-item:hover .company-info-icon {
-        transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 8px 30px rgba(107, 93, 71, 0.4);
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        opacity: 0.5;
     }
 
-    .company-info-icon i {
-        font-size: 28px;
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 30% 50%, rgba(107, 93, 71, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 80%, rgba(107, 93, 71, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
         color: #ffffff;
+        padding: 40px 0;
     }
 
-    .company-info-content h4 {
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(107, 93, 71, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 8px 20px;
+        border-radius: 50px;
+        border: 1px solid rgba(107, 93, 71, 0.3);
+        margin-bottom: 25px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #ffffff;
+        animation: fadeInDown 0.8s ease;
+    }
+
+    .hero-badge i {
+        color: #d4af37;
+    }
+
+    .hero-title {
+        font-size: 48px;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        color: #ffffff;
+        animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .hero-title .highlight {
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+    }
+
+    .hero-description {
+        font-size: 18px;
+        line-height: 1.8;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 30px;
+        max-width: 600px;
+        animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .hero-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 35px;
+        animation: fadeInUp 0.8s ease 0.6s both;
+    }
+
+    .hero-feature-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .hero-feature-item i {
+        color: #d4af37;
+        font-size: 18px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        animation: fadeInUp 0.8s ease 0.8s both;
+    }
+
+    .btn-hero-primary {
+        padding: 16px 35px;
         font-size: 18px;
         font-weight: 700;
-        color: var(--colorBlack);
-        margin-bottom: 10px;
-    }
-
-    .company-info-content p {
-        margin: 0;
-        color: #666;
-        font-size: 15px;
-        line-height: 1.6;
-    }
-
-    .company-info-content a {
-        color: var(--colorPrimary);
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .company-info-content a:hover {
-        color: var(--colorSecondary);
-        text-decoration: underline;
-    }
-
-    .book-appointment-button-wrapper {
-        text-align: center;
-    }
-
-    .book-appointment-btn {
-        padding: 15px 40px;
-        font-size: 18px;
-        font-weight: 600;
         border-radius: 50px;
-        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        color: #1a1a2e;
         border: none;
-        box-shadow: 0 8px 25px rgba(107, 93, 71, 0.3);
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
         transition: all 0.3s ease;
         display: inline-flex;
         align-items: center;
         gap: 10px;
+        text-decoration: none;
     }
 
-    .book-appointment-btn:hover {
+    .btn-hero-primary:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(107, 93, 71, 0.4);
-        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%);
+        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+        background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+        color: #1a1a2e;
     }
 
-    .book-appointment-btn i {
-        font-size: 20px;
+    .btn-hero-secondary {
+        padding: 16px 35px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        color: #ffffff;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+    }
+
+    .btn-hero-secondary:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-3px);
+        color: #ffffff;
+    }
+
+    .hero-stats {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px 0;
+    }
+
+    .hero-stat-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.4s ease;
+        animation: fadeInRight 0.8s ease both;
+    }
+
+    .hero-stat-card:nth-child(1) { animation-delay: 0.2s; }
+    .hero-stat-card:nth-child(2) { animation-delay: 0.4s; }
+    .hero-stat-card:nth-child(3) { animation-delay: 0.6s; }
+    .hero-stat-card:nth-child(4) { animation-delay: 0.8s; }
+
+    .hero-stat-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        border-color: rgba(212, 175, 55, 0.5);
+    }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .stat-icon i {
+        font-size: 28px;
+        color: #1a1a2e;
+    }
+
+    .stat-number {
+        font-size: 36px;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0 0 5px 0;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+        font-weight: 500;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 991px) {
+        .hero-stats {
+            margin-top: 40px;
+        }
     }
 
     @media (max-width: 768px) {
-        .company-info-section {
-            padding: 30px 20px;
+        .hero-section {
+            min-height: 500px;
+            padding: 40px 0;
         }
 
-        .company-info-item {
-            margin-bottom: 20px;
-            padding: 15px;
+        .hero-title {
+            font-size: 32px;
         }
 
-        .company-info-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 15px;
+        .hero-description {
+            font-size: 16px;
         }
 
-        .company-info-icon i {
+        .hero-features {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+        }
+
+        .btn-hero-primary,
+        .btn-hero-secondary {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 30px;
+            font-size: 16px;
+        }
+
+        .hero-stats {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .hero-stat-card {
+            padding: 20px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .stat-icon i {
             font-size: 24px;
         }
 
-        .company-info-content h4 {
-            font-size: 16px;
+        .stat-number {
+            font-size: 28px;
         }
 
-        .company-info-content p {
-            font-size: 14px;
+        .stat-label {
+            font-size: 13px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 28px;
         }
 
-        .book-appointment-btn {
-            padding: 12px 30px;
-            font-size: 16px;
-            width: 100%;
-            justify-content: center;
+        .hero-stats {
+            grid-template-columns: 1fr;
         }
+
+        .stat-number {
+            font-size: 24px;
+        }
+    }
+
+    /* RTL Support */
+    [dir="rtl"] .hero-buttons {
+        flex-direction: row-reverse;
+    }
+
+    [dir="rtl"] .hero-feature-item {
+        flex-direction: row-reverse;
     }
 
     /* Testimonial Modern Styles */
@@ -2807,6 +3050,51 @@
 @push('js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Counter Animation for Hero Stats
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-count') || element.textContent.replace(/[^0-9]/g, ''));
+            const duration = 2000;
+            const increment = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                // Format number with + or decimal if needed
+                if (target >= 1000) {
+                    element.textContent = Math.floor(current).toLocaleString() + '+';
+                } else if (target < 1 && target > 0) {
+                    element.textContent = current.toFixed(1);
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for counter animation
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                    entry.target.classList.add('counted');
+                    animateCounter(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        statNumbers.forEach(stat => {
+            observer.observe(stat);
+        });
+
         if (typeof Swiper !== 'undefined') {
             // Testimonial Swiper
             const testimonialSwiper = new Swiper('.testimonial-swiper-modern', {
