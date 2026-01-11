@@ -17,7 +17,7 @@ Route::middleware(['translation', 'maintenance.mode'])->group(function () {
             Route::get('/service', 'service')->name('services');
             Route::get('service-details/{slug}', 'serviceDetails')->name('service.details');
             Route::get('api/service-details/{slug}', 'getServiceDetails')->name('api.service.details');
-            Route::get('/real-estate', 'realEstate')->name('real-estate');
+            Route::get('/real-estate', [RealEstateController::class, 'index'])->name('real-estate');
             Route::get('/real-estate/{slug}', [RealEstateController::class, 'show'])->name('real-estate.show');
             Route::get('/real-estate/{slug}/interest', [RealEstateController::class, 'showInterest'])->name('real-estate.interest');
             Route::post('/real-estate/{slug}/interest', [RealEstateController::class, 'storeInterest'])->name('real-estate.store-interest');
