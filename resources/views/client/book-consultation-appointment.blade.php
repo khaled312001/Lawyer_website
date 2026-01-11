@@ -231,9 +231,32 @@
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span> <small class="text-primary">({{ __('Primary Contact') }})</small></label>
-                                        <input type="tel" name="client_phone" id="client_phone" class="form-control @error('client_phone') is-invalid @enderror" required value="{{ old('client_phone', Auth::user()->details->phone ?? '') }}" placeholder="{{ __('Enter your phone number') }}">
+                                        <div class="input-group phone-input-group">
+                                            <select name="country_code" id="country_code" class="form-select country-code-select @error('country_code') is-invalid @enderror">
+                                                <option value="+963" {{ (old('country_code') ?: '+963') == '+963' ? 'selected' : '' }}>🇸🇾 +963</option>
+                                                <option value="+1" {{ old('country_code') == '+1' ? 'selected' : '' }}>🇺🇸 +1</option>
+                                                <option value="+44" {{ old('country_code') == '+44' ? 'selected' : '' }}>🇬🇧 +44</option>
+                                                <option value="+49" {{ old('country_code') == '+49' ? 'selected' : '' }}>🇩🇪 +49</option>
+                                                <option value="+33" {{ old('country_code') == '+33' ? 'selected' : '' }}>🇫🇷 +33</option>
+                                                <option value="+966" {{ old('country_code') == '+966' ? 'selected' : '' }}>🇸🇦 +966</option>
+                                                <option value="+971" {{ old('country_code') == '+971' ? 'selected' : '' }}>🇦🇪 +971</option>
+                                                <option value="+20" {{ old('country_code') == '+20' ? 'selected' : '' }}>🇪🇬 +20</option>
+                                                <option value="+962" {{ old('country_code') == '+962' ? 'selected' : '' }}>🇯🇴 +962</option>
+                                                <option value="+961" {{ old('country_code') == '+961' ? 'selected' : '' }}>🇱🇧 +961</option>
+                                                <option value="+964" {{ old('country_code') == '+964' ? 'selected' : '' }}>🇮🇶 +964</option>
+                                                <option value="+965" {{ old('country_code') == '+965' ? 'selected' : '' }}>🇰🇼 +965</option>
+                                                <option value="+974" {{ old('country_code') == '+974' ? 'selected' : '' }}>🇶🇦 +974</option>
+                                                <option value="+973" {{ old('country_code') == '+973' ? 'selected' : '' }}>🇧🇭 +973</option>
+                                                <option value="+968" {{ old('country_code') == '+968' ? 'selected' : '' }}>🇴🇲 +968</option>
+                                                <option value="+970" {{ old('country_code') == '+970' ? 'selected' : '' }}>🇵🇸 +970</option>
+                                            </select>
+                                            <input type="tel" name="client_phone" id="client_phone" class="form-control @error('client_phone') is-invalid @enderror" required value="{{ old('client_phone', Auth::user()->details->phone ?? '') }}" placeholder="{{ __('Enter your phone number') }}">
+                                        </div>
+                                        @error('country_code')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        @enderror
                                         @error('client_phone')
-                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                         <small class="form-text text-primary">
                                             <i class="fas fa-phone me-1"></i>{{ __('We will contact you through this number for appointment confirmation') }}
@@ -328,6 +351,7 @@
             const appointmentTime = $('#appointment_time').val();
             const clientEmail = $('#client_email').val();
             const clientPhone = $('#client_phone').val();
+            const countryCode = $('#country_code').val();
             const today = new Date().toISOString().split('T')[0];
 
             if (appointmentDate < today) {
@@ -347,6 +371,14 @@
                 e.preventDefault();
                 alert('{{ __("Phone number is required for appointment confirmation") }}');
                 $('#client_phone').focus();
+                return false;
+            }
+
+            // Check if country code is selected
+            if (!countryCode) {
+                e.preventDefault();
+                alert('{{ __("Please select your country code") }}');
+                $('#country_code').focus();
                 return false;
             }
 
@@ -490,15 +522,21 @@
         // Visual feedback for contact methods
         $('#client_phone').on('input', function() {
             const phoneValue = $(this).val().trim();
+            const countryCode = $('#country_code').val();
             const phoneIcon = $(this).closest('.col-md-6').find('.form-text i');
 
-            if (phoneValue) {
+            if (phoneValue && countryCode) {
                 phoneIcon.removeClass('fa-phone').addClass('fa-check-circle').css('color', '#28a745');
                 $(this).removeClass('is-invalid').addClass('is-valid');
             } else {
                 phoneIcon.removeClass('fa-check-circle').addClass('fa-phone').css('color', 'var(--colorPrimary)');
                 $(this).removeClass('is-valid is-invalid');
             }
+        });
+
+        // Update phone field when country code changes
+        $('#country_code').on('change', function() {
+            $('#client_phone').trigger('input');
         });
 
         $('#client_email').on('input', function() {
@@ -721,6 +759,28 @@
         display: block;
         margin-bottom: 4px;
     }
+
+    .country-code-select {
+        width: 100px !important;
+        font-size: 13px !important;
+    }
+
+    .phone-input-group {
+        flex-direction: column;
+    }
+
+    .country-code-select {
+        border-radius: 10px 10px 0 0 !important;
+        border-bottom: none !important;
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .phone-input-group .form-control {
+        border-radius: 0 0 10px 10px !important;
+        border-left: 2px solid #e9ecef !important;
+        border-top: none !important;
+    }
 }
 
 /* ============================================
@@ -789,6 +849,43 @@
 [dir="rtl"] .form-label small.text-muted {
     margin-left: 0;
     margin-right: 6px;
+}
+
+/* ============================================
+   PHONE INPUT WITH COUNTRY CODE
+   ============================================ */
+
+.phone-input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.country-code-select {
+    width: 120px !important;
+    flex-shrink: 0;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-right: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+
+.country-code-select:focus {
+    border-color: var(--colorPrimary) !important;
+    box-shadow: none !important;
+    z-index: 3;
+}
+
+.phone-input-group .form-control {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left: 1px solid #dee2e6 !important;
+}
+
+.phone-input-group .form-control:focus {
+    border-left-color: var(--colorPrimary) !important;
+    z-index: 2;
 }
 
 /* ============================================

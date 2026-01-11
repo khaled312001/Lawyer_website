@@ -21,6 +21,7 @@ class ConsultationAppointmentController extends Controller
             'department_id' => 'required|exists:departments,id',
             'case_type' => 'required|string|max:255',
             'case_details' => 'required|string',
+            'country_code' => 'required|string',
             'client_name' => 'required|string|max:255',
             'client_email' => 'required|email|max:255',
             'client_phone' => 'required|string|max:255',
@@ -36,6 +37,7 @@ class ConsultationAppointmentController extends Controller
             'department_id.required' => __('Department is required'),
             'case_type.required' => __('Case type is required'),
             'case_details.required' => __('Case details are required'),
+            'country_code.required' => __('Country code is required'),
             'client_name.required' => __('Client name is required'),
             'client_email.required' => __('Client email is required'),
             'client_email.email' => __('Please enter a valid email address'),
@@ -61,11 +63,13 @@ class ConsultationAppointmentController extends Controller
         $appointment = AdminAppointment::create([
             'user_id' => $userId,
             'admin_id' => null, // Will be assigned by admin later
+            'lawyer_id' => $request->lawyer_id, // Save selected lawyer
             'department_id' => $request->department_id,
             'appointment_date' => $request->appointment_date,
             'appointment_time' => $request->appointment_time,
             'case_type' => $request->case_type,
             'case_details' => $request->case_details,
+            'country_code' => $request->country_code,
             'client_name' => $request->client_name,
             'client_email' => $request->client_email,
             'client_phone' => $request->client_phone,

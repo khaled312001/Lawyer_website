@@ -17,7 +17,7 @@ class ConsultationAppointmentController extends Controller
     {
         checkAdminHasPermissionAndThrowException('admin.view');
         
-        $query = AdminAppointment::with(['user', 'admin', 'department.translation']);
+        $query = AdminAppointment::with(['user', 'admin', 'lawyer.translation', 'department.translation']);
 
         // Filter by status
         if ($request->filled('status')) {

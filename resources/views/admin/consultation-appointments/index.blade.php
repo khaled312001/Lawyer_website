@@ -109,6 +109,7 @@
                                             <th>{{ __('Client Name') }}</th>
                                             <th>{{ __('Email') }}</th>
                                             <th>{{ __('Phone') }}</th>
+                                            <th>{{ __('Lawyer') }}</th>
                                             <th>{{ __('Department') }}</th>
                                             <th>{{ __('Date') }}</th>
                                             <th>{{ __('Time') }}</th>
@@ -131,6 +132,7 @@
                                                 </td>
                                                 <td>{{ $appointment->client_email ?? $appointment?->user?->email }}</td>
                                                 <td>{{ $appointment->client_phone ?? $appointment?->user?->details?->phone }}</td>
+                                                <td>{{ $appointment->lawyer?->translation?->name ?? $appointment->lawyer?->name ?? __('N/A') }}</td>
                                                 <td>{{ $appointment->department?->translation?->name ?? __('N/A') }}</td>
                                                 <td>{{ formattedDate($appointment->appointment_date) }}</td>
                                                 <td>{{ $appointment->appointment_time }}</td>
@@ -155,7 +157,7 @@
                                             </tr>
                                         @empty
                                             <x-empty-table :name="__('Consultation Appointment')" route="" create="no"
-                                                :message="__('No data found!')" colspan="10" />
+                                                :message="__('No data found!')" colspan="11" />
                                         @endforelse
                                     </table>
                                 </div>

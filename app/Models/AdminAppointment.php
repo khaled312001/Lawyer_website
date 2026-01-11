@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Lawyer\app\Models\Department;
+use Modules\Lawyer\app\Models\Lawyer;
 
 class AdminAppointment extends Model
 {
@@ -13,11 +14,13 @@ class AdminAppointment extends Model
     protected $fillable = [
         'user_id',
         'admin_id',
+        'lawyer_id',
         'department_id',
         'appointment_date',
         'appointment_time',
         'case_type',
         'case_details',
+        'country_code',
         'client_name',
         'client_email',
         'client_phone',
@@ -48,6 +51,11 @@ class AdminAppointment extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    public function lawyer()
+    {
+        return $this->belongsTo(Lawyer::class);
     }
 }
 

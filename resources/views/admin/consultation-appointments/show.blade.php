@@ -73,6 +73,10 @@
                                 <div class="table-responsive text-center">
                                     <table class="table table-striped">
                                         <tr>
+                                            <td>{{ __('Lawyer') }}</td>
+                                            <td>{{ $appointment->lawyer?->translation?->name ?? $appointment->lawyer?->name ?? __('N/A') }}</td>
+                                        </tr>
+                                        <tr>
                                             <td>{{ __('Department') }}</td>
                                             <td>{{ $appointment->department?->translation?->name ?? __('N/A') }}</td>
                                         </tr>
