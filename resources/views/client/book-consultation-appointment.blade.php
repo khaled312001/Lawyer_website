@@ -116,7 +116,7 @@
                                                 </div>
                                             </div>
                                             <div class="lawyer-profile-link" id="lawyer-profile-link" style="display: none;">
-                                                <a href="#" id="lawyer-profile-url" class="btn btn-sm btn-outline-primary">
+                                                <a href="#" id="lawyer-profile-url" class="btn btn-sm btn-outline-primary" target="_blank">
                                                     <i class="fas fa-user me-1"></i>{{ __('View Profile') }}
                                                 </a>
                                             </div>
