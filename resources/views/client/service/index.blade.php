@@ -35,11 +35,11 @@
                             <div class="service-coloum">
                                 <div class="service-item">
                                     <i class="{{ $service?->icon }}"></i>
-                                    <a href="{{ route('website.service.details', $service?->slug) }}">
+                                    <a href="#" class="service-link" data-slug="{{ $service?->slug }}">
                                         <h4 class="title">{{ $service?->title }}</h4>
                                     </a>
                                     <p>{{ $service?->sort_description }}</p>
-                                    <a aria-label="{{ __('Service Details') }}" href="{{ route('website.service.details', $service?->slug) }}">{{ __('Service Details') }}
+                                    <a aria-label="{{ __('Service Details') }}" href="#" class="service-link" data-slug="{{ $service?->slug }}">{{ __('Service Details') }}
                                         →</a>
                                 </div>
                             </div>
@@ -50,6 +50,44 @@
             @if ($services->hasPages())
                 {{ $services->links('client.paginator') }}
             @endif
+        </div>
+    </div>
+
+    <!-- Service Details Modal -->
+    <div id="serviceModal" class="service-modal">
+        <div class="service-modal-content">
+            <div class="service-modal-header">
+                <span class="service-modal-close">&times;</span>
+                <h2 id="serviceModalTitle"></h2>
+            </div>
+            <div class="service-modal-body">
+                <div class="service-modal-icon">
+                    <i id="serviceModalIcon"></i>
+                </div>
+                <div class="service-modal-description">
+                    <p id="serviceModalDescription"></p>
+                </div>
+
+                <!-- Service Images Gallery -->
+                <div class="service-modal-gallery" id="serviceModalGallery" style="display: none;">
+                    <h3>{{ __('Gallery') }}</h3>
+                    <div class="gallery-images" id="serviceModalImages"></div>
+                </div>
+
+
+                <!-- Service FAQs -->
+                <div class="service-modal-faqs" id="serviceModalFaqs" style="display: none;">
+                    <h3>{{ __('Frequently Asked Questions') }}</h3>
+                    <div class="faq-list" id="serviceModalFaqList"></div>
+                </div>
+
+                <!-- Full Details Link -->
+                <div class="service-modal-footer">
+                    <a id="serviceFullDetailsLink" href="#" class="btn btn-primary" target="_blank">
+                        {{ __('View Full Details') }}
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -163,17 +201,239 @@
             transform: translateX(5px);
         }
 
-        .service-item a[href*="service-details"]:not([aria-label]) {
+        .service-link {
             text-decoration: none;
         }
 
-        .service-item a[href*="service-details"]:not([aria-label]):hover {
+        .service-link:hover {
             text-decoration: none;
         }
 
         /* Service Column Area */
         .service-coloum-area {
             gap: 30px;
+        }
+
+        /* Service Modal Styles */
+        .service-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .service-modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border: none;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .service-modal-header {
+            background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .service-modal-header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .service-modal-close {
+            color: #fff;
+            float: right;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+        }
+
+        .service-modal-close:hover,
+        .service-modal-close:focus {
+            color: #ccc;
+            transform: scale(1.1);
+        }
+
+        .service-modal-body {
+            padding: 30px;
+        }
+
+        .service-modal-icon {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .service-modal-icon i {
+            color: var(--colorPrimary);
+            font-size: 64px;
+            background: linear-gradient(135deg, rgba(107, 93, 71, 0.1) 0%, rgba(90, 77, 58, 0.1) 100%);
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            border-radius: 25px;
+            display: inline-block;
+        }
+
+        .service-modal-description {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .service-modal-description p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #555;
+            margin: 0;
+        }
+
+        .service-modal-gallery,
+        .service-modal-videos,
+        .service-modal-faqs {
+            margin-bottom: 30px;
+        }
+
+        .service-modal-gallery h3,
+        .service-modal-videos h3,
+        .service-modal-faqs h3 {
+            color: var(--colorPrimary);
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .gallery-images {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-images img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-images img:hover {
+            transform: scale(1.05);
+            border-color: var(--colorPrimary);
+        }
+
+        .video-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .video-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--colorPrimary);
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(107, 93, 71, 0.05);
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px;
+            color: #666;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .service-modal-footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .service-modal-footer .btn {
+            background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .service-modal-footer .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(107, 93, 71, 0.3);
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
         }
 
         /* Responsive Design */
@@ -189,6 +449,19 @@
                 width: 90px;
                 height: 90px;
                 line-height: 90px;
+            }
+
+            .service-modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .service-modal-header {
+                padding: 20px;
+            }
+
+            .service-modal-body {
+                padding: 20px;
             }
         }
 
@@ -211,6 +484,32 @@
             .service-item .title {
                 font-size: 20px;
             }
+
+            .service-modal-content {
+                width: 98%;
+                margin: 5% auto;
+                max-height: 95vh;
+            }
+
+            .service-modal-header h2 {
+                font-size: 24px;
+            }
+
+            .service-modal-icon i {
+                font-size: 48px;
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+            }
+
+            .gallery-images {
+                justify-content: center;
+            }
+
+            .gallery-images img {
+                width: 80px;
+                height: 80px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -224,7 +523,152 @@
                 height: 70px;
                 line-height: 70px;
             }
+
+            .service-modal-body {
+                padding: 15px;
+            }
+
+            .service-modal-header h2 {
+                font-size: 20px;
+            }
+
+            .service-modal-icon i {
+                font-size: 40px;
+                width: 80px;
+                height: 80px;
+                line-height: 80px;
+            }
+
+            .service-modal-description p {
+                font-size: 16px;
+            }
         }
     </style>
+    @endpush
+
+    @push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('serviceModal');
+            const modalTitle = document.getElementById('serviceModalTitle');
+            const modalIcon = document.getElementById('serviceModalIcon');
+            const modalDescription = document.getElementById('serviceModalDescription');
+            const modalGallery = document.getElementById('serviceModalGallery');
+            const modalImages = document.getElementById('serviceModalImages');
+            const modalFaqs = document.getElementById('serviceModalFaqs');
+            const modalFaqList = document.getElementById('serviceModalFaqList');
+            const fullDetailsLink = document.getElementById('serviceFullDetailsLink');
+            const closeBtn = document.querySelector('.service-modal-close');
+
+            // Service links click handler
+            document.querySelectorAll('.service-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const slug = this.getAttribute('data-slug');
+                    loadServiceDetails(slug);
+                });
+            });
+
+            // Close modal handlers
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // ESC key handler
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    closeModal();
+                }
+            });
+
+            function loadServiceDetails(slug) {
+                fetch(`/api/service-details/${slug}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert('Service not found');
+                            return;
+                        }
+
+                        const service = data.service;
+
+                        // Update modal content
+                        modalTitle.textContent = service.title;
+                        modalIcon.className = service.icon;
+                        modalDescription.textContent = service.description || service.sort_description;
+
+                        // Update full details link
+                        fullDetailsLink.href = `/service-details/${slug}`;
+
+                        // Handle gallery
+                        if (service.images && service.images.length > 0) {
+                            modalImages.innerHTML = '';
+                            service.images.forEach(image => {
+                                const img = document.createElement('img');
+                                img.src = `/${image.large_image}`;
+                                img.alt = service.title;
+                                modalImages.appendChild(img);
+                            });
+                            modalGallery.style.display = 'block';
+                        } else {
+                            modalGallery.style.display = 'none';
+                        }
+
+
+                        // Handle FAQs
+                        if (service.faqs && service.faqs.length > 0) {
+                            modalFaqList.innerHTML = '';
+                            service.faqs.forEach(faq => {
+                                const faqItem = document.createElement('div');
+                                faqItem.className = 'faq-item';
+
+                                faqItem.innerHTML = `
+                                    <button class="faq-question">
+                                        ${faq.question}
+                                        <span class="faq-toggle">+</span>
+                                    </button>
+                                    <div class="faq-answer">
+                                        ${faq.answer}
+                                    </div>
+                                `;
+
+                                // Add click handler for FAQ toggle
+                                const questionBtn = faqItem.querySelector('.faq-question');
+                                const answer = faqItem.querySelector('.faq-answer');
+                                const toggle = faqItem.querySelector('.faq-toggle');
+
+                                questionBtn.addEventListener('click', function() {
+                                    const isVisible = answer.style.display === 'block';
+                                    answer.style.display = isVisible ? 'none' : 'block';
+                                    toggle.textContent = isVisible ? '+' : '−';
+                                });
+
+                                modalFaqList.appendChild(faqItem);
+                            });
+                            modalFaqs.style.display = 'block';
+                        } else {
+                            modalFaqs.style.display = 'none';
+                        }
+
+                        // Show modal
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    })
+                    .catch(error => {
+                        console.error('Error loading service details:', error);
+                        alert('Error loading service details. Please try again.');
+                    });
+            }
+
+
+            function closeModal() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
     @endpush
 @endsection

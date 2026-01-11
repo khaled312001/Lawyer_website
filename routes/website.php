@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RealEstateController;
 use App\Http\Controllers\Client\AppointmentController;
 use App\Http\Controllers\Client\BlogController;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,11 @@ Route::middleware(['translation', 'maintenance.mode'])->group(function () {
             Route::get('/about-us', 'aboutUs');
             Route::get('/service', 'service')->name('services');
             Route::get('service-details/{slug}', 'serviceDetails')->name('service.details');
+            Route::get('api/service-details/{slug}', 'getServiceDetails')->name('api.service.details');
             Route::get('/real-estate', 'realEstate')->name('real-estate');
+            Route::get('/real-estate/{slug}', [RealEstateController::class, 'show'])->name('real-estate.show');
+            Route::get('/real-estate/{slug}/interest', [RealEstateController::class, 'showInterest'])->name('real-estate.interest');
+            Route::post('/real-estate/{slug}/interest', [RealEstateController::class, 'storeInterest'])->name('real-estate.store-interest');
             Route::get('/department', 'department')->name('departments');
             Route::get('/department-details/{slug}', 'departmentDetails')->name('department.details');
             Route::get('lawyers', 'lawyers')->name('lawyers');

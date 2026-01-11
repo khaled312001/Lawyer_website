@@ -4073,6 +4073,335 @@
         }
     });
 </script>
+
+<style>
+/* ============================================
+   SERVICE SWIPER NAVIGATION IMPROVEMENTS
+   ============================================ */
+
+/* Enhanced Service Swiper Container */
+.service-swiper-container {
+    position: relative !important;
+    padding: 20px 80px 40px !important; /* Increased horizontal padding for navigation */
+    overflow: visible !important;
+}
+
+/* Service Swiper Wrapper */
+.service-swiper {
+    padding: 20px 0 60px !important;
+    overflow: visible !important;
+}
+
+/* Enhanced Service Navigation Buttons */
+.service-swiper-next,
+.service-swiper-prev {
+    width: 56px !important;
+    height: 56px !important;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+    border: 3px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 50% !important;
+    color: #fff !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 6px 20px rgba(200, 180, 126, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 10 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    opacity: 0.9 !important;
+}
+
+/* Perfectly Balanced Positioning */
+.service-swiper-prev {
+    left: -28px !important; /* Exactly half of button width */
+}
+
+.service-swiper-next {
+    right: -28px !important; /* Exactly half of button width */
+}
+
+/* Enhanced Arrow Icons */
+.service-swiper-next::after,
+.service-swiper-prev::after {
+    font-size: 20px !important;
+    font-weight: bold !important;
+    color: #fff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Hover Effects */
+.service-swiper-next:hover,
+.service-swiper-prev:hover {
+    background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
+    transform: translateY(-50%) scale(1.1) !important;
+    box-shadow: 0 8px 30px rgba(200, 180, 126, 0.4) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    opacity: 1 !important;
+}
+
+.service-swiper-next:hover::after,
+.service-swiper-prev:hover::after {
+    transform: scale(1.1) !important;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.4) !important;
+}
+
+/* Active State */
+.service-swiper-next:active,
+.service-swiper-prev:active {
+    transform: translateY(-50%) scale(0.95) !important;
+    transition: all 0.1s ease !important;
+}
+
+/* Service Card Hover Interaction */
+.service-item:hover ~ .service-swiper-next,
+.service-item:hover ~ .service-swiper-prev,
+.service-swiper:hover .service-swiper-next,
+.service-swiper:hover .service-swiper-prev {
+    opacity: 1 !important;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE SERVICE NAVIGATION
+   ============================================ */
+
+@media (max-width: 1200px) {
+    .service-swiper-container {
+        padding: 20px 70px 40px !important;
+    }
+
+    .service-swiper-prev {
+        left: -23px !important;
+    }
+
+    .service-swiper-next {
+        right: -23px !important;
+    }
+
+    .service-swiper-next,
+    .service-swiper-prev {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .service-swiper-next::after,
+    .service-swiper-prev::after {
+        font-size: 18px !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .service-swiper-container {
+        padding: 15px 60px 30px !important;
+    }
+
+    .service-swiper-prev {
+        left: -20px !important;
+    }
+
+    .service-swiper-next {
+        right: -20px !important;
+    }
+
+    .service-swiper-next,
+    .service-swiper-prev {
+        width: 48px !important;
+        height: 48px !important;
+        opacity: 1 !important; /* Always visible on mobile */
+    }
+
+    .service-swiper-next::after,
+    .service-swiper-prev::after {
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-swiper-container {
+        padding: 15px 50px 30px !important;
+    }
+
+    .service-swiper-prev {
+        left: -15px !important;
+    }
+
+    .service-swiper-next {
+        right: -15px !important;
+    }
+
+    .service-swiper-next,
+    .service-swiper-prev {
+        width: 44px !important;
+        height: 44px !important;
+        border-width: 2px !important;
+    }
+
+    .service-swiper-next::after,
+    .service-swiper-prev::after {
+        font-size: 14px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .service-swiper-container {
+        padding: 10px 40px 25px !important;
+    }
+
+    .service-swiper-prev {
+        left: -12px !important;
+    }
+
+    .service-swiper-next {
+        right: -12px !important;
+    }
+
+    .service-swiper-next,
+    .service-swiper-prev {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .service-swiper-next::after,
+    .service-swiper-prev::after {
+        font-size: 12px !important;
+    }
+}
+
+/* ============================================
+   RTL SUPPORT FOR SERVICE NAVIGATION
+   ============================================ */
+
+[dir="rtl"] .service-swiper-prev {
+    right: -28px !important;
+    left: auto !important;
+}
+
+[dir="rtl"] .service-swiper-next {
+    left: -28px !important;
+    right: auto !important;
+}
+
+@media (max-width: 1200px) {
+    [dir="rtl"] .service-swiper-prev {
+        right: -23px !important;
+    }
+
+    [dir="rtl"] .service-swiper-next {
+        left: -23px !important;
+    }
+}
+
+@media (max-width: 991px) {
+    [dir="rtl"] .service-swiper-prev {
+        right: -20px !important;
+    }
+
+    [dir="rtl"] .service-swiper-next {
+        left: -20px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    [dir="rtl"] .service-swiper-prev {
+        right: -15px !important;
+    }
+
+    [dir="rtl"] .service-swiper-next {
+        left: -15px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    [dir="rtl"] .service-swiper-prev {
+        right: -12px !important;
+    }
+
+    [dir="rtl"] .service-swiper-next {
+        left: -12px !important;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================================ */
+
+.service-swiper-next:focus,
+.service-swiper-prev:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8) !important;
+    outline-offset: 3px !important;
+    opacity: 1 !important;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .service-swiper-next,
+    .service-swiper-prev {
+        border-width: 4px !important;
+        border-color: #fff !important;
+        background: #000 !important;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .service-swiper-next,
+    .service-swiper-prev {
+        transition: none !important;
+    }
+
+    .service-swiper-next:hover,
+    .service-swiper-prev:hover {
+        transform: translateY(-50%) !important;
+    }
+}
+
+/* ============================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ============================================ */
+
+@media (hover: none) and (pointer: coarse) {
+    .service-swiper-next,
+    .service-swiper-prev {
+        width: 52px !important;
+        height: 52px !important;
+        opacity: 1 !important; /* Always visible on touch devices */
+        border-width: 3px !important;
+    }
+
+    .service-swiper-next::after,
+    .service-swiper-prev::after {
+        font-size: 18px !important;
+    }
+}
+
+/* ============================================
+   VISUAL ENHANCEMENT - SUBTLE ANIMATIONS
+   ============================================ */
+
+.service-swiper-next,
+.service-swiper-prev {
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+@keyframes gentlePulse {
+    0%, 100% {
+        box-shadow: 0 6px 20px rgba(200, 180, 126, 0.3);
+    }
+    50% {
+        box-shadow: 0 6px 25px rgba(200, 180, 126, 0.4);
+    }
+}
+
+/* Pause animation on hover */
+.service-swiper-next:hover,
+.service-swiper-prev:hover {
+    animation-play-state: paused !important;
+}
+</style>
 @endpush
 
 @endsection

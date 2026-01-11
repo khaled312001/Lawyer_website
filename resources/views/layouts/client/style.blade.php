@@ -311,14 +311,15 @@
 
     /* Main Navigation Bar - Client Only */
     body.client-frontend .main-navbar {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%) !important;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
         padding: 0;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         position: sticky;
         top: 0;
         z-index: 9999 !important;
         transition: all 0.3s ease;
         overflow: visible !important;
+        border-bottom: 1px solid #e9ecef;
     }
 
     body.client-frontend .main-navbar.sticky {
@@ -329,9 +330,10 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 15px 20px;
+        padding: 10px 20px;
         position: relative;
         overflow: visible !important;
+        min-height: 60px;
     }
 
     body.client-frontend .navbar-logo {
@@ -348,13 +350,20 @@
     }
 
     body.client-frontend .navbar-logo img {
-        max-height: 50px !important;
+        max-height: 45px !important;
         max-width: 200px !important;
         width: auto !important;
         height: auto !important;
         display: block;
         object-fit: contain !important;
         object-position: center !important;
+        filter: brightness(0.9) contrast(1.1);
+        transition: all 0.3s ease;
+    }
+
+    body.client-frontend .navbar-logo:hover img {
+        filter: brightness(1) contrast(1);
+        transform: scale(1.02);
     }
 
     /* Override any conflicting styles from main CSS */
@@ -400,32 +409,33 @@
     body.client-frontend .nav-link {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 12px 18px;
-        color: #fff !important;
+        gap: 6px;
+        padding: 10px 15px;
+        color: #333 !important;
         text-decoration: none;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 500;
         border-radius: 6px;
         transition: all 0.3s ease;
         white-space: nowrap;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        position: relative;
     }
 
     body.client-frontend .nav-link i {
-        font-size: 16px;
-        color: #fff !important;
+        font-size: 14px;
+        color: #555 !important;
+        transition: all 0.3s ease;
     }
 
     body.client-frontend .nav-link:hover {
-        background: rgba(255,255,255,0.2) !important;
-        color: #fff !important;
-        transform: translateY(-2px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        background: rgba(200, 180, 126, 0.1) !important;
+        color: var(--colorPrimary) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     body.client-frontend .nav-link:hover i {
-        color: #fff !important;
+        color: var(--colorPrimary) !important;
     }
 
     body.client-frontend .nav-item.has-dropdown .nav-link .dropdown-icon {
@@ -1565,16 +1575,16 @@
     /* WhatsApp Floating Button */
     .whatsapp-float {
         position: fixed;
-        width: 60px;
-        height: 60px;
-        bottom: 25px;
-        right: 25px;
+        width: 52px;
+        height: 52px;
+        bottom: 20px;
+        right: 20px;
         background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
         color: #fff;
         border-radius: 50%;
         text-align: center;
-        font-size: 30px;
-        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+        font-size: 26px;
+        box-shadow: 0 3px 15px rgba(37, 211, 102, 0.3);
         z-index: 1000;
         display: flex;
         align-items: center;
@@ -1646,15 +1656,15 @@
     /* Responsive WhatsApp Button */
     @media (max-width: 768px) {
         .whatsapp-float {
-            width: 55px;
-            height: 55px;
-            bottom: 20px;
-            right: 20px;
-            font-size: 28px;
+            width: 50px;
+            height: 50px;
+            bottom: 18px;
+            right: 18px;
+            font-size: 25px;
         }
 
         .whatsapp-float i {
-            font-size: 28px;
+            font-size: 25px;
         }
 
         .whatsapp-tooltip {
@@ -1664,15 +1674,39 @@
 
     @media (max-width: 480px) {
         .whatsapp-float {
-            width: 50px;
-            height: 50px;
-            bottom: 15px;
-            right: 15px;
+            width: 48px;
+            height: 48px;
+            bottom: 16px;
+            right: 16px;
             font-size: 24px;
         }
 
         .whatsapp-float i {
             font-size: 24px;
+        }
+    }
+
+    /* Safe Area for Mobile Browsers */
+    @media (max-width: 768px) {
+        body {
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .footer-copyrignt {
+            padding-bottom: calc(20px + env(safe-area-inset-bottom, 0));
+            margin-bottom: 0;
+        }
+
+        .main-footer {
+            margin-bottom: 0;
+        }
+
+        .scroll-top {
+            bottom: calc(25px + env(safe-area-inset-bottom, 0));
+        }
+
+        .whatsapp-float {
+            bottom: calc(16px + env(safe-area-inset-bottom, 0));
         }
     }
 
@@ -2062,8 +2096,9 @@
             width: 38px;
             height: 38px;
             order: -1;
-            margin-right: 20px;
+            margin-right: 15px;
             margin-left: 0;
+            align-self: center;
         }
 
         body.client-frontend .mobile-menu-toggle span {
@@ -8220,6 +8255,88 @@
         }
     }
 
+    /* Legal Hero Stats Cards */
+    .legal-hero-stats {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 25px;
+        padding: 0 10px;
+    }
+
+    .legal-stat-card {
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        padding: 18px 12px;
+        border-radius: 10px;
+        text-align: center;
+        color: #fff;
+        transition: all 0.3s ease;
+        min-width: 130px;
+        box-shadow: 0 3px 12px rgba(200, 180, 126, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        position: relative;
+        overflow: hidden;
+        flex: 1;
+        max-width: 160px;
+    }
+
+    .legal-stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+        border-radius: 10px;
+        pointer-events: none;
+    }
+
+    .legal-stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(200, 180, 126, 0.3);
+    }
+
+    .legal-stat-icon {
+        margin-bottom: 12px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .legal-stat-icon i {
+        font-size: 28px;
+        color: #fff;
+        opacity: 0.95;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    .legal-stat-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .legal-stat-number {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0 0 6px 0;
+        color: #fff;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        line-height: 1;
+        letter-spacing: -0.5px;
+    }
+
+    .legal-stat-label {
+        font-size: 11px;
+        margin: 0;
+        opacity: 0.95;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        line-height: 1.3;
+        color: rgba(255, 255, 255, 0.95);
+    }
+
     /* Client Header Notifications Styles */
     .notification-dropdown-header {
         position: relative;
@@ -8289,6 +8406,59 @@
             min-width: 300px;
             max-width: 300px;
             right: -50px;
+        }
+
+        /* Legal Stats Cards Mobile */
+        .legal-hero-stats {
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .legal-stat-card {
+            padding: 18px 12px;
+            min-width: 120px;
+            border-radius: 10px;
+        }
+
+        .legal-stat-icon i {
+            font-size: 24px;
+        }
+
+        .legal-stat-number {
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+
+        .legal-stat-label {
+            font-size: 11px;
+            letter-spacing: 0.3px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .legal-hero-stats {
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .legal-stat-card {
+            padding: 15px 10px;
+            min-width: 100px;
+        }
+
+        .legal-stat-icon i {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .legal-stat-number {
+            font-size: 24px;
+            margin-bottom: 3px;
+        }
+
+        .legal-stat-label {
+            font-size: 10px;
+            opacity: 0.95;
         }
     }
 </style>

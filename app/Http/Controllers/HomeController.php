@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FaqPage;
 use App\Models\AboutUsPage;
+use App\Models\RealEstate;
 use Illuminate\Http\Request;
 use Modules\Day\app\Models\Day;
 use Modules\Blog\app\Models\Blog;
@@ -189,9 +190,6 @@ class HomeController extends Controller {
             'service_faq.translation' => function ($query) {
                 $query->select('service_faq_id', 'question', 'answer');
             },
-            'videos'                  => function ($query) {
-                $query->select('service_id', 'link');
-            },
         ])->whereSlug($slug)->active()->first();
         if (!$service) {
             abort(404);
@@ -206,8 +204,127 @@ class HomeController extends Controller {
         return view('client.service.show', compact('service', 'services'));
     }
 
-    public function realEstate() {
-        return view('client.real-estate.index');
+    public function getServiceDetails($slug) {
+        $service = Service::select('id', 'icon', 'slug')->with([
+            'translation'             => function ($query) {
+                $query->where('lang_code', getSessionLanguage())
+                    ->select('service_id', 'title', 'description');
+            },
+            'images'                  => function ($query) {
+                $query->select('service_id', 'small_image', 'large_image');
+            },
+            'service_faq'             => function ($query) {
+                $query->select('id', 'service_id')->active();
+            },
+            'service_faq.translation' => function ($query) {
+                $query->select('service_faq_id', 'question', 'answer');
+            },
+        ])->whereSlug($slug)->active()->first();
+
+        if (!$service) {
+            return response()->json(['error' => 'Service not found'], 404);
+        }
+
+        return response()->json([
+            'service' => $service,
+            'title' => $service->title,
+            'description' => $service->description,
+            'icon' => $service->icon,
+            'images' => $service->images,
+            'faqs' => $service->service_faq
+        ]);
+    }
+
+    public function realEstate(Request $request) {
+        $query = RealEstate::active();
+
+        // Filter by type
+        if ($request->filled('type')) {
+            $query->where('property_type', $request->type);
+        }
+
+        // Filter by listing type
+        if ($request->filled('listing')) {
+            $query->where('listing_type', $request->listing);
+        }
+
+        // Filter by city
+        if ($request->filled('city')) {
+            $query->where('city', $request->city);
+        }
+
+        // Price range filter
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // Search by title or description
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+            });
+        }
+
+        // Sort options
+        $sortBy = $request->get('sort', 'latest');
+        switch ($sortBy) {
+            case 'price_low':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'area':
+                $query->orderBy('area', 'desc');
+                break;
+            case 'featured':
+                $query->orderBy('featured', 'desc')->orderBy('created_at', 'desc');
+                break;
+            default: // latest
+                $query->orderBy('featured', 'desc')->orderBy('created_at', 'desc');
+        }
+
+        $properties = $query->paginate(12)->withQueryString();
+
+        // Get filter options
+        $cities = RealEstate::active()->distinct()->pluck('city')->sort();
+        $propertyTypes = [
+            'apartment' => __('Apartment'),
+            'villa' => __('Villa'),
+            'office' => __('Office'),
+            'land' => __('Land'),
+            'shop' => __('Shop'),
+            'warehouse' => __('Warehouse'),
+        ];
+
+        return view('client.real-estate.index', compact(
+            'properties',
+            'cities',
+            'propertyTypes'
+        ));
+    }
+
+    public function realEstateDetails($slug) {
+        $property = RealEstate::active()->where('slug', $slug)->firstOrFail();
+
+        // Increment views
+        $property->incrementViews();
+
+        // Get similar properties
+        $similarProperties = RealEstate::active()
+            ->where('property_type', $property->property_type)
+            ->where('id', '!=', $property->id)
+            ->limit(4)
+            ->get();
+
+        return view('client.real-estate.show', compact('property', 'similarProperties'));
     }
     public function department() {
         if (cache()->has('CustomPagination')) {
@@ -517,6 +634,13 @@ class HomeController extends Controller {
             },
         ])->active()->get();
 
-        return view('client.book-consultation-appointment', compact('departments'));
+        $lawyers = User::where('user_type', 'lawyer')
+            ->where('status', 'active')
+            ->with(['department.translation', 'details'])
+            ->select('id', 'name', 'department_id', 'designations', 'image', 'status')
+            ->orderBy('name')
+            ->get();
+
+        return view('client.book-consultation-appointment', compact('departments', 'lawyers'));
     }
 }

@@ -111,33 +111,6 @@
                             </div>
                         </div>
                     @endif
-                    @if ($service?->videos->count() != 0)
-                        <div class="row mt_50">
-                            <div class="col-12">
-                                <div class="video-headline">
-                                    <h3>{{ __('Related Video') }}</h3>
-                                </div>
-                            </div>
-
-                            @foreach ($service?->videos as $video)
-                                <div class="col-md-6">
-                                    <div class="video-item mt_30">
-                                        <div class="video-img">
-                                            @php
-                                                $video_id = explode('=', $video?->link);
-                                            @endphp
-                                            <img src="https://img.youtube.com/vi/{{ $video_id[1] }}/0.jpg">
-                                            <div class="video-section">
-                                                <a aria-label="{{ __('Video') }}" class="video-button mgVideo"
-                                                    href="{{ $video?->link }}"><span></span></a>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
 
                 </div>
                 <div class="col-md-4">

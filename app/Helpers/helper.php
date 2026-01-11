@@ -704,3 +704,10 @@ if (!function_exists('displayStars')) {
         return $html;
     }
 }
+
+if (!function_exists('setting')) {
+    function setting()
+    {
+        return Cache::get('setting');
+    }
+}
