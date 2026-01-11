@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\FaqPage;
 use App\Models\AboutUsPage;
 use App\Models\RealEstate;
