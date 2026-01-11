@@ -82,10 +82,16 @@
                                             <option value="{{ $lawyer->id }}"
                                                     data-department="{{ $lawyer->department->name ?? '' }}"
                                                     data-specialty="{{ $lawyer->designations ?? '' }}"
+                                                    data-slug="{{ $lawyer->slug ?? '' }}"
+                                                    data-rating="{{ $lawyer->average_rating ?? 0 }}"
+                                                    data-rating-count="{{ $lawyer->total_ratings ?? 0 }}"
                                                     {{ old('lawyer_id') == $lawyer->id ? 'selected' : '' }}>
                                                 {{ $lawyer->name }} - {{ $lawyer->department->name ?? __('Lawyer') }}
                                                 @if($lawyer->designations)
                                                     ({{ $lawyer->designations }})
+                                                @endif
+                                                @if($lawyer->average_rating > 0)
+                                                    ({{ $lawyer->average_rating }} ⭐)
                                                 @endif
                                             </option>
                                         @endforeach
@@ -355,6 +361,8 @@
                 const department = selectedOption.data('department') || '';
                 const specialty = selectedOption.data('specialty') || '';
                 const lawyerSlug = selectedOption.data('slug') || '';
+                const rating = parseFloat(selectedOption.data('rating')) || 0;
+                const ratingCount = parseInt(selectedOption.data('rating-count')) || 0;
 
                 // Update lawyer info display
                 lawyerInfo.find('.lawyer-name').text(lawyerName);
@@ -365,8 +373,22 @@
                 const profileLink = $('#lawyer-profile-link');
                 const profileUrl = $('#lawyer-profile-url');
 
-                // Load lawyer details via AJAX
-                loadLawyerDetails(lawyerId, lawyerSlug);
+                // Update profile link with correct URL
+                if (lawyerSlug) {
+                    const profileLinkUrl = `/lawyer-details/${lawyerSlug}`;
+                    profileUrl.attr('href', profileLinkUrl);
+                    profileLink.show();
+                } else {
+                    profileLink.hide();
+                }
+
+                // Update rating display
+                if (rating > 0) {
+                    updateLawyerRating(rating, ratingCount);
+                    ratingDisplay.show();
+                } else {
+                    ratingDisplay.hide();
+                }
 
                 // Show and animate the info display
                 lawyerInfo.addClass('show');
@@ -388,40 +410,6 @@
         });
 
 
-        // Load lawyer details (rating and profile)
-        function loadLawyerDetails(lawyerId, lawyerSlug) {
-            // For now, we'll simulate loading lawyer details
-            // In a real implementation, you would make an AJAX call to get lawyer details
-
-            // Update profile link
-            const profileUrl = `/lawyer-details/${lawyerSlug}`;
-            $('#lawyer-profile-url').attr('href', profileUrl);
-            $('#lawyer-profile-link').show();
-
-            // Simulate rating data (replace with actual AJAX call)
-            const mockRating = {
-                average: (Math.random() * 2 + 3).toFixed(1), // Random rating between 3.0-5.0
-                count: Math.floor(Math.random() * 50) + 1 // Random count between 1-50
-            };
-
-            updateLawyerRating(mockRating.average, mockRating.count);
-            $('#lawyer-rating-display').show();
-
-            // TODO: Replace mock data with actual AJAX call
-            /*
-            $.ajax({
-                url: `/api/lawyer-details/${lawyerId}`,
-                method: 'GET',
-                success: function(data) {
-                    updateLawyerRating(data.average_rating, data.total_ratings);
-                    $('#lawyer-rating-display').show();
-                },
-                error: function() {
-                    console.log('Error loading lawyer details');
-                }
-            });
-            */
-        }
 
         // Update lawyer rating display
         function updateLawyerRating(averageRating, totalRatings) {
@@ -836,6 +824,13 @@
     appearance: none !important;
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
+}
+
+/* Custom option styling for better rating display */
+.lawyer-select option {
+    padding: 8px 12px !important;
+    background: #fff !important;
+    color: #333 !important;
 }
 
 .lawyer-select:focus {

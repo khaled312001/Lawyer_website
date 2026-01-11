@@ -647,6 +647,12 @@ class HomeController extends Controller {
             },
         ])->active()->get();
 
+        // Add rating data to each lawyer
+        foreach ($lawyers as $lawyer) {
+            $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
+            $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
+        }
+
         return view('client.book-consultation-appointment', compact('departments', 'lawyers'));
     }
 }
