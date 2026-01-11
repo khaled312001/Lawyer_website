@@ -66,7 +66,7 @@
                         
                         {{-- زر الحجز فقط --}}
                         <div class="mt-3 d-flex gap-2 flex-wrap">
-                            <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-primary btn-lg">
+                            <a href="{{ route('website.book.consultation.appointment', ['lawyer' => $lawyer->id]) }}" class="btn btn-primary btn-lg">
                                 <i class="fas fa-calendar-check"></i> {{ __('Book Consultation Appointment') }}
                             </a>
                         </div>

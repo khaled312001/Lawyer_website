@@ -137,7 +137,7 @@
                                     <label for="appointment_date" class="form-label">
                                         <i class="fas fa-calendar-alt me-2"></i>{{ __('Appointment Date') }} <span class="text-danger">*</span>
                                     </label>
-                                    <input type="date" name="appointment_date" id="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}">
+                                    <input type="date" name="appointment_date" id="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}" placeholder="{{ __('12-Jan-2026') }}">
                                     @error('appointment_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -296,6 +296,31 @@
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
         $('#appointment_date').attr('min', today);
+
+        // Open date picker on focus for date field
+        $('#appointment_date').on('focus', function() {
+            // For modern browsers, focusing on date input opens the picker automatically
+            // This ensures it works across all browsers
+            if (this.showPicker) {
+                this.showPicker();
+            }
+        });
+
+        // Open time picker on focus for time field
+        $('#appointment_time').on('focus', function() {
+            // For modern browsers, focusing on time input opens the picker automatically
+            // This ensures it works across all browsers
+            if (this.showPicker) {
+                this.showPicker();
+            }
+        });
+
+        // Auto-select lawyer from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const lawyerId = urlParams.get('lawyer');
+        if (lawyerId) {
+            $('#lawyer_id').val(lawyerId).trigger('change');
+        }
 
         // Form validation
         $('#consultationAppointmentForm').on('submit', function(e) {
