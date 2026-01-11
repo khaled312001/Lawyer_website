@@ -26,7 +26,6 @@
          <li class="{{ isroute('client.upcomming-meeting') ?'active':'' }}"><a href="{{ route('client.upcomming-meeting') }}"><i class="fas fa-chevron-right"></i> {{ __('Upcoming Meeting') }} </a></li>
 
          <li class="{{ isRoute(['client.appointment','client.show.appointment']) ?'active':'' }}"><a href="{{ route('client.appointment') }}"><i class="fas fa-chevron-right"></i> {{ __('Appointment List') }}</a></li>
-         <li class="{{ isroute('website.book.appointment') ?'active':'' }}"><a href="{{ route('website.book.appointment') }}"><i class="fas fa-chevron-right"></i> {{ __('Book Appointment') }}</a></li>
          <li class="{{ isroute('website.book.consultation.appointment') ?'active':'' }}"><a href="{{ route('website.book.consultation.appointment') }}"><i class="fas fa-chevron-right"></i> {{ __('Book Consultation Appointment') }}</a></li>
          <li class="{{ isroute('client.order') ?'active':'' }}"><a href="{{ route('client.order') }}"><i class="fas fa-chevron-right"></i> {{ __('Order List') }}</a></li>
          <li class="{{ isroute('client.change.password') ?'active':'' }}"><a href="{{ route('client.change.password') }}"><i class="fas fa-chevron-right"></i> {{ __('Change Password') }}</a></li>
