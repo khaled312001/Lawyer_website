@@ -38,7 +38,7 @@
             <div class="d-flex align-items-center h_100_p">
                 <div class="container-fluid">
                     <div class="row align-items-center">
-                        <div class="col-lg-5">
+                        <div class="col-lg-7 order-2 order-lg-1">
                             <div class="legal-hero-stats">
                                 @if($overviews->count() > 0)
                                     @foreach($overviews->take(4) as $overview)
@@ -92,7 +92,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-5 order-1 order-lg-2">
                             <div class="legal-hero-content">
                                 <div class="legal-hero-badge">
                                     <i class="fas fa-shield-alt"></i>
