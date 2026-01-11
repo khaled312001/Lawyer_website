@@ -761,7 +761,7 @@
     }
 
     .country-code-select {
-        width: 100px !important;
+        width: 80px !important;
         font-size: 13px !important;
     }
 
@@ -770,6 +770,8 @@
     }
 
     .country-code-select {
+        width: 70px !important;
+        font-size: 12px !important;
         border-radius: 10px 10px 0 0 !important;
         border-bottom: none !important;
         border-bottom-right-radius: 0 !important;
@@ -861,7 +863,7 @@
 }
 
 .country-code-select {
-    width: 120px !important;
+    width: 90px !important;
     flex-shrink: 0;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
