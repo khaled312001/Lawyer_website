@@ -1691,12 +1691,19 @@
 
     /* Mobile Hero Section Column Ordering - Applied after all other media queries */
     @media (max-width: 768px) {
+        .legal-hero-section .row.align-items-center {
+            flex-direction: column !important;
+        }
+
         .legal-hero-section .col-lg-7 {
             order: 1 !important;
+            width: 100% !important;
+            margin-bottom: 30px !important;
         }
 
         .legal-hero-section .col-lg-5 {
             order: 2 !important;
+            width: 100% !important;
         }
     }
 
