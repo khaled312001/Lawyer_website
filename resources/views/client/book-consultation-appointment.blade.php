@@ -97,6 +97,23 @@
                                         <div class="lawyer-details">
                                             <div class="lawyer-name">{{ __('Select a lawyer to see details') }}</div>
                                             <div class="lawyer-specialty">{{ __('Choose from the list above') }}</div>
+                                            <div class="lawyer-rating" id="lawyer-rating-display" style="display: none;">
+                                                <div class="rating-stars">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <div class="rating-text">
+                                                    <span id="rating-score">0.0</span> (<span id="rating-count">0</span> {{ __('reviews') }})
+                                                </div>
+                                            </div>
+                                            <div class="lawyer-profile-link" id="lawyer-profile-link" style="display: none;">
+                                                <a href="#" id="lawyer-profile-url" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-user me-1"></i>{{ __('View Profile') }}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -337,13 +354,19 @@
                 const lawyerName = selectedOption.text().split(' - ')[0].trim();
                 const department = selectedOption.data('department') || '';
                 const specialty = selectedOption.data('specialty') || '';
+                const lawyerSlug = selectedOption.data('slug') || '';
 
                 // Update lawyer info display
                 lawyerInfo.find('.lawyer-name').text(lawyerName);
                 lawyerInfo.find('.lawyer-specialty').text(department + (specialty ? ` (${specialty})` : ''));
 
-                // Remove any existing rating
-                lawyerInfo.find('.lawyer-rating').remove();
+                // Show rating display and update with lawyer data
+                const ratingDisplay = $('#lawyer-rating-display');
+                const profileLink = $('#lawyer-profile-link');
+                const profileUrl = $('#lawyer-profile-url');
+
+                // Load lawyer details via AJAX
+                loadLawyerDetails(lawyerId, lawyerSlug);
 
                 // Show and animate the info display
                 lawyerInfo.addClass('show');
@@ -358,11 +381,68 @@
                 // Reset to default state
                 lawyerInfo.find('.lawyer-name').text('{{ __("Select a lawyer to see details") }}');
                 lawyerInfo.find('.lawyer-specialty').text('{{ __("Choose from the list above") }}');
-                lawyerInfo.find('.lawyer-rating').remove();
+                $('#lawyer-rating-display').hide();
+                $('#lawyer-profile-link').hide();
                 lawyerInfo.removeClass('show');
             }
         });
 
+
+        // Load lawyer details (rating and profile)
+        function loadLawyerDetails(lawyerId, lawyerSlug) {
+            // For now, we'll simulate loading lawyer details
+            // In a real implementation, you would make an AJAX call to get lawyer details
+
+            // Update profile link
+            const profileUrl = `/lawyer-details/${lawyerSlug}`;
+            $('#lawyer-profile-url').attr('href', profileUrl);
+            $('#lawyer-profile-link').show();
+
+            // Simulate rating data (replace with actual AJAX call)
+            const mockRating = {
+                average: (Math.random() * 2 + 3).toFixed(1), // Random rating between 3.0-5.0
+                count: Math.floor(Math.random() * 50) + 1 // Random count between 1-50
+            };
+
+            updateLawyerRating(mockRating.average, mockRating.count);
+            $('#lawyer-rating-display').show();
+
+            // TODO: Replace mock data with actual AJAX call
+            /*
+            $.ajax({
+                url: `/api/lawyer-details/${lawyerId}`,
+                method: 'GET',
+                success: function(data) {
+                    updateLawyerRating(data.average_rating, data.total_ratings);
+                    $('#lawyer-rating-display').show();
+                },
+                error: function() {
+                    console.log('Error loading lawyer details');
+                }
+            });
+            */
+        }
+
+        // Update lawyer rating display
+        function updateLawyerRating(averageRating, totalRatings) {
+            $('#rating-score').text(averageRating);
+
+            // Update star rating display
+            const stars = $('#lawyer-rating-display .rating-stars i');
+            const rating = parseFloat(averageRating);
+
+            stars.each(function(index) {
+                if (index < Math.floor(rating)) {
+                    $(this).removeClass('far').addClass('fas');
+                } else if (index === Math.floor(rating) && rating % 1 >= 0.5) {
+                    $(this).removeClass('far').addClass('fas fa-star-half-alt');
+                } else {
+                    $(this).removeClass('fas fa-star-half-alt').addClass('far');
+                }
+            });
+
+            $('#rating-count').text(totalRatings);
+        }
 
         // Load lawyer availability
         function loadLawyerAvailability(lawyerId, date) {
@@ -851,9 +931,30 @@
     font-size: 12px;
 }
 
+.rating-stars i {
+    margin-right: 1px;
+}
+
 .rating-text {
     font-size: 12px;
     color: #666;
+}
+
+/* Lawyer Profile Link */
+.lawyer-profile-link {
+    margin-top: 8px;
+}
+
+.lawyer-profile-link .btn {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.lawyer-profile-link .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* ============================================
@@ -879,6 +980,19 @@
     .lawyer-specialty {
         font-size: 12px;
     }
+
+    .lawyer-profile-link .btn {
+        font-size: 10px;
+        padding: 3px 6px;
+    }
+
+    .rating-stars {
+        font-size: 11px;
+    }
+
+    .rating-text {
+        font-size: 11px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -903,6 +1017,19 @@
 
     .lawyer-specialty {
         font-size: 11px;
+    }
+
+    .lawyer-profile-link .btn {
+        font-size: 9px;
+        padding: 2px 4px;
+    }
+
+    .rating-stars {
+        font-size: 10px;
+    }
+
+    .rating-text {
+        font-size: 10px;
     }
 }
 

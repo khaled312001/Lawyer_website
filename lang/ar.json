@@ -1707,5 +1707,12 @@
     "Please provide comprehensive details about your case": "يرجى تقديم تفاصيل شاملة عن قضيتك",
     "Client Information": "معلومات العميل",
     "Primary Contact Method: We will contact you via phone for appointment confirmation and updates.": "طريقة الاتصال الأساسية: سنتصل بك عبر الهاتف لتأكيد الموعد والتحديثات.",
-    "Email is optional but helps us send meeting links and updates.": "البريد الإلكتروني اختياري ولكنه يساعدنا في إرسال روابط الاجتماع والتحديثات."
+    "Email is optional but helps us send meeting links and updates.": "البريد الإلكتروني اختياري ولكنه يساعدنا في إرسال روابط الاجتماع والتحديثات.",
+    "Full Name *": "الاسم الكامل *",
+    "View Profile": "عرض الملف الشخصي",
+    "reviews": "تقييم",
+    "Enter your full name": "أدخل اسمك الكامل",
+    "Email Address (Optional)": "عنوان البريد الإلكتروني (اختياري)",
+    "Enter your email address (optional)": "أدخل عنوان بريدك الإلكتروني (اختياري)",
+    "Optional. We will contact you primarily through phone.": "اختياري. سنتصل بك بشكل أساسي عبر الهاتف."
 }

@@ -635,7 +635,7 @@ class HomeController extends Controller {
             },
         ])->active()->get();
 
-        $lawyers = Lawyer::select('id', 'department_id', 'name', 'image')->with([
+        $lawyers = Lawyer::select('id', 'department_id', 'name', 'image', 'slug')->with([
             'department'             => function ($query) {
                 $query->select('id');
             },
