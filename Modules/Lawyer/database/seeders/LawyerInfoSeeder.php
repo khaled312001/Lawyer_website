@@ -18,6 +18,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 1,
                 'name'              => 'James Anderson',
                 'email'             => 'james.anderson@law.com',
+                'image'             => 'lawyers/james-anderson.jpg',
                 'about' => 'المحامي أحمد الحسن متخصص في القانون المدني والتجاري السوري مع خبرة واسعة في القضايا المدنية والعقود التجارية. يقدم استشارات قانونية متخصصة ويمثل العملاء أمام المحاكم السورية.',
                 'address' => 'شارع المحاكم، دمشق، سوريا',
                 'educations' => '
@@ -48,6 +49,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 1,
                 'name'              => 'Sarah Mitchell',
                 'email'             => 'sarah.mitchell@law.com',
+                'image'             => 'lawyers/sarah-mitchell.jpg',
                 'about' => 'المحامية فاطمة السيد محامية متخصصة في قانون الأحوال الشخصية والأسرة السوري. تمتلك خبرة واسعة في قضايا الطلاق والحضانة والميراث، وتقدم خدمات قانونية متميزة للعائلات السورية.',
                 'address' => 'شارع بغداد، دمشق، سوريا',
                 'educations' => '
@@ -79,6 +81,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 1,
                 'name'              => 'Robert Thompson',
                 'email'             => 'robert.thompson@law.com',
+                'image'             => 'lawyers/robert-thompson.jpg',
                 'about' => 'المحامي محمد الخطيب محامي جنائي متمرس متخصص في الدفاع عن المتهمين في القضايا الجزائية. يمتلك فهماً عميقاً لقانون العقوبات السوري والإجراءات الجزائية.',
                 'address' => 'ساحة العباسيين، دمشق، سوريا',
                 'educations' => '
@@ -109,6 +112,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 1,
                 'name'              => 'Emily Johnson',
                 'email'             => 'emily.johnson@law.com',
+                'image'             => 'lawyers/emily-johnson.jpg',
                 'about' => 'المحامية ليلى الأحمد محامية متخصصة في قانون العقارات والملكية في سوريا. تمتلك خبرة واسعة في المعاملات العقارية ونزاعات الملكية وتسجيل الأراضي.',
                 'address' => 'شارع الثورة، دمشق، سوريا',
                 'educations' => '
@@ -138,6 +142,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 2,
                 'name'              => 'Michael Williams',
                 'email'             => 'michael.williams@law.com',
+                'image'             => 'lawyers/michael-williams.jpg',
                 'about' => 'المحامي بشار الزعبي محامي متمرس في القانون المدني والتجاري، متخصص في عقود الشركات والنزاعات التجارية. يقدم استشارات قانونية شاملة للشركات والأفراد.',
                 'address' => 'شارع الملك فيصل، حلب، سوريا',
                 'educations' => '
@@ -167,6 +172,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 2,
                 'name'              => 'David Brown',
                 'email'             => 'david.brown@law.com',
+                'image'             => 'lawyers/david-brown.jpg',
                 'about' => 'المحامي سامر حمود متخصص في القانون الإداري السوري، مع خبرة واسعة في العقود الحكومية والتراخيص والنزاعات الإدارية أمام المحاكم الإدارية.',
                 'address' => 'شارع العروبة، حلب، سوريا',
                 'educations' => '
@@ -196,6 +202,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 3,
                 'name'              => 'Jessica Davis',
                 'email'             => 'jessica.davis@law.com',
+                'image'             => 'lawyers/jessica-davis.jpg',
                 'about' => 'المحامية مريم الحموي محامية متخصصة في قانون العقارات والملكية. تركز على المعاملات العقارية ونزاعات الملكية وتقديم حلول قانونية شاملة للعائلات والشركات.',
                 'address' => 'شارع الكورنيش، حمص، سوريا',
                 'educations' => '
@@ -225,6 +232,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 3,
                 'name'              => 'Christopher Wilson',
                 'email'             => 'christopher.wilson@law.com',
+                'image'             => 'lawyers/christopher-wilson.jpg',
                 'about' => 'المحامي طارق النابلسي محامي جنائي متخصص في الدفاع الجنائي وحماية حقوق المتهمين. يتمتع بخبرة واسعة في التعامل مع القضايا الجنائية المعقدة أمام المحاكم السورية.',
                 'address' => 'شارع الحمراء، حمص، سوريا',
                 'educations' => '
@@ -255,6 +263,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 4,
                 'name'              => 'Amanda Taylor',
                 'email'             => 'amanda.taylor@law.com',
+                'image'             => 'lawyers/amanda-taylor.jpg',
                 'about' => 'المحامية نادية الشريف محامية متخصصة في قانون الأحوال الشخصية والأسرة. تقدم استشارات قانونية شاملة في قضايا الزواج والطلاق والحضانة والميراث.',
                 'address' => 'شارع الشط، اللاذقية، سوريا',
                 'educations' => '
@@ -285,6 +294,7 @@ class LawyerInfoSeeder extends Seeder {
                 'location_id'       => 4,
                 'name'              => 'Daniel Martinez',
                 'email'             => 'daniel.martinez@law.com',
+                'image'             => 'lawyers/daniel-martinez.jpg',
                 'about' => 'المحامي وليد القاضي متخصص في قانون العمل والتوظيف في سوريا. يقدم استشارات قانونية للشركات والعمال في قضايا عقود العمل والنزاعات العمالية.',
                 'address' => 'شارع الزراعة، اللاذقية، سوريا',
                 'educations' => '

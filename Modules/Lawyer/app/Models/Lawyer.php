@@ -35,6 +35,7 @@ class Lawyer extends Authenticatable {
         'email',
         'password',
         'phone',
+        'image',
         'forget_password_token',
         'email_verified_at',
         'email_verified_token',

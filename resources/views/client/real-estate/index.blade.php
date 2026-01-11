@@ -28,8 +28,52 @@
 </section>
 <!--Page Title End-->
 
+<!-- Service Description Start -->
+<section class="service-description pt_100 pb_50">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="service-description-content text-center">
+                    <h2 class="section-title">{{ __('Real Estate Legal Services') }}</h2>
+                    <p class="section-subtitle">{{ __('Professional Legal Support for All Your Property Needs') }}</p>
+                    <div class="service-description-text">
+                        <p>{{ __('Our real estate lawyers provide comprehensive legal services for property transactions, contracts, disputes, and regulatory compliance. With years of experience in Syrian property law, we ensure your real estate investments and transactions are legally protected and compliant with all local regulations.') }}</p>
+                        <p>{{ __('Whether you are buying, selling, renting, or developing property, our expert legal team offers personalized consultation and representation to protect your interests and achieve the best possible outcomes for your real estate matters.') }}</p>
+                    </div>
+                    <div class="service-features mt_40">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="fas fa-home"></i>
+                                    <h4>{{ __('Property Transactions') }}</h4>
+                                    <p>{{ __('Legal support for buying, selling, and transferring property rights') }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="fas fa-file-contract"></i>
+                                    <h4>{{ __('Contract Drafting') }}</h4>
+                                    <p>{{ __('Professional contract preparation and legal review') }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-item">
+                                    <i class="fas fa-gavel"></i>
+                                    <h4>{{ __('Dispute Resolution') }}</h4>
+                                    <p>{{ __('Legal representation in property disputes and litigation') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Service Description End -->
+
 <!-- Real Estate Listings Start -->
-<section class="real-estate-listings pt_100 pb_100">
+<section class="real-estate-listings pt_50 pb_100">
     <div class="container">
         <!-- Search and Filters -->
         <div class="row mb_50">
@@ -194,6 +238,70 @@
 /* ============================================
    REAL ESTATE LAWYERS STYLES
    ============================================ */
+
+/* Service Description Section */
+.service-description {
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    color: white;
+}
+
+.service-description-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.service-description .section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.service-description .section-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.service-description-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+}
+
+.service-features {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 3rem 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.feature-item {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.feature-item i {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.feature-item h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    line-height: 1.5;
+}
 
 /* Filters Section */
 .real-estate-filters {
