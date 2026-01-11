@@ -338,7 +338,7 @@ class LawyerInfoSeeder extends Seeder {
                 'phone'               => $faker->phoneNumber,
                 'fee'                 => $faker->numberBetween(15, 200),
                 'years_of_experience' => $faker->numberBetween(1, 5),
-                'image'               => "uploads/website-images/dummy/lawyer-{$index}.webp",
+                'image'               => $lawyer['image'] ?? "lawyers/lawyer-{$index}.jpg",
                 'status'              => 1,
                 'show_homepage'       => 1,
                 'wallet_balance'       => $lawyer['wallet_balance'] ?? 0.00,
