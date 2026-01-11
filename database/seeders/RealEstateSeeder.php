@@ -37,9 +37,7 @@ class RealEstateSeeder extends Seeder
                 'features' => ['parking', 'elevator', 'security', 'generator'],
                 'amenities' => ['furnished', 'balcony', 'air_conditioning'],
                 'images' => [
-                    'properties/apartment-1-1.jpg',
-                    'properties/apartment-1-2.jpg',
-                    'properties/apartment-1-3.jpg'
+                    'properties/apartment-1-main.jpg'
                 ],
                 'featured_image' => 'properties/apartment-1-main.jpg',
                 'featured' => true,
@@ -69,10 +67,7 @@ class RealEstateSeeder extends Seeder
                 'features' => ['garden', 'parking', 'pool', 'security'],
                 'amenities' => ['furnished', 'balcony', 'garden', 'pool'],
                 'images' => [
-                    'properties/villa-1-1.jpg',
-                    'properties/villa-1-2.jpg',
-                    'properties/villa-1-3.jpg',
-                    'properties/villa-1-4.jpg'
+                    'properties/villa-1-main.jpg'
                 ],
                 'featured_image' => 'properties/villa-1-main.jpg',
                 'featured' => true,
@@ -102,8 +97,7 @@ class RealEstateSeeder extends Seeder
                 'features' => ['elevator', 'security', 'parking', 'internet'],
                 'amenities' => ['furnished', 'air_conditioning'],
                 'images' => [
-                    'properties/office-1-1.jpg',
-                    'properties/office-1-2.jpg'
+                    'properties/office-1-main.jpg'
                 ],
                 'featured_image' => 'properties/office-1-main.jpg',
                 'featured' => false,
@@ -133,8 +127,7 @@ class RealEstateSeeder extends Seeder
                 'features' => ['elevator', 'parking'],
                 'amenities' => ['furnished', 'air_conditioning'],
                 'images' => [
-                    'properties/apartment-2-1.jpg',
-                    'properties/apartment-2-2.jpg'
+                    'properties/apartment-2-main.jpg'
                 ],
                 'featured_image' => 'properties/apartment-2-main.jpg',
                 'featured' => false,
@@ -164,8 +157,7 @@ class RealEstateSeeder extends Seeder
                 'features' => ['services', 'schools'],
                 'amenities' => [],
                 'images' => [
-                    'properties/land-1-1.jpg',
-                    'properties/land-1-2.jpg'
+                    'properties/land-1-main.jpg'
                 ],
                 'featured_image' => 'properties/land-1-main.jpg',
                 'featured' => false,
@@ -195,8 +187,7 @@ class RealEstateSeeder extends Seeder
                 'features' => ['high_traffic', 'security', 'storage'],
                 'amenities' => ['air_conditioning'],
                 'images' => [
-                    'properties/shop-1-1.jpg',
-                    'properties/shop-1-2.jpg'
+                    'properties/shop-1-main.jpg'
                 ],
                 'featured_image' => 'properties/shop-1-main.jpg',
                 'featured' => false,

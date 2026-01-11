@@ -1,11 +1,11 @@
 @extends('layouts.client.layout')
 
 @section('title')
-    <title>{{ __('Real Estate') }} - {{ $setting?->app_name }}</title>
+    <title>{{ __('Real Estate Lawyers') }} - {{ $setting?->app_name }}</title>
 @endsection
 
 @section('meta')
-    <meta name="description" content="{{ __('Find your perfect property from our extensive real estate listings') }}">
+    <meta name="description" content="{{ __('Find experienced real estate lawyers and legal consultants for your property needs') }}">
 @endsection
 
 @section('client-content')
@@ -16,10 +16,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-content">
-                    <h2 class="title">{{ __('Real Estate') }}</h2>
+                    <h2 class="title">{{ __('Real Estate Lawyers') }}</h2>
                     <ul>
                         <li><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
-                        <li>{{ __('Real Estate') }}</li>
+                        <li>{{ __('Real Estate Lawyers') }}</li>
                     </ul>
                 </div>
             </div>
@@ -38,38 +38,33 @@
                     <form action="{{ route('website.real-estate') }}" method="GET" class="filter-form">
                         <div class="row g-3">
                             <!-- Search -->
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="search-input-wrapper">
-                                    <input type="text" name="search" class="form-control" placeholder="{{ __('Search properties...') }}" value="{{ request('search') }}">
+                                    <input type="text" name="search" class="form-control" placeholder="{{ __('Search lawyers...') }}" value="{{ request('search') }}">
                                     <i class="fas fa-search"></i>
                                 </div>
                             </div>
 
-                            <!-- Property Type -->
-                            <div class="col-md-2">
-                                <select name="type" class="form-select">
-                                    <option value="">{{ __('All Types') }}</option>
-                                    @foreach($propertyTypes as $key => $label)
-                                        <option value="{{ $key }}" {{ request('type') == $key ? 'selected' : '' }}>{{ $label }}</option>
+                            <!-- Department -->
+                            <div class="col-md-3">
+                                <select name="department" class="form-select">
+                                    <option value="">{{ __('All Departments') }}</option>
+                                    @foreach($departments as $department)
+                                        <option value="{{ $department->id }}" {{ request('department') == $department->id ? 'selected' : '' }}>
+                                            {{ $department->translation?->name ?? __('Department') }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <!-- Listing Type -->
-                            <div class="col-md-2">
-                                <select name="listing" class="form-select">
-                                    <option value="">{{ __('All Listings') }}</option>
-                                    <option value="sale" {{ request('listing') == 'sale' ? 'selected' : '' }}>{{ __('For Sale') }}</option>
-                                    <option value="rent" {{ request('listing') == 'rent' ? 'selected' : '' }}>{{ __('For Rent') }}</option>
-                                </select>
-                            </div>
-
-                            <!-- City -->
-                            <div class="col-md-2">
-                                <select name="city" class="form-select">
-                                    <option value="">{{ __('All Cities') }}</option>
-                                    @foreach($cities as $city)
-                                        <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>{{ $city }}</option>
+                            <!-- Location -->
+                            <div class="col-md-3">
+                                <select name="location" class="form-select">
+                                    <option value="">{{ __('All Locations') }}</option>
+                                    @foreach($locations as $location)
+                                        <option value="{{ $location->id }}" {{ request('location') == $location->id ? 'selected' : '' }}>
+                                            {{ $location->translation?->name ?? __('Location') }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -77,19 +72,11 @@
                             <!-- Sort -->
                             <div class="col-md-2">
                                 <select name="sort" class="form-select">
-                                    <option value="latest" {{ request('sort', 'latest') == 'latest' ? 'selected' : '' }}>{{ __('Latest') }}</option>
-                                    <option value="featured" {{ request('sort') == 'featured' ? 'selected' : '' }}>{{ __('Featured') }}</option>
-                                    <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>{{ __('Price: Low to High') }}</option>
-                                    <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>{{ __('Price: High to Low') }}</option>
-                                    <option value="area" {{ request('sort') == 'area' ? 'selected' : '' }}>{{ __('Largest Area') }}</option>
+                                    <option value="name" {{ request('sort', 'name') == 'name' ? 'selected' : '' }}>{{ __('Name') }}</option>
+                                    <option value="experience" {{ request('sort') == 'experience' ? 'selected' : '' }}>{{ __('Experience') }}</option>
+                                    <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>{{ __('Rating') }}</option>
+                                    <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>{{ __('Oldest') }}</option>
                                 </select>
-                            </div>
-
-                            <!-- Submit -->
-                            <div class="col-md-1">
-                                <button type="submit" class="btn btn-primary w-100">
-                                    <i class="fas fa-filter"></i>
-                                </button>
                             </div>
                         </div>
                     </form>
@@ -102,9 +89,9 @@
             <div class="col-12">
                 <div class="results-info">
                     <h4 class="mb-0">
-                        <i class="fas fa-home me-2"></i>
-                        {{ __('Found') }} {{ $properties->total() }} {{ __('properties') }}
-                        @if(request()->hasAny(['search', 'type', 'listing', 'city']))
+                        <i class="fas fa-user-tie me-2"></i>
+                        {{ __('Found') }} {{ $lawyers->total() }} {{ __('real estate lawyers') }}
+                        @if(request()->hasAny(['search', 'department', 'location']))
                             {{ __('for your search') }}
                         @endif
                     </h4>
@@ -112,78 +99,57 @@
             </div>
         </div>
 
-        <!-- Properties Grid -->
-        @if($properties->count() > 0)
+        <!-- Lawyers Grid -->
+        @if($lawyers->count() > 0)
             <div class="row">
-                @foreach($properties as $property)
+                @foreach($lawyers as $lawyer)
                     <div class="col-lg-4 col-md-6 mb_30">
-                        <div class="property-card">
-                            <!-- Property Image -->
-                            <div class="property-image">
-                                <img src="{{ $property->main_image_url }}" alt="{{ $property->title }}" class="img-fluid">
+                        <div class="lawyer-card">
+                            <!-- Lawyer Image -->
+                            <div class="lawyer-image">
+                                <img src="{{ $lawyer->image ? asset('storage/' . $lawyer->image) : asset('client/img/default-avatar.png') }}" alt="{{ $lawyer->name }}" class="img-fluid">
 
-                                <!-- Badges -->
-                                <div class="property-badges">
-                                    @if($property->featured)
-                                        <span class="badge featured-badge">{{ __('Featured') }}</span>
-                                    @endif
-                                    <span class="badge type-badge {{ $property->listing_type }}">
-                                        {{ $property->listing_type_label }}
-                                    </span>
-                                </div>
-
-                                <!-- Overlay -->
-                                <div class="property-overlay">
-                                    <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-light btn-sm">
-                                        <i class="fas fa-eye me-1"></i>{{ __('View Details') }}
-                                    </a>
-                                </div>
+                                <!-- Rating Badge -->
+                                @if($lawyer->average_rating > 0)
+                                    <div class="lawyer-rating-badge">
+                                        <i class="fas fa-star"></i>
+                                        <span>{{ number_format($lawyer->average_rating, 1) }}</span>
+                                        <small>({{ $lawyer->total_ratings }})</small>
+                                    </div>
+                                @endif
                             </div>
 
-                            <!-- Property Info -->
-                            <div class="property-info">
-                                <h5 class="property-title">
-                                    <a href="{{ route('website.real-estate.show', $property->slug) }}">
-                                        {{ Str::limit($property->title, 50) }}
+                            <!-- Lawyer Info -->
+                            <div class="lawyer-info">
+                                <h5 class="lawyer-name">
+                                    <a href="{{ route('website.lawyer.details', $lawyer->slug) }}">
+                                        {{ $lawyer->name }}
                                     </a>
                                 </h5>
 
-                                <div class="property-location">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    {{ $property->location_string }}
+                                <div class="lawyer-specialty">
+                                    <i class="fas fa-briefcase me-1"></i>
+                                    {{ $lawyer->translation?->designations ?? $lawyer->designations ?? __('Lawyer') }}
                                 </div>
 
-                                <div class="property-details">
-                                    @if($property->bedrooms)
-                                        <span class="detail-item">
-                                            <i class="fas fa-bed"></i> {{ $property->bedrooms }}
-                                        </span>
-                                    @endif
-                                    @if($property->bathrooms)
-                                        <span class="detail-item">
-                                            <i class="fas fa-bath"></i> {{ $property->bathrooms }}
-                                        </span>
-                                    @endif
-                                    @if($property->area)
-                                        <span class="detail-item">
-                                            <i class="fas fa-vector-square"></i> {{ $property->formatted_area }}
-                                        </span>
-                                    @endif
+                                <div class="lawyer-department">
+                                    <i class="fas fa-building me-1"></i>
+                                    {{ $lawyer->department?->translation?->name ?? __('Department') }}
                                 </div>
 
-                                <div class="property-price">
-                                    <span class="price-amount">{{ $property->formatted_price }}</span>
-                                    @if($property->listing_type === 'rent')
-                                        <small class="price-period">{{ __('per month') }}</small>
-                                    @endif
-                                </div>
+                                @if($lawyer->years_of_experience)
+                                    <div class="lawyer-experience">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        {{ $lawyer->years_of_experience }} {{ __('years of experience') }}
+                                    </div>
+                                @endif
 
-                                <div class="property-actions">
-                                    <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm">
-                                        {{ __('View Details') }}
+                                <div class="lawyer-actions">
+                                    <a href="{{ route('website.lawyer.details', $lawyer->slug) }}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-eye me-1"></i>{{ __('View Profile') }}
                                     </a>
-                                    <a href="{{ route('website.real-estate.interest', $property->slug) }}" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-heart me-1"></i>{{ __('Interested') }}
+                                    <a href="{{ route('website.book.consultation.appointment', ['lawyer' => $lawyer->id]) }}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-calendar-check me-1"></i>{{ __('Book Consultation') }}
                                     </a>
                                 </div>
                             </div>
@@ -196,22 +162,22 @@
             <div class="row">
                 <div class="col-12">
                     <div class="pagination-wrapper">
-                        {{ $properties->appends(request()->query())->links() }}
+                        {{ $lawyers->appends(request()->query())->links() }}
                     </div>
                 </div>
             </div>
         @else
-            <!-- No Properties Found -->
+            <!-- No Lawyers Found -->
             <div class="row">
                 <div class="col-12">
                     <div class="no-properties text-center">
                         <div class="no-properties-icon">
-                            <i class="fas fa-home"></i>
+                            <i class="fas fa-user-tie"></i>
                         </div>
-                        <h3>{{ __('No Properties Found') }}</h3>
-                        <p>{{ __('Try adjusting your search criteria or browse all properties.') }}</p>
+                        <h3>{{ __('No Lawyers Found') }}</h3>
+                        <p>{{ __('Try adjusting your search criteria or browse all lawyers.') }}</p>
                         <a href="{{ route('website.real-estate') }}" class="btn btn-primary">
-                            <i class="fas fa-refresh me-2"></i>{{ __('View All Properties') }}
+                            <i class="fas fa-refresh me-2"></i>{{ __('View All Lawyers') }}
                         </a>
                     </div>
                 </div>
@@ -226,7 +192,7 @@
 @push('css')
 <style>
 /* ============================================
-   REAL ESTATE LISTINGS STYLES
+   REAL ESTATE LAWYERS STYLES
    ============================================ */
 
 /* Filters Section */
@@ -290,8 +256,8 @@
     opacity: 0.9;
 }
 
-/* Property Card */
-.property-card {
+/* Lawyer Card */
+.lawyer-card {
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.08);
@@ -302,185 +268,120 @@
     flex-direction: column;
 }
 
-.property-card:hover {
+.lawyer-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* Property Image */
-.property-image {
+/* Lawyer Image */
+.lawyer-image {
     position: relative;
     height: 200px;
     overflow: hidden;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
 }
 
-.property-image img {
+.lawyer-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
 }
 
-.property-card:hover .property-image img {
+.lawyer-card:hover .lawyer-image img {
     transform: scale(1.05);
 }
 
-/* Property Badges */
-.property-badges {
+/* Lawyer Rating Badge */
+.lawyer-rating-badge {
     position: absolute;
     top: 12px;
-    left: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    z-index: 2;
-}
-
-[dir="rtl"] .property-badges {
-    left: auto;
     right: 12px;
-}
-
-.badge {
-    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    padding: 6px 10px;
     border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.featured-badge {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-    color: white;
-}
-
-.type-badge {
-    color: white;
-}
-
-.type-badge.sale {
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-}
-
-.type-badge.rent {
-    background: linear-gradient(135deg, #007bff 0%, #6610f2 100%);
-}
-
-/* Property Overlay */
-.property-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.7);
     display: flex;
     align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-.property-card:hover .property-overlay {
-    opacity: 1;
+[dir="rtl"] .lawyer-rating-badge {
+    right: auto;
+    left: 12px;
 }
 
-/* Property Info */
-.property-info {
+.lawyer-rating-badge i {
+    color: #ffc107;
+}
+
+.lawyer-rating-badge small {
+    color: #666;
+    font-weight: 400;
+}
+
+/* Lawyer Info */
+.lawyer-info {
     padding: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.property-title {
-    font-size: 16px;
+.lawyer-name {
+    font-size: 18px;
     font-weight: 600;
     margin-bottom: 8px;
     line-height: 1.4;
 }
 
-.property-title a {
+.lawyer-name a {
     color: #333;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.property-title a:hover {
+.lawyer-name a:hover {
     color: var(--colorPrimary);
 }
 
-.property-location {
+.lawyer-specialty,
+.lawyer-department,
+.lawyer-experience {
     color: #666;
     font-size: 13px;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
 }
 
-.property-location i {
+.lawyer-specialty i,
+.lawyer-department i,
+.lawyer-experience i {
     color: var(--colorPrimary);
-    margin-right: 4px;
+    margin-right: 6px;
+    width: 14px;
+    text-align: center;
 }
 
-[dir="rtl"] .property-location i {
+[dir="rtl"] .lawyer-specialty i,
+[dir="rtl"] .lawyer-department i,
+[dir="rtl"] .lawyer-experience i {
     margin-right: 0;
-    margin-left: 4px;
+    margin-left: 6px;
 }
 
-/* Property Details */
-.property-details {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.detail-item {
-    display: flex;
-    align-items: center;
-    font-size: 13px;
-    color: #666;
-}
-
-.detail-item i {
-    color: var(--colorPrimary);
-    margin-right: 4px;
-    font-size: 12px;
-}
-
-[dir="rtl"] .detail-item i {
-    margin-right: 0;
-    margin-left: 4px;
-}
-
-/* Property Price */
-.property-price {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-}
-
-.price-amount {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--colorPrimary);
-}
-
-.price-period {
-    color: #666;
-    font-size: 12px;
-}
-
-/* Property Actions */
-.property-actions {
+/* Lawyer Actions */
+.lawyer-actions {
     margin-top: auto;
     display: flex;
     gap: 8px;
 }
 
-.property-actions .btn {
+.lawyer-actions .btn {
     flex: 1;
     padding: 8px 12px;
     font-size: 13px;

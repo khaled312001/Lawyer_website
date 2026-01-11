@@ -4,91 +4,90 @@ namespace App\Http\Controllers;
 
 use App\Models\RealEstate;
 use App\Models\RealEstateInquiry;
+use Modules\Lawyer\app\Models\Lawyer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class RealEstateController extends Controller
 {
     /**
-     * Display a listing of real estates
+     * Display a listing of real estate lawyers
      */
     public function index(Request $request)
     {
-        $query = RealEstate::active();
+        // Get lawyers specialized in real estate law (department name contains "عقار" or "real estate")
+        $query = Lawyer::active()->verify()
+            ->whereHas('department.translation', function($q) {
+                $q->where('name', 'like', '%عقار%')
+                  ->orWhere('name', 'like', '%real estate%')
+                  ->orWhere('name', 'like', '%property%');
+            })
+            ->with(['department.translation', 'translation']);
 
-        // Filter by type
-        if ($request->filled('type')) {
-            $query->where('property_type', $request->type);
-        }
-
-        // Filter by listing type
-        if ($request->filled('listing')) {
-            $query->where('listing_type', $request->listing);
-        }
-
-        // Filter by city
-        if ($request->filled('city')) {
-            $query->where('city', $request->city);
-        }
-
-        // Price range filter
-        if ($request->filled('min_price')) {
-            $query->where('price', '>=', $request->min_price);
-        }
-
-        if ($request->filled('max_price')) {
-            $query->where('price', '<=', $request->max_price);
-        }
-
-        // Search by title or description
+        // Search by lawyer name or department
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
-                  ->orWhere('address', 'like', "%{$search}%");
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhereHas('department.translation', function($dept) use ($search) {
+                      $dept->where('name', 'like', "%{$search}%");
+                  })
+                  ->orWhereHas('translation', function($trans) use ($search) {
+                      $trans->where('designations', 'like', "%{$search}%");
+                  });
             });
         }
 
+        // Filter by department
+        if ($request->filled('department')) {
+            $query->where('department_id', $request->department);
+        }
+
+        // Filter by location
+        if ($request->filled('location')) {
+            $query->where('location_id', $request->location);
+        }
+
         // Sort options
-        $sortBy = $request->get('sort', 'latest');
+        $sortBy = $request->get('sort', 'name');
         switch ($sortBy) {
-            case 'price_low':
-                $query->orderBy('price', 'asc');
+            case 'experience':
+                $query->orderBy('years_of_experience', 'desc');
                 break;
-            case 'price_high':
-                $query->orderBy('price', 'desc');
-                break;
-            case 'area':
-                $query->orderBy('area', 'desc');
-                break;
-            case 'featured':
-                $query->orderBy('featured', 'desc')->orderBy('created_at', 'desc');
+            case 'rating':
+                $query->orderByRaw('COALESCE(average_rating, 0) DESC');
                 break;
             case 'oldest':
                 $query->orderBy('created_at', 'asc');
                 break;
-            default: // latest
-                $query->orderBy('featured', 'desc')->orderBy('created_at', 'desc');
+            default: // name
+                $query->orderBy('name', 'asc');
         }
 
-        $properties = $query->paginate(12)->withQueryString();
+        $lawyers = $query->paginate(12)->withQueryString();
+
+        // Add rating data to each lawyer
+        foreach ($lawyers as $lawyer) {
+            $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
+            $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
+        }
 
         // Get filter options
-        $cities = RealEstate::active()->distinct()->pluck('city')->sort();
-        $propertyTypes = [
-            'apartment' => __('Apartment'),
-            'villa' => __('Villa'),
-            'office' => __('Office'),
-            'land' => __('Land'),
-            'shop' => __('Shop'),
-            'warehouse' => __('Warehouse'),
-        ];
+        $departments = \Modules\Lawyer\app\Models\Department::active()
+            ->whereHas('translation', function($q) {
+                $q->where('name', 'like', '%عقار%')
+                  ->orWhere('name', 'like', '%real estate%')
+                  ->orWhere('name', 'like', '%property%');
+            })
+            ->with('translation')
+            ->get();
+
+        $locations = \Modules\Lawyer\app\Models\Location::active()->with('translation')->get();
 
         return view('client.real-estate.index', compact(
-            'properties',
-            'cities',
-            'propertyTypes'
+            'lawyers',
+            'departments',
+            'locations'
         ));
     }
 
