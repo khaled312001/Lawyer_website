@@ -635,12 +635,17 @@ class HomeController extends Controller {
             },
         ])->active()->get();
 
-        $lawyers = User::where('user_type', 'lawyer')
-            ->where('status', 'active')
-            ->with(['department.translation', 'details'])
-            ->select('id', 'name', 'department_id', 'designations', 'image', 'status')
-            ->orderBy('name')
-            ->get();
+        $lawyers = Lawyer::select('id', 'department_id', 'name', 'image')->with([
+            'department'             => function ($query) {
+                $query->select('id');
+            },
+            'department.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
+            'translation'            => function ($query) {
+                $query->select('lawyer_id', 'designations');
+            },
+        ])->active()->get();
 
         return view('client.book-consultation-appointment', compact('departments', 'lawyers'));
     }
