@@ -342,6 +342,11 @@ class HomeController extends Controller {
     }
 
     public function departmentDetails($slug) {
+        // Prevent access to family-and-personal-status-law department
+        if ($slug === 'family-and-personal-status-law') {
+            abort(404);
+        }
+
         $department = Department::select('id', 'slug','thumbnail_image')->with([
             'translation'                => function ($query) {
                 $query->select('department_id', 'name', 'description', 'seo_title', 'seo_description');
