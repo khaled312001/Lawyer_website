@@ -652,7 +652,7 @@
     body.client-frontend .mobile-menu-toggle span {
         width: 25px;
         height: 3px;
-        background: #fff;
+        background: var(--colorBlack);
         border-radius: 3px;
         transition: all 0.3s ease;
         display: block;
