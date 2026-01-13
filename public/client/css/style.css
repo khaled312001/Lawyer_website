@@ -15,9 +15,28 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: var(--paraColor);
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     max-width: 100%;
     position: relative;
+    width: 100%;
+}
+
+/* Fix horizontal scroll issues */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure all containers don't overflow */
+.container, .container-fluid {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .w_200 {

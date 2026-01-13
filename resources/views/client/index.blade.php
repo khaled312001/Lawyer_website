@@ -27,7 +27,7 @@
         <div class="legal-hero-section">
             <div class="legal-hero-overlay"></div>
             <!-- Animated Legal Icons -->
-            <div class="legal-hero-animated-icons">
+            <div class="legal-hero-animated-icons" style="overflow: hidden;">
                 <i class="fas fa-gavel legal-icon-1"></i>
                 <i class="fas fa-balance-scale legal-icon-2"></i>
                 <i class="fas fa-book legal-icon-3"></i>
@@ -1148,15 +1148,15 @@
             opacity: 0.2;
         }
         25% {
-            transform: translate(30px, -30px) rotate(5deg) scale(1.1);
+            transform: translate(15px, -15px) rotate(3deg) scale(1.05);
             opacity: 0.25;
         }
         50% {
-            transform: translate(-20px, 20px) rotate(-5deg) scale(0.95);
+            transform: translate(-10px, 10px) rotate(-3deg) scale(0.95);
             opacity: 0.22;
         }
         75% {
-            transform: translate(20px, 30px) rotate(3deg) scale(1.05);
+            transform: translate(10px, 15px) rotate(2deg) scale(1.02);
             opacity: 0.28;
         }
     }

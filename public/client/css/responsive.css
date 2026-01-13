@@ -1306,3 +1306,19 @@
         font-size: 16px !important;
     }
 }
+
+/* Fix horizontal scroll on all screen sizes */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.container, .container-fluid, .row {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}

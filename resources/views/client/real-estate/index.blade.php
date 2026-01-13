@@ -253,9 +253,9 @@
             <div class="col-12">
                 <div class="results-info">
                     <h4 class="mb-0">
-                        <i class="fas fa-user-tie me-2"></i>
-                        {{ __('Found') }} {{ $lawyers->total() }} {{ __('real estate lawyers') }}
-                        @if(request()->hasAny(['search', 'department', 'location']))
+                        <i class="fas fa-building me-2"></i>
+                        {{ __('Found') }} {{ $properties->total() }} {{ __('properties') }}
+                        @if(request()->hasAny(['search', 'property_type', 'listing_type', 'city']))
                             {{ __('for your search') }}
                         @endif
                     </h4>

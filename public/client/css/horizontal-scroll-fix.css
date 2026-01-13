@@ -1,0 +1,103 @@
+/* ============================================
+   HORIZONTAL SCROLL FIX
+   ============================================ */
+
+/* Global overflow fixes */
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Container fixes */
+.container, .container-fluid, .row {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Fix for animated elements */
+.legal-hero-animated-icons {
+    overflow: hidden !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Fix for absolute positioned elements */
+.legal-hero-animated-icons i {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Ensure no element has negative margins or large widths */
+* {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+}
+
+/* Fix for images and media */
+img, video, iframe {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Fix for sliders and carousels */
+.slick-slider, .owl-carousel {
+    overflow-x: hidden !important;
+}
+
+/* Fix for tables */
+table {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+}
+
+/* Fix for forms */
+form {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+/* Media queries for different screen sizes */
+@media (max-width: 1920px) {
+    html, body {
+        overflow-x: hidden !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    html, body {
+        overflow-x: hidden !important;
+    }
+}
+
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden !important;
+    }
+
+    .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    html, body {
+        overflow-x: hidden !important;
+    }
+
+    .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}

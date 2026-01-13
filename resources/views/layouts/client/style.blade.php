@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{{ asset('client/css/rtl.css') }}?v={{ $setting?->version }}">
 @endif
 <link rel="stylesheet" href="{{ asset('client/css/responsive.css') }}?v={{ $setting?->version }}">
+<link rel="stylesheet" href="{{ asset('client/css/horizontal-scroll-fix.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/kliently-features.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/animations.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/unified-colors.css') }}?v={{ $setting?->version }}">

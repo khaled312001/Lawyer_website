@@ -1,17 +1,21 @@
 @props([
-    'id' => '',
+    'id' => null,
     'name' => '',
     'label' => null,
     'accept' => '*/*',
+    'multiple' => false,
     'required' => false,
-    'error' => true,
 ])
 
+@php
+    $inputId = $id ?? $name;
+@endphp
+
 @if ($label)
-    <label for="{{ $id }}">{{ $label }} @if($required)<span class="text-danger">*</span>@endif</label>
+    <label for="{{ $inputId }}">{{ $label }} @if($required)<span class="text-danger">*</span>@endif</label>
 @endif
-<input type="file" id="{{ $id }}" name="{{ $name }}" accept="{{ $accept }}" {{ $attributes->merge(['class' => 'form-control']) }}>
-@if($attributes->has('multiple'))
+<input type="file" id="{{ $inputId }}" name="{{ $name }}" accept="{{ $accept }}" {{ $multiple ? 'multiple' : '' }} {{ $attributes->merge(['class' => 'form-control']) }}>
+@if($multiple)
     <small class="form-text text-muted">{{ __('You can select multiple files') }}</small>
 @endif
 @error($name)

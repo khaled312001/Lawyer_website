@@ -185,11 +185,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <x-admin.form-file name="featured_image" label="{{ __('Featured Image') }}" accept="image/*" />
+                                                    <label for="featured_image">{{ __('Featured Image') }}</label>
+                                                    <input type="file" id="featured_image" name="featured_image" accept="image/*" class="form-control">
+                                                    @error('featured_image')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <x-admin.form-file name="images[]" label="{{ __('Gallery Images') }}" accept="image/*" multiple />
+                                                    <label for="images">{{ __('Gallery Images') }}</label>
+                                                    <input type="file" id="images" name="images[]" accept="image/*" multiple class="form-control">
                                                     <small class="text-muted">{{ __('You can select multiple images (max 20)') }}</small>
+                                                    @error('images')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
