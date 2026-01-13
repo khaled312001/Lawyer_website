@@ -125,25 +125,29 @@ class RealEstate extends Model
 
     public function getMainImageUrlAttribute()
     {
+        $baseUrl = 'https://lawyer.khaledahmed.net';
+
         if ($this->featured_image) {
-            return asset('storage/' . $this->featured_image);
+            return $baseUrl . '/storage/' . $this->featured_image;
         }
 
         if ($this->images && count($this->images) > 0) {
-            return asset('storage/' . $this->images[0]);
+            return $baseUrl . '/storage/' . $this->images[0];
         }
 
-        return asset('client/img/property-placeholder.jpg');
+        return $baseUrl . '/client/img/property-placeholder.jpg';
     }
 
     public function getGalleryImagesAttribute()
     {
+        $baseUrl = 'https://lawyer.khaledahmed.net';
+
         if (!$this->images) {
-            return [asset('client/img/property-placeholder.jpg')];
+            return [$baseUrl . '/client/img/property-placeholder.jpg'];
         }
 
-        return array_map(function ($image) {
-            return asset('storage/' . $image);
+        return array_map(function ($image) use ($baseUrl) {
+            return $baseUrl . '/storage/' . $image;
         }, $this->images);
     }
 

@@ -111,7 +111,7 @@
                                                 @php $selectedDepartments = old('department_ids', $lawyer->departments ? $lawyer->departments->pluck('id')->toArray() : []); @endphp
                                                 @foreach ($departments as $department)
                                                     <div class="col-md-4 mb-2">
-                                                        <div class="form-check">
+                                                        <div class="form-check {{ app()->getLocale() === 'ar' ? 'form-check-reverse' : '' }}">
                                                             <input class="form-check-input" type="checkbox" name="department_ids[]" value="{{ $department->id }}" id="department_{{ $department->id }}" {{ in_array($department->id, $selectedDepartments) ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="department_{{ $department->id }}">
                                                                 {{ $department->name }}
@@ -211,6 +211,22 @@
         @endif
     @endadminCan
 @endsection
+
+@push('css')
+<style>
+.form-check-reverse {
+    direction: rtl;
+}
+.form-check-reverse .form-check-input {
+    margin-left: 0.25rem;
+    margin-right: 0;
+}
+.form-check-reverse .form-check-label {
+    margin-left: 0;
+    margin-right: 0.25rem;
+}
+</style>
+@endpush
 
 @push('js')
     @if ($code == $languages->first()->code)
