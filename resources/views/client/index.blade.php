@@ -229,22 +229,7 @@
                         </div>
                     </div>
                 </div>
-                <!--Counter Start-->
-                <div class="counter-row row"
-                    style="background-image: url({{ asset('uploads/website-images/overview-banner.webp') }})">
-                    @foreach ($overviews as $overview)
-                        <div class="col-lg-3 col-6 mt_30 wow fadeInDown" data-wow-delay="0.2s">
-                            <div class="counter-item">
-                                <div class="counter-icon">
-                                    <i class="{{ $overview?->icon }}"></i>
-                                </div>
-                                <span class="counter counter_up">{{ $overview?->qty }}</span>
-                                <p class="title">{{ $overview?->title }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <!--Counter End-->
+              
             </div>
         </section>
         <!--Service End-->
