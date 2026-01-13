@@ -86,6 +86,7 @@
                     checkAdminHasPermission('department.view') ||
                     checkAdminHasPermission('location.view') ||
                     checkAdminHasPermission('service.view') ||
+                    checkAdminHasPermission('real_estate.view') ||
                     checkAdminHasPermission('blog.category.view') ||
                     checkAdminHasPermission('blog.view') || checkAdminHasPermission('blog.comment.view') ||
                     checkAdminHasPermission('testimonial.view'))
@@ -97,6 +98,10 @@
 
                 @if (Module::isEnabled('Service') && checkAdminHasPermission('service.view'))
                     @include('service::sidebar')
+                @endif
+
+                @if (Module::isEnabled('RealEstate') && checkAdminHasPermission('real_estate.view'))
+                    @include('realestate::sidebar')
                 @endif
 
                 @if (Module::isEnabled('Blog') && (checkAdminHasPermission('blog.category.view') || checkAdminHasPermission('blog.view') || checkAdminHasPermission('blog.comment.view')))

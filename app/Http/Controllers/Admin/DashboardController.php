@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Modules\Lawyer\app\Models\Lawyer;
 use Modules\NewsLetter\app\Models\NewsLetter;
 use Modules\Appointment\app\Models\Appointment;
+use Modules\RealEstate\app\Models\RealEstate;
+use App\Models\RealEstateInquiry;
 
 class DashboardController extends Controller {
     public function dashboard(Request $request) {
@@ -62,6 +64,22 @@ class DashboardController extends Controller {
         $data['lawyer_qty'] = Lawyer::active()->count();
         $data['totalEarning'] = Appointment::paymentSuccess()->sum('appointment_fee_usd');
         $data['subscriber_qty'] = NewsLetter::verify()->count();
+
+        // Real Estate Statistics
+        $data['total_properties'] = RealEstate::count();
+        $data['active_properties'] = RealEstate::where('status', 'active')->count();
+        $data['featured_properties'] = RealEstate::where('featured', true)->count();
+        $data['sold_rented_properties'] = RealEstate::whereIn('status', ['sold', 'rented'])->count();
+
+        // Real Estate Inquiries Statistics
+        $data['total_inquiries'] = RealEstateInquiry::count();
+        $data['new_inquiries'] = RealEstateInquiry::where('status', 'new')->count();
+        $data['pending_inquiries'] = RealEstateInquiry::where('status', 'pending')->count();
+        $data['closed_inquiries'] = RealEstateInquiry::where('status', 'closed')->count();
+
+        // Recent Properties and Inquiries
+        $data['recent_properties'] = RealEstate::with('translation')->orderBy('created_at', 'desc')->limit(5)->get();
+        $data['recent_inquiries'] = RealEstateInquiry::with(['realEstate.translation', 'user'])->orderBy('created_at', 'desc')->limit(5)->get();
         
         $firstDay = new Carbon('first day of this month');
         $first_date= $firstDay->format('Y-m-d');

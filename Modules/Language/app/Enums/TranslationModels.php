@@ -27,6 +27,7 @@ case MenuItem = "Modules\CustomMenu\app\Models\MenuItemTranslation";
 case SectionControl = "Modules\HomeSection\app\Models\SectionControlTranslation";
 case Service = "Modules\Service\app\Models\ServiceTranslation";
 case ServiceFaq = "Modules\Service\app\Models\ServiceFaqTranslation";
+case RealEstate = "Modules\RealEstate\app\Models\RealEstateTranslation";
 case SubscriberContent = "Modules\NewsLetter\app\Models\SubscriberContentTranslation";
 case WorkSection = "Modules\HomeSection\app\Models\WorkSectionTranslation";
 case WorkSectionFaq = "Modules\HomeSection\app\Models\WorkSectionFaqTranslation";
@@ -53,6 +54,7 @@ case WorkSectionFaq = "Modules\HomeSection\app\Models\WorkSectionFaqTranslation"
             self::SectionControl->value,
             self::Service->value,
             self::ServiceFaq->value,
+            self::RealEstate->value,
             self::SubscriberContent->value,
             self::WorkSection->value,
             self::WorkSectionFaq->value,

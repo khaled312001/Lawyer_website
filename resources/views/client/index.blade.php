@@ -38,62 +38,8 @@
             <div class="d-flex align-items-center h_100_p">
                 <div class="container-fluid">
                     <div class="row align-items-center">
-                        <div class="col-lg-5">
-                            <div class="legal-hero-stats">
-                                @if($overviews->count() > 0)
-                                    @foreach($overviews->take(4) as $overview)
-                                        <div class="legal-stat-card">
-                                            <div class="legal-stat-icon">
-                                                <i class="{{ $overview?->icon }}"></i>
-                                            </div>
-                                            <div class="legal-stat-content">
-                                                <h3 class="legal-stat-number" data-count="{{ $overview?->qty }}">0</h3>
-                                                <p class="legal-stat-label">{{ $overview?->title }}</p>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="legal-stat-card">
-                                        <div class="legal-stat-icon">
-                                            <i class="fas fa-users"></i>
-                                        </div>
-                                        <div class="legal-stat-content">
-                                            <h3 class="legal-stat-number">500+</h3>
-                                            <p class="legal-stat-label">{{ __('Satisfied Clients') }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="legal-stat-card">
-                                        <div class="legal-stat-icon">
-                                            <i class="fas fa-gavel"></i>
-                                        </div>
-                                        <div class="legal-stat-content">
-                                            <h3 class="legal-stat-number">50+</h3>
-                                            <p class="legal-stat-label">{{ __('Expert Lawyers') }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="legal-stat-card">
-                                        <div class="legal-stat-icon">
-                                            <i class="fas fa-briefcase"></i>
-                                        </div>
-                                        <div class="legal-stat-content">
-                                            <h3 class="legal-stat-number">1000+</h3>
-                                            <p class="legal-stat-label">{{ __('Cases Resolved') }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="legal-stat-card">
-                                        <div class="legal-stat-icon">
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <div class="legal-stat-content">
-                                            <h3 class="legal-stat-number">4.9</h3>
-                                            <p class="legal-stat-label">{{ __('Average Rating') }}</p>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="legal-hero-content">
+                        <div class="col-lg-12">
+                            <div class="legal-hero-content text-center">
                                 <div class="legal-hero-badge">
                                     <i class="fas fa-shield-alt"></i>
                                     <span>{{ __('Trusted Legal Services') }}</span>
@@ -374,7 +320,7 @@
                                 <div class="swiper-slide">
                                     <div class="testimonial-card-modern">
                                         <div class="testimonial-quote-icon">
-                                            <i class="fas fa-quote-right"></i>
+                                            <i></i>
                                         </div>
                                         <div class="testimonial-content">
                                             <p class="testimonial-text">{{ $client?->comment }}</p>
@@ -1711,7 +1657,7 @@
     /* Testimonial Modern Styles */
     .testimonial-area-modern {
         background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-        padding: 50px 0;
+        padding: 30px 0 50px 0;
         position: relative;
         overflow: hidden;
     }
@@ -1924,19 +1870,19 @@
     /* Swiper Navigation */
     .testimonial-next,
     .testimonial-prev {
-        width: 60px;
-        height: 60px;
+        width: 45px;
+        height: 45px;
         background: var(--colorPrimary);
         border-radius: 50%;
         color: #fff;
-        margin-top: -30px;
+        margin-top: -22.5px;
         transition: all 0.3s ease;
         box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
     }
 
     .testimonial-next::after,
     .testimonial-prev::after {
-        font-size: 24px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -1948,11 +1894,11 @@
     }
 
     .testimonial-prev {
-        left: -30px;
+        left: -22.5px;
     }
 
     .testimonial-next {
-        right: -30px;
+        right: -22.5px;
     }
 
     /* Pagination */
@@ -1986,11 +1932,35 @@
         .testimonial-next {
             right: 10px;
         }
+
+        .blog-prev {
+            left: 10px;
+        }
+
+        .blog-next {
+            right: 10px;
+        }
+
+        .lawyer-prev {
+            left: 10px;
+        }
+
+        .lawyer-next {
+            right: 10px;
+        }
+
+        .service-swiper-prev {
+            left: 10px;
+        }
+
+        .service-swiper-next {
+            right: 10px;
+        }
     }
 
     @media (max-width: 768px) {
         .testimonial-area-modern {
-            padding: 30px 0;
+            padding: 20px 0;
         }
 
         .testimonial-card-modern {
@@ -2022,14 +1992,14 @@
 
         .testimonial-next,
         .testimonial-prev {
-            width: 50px;
-            height: 50px;
-            margin-top: -25px;
+            width: 40px;
+            height: 40px;
+            margin-top: -20px;
         }
 
         .testimonial-next::after,
         .testimonial-prev::after {
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .testimonial-prev {
@@ -2325,19 +2295,19 @@
     /* Swiper Navigation */
     .blog-next,
     .blog-prev {
-        width: 60px;
-        height: 60px;
+        width: 45px;
+        height: 45px;
         background: var(--colorPrimary);
         border-radius: 50%;
         color: #fff;
-        margin-top: -30px;
+        margin-top: -22.5px;
         transition: all 0.3s ease;
         box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
     }
 
     .blog-next::after,
     .blog-prev::after {
-        font-size: 24px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -2349,11 +2319,11 @@
     }
 
     .blog-prev {
-        left: -30px;
+        left: -22.5px;
     }
 
     .blog-next {
-        right: -30px;
+        right: -22.5px;
     }
 
     /* Pagination */
@@ -2423,22 +2393,22 @@
 
         .blog-next,
         .blog-prev {
-            width: 50px;
-            height: 50px;
-            margin-top: -25px;
+            width: 40px;
+            height: 40px;
+            margin-top: -20px;
         }
 
         .blog-next::after,
         .blog-prev::after {
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .blog-prev {
-            left: 5px;
+            left: 10px;
         }
 
         .blog-next {
-            right: 5px;
+            right: 10px;
         }
     }
 
@@ -2709,19 +2679,19 @@
     /* Swiper Navigation */
     .lawyer-next,
     .lawyer-prev {
-        width: 60px;
-        height: 60px;
+        width: 45px;
+        height: 45px;
         background: var(--colorPrimary);
         border-radius: 50%;
         color: #fff;
-        margin-top: -30px;
+        margin-top: -22.5px;
         transition: all 0.3s ease;
         box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
     }
 
     .lawyer-next::after,
     .lawyer-prev::after {
-        font-size: 24px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -2733,11 +2703,11 @@
     }
 
     .lawyer-prev {
-        left: -30px;
+        left: -22.5px;
     }
 
     .lawyer-next {
-        right: -30px;
+        right: -22.5px;
     }
 
     /* Pagination */
@@ -2792,14 +2762,14 @@
 
         .lawyer-next,
         .lawyer-prev {
-            width: 50px;
-            height: 50px;
-            margin-top: -25px;
+            width: 40px;
+            height: 40px;
+            margin-top: -20px;
         }
 
         .lawyer-next::after,
         .lawyer-prev::after {
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .lawyer-prev {
@@ -3006,18 +2976,19 @@
     /* Swiper Navigation Buttons */
     .service-swiper-next,
     .service-swiper-prev {
-        width: 50px;
-        height: 50px;
+        width: 45px;
+        height: 45px;
         background: var(--colorPrimary);
         border-radius: 50%;
         color: #fff;
-        margin-top: -25px;
+        margin-top: -22.5px;
         transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
     }
 
     .service-swiper-next::after,
     .service-swiper-prev::after {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -3028,11 +2999,11 @@
     }
 
     .service-swiper-prev {
-        left: -25px;
+        left: -22.5px;
     }
 
     .service-swiper-next {
-        right: -25px;
+        right: -22.5px;
     }
 
     /* Swiper Pagination */
@@ -3111,14 +3082,14 @@
 
         .service-swiper-next,
         .service-swiper-prev {
-            width: 40px;
-            height: 40px;
-            margin-top: -20px;
+            width: 35px;
+            height: 35px;
+            margin-top: -17.5px;
         }
 
         .service-swiper-next::after,
         .service-swiper-prev::after {
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .service-swiper-prev {

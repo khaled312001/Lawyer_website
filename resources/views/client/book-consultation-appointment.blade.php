@@ -69,6 +69,8 @@
 
                         <form action="{{ route('website.create.consultation.appointment') }}" method="POST" id="consultationAppointmentForm">
                             @csrf
+                            <input type="hidden" name="service" value="{{ request('service') }}">
+                            <input type="hidden" name="property" value="{{ request('property') }}">
                             
                             <!-- Lawyer Selection -->
                             <div class="mb-4">
@@ -155,45 +157,23 @@
                                 </div>
                             </div>
 
-                            <!-- Department & Case Type -->
-                            <div class="row mb-4">
-                                <div class="col-md-6 mb-3">
-                                    <label for="department_id" class="form-label">
-                                        <i class="fas fa-building me-2"></i>{{ __('Department') }} <span class="text-danger">*</span>
-                                    </label>
-                                    <select name="department_id" id="department_id" class="form-select @error('department_id') is-invalid @enderror" required>
-                                        <option value="">{{ __('Select Department') }}</option>
-                                        @foreach($departments as $department)
-                                            <option value="{{ $department->id }}" {{ old('department_id') == $department->id ? 'selected' : '' }}>{{ $department->translation->name ?? $department->name ?? __('Department') }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('department_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <small class="form-text text-muted">{{ __('Select the department related to your case') }}</small>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="case_type" class="form-label">
-                                        <i class="fas fa-gavel me-2"></i>{{ __('Case Type') }} <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" name="case_type" id="case_type" class="form-control @error('case_type') is-invalid @enderror" required placeholder="{{ __('e.g., Criminal, Civil, Family, Commercial, Contract, etc.') }}" value="{{ old('case_type') }}">
-                                    @error('case_type')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    <small class="form-text text-muted">{{ __('Specify the type of your case') }}</small>
-                                </div>
-                            </div>
 
                             <!-- Case Details -->
                             <div class="mb-4">
                                 <label for="case_details" class="form-label">
                                     <i class="fas fa-file-alt me-2"></i>{{ __('Case Details') }} <span class="text-danger">*</span>
                                 </label>
-                                <textarea name="case_details" id="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="5" required placeholder="{{ __('Provide detailed information about your case...') }}">{{ old('case_details') }}</textarea>
+                                <textarea name="case_details" id="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="5" required placeholder="{{ request('service') === 'real_estate' ? __('Provide details about the property consultation you need...') : __('Provide detailed information about your case...') }}">{{ old('case_details', request('service') === 'real_estate' ? 'Property consultation regarding real estate transaction.' : '') }}</textarea>
                                 @error('case_details')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                                 <small class="form-text text-muted">{{ __('Please provide comprehensive details about your case') }}</small>
+                                @if(request('service') === 'real_estate')
+                                    <div class="alert alert-info mt-2">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        {{ __('This consultation is specifically for real estate services.') }}
+                                    </div>
+                                @endif
                             </div>
 
                             <!-- Client Information -->
@@ -206,8 +186,6 @@
                                         </div>
                                         <div class="notice-text">
                                             <strong>{{ __('Primary Contact Method:') }}</strong> {{ __('We will contact you via phone for appointment confirmation and updates.') }}
-                                            <br>
-                                            <small class="text-muted">{{ __('Email is optional but helps us send meeting links and updates.') }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -218,16 +196,6 @@
                                         @error('client_name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="client_email" class="form-label">{{ __('Email Address') }} <small class="text-muted">({{ __('Optional') }})</small></label>
-                                        <input type="email" name="client_email" id="client_email" class="form-control @error('client_email') is-invalid @enderror" value="{{ old('client_email', Auth::user()->email ?? '') }}" placeholder="{{ __('Enter your email address (optional)') }}">
-                                        @error('client_email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                        <small class="form-text text-muted">
-                                            <i class="fas fa-info-circle me-1"></i>{{ __('Optional. We will contact you primarily through phone.') }}
-                                        </small>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span> <small class="text-primary">({{ __('Primary Contact') }})</small></label>
@@ -262,41 +230,10 @@
                                             <i class="fas fa-phone me-1"></i>{{ __('We will contact you through this number for appointment confirmation') }}
                                         </small>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="client_city" class="form-label">{{ __('City') }}</label>
-                                        <input type="text" name="client_city" id="client_city" class="form-control" value="{{ Auth::user()->details->city ?? '' }}" placeholder="{{ __('Enter your city') }}">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="client_country" class="form-label">{{ __('Country') }}</label>
-                                        <input type="text" name="client_country" id="client_country" class="form-control" value="{{ Auth::user()->details->country ?? '' }}" placeholder="{{ __('Enter your country') }}">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="client_address" class="form-label">{{ __('Address') }}</label>
-                                        <input type="text" name="client_address" id="client_address" class="form-control" value="{{ Auth::user()->details->address ?? '' }}" placeholder="{{ __('Enter your address') }}">
-                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Problem Description -->
-                            <div class="mb-4">
-                                <label for="problem_description" class="form-label">
-                                    <i class="fas fa-exclamation-triangle me-2"></i>{{ __('Problem Description') }} <span class="text-danger">*</span>
-                                </label>
-                                <textarea name="problem_description" id="problem_description" class="form-control @error('problem_description') is-invalid @enderror" rows="6" required placeholder="{{ __('Describe your problem in detail...') }}">{{ old('problem_description') }}</textarea>
-                                @error('problem_description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                                <small class="form-text text-muted">{{ __('Please provide a detailed description of the problem you are facing') }}</small>
-                            </div>
 
-                            <!-- Additional Information -->
-                            <div class="mb-4">
-                                <label for="additional_info" class="form-label">
-                                    <i class="fas fa-info-circle me-2"></i>{{ __('Additional Information') }}
-                                </label>
-                                <textarea name="additional_info" id="additional_info" class="form-control" rows="4" placeholder="{{ __('Any additional information you would like to share...') }}">{{ old('additional_info') }}</textarea>
-                                <small class="form-text text-muted">{{ __('Optional: Any other relevant information') }}</small>
-                            </div>
 
                             <!-- Submit Button -->
                             <div class="text-center">
@@ -349,7 +286,6 @@
         $('#consultationAppointmentForm').on('submit', function(e) {
             const appointmentDate = $('#appointment_date').val();
             const appointmentTime = $('#appointment_time').val();
-            const clientEmail = $('#client_email').val();
             const clientPhone = $('#client_phone').val();
             const countryCode = $('#country_code').val();
             const today = new Date().toISOString().split('T')[0];
@@ -366,7 +302,7 @@
                 return false;
             }
 
-            // Check if at least one contact method is provided
+            // Check if phone number is provided
             if (!clientPhone.trim()) {
                 e.preventDefault();
                 alert('{{ __("Phone number is required for appointment confirmation") }}');
@@ -380,23 +316,6 @@
                 alert('{{ __("Please select your country code") }}');
                 $('#country_code').focus();
                 return false;
-            }
-
-            // If email is provided, validate format
-            if (clientEmail && !isValidEmail(clientEmail)) {
-                e.preventDefault();
-                alert('{{ __("Please enter a valid email address") }}');
-                $('#client_email').focus();
-                return false;
-            }
-
-            // Show confirmation if no email provided
-            if (!clientEmail.trim()) {
-                const confirmSubmit = confirm('{{ __("No email provided. We will contact you only through phone. Continue?") }}');
-                if (!confirmSubmit) {
-                    e.preventDefault();
-                    return false;
-                }
             }
         });
 
@@ -519,7 +438,7 @@
             }
         });
 
-        // Visual feedback for contact methods
+        // Visual feedback for phone number
         $('#client_phone').on('input', function() {
             const phoneValue = $(this).val().trim();
             const countryCode = $('#country_code').val();
@@ -539,23 +458,6 @@
             $('#client_phone').trigger('input');
         });
 
-        $('#client_email').on('input', function() {
-            const emailValue = $(this).val().trim();
-            const emailHelp = $(this).closest('.col-md-6').find('.form-text');
-
-            if (emailValue) {
-                if (isValidEmail(emailValue)) {
-                    emailHelp.html('<i class="fas fa-check-circle me-1" style="color: #28a745;"></i>{{ __("Email will be used for meeting links and updates") }}');
-                    $(this).removeClass('is-invalid').addClass('is-valid');
-                } else {
-                    emailHelp.html('<i class="fas fa-exclamation-triangle me-1" style="color: #dc3545;"></i>{{ __("Please enter a valid email address") }}');
-                    $(this).removeClass('is-valid').addClass('is-invalid');
-                }
-            } else {
-                emailHelp.html('<i class="fas fa-info-circle me-1"></i>{{ __("Optional. We will contact you primarily through phone.") }}');
-                $(this).removeClass('is-valid is-invalid');
-            }
-        });
     });
 </script>
 @endpush
@@ -653,17 +555,6 @@
     color: #6c757d !important;
 }
 
-/* Email Field Styling */
-#client_email {
-    border: 2px solid #e9ecef;
-    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
-}
-
-#client_email:focus {
-    border-color: var(--colorPrimary);
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(200, 180, 126, 0.1);
-}
 
 /* Phone Field Styling - Primary Contact */
 #client_phone {
@@ -683,15 +574,6 @@
     opacity: 0.7;
 }
 
-/* Optional Fields Styling */
-.form-control:not([required]) {
-    border-color: #dee2e6;
-}
-
-.form-control:not([required]):focus {
-    border-color: var(--colorPrimary);
-    box-shadow: 0 0 0 3px rgba(200, 180, 126, 0.1);
-}
 
 /* Form Text Enhancement */
 .form-text {
@@ -805,7 +687,6 @@
 }
 
 /* Focus States */
-#client_email:focus + .form-text,
 #client_phone:focus + .form-text {
     color: var(--colorPrimary) !important;
 }
@@ -910,21 +791,6 @@
     order: -1; /* Phone field comes first */
 }
 
-/* Optional Fields Notice */
-.optional-fields-notice {
-    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-    border: 1px solid #f39c12;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    font-size: 14px;
-    color: #8b4513;
-}
-
-.optional-fields-notice i {
-    color: #f39c12;
-    margin-right: 8px;
-}
 
 /* ============================================
    LAWYER SELECTION ENHANCEMENTS

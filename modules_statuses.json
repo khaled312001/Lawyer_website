@@ -23,5 +23,6 @@
     "Schedule": true,
     "Appointment": true,
     "Leave": true,
-    "App": true
+    "App": true,
+    "RealEstate": true
 }

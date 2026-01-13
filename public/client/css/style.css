@@ -1808,6 +1808,37 @@ Service - Detail
     margin-bottom: 15px;
 }
 
+.quick-contact-content {
+    text-align: center;
+}
+
+.quick-contact-content p {
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.quick-contact-content .btn {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.quick-contact-content .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
 .faq-service.feature-section-text {
     padding: 0;
 }

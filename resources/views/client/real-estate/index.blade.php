@@ -1,11 +1,11 @@
 @extends('layouts.client.layout')
 
 @section('title')
-    <title>{{ __('Real Estate Lawyers') }} - {{ $setting?->app_name }}</title>
+    <title>{{ __('Real Estate Properties') }} - {{ $setting?->app_name }}</title>
 @endsection
 
 @section('meta')
-    <meta name="description" content="{{ __('Find experienced real estate lawyers and legal consultants for your property needs') }}">
+    <meta name="description" content="{{ __('Find your perfect property - apartments, villas, offices, and more for sale and rent') }}">
 @endsection
 
 @section('client-content')
@@ -16,10 +16,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-content">
-                    <h2 class="title">{{ __('Real Estate Lawyers') }}</h2>
+                    <h2 class="title">{{ __('Real Estate Properties') }}</h2>
                     <ul>
                         <li><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
-                        <li>{{ __('Real Estate Lawyers') }}</li>
+                        <li>{{ __('Real Estate Properties') }}</li>
                     </ul>
                 </div>
             </div>
@@ -28,26 +28,147 @@
 </section>
 <!--Page Title End-->
 
-<!-- Service Description Start -->
-<section class="service-description pt_100 pb_50">
+<!-- Properties Filter Start -->
+<section class="properties-filter pt_100 pb_50">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="service-description-content text-center">
-                    <h2 class="section-title">{{ __('Real Estate Legal Services') }}</h2>
-                    <p class="section-subtitle">{{ __('Professional Legal Support for All Your Property Needs') }}</p>
-                    <div class="service-description-text">
-                        <p>{{ __('Our real estate lawyers provide comprehensive legal services for property transactions, contracts, disputes, and regulatory compliance. With years of experience in Syrian property law, we ensure your real estate investments and transactions are legally protected and compliant with all local regulations.') }}</p>
-                        <p>{{ __('Whether you are buying, selling, renting, or developing property, our expert legal team offers personalized consultation and representation to protect your interests and achieve the best possible outcomes for your real estate matters.') }}</p>
-                    </div>
-                    <div class="service-features mt_40">
+                <div class="properties-filter-content">
+                    <form action="{{ route('website.real-estate') }}" method="GET" class="properties-filter-form">
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-home"></i>
-                                    <h4>{{ __('Property Transactions') }}</h4>
-                                    <p>{{ __('Legal support for buying, selling, and transferring property rights') }}</p>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <input type="text" name="search" class="form-control" placeholder="{{ __('Search properties...') }}" value="{{ request('search') }}">
                                 </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="property_type" class="form-select">
+                                        <option value="">{{ __('All Types') }}</option>
+                                        @foreach($propertyTypes as $key => $type)
+                                            <option value="{{ $key }}" {{ request('property_type') == $key ? 'selected' : '' }}>{{ $type }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="listing_type" class="form-select">
+                                        <option value="">{{ __('All Listings') }}</option>
+                                        <option value="sale" {{ request('listing_type') == 'sale' ? 'selected' : '' }}>{{ __('For Sale') }}</option>
+                                        <option value="rent" {{ request('listing_type') == 'rent' ? 'selected' : '' }}>{{ __('For Rent') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select name="city" class="form-select">
+                                        <option value="">{{ __('All Cities') }}</option>
+                                        @foreach($cities as $city)
+                                            <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>{{ $city }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <select name="sort" class="form-select">
+                                        <option value="latest" {{ request('sort', 'latest') == 'latest' ? 'selected' : '' }}>{{ __('Latest First') }}</option>
+                                        <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>{{ __('Price: Low to High') }}</option>
+                                        <option value="price_high" {{ request('sort') == 'price_high' ? 'selected' : '' }}>{{ __('Price: High to Low') }}</option>
+                                        <option value="area" {{ request('sort') == 'area' ? 'selected' : '' }}>{{ __('Largest Area') }}</option>
+                                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>{{ __('Oldest First') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">{{ __('Search Properties') }}</button>
+                                <a href="{{ route('website.real-estate') }}" class="btn btn-outline-secondary ms-2">{{ __('Clear Filters') }}</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Properties Filter End -->
+
+<!-- Properties Grid Start -->
+<section class="properties-grid pt_50 pb_100">
+    <div class="container">
+        <div class="row">
+            @forelse($properties as $property)
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="property-card">
+                        <div class="property-image">
+                            <img src="{{ $property->main_image_url }}" alt="{{ $property->title }}" class="img-fluid">
+                            <div class="property-badges">
+                                <span class="badge {{ $property->listing_type === 'sale' ? 'bg-success' : 'bg-info' }}">{{ $property->listing_type_label }}</span>
+                                @if($property->featured)
+                                    <span class="badge bg-warning">{{ __('Featured') }}</span>
+                                @endif
+                            </div>
+                            <div class="property-overlay">
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-primary">{{ __('View Details') }}</a>
+                            </div>
+                        </div>
+                        <div class="property-content">
+                            <h4 class="property-title">
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}">{{ Str::limit($property->title, 50) }}</a>
+                            </h4>
+                            <div class="property-meta">
+                                <span class="property-type"><i class="fas fa-building"></i> {{ $property->property_type_label }}</span>
+                                <span class="property-location"><i class="fas fa-map-marker-alt"></i> {{ $property->location_string }}</span>
+                            </div>
+                            <div class="property-details">
+                                @if($property->bedrooms)
+                                    <span><i class="fas fa-bed"></i> {{ $property->bedrooms }} {{ __('Beds') }}</span>
+                                @endif
+                                @if($property->bathrooms)
+                                    <span><i class="fas fa-bath"></i> {{ $property->bathrooms }} {{ __('Baths') }}</span>
+                                @endif
+                                <span><i class="fas fa-expand-arrows-alt"></i> {{ $property->formatted_area }}</span>
+                            </div>
+                            <div class="property-price">
+                                <strong>{{ $property->formatted_price }}</strong>
+                                @if($property->price_per_sqm)
+                                    <small class="text-muted">({{ number_format($property->price_per_sqm) }} {{ $property->currency }}/m²)</small>
+                                @endif
+                            </div>
+                            <div class="property-actions">
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm">{{ __('Details') }}</a>
+                                <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-sm">{{ __('Book Consultation') }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-home fa-3x text-muted mb-3"></i>
+                        <h4>{{ __('No Properties Found') }}</h4>
+                        <p class="text-muted">{{ __('Try adjusting your search criteria or browse all properties.') }}</p>
+                        <a href="{{ route('website.real-estate') }}" class="btn btn-primary">{{ __('Browse All Properties') }}</a>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        @if($properties->hasPages())
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="pagination-wrapper">
+                        {{ $properties->appends(request()->query())->links() }}
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+</section>
+<!-- Properties Grid End -->
                             </div>
                             <div class="col-md-4">
                                 <div class="feature-item">

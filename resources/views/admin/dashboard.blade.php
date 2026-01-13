@@ -174,6 +174,139 @@
                         </div>
                     </div>
 
+                    <!-- Real Estate Statistics Row -->
+                    <div class="row">
+                        <!-- Total Properties -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-primary">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('Total Properties') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $total_properties ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Active Properties -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('Active Properties') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $active_properties ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Featured Properties -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-warning">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('Featured Properties') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $featured_properties ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sold/Rented Properties -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-info">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('Sold/Rented') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $sold_rented_properties ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Total Inquiries -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-secondary">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('Total Inquiries') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $total_inquiries ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- New Inquiries -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-danger">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('New Inquiries') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $new_inquiries ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pending Inquiries -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-warning">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('Pending Inquiries') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $pending_inquiries ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Closed Inquiries -->
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                            <div class="card card-statistic-1">
+                                <div class="card-icon bg-success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="card-wrap">
+                                    <div class="card-header">
+                                        <h4>{{ __('Closed Inquiries') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ $closed_inquiries ?? 0 }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tables Row -->
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -270,6 +403,125 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Recent Properties and Inquiries Tables -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>{{ __('Recent Properties') }}</h4>
+                                    <div class="card-header-action">
+                                        <a href="{{ route('admin.real-estate.index') }}" class="btn btn-primary btn-sm">{{ __('View All') }}</a>
+                                    </div>
+                                </div>
+                                <div class="p-0 card-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ __('Property') }}</th>
+                                                    <th>{{ __('Type') }}</th>
+                                                    <th>{{ __('Price') }}</th>
+                                                    <th>{{ __('Status') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($recent_properties ?? [] as $property)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-sm me-3">
+                                                                    <img src="{{ $property->main_image_url }}" alt="{{ $property->title }}" class="rounded">
+                                                                </div>
+                                                                <div>
+                                                                    <div class="font-weight-bold">{{ Str::limit($property->title, 20) }}</div>
+                                                                    <small class="text-muted">{{ $property->location_string }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>{{ $property->property_type_label }}</td>
+                                                        <td>{{ $property->formatted_price }}</td>
+                                                        <td>
+                                                            @if($property->status === 'active')
+                                                                <span class="badge bg-success">{{ __('Active') }}</span>
+                                                            @elseif($property->status === 'inactive')
+                                                                <span class="badge bg-secondary">{{ __('Inactive') }}</span>
+                                                            @elseif($property->status === 'sold')
+                                                                <span class="badge bg-info">{{ __('Sold') }}</span>
+                                                            @elseif($property->status === 'rented')
+                                                                <span class="badge bg-primary">{{ __('Rented') }}</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">{{ __('No properties found') }}</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>{{ __('Recent Inquiries') }}</h4>
+                                    <div class="card-header-action">
+                                        <a href="{{ route('admin.real-estate.inquiries.index') }}" class="btn btn-primary btn-sm">{{ __('View All') }}</a>
+                                    </div>
+                                </div>
+                                <div class="p-0 card-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ __('Client') }}</th>
+                                                    <th>{{ __('Property') }}</th>
+                                                    <th>{{ __('Status') }}</th>
+                                                    <th>{{ __('Date') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($recent_inquiries ?? [] as $inquiry)
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <div class="font-weight-bold">{{ $inquiry->name }}</div>
+                                                                <small class="text-muted">{{ $inquiry->phone }}</small>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="font-weight-bold">{{ Str::limit($inquiry->realEstate?->title ?? 'N/A', 20) }}</div>
+                                                            <small class="text-muted">{{ $inquiry->realEstate?->location_string ?? '' }}</small>
+                                                        </td>
+                                                        <td>
+                                                            @if($inquiry->status === 'new')
+                                                                <span class="badge bg-danger">{{ __('New') }}</span>
+                                                            @elseif($inquiry->status === 'pending')
+                                                                <span class="badge bg-warning">{{ __('Pending') }}</span>
+                                                            @elseif($inquiry->status === 'contacted')
+                                                                <span class="badge bg-info">{{ __('Contacted') }}</span>
+                                                            @elseif($inquiry->status === 'closed')
+                                                                <span class="badge bg-success">{{ __('Closed') }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ formattedDate($inquiry->created_at) }}</td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4" class="text-center">{{ __('No inquiries found') }}</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <!-- Area Chart -->
                         <div class="col">

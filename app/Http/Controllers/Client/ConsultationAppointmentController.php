@@ -18,9 +18,11 @@ class ConsultationAppointmentController extends Controller
         $request->validate([
             'appointment_date' => 'required|date|after_or_equal:today',
             'appointment_time' => 'required',
-            'department_id' => 'required|exists:departments,id',
+            'department_id' => 'nullable|exists:departments,id',
             'case_type' => 'required|string|max:255',
             'case_details' => 'required|string',
+            'service' => 'nullable|string|max:255',
+            'property' => 'nullable|exists:real_estates,id',
             'country_code' => 'required|string',
             'client_name' => 'required|string|max:255',
             'client_email' => 'required|email|max:255',
@@ -50,6 +52,11 @@ class ConsultationAppointmentController extends Controller
         // If user is not logged in, user_id will be null
         $userId = $user ? $user->id : null;
 
+        // Set default case_type based on service
+        if ($request->service === 'real_estate') {
+            $request->merge(['case_type' => $request->case_type ?: 'Real Estate Consultation']);
+        }
+
         // Check if appointment already exists for this date and time
         $existingAppointment = AdminAppointment::where('appointment_date', $request->appointment_date)
             ->where('appointment_time', $request->appointment_time)
@@ -69,6 +76,8 @@ class ConsultationAppointmentController extends Controller
             'appointment_time' => $request->appointment_time,
             'case_type' => $request->case_type,
             'case_details' => $request->case_details,
+            'service' => $request->service,
+            'property_id' => $request->property,
             'country_code' => $request->country_code,
             'client_name' => $request->client_name,
             'client_email' => $request->client_email,

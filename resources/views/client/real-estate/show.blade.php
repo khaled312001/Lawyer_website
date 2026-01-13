@@ -163,32 +163,6 @@
                     </div>
                 @endif
 
-                <!-- Contact Information -->
-                <div class="property-contact mb_40">
-                    <h3 class="section-title">{{ __('Contact Information') }}</h3>
-                    <div class="contact-card">
-                        <div class="contact-avatar">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="contact-info">
-                            <h4>{{ $property->contact_name }}</h4>
-                            @if($property->contact_phone)
-                                <p><i class="fas fa-phone"></i> <a href="tel:{{ $property->contact_phone }}">{{ $property->contact_phone }}</a></p>
-                            @endif
-                            @if($property->contact_email)
-                                <p><i class="fas fa-envelope"></i> <a href="mailto:{{ $property->contact_email }}">{{ $property->contact_email }}</a></p>
-                            @endif
-                        </div>
-                        <div class="contact-actions">
-                            <a href="tel:{{ $property->contact_phone }}" class="btn btn-primary">
-                                <i class="fas fa-phone me-2"></i>{{ __('Call') }}
-                            </a>
-                            <a href="{{ route('website.real-estate.interest', $property->slug) }}" class="btn btn-success">
-                                <i class="fas fa-heart me-2"></i>{{ __('Show Interest') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Sidebar -->
@@ -204,6 +178,9 @@
                     <div class="price-actions">
                         <a href="tel:{{ $property->contact_phone }}" class="btn btn-primary btn-lg w-100 mb-2">
                             <i class="fas fa-phone me-2"></i>{{ __('Call Now') }}
+                        </a>
+                        <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-warning btn-lg w-100 mb-2">
+                            <i class="fas fa-calendar-check me-2"></i>{{ __('Book Consultation') }}
                         </a>
                         <a href="{{ route('website.real-estate.interest', $property->slug) }}" class="btn btn-success btn-lg w-100 mb-2">
                             <i class="fas fa-heart me-2"></i>{{ __('Show Interest') }}

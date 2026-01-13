@@ -4,90 +4,104 @@ namespace App\Http\Controllers;
 
 use App\Models\RealEstate;
 use App\Models\RealEstateInquiry;
-use Modules\Lawyer\app\Models\Lawyer;
+use Modules\RealEstate\app\Models\RealEstate as ModuleRealEstate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class RealEstateController extends Controller
 {
     /**
-     * Display a listing of real estate lawyers
+     * Display a listing of real estate properties
      */
     public function index(Request $request)
     {
-        // Get lawyers specialized in real estate law (department name contains "عقار" or "real estate")
-        $query = Lawyer::active()->verify()
-            ->whereHas('department.translation', function($q) {
-                $q->where('name', 'like', '%عقار%')
-                  ->orWhere('name', 'like', '%real estate%')
-                  ->orWhere('name', 'like', '%property%');
-            })
-            ->with(['department.translation', 'translation']);
+        // Get real estate properties
+        $query = ModuleRealEstate::active()->with('translation');
 
-        // Search by lawyer name or department
+        // Search by title or description
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhereHas('department.translation', function($dept) use ($search) {
-                      $dept->where('name', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('translation', function($trans) use ($search) {
-                      $trans->where('designations', 'like', "%{$search}%");
-                  });
+                $q->whereHas('translation', function($trans) use ($search) {
+                    $trans->where('title', 'like', "%{$search}%")
+                          ->orWhere('description', 'like', "%{$search}%");
+                });
             });
         }
 
-        // Filter by department
-        if ($request->filled('department')) {
-            $query->where('department_id', $request->department);
+        // Filter by property type
+        if ($request->filled('property_type')) {
+            $query->where('property_type', $request->property_type);
         }
 
-        // Filter by location
-        if ($request->filled('location')) {
-            $query->where('location_id', $request->location);
+        // Filter by listing type
+        if ($request->filled('listing_type')) {
+            $query->where('listing_type', $request->listing_type);
+        }
+
+        // Filter by city
+        if ($request->filled('city')) {
+            $query->where('city', $request->city);
+        }
+
+        // Filter by price range
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // Filter by area
+        if ($request->filled('min_area')) {
+            $query->where('area', '>=', $request->min_area);
+        }
+        if ($request->filled('max_area')) {
+            $query->where('area', '<=', $request->max_area);
         }
 
         // Sort options
-        $sortBy = $request->get('sort', 'name');
+        $sortBy = $request->get('sort', 'latest');
         switch ($sortBy) {
-            case 'experience':
-                $query->orderBy('years_of_experience', 'desc');
+            case 'price_low':
+                $query->orderBy('price', 'asc');
                 break;
-            case 'rating':
-                $query->orderByRaw('COALESCE(average_rating, 0) DESC');
+            case 'price_high':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'area':
+                $query->orderBy('area', 'desc');
                 break;
             case 'oldest':
                 $query->orderBy('created_at', 'asc');
                 break;
-            default: // name
-                $query->orderBy('name', 'asc');
+            default: // latest
+                $query->orderBy('created_at', 'desc');
         }
 
-        $lawyers = $query->paginate(12)->withQueryString();
-
-        // Add rating data to each lawyer
-        foreach ($lawyers as $lawyer) {
-            $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
-            $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
-        }
+        $properties = $query->paginate(12)->withQueryString();
 
         // Get filter options
-        $departments = \Modules\Lawyer\app\Models\Department::active()
-            ->whereHas('translation', function($q) {
-                $q->where('name', 'like', '%عقار%')
-                  ->orWhere('name', 'like', '%real estate%')
-                  ->orWhere('name', 'like', '%property%');
-            })
-            ->with('translation')
-            ->get();
+        $cities = ModuleRealEstate::active()
+            ->select('city')
+            ->distinct()
+            ->pluck('city')
+            ->filter()
+            ->sort();
 
-        $locations = \Modules\Lawyer\app\Models\Location::active()->with('translation')->get();
+        $propertyTypes = [
+            'apartment' => __('Apartment'),
+            'villa' => __('Villa'),
+            'office' => __('Office'),
+            'land' => __('Land'),
+            'shop' => __('Shop'),
+            'warehouse' => __('Warehouse'),
+        ];
 
         return view('client.real-estate.index', compact(
-            'lawyers',
-            'departments',
-            'locations'
+            'properties',
+            'cities',
+            'propertyTypes'
         ));
     }
 
@@ -96,15 +110,16 @@ class RealEstateController extends Controller
      */
     public function show($slug)
     {
-        $property = RealEstate::active()->where('slug', $slug)->firstOrFail();
+        $property = ModuleRealEstate::active()->where('slug', $slug)->with('translation')->firstOrFail();
 
         // Increment views
         $property->incrementViews();
 
         // Get similar properties
-        $similarProperties = RealEstate::active()
+        $similarProperties = ModuleRealEstate::active()
             ->where('property_type', $property->property_type)
             ->where('id', '!=', $property->id)
+            ->with('translation')
             ->limit(4)
             ->get();
 
@@ -116,7 +131,7 @@ class RealEstateController extends Controller
      */
     public function showInterest($slug)
     {
-        $property = RealEstate::active()->where('slug', $slug)->firstOrFail();
+        $property = ModuleRealEstate::active()->where('slug', $slug)->with('translation')->firstOrFail();
 
         return view('client.real-estate.interest', compact('property'));
     }
@@ -126,7 +141,7 @@ class RealEstateController extends Controller
      */
     public function storeInterest(Request $request, $slug)
     {
-        $property = RealEstate::active()->where('slug', $slug)->firstOrFail();
+        $property = ModuleRealEstate::active()->where('slug', $slug)->with('translation')->firstOrFail();
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',

@@ -156,6 +156,19 @@ trait PermissionsTrait {
         ],
     ];
 
+    public static array $realEstatePermissions = [
+        'group_name'  => 'real estate',
+        'permissions' => [
+            'real_estate.view',
+            'real_estate.create',
+            'real_estate.translate',
+            'real_estate.store',
+            'real_estate.edit',
+            'real_estate.update',
+            'real_estate.delete',
+        ],
+    ];
+
     public static array $settingPermissions = [
         'group_name'  => 'setting',
         'permissions' => [

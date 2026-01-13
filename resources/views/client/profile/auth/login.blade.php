@@ -173,11 +173,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                    @if ($setting->lawyer_can_register == 1)
-                                        <p>{{ __('Dont have an account?') }} <a
-                                                href="{{ route('register', ['type' => 'lawyer']) }}"
-                                                class="link">{{ __('Sign up') }}</a></p>
-                                    @endif
                                 </div>
                             </div>
                         </div>

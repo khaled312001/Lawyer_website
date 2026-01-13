@@ -1325,7 +1325,7 @@
             body.client-frontend .mobile-menu-toggle {
                 order: 1;
                 margin-right: 0;
-                margin-left: 20px;
+                margin-left: 30px;
             }
             .navbar-logo {
                 order: 0;
@@ -1334,7 +1334,7 @@
             }
             .navbar-wrapper {
                 justify-content: flex-start !important;
-                gap: 20px;
+                gap: 30px;
             }
         }
     @endif
@@ -2004,7 +2004,7 @@
         body.client-frontend .mobile-menu-toggle {
             display: flex !important;
             order: -1;
-            margin-right: 20px;
+            margin-right: 30px;
             margin-left: 0;
         }
 
@@ -2015,7 +2015,7 @@
         /* إعادة ترتيب العناصر في الموبايل - البرجر منيو في أقصى اليسار */
         .navbar-wrapper {
             justify-content: flex-start !important;
-            gap: 20px;
+            gap: 30px;
         }
 
         .navbar-logo {
@@ -2096,7 +2096,7 @@
             width: 38px;
             height: 38px;
             order: -1;
-            margin-right: 15px;
+            margin-right: 25px;
             margin-left: 0;
             align-self: center;
         }
@@ -2109,7 +2109,7 @@
         /* إعادة ترتيب العناصر في الموبايل */
         .navbar-wrapper {
             justify-content: flex-start !important;
-            gap: 20px;
+            gap: 30px;
         }
 
         .navbar-logo {

@@ -1,0 +1,25 @@
+{
+    "name": "nwidart/realestate",
+    "description": "Real Estate Property Management Module",
+    "authors": [
+        {
+            "name": "Your Name",
+            "email": "your@email.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\RealEstate\\app\\": "app/",
+            "Modules\\RealEstate\\database\\factories\\": "database/factories/",
+            "Modules\\RealEstate\\database\\seeders\\": "database/seeders/"
+        }
+    }
+}

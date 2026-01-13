@@ -1,0 +1,13 @@
+{
+    "name": "RealEstate",
+    "alias": "realestate",
+    "description": "Real Estate Property Management Module",
+    "keywords": ["real estate", "property", "realestate"],
+    "priority": 0,
+    "providers": [
+        "Modules\\RealEstate\\app\\Providers\\RealEstateServiceProvider",
+        "Modules\\RealEstate\\app\\Providers\\RouteServiceProvider"
+    ],
+    "files": [],
+    "requires": []
+}

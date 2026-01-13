@@ -20,6 +20,8 @@ class AdminAppointment extends Model
         'appointment_time',
         'case_type',
         'case_details',
+        'service',
+        'property_id',
         'country_code',
         'client_name',
         'client_email',
