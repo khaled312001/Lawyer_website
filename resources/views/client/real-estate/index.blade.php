@@ -205,42 +205,41 @@
                             <!-- Search -->
                             <div class="col-md-4">
                                 <div class="search-input-wrapper">
-                                    <input type="text" name="search" class="form-control" placeholder="{{ __('Search lawyers...') }}" value="{{ request('search') }}">
+                                    <input type="text" name="search" class="form-control" placeholder="{{ __('Search properties...') }}" value="{{ request('search') }}">
                                     <i class="fas fa-search"></i>
                                 </div>
                             </div>
 
-                            <!-- Department -->
+                            <!-- Property Type -->
                             <div class="col-md-3">
-                                <select name="department" class="form-select">
-                                    <option value="">{{ __('All Departments') }}</option>
-                                    @foreach($departments as $department)
-                                        <option value="{{ $department->id }}" {{ request('department') == $department->id ? 'selected' : '' }}>
-                                            {{ $department->translation?->name ?? __('Department') }}
+                                <select name="property_type" class="form-select">
+                                    <option value="">{{ __('All Types') }}</option>
+                                    @foreach($propertyTypes as $key => $type)
+                                        <option value="{{ $key }}" {{ request('property_type') == $key ? 'selected' : '' }}>
+                                            {{ $type }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <!-- Location -->
+                            <!-- City -->
                             <div class="col-md-3">
-                                <select name="location" class="form-select">
-                                    <option value="">{{ __('All Locations') }}</option>
-                                    @foreach($locations as $location)
-                                        <option value="{{ $location->id }}" {{ request('location') == $location->id ? 'selected' : '' }}>
-                                            {{ $location->translation?->name ?? __('Location') }}
+                                <select name="city" class="form-select">
+                                    <option value="">{{ __('All Cities') }}</option>
+                                    @foreach($cities as $city)
+                                        <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>
+                                            {{ $city }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            <!-- Sort -->
+                            <!-- Listing Type -->
                             <div class="col-md-2">
-                                <select name="sort" class="form-select">
-                                    <option value="name" {{ request('sort', 'name') == 'name' ? 'selected' : '' }}>{{ __('Name') }}</option>
-                                    <option value="experience" {{ request('sort') == 'experience' ? 'selected' : '' }}>{{ __('Experience') }}</option>
-                                    <option value="rating" {{ request('sort') == 'rating' ? 'selected' : '' }}>{{ __('Rating') }}</option>
-                                    <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>{{ __('Oldest') }}</option>
+                                <select name="listing_type" class="form-select">
+                                    <option value="">{{ __('All Listings') }}</option>
+                                    <option value="sale" {{ request('listing_type') == 'sale' ? 'selected' : '' }}>{{ __('For Sale') }}</option>
+                                    <option value="rent" {{ request('listing_type') == 'rent' ? 'selected' : '' }}>{{ __('For Rent') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -264,90 +263,6 @@
             </div>
         </div>
 
-        <!-- Lawyers Grid -->
-        @if($lawyers->count() > 0)
-            <div class="row">
-                @foreach($lawyers as $lawyer)
-                    <div class="col-lg-4 col-md-6 mb_30">
-                        <div class="lawyer-card">
-                            <!-- Lawyer Image -->
-                            <div class="lawyer-image">
-                                <img src="{{ $lawyer->image ? asset('storage/' . $lawyer->image) : asset('client/img/default-avatar.png') }}" alt="{{ $lawyer->name }}" class="img-fluid">
-
-                                <!-- Rating Badge -->
-                                @if($lawyer->average_rating > 0)
-                                    <div class="lawyer-rating-badge">
-                                        <i class="fas fa-star"></i>
-                                        <span>{{ number_format($lawyer->average_rating, 1) }}</span>
-                                        <small>({{ $lawyer->total_ratings }})</small>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <!-- Lawyer Info -->
-                            <div class="lawyer-info">
-                                <h5 class="lawyer-name">
-                                    <a href="{{ route('website.lawyer.details', $lawyer->slug) }}">
-                                        {{ $lawyer->name }}
-                                    </a>
-                                </h5>
-
-                                <div class="lawyer-specialty">
-                                    <i class="fas fa-briefcase me-1"></i>
-                                    {{ $lawyer->translation?->designations ?? $lawyer->designations ?? __('Lawyer') }}
-                                </div>
-
-                                <div class="lawyer-department">
-                                    <i class="fas fa-building me-1"></i>
-                                    {{ $lawyer->department?->translation?->name ?? __('Department') }}
-                                </div>
-
-                                @if($lawyer->years_of_experience)
-                                    <div class="lawyer-experience">
-                                        <i class="fas fa-calendar-alt me-1"></i>
-                                        {{ $lawyer->years_of_experience }} {{ __('years of experience') }}
-                                    </div>
-                                @endif
-
-                                <div class="lawyer-actions">
-                                    <a href="{{ route('website.lawyer.details', $lawyer->slug) }}" class="btn btn-outline-primary btn-sm">
-                                        <i class="fas fa-eye me-1"></i>{{ __('View Profile') }}
-                                    </a>
-                                    <a href="{{ route('website.book.consultation.appointment', ['lawyer' => $lawyer->id]) }}" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-calendar-check me-1"></i>{{ __('Book Consultation') }}
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <!-- Pagination -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="pagination-wrapper">
-                        {{ $lawyers->appends(request()->query())->links() }}
-                    </div>
-                </div>
-            </div>
-        @else
-            <!-- No Lawyers Found -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="no-properties text-center">
-                        <div class="no-properties-icon">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <h3>{{ __('No Lawyers Found') }}</h3>
-                        <p>{{ __('Try adjusting your search criteria or browse all lawyers.') }}</p>
-                        <a href="{{ route('website.real-estate') }}" class="btn btn-primary">
-                            <i class="fas fa-refresh me-2"></i>{{ __('View All Lawyers') }}
-                        </a>
-                    </div>
-                </div>
-            </div>
-        @endif
     </div>
 </section>
 <!-- Real Estate Listings End -->
