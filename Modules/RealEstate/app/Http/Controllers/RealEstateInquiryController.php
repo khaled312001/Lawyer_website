@@ -59,11 +59,11 @@ class RealEstateInquiryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(RealEstateInquiry $inquiry)
     {
         checkAdminHasPermissionAndThrowException('real_estate.view');
 
-        $inquiry = RealEstateInquiry::with(['realEstate.translation', 'user'])->findOrFail($id);
+        $inquiry->load(['realEstate.translation', 'user']);
 
         return view('realestate::inquiries.show', compact('inquiry'));
     }
@@ -71,7 +71,7 @@ class RealEstateInquiryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, RealEstateInquiry $inquiry)
     {
         checkAdminHasPermissionAndThrowException('real_estate.update');
 
@@ -80,7 +80,6 @@ class RealEstateInquiryController extends Controller
             'admin_notes' => 'nullable|string|max:1000',
         ]);
 
-        $inquiry = RealEstateInquiry::findOrFail($id);
         $inquiry->update([
             'status' => $request->status,
             'admin_notes' => $request->admin_notes,
@@ -92,16 +91,16 @@ class RealEstateInquiryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(RealEstateInquiry $inquiry)
     {
         checkAdminHasPermissionAndThrowException('real_estate.delete');
 
-        RealEstateInquiry::findOrFail($id)->delete();
+        $inquiry->delete();
 
         return redirect()->route('admin.real-estate.inquiries.index')->with('success', __('Inquiry deleted successfully'));
     }
 
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(Request $request, RealEstateInquiry $inquiry)
     {
         checkAdminHasPermissionAndThrowException('real_estate.update');
 
@@ -109,7 +108,6 @@ class RealEstateInquiryController extends Controller
             'status' => 'required|in:new,pending,contacted,closed',
         ]);
 
-        $inquiry = RealEstateInquiry::findOrFail($id);
         $inquiry->update(['status' => $request->status]);
 
         return response()->json([

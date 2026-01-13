@@ -319,9 +319,7 @@
                             @foreach ($testimonials->take($home_sections?->client_how_many) as $client)
                                 <div class="swiper-slide">
                                     <div class="testimonial-card-modern">
-                                        <div class="testimonial-quote-icon">
-                                            <i></i>
-                                        </div>
+                                     
                                         <div class="testimonial-content">
                                             <p class="testimonial-text">{{ $client?->comment }}</p>
                                         </div>

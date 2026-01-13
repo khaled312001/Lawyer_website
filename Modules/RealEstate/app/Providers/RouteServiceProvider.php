@@ -20,6 +20,15 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         parent::boot();
+
+        // Register route model binding
+        Route::bind('real_estate', function ($value) {
+            return \Modules\RealEstate\app\Models\RealEstate::findOrFail($value);
+        });
+
+        Route::bind('real_estate_inquiry', function ($value) {
+            return \App\Models\RealEstateInquiry::findOrFail($value);
+        });
     }
 
     /**

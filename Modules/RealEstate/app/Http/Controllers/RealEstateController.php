@@ -141,11 +141,9 @@ class RealEstateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RealEstateRequest $request, $id): RedirectResponse
+    public function update(RealEstateRequest $request, RealEstate $realEstate)
     {
         checkAdminHasPermissionAndThrowException('real_estate.update');
-
-        $realEstate = RealEstate::findOrFail($id);
 
         $validatedData = $request->validated();
 
