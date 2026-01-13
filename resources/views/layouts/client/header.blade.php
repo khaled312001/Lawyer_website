@@ -221,32 +221,6 @@
                             <span>{{ __('Login') }}</span>
                         </a>
                     @else
-                        {{-- Notifications Dropdown for Client --}}
-                        <div class="dropdown notification-dropdown-header" id="client-header-notification-dropdown">
-                            <a href="javascript:;" class="header-contact-item account-link position-relative" id="client-header-notification-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-bell"></i>
-                                <span class="notification-badge-header" id="client-header-notification-count" style="display: none; position: absolute; top: -5px; right: -5px; background: #dc3545; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; min-width: 18px; text-align: center;">0</span>
-                                <span>{{ __('Notifications') }}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu-header" id="client-header-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto; position: absolute; right: 0; margin-top: 10px;">
-                                <div class="dropdown-header d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0">{{ __('Notifications') }}</h6>
-                                    <a href="javascript:;" class="text-primary small mark-all-read-header" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div id="client-header-notifications-list">
-                                    <div class="text-center p-3">
-                                        <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="dropdown-footer text-center">
-                                    <a href="{{ route('client.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
-                                </div>
-                            </div>
-                        </div>
                         <a href="{{ route('dashboard') }}" class="header-contact-item account-link">
                             <i class="fas fa-user"></i>
                             <span>{{ __('My account') }}</span>

@@ -1623,7 +1623,7 @@ Service
 .service-area {
     position: relative;
     padding-top: 80px;
-    padding-bottom: 80px;
+    padding-bottom: 40px;
 }
 
 .service-coloum-area {
@@ -7579,7 +7579,7 @@ Dashboard Page
 }
 
 .case-study-home-page {
-    padding-top: 200px;
+    padding-top: 100px;
 }
 
 .case-item .case-image img {
@@ -7597,7 +7597,7 @@ Dashboard Page
 
 @media only screen and (max-width: 1199px) {
     .case-study-home-page {
-        padding-top: 280px;
+        padding-top: 140px;
     }
 
     .team-photo img {

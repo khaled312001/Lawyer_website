@@ -29,11 +29,6 @@
                                                 placeholder="{{ __('Enter Name') }}" value="{{ old('name') }}"
                                                 required="true" />
                                         </div>
-                                        <div class="form-group col-lg-4 col-md-6">
-                                            <x-admin.form-input id="slug" name="slug" label="{{ __('Slug') }}"
-                                                placeholder="{{ __('Enter Slug') }}" value="{{ old('slug') }}"
-                                                required="true" />
-                                        </div>
                                         <div class="form-group col-lg-4  col-md-6">
                                             <x-admin.form-input id="phone" name="phone" label="{{ __('Phone') }}"
                                                 placeholder="{{ __('Enter Phone') }}" value="{{ old('phone') }}"
@@ -54,36 +49,29 @@
                                                 required="true" />
                                         </div>
                                         <div class="form-group col-lg-4  col-md-6">
-                                            <x-admin.form-input id="fee" name="fee" label="{{ __('Fee') }}"
-                                                placeholder="{{ __('Enter Fee') }}" value="{{ old('fee') }}"
-                                                required="true" />
-                                        </div>
-                                        <div class="form-group col-lg-4  col-md-6">
                                             <x-admin.form-input id="designations" name="designations"
                                                 label="{{ __('Designations') }}"
                                                 placeholder="{{ __('Enter Designations') }}"
                                                 value="{{ old('designations') }}" required="true" />
                                         </div>
-                                        <div class="form-group col-lg-4  col-md-6">
-                                            <x-admin.form-select name="department_id" id="department_id" class="select2"
-                                                label="{{ __('Department') }}" required="true">
-                                                <x-admin.select-option value=""
-                                                    text="{{ __('Select Department') }}" />
+                                        <div class="form-group col-md-12">
+                                            <label>{{ __('Departments') }} <span class="text-danger">*</span></label>
+                                            <div class="row">
+                                                @php $selectedDepartments = old('department_ids', []); @endphp
                                                 @foreach ($departments as $department)
-                                                    <x-admin.select-option :selected="$department->id == old('department_id')" value="{{ $department->id }}"
-                                                        text="{{ $department->name }}" />
+                                                    <div class="col-md-4 mb-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" name="department_ids[]" value="{{ $department->id }}" id="department_{{ $department->id }}" {{ in_array($department->id, $selectedDepartments) ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="department_{{ $department->id }}">
+                                                                {{ $department->name }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
                                                 @endforeach
-                                            </x-admin.form-select>
-                                        </div>
-                                        <div class="form-group col-lg-4  col-md-6">
-                                            <x-admin.form-select name="location_id" id="location_id" class="select2"
-                                                label="{{ __('Location') }}" required="true">
-                                                <x-admin.select-option value="" text="{{ __('Select Location') }}" />
-                                                @foreach ($locations as $location)
-                                                    <x-admin.select-option :selected="$location->id == old('location_id')" value="{{ $location->id }}"
-                                                        text="{{ $location->name }}" />
-                                                @endforeach
-                                            </x-admin.form-select>
+                                            </div>
+                                            @error('department_ids')
+                                                <div class="text-danger mt-1">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="form-group col-md-12">
                                             <x-admin.form-textarea id="about" name="about"
@@ -92,11 +80,6 @@
                                                 value="{{ old('about') }}" maxlength="2000" required="true" />
                                         </div>
 
-                                        <div class="form-group col-md-12">
-                                            <x-admin.form-editor id="address" name="address"
-                                                label="{{ __('Address') }}" value="{!! old('address') !!}"
-                                                required="true" />
-                                        </div>
                                         <div class="form-group col-md-12">
                                             <x-admin.form-editor id="educations" name="educations"
                                                 label="{{ __('Educations') }}" value="{!! old('educations') !!}"
@@ -113,18 +96,6 @@
                                                 required="true" />
                                         </div>
 
-                                        <div class="form-group col-md-12">
-                                            <x-admin.form-input id="seo_title" name="seo_title"
-                                                label="{{ __('SEO Title') }}" placeholder="{{ __('Enter SEO Title') }}"
-                                                value="{{ old('seo_title') }}" />
-                                        </div>
-
-                                        <div class="form-group col-md-12">
-                                            <x-admin.form-textarea id="seo_description" name="seo_description"
-                                                label="{{ __('SEO Description') }}"
-                                                placeholder="{{ __('Enter SEO Description') }}"
-                                                value="{{ old('seo_description') }}" maxlength="2000" />
-                                        </div>
                                         <div class="form-group col-md-12">
                                             <x-admin.form-image-preview recommended="300X270" name="lawyer_image" label="{{__('Image')}}" />
                                         </div>

@@ -176,18 +176,9 @@
                         @endif
                     </div>
                     <div class="price-actions">
-                        <a href="tel:{{ $property->contact_phone }}" class="btn btn-primary btn-lg w-100 mb-2">
-                            <i class="fas fa-phone me-2"></i>{{ __('Call Now') }}
-                        </a>
-                        <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-warning btn-lg w-100 mb-2">
+                        <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-warning btn-lg w-100">
                             <i class="fas fa-calendar-check me-2"></i>{{ __('Book Consultation') }}
                         </a>
-                        <a href="{{ route('website.real-estate.interest', $property->slug) }}" class="btn btn-success btn-lg w-100 mb-2">
-                            <i class="fas fa-heart me-2"></i>{{ __('Show Interest') }}
-                        </a>
-                        <button class="btn btn-outline-primary btn-lg w-100" onclick="shareProperty()">
-                            <i class="fas fa-share me-2"></i>{{ __('Share Property') }}
-                        </button>
                     </div>
                 </div>
 
@@ -933,29 +924,6 @@ $(document).ready(function() {
         currentImageIndex = index;
     };
 
-    // Share property functionality
-    window.shareProperty = function() {
-        const url = window.location.href;
-        const title = "{{ $property->title }}";
-
-        if (navigator.share) {
-            navigator.share({
-                title: title,
-                url: url
-            });
-        } else {
-            // Fallback for browsers that don't support Web Share API
-            const dummy = document.createElement('input');
-            document.body.appendChild(dummy);
-            dummy.value = url;
-            dummy.select();
-            document.execCommand('copy');
-            document.body.removeChild(dummy);
-
-            // Show success message
-            alert('{{ __("Property link copied to clipboard!") }}');
-        }
-    };
 
     // Keyboard navigation for gallery
     $(document).on('keydown', function(e) {

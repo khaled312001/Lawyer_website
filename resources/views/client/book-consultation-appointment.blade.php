@@ -67,6 +67,57 @@
                             </div>
                         @endif
 
+                        @if(isset($property) && $property)
+                        <!-- Property Information -->
+                        <div class="property-info-card mb-4">
+                            <div class="card border-primary">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-building me-2"></i>{{ __('Property Information') }}
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Property Title') }}:</strong> {{ $property->title }}
+                                            </div>
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Property Type') }}:</strong> {{ __($property->property_type) }}
+                                            </div>
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Listing Type') }}:</strong> {{ __($property->listing_type) }}
+                                            </div>
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Area') }}:</strong> {{ $property->area }} m²
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Location') }}:</strong> {{ $property->city }}, {{ $property->district }}
+                                            </div>
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Price') }}:</strong> {{ $property->formatted_price }}
+                                            </div>
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Contact') }}:</strong> {{ $property->contact_name }}
+                                            </div>
+                                            <div class="property-info-item">
+                                                <strong>{{ __('Phone') }}:</strong> {{ $property->contact_phone }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <small class="text-muted">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            {{ __('This consultation is specifically for real estate services related to this property.') }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
                         <form action="{{ route('website.create.consultation.appointment') }}" method="POST" id="consultationAppointmentForm">
                             @csrf
                             <input type="hidden" name="service" value="{{ request('service') }}">
@@ -1073,6 +1124,54 @@
     .lawyer-select {
         transition: none !important;
     }
+}
+
+/* ============================================
+   PROPERTY INFORMATION CARD
+   ============================================ */
+
+.property-info-card .card {
+    border: 2px solid #007bff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+}
+
+.property-info-card .card-header {
+    border-bottom: 2px solid #007bff;
+    font-weight: 600;
+}
+
+.property-info-card .property-info-item {
+    margin-bottom: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.property-info-card .property-info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.property-info-card .property-info-item strong {
+    color: var(--colorPrimary);
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.property-info-card .property-info-item {
+    font-size: 15px;
+    color: #333;
+}
+
+.property-info-card .alert {
+    border: none;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+}
+
+.property-info-card .alert i {
+    color: #28a745;
 }
 </style>
 @endpush

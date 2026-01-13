@@ -301,7 +301,7 @@
 
     @if (1 == $home_sections?->client_status)
         <!--Testimonial Start-->
-        <section class="testimonial-area-modern {{ $home_sections?->department_status == 0 ? 'mt_200' : '' }}">
+        <section class="testimonial-area-modern {{ $home_sections?->department_status == 0 ? 'mt_50' : '' }}">
             <div class="container">
                 <div class="row">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">

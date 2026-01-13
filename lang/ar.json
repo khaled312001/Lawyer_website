@@ -1587,6 +1587,8 @@
     "Enter currency": "أدخل العملة",
     "Area": "المساحة",
     "Enter area": "أدخل المساحة",
+    "No inquiries found!":"لم يتم العثور على أي استفسارات!",
+    "This consultation is specifically for real estate services." : "هذه الاستشارة مخصصة تحديداً لخدمات العقارات.",
     "Price per m²": "السعر للمتر المربع",
     "Enter price per m²": "أدخل السعر للمتر المربع",
     "Features & Media": "الميزات والوسائط",
@@ -1977,5 +1979,10 @@
     "Fridge": "ثلاجة",
     "Washing Machine": "غسالة",
     "Found": "تم العثور على",
-    "properties": "عقار"
+    "properties": "عقار",
+    "per month": "في الشهر",
+    "Property Information": "معلومات العقار",
+    "Property Title": "عنوان العقار",
+    "Listing Type": "نوع القائمة",
+    "This consultation is specifically for real estate services related to this property.": "هذه الاستشارة مخصصة تحديداً لخدمات العقارات المتعلقة بهذا العقار."
 }

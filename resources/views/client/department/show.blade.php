@@ -141,7 +141,7 @@
                             <h3>{{ __('Quick Contact') }}</h3>
                             <div class="quick-contact-content">
                                 <p>{{ __('Book a consultation with our expert lawyers for personalized legal advice.') }}</p>
-                                <a href="{{ route('book.consultation.appointment') }}" class="btn btn-primary btn-block">
+                                <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-primary btn-block">
                                     <i class="fas fa-calendar-check"></i> {{ __('Book Consultation') }}
                                 </a>
                             </div>

@@ -1792,5 +1792,10 @@
     "Fridge": "Fridge",
     "Washing Machine": "Washing Machine",
     "Found": "Found",
-    "properties": "properties"
+    "properties": "properties",
+    "per month": "per month",
+    "Property Information": "Property Information",
+    "Property Title": "Property Title",
+    "Listing Type": "Listing Type",
+    "This consultation is specifically for real estate services related to this property.": "This consultation is specifically for real estate services related to this property."
 }

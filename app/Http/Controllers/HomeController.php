@@ -633,7 +633,7 @@ class HomeController extends Controller {
         return view('client.book-appointment', compact('lawyers', 'days'));
     }
 
-    public function bookConsultationAppointment() {
+    public function bookConsultationAppointment(Request $request) {
         $departments = Department::select('id')->with([
             'translation' => function ($query) {
                 $query->select('department_id', 'name');
@@ -658,6 +658,15 @@ class HomeController extends Controller {
             $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
         }
 
-        return view('client.book-consultation-appointment', compact('departments', 'lawyers'));
+        // Handle real estate property data
+        $property = null;
+        if ($request->has('property') && $request->service === 'real_estate') {
+            $property = \Modules\RealEstate\app\Models\RealEstate::active()
+                ->where('id', $request->property)
+                ->with('translation')
+                ->first();
+        }
+
+        return view('client.book-consultation-appointment', compact('departments', 'lawyers', 'property'));
     }
 }

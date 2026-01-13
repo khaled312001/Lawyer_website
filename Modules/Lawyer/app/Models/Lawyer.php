@@ -24,11 +24,7 @@ class Lawyer extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'department_id',
-        'location_id',
         'name',
-        'slug',
-        'fee',
         'years_of_experience',
         'show_homepage',
         'status',
@@ -87,6 +83,10 @@ class Lawyer extends Authenticatable {
 
     public function getSeoDescriptionAttribute(): ?string {
         return $this?->translation?->seo_description;
+    }
+
+    public function departments() {
+        return $this->belongsToMany(Department::class, 'department_lawyer');
     }
 
     public function department(): ?BelongsTo {

@@ -12,18 +12,14 @@ class LawyerRequest extends FormRequest {
 
     public function rules(): array {
         $rules = [
-            'department_id'       => 'sometimes|exists:departments,id',
-            'location_id'         => 'sometimes|exists:locations,id',
-            'seo_title'           => 'nullable|string|max:1000',
-            'seo_description'     => 'nullable|string|max:2000',
+            'department_ids'      => 'required|array|min:1',
+            'department_ids.*'    => 'exists:departments,id',
             'status'              => 'nullable',
             'show_homepage'       => 'nullable',
 
-            'fee'                 => 'required|numeric',
             'years_of_experience' => 'required',
             'designations'        => 'required',
             'about'               => 'required',
-            'address'             => 'required',
             'educations'          => 'required',
             'experience'          => 'required',
             'qualifications'      => 'required',
@@ -52,14 +48,10 @@ class LawyerRequest extends FormRequest {
 
     public function messages(): array {
         return [
-            'department_id.required'       => __('The department is required.'),
-            'department_id.exists'         => __('The selected department is invalid.'),
-
-            'location_id.required'         => __('The location is required.'),
-            'location_id.exists'           => __('The selected location is invalid.'),
-
-            'fee.required'                 => __('Fee is required.'),
-            'fee.numeric'                  => __('Fee must be a numeric.'),
+            'department_ids.required'      => __('At least one department is required.'),
+            'department_ids.array'         => __('Departments must be an array.'),
+            'department_ids.min'           => __('At least one department must be selected.'),
+            'department_ids.*.exists'      => __('One or more selected departments are invalid.'),
 
             'years_of_experience.required' => __('Years of experience is required.'),
 

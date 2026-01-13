@@ -68,9 +68,8 @@ class LawyerController extends Controller {
     public function create() {
         checkAdminHasPermissionAndThrowException('lawyer.create');
         $departments = Department::with('translation')->active()->get();
-        $locations = Location::with('translation')->active()->get();
 
-        return view('lawyer::lawyer.create', compact('departments', 'locations'));
+        return view('lawyer::lawyer.create', compact('departments'));
     }
 
     public function store(LawyerRequest $request): RedirectResponse {
@@ -95,6 +94,11 @@ class LawyerController extends Controller {
             }
             $lawyer->email_verified_at = now();
             $lawyer->save();
+
+            // Attach departments to lawyer
+            if ($request->has('department_ids') && is_array($request->department_ids)) {
+                $lawyer->departments()->attach($request->department_ids);
+            }
 
             $this->generateTranslations(
                 TranslationModels::Lawyer,
@@ -127,10 +131,9 @@ class LawyerController extends Controller {
         }
         $lawyer = Lawyer::findOrFail($id);
         $departments = Department::with('translation')->get();
-        $locations = Location::with('translation')->get();
         $languages = allLanguages();
 
-        return view('lawyer::lawyer.edit', compact('lawyer', 'code', 'departments', 'locations', 'languages'));
+        return view('lawyer::lawyer.edit', compact('lawyer', 'code', 'departments', 'languages'));
     }
 
     /**
@@ -150,6 +153,11 @@ class LawyerController extends Controller {
         }
 
         $lawyer->update($validatedData);
+
+        // Update departments
+        if ($request->has('department_ids') && is_array($request->department_ids)) {
+            $lawyer->departments()->sync($request->department_ids);
+        }
 
         if ($password) {
             // Hash the password and update directly in database to bypass the 'hashed' cast
