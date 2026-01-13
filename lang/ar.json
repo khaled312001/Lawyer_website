@@ -1985,5 +1985,9 @@
     "Property Information": "معلومات العقار",
     "Property Title": "عنوان العقار",
     "Listing Type": "نوع القائمة",
-    "This consultation is specifically for real estate services related to this property.": "هذه الاستشارة مخصصة تحديداً لخدمات العقارات المتعلقة بهذا العقار."
+    "This consultation is specifically for real estate services related to this property.": "هذه الاستشارة مخصصة تحديداً لخدمات العقارات المتعلقة بهذا العقار.",
+    "Search Properties": "البحث في العقارات",
+    "Clear Filters": "مسح المرشحات",
+    "Latest First": "الأحدث أولاً",
+    "Oldest First": "الأقدم أولاً"
 }
