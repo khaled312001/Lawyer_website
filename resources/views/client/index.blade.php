@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="legal-hero-buttons">
-                                    <a href="https://lawyer.khaledahmed.net/book-consultation-appointment" class="legal-hero-btn-primary">
+                                    <a href="{{ route('website.book.consultation.appointment') }}" class="legal-hero-btn-primary">
                                         <i class="fas fa-calendar-check"></i>
                                         <span>{{ __('Book Consultation Now') }}</span>
                                     </a>
