@@ -75,9 +75,17 @@
             <div class="col-lg-6">
                 <div class="intro-image">
                     <div class="image-wrapper">
-                        <img src="{{ asset('client/img/real-estate-intro.jpg') }}" alt="{{ __('Real Estate') }}" class="img-fluid" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="image-placeholder" style="display: none;">
-                            <i class="fas fa-building"></i>
+                        <div class="image-placeholder">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon-wrapper">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="placeholder-text">
+                                    <h3>{{ __('Real Estate') }}</h3>
+                                    <p>{{ __('Your Trusted Partner') }}</p>
+                                </div>
+                                <div class="placeholder-pattern"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -603,46 +611,18 @@
     box-shadow: 0 15px 50px rgba(0,0,0,0.15);
     transition: all 0.4s ease;
     background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
-}
-
-.image-wrapper::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(200, 180, 126, 0.1) 0%, rgba(200, 180, 126, 0.05) 100%);
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.image-wrapper:hover::before {
-    opacity: 1;
+    min-height: 500px;
 }
 
 .image-wrapper:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-}
-
-.image-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.5s ease;
-    position: relative;
-    z-index: 0;
-}
-
-.image-wrapper:hover img {
-    transform: scale(1.05);
+    box-shadow: 0 20px 60px rgba(200, 180, 126, 0.3);
 }
 
 .image-placeholder {
     width: 100%;
-    height: 450px;
+    height: 100%;
+    min-height: 500px;
     background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
     display: flex;
     align-items: center;
@@ -650,6 +630,7 @@
     color: white;
     position: relative;
     overflow: hidden;
+    padding: 60px 40px;
 }
 
 .image-placeholder::before {
@@ -659,8 +640,21 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
     animation: rotate 20s linear infinite;
+}
+
+.image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+    z-index: 1;
 }
 
 @keyframes rotate {
@@ -672,11 +666,131 @@
     }
 }
 
-.image-placeholder i {
-    font-size: 6rem;
-    opacity: 0.6;
+.placeholder-content {
     position: relative;
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+}
+
+.placeholder-icon-wrapper {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 30px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.image-wrapper:hover .placeholder-icon-wrapper {
+    transform: scale(1.1) translateY(-10px);
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+}
+
+.placeholder-icon-wrapper i {
+    font-size: 5rem;
+    color: white;
+    opacity: 0.95;
+    transition: all 0.4s ease;
+}
+
+.image-wrapper:hover .placeholder-icon-wrapper i {
+    transform: scale(1.1) rotate(5deg);
+    opacity: 1;
+}
+
+.placeholder-text {
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.placeholder-text h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    color: white;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.image-wrapper:hover .placeholder-text h3 {
+    transform: scale(1.05);
+}
+
+.placeholder-text p {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.95;
+    letter-spacing: 0.5px;
+}
+
+.placeholder-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px),
+        repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px);
     z-index: 1;
+    opacity: 0.5;
+}
+
+/* Additional decorative elements */
+.image-placeholder {
+    background-image: 
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+}
+
+/* Responsive adjustments for better display */
+@media (max-width: 992px) {
+    .image-wrapper {
+        min-height: 400px;
+    }
+
+    .image-placeholder {
+        min-height: 400px;
+        padding: 50px 35px;
+    }
+
+    .placeholder-icon-wrapper {
+        width: 130px;
+        height: 130px;
+    }
+
+    .placeholder-icon-wrapper i {
+        font-size: 4.5rem;
+    }
+
+    .placeholder-text h3 {
+        font-size: 2rem;
+    }
+
+    .placeholder-text p {
+        font-size: 1.1rem;
+    }
 }
 
 /* RTL Support for Introduction Section */
@@ -696,6 +810,15 @@
 [dir="rtl"] .feature-content h4,
 [dir="rtl"] .feature-content p {
     text-align: right;
+}
+
+/* RTL Support for Image Placeholder */
+[dir="rtl"] .placeholder-content {
+    text-align: center;
+}
+
+[dir="rtl"] .placeholder-text {
+    text-align: center;
 }
 
 /* Properties Filter Section */
@@ -1201,6 +1324,30 @@
 
     .image-wrapper {
         border-radius: 16px;
+        min-height: 350px;
+    }
+
+    .image-placeholder {
+        min-height: 350px;
+        padding: 40px 25px;
+    }
+
+    .placeholder-icon-wrapper {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .placeholder-icon-wrapper i {
+        font-size: 3.5rem;
+    }
+
+    .placeholder-text h3 {
+        font-size: 1.6rem;
+    }
+
+    .placeholder-text p {
+        font-size: 0.95rem;
     }
 
     .image-placeholder {
@@ -1298,12 +1445,31 @@
         font-size: 0.9rem;
     }
 
-    .image-placeholder {
-        height: 300px;
+    .image-wrapper {
+        min-height: 350px;
     }
 
-    .image-placeholder i {
+    .image-placeholder {
+        min-height: 350px;
+        padding: 40px 30px;
+    }
+
+    .placeholder-icon-wrapper {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 25px;
+    }
+
+    .placeholder-icon-wrapper i {
         font-size: 4rem;
+    }
+
+    .placeholder-text h3 {
+        font-size: 1.8rem;
+    }
+
+    .placeholder-text p {
+        font-size: 1rem;
     }
 
     .properties-filter-content {
