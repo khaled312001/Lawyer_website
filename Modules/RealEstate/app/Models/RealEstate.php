@@ -125,18 +125,37 @@ class RealEstate extends Model
 
     public function getMainImageUrlAttribute()
     {
+        // Check featured_image first
         if ($this->featured_image) {
-            $imagePath = 'storage/' . $this->featured_image;
-            if (file_exists(storage_path('app/public/' . $this->featured_image))) {
-                return asset($imagePath);
+            $imagePath = $this->featured_image;
+            // Check if it's already a full path or relative path
+            if (str_starts_with($imagePath, 'http')) {
+                return $imagePath;
+            }
+            // Check storage path
+            if (file_exists(storage_path('app/public/' . $imagePath))) {
+                return asset('storage/' . $imagePath);
+            }
+            // Check public path (for backward compatibility)
+            if (file_exists(public_path('storage/' . $imagePath))) {
+                return asset('storage/' . $imagePath);
             }
         }
 
+        // Check images array
         if ($this->images && count($this->images) > 0) {
             $firstImage = $this->images[0];
-            $imagePath = 'storage/' . $firstImage;
+            // Check if it's already a full path or relative path
+            if (is_string($firstImage) && str_starts_with($firstImage, 'http')) {
+                return $firstImage;
+            }
+            // Check storage path
             if (file_exists(storage_path('app/public/' . $firstImage))) {
-                return asset($imagePath);
+                return asset('storage/' . $firstImage);
+            }
+            // Check public path (for backward compatibility)
+            if (file_exists(public_path('storage/' . $firstImage))) {
+                return asset('storage/' . $firstImage);
             }
         }
 
@@ -150,9 +169,17 @@ class RealEstate extends Model
         }
 
         return array_map(function ($image) {
-            $imagePath = 'storage/' . $image;
+            // Check if it's already a full URL
+            if (is_string($image) && str_starts_with($image, 'http')) {
+                return $image;
+            }
+            // Check storage path
             if (file_exists(storage_path('app/public/' . $image))) {
-                return asset($imagePath);
+                return asset('storage/' . $image);
+            }
+            // Check public path (for backward compatibility)
+            if (file_exists(public_path('storage/' . $image))) {
+                return asset('storage/' . $image);
             }
             return asset('client/img/property-placeholder.jpg');
         }, $this->images);
