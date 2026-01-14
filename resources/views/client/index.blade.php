@@ -3846,25 +3846,26 @@
     .about-area,
     .why-us-area,
     .case-study-area {
-        padding-top: 40px !important;
+        padding-top: 0 !important;
         padding-bottom: 40px !important;
     }
 
     /* Reduce spacing for department section */
     .case-study-home-page {
+        padding-top: 0 !important;
         padding-bottom: 30px !important;
-        margin-top: 100px !important;
+        margin-top: 0 !important;
     }
 
     @media (max-width: 768px) {
         .case-study-home-page {
-            margin-top: 40px !important;
+            margin-top: 0 !important;
         }
     }
 
     @media (max-width: 480px) {
         .case-study-home-page {
-            margin-top: 30px !important;
+            margin-top: 0 !important;
         }
     }
 

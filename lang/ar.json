@@ -2037,5 +2037,11 @@
     "Consultation for this property": "استشارة لهذا العقار",
     "Real Estate Consultation": "استشارة عقارية",
     "Provide details about the property consultation you need...": "قدم تفاصيل عن استشارة العقار التي تحتاجها...",
-    "Lawyer": "محام"
+    "Lawyer": "محام",
+    "garden": "حديقة",
+    "parking": "موقف سيارات",
+    "pool": "مسبح",
+    "security": "أمن",
+    "furnished": "مفروش",
+    "balcony": "شرفة"
 }

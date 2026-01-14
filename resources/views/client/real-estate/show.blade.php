@@ -201,7 +201,7 @@
                                     @foreach($property->features as $feature)
                                         <div class="feature-item">
                                             <i class="fas fa-check-circle"></i>
-                                            <span>{{ ucfirst(str_replace(['_', '-'], ' ', $feature)) }}</span>
+                                            <span>{{ __(ucfirst(str_replace(['_', '-'], ' ', $feature))) ?: ucfirst(str_replace(['_', '-'], ' ', $feature)) }}</span>
                                         </div>
                                     @endforeach
                                 </div>
@@ -214,7 +214,7 @@
                                     @foreach($property->amenities as $amenity)
                                         <div class="feature-item amenity-item">
                                             <i class="fas fa-star"></i>
-                                            <span>{{ ucfirst(str_replace(['_', '-'], ' ', $amenity)) }}</span>
+                                            <span>{{ __(ucfirst(str_replace(['_', '-'], ' ', $amenity))) ?: ucfirst(str_replace(['_', '-'], ' ', $amenity)) }}</span>
                                         </div>
                                     @endforeach
                                 </div>
@@ -245,13 +245,9 @@
                         @endif
                     </div>
                     <div class="price-actions">
-                        <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-lg w-100 mb-3">
+                        <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-lg w-100">
                             <i class="fas fa-calendar-check"></i>
                             <span>{{ __('Book Consultation') }}</span>
-                        </a>
-                        <a href="tel:{{ $contactInfo->top_bar_phone ?? $contactInfo->phone ?? '' }}" class="btn btn-outline-light btn-lg w-100">
-                            <i class="fas fa-phone"></i>
-                            <span>{{ __('Call Now') }}</span>
                         </a>
                     </div>
                 </div>
