@@ -7,8 +7,8 @@
 1. سجّل الدخول إلى لوحة الإدارة
 2. اذهب إلى: **Settings > Credentials > Social Login**
 3. أدخل البيانات التالية:
-   - **Google Client ID**: `YOUR_CLIENT_ID_HERE`
-   - **Google Secret ID**: `YOUR_CLIENT_SECRET_HERE`
+   - **Google Client ID**: أدخل Client ID الخاص بك من Google Cloud Console
+   - **Google Secret ID**: أدخل Client Secret الخاص بك من Google Cloud Console
    - **Google Login Status**: قم بتفعيله (Active)
 4. اضغط **Update**
 
@@ -26,7 +26,7 @@ php artisan google:update-credentials
 
 ### الطريقة 3: استخدام SQL مباشرة
 
-قم بتشغيل هذا SQL في قاعدة البيانات:
+قم بتشغيل هذا SQL في قاعدة البيانات (استبدل القيم بقيمك الفعلية):
 
 ```sql
 UPDATE `settings` SET `value` = 'YOUR_CLIENT_ID_HERE' WHERE `key` = 'gmail_client_id';
