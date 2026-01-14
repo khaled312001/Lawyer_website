@@ -134,28 +134,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if($property->contact_name || $property->contact_phone)
-                                            <div class="property-contact-info">
-                                                <div class="contact-header">
-                                                    <i class="fas fa-user-circle"></i>
-                                                    <span>{{ __('Property Contact') }}</span>
-                                                </div>
-                                                <div class="contact-details">
-                                                    @if($property->contact_name)
-                                                        <div class="contact-item">
-                                                            <i class="fas fa-user"></i>
-                                                            <span>{{ $property->contact_name }}</span>
-                                                        </div>
-                                                    @endif
-                                                    @if($property->contact_phone)
-                                                        <div class="contact-item">
-                                                            <i class="fas fa-phone"></i>
-                                                            <a href="tel:{{ $property->contact_phone }}">{{ $property->contact_phone }}</a>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        @endif
                                         <div class="property-info-notice">
                                             <div class="notice-icon">
                                                 <i class="fas fa-info-circle"></i>
@@ -742,6 +720,15 @@
     line-height: 1.3;
 }
 
+[dir="rtl"] .main-headline {
+    text-align: right;
+}
+
+[dir="rtl"] .main-headline .title {
+    text-align: right;
+    direction: rtl;
+}
+
 .main-headline .title span {
     color: var(--colorPrimary);
     position: relative;
@@ -764,6 +751,11 @@
     line-height: 1.8;
     max-width: 700px;
     margin: 0 auto;
+}
+
+[dir="rtl"] .main-headline p {
+    text-align: right;
+    direction: rtl;
 }
 
 /* Appointment Form Card - Enhanced */
@@ -841,6 +833,12 @@
     gap: 8px;
 }
 
+[dir="rtl"] .form-label {
+    flex-direction: row-reverse;
+    text-align: right;
+    justify-content: flex-start;
+}
+
 .form-label i {
     color: var(--colorPrimary);
     font-size: 16px;
@@ -860,6 +858,12 @@
     font-size: 15px;
     transition: all 0.3s ease;
     background: #fff;
+}
+
+[dir="rtl"] .form-control,
+[dir="rtl"] .form-select {
+    text-align: right;
+    direction: rtl;
 }
 
 .form-control:focus,
@@ -908,6 +912,13 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     gap: 6px;
 }
 
+[dir="rtl"] .form-text {
+    flex-direction: row-reverse;
+    text-align: right;
+    direction: rtl;
+    justify-content: flex-start;
+}
+
 .form-text.text-muted {
     color: #6c757d !important;
 }
@@ -928,6 +939,11 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     color: #dc3545;
     margin-top: 6px;
     font-weight: 500;
+}
+
+[dir="rtl"] .invalid-feedback {
+    text-align: right;
+    direction: rtl;
 }
 
 .form-control.is-invalid,
@@ -1610,7 +1626,12 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 /* Page Title RTL */
 [dir="rtl"] .page-title-content {
-    text-align: right;
+    text-align: center;
+}
+
+[dir="rtl"] .page-title-content .title {
+    text-align: center;
+    direction: rtl;
 }
 
 [dir="rtl"] .page-title-content ul {
@@ -2089,6 +2110,12 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     opacity: 0.7;
 }
 
+[dir="rtl"] .lawyer-info-display {
+    flex-direction: row-reverse;
+    text-align: right;
+    direction: rtl;
+}
+
 .lawyer-info-display.show {
     opacity: 1;
     border-color: var(--colorPrimary);
@@ -2123,10 +2150,20 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     text-overflow: ellipsis;
 }
 
+[dir="rtl"] .lawyer-name {
+    text-align: right;
+    direction: rtl;
+}
+
 .lawyer-specialty {
     font-size: 13px;
     color: #666;
     font-weight: 400;
+}
+
+[dir="rtl"] .lawyer-specialty {
+    text-align: right;
+    direction: rtl;
 }
 
 /* Lawyer Rating Display */
@@ -2657,6 +2694,11 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 }
 
 /* Property Info Card RTL */
+[dir="rtl"] .property-info-card {
+    direction: rtl;
+    text-align: right;
+}
+
 [dir="rtl"] .property-info-header {
     flex-direction: row-reverse;
     text-align: right;
@@ -2669,6 +2711,16 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 [dir="rtl"] .property-info-title {
     text-align: right;
+}
+
+[dir="rtl"] .property-info-title h5 {
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .property-info-title p {
+    text-align: right;
+    direction: rtl;
 }
 
 [dir="rtl"] .property-info-content {
@@ -2705,6 +2757,12 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 [dir="rtl"] .info-label,
 [dir="rtl"] .info-value {
     text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .info-content {
+    text-align: right;
+    direction: rtl;
 }
 
 [dir="rtl"] .property-contact-info {
@@ -2743,6 +2801,17 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 [dir="rtl"] .property-info-notice .notice-text {
     text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .property-info-main {
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .property-title {
+    text-align: right;
+    direction: rtl;
 }
 
 /* Property Info Grid RTL */
@@ -2898,6 +2967,35 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 [dir="rtl"] select {
     direction: rtl !important;
     text-align: right !important;
+}
+
+/* Ensure all labels are right-aligned in RTL */
+[dir="rtl"] label {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Ensure all headings are right-aligned in RTL */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Ensure all paragraphs are right-aligned in RTL */
+[dir="rtl"] p {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Ensure all spans are right-aligned in RTL */
+[dir="rtl"] span {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Force RTL for all text inputs */
