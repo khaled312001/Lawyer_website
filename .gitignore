@@ -26,3 +26,5 @@ law.sql
 *.rar
 *.zip
 *.sql
+update_google_credentials.sql
+update_google_credentials.php

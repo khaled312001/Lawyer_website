@@ -13,7 +13,10 @@ class UpdateGoogleCredentials extends Command
      *
      * @var string
      */
-    protected $signature = 'google:update-credentials';
+    protected $signature = 'google:update-credentials 
+                            {--client_id= : Google Client ID}
+                            {--client_secret= : Google Client Secret}
+                            {--status=active : Google Login Status (active/inactive)}';
 
     /**
      * The console command description.
@@ -30,10 +33,15 @@ class UpdateGoogleCredentials extends Command
         $this->info('Updating Google Login credentials...');
         $this->newLine();
 
-        // Google Credentials
-        $clientId = 'YOUR_CLIENT_ID_HERE';
-        $clientSecret = 'YOUR_CLIENT_SECRET_HERE';
-        $status = 'active';
+        // Get credentials from command options or prompt
+        $clientId = $this->option('client_id') ?: $this->ask('Enter Google Client ID');
+        $clientSecret = $this->option('client_secret') ?: $this->secret('Enter Google Client Secret');
+        $status = $this->option('status') ?: 'active';
+
+        if (empty($clientId) || empty($clientSecret)) {
+            $this->error('❌ Client ID and Client Secret are required!');
+            return Command::FAILURE;
+        }
 
         try {
             // Update Google Client ID
