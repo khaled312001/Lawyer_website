@@ -99,7 +99,7 @@
                         <li class="dropdown dropdown-list-toggle">
                             <a target="_blank" href="{{ route('home') }}" class="nav-link nav-link-lg visit-site-link">
                                 <i class="fas fa-home"></i> 
-                                <span class="d-md-none d-lg-inline-block">{{ __('Visit Website') }}</span>
+                                <span class="visit-site-text">{{ __('Visit Website') }}</span>
                             </a>
                         </li>
 

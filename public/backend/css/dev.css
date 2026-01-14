@@ -771,15 +771,17 @@ select.wsus-select {
 }
 
 .main-navbar .lawyer_nav .nav-link-user {
-    max-width: 200px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    max-width: none !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
 }
 
 .main-navbar .lawyer_nav .nav-link-user div {
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    max-width: 120px !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: none !important;
+    white-space: nowrap !important;
 }
 
 /* Prevent overflow issues */
