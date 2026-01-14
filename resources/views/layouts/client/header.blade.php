@@ -206,9 +206,14 @@
                     @if ($contactInfo?->top_bar_phone)
                         @php
                             $displayPhone = $contactInfo->top_bar_phone;
-                            // Add + before number for Arabic language
-                            if (getSessionLanguage() == 'ar' && !str_starts_with($displayPhone, '+')) {
-                                $displayPhone = '+' . $displayPhone;
+                            // Move + to end for Arabic language (RTL)
+                            if (getSessionLanguage() == 'ar') {
+                                // Remove + from start if exists
+                                if (str_starts_with($displayPhone, '+')) {
+                                    $displayPhone = substr($displayPhone, 1);
+                                }
+                                // Add + at the end
+                                $displayPhone = $displayPhone . '+';
                             }
                         @endphp
                         <a href="tel:{{ $contactInfo->top_bar_phone }}" class="header-contact-item">
@@ -391,9 +396,14 @@
                 @if ($contactInfo?->top_bar_phone)
                     @php
                         $displayPhone = $contactInfo->top_bar_phone;
-                        // Add + before number for Arabic language
-                        if (getSessionLanguage() == 'ar' && !str_starts_with($displayPhone, '+')) {
-                            $displayPhone = '+' . $displayPhone;
+                        // Move + to end for Arabic language (RTL)
+                        if (getSessionLanguage() == 'ar') {
+                            // Remove + from start if exists
+                            if (str_starts_with($displayPhone, '+')) {
+                                $displayPhone = substr($displayPhone, 1);
+                            }
+                            // Add + at the end
+                            $displayPhone = $displayPhone . '+';
                         }
                     @endphp
                     <a href="tel:{{ $contactInfo->top_bar_phone }}" class="side-menu-header-link">

@@ -46,9 +46,14 @@
                                                         <i class="fas fa-phone"></i> 
                                                         @php
                                                             $prescriptionPhone = $setting?->prescription_phone ?? '';
-                                                            // Add + before number for Arabic language
-                                                            if (getSessionLanguage() == 'ar' && $prescriptionPhone && !str_starts_with($prescriptionPhone, '+')) {
-                                                                $prescriptionPhone = '+' . $prescriptionPhone;
+                                                            // Move + to end for Arabic language (RTL)
+                                                            if (getSessionLanguage() == 'ar' && $prescriptionPhone) {
+                                                                // Remove + from start if exists
+                                                                if (str_starts_with($prescriptionPhone, '+')) {
+                                                                    $prescriptionPhone = substr($prescriptionPhone, 1);
+                                                                }
+                                                                // Add + at the end
+                                                                $prescriptionPhone = $prescriptionPhone . '+';
                                                             }
                                                         @endphp
                                                         {{ $prescriptionPhone }}

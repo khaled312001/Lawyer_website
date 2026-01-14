@@ -62,9 +62,23 @@
                                     <p>
                                         @php
                                             $phoneDisplay = $contactInfo?->phone ?? '';
-                                            // Add + before number for Arabic language
-                                            if (getSessionLanguage() == 'ar' && $phoneDisplay && !str_starts_with($phoneDisplay, '+')) {
-                                                $phoneDisplay = '+' . $phoneDisplay;
+                                            // Move + to end for Arabic language (RTL)
+                                            if (getSessionLanguage() == 'ar' && $phoneDisplay) {
+                                                // Handle multiple lines
+                                                $phoneLines = explode("\n", $phoneDisplay);
+                                                $formattedLines = [];
+                                                foreach ($phoneLines as $line) {
+                                                    $line = trim($line);
+                                                    if ($line) {
+                                                        // Remove + from start if exists
+                                                        if (str_starts_with($line, '+')) {
+                                                            $line = substr($line, 1);
+                                                        }
+                                                        // Add + at the end
+                                                        $formattedLines[] = $line . '+';
+                                                    }
+                                                }
+                                                $phoneDisplay = implode("\n", $formattedLines);
                                             }
                                             // Handle multiple lines (nl2br)
                                             $phoneLines = explode("\n", $phoneDisplay);
