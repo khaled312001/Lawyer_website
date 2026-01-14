@@ -28,21 +28,85 @@
 </section>
 <!--Page Title End-->
 
+<!-- Introduction Section Start -->
+<section class="real-estate-intro pt_100 pb_80">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="intro-content">
+                    <div class="section-title-wrapper">
+                        <span class="section-subtitle">{{ __('Real Estate Department') }}</span>
+                        <h2 class="section-title">{{ __('Your Trusted Partner in Real Estate') }}</h2>
+                    </div>
+                    <p class="intro-text">
+                        {{ __('We provide comprehensive real estate services including property sales, rentals, legal consultations, and investment advice. Our experienced team helps you find the perfect property or sell your assets with confidence.') }}
+                    </p>
+                    <div class="intro-features">
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>{{ __('Wide Selection') }}</h4>
+                                <p>{{ __('Apartments, villas, offices, and commercial properties') }}</p>
+                            </div>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>{{ __('Legal Protection') }}</h4>
+                                <p>{{ __('Full legal support and contract review') }}</p>
+                            </div>
+                        </div>
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>{{ __('Expert Guidance') }}</h4>
+                                <p>{{ __('Professional advice from experienced real estate specialists') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="intro-image">
+                    <div class="image-wrapper">
+                        <img src="{{ asset('client/img/real-estate-intro.jpg') }}" alt="{{ __('Real Estate') }}" class="img-fluid" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder" style="display: none;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Introduction Section End -->
+
 <!-- Properties Filter Start -->
-<section class="properties-filter pt_100 pb_50">
+<section class="properties-filter pt_50 pb_50">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="properties-filter-content">
                     <form action="{{ route('website.real-estate') }}" method="GET" class="properties-filter-form">
-                        <div class="row">
-                            <div class="col-md-3">
+                        <div class="row g-3">
+                            <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="search" class="form-control" placeholder="{{ __('Search properties...') }}" value="{{ request('search') }}">
+                                    <label class="filter-label">{{ __('Search') }}</label>
+                                    <div class="search-input-wrapper">
+                                        <input type="text" name="search" class="form-control" placeholder="{{ __('Search properties...') }}" value="{{ request('search') }}">
+                                        <i class="fas fa-search"></i>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-6">
                                 <div class="form-group">
+                                    <label class="filter-label">{{ __('Property Type') }}</label>
                                     <select name="property_type" class="form-select">
                                         <option value="">{{ __('All Types') }}</option>
                                         @foreach($propertyTypes as $key => $type)
@@ -51,8 +115,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-6">
                                 <div class="form-group">
+                                    <label class="filter-label">{{ __('Listing Type') }}</label>
                                     <select name="listing_type" class="form-select">
                                         <option value="">{{ __('All Listings') }}</option>
                                         <option value="sale" {{ request('listing_type') == 'sale' ? 'selected' : '' }}>{{ __('For Sale') }}</option>
@@ -60,8 +125,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-lg-2 col-md-6">
                                 <div class="form-group">
+                                    <label class="filter-label">{{ __('City') }}</label>
                                     <select name="city" class="form-select">
                                         <option value="">{{ __('All Cities') }}</option>
                                         @foreach($cities as $city)
@@ -70,8 +136,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-lg-2 col-md-6">
                                 <div class="form-group">
+                                    <label class="filter-label">{{ __('Sort By') }}</label>
                                     <select name="sort" class="form-select">
                                         <option value="latest" {{ request('sort', 'latest') == 'latest' ? 'selected' : '' }}>{{ __('Latest First') }}</option>
                                         <option value="price_low" {{ request('sort') == 'price_low' ? 'selected' : '' }}>{{ __('Price: Low to High') }}</option>
@@ -81,13 +148,25 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary">{{ __('Search Properties') }}</button>
-                                <a href="{{ route('website.real-estate') }}" class="btn btn-outline-secondary ms-2">{{ __('Clear Filters') }}</a>
+                            <div class="col-lg-1 col-md-6">
+                                <div class="form-group">
+                                    <label class="filter-label d-none d-md-block">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-search d-md-none"></i>
+                                        <span class="d-none d-md-inline">{{ __('Search') }}</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        @if(request()->hasAny(['search', 'property_type', 'listing_type', 'city', 'sort']))
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <a href="{{ route('website.real-estate') }}" class="btn btn-outline-secondary btn-sm">
+                                        <i class="fas fa-times"></i> {{ __('Clear Filters') }}
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>
@@ -95,6 +174,30 @@
     </div>
 </section>
 <!-- Properties Filter End -->
+
+<!-- Results Count Start -->
+@if($properties->total() > 0)
+<section class="results-count-section pt_30 pb_30">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="results-info">
+                    <div class="results-content">
+                        <i class="fas fa-building"></i>
+                        <div>
+                            <strong>{{ __('Found') }} {{ $properties->total() }} {{ __('properties') }}</strong>
+                            @if(request()->hasAny(['search', 'property_type', 'listing_type', 'city']))
+                                <span class="text-muted">{{ __('for your search') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endif
+<!-- Results Count End -->
 
 <!-- Properties Grid Start -->
 <section class="properties-grid pt_50 pb_100">
@@ -106,13 +209,15 @@
                         <div class="property-image">
                             <img src="{{ $property->main_image_url }}" alt="{{ $property->title }}" class="img-fluid">
                             <div class="property-badges">
-                                <span class="badge {{ $property->listing_type === 'sale' ? 'bg-success' : 'bg-info' }}">{{ $property->listing_type_label }}</span>
+                                <span class="badge {{ $property->listing_type === 'sale' ? 'badge-sale' : 'badge-rent' }}">{{ $property->listing_type_label }}</span>
                                 @if($property->featured)
-                                    <span class="badge bg-warning">{{ __('Featured') }}</span>
+                                    <span class="badge badge-featured">{{ __('Featured') }}</span>
                                 @endif
                             </div>
                             <div class="property-overlay">
-                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-primary">{{ __('View Details') }}</a>
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-light">
+                                    <i class="fas fa-eye"></i> {{ __('View Details') }}
+                                </a>
                             </div>
                         </div>
                         <div class="property-content">
@@ -120,45 +225,63 @@
                                 <a href="{{ route('website.real-estate.show', $property->slug) }}">{{ Str::limit($property->title, 50) }}</a>
                             </h4>
                             <div class="property-meta">
-                                <span class="property-type"><i class="fas fa-building"></i> {{ $property->property_type_label }}</span>
-                                <span class="property-location"><i class="fas fa-map-marker-alt"></i> {{ $property->location_string }}</span>
+                                <span class="property-type">
+                                    <i class="fas fa-building"></i> {{ $property->property_type_label }}
+                                </span>
+                                <span class="property-location">
+                                    <i class="fas fa-map-marker-alt"></i> {{ $property->location_string }}
+                                </span>
                             </div>
                             <div class="property-details">
                                 @if($property->bedrooms)
-                                    <span><i class="fas fa-bed"></i> {{ $property->bedrooms }} {{ __('Beds') }}</span>
+                                    <span class="detail-item">
+                                        <i class="fas fa-bed"></i> {{ $property->bedrooms }} {{ __('Beds') }}
+                                    </span>
                                 @endif
                                 @if($property->bathrooms)
-                                    <span><i class="fas fa-bath"></i> {{ $property->bathrooms }} {{ __('Baths') }}</span>
+                                    <span class="detail-item">
+                                        <i class="fas fa-bath"></i> {{ $property->bathrooms }} {{ __('Baths') }}
+                                    </span>
                                 @endif
-                                <span><i class="fas fa-expand-arrows-alt"></i> {{ $property->formatted_area }}</span>
+                                <span class="detail-item">
+                                    <i class="fas fa-expand-arrows-alt"></i> {{ $property->formatted_area }}
+                                </span>
                             </div>
                             <div class="property-price">
-                                <strong>{{ $property->formatted_price }}</strong>
+                                <strong class="price-amount">{{ $property->formatted_price }}</strong>
                                 @if($property->price_per_sqm)
-                                    <small class="text-muted">({{ number_format($property->price_per_sqm) }} {{ $property->currency }}/m²)</small>
+                                    <small class="price-per-sqm">({{ number_format($property->price_per_sqm) }} {{ $property->currency }}/m²)</small>
                                 @endif
                             </div>
                             <div class="property-actions">
-                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm">{{ __('Details') }}</a>
-                                <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-sm">{{ __('Book Consultation') }}</a>
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-info-circle"></i> {{ __('Details') }}
+                                </a>
+                                <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-calendar-alt"></i> {{ __('Consultation') }}
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="col-12">
-                    <div class="text-center py-5">
-                        <i class="fas fa-home fa-3x text-muted mb-3"></i>
-                        <h4>{{ __('No Properties Found') }}</h4>
+                    <div class="no-properties">
+                        <div class="no-properties-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>{{ __('No Properties Found') }}</h3>
                         <p class="text-muted">{{ __('Try adjusting your search criteria or browse all properties.') }}</p>
-                        <a href="{{ route('website.real-estate') }}" class="btn btn-primary">{{ __('Browse All Properties') }}</a>
+                        <a href="{{ route('website.real-estate') }}" class="btn btn-primary">
+                            <i class="fas fa-list"></i> {{ __('Browse All Properties') }}
+                        </a>
                     </div>
                 </div>
             @endforelse
         </div>
 
         @if($properties->hasPages())
-            <div class="row mt-4">
+            <div class="row mt-5">
                 <div class="col-12">
                     <div class="pagination-wrapper">
                         {{ $properties->appends(request()->query())->links() }}
@@ -169,198 +292,203 @@
     </div>
 </section>
 <!-- Properties Grid End -->
-                            </div>
-                            <div class="col-md-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-file-contract"></i>
-                                    <h4>{{ __('Contract Drafting') }}</h4>
-                                    <p>{{ __('Professional contract preparation and legal review') }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-gavel"></i>
-                                    <h4>{{ __('Dispute Resolution') }}</h4>
-                                    <p>{{ __('Legal representation in property disputes and litigation') }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Service Description End -->
-
-<!-- Real Estate Listings Start -->
-<section class="real-estate-listings pt_50 pb_100">
-    <div class="container">
-        <!-- Search and Filters -->
-        <div class="row mb_50">
-            <div class="col-12">
-                <div class="real-estate-filters">
-                    <form action="{{ route('website.real-estate') }}" method="GET" class="filter-form">
-                        <div class="row g-3">
-                            <!-- Search -->
-                            <div class="col-md-4">
-                                <div class="search-input-wrapper">
-                                    <input type="text" name="search" class="form-control" placeholder="{{ __('Search properties...') }}" value="{{ request('search') }}">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                            </div>
-
-                            <!-- Property Type -->
-                            <div class="col-md-3">
-                                <select name="property_type" class="form-select">
-                                    <option value="">{{ __('All Types') }}</option>
-                                    @foreach($propertyTypes as $key => $type)
-                                        <option value="{{ $key }}" {{ request('property_type') == $key ? 'selected' : '' }}>
-                                            {{ $type }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- City -->
-                            <div class="col-md-3">
-                                <select name="city" class="form-select">
-                                    <option value="">{{ __('All Cities') }}</option>
-                                    @foreach($cities as $city)
-                                        <option value="{{ $city }}" {{ request('city') == $city ? 'selected' : '' }}>
-                                            {{ $city }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Listing Type -->
-                            <div class="col-md-2">
-                                <select name="listing_type" class="form-select">
-                                    <option value="">{{ __('All Listings') }}</option>
-                                    <option value="sale" {{ request('listing_type') == 'sale' ? 'selected' : '' }}>{{ __('For Sale') }}</option>
-                                    <option value="rent" {{ request('listing_type') == 'rent' ? 'selected' : '' }}>{{ __('For Rent') }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- Results Count -->
-        <div class="row mb_30">
-            <div class="col-12">
-                <div class="results-info">
-                    <h4 class="mb-0">
-                        <i class="fas fa-building me-2"></i>
-                        {{ __('Found') }} {{ $properties->total() }} {{ __('properties') }}
-                        @if(request()->hasAny(['search', 'property_type', 'listing_type', 'city']))
-                            {{ __('for your search') }}
-                        @endif
-                    </h4>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-<!-- Real Estate Listings End -->
 
 @endsection
 
 @push('css')
 <style>
 /* ============================================
-   REAL ESTATE LAWYERS STYLES
+   REAL ESTATE PAGE STYLES
    ============================================ */
 
-/* Service Description Section */
-.service-description {
-    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
-    color: white;
+/* Introduction Section */
+.real-estate-intro {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+    overflow: hidden;
 }
 
-.service-description-content {
-    max-width: 900px;
-    margin: 0 auto;
+.real-estate-intro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(200, 180, 126, 0.05) 0%, rgba(200, 180, 126, 0.1) 100%);
+    z-index: 0;
 }
 
-.service-description .section-title {
+[dir="rtl"] .real-estate-intro::before {
+    right: auto;
+    left: 0;
+}
+
+.intro-content {
+    position: relative;
+    z-index: 1;
+}
+
+.section-title-wrapper {
+    margin-bottom: 2rem;
+}
+
+.section-subtitle {
+    display: inline-block;
+    color: var(--colorPrimary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.section-title {
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 1rem;
-    color: white;
-}
-
-.service-description .section-subtitle {
-    font-size: 1.2rem;
-    opacity: 0.9;
-    margin-bottom: 2rem;
-    font-weight: 300;
-}
-
-.service-description-text p {
-    font-size: 1.1rem;
-    line-height: 1.7;
+    color: #333;
     margin-bottom: 1.5rem;
-    opacity: 0.95;
+    line-height: 1.3;
 }
 
-.service-features {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 3rem 2rem;
-    backdrop-filter: blur(10px);
+.intro-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 2.5rem;
 }
 
-.feature-item {
-    text-align: center;
+.intro-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.feature-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
     padding: 1.5rem;
-}
-
-.feature-item i {
-    font-size: 3rem;
-    color: white;
-    margin-bottom: 1rem;
-    opacity: 0.9;
-}
-
-.feature-item h4 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: white;
-}
-
-.feature-item p {
-    font-size: 0.95rem;
-    opacity: 0.8;
-    line-height: 1.5;
-}
-
-/* Filters Section */
-.real-estate-filters {
-    background: #f8f9fa;
+    background: #fff;
     border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.filter-form .form-control,
-.filter-form .form-select {
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 14px;
     transition: all 0.3s ease;
 }
 
-.filter-form .form-control:focus,
-.filter-form .form-select:focus {
+.feature-box:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+[dir="rtl"] .feature-box:hover {
+    transform: translateX(-5px);
+}
+
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.feature-icon i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.feature-content h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.feature-content p {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.intro-image {
+    position: relative;
+    z-index: 1;
+}
+
+.image-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.image-placeholder i {
+    font-size: 5rem;
+    opacity: 0.5;
+}
+
+/* Properties Filter Section */
+.properties-filter {
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.properties-filter-content {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.filter-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.form-control:focus,
+.form-select:focus {
     border-color: var(--colorPrimary);
     box-shadow: 0 0 0 3px rgba(200, 180, 126, 0.1);
+    outline: none;
 }
 
 .search-input-wrapper {
@@ -373,7 +501,8 @@
     top: 50%;
     transform: translateY(-50%);
     color: var(--colorPrimary);
-    font-size: 16px;
+    font-size: 1rem;
+    pointer-events: none;
 }
 
 [dir="rtl"] .search-input-wrapper i {
@@ -381,243 +510,423 @@
     left: 15px;
 }
 
-/* Results Info */
+.btn-primary {
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(200, 180, 126, 0.3);
+}
+
+/* Results Count Section */
+.results-count-section {
+    background: #f8f9fa;
+}
+
 .results-info {
     background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
     color: white;
-    padding: 15px 20px;
-    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
     box-shadow: 0 4px 15px rgba(200, 180, 126, 0.2);
 }
 
-.results-info h4 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
+.results-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.results-info i {
+.results-content i {
+    font-size: 1.5rem;
     opacity: 0.9;
 }
 
-/* Lawyer Card */
-.lawyer-card {
+.results-content strong {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.results-content .text-muted {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 0.95rem;
+}
+
+/* Property Card */
+.property-card {
     background: #fff;
     border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.lawyer-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+.property-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 }
 
-/* Lawyer Image */
-.lawyer-image {
+.property-image {
     position: relative;
-    height: 200px;
+    height: 250px;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    background: #f8f9fa;
 }
 
-.lawyer-image img {
+.property-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    transition: transform 0.5s ease;
 }
 
-.lawyer-card:hover .lawyer-image img {
-    transform: scale(1.05);
+.property-card:hover .property-image img {
+    transform: scale(1.1);
 }
 
-/* Lawyer Rating Badge */
-.lawyer-rating-badge {
+.property-badges {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: rgba(255, 255, 255, 0.95);
+    top: 15px;
+    left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 2;
+}
+
+[dir="rtl"] .property-badges {
+    left: auto;
+    right: 15px;
+}
+
+.badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-sale {
+    background: #28a745;
+    color: white;
+}
+
+.badge-rent {
+    background: #17a2b8;
+    color: white;
+}
+
+.badge-featured {
+    background: #ffc107;
     color: #333;
-    padding: 6px 10px;
-    border-radius: 20px;
+}
+
+.property-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    font-weight: 600;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
 }
 
-[dir="rtl"] .lawyer-rating-badge {
-    right: auto;
-    left: 12px;
+.property-card:hover .property-overlay {
+    opacity: 1;
 }
 
-.lawyer-rating-badge i {
-    color: #ffc107;
-}
-
-.lawyer-rating-badge small {
-    color: #666;
-    font-weight: 400;
-}
-
-/* Lawyer Info */
-.lawyer-info {
-    padding: 20px;
+.property-content {
+    padding: 1.5rem;
     flex: 1;
     display: flex;
     flex-direction: column;
 }
 
-.lawyer-name {
-    font-size: 18px;
+.property-title {
+    font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 1rem;
     line-height: 1.4;
 }
 
-.lawyer-name a {
+.property-title a {
     color: #333;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.lawyer-name a:hover {
+.property-title a:hover {
     color: var(--colorPrimary);
 }
 
-.lawyer-specialty,
-.lawyer-department,
-.lawyer-experience {
+.property-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
     color: #666;
-    font-size: 13px;
-    margin-bottom: 6px;
+}
+
+.property-type,
+.property-location {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
 }
 
-.lawyer-specialty i,
-.lawyer-department i,
-.lawyer-experience i {
+.property-type i,
+.property-location i {
     color: var(--colorPrimary);
-    margin-right: 6px;
-    width: 14px;
-    text-align: center;
+    width: 16px;
 }
 
-[dir="rtl"] .lawyer-specialty i,
-[dir="rtl"] .lawyer-department i,
-[dir="rtl"] .lawyer-experience i {
-    margin-right: 0;
-    margin-left: 6px;
-}
-
-/* Lawyer Actions */
-.lawyer-actions {
-    margin-top: auto;
+.property-details {
     display: flex;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
 }
 
-.lawyer-actions .btn {
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.detail-item i {
+    color: var(--colorPrimary);
+    width: 16px;
+}
+
+.property-price {
+    margin-bottom: 1.5rem;
+}
+
+.price-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--colorPrimary);
+    display: block;
+}
+
+.price-per-sqm {
+    font-size: 0.85rem;
+    color: #999;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+.property-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.property-actions .btn {
     flex: 1;
-    padding: 8px 12px;
-    font-size: 13px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    border-radius: 6px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.property-actions .btn-outline-primary {
+    border: 2px solid var(--colorPrimary);
+    color: var(--colorPrimary);
+}
+
+.property-actions .btn-outline-primary:hover {
+    background: var(--colorPrimary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.property-actions .btn-primary {
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border: none;
+    color: white;
+}
+
+.property-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(200, 180, 126, 0.3);
+}
+
+/* No Properties */
+.no-properties {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.no-properties-icon {
+    font-size: 5rem;
+    color: #ddd;
+    margin-bottom: 1.5rem;
+}
+
+.no-properties h3 {
+    font-size: 1.8rem;
+    color: #666;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.no-properties p {
+    font-size: 1.1rem;
+    color: #999;
+    margin-bottom: 2rem;
 }
 
 /* Pagination */
 .pagination-wrapper {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 3rem;
 }
 
 .pagination-wrapper .pagination {
     margin: 0;
 }
 
-/* No Properties */
-.no-properties {
-    padding: 60px 20px;
+.pagination-wrapper .page-link {
+    color: var(--colorPrimary);
+    border-color: #e9ecef;
+    padding: 0.75rem 1rem;
+    margin: 0 0.25rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-.no-properties-icon {
-    font-size: 64px;
-    color: #ddd;
-    margin-bottom: 20px;
+.pagination-wrapper .page-link:hover {
+    background: var(--colorPrimary);
+    color: white;
+    border-color: var(--colorPrimary);
+    transform: translateY(-2px);
 }
 
-.no-properties h3 {
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.no-properties p {
-    color: #888;
-    margin-bottom: 20px;
+.pagination-wrapper .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-color: var(--colorPrimary);
+    color: white;
 }
 
 /* ============================================
-   MOBILE RESPONSIVE STYLES
+   RESPONSIVE STYLES
    ============================================ */
 
+@media (max-width: 992px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .intro-text {
+        font-size: 1rem;
+    }
+
+    .feature-box {
+        padding: 1.2rem;
+    }
+
+    .properties-filter-content {
+        padding: 1.5rem;
+    }
+}
+
 @media (max-width: 768px) {
-    .real-estate-filters {
-        padding: 20px;
+    .real-estate-intro {
+        padding: 3rem 0;
     }
 
-    .filter-form .row {
-        --bs-gutter-x: 10px;
+    .section-title {
+        font-size: 1.8rem;
     }
 
-    .property-card {
-        margin-bottom: 20px;
+    .intro-features {
+        gap: 1rem;
     }
 
-    .property-info {
-        padding: 15px;
+    .feature-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .feature-icon {
+        margin: 0 auto;
+    }
+
+    .properties-filter-content {
+        padding: 1.2rem;
+    }
+
+    .filter-label {
+        font-size: 0.8rem;
+    }
+
+    .property-image {
+        height: 200px;
+    }
+
+    .property-content {
+        padding: 1.2rem;
     }
 
     .property-title {
-        font-size: 15px;
+        font-size: 1.1rem;
     }
 
-    .property-price .price-amount {
-        font-size: 18px;
+    .price-amount {
+        font-size: 1.3rem;
     }
 
     .property-actions {
         flex-direction: column;
-        gap: 6px;
     }
 
     .property-actions .btn {
-        padding: 10px 12px;
-        font-size: 14px;
+        width: 100%;
     }
 }
 
 @media (max-width: 576px) {
-    .filter-form .col-md-3,
-    .filter-form .col-md-2,
-    .filter-form .col-md-1 {
-        margin-bottom: 10px;
+    .section-title {
+        font-size: 1.5rem;
     }
 
-    .results-info {
-        padding: 12px 16px;
+    .intro-text {
+        font-size: 0.95rem;
     }
 
-    .results-info h4 {
-        font-size: 16px;
+    .properties-filter-content {
+        padding: 1rem;
+    }
+
+    .form-control,
+    .form-select {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
     }
 
     .property-image {
@@ -634,17 +943,25 @@
         left: auto;
     }
 
-    .property-info {
-        padding: 12px;
+    .badge {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .property-content {
+        padding: 1rem;
     }
 
     .property-details {
-        gap: 10px;
-        margin-bottom: 10px;
+        gap: 0.75rem;
     }
 
-    .property-price {
-        margin-bottom: 12px;
+    .no-properties {
+        padding: 3rem 1rem;
+    }
+
+    .no-properties-icon {
+        font-size: 4rem;
     }
 }
 
@@ -673,9 +990,15 @@
     .property-card,
     .property-image img,
     .property-overlay,
-    .filter-form .form-control,
-    .filter-form .form-select {
+    .feature-box,
+    .form-control,
+    .form-select,
+    .btn {
         transition: none !important;
+    }
+
+    .property-card:hover {
+        transform: none;
     }
 }
 </style>

@@ -39,8 +39,8 @@
 
         <div class="row">
             <div class="col-lg-10 col-xl-9 m-auto">
-                <div class="card shadow-sm">
-                    <div class="card-body p-4">
+                <div class="appointment-form-card">
+                    <div class="appointment-form-body">
                         @if(session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
@@ -68,50 +68,102 @@
                         @endif
 
                         @if(isset($property) && $property)
-                        <!-- Property Information -->
+                        <!-- Property Information - Enhanced -->
                         <div class="property-info-card mb-4">
-                            <div class="card border-primary">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0">
-                                        <i class="fas fa-building me-2"></i>{{ __('Property Information') }}
-                                    </h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Property Title') }}:</strong> {{ $property->title }}
-                                            </div>
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Property Type') }}:</strong> {{ __($property->property_type) }}
-                                            </div>
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Listing Type') }}:</strong> {{ __($property->listing_type) }}
-                                            </div>
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Area') }}:</strong> {{ $property->area }} m²
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Location') }}:</strong> {{ $property->city }}, {{ $property->district }}
-                                            </div>
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Price') }}:</strong> {{ $property->formatted_price }}
-                                            </div>
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Contact') }}:</strong> {{ $property->contact_name }}
-                                            </div>
-                                            <div class="property-info-item">
-                                                <strong>{{ __('Phone') }}:</strong> {{ $property->contact_phone }}
-                                            </div>
-                                        </div>
+                            <div class="property-info-wrapper">
+                                <div class="property-info-header">
+                                    <div class="property-info-icon">
+                                        <i class="fas fa-building"></i>
                                     </div>
-                                    <div class="mt-3">
-                                        <small class="text-muted">
-                                            <i class="fas fa-info-circle me-1"></i>
-                                            {{ __('This consultation is specifically for real estate services related to this property.') }}
-                                        </small>
+                                    <div class="property-info-title">
+                                        <h5 class="mb-0">{{ __('Property Information') }}</h5>
+                                        <p class="mb-0">{{ __('Consultation for this property') }}</p>
+                                    </div>
+                                </div>
+                                <div class="property-info-content">
+                                    @if($property->main_image_url)
+                                        <div class="property-info-image">
+                                            <img src="{{ $property->main_image_url }}" alt="{{ $property->title }}" loading="lazy">
+                                        </div>
+                                    @endif
+                                    <div class="property-info-details">
+                                        <div class="property-info-main">
+                                            <h6 class="property-title">{{ $property->title }}</h6>
+                                            <div class="property-location-info">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <span>{{ $property->city }}{!! $property->district ? ', ' . $property->district : '' !!}</span>
+                                            </div>
+                                        </div>
+                                        <div class="property-info-grid">
+                                            <div class="property-info-item">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-tag"></i>
+                                                </div>
+                                                <div class="info-content">
+                                                    <span class="info-label">{{ __('Type') }}</span>
+                                                    <span class="info-value">{{ $property->property_type_label }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="property-info-item">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-hand-holding-usd"></i>
+                                                </div>
+                                                <div class="info-content">
+                                                    <span class="info-label">{{ __('Purpose') }}</span>
+                                                    <span class="info-value">{{ $property->listing_type_label }}</span>
+                                                </div>
+                                            </div>
+                                            @if($property->area)
+                                                <div class="property-info-item">
+                                                    <div class="info-icon">
+                                                        <i class="fas fa-vector-square"></i>
+                                                    </div>
+                                                    <div class="info-content">
+                                                        <span class="info-label">{{ __('Area') }}</span>
+                                                        <span class="info-value">{{ $property->formatted_area }}</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            <div class="property-info-item highlight">
+                                                <div class="info-icon">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </div>
+                                                <div class="info-content">
+                                                    <span class="info-label">{{ __('Price') }}</span>
+                                                    <span class="info-value price-value">{{ $property->formatted_price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if($property->contact_name || $property->contact_phone)
+                                            <div class="property-contact-info">
+                                                <div class="contact-header">
+                                                    <i class="fas fa-user-circle"></i>
+                                                    <span>{{ __('Property Contact') }}</span>
+                                                </div>
+                                                <div class="contact-details">
+                                                    @if($property->contact_name)
+                                                        <div class="contact-item">
+                                                            <i class="fas fa-user"></i>
+                                                            <span>{{ $property->contact_name }}</span>
+                                                        </div>
+                                                    @endif
+                                                    @if($property->contact_phone)
+                                                        <div class="contact-item">
+                                                            <i class="fas fa-phone"></i>
+                                                            <a href="tel:{{ $property->contact_phone }}">{{ $property->contact_phone }}</a>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
+                                        <div class="property-info-notice">
+                                            <div class="notice-icon">
+                                                <i class="fas fa-info-circle"></i>
+                                            </div>
+                                            <div class="notice-text">
+                                                {{ __('This consultation is specifically for real estate services related to this property.') }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -209,12 +261,24 @@
                             </div>
 
 
+                            <!-- Case Type -->
+                            <div class="mb-4">
+                                <label for="case_type" class="form-label">
+                                    <i class="fas fa-tag me-2"></i>{{ __('Case Type') }} <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" name="case_type" id="case_type" class="form-control @error('case_type') is-invalid @enderror" required value="{{ old('case_type', request('service') === 'real_estate' ? __('Real Estate Consultation') : '') }}" placeholder="{{ __('e.g., Criminal, Civil, Family, Commercial, Contract, etc.') }}">
+                                @error('case_type')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="form-text text-muted">{{ __('Specify the type of your case') }}</small>
+                            </div>
+
                             <!-- Case Details -->
                             <div class="mb-4">
                                 <label for="case_details" class="form-label">
                                     <i class="fas fa-file-alt me-2"></i>{{ __('Case Details') }} <span class="text-danger">*</span>
                                 </label>
-                                <textarea name="case_details" id="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="5" required placeholder="{{ request('service') === 'real_estate' ? __('Provide details about the property consultation you need...') : __('Provide detailed information about your case...') }}">{{ old('case_details', request('service') === 'real_estate' ? 'Property consultation regarding real estate transaction.' : '') }}</textarea>
+                                <textarea name="case_details" id="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="5" required placeholder="{{ request('service') === 'real_estate' ? __('Provide details about the property consultation you need...') : __('Provide detailed information about your case...') }}">{{ old('case_details', '') }}</textarea>
                                 @error('case_details')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -225,6 +289,18 @@
                                         {{ __('This consultation is specifically for real estate services.') }}
                                     </div>
                                 @endif
+                            </div>
+
+                            <!-- Problem Description -->
+                            <div class="mb-4">
+                                <label for="problem_description" class="form-label">
+                                    <i class="fas fa-exclamation-circle me-2"></i>{{ __('Problem Description') }} <span class="text-danger">*</span>
+                                </label>
+                                <textarea name="problem_description" id="problem_description" class="form-control @error('problem_description') is-invalid @enderror" rows="4" required placeholder="{{ __('Describe the problem or issue you need help with...') }}">{{ old('problem_description', '') }}</textarea>
+                                @error('problem_description')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <small class="form-text text-muted">{{ __('Please describe the problem or issue you are facing') }}</small>
                             </div>
 
                             <!-- Client Information -->
@@ -249,9 +325,19 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
+                                        <label for="client_email" class="form-label">{{ __('Email Address') }} <span class="text-danger">*</span></label>
+                                        <input type="email" name="client_email" id="client_email" class="form-control @error('client_email') is-invalid @enderror" required value="{{ old('client_email', Auth::user()->email ?? '') }}" placeholder="{{ __('Enter your email address') }}">
+                                        @error('client_email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <small class="form-text text-muted">{{ __('We will send appointment confirmation to this email') }}</small>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
                                         <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span> <small class="text-primary">({{ __('Primary Contact') }})</small></label>
                                         <div class="input-group phone-input-group">
-                                            <select name="country_code" id="country_code" class="form-select country-code-select @error('country_code') is-invalid @enderror">
+                                            <select name="country_code" id="country_code" class="form-select country-code-select @error('country_code') is-invalid @enderror" required>
                                                 <option value="+963" {{ (old('country_code') ?: '+963') == '+963' ? 'selected' : '' }}>🇸🇾 +963</option>
                                                 <option value="+1" {{ old('country_code') == '+1' ? 'selected' : '' }}>🇺🇸 +1</option>
                                                 <option value="+44" {{ old('country_code') == '+44' ? 'selected' : '' }}>🇬🇧 +44</option>
@@ -281,15 +367,47 @@
                                             <i class="fas fa-phone me-1"></i>{{ __('We will contact you through this number for appointment confirmation') }}
                                         </small>
                                     </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="client_address" class="form-label">{{ __('Address') }} <small class="text-muted">({{ __('Optional') }})</small></label>
+                                        <input type="text" name="client_address" id="client_address" class="form-control @error('client_address') is-invalid @enderror" value="{{ old('client_address', Auth::user()->details->address ?? '') }}" placeholder="{{ __('Enter your address') }}">
+                                        @error('client_address')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="client_city" class="form-label">{{ __('City') }} <small class="text-muted">({{ __('Optional') }})</small></label>
+                                        <input type="text" name="client_city" id="client_city" class="form-control @error('client_city') is-invalid @enderror" value="{{ old('client_city', Auth::user()->details->city ?? '') }}" placeholder="{{ __('Enter your city') }}">
+                                        @error('client_city')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="client_country" class="form-label">{{ __('Country') }} <small class="text-muted">({{ __('Optional') }})</small></label>
+                                        <input type="text" name="client_country" id="client_country" class="form-control @error('client_country') is-invalid @enderror" value="{{ old('client_country', Auth::user()->details->country ?? '') }}" placeholder="{{ __('Enter your country') }}">
+                                        @error('client_country')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="additional_info" class="form-label">{{ __('Additional Information') }} <small class="text-muted">({{ __('Optional') }})</small></label>
+                                        <textarea name="additional_info" id="additional_info" class="form-control @error('additional_info') is-invalid @enderror" rows="2" placeholder="{{ __('Any additional information you want to share...') }}">{{ old('additional_info', '') }}</textarea>
+                                        @error('additional_info')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 
 
 
                             <!-- Submit Button -->
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg px-5">
-                                    <i class="fas fa-calendar-check me-2"></i>{{ __('Submit Appointment Request') }}
+                            <div class="form-submit-wrapper">
+                                <button type="submit" class="btn-submit-appointment">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>{{ __('Submit Appointment Request') }}</span>
+                                    <div class="btn-shine"></div>
                                 </button>
                             </div>
                         </form>
@@ -339,35 +457,82 @@
             const appointmentTime = $('#appointment_time').val();
             const clientPhone = $('#client_phone').val();
             const countryCode = $('#country_code').val();
+            const lawyerId = $('#lawyer_id').val();
+            const caseDetails = $('#case_details').val();
             const today = new Date().toISOString().split('T')[0];
 
-            if (appointmentDate < today) {
-                e.preventDefault();
-                alert('{{ __("Appointment date must be today or later") }}');
-                return false;
+            let isValid = true;
+            let firstErrorField = null;
+
+            // Validate lawyer selection
+            if (!lawyerId) {
+                isValid = false;
+                $('#lawyer_id').addClass('is-invalid').focus();
+                if (!firstErrorField) firstErrorField = $('#lawyer_id');
+            } else {
+                $('#lawyer_id').removeClass('is-invalid');
             }
 
+            // Validate appointment date
+            if (!appointmentDate || appointmentDate < today) {
+                isValid = false;
+                $('#appointment_date').addClass('is-invalid').focus();
+                if (!firstErrorField) firstErrorField = $('#appointment_date');
+            } else {
+                $('#appointment_date').removeClass('is-invalid');
+            }
+
+            // Validate appointment time
             if (!appointmentTime) {
-                e.preventDefault();
-                alert('{{ __("Please select an appointment time") }}');
-                return false;
+                isValid = false;
+                $('#appointment_time').addClass('is-invalid').focus();
+                if (!firstErrorField) firstErrorField = $('#appointment_time');
+            } else {
+                $('#appointment_time').removeClass('is-invalid');
+            }
+
+            // Validate case details
+            if (!caseDetails || caseDetails.trim().length < 10) {
+                isValid = false;
+                $('#case_details').addClass('is-invalid').focus();
+                if (!firstErrorField) firstErrorField = $('#case_details');
+            } else {
+                $('#case_details').removeClass('is-invalid');
             }
 
             // Check if phone number is provided
             if (!clientPhone.trim()) {
-                e.preventDefault();
-                alert('{{ __("Phone number is required for appointment confirmation") }}');
-                $('#client_phone').focus();
-                return false;
+                isValid = false;
+                $('#client_phone').addClass('is-invalid').focus();
+                if (!firstErrorField) firstErrorField = $('#client_phone');
+            } else {
+                $('#client_phone').removeClass('is-invalid');
             }
 
             // Check if country code is selected
             if (!countryCode) {
+                isValid = false;
+                $('#country_code').addClass('is-invalid').focus();
+                if (!firstErrorField) firstErrorField = $('#country_code');
+            } else {
+                $('#country_code').removeClass('is-invalid');
+            }
+
+            if (!isValid) {
                 e.preventDefault();
-                alert('{{ __("Please select your country code") }}');
-                $('#country_code').focus();
+                // Scroll to first error field
+                if (firstErrorField) {
+                    $('html, body').animate({
+                        scrollTop: firstErrorField.offset().top - 100
+                    }, 500);
+                }
                 return false;
             }
+
+            // Add loading state to submit button
+            const submitBtn = $('.btn-submit-appointment');
+            submitBtn.addClass('loading');
+            submitBtn.prop('disabled', true);
         });
 
         // Email validation function
@@ -504,6 +669,57 @@
             }
         });
 
+        // Real-time validation feedback
+        $('#case_type').on('input', function() {
+            const value = $(this).val().trim();
+            if (value.length >= 3) {
+                $(this).removeClass('is-invalid').addClass('is-valid');
+            } else if (value.length > 0) {
+                $(this).removeClass('is-valid').addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-valid is-invalid');
+            }
+        });
+
+        $('#case_details').on('input', function() {
+            const value = $(this).val().trim();
+            if (value.length >= 10) {
+                $(this).removeClass('is-invalid').addClass('is-valid');
+            } else if (value.length > 0) {
+                $(this).removeClass('is-valid').addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-valid is-invalid');
+            }
+        });
+
+        $('#problem_description').on('input', function() {
+            const value = $(this).val().trim();
+            if (value.length >= 10) {
+                $(this).removeClass('is-invalid').addClass('is-valid');
+            } else if (value.length > 0) {
+                $(this).removeClass('is-valid').addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-valid is-invalid');
+            }
+        });
+
+        $('#client_email').on('input', function() {
+            const value = $(this).val().trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (value && emailRegex.test(value)) {
+                $(this).removeClass('is-invalid').addClass('is-valid');
+            } else if (value.length > 0) {
+                $(this).removeClass('is-valid').addClass('is-invalid');
+            } else {
+                $(this).removeClass('is-valid is-invalid');
+            }
+        });
+
+        // Remove validation classes on focus
+        $('.form-control, .form-select').on('focus', function() {
+            $(this).removeClass('is-invalid');
+        });
+
         // Update phone field when country code changes
         $('#country_code').on('change', function() {
             $('#client_phone').trigger('input');
@@ -515,6 +731,445 @@
 
 @push('css')
 <style>
+/* ============================================
+   BOOK APPOINTMENT PAGE - ENHANCED DESIGN
+   ============================================ */
+
+/* Page Title Enhancement */
+.page-title-area {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 100px 0 80px;
+}
+
+.page-title-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
+    z-index: 1;
+}
+
+.page-title-content {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-align: center;
+}
+
+.page-title-content .title {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.page-title-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.page-title-content ul li {
+    color: rgba(255,255,255,0.9);
+    font-size: 16px;
+}
+
+.page-title-content ul li a {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.page-title-content ul li a:hover {
+    color: #fff;
+}
+
+.page-title-content ul li:not(:last-child)::after {
+    content: '›';
+    margin-left: 10px;
+    color: rgba(255,255,255,0.7);
+}
+
+/* Main Headline Enhancement */
+.main-headline {
+    margin-bottom: 50px;
+}
+
+.main-headline .title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.main-headline .title span {
+    color: var(--colorPrimary);
+    position: relative;
+}
+
+.main-headline .title span::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-radius: 2px;
+}
+
+.main-headline p {
+    font-size: 17px;
+    color: #666;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Appointment Form Card - Enhanced */
+.appointment-form-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    border-radius: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.appointment-form-card:hover {
+    box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+}
+
+.appointment-form-body {
+    padding: 40px;
+}
+
+/* Alerts Enhancement */
+.alert {
+    border-radius: 12px;
+    border: none;
+    padding: 18px 20px;
+    margin-bottom: 25px;
+    font-size: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    color: #0c5460;
+    border-left: 4px solid #17a2b8;
+}
+
+.alert i {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.alert .btn-close {
+    margin-left: auto;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.alert .btn-close:hover {
+    opacity: 1;
+}
+
+/* Form Labels Enhancement */
+.form-label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-label i {
+    color: var(--colorPrimary);
+    font-size: 16px;
+}
+
+.form-label .text-danger {
+    color: #dc3545 !important;
+    font-weight: 700;
+}
+
+/* Form Controls Enhancement */
+.form-control,
+.form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--colorPrimary);
+    box-shadow: 0 0 0 4px rgba(200, 180, 126, 0.15);
+    outline: none;
+    background: #fff;
+}
+
+.form-control::placeholder {
+    color: #adb5bd;
+    opacity: 0.8;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+/* Date and Time Inputs */
+input[type="date"],
+input[type="time"] {
+    position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+/* Form Text Helper */
+.form-text {
+    font-size: 13px;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-text.text-muted {
+    color: #6c757d !important;
+}
+
+.form-text.text-primary {
+    color: var(--colorPrimary) !important;
+    font-weight: 500;
+}
+
+.form-text i {
+    font-size: 12px;
+}
+
+/* Invalid Feedback */
+.invalid-feedback {
+    display: block;
+    font-size: 13px;
+    color: #dc3545;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #dc3545;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 3.6 .4.4.4-.4m0 4.8h-.8'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+    animation: shake 0.3s ease-in-out;
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%2328a745'%3e%3cpath d='M10 3L4.5 8.5L2 6' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+[dir="rtl"] .form-control.is-invalid,
+[dir="rtl"] .form-control.is-valid {
+    background-position: left 15px center;
+}
+
+/* Submit Button - Enhanced */
+.form-submit-wrapper {
+    margin-top: 40px;
+    text-align: center;
+    padding-top: 30px;
+    border-top: 2px solid #e9ecef;
+}
+
+.btn-submit-appointment {
+    position: relative;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    color: #fff;
+    border: none;
+    padding: 18px 50px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 15px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(200, 180, 126, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 280px;
+    justify-content: center;
+}
+
+.btn-submit-appointment::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-submit-appointment:hover::before {
+    left: 100%;
+}
+
+.btn-submit-appointment:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(200, 180, 126, 0.5);
+}
+
+.btn-submit-appointment:active {
+    transform: translateY(-1px);
+}
+
+.btn-submit-appointment i {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.btn-submit-appointment:hover i {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 100%;
+    }
+}
+
+/* Section Dividers */
+.mb-4 {
+    margin-bottom: 30px !important;
+}
+
+.mb-3 {
+    margin-bottom: 20px !important;
+}
+
+/* Form Groups Enhancement */
+.form-group {
+    position: relative;
+}
+
+/* Loading State */
+.btn-submit-appointment.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-submit-appointment.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Focus Visible Enhancement */
+.form-control:focus-visible,
+.form-select:focus-visible {
+    outline: 2px solid var(--colorPrimary);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .appointment-form-card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+
+    .btn-submit-appointment {
+        display: none;
+    }
+
+    .alert {
+        border: 1px solid #000;
+    }
+}
+
 /* ============================================
    CLIENT INFORMATION SECTION ENHANCEMENTS
    ============================================ */
@@ -646,7 +1301,77 @@
    MOBILE RESPONSIVE IMPROVEMENTS
    ============================================ */
 
+@media (max-width: 991px) {
+    .page-title-content .title {
+        font-size: 32px;
+    }
+
+    .main-headline .title {
+        font-size: 28px;
+    }
+
+    .main-headline p {
+        font-size: 16px;
+    }
+
+    .appointment-form-body {
+        padding: 30px 25px;
+    }
+}
+
 @media (max-width: 768px) {
+    .page-title-area {
+        padding: 80px 0 60px;
+    }
+
+    .page-title-content .title {
+        font-size: 28px;
+    }
+
+    .main-headline {
+        margin-bottom: 35px;
+    }
+
+    .main-headline .title {
+        font-size: 24px;
+    }
+
+    .main-headline p {
+        font-size: 15px;
+    }
+
+    .appointment-form-body {
+        padding: 25px 20px;
+    }
+
+    .alert {
+        padding: 15px 18px;
+        font-size: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .alert .btn-close {
+        margin-left: 0;
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+
+    .form-label {
+        font-size: 14px;
+    }
+
+    .form-control,
+    .form-select {
+        padding: 11px 16px;
+        font-size: 14px;
+    }
+
+    .btn-submit-appointment {
+        padding: 16px 40px;
+        font-size: 16px;
+        min-width: 100%;
+    }
     .client-info-header {
         padding: 16px;
         margin-bottom: 16px;
@@ -673,6 +1398,67 @@
 }
 
 @media (max-width: 576px) {
+    .page-title-area {
+        padding: 60px 0 50px;
+    }
+
+    .page-title-content .title {
+        font-size: 24px;
+    }
+
+    .page-title-content ul {
+        font-size: 14px;
+    }
+
+    .main-headline .title {
+        font-size: 22px;
+    }
+
+    .main-headline p {
+        font-size: 14px;
+    }
+
+    .appointment-form-body {
+        padding: 20px 15px;
+    }
+
+    .alert {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+
+    .form-label {
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        padding: 10px 14px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+
+    textarea.form-control {
+        min-height: 100px;
+    }
+
+    .form-text {
+        font-size: 12px;
+    }
+
+    .form-submit-wrapper {
+        margin-top: 30px;
+        padding-top: 25px;
+    }
+
+    .btn-submit-appointment {
+        padding: 14px 30px;
+        font-size: 15px;
+        border-radius: 12px;
+        width: 100%;
+    }
+
     .contact-method-notice {
         gap: 8px;
         padding: 8px 10px;
@@ -761,9 +1547,44 @@
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
     .client-info-header::before,
-    .contact-method-notice::before {
+    .contact-method-notice::before,
+    .btn-shine,
+    .btn-submit-appointment::before {
         display: none;
+        animation: none !important;
     }
+
+    .btn-submit-appointment:hover {
+        transform: none;
+    }
+}
+
+/* RTL Support */
+[dir="rtl"] .page-title-content ul li:not(:last-child)::after {
+    content: '‹';
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+[dir="rtl"] .form-label {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .form-text {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .alert {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .alert .btn-close {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+[dir="rtl"] .btn-submit-appointment {
+    flex-direction: row-reverse;
 }
 
 /* ============================================
@@ -1127,51 +1948,379 @@
 }
 
 /* ============================================
-   PROPERTY INFORMATION CARD
+   PROPERTY INFORMATION CARD - ENHANCED DESIGN
    ============================================ */
 
-.property-info-card .card {
-    border: 2px solid #007bff;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+.property-info-card {
+    margin-bottom: 30px;
 }
 
-.property-info-card .card-header {
-    border-bottom: 2px solid #007bff;
+.property-info-wrapper {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid var(--colorPrimary);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(200, 180, 126, 0.15);
+    transition: all 0.3s ease;
+}
+
+.property-info-wrapper:hover {
+    box-shadow: 0 12px 40px rgba(200, 180, 126, 0.25);
+    transform: translateY(-2px);
+}
+
+.property-info-header {
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    color: #fff;
+    padding: 20px 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.property-info-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.property-info-title h5 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.property-info-title p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    margin: 0;
+}
+
+.property-info-content {
+    padding: 25px;
+}
+
+.property-info-image {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.property-info-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.property-info-image:hover img {
+    transform: scale(1.05);
+}
+
+.property-info-main {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.property-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.property-location-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #666;
+    font-size: 15px;
+}
+
+.property-location-info i {
+    color: var(--colorPrimary);
+    font-size: 16px;
+}
+
+.property-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.property-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.property-info-item:hover {
+    border-color: var(--colorPrimary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(200, 180, 126, 0.15);
+}
+
+.property-info-item.highlight {
+    background: linear-gradient(135deg, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.1) 0%, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.05) 100%);
+    border-color: var(--colorPrimary);
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.info-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
     font-weight: 600;
 }
 
-.property-info-card .property-info-item {
-    margin-bottom: 12px;
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.property-info-card .property-info-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-.property-info-card .property-info-item strong {
-    color: var(--colorPrimary);
+.info-value {
     display: block;
-    margin-bottom: 4px;
+    font-size: 15px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.info-value.price-value {
+    color: var(--colorPrimary);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.property-contact-info {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.contact-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+.contact-header i {
+    color: var(--colorPrimary);
+    font-size: 18px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.contact-item i {
+    color: var(--colorPrimary);
+    width: 18px;
+    text-align: center;
+}
+
+.contact-item a {
+    color: var(--colorPrimary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: var(--colorSecondary);
+    text-decoration: underline;
+}
+
+.property-info-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(200, 180, 126, 0.1) 0%, rgba(200, 180, 126, 0.05) 100%);
+    border: 1px solid rgba(200, 180, 126, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.notice-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
     font-size: 14px;
 }
 
-.property-info-card .property-info-item {
-    font-size: 15px;
-    color: #333;
+.notice-text {
+    flex: 1;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
 }
 
-.property-info-card .alert {
-    border: none;
-    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-    color: #155724;
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .property-info-header {
+        padding: 18px 20px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .property-info-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+
+    .property-info-title h5 {
+        font-size: 18px;
+    }
+
+    .property-info-content {
+        padding: 20px;
+    }
+
+    .property-info-image {
+        height: 180px;
+        margin-bottom: 18px;
+    }
+
+    .property-title {
+        font-size: 20px;
+    }
+
+    .property-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .property-info-item {
+        padding: 12px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .info-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .info-value.price-value {
+        font-size: 16px;
+    }
+
+    .property-contact-info {
+        padding: 15px;
+    }
 }
 
-.property-info-card .alert i {
-    color: #28a745;
+@media (max-width: 576px) {
+    .property-info-header {
+        padding: 15px;
+    }
+
+    .property-info-content {
+        padding: 15px;
+    }
+
+    .property-info-image {
+        height: 150px;
+    }
+
+    .property-title {
+        font-size: 18px;
+    }
+
+    .property-info-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .property-info-item {
+        padding: 12px;
+    }
+
+    .info-value.price-value {
+        font-size: 15px;
+    }
+
+    .contact-details {
+        gap: 8px;
+    }
+}
+
+/* RTL Support */
+[dir="rtl"] .property-info-header {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .property-info-item {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .property-location-info {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .contact-item {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .property-info-notice {
+    flex-direction: row-reverse;
 }
 </style>
 @endpush

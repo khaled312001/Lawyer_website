@@ -105,26 +105,43 @@ class HomeController extends Controller {
             },
         ])->homepage()->latest()->active()->get();
 
-        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')->with([
-            'translation'            => function ($query) {
-                $query->select('lawyer_id', 'designations');
-            },
-            'department'             => function ($query) {
-                $query->select('id');
-            },
-            'department.translation' => function ($query) {
-                $query->select('department_id', 'name');
-            },
-            'location'               => function ($query) {
-                $query->select('id');
-            },
-            'location.translation'   => function ($query) {
-                $query->select('location_id', 'name');
-            },
-            'socialMedia'            => function ($query) {
-                $query->select('lawyer_id', 'link', 'icon')->active();
-            },
-        ])->homepage()->active()->verify()->get();
+        // Get only one lawyer per department (prefer highest rated)
+        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
+            ->with([
+                'translation'            => function ($query) {
+                    $query->select('lawyer_id', 'designations');
+                },
+                'department'             => function ($query) {
+                    $query->select('id');
+                },
+                'department.translation' => function ($query) {
+                    $query->select('department_id', 'name');
+                },
+                'location'               => function ($query) {
+                    $query->select('id');
+                },
+                'location.translation'   => function ($query) {
+                    $query->select('location_id', 'name');
+                },
+                'socialMedia'            => function ($query) {
+                    $query->select('lawyer_id', 'link', 'icon')->active();
+                },
+                'ratings' => function ($query) {
+                    $query->where('status', true);
+                },
+            ])
+            ->homepage()
+            ->active()
+            ->verify()
+            ->get()
+            ->groupBy('department_id')
+            ->map(function ($departmentLawyers) {
+                // For each department, return the lawyer with highest rating, or first one
+                return $departmentLawyers->sortByDesc(function ($lawyer) {
+                    return $lawyer->ratings->avg('rating') ?? 0;
+                })->first();
+            })
+            ->values();
 
         $feature_blog = Blog::select('id','admin_id', 'slug', 'image', 'created_at')->with([
             'admin' => function ($query) {

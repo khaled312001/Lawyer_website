@@ -61,26 +61,45 @@ class AllPagesController extends Controller {
             $q->where('lang_code', $code)->select('testimonial_id', 'name', 'designation', 'comment');
         }])->homepage()->active()->latest()->take($home_sections?->client_how_many)->get();
 
-        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')->with([
-            'translations'            => function ($query) use ($code) {
-                $query->where('lang_code', $code)->select('lawyer_id', 'designations');
-            },
-            'department'              => function ($query) {
-                $query->select('id');
-            },
-            'department.translations' => function ($query) use ($code) {
-                $query->where('lang_code', $code)->select('department_id', 'name');
-            },
-            'location'                => function ($query) {
-                $query->select('id');
-            },
-            'location.translations'   => function ($query) use ($code) {
-                $query->where('lang_code', $code)->select('location_id', 'name');
-            },
-            'socialMedia'            => function ($query) {
-                $query->select('lawyer_id', 'link', 'icon')->active();
-            },
-        ])->homepage()->active()->verify()->latest()->take($home_sections?->lawyer_how_many)->get();
+        // Get only one lawyer per department (prefer highest rated)
+        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
+            ->with([
+                'translations'            => function ($query) use ($code) {
+                    $query->where('lang_code', $code)->select('lawyer_id', 'designations');
+                },
+                'department'              => function ($query) {
+                    $query->select('id');
+                },
+                'department.translations' => function ($query) use ($code) {
+                    $query->where('lang_code', $code)->select('department_id', 'name');
+                },
+                'location'                => function ($query) {
+                    $query->select('id');
+                },
+                'location.translations'   => function ($query) use ($code) {
+                    $query->where('lang_code', $code)->select('location_id', 'name');
+                },
+                'socialMedia'            => function ($query) {
+                    $query->select('lawyer_id', 'link', 'icon')->active();
+                },
+                'ratings' => function ($query) {
+                    $query->where('status', true);
+                },
+            ])
+            ->homepage()
+            ->active()
+            ->verify()
+            ->latest()
+            ->get()
+            ->groupBy('department_id')
+            ->map(function ($departmentLawyers) {
+                // For each department, return the lawyer with highest rating, or first one
+                return $departmentLawyers->sortByDesc(function ($lawyer) {
+                    return $lawyer->ratings->avg('rating') ?? 0;
+                })->first();
+            })
+            ->values()
+            ->take($home_sections?->lawyer_how_many);
 
         $feature_blog = Blog::select('id', 'slug', 'image', 'created_at')->with(['translations' => function ($q) use ($code) {
             $q->where('lang_code', $code)->select('blog_id', 'title', 'sort_description');

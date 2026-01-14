@@ -19,26 +19,42 @@
 @section('client-content')
 
 <!-- Property Header/Breadcrumb -->
-<section class="property-header" style="background-image: url({{ $setting?->breadcrumb_image ? url($setting->breadcrumb_image) : asset('client/img/shape-2.webp') }})">
+<section class="property-header" style="background-image: url({{ $property->main_image_url ?? ($setting?->breadcrumb_image ? url($setting->breadcrumb_image) : asset('client/img/shape-2.webp')) }})">
     <div class="container">
         <div class="row">
             <div class="col-12">
+                <nav aria-label="breadcrumb" class="property-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('website.real-estate') }}">{{ __('Real Estate') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($property->title, 30) }}</li>
+                    </ol>
+                </nav>
                 <div class="property-header-content">
                     <h1 class="property-title">{{ $property->title }}</h1>
                     <div class="property-location">
                         <i class="fas fa-map-marker-alt"></i>
-                        {{ $property->location_string }}
+                        <span>{{ $property->location_string }}</span>
                     </div>
                     <div class="property-meta">
                         <span class="meta-item">
-                            <i class="fas fa-tag"></i> {{ $property->listing_type_label }}
+                            <i class="fas fa-tag"></i> 
+                            <span>{{ $property->listing_type_label }}</span>
                         </span>
                         <span class="meta-item">
-                            <i class="fas fa-building"></i> {{ $property->property_type_label }}
+                            <i class="fas fa-building"></i> 
+                            <span>{{ $property->property_type_label }}</span>
                         </span>
                         @if($property->area)
                             <span class="meta-item">
-                                <i class="fas fa-vector-square"></i> {{ $property->formatted_area }}
+                                <i class="fas fa-vector-square"></i> 
+                                <span>{{ $property->formatted_area }}</span>
+                            </span>
+                        @endif
+                        @if($property->formatted_price)
+                            <span class="meta-item price-badge">
+                                <i class="fas fa-dollar-sign"></i> 
+                                <span>{{ $property->formatted_price }}</span>
                             </span>
                         @endif
                     </div>
@@ -59,18 +75,29 @@
                     @if($property->gallery_images && count($property->gallery_images) > 0)
                         <div class="gallery-main">
                             <img id="main-gallery-image" src="{{ $property->gallery_images[0] }}" alt="{{ $property->title }}" class="img-fluid">
+                            <div class="gallery-overlay">
+                                <div class="gallery-counter">
+                                    <span id="current-image">1</span> / <span id="total-images">{{ count($property->gallery_images) }}</span>
+                                </div>
+                            </div>
                             <div class="gallery-nav">
-                                <button class="gallery-nav-btn prev" onclick="changeGalleryImage(-1)">
+                                <button class="gallery-nav-btn prev" onclick="changeGalleryImage(-1)" aria-label="{{ __('Previous Image') }}">
                                     <i class="fas fa-chevron-left"></i>
                                 </button>
-                                <button class="gallery-nav-btn next" onclick="changeGalleryImage(1)">
+                                <button class="gallery-nav-btn next" onclick="changeGalleryImage(1)" aria-label="{{ __('Next Image') }}">
                                     <i class="fas fa-chevron-right"></i>
                                 </button>
                             </div>
+                            <button class="gallery-fullscreen-btn" onclick="openFullscreenGallery()" aria-label="{{ __('View Fullscreen') }}">
+                                <i class="fas fa-expand"></i>
+                            </button>
                         </div>
                         <div class="gallery-thumbnails">
                             @foreach($property->gallery_images as $index => $image)
-                                <img src="{{ $image }}" alt="{{ $property->title }} {{ $index + 1 }}" class="thumbnail {{ $index === 0 ? 'active' : '' }}" onclick="setGalleryImage({{ $index }})">
+                                <div class="thumbnail-wrapper">
+                                    <img src="{{ $image }}" alt="{{ __('Property Image') }} {{ $index + 1 }}" class="thumbnail {{ $index === 0 ? 'active' : '' }}" onclick="setGalleryImage({{ $index }})">
+                                    <div class="thumbnail-overlay"></div>
+                                </div>
                             @endforeach
                         </div>
                     @else
@@ -83,46 +110,61 @@
 
                 <!-- Property Overview -->
                 <div class="property-overview mb_40">
-                    <h3 class="section-title">{{ __('Property Overview') }}</h3>
+                    <h3 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        {{ __('Property Overview') }}
+                    </h3>
                     <div class="overview-grid">
                         @if($property->bedrooms)
                             <div class="overview-item">
-                                <i class="fas fa-bed"></i>
+                                <div class="overview-icon">
+                                    <i class="fas fa-bed"></i>
+                                </div>
                                 <span class="label">{{ __('Bedrooms') }}</span>
                                 <span class="value">{{ $property->bedrooms }}</span>
                             </div>
                         @endif
                         @if($property->bathrooms)
                             <div class="overview-item">
-                                <i class="fas fa-bath"></i>
+                                <div class="overview-icon">
+                                    <i class="fas fa-bath"></i>
+                                </div>
                                 <span class="label">{{ __('Bathrooms') }}</span>
                                 <span class="value">{{ $property->bathrooms }}</span>
                             </div>
                         @endif
                         @if($property->area)
                             <div class="overview-item">
-                                <i class="fas fa-vector-square"></i>
+                                <div class="overview-icon">
+                                    <i class="fas fa-vector-square"></i>
+                                </div>
                                 <span class="label">{{ __('Area') }}</span>
                                 <span class="value">{{ $property->formatted_area }}</span>
                             </div>
                         @endif
                         @if($property->floor)
                             <div class="overview-item">
-                                <i class="fas fa-layer-group"></i>
+                                <div class="overview-icon">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
                                 <span class="label">{{ __('Floor') }}</span>
                                 <span class="value">{{ $property->floor }}</span>
                             </div>
                         @endif
                         @if($property->year_built)
                             <div class="overview-item">
-                                <i class="fas fa-calendar"></i>
+                                <div class="overview-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
                                 <span class="label">{{ __('Year Built') }}</span>
                                 <span class="value">{{ $property->year_built }}</span>
                             </div>
                         @endif
                         @if($property->listing_type === 'rent')
                             <div class="overview-item">
-                                <i class="fas fa-tag"></i>
+                                <div class="overview-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
                                 <span class="label">{{ __('Rent Period') }}</span>
                                 <span class="value">{{ __('Monthly') }}</span>
                             </div>
@@ -132,34 +174,52 @@
 
                 <!-- Property Description -->
                 <div class="property-description mb_40">
-                    <h3 class="section-title">{{ __('Description') }}</h3>
+                    <h3 class="section-title">
+                        <i class="fas fa-align-left"></i>
+                        {{ __('Description') }}
+                    </h3>
                     <div class="description-content">
-                        {!! nl2br(e($property->description)) !!}
+                        @if($property->description)
+                            {!! nl2br(e($property->description)) !!}
+                        @else
+                            <p class="text-muted">{{ __('No description available for this property.') }}</p>
+                        @endif
                     </div>
                 </div>
 
                 <!-- Features & Amenities -->
                 @if($property->features || $property->amenities)
                     <div class="property-features mb_40">
-                        <h3 class="section-title">{{ __('Features & Amenities') }}</h3>
-                        <div class="features-grid">
-                            @if($property->features)
-                                @foreach($property->features as $feature)
-                                    <div class="feature-item">
-                                        <i class="fas fa-check"></i>
-                                        <span>{{ ucfirst(str_replace(['_', '-'], ' ', $feature)) }}</span>
-                                    </div>
-                                @endforeach
-                            @endif
-                            @if($property->amenities)
-                                @foreach($property->amenities as $amenity)
-                                    <div class="feature-item">
-                                        <i class="fas fa-star"></i>
-                                        <span>{{ ucfirst(str_replace(['_', '-'], ' ', $amenity)) }}</span>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
+                        <h3 class="section-title">
+                            <i class="fas fa-star"></i>
+                            {{ __('Features & Amenities') }}
+                        </h3>
+                        @if($property->features && count($property->features) > 0)
+                            <div class="features-section">
+                                <h4 class="features-subtitle">{{ __('Property Features') }}</h4>
+                                <div class="features-grid">
+                                    @foreach($property->features as $feature)
+                                        <div class="feature-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            <span>{{ ucfirst(str_replace(['_', '-'], ' ', $feature)) }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        @if($property->amenities && count($property->amenities) > 0)
+                            <div class="amenities-section">
+                                <h4 class="features-subtitle">{{ __('Amenities') }}</h4>
+                                <div class="features-grid">
+                                    @foreach($property->amenities as $amenity)
+                                        <div class="feature-item amenity-item">
+                                            <i class="fas fa-star"></i>
+                                            <span>{{ ucfirst(str_replace(['_', '-'], ' ', $amenity)) }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 @endif
 
@@ -170,14 +230,28 @@
                 <!-- Property Price Card -->
                 <div class="price-card mb_30">
                     <div class="price-header">
+                        <div class="price-label">{{ __('Price') }}</div>
                         <div class="price-amount">{{ $property->formatted_price }}</div>
                         @if($property->listing_type === 'rent')
-                            <div class="price-period">{{ __('per month') }}</div>
+                            <div class="price-period">
+                                <i class="fas fa-calendar-alt"></i>
+                                {{ __('per month') }}
+                            </div>
+                        @else
+                            <div class="price-period">
+                                <i class="fas fa-tag"></i>
+                                {{ __('For Sale') }}
+                            </div>
                         @endif
                     </div>
                     <div class="price-actions">
-                        <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-warning btn-lg w-100">
-                            <i class="fas fa-calendar-check me-2"></i>{{ __('Book Consultation') }}
+                        <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>{{ __('Book Consultation') }}</span>
+                        </a>
+                        <a href="tel:{{ $contactInfo->top_bar_phone ?? $contactInfo->phone ?? '' }}" class="btn btn-outline-light btn-lg w-100">
+                            <i class="fas fa-phone"></i>
+                            <span>{{ __('Call Now') }}</span>
                         </a>
                     </div>
                 </div>
@@ -216,21 +290,40 @@
                 <!-- Similar Properties -->
                 @if($similarProperties->count() > 0)
                     <div class="similar-properties">
-                        <h4>{{ __('Similar Properties') }}</h4>
-                        @foreach($similarProperties as $similarProperty)
-                            <div class="similar-property-item">
-                                <div class="similar-property-image">
-                                    <img src="{{ $similarProperty->main_image_url }}" alt="{{ $similarProperty->title }}">
+                        <h4>
+                            <i class="fas fa-home"></i>
+                            {{ __('Similar Properties') }}
+                        </h4>
+                        <div class="similar-properties-list">
+                            @foreach($similarProperties as $similarProperty)
+                                <div class="similar-property-item">
+                                    <a href="{{ route('website.real-estate.show', $similarProperty->slug) }}" class="similar-property-link">
+                                        <div class="similar-property-image">
+                                            <img src="{{ $similarProperty->main_image_url }}" alt="{{ $similarProperty->title }}" loading="lazy">
+                                            <div class="similar-property-overlay">
+                                                <span class="view-details-btn">{{ __('View Details') }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="similar-property-info">
+                                            <h5>{{ Str::limit($similarProperty->title, 35) }}</h5>
+                                            <div class="similar-property-price">{{ $similarProperty->formatted_price }}</div>
+                                            <div class="similar-property-meta">
+                                                <span class="similar-property-location">
+                                                    <i class="fas fa-map-marker-alt"></i> 
+                                                    {{ $similarProperty->city }}
+                                                </span>
+                                                @if($similarProperty->area)
+                                                    <span class="similar-property-area">
+                                                        <i class="fas fa-vector-square"></i> 
+                                                        {{ $similarProperty->formatted_area }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div class="similar-property-info">
-                                    <h5><a href="{{ route('website.real-estate.show', $similarProperty->slug) }}">{{ Str::limit($similarProperty->title, 30) }}</a></h5>
-                                    <div class="similar-property-price">{{ $similarProperty->formatted_price }}</div>
-                                    <div class="similar-property-location">
-                                        <i class="fas fa-map-marker-alt"></i> {{ $similarProperty->city }}
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 @endif
             </div>
@@ -246,10 +339,16 @@
    PROPERTY DETAILS PAGE STYLES
    ============================================ */
 
-/* Property Header */
+/* Property Header - Enhanced Design */
 .property-header {
-    padding: 80px 0;
+    padding: 100px 0 80px;
     position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
 }
 
 .property-header::before {
@@ -259,8 +358,42 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0,0,0,0.6);
+    background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 100%);
     z-index: 1;
+}
+
+.property-breadcrumb {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 30px;
+}
+
+.property-breadcrumb .breadcrumb {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 12px 20px;
+    border-radius: 25px;
+    margin: 0;
+}
+
+.property-breadcrumb .breadcrumb-item a {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.property-breadcrumb .breadcrumb-item a:hover {
+    color: #fff;
+}
+
+.property-breadcrumb .breadcrumb-item.active {
+    color: #fff;
+    font-weight: 600;
+}
+
+.property-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    color: rgba(255,255,255,0.7);
+    content: "›";
 }
 
 .property-header-content {
@@ -271,62 +404,114 @@
 }
 
 .property-title {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    line-height: 1.2;
 }
 
 .property-location {
-    font-size: 18px;
-    margin-bottom: 15px;
+    font-size: 20px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    font-weight: 500;
 }
 
 .property-location i {
-    color: var(--colorSecondary);
+    color: var(--colorSecondary, #f4d03f);
+    font-size: 22px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 
 .property-meta {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
+    margin-top: 25px;
 }
 
 .meta-item {
     display: flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.2);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 500;
+    gap: 8px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-/* Property Gallery */
+.meta-item:hover {
+    background: rgba(255,255,255,0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.meta-item i {
+    font-size: 16px;
+    color: var(--colorSecondary, #f4d03f);
+}
+
+.meta-item.price-badge {
+    background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, var(--colorSecondary, #8b7355) 100%);
+    border-color: rgba(255,255,255,0.5);
+}
+
+.meta-item.price-badge i {
+    color: #fff;
+}
+
+/* Property Gallery - Enhanced Design */
 .property-gallery {
     background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
     overflow: hidden;
+    position: relative;
 }
 
 .gallery-main {
     position: relative;
-    height: 400px;
+    height: 500px;
     overflow: hidden;
+    background: #000;
 }
 
 .gallery-main img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-main:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 3;
+}
+
+.gallery-counter {
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .gallery-nav {
@@ -337,12 +522,45 @@
     transform: translateY(-50%);
     display: flex;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 25px;
     z-index: 2;
+    pointer-events: none;
 }
 
 .gallery-nav-btn {
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
+    border: none;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    pointer-events: auto;
+}
+
+.gallery-nav-btn:hover {
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    color: white;
+    transform: scale(1.15);
+    box-shadow: 0 6px 20px rgba(200, 180, 126, 0.4);
+}
+
+.gallery-nav-btn:active {
+    transform: scale(1.05);
+}
+
+.gallery-fullscreen-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
     border: none;
     width: 50px;
     height: 50px;
@@ -350,45 +568,82 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #333;
+    color: #fff;
     font-size: 18px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 3;
 }
 
-.gallery-nav-btn:hover {
-    background: var(--colorPrimary);
-    color: white;
+.gallery-fullscreen-btn:hover {
+    background: rgba(0,0,0,0.9);
     transform: scale(1.1);
 }
 
 .gallery-thumbnails {
     display: flex;
-    gap: 10px;
-    padding: 15px;
+    gap: 12px;
+    padding: 20px;
     overflow-x: auto;
-    background: #f8f9fa;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.gallery-thumbnails::-webkit-scrollbar {
+    height: 6px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.gallery-thumbnails::-webkit-scrollbar-thumb {
+    background: var(--colorPrimary);
+    border-radius: 3px;
+}
+
+.thumbnail-wrapper {
+    position: relative;
+    flex-shrink: 0;
 }
 
 .thumbnail {
-    width: 80px;
-    height: 60px;
+    width: 100px;
+    height: 75px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
+    border: 3px solid transparent;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
+}
+
+.thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0);
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+.thumbnail-wrapper:hover .thumbnail-overlay {
+    background: rgba(0,0,0,0.3);
 }
 
 .thumbnail.active {
     border-color: var(--colorPrimary);
-    transform: scale(1.05);
+    transform: scale(1.08);
+    box-shadow: 0 4px 15px rgba(200, 180, 126, 0.4);
 }
 
-.thumbnail:hover {
+.thumbnail-wrapper:hover .thumbnail {
     transform: scale(1.05);
+    border-color: rgba(200, 180, 126, 0.5);
 }
 
 /* Property Placeholder */
@@ -421,12 +676,20 @@
 }
 
 .section-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 30px;
     position: relative;
-    padding-bottom: 10px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-title i {
+    color: var(--colorPrimary);
+    font-size: 28px;
 }
 
 .section-title::after {
@@ -434,9 +697,15 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 50px;
-    height: 3px;
+    width: 60px;
+    height: 4px;
     background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-radius: 2px;
+}
+
+[dir="rtl"] .section-title::after {
+    left: auto;
+    right: 0;
 }
 
 .overview-grid {
@@ -489,18 +758,32 @@
     color: white;
 }
 
-/* Property Description */
+/* Property Description - Enhanced */
 .property-description {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
 }
 
 .description-content {
-    line-height: 1.8;
-    color: #555;
-    font-size: 16px;
+    line-height: 1.9;
+    color: #4a5568;
+    font-size: 17px;
+    text-align: justify;
+}
+
+.description-content p {
+    margin-bottom: 15px;
+}
+
+.description-content p:last-child {
+    margin-bottom: 0;
+}
+
+[dir="rtl"] .description-content {
+    text-align: right;
 }
 
 /* Property Features */
@@ -599,33 +882,102 @@
     border-radius: 8px;
 }
 
-/* Sidebar Styles */
+/* Sidebar Styles - Enhanced */
 .price-card {
-    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, var(--colorSecondary, #8b7355) 100%);
     color: white;
-    padding: 30px;
-    border-radius: 15px;
+    padding: 35px 30px;
+    border-radius: 20px;
     text-align: center;
-    box-shadow: 0 5px 20px rgba(200, 180, 126, 0.3);
+    box-shadow: 0 10px 35px rgba(200, 180, 126, 0.4);
+    position: sticky;
+    top: 100px;
+    border: 2px solid rgba(255,255,255,0.2);
 }
 
 .price-header {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+}
+
+.price-label {
+    font-size: 14px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
 .price-amount {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 5px;
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    line-height: 1.2;
 }
 
 .price-period {
+    font-size: 15px;
+    opacity: 0.95;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.price-period i {
     font-size: 14px;
-    opacity: 0.9;
+}
+
+.price-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .price-actions .btn {
-    margin-bottom: 10px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+}
+
+.price-actions .btn-primary {
+    background: #fff;
+    color: var(--colorPrimary);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.price-actions .btn-primary:hover {
+    background: #f8f9fa;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.price-actions .btn-outline-light {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.4);
+    color: #fff;
+}
+
+.price-actions .btn-outline-light:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-3px);
+}
+
+.price-actions .btn i {
+    margin-right: 8px;
+}
+
+[dir="rtl"] .price-actions .btn i {
+    margin-right: 0;
+    margin-left: 8px;
 }
 
 /* Property Summary */
@@ -670,169 +1022,437 @@
     color: #333;
 }
 
-/* Similar Properties */
+/* Similar Properties - Enhanced */
 .similar-properties {
-    background: #fff;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    border: 1px solid #e9ecef;
 }
 
 .similar-properties h4 {
-    margin-bottom: 20px;
-    color: #333;
-    font-size: 18px;
-    font-weight: 600;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.similar-properties h4 i {
+    color: var(--colorPrimary);
+    font-size: 22px;
+}
+
+.similar-properties-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .similar-property-item {
-    display: flex;
-    gap: 15px;
-    padding: 15px 0;
+    padding: 0;
     border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
 }
 
 .similar-property-item:last-child {
     border-bottom: none;
-    padding-bottom: 0;
+}
+
+.similar-property-item:hover {
+    background: rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.05);
+    border-radius: 12px;
+    margin: 0 -10px;
+    padding: 0 10px;
+}
+
+.similar-property-link {
+    display: flex;
+    gap: 15px;
+    padding: 18px 0;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
 }
 
 .similar-property-image {
-    width: 80px;
-    height: 60px;
-    border-radius: 6px;
+    width: 100px;
+    height: 75px;
+    border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
+    position: relative;
 }
 
 .similar-property-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.similar-property-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    border-radius: 10px;
+}
+
+.view-details-btn {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    background: var(--colorPrimary);
+    border-radius: 6px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.similar-property-item:hover .similar-property-overlay {
+    background: rgba(0,0,0,0.5);
+}
+
+.similar-property-item:hover .view-details-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.similar-property-item:hover .similar-property-image img {
+    transform: scale(1.1);
+}
+
+.similar-property-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .similar-property-info h5 {
-    margin: 0 0 5px 0;
-    font-size: 14px;
-    font-weight: 600;
+    margin: 0 0 8px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.4;
+    transition: color 0.3s ease;
 }
 
-.similar-property-info h5 a {
-    color: #333;
-    text-decoration: none;
-}
-
-.similar-property-info h5 a:hover {
+.similar-property-item:hover .similar-property-info h5 {
     color: var(--colorPrimary);
 }
 
 .similar-property-price {
-    font-weight: 700;
+    font-weight: 800;
     color: var(--colorPrimary);
-    font-size: 14px;
-    margin-bottom: 3px;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 
-.similar-property-location {
-    font-size: 12px;
+.similar-property-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.similar-property-location,
+.similar-property-area {
+    font-size: 13px;
     color: #666;
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
+}
+
+.similar-property-location i,
+.similar-property-area i {
+    color: var(--colorPrimary);
+    font-size: 12px;
 }
 
 /* ============================================
-   MOBILE RESPONSIVE STYLES
+   MOBILE RESPONSIVE STYLES - ENHANCED
    ============================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 991px) {
+    .property-header {
+        padding: 80px 0 60px;
+        min-height: 350px;
+    }
+
     .property-title {
-        font-size: 24px;
+        font-size: 32px;
+    }
+
+    .property-location {
+        font-size: 18px;
+    }
+
+    .property-meta {
+        gap: 12px;
+    }
+
+    .meta-item {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .gallery-main {
+        height: 400px;
+    }
+
+    .price-card {
+        position: relative;
+        top: 0;
+        margin-bottom: 30px;
+    }
+
+    .overview-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .property-header {
+        padding: 70px 0 50px;
+        min-height: 300px;
+    }
+
+    .property-breadcrumb {
+        margin-bottom: 20px;
+    }
+
+    .property-breadcrumb .breadcrumb {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .property-title {
+        font-size: 26px;
+        margin-bottom: 12px;
     }
 
     .property-location {
         font-size: 16px;
+        margin-bottom: 15px;
     }
 
     .property-meta {
         gap: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 
     .meta-item {
-        padding: 6px 12px;
-        font-size: 12px;
+        padding: 8px 14px;
+        font-size: 13px;
     }
 
     .gallery-main {
-        height: 300px;
+        height: 350px;
+    }
+
+    .gallery-counter {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .gallery-nav {
+        padding: 0 15px;
+    }
+
+    .gallery-nav-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .gallery-fullscreen-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+    }
+
+    .gallery-thumbnails {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .thumbnail {
+        width: 85px;
+        height: 65px;
     }
 
     .property-overview,
     .property-description,
-    .property-features,
-    .property-contact {
-        padding: 20px;
+    .property-features {
+        padding: 25px 20px;
+        margin-bottom: 30px;
     }
 
     .section-title {
-        font-size: 20px;
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .section-title i {
+        font-size: 24px;
     }
 
     .overview-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 12px;
     }
 
     .overview-item {
-        padding: 15px;
+        padding: 20px 15px;
     }
 
-    .contact-card {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
+    .overview-item i {
+        font-size: 30px;
     }
 
-    .contact-actions {
-        margin-left: 0;
-        width: 100%;
+    .overview-item .value {
+        font-size: 20px;
     }
 
-    .contact-actions .btn {
-        width: 100%;
-    }
-
-    .price-card {
-        padding: 20px;
-    }
-
-    .price-amount {
-        font-size: 28px;
+    .description-content {
+        font-size: 16px;
+        line-height: 1.8;
     }
 
     .features-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .feature-item {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .price-card {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+    }
+
+    .price-amount {
+        font-size: 36px;
+    }
+
+    .price-actions .btn {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+
+    .property-summary {
+        padding: 25px 20px;
+        margin-bottom: 25px;
+    }
+
+    .property-summary h4 {
+        font-size: 18px;
+    }
+
+    .summary-list li {
+        padding: 12px 0;
+        flex-wrap: wrap;
+    }
+
+    .summary-list .label {
+        font-size: 14px;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .summary-list .value {
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .similar-properties {
+        padding: 25px 20px;
+    }
+
+    .similar-properties h4 {
+        font-size: 18px;
+    }
+
+    .similar-property-image {
+        width: 90px;
+        height: 70px;
+    }
+
+    .similar-property-info h5 {
+        font-size: 14px;
+    }
+
+    .similar-property-price {
+        font-size: 15px;
     }
 }
 
 @media (max-width: 576px) {
     .property-header {
-        padding: 60px 0;
+        padding: 60px 0 40px;
+        min-height: 280px;
+    }
+
+    .property-breadcrumb .breadcrumb {
+        padding: 8px 12px;
+        font-size: 12px;
     }
 
     .property-title {
-        font-size: 20px;
+        font-size: 22px;
+        margin-bottom: 10px;
     }
 
     .property-location {
-        font-size: 14px;
+        font-size: 15px;
         flex-direction: column;
-        gap: 4px;
+        gap: 5px;
+        margin-bottom: 15px;
+    }
+
+    .property-location i {
+        font-size: 18px;
     }
 
     .property-meta {
         flex-direction: column;
         gap: 8px;
+        width: 100%;
+    }
+
+    .meta-item {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .gallery-main {
+        height: 280px;
+    }
+
+    .gallery-counter {
+        font-size: 11px;
+        padding: 5px 10px;
+        top: 15px;
+        right: 15px;
     }
 
     .gallery-nav {
@@ -845,17 +1465,195 @@
         font-size: 14px;
     }
 
+    .gallery-fullscreen-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 14px;
+        bottom: 15px;
+        right: 15px;
+    }
+
     .gallery-thumbnails {
-        padding: 10px;
+        padding: 12px;
+        gap: 8px;
     }
 
     .thumbnail {
-        width: 60px;
-        height: 45px;
+        width: 70px;
+        height: 55px;
+    }
+
+    .property-overview,
+    .property-description,
+    .property-features {
+        padding: 20px 15px;
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .section-title i {
+        font-size: 22px;
+    }
+
+    .overview-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .overview-item {
+        padding: 18px 12px;
+    }
+
+    .overview-item i {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+
+    .overview-item .label {
+        font-size: 11px;
+        margin-bottom: 6px;
+    }
+
+    .overview-item .value {
+        font-size: 18px;
+    }
+
+    .description-content {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .features-subtitle {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .feature-item {
+        padding: 11px 14px;
+        font-size: 14px;
     }
 
     .price-card {
+        padding: 20px 18px;
         margin-bottom: 20px;
+    }
+
+    .price-header {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+
+    .price-label {
+        font-size: 12px;
+    }
+
+    .price-amount {
+        font-size: 32px;
+    }
+
+    .price-period {
+        font-size: 14px;
+    }
+
+    .price-actions {
+        gap: 10px;
+    }
+
+    .price-actions .btn {
+        padding: 12px 18px;
+        font-size: 14px;
+    }
+
+    .property-summary {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+
+    .property-summary h4 {
+        font-size: 17px;
+        margin-bottom: 18px;
+    }
+
+    .summary-list li {
+        padding: 12px 0;
+    }
+
+    .summary-list .label {
+        font-size: 13px;
+    }
+
+    .summary-list .value {
+        font-size: 13px;
+    }
+
+    .similar-properties {
+        padding: 20px 15px;
+    }
+
+    .similar-properties h4 {
+        font-size: 17px;
+        margin-bottom: 18px;
+    }
+
+    .similar-property-link {
+        padding: 15px 0;
+        gap: 12px;
+    }
+
+    .similar-property-image {
+        width: 80px;
+        height: 60px;
+    }
+
+    .similar-property-info h5 {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
+    .similar-property-price {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .similar-property-location,
+    .similar-property-area {
+        font-size: 12px;
+    }
+}
+
+/* RTL Mobile Support */
+@media (max-width: 768px) {
+    [dir="rtl"] .property-header-content {
+        text-align: center;
+    }
+
+    [dir="rtl"] .section-title {
+        flex-direction: row-reverse;
+    }
+
+    [dir="rtl"] .overview-item:hover {
+        transform: translateY(-5px);
+    }
+
+    [dir="rtl"] .feature-item:hover {
+        transform: translateX(-5px);
+    }
+
+    [dir="rtl"] .summary-list li:hover {
+        padding-right: 5px;
+        padding-left: 5px;
     }
 }
 
@@ -890,6 +1688,165 @@
         transition: none !important;
     }
 }
+
+/* Gallery Lightbox */
+.gallery-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.lightbox-close {
+    top: -60px;
+    right: 0;
+}
+
+.lightbox-prev {
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox-next {
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: var(--colorPrimary);
+    color: white;
+    transform: scale(1.1);
+}
+
+.lightbox-next:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-prev:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .lightbox-close {
+        top: 10px;
+        right: 10px;
+    }
+
+    .lightbox-prev {
+        left: 10px;
+    }
+
+    .lightbox-next {
+        right: 10px;
+    }
+
+    .lightbox-content img {
+        max-height: 85vh;
+    }
+}
+
+/* Property Details Section Improvements */
+.property-details-section {
+    padding: 60px 0;
+}
+
+/* Loading State */
+.property-gallery.loading {
+    position: relative;
+}
+
+.property-gallery.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--colorPrimary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 10;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Print Styles */
+@media print {
+    .property-header {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 20px 0;
+    }
+
+    .property-header::before {
+        display: none;
+    }
+
+    .gallery-nav,
+    .gallery-fullscreen-btn,
+    .gallery-overlay,
+    .price-actions,
+    .similar-properties {
+        display: none !important;
+    }
+
+    .property-gallery {
+        break-inside: avoid;
+    }
+}
 </style>
 @endpush
 
@@ -921,7 +1878,43 @@ $(document).ready(function() {
         $('#main-gallery-image').attr('src', images[index]);
         $('.thumbnail').removeClass('active');
         $('.thumbnail').eq(index).addClass('active');
+        $('#current-image').text(index + 1);
         currentImageIndex = index;
+    };
+
+    window.openFullscreenGallery = function() {
+        const images = @json($property->gallery_images ?? []);
+        if (images.length === 0) return;
+        
+        // Simple lightbox implementation
+        const currentImg = images[currentImageIndex];
+        const propertyTitle = @json($property->title);
+        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><img src="' + currentImg + '" alt="' + propertyTitle + '"><button class="lightbox-close"><i class="fas fa-times"></i></button><button class="lightbox-prev"><i class="fas fa-chevron-left"></i></button><button class="lightbox-next"><i class="fas fa-chevron-right"></i></button></div></div>';
+        const lightbox = $(lightboxHtml);
+        $('body').append(lightbox);
+        
+        // Close button
+        lightbox.find('.lightbox-close').on('click', function() {
+            lightbox.remove();
+        });
+        
+        // Navigation buttons
+        lightbox.find('.lightbox-prev').on('click', function() {
+            changeGalleryImage(-1);
+            lightbox.find('img').attr('src', images[currentImageIndex]);
+        });
+        
+        lightbox.find('.lightbox-next').on('click', function() {
+            changeGalleryImage(1);
+            lightbox.find('img').attr('src', images[currentImageIndex]);
+        });
+        
+        // Close on overlay click
+        lightbox.on('click', function(e) {
+            if (e.target === this) {
+                lightbox.remove();
+            }
+        });
     };
 
 
