@@ -31,7 +31,24 @@
     </div>
     <!--Banner End-->
 
-
+    <!-- Department Thumbnail Image -->
+    @if ($department?->thumbnail_image)
+    <div class="department-thumbnail-section pt_40">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="department-thumbnail-wrapper">
+                        <img src="{{ asset($department->thumbnail_image) }}" 
+                             alt="{{ $department?->name }}" 
+                             class="department-thumbnail-image"
+                             loading="lazy"
+                             onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <div class="service-detail-area pt_40">
         <div class="container">
@@ -232,6 +249,50 @@
         </div>
     @endif
 @endsection
+
+@push('css')
+<style>
+/* Department Thumbnail Section */
+.department-thumbnail-section {
+    background: #f8f9fa;
+    padding: 40px 0;
+}
+
+.department-thumbnail-wrapper {
+    text-align: center;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 10px;
+}
+
+.department-thumbnail-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .department-thumbnail-section {
+        padding: 20px 0;
+    }
+    
+    .department-thumbnail-wrapper {
+        padding: 5px;
+    }
+    
+    .department-thumbnail-image {
+        max-width: 100%;
+    }
+}
+</style>
+@endpush
+
 @push('js')
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endpush

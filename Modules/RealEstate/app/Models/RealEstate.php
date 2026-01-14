@@ -125,29 +125,36 @@ class RealEstate extends Model
 
     public function getMainImageUrlAttribute()
     {
-        $baseUrl = 'https://lawyer.khaledahmed.net';
-
         if ($this->featured_image) {
-            return $baseUrl . '/storage/' . $this->featured_image;
+            $imagePath = 'storage/' . $this->featured_image;
+            if (file_exists(storage_path('app/public/' . $this->featured_image))) {
+                return asset($imagePath);
+            }
         }
 
         if ($this->images && count($this->images) > 0) {
-            return $baseUrl . '/storage/' . $this->images[0];
+            $firstImage = $this->images[0];
+            $imagePath = 'storage/' . $firstImage;
+            if (file_exists(storage_path('app/public/' . $firstImage))) {
+                return asset($imagePath);
+            }
         }
 
-        return $baseUrl . '/client/img/property-placeholder.jpg';
+        return asset('client/img/property-placeholder.jpg');
     }
 
     public function getGalleryImagesAttribute()
     {
-        $baseUrl = 'https://lawyer.khaledahmed.net';
-
         if (!$this->images) {
-            return [$baseUrl . '/client/img/property-placeholder.jpg'];
+            return [asset('client/img/property-placeholder.jpg')];
         }
 
-        return array_map(function ($image) use ($baseUrl) {
-            return $baseUrl . '/storage/' . $image;
+        return array_map(function ($image) {
+            $imagePath = 'storage/' . $image;
+            if (file_exists(storage_path('app/public/' . $image))) {
+                return asset($imagePath);
+            }
+            return asset('client/img/property-placeholder.jpg');
         }, $this->images);
     }
 
