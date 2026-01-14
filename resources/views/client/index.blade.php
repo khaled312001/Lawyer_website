@@ -1792,6 +1792,18 @@
         overflow: visible;
     }
 
+    /* Make all swiper slides equal height */
+    .testimonial-swiper-modern .swiper-wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .testimonial-swiper-modern .swiper-slide {
+        height: auto;
+        display: flex;
+        align-items: stretch;
+    }
+
     .testimonial-card-modern {
         background: #ffffff;
         border-radius: 25px;
@@ -1801,10 +1813,12 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border: 2px solid transparent;
         margin: 20px 10px;
-        min-height: 400px;
+        height: 100%;
+        min-height: 450px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        align-items: stretch;
     }
 
     .testimonial-card-modern::before {
@@ -1863,6 +1877,9 @@
         margin-top: 30px;
         margin-bottom: 40px;
         flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
     }
 
     .testimonial-text {
@@ -1962,6 +1979,7 @@
         gap: 5px;
         margin-top: 20px;
         justify-content: center;
+        flex-shrink: 0;
     }
 
     .testimonial-rating i {
@@ -3968,6 +3986,40 @@
         }
 
         if (typeof Swiper !== 'undefined') {
+            // Equalize testimonial cards height
+            function equalizeTestimonialCards() {
+                const cards = document.querySelectorAll('.testimonial-card-modern');
+                if (cards.length === 0) return;
+                
+                // Reset heights
+                cards.forEach(card => {
+                    card.style.height = 'auto';
+                });
+                
+                // Find max height
+                let maxHeight = 0;
+                cards.forEach(card => {
+                    const height = card.offsetHeight;
+                    if (height > maxHeight) {
+                        maxHeight = height;
+                    }
+                });
+                
+                // Apply max height to all cards
+                cards.forEach(card => {
+                    card.style.height = maxHeight + 'px';
+                });
+            }
+            
+            // Equalize on load and resize
+            if (document.querySelector('.testimonial-card-modern')) {
+                equalizeTestimonialCards();
+                window.addEventListener('resize', equalizeTestimonialCards);
+                
+                // Also equalize after swiper initialization
+                setTimeout(equalizeTestimonialCards, 100);
+            }
+
             // Testimonial Swiper
             const testimonialSwiper = new Swiper('.testimonial-swiper-modern', {
                 slidesPerView: 1,
@@ -3989,6 +4041,31 @@
                     el: '.testimonial-pagination',
                     clickable: true,
                     dynamicBullets: true,
+                },
+                on: {
+                    init: function() {
+                        setTimeout(equalizeTestimonialCards, 200);
+                    },
+                    slideChange: function() {
+                        setTimeout(equalizeTestimonialCards, 200);
+                    },
+                    resize: function() {
+                        setTimeout(equalizeTestimonialCards, 200);
+                    }
+                },
+                on: {
+                    init: function() {
+                        setTimeout(equalizeTestimonialCards, 200);
+                    },
+                    slideChange: function() {
+                        setTimeout(equalizeTestimonialCards, 200);
+                    },
+                    resize: function() {
+                        setTimeout(equalizeTestimonialCards, 200);
+                    },
+                    breakpoint: function() {
+                        setTimeout(equalizeTestimonialCards, 200);
+                    }
                 },
                 breakpoints: {
                     640: {

@@ -1520,7 +1520,49 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 }
 
 [dir="rtl"] .main-headline p {
-    text-align: right;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Additional RTL Text Alignment Fixes */
+[dir="rtl"] .appointment-form-body p,
+[dir="rtl"] .appointment-form-body span:not(.text-danger):not(.text-primary):not(.text-muted),
+[dir="rtl"] .appointment-form-body div:not(.row):not([class*="col-"]):not(.input-group):not(.phone-input-group):not(.form-check) {
+    text-align: right !important;
+}
+
+/* Specific fixes for instructional text */
+[dir="rtl"] .form-text.text-muted,
+[dir="rtl"] small.form-text,
+[dir="rtl"] small.text-muted {
+    text-align: right !important;
+    direction: rtl !important;
+    display: block;
+}
+
+/* Fix for all input placeholders */
+[dir="rtl"] input::placeholder,
+[dir="rtl"] textarea::placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] input::-webkit-input-placeholder,
+[dir="rtl"] textarea::-webkit-input-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] input::-moz-placeholder,
+[dir="rtl"] textarea::-moz-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] input:-ms-input-placeholder,
+[dir="rtl"] textarea:-ms-input-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="rtl"] .mb-4,
@@ -1583,12 +1625,25 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 /* Main Headline RTL */
 [dir="rtl"] .main-headline {
-    text-align: right;
+    text-align: right !important;
+}
+
+[dir="rtl"] .main-headline .title {
+    text-align: right !important;
+}
+
+[dir="rtl"] .main-headline .title span {
+    text-align: right !important;
 }
 
 [dir="rtl"] .main-headline .title span::after {
     left: auto;
     right: 0;
+}
+
+[dir="rtl"] .main-headline p {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Form Labels RTL */
@@ -1605,29 +1660,71 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 /* Form Controls RTL */
 [dir="rtl"] .form-control,
 [dir="rtl"] .form-select {
-    text-align: right;
-    direction: rtl;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="rtl"] textarea.form-control {
-    text-align: right;
-    direction: rtl;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="rtl"] .form-control::placeholder {
-    text-align: right;
-    direction: rtl;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-control::-webkit-input-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-control::-moz-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-control:-ms-input-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-control:-moz-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Date and Time Inputs RTL - Force RTL */
+[dir="rtl"] input[type="date"],
+[dir="rtl"] input[type="time"] {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] input[type="date"]::-webkit-calendar-picker-indicator,
+[dir="rtl"] input[type="time"]::-webkit-calendar-picker-indicator {
+    left: 10px !important;
+    right: auto !important;
 }
 
 /* Form Text RTL */
 [dir="rtl"] .form-text {
     flex-direction: row-reverse;
-    text-align: right;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="rtl"] .form-text i {
     margin-left: 6px;
     margin-right: 0;
+}
+
+[dir="rtl"] .form-text.text-muted {
+    text-align: right !important;
+}
+
+[dir="rtl"] .form-text.text-primary {
+    text-align: right !important;
 }
 
 /* Alerts RTL */
@@ -1747,7 +1844,11 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 }
 
 [dir="rtl"] .contact-method-notice .notice-text {
-    text-align: right;
+    text-align: right !important;
+}
+
+[dir="rtl"] .contact-method-notice .notice-text strong {
+    text-align: right !important;
 }
 
 /* Form Row RTL */
@@ -1771,6 +1872,37 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 [dir="rtl"] .text-end {
     text-align: left !important;
+}
+
+/* Force all paragraphs and text to align right in RTL */
+[dir="rtl"] p {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] span {
+    text-align: right !important;
+}
+
+[dir="rtl"] div {
+    text-align: inherit;
+}
+
+/* Force all labels to align right */
+[dir="rtl"] label {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Force all headings to align right */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* ============================================
@@ -2626,16 +2758,32 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 /* Small Text RTL */
 [dir="rtl"] small {
     display: inline-block;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-label small {
+    text-align: right !important;
+}
+
+[dir="rtl"] .form-label small.text-muted {
+    text-align: right !important;
+}
+
+[dir="rtl"] .form-label small.text-primary {
+    text-align: right !important;
 }
 
 /* Invalid Feedback RTL */
 [dir="rtl"] .invalid-feedback {
-    text-align: right;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Valid Feedback RTL */
 [dir="rtl"] .valid-feedback {
-    text-align: right;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Button Groups RTL */
@@ -2748,26 +2896,35 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 [dir="rtl"] input,
 [dir="rtl"] textarea,
 [dir="rtl"] select {
-    direction: rtl;
-    text-align: right;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
-/* Fix for number inputs in RTL */
-[dir="rtl"] input[type="number"] {
-    direction: ltr;
-    text-align: left;
+/* Force RTL for all text inputs */
+[dir="rtl"] input[type="text"],
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] input[type="date"],
+[dir="rtl"] input[type="time"],
+[dir="rtl"] input[type="search"] {
+    direction: rtl !important;
+    text-align: right !important;
 }
 
-/* Fix for email inputs in RTL */
-[dir="rtl"] input[type="email"] {
-    direction: ltr;
-    text-align: left;
-}
-
-/* Fix for URL inputs in RTL */
+/* Keep LTR for technical inputs */
+[dir="rtl"] input[type="number"],
+[dir="rtl"] input[type="email"],
 [dir="rtl"] input[type="url"] {
-    direction: ltr;
-    text-align: left;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+/* But force placeholder alignment to right for Arabic */
+[dir="rtl"] input[type="email"]::placeholder,
+[dir="rtl"] input[type="email"]::-webkit-input-placeholder,
+[dir="rtl"] input[type="email"]::-moz-placeholder,
+[dir="rtl"] input[type="email"]:-ms-input-placeholder {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Ensure icons don't flip */
@@ -2794,6 +2951,116 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 [dir="rtl"] .form-check-label {
     padding-right: 0.5em;
     padding-left: 0;
+    text-align: right !important;
+}
+
+/* Comprehensive RTL Text Alignment - Force all text elements to align right */
+[dir="rtl"] .appointment-form-card,
+[dir="rtl"] .appointment-form-body {
+    direction: rtl !important;
+}
+
+[dir="rtl"] .appointment-form-body > * {
+    direction: rtl !important;
+}
+
+/* Force all text content in form to align right */
+[dir="rtl"] .appointment-form-body p,
+[dir="rtl"] .appointment-form-body span:not(.text-danger):not(.text-primary),
+[dir="rtl"] .appointment-form-body div:not(.row):not([class*="col-"]):not(.input-group):not(.phone-input-group):not(.form-check):not(.alert) {
+    text-align: right !important;
+}
+
+/* Force all labels and their text to align right */
+[dir="rtl"] .form-label,
+[dir="rtl"] .form-label * {
+    text-align: right !important;
+}
+
+/* Force all small text and helper text to align right */
+[dir="rtl"] small,
+[dir="rtl"] .small,
+[dir="rtl"] .form-text {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Force all input values and placeholders to align right */
+[dir="rtl"] input[type="text"],
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] input[type="date"],
+[dir="rtl"] input[type="time"],
+[dir="rtl"] textarea {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] input[type="text"]::placeholder,
+[dir="rtl"] input[type="tel"]::placeholder,
+[dir="rtl"] input[type="date"]::placeholder,
+[dir="rtl"] input[type="time"]::placeholder,
+[dir="rtl"] textarea::placeholder {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Force select dropdowns to align right */
+[dir="rtl"] select,
+[dir="rtl"] .form-select {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] select option {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Force all headings to align right */
+[dir="rtl"] .main-headline h2,
+[dir="rtl"] .main-headline .title,
+[dir="rtl"] .client-info-header h5,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+[dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Force all paragraphs to align right */
+[dir="rtl"] p {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Force all list items to align right */
+[dir="rtl"] ul,
+[dir="rtl"] ol,
+[dir="rtl"] li {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Force all divs with text to align right (except structural divs) */
+[dir="rtl"] div:not(.row):not([class*="col-"]):not(.input-group):not(.phone-input-group):not(.form-check):not(.alert):not(.btn-group) {
+    text-align: right !important;
+}
+
+/* Override any inline styles or conflicting styles */
+[dir="rtl"] * {
+    unicode-bidi: embed;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+    unicode-bidi: embed;
+}
+
+/* Ensure proper text direction inheritance */
+[dir="rtl"] body,
+[dir="rtl"] html {
+    direction: rtl !important;
+    text-align: right !important;
 }
 </style>
 @endpush
