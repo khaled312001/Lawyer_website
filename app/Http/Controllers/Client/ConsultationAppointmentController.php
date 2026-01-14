@@ -25,13 +25,9 @@ class ConsultationAppointmentController extends Controller
             'property' => 'nullable|exists:real_estates,id',
             'country_code' => 'required|string',
             'client_name' => 'required|string|max:255',
-            'client_email' => 'required|email|max:255',
             'client_phone' => 'required|string|max:255',
-            'client_address' => 'nullable|string',
             'client_city' => 'nullable|string|max:255',
             'client_country' => 'nullable|string|max:255',
-            'problem_description' => 'required|string',
-            'additional_info' => 'nullable|string',
         ], [
             'appointment_date.required' => __('Appointment date is required'),
             'appointment_date.after_or_equal' => __('Appointment date must be today or later'),
@@ -41,10 +37,7 @@ class ConsultationAppointmentController extends Controller
             'case_details.required' => __('Case details are required'),
             'country_code.required' => __('Country code is required'),
             'client_name.required' => __('Client name is required'),
-            'client_email.required' => __('Client email is required'),
-            'client_email.email' => __('Please enter a valid email address'),
             'client_phone.required' => __('Client phone is required'),
-            'problem_description.required' => __('Problem description is required'),
         ]);
 
         $user = Auth::user();
@@ -80,13 +73,9 @@ class ConsultationAppointmentController extends Controller
             'property_id' => $request->property,
             'country_code' => $request->country_code,
             'client_name' => $request->client_name,
-            'client_email' => $request->client_email,
             'client_phone' => $request->client_phone,
-            'client_address' => $request->client_address,
             'client_city' => $request->client_city,
             'client_country' => $request->client_country,
-            'problem_description' => $request->problem_description,
-            'additional_info' => $request->additional_info,
             'status' => 'pending',
         ]);
 

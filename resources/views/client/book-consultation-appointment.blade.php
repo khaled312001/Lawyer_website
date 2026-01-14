@@ -291,31 +291,8 @@
                                 @endif
                             </div>
 
-                            <!-- Problem Description -->
-                            <div class="mb-4">
-                                <label for="problem_description" class="form-label">
-                                    <i class="fas fa-exclamation-circle me-2"></i>{{ __('Problem Description') }} <span class="text-danger">*</span>
-                                </label>
-                                <textarea name="problem_description" id="problem_description" class="form-control @error('problem_description') is-invalid @enderror" rows="4" required placeholder="{{ __('Describe the problem or issue you need help with...') }}">{{ old('problem_description', '') }}</textarea>
-                                @error('problem_description')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                                <small class="form-text text-muted">{{ __('Please describe the problem or issue you are facing') }}</small>
-                            </div>
-
                             <!-- Client Information -->
                             <div class="mb-4">
-                                <div class="client-info-header">
-                                    <h5 class="mb-2"><i class="fas fa-user me-2"></i>{{ __('Client Information') }}</h5>
-                                    <div class="contact-method-notice">
-                                        <div class="notice-icon">
-                                            <i class="fas fa-phone-square"></i>
-                                        </div>
-                                        <div class="notice-text">
-                                            <strong>{{ __('Primary Contact Method:') }}</strong> {{ __('We will contact you via phone for appointment confirmation and updates.') }}
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="client_name" class="form-label">{{ __('Full Name') }} <span class="text-danger">*</span></label>
@@ -325,17 +302,7 @@
                                         @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="client_email" class="form-label">{{ __('Email Address') }} <span class="text-danger">*</span></label>
-                                        <input type="email" name="client_email" id="client_email" class="form-control @error('client_email') is-invalid @enderror" required value="{{ old('client_email', Auth::user()->email ?? '') }}" placeholder="{{ __('Enter your email address') }}">
-                                        @error('client_email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                        <small class="form-text text-muted">{{ __('We will send appointment confirmation to this email') }}</small>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span> <small class="text-primary">({{ __('Primary Contact') }})</small></label>
+                                        <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span></label>
                                         <div class="input-group phone-input-group">
                                             <select name="country_code" id="country_code" class="form-select country-code-select @error('country_code') is-invalid @enderror" required>
                                                 <option value="+963" {{ (old('country_code') ?: '+963') == '+963' ? 'selected' : '' }}>🇸🇾 +963</option>
@@ -363,16 +330,6 @@
                                         @error('client_phone')
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
-                                        <small class="form-text text-primary">
-                                            <i class="fas fa-phone me-1"></i>{{ __('We will contact you through this number for appointment confirmation') }}
-                                        </small>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="client_address" class="form-label">{{ __('Address') }} <small class="text-muted">({{ __('Optional') }})</small></label>
-                                        <input type="text" name="client_address" id="client_address" class="form-control @error('client_address') is-invalid @enderror" value="{{ old('client_address', Auth::user()->details->address ?? '') }}" placeholder="{{ __('Enter your address') }}">
-                                        @error('client_address')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
                                 </div>
                                 <div class="row">
@@ -387,13 +344,6 @@
                                         <label for="client_country" class="form-label">{{ __('Country') }} <small class="text-muted">({{ __('Optional') }})</small></label>
                                         <input type="text" name="client_country" id="client_country" class="form-control @error('client_country') is-invalid @enderror" value="{{ old('client_country', Auth::user()->details->country ?? '') }}" placeholder="{{ __('Enter your country') }}">
                                         @error('client_country')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="additional_info" class="form-label">{{ __('Additional Information') }} <small class="text-muted">({{ __('Optional') }})</small></label>
-                                        <textarea name="additional_info" id="additional_info" class="form-control @error('additional_info') is-invalid @enderror" rows="2" placeholder="{{ __('Any additional information you want to share...') }}">{{ old('additional_info', '') }}</textarea>
-                                        @error('additional_info')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -692,28 +642,6 @@
             }
         });
 
-        $('#problem_description').on('input', function() {
-            const value = $(this).val().trim();
-            if (value.length >= 10) {
-                $(this).removeClass('is-invalid').addClass('is-valid');
-            } else if (value.length > 0) {
-                $(this).removeClass('is-valid').addClass('is-invalid');
-            } else {
-                $(this).removeClass('is-valid is-invalid');
-            }
-        });
-
-        $('#client_email').on('input', function() {
-            const value = $(this).val().trim();
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (value && emailRegex.test(value)) {
-                $(this).removeClass('is-invalid').addClass('is-valid');
-            } else if (value.length > 0) {
-                $(this).removeClass('is-valid').addClass('is-invalid');
-            } else {
-                $(this).removeClass('is-valid is-invalid');
-            }
-        });
 
         // Remove validation classes on focus
         $('.form-control, .form-select').on('focus', function() {
@@ -1502,6 +1430,25 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
         border-left: 2px solid #e9ecef !important;
         border-top: none !important;
     }
+
+    /* RTL Mobile Phone Input */
+    [dir="rtl"] .phone-input-group {
+        flex-direction: column;
+    }
+
+    [dir="rtl"] .country-code-select {
+        border-radius: 10px 10px 0 0 !important;
+        border-bottom: none !important;
+        border-right: 2px solid #e9ecef !important;
+        border-left: 2px solid #e9ecef !important;
+    }
+
+    [dir="rtl"] .phone-input-group .form-control {
+        border-radius: 0 0 10px 10px !important;
+        border-right: 2px solid #e9ecef !important;
+        border-left: 2px solid #e9ecef !important;
+        border-top: none !important;
+    }
 }
 
 /* ============================================
@@ -1559,23 +1506,139 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     }
 }
 
-/* RTL Support */
+/* Additional RTL Fixes */
+[dir="rtl"] .appointment-form-body {
+    direction: rtl;
+}
+
+[dir="rtl"] .appointment-form-card {
+    direction: rtl;
+}
+
+[dir="rtl"] .form-submit-wrapper {
+    text-align: center;
+}
+
+[dir="rtl"] .main-headline p {
+    text-align: right;
+}
+
+[dir="rtl"] .mb-4,
+[dir="rtl"] .mb-3 {
+    direction: rtl;
+}
+
+/* Input Group RTL */
+[dir="rtl"] .input-group {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .input-group-text {
+    border-left: none;
+    border-right: 2px solid #e9ecef;
+}
+
+[dir="rtl"] .input-group .form-control {
+    border-right: none;
+    border-left: 2px solid #e9ecef;
+}
+
+/* Date and Time Inputs RTL */
+[dir="rtl"] input[type="date"],
+[dir="rtl"] input[type="time"] {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Select Dropdown RTL */
+[dir="rtl"] .form-select {
+    background-position: left 15px center;
+    padding-right: 18px;
+    padding-left: 40px;
+}
+
+/* Breadcrumb RTL */
+[dir="rtl"] .page-title-content ul li a {
+    text-align: right;
+}
+
+/* ============================================
+   RTL SUPPORT - COMPREHENSIVE
+   ============================================ */
+
+/* Page Title RTL */
+[dir="rtl"] .page-title-content {
+    text-align: right;
+}
+
+[dir="rtl"] .page-title-content ul {
+    flex-direction: row-reverse;
+}
+
 [dir="rtl"] .page-title-content ul li:not(:last-child)::after {
     content: '‹';
     margin-left: 0;
     margin-right: 10px;
 }
 
+/* Main Headline RTL */
+[dir="rtl"] .main-headline {
+    text-align: right;
+}
+
+[dir="rtl"] .main-headline .title span::after {
+    left: auto;
+    right: 0;
+}
+
+/* Form Labels RTL */
 [dir="rtl"] .form-label {
     flex-direction: row-reverse;
+    text-align: right;
 }
 
+[dir="rtl"] .form-label i {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+/* Form Controls RTL */
+[dir="rtl"] .form-control,
+[dir="rtl"] .form-select {
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] textarea.form-control {
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .form-control::placeholder {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Form Text RTL */
 [dir="rtl"] .form-text {
     flex-direction: row-reverse;
+    text-align: right;
 }
 
+[dir="rtl"] .form-text i {
+    margin-left: 6px;
+    margin-right: 0;
+}
+
+/* Alerts RTL */
 [dir="rtl"] .alert {
     flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .alert i {
+    margin-left: 12px;
+    margin-right: 0;
 }
 
 [dir="rtl"] .alert .btn-close {
@@ -1583,8 +1646,131 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     margin-right: auto;
 }
 
+[dir="rtl"] .alert-success,
+[dir="rtl"] .alert-danger,
+[dir="rtl"] .alert-info {
+    border-left: none;
+    border-right: 4px solid;
+}
+
+[dir="rtl"] .alert-success {
+    border-right-color: #28a745;
+}
+
+[dir="rtl"] .alert-danger {
+    border-right-color: #dc3545;
+}
+
+[dir="rtl"] .alert-info {
+    border-right-color: #17a2b8;
+}
+
+/* Invalid/Valid Feedback RTL */
+[dir="rtl"] .form-control.is-invalid,
+[dir="rtl"] .form-control.is-valid {
+    background-position: left 15px center;
+    padding-right: 18px;
+    padding-left: 45px;
+}
+
+/* Submit Button RTL */
 [dir="rtl"] .btn-submit-appointment {
     flex-direction: row-reverse;
+}
+
+[dir="rtl"] .btn-submit-appointment i {
+    margin-left: 12px;
+    margin-right: 0;
+}
+
+[dir="rtl"] .btn-submit-appointment.loading::after {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+/* Phone Input Group RTL */
+[dir="rtl"] .phone-input-group {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .country-code-select {
+    border-top-right-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-right: 2px solid #e9ecef !important;
+    border-left: none !important;
+}
+
+[dir="rtl"] .phone-input-group .form-control {
+    border-top-left-radius: 12px !important;
+    border-bottom-left-radius: 12px !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-left: 1px solid #dee2e6 !important;
+    border-right: none !important;
+}
+
+[dir="rtl"] .phone-input-group .form-control:focus {
+    border-left-color: var(--colorPrimary) !important;
+    border-right-color: var(--colorPrimary) !important;
+}
+
+/* Client Info Header RTL */
+[dir="rtl"] .client-info-header {
+    text-align: right;
+}
+
+[dir="rtl"] .client-info-header::before {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .client-info-header h5 {
+    text-align: right;
+}
+
+[dir="rtl"] .client-info-header h5 i {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+/* Contact Method Notice RTL */
+[dir="rtl"] .contact-method-notice {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .contact-method-notice .notice-icon {
+    margin-left: 12px;
+    margin-right: 0;
+}
+
+[dir="rtl"] .contact-method-notice .notice-text {
+    text-align: right;
+}
+
+/* Form Row RTL */
+[dir="rtl"] .row {
+    direction: rtl;
+}
+
+[dir="rtl"] .col-md-6,
+[dir="rtl"] .col-md-4 {
+    direction: rtl;
+}
+
+/* Text Alignment RTL */
+[dir="rtl"] .text-center {
+    text-align: center !important;
+}
+
+[dir="rtl"] .text-start {
+    text-align: right !important;
+}
+
+[dir="rtl"] .text-end {
+    text-align: left !important;
 }
 
 /* ============================================
@@ -1719,6 +1905,42 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     background-position: left 15px center !important;
     padding-right: 15px !important;
     padding-left: 50px !important;
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .lawyer-select option {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Lawyer Info Display RTL */
+[dir="rtl"] .lawyer-info-display {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .lawyer-details {
+    text-align: right;
+}
+
+[dir="rtl"] .lawyer-name,
+[dir="rtl"] .lawyer-specialty {
+    text-align: right;
+}
+
+[dir="rtl"] .lawyer-rating {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .rating-stars i {
+    margin-right: 0;
+    margin-left: 1px;
+}
+
+[dir="rtl"] .lawyer-profile-link {
+    text-align: right;
 }
 
 /* Lawyer Info Display */
@@ -2302,25 +2524,276 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     }
 }
 
-/* RTL Support */
+/* Property Info Card RTL */
 [dir="rtl"] .property-info-header {
     flex-direction: row-reverse;
+    text-align: right;
 }
 
-[dir="rtl"] .property-info-item {
-    flex-direction: row-reverse;
+[dir="rtl"] .property-info-icon {
+    margin-left: 15px;
+    margin-right: 0;
+}
+
+[dir="rtl"] .property-info-title {
+    text-align: right;
+}
+
+[dir="rtl"] .property-info-content {
+    text-align: right;
+}
+
+[dir="rtl"] .property-info-main {
+    text-align: right;
+}
+
+[dir="rtl"] .property-title {
+    text-align: right;
 }
 
 [dir="rtl"] .property-location-info {
     flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .property-location-info i {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+[dir="rtl"] .property-info-item {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .info-content {
+    text-align: right;
+}
+
+[dir="rtl"] .info-label,
+[dir="rtl"] .info-value {
+    text-align: right;
+}
+
+[dir="rtl"] .property-contact-info {
+    text-align: right;
+}
+
+[dir="rtl"] .contact-header {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .contact-header i {
+    margin-left: 10px;
+    margin-right: 0;
 }
 
 [dir="rtl"] .contact-item {
     flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .contact-item i {
+    margin-left: 10px;
+    margin-right: 0;
 }
 
 [dir="rtl"] .property-info-notice {
     flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .property-info-notice .notice-icon {
+    margin-left: 12px;
+    margin-right: 0;
+}
+
+[dir="rtl"] .property-info-notice .notice-text {
+    text-align: right;
+}
+
+/* Property Info Grid RTL */
+[dir="rtl"] .property-info-grid {
+    direction: rtl;
+}
+
+/* Form Groups RTL */
+[dir="rtl"] .form-group {
+    direction: rtl;
+}
+
+/* Small Text RTL */
+[dir="rtl"] small {
+    display: inline-block;
+}
+
+/* Invalid Feedback RTL */
+[dir="rtl"] .invalid-feedback {
+    text-align: right;
+}
+
+/* Valid Feedback RTL */
+[dir="rtl"] .valid-feedback {
+    text-align: right;
+}
+
+/* Button Groups RTL */
+[dir="rtl"] .btn-group {
+    flex-direction: row-reverse;
+}
+
+/* Dropdown RTL */
+[dir="rtl"] .dropdown-menu {
+    text-align: right;
+    right: 0;
+    left: auto;
+}
+
+/* Tooltip RTL */
+[dir="rtl"] .tooltip {
+    direction: rtl;
+}
+
+/* Modal RTL */
+[dir="rtl"] .modal-header {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .modal-header .btn-close {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Card RTL */
+[dir="rtl"] .card {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .card-header {
+    text-align: right;
+}
+
+[dir="rtl"] .card-body {
+    text-align: right;
+}
+
+[dir="rtl"] .card-footer {
+    text-align: right;
+}
+
+/* List RTL */
+[dir="rtl"] ul,
+[dir="rtl"] ol {
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+[dir="rtl"] .list-group {
+    text-align: right;
+}
+
+[dir="rtl"] .list-group-item {
+    text-align: right;
+}
+
+/* Table RTL */
+[dir="rtl"] table {
+    direction: rtl;
+}
+
+[dir="rtl"] th,
+[dir="rtl"] td {
+    text-align: right;
+}
+
+/* Pagination RTL */
+[dir="rtl"] .pagination {
+    flex-direction: row-reverse;
+}
+
+/* Badge RTL */
+[dir="rtl"] .badge {
+    direction: rtl;
+}
+
+/* Spinner RTL */
+[dir="rtl"] .spinner-border,
+[dir="rtl"] .spinner-grow {
+    direction: rtl;
+}
+
+/* Progress Bar RTL */
+[dir="rtl"] .progress {
+    direction: rtl;
+}
+
+/* Toast RTL */
+[dir="rtl"] .toast {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] .toast-header {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .toast-header .btn-close {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Ensure text direction for all form elements */
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Fix for number inputs in RTL */
+[dir="rtl"] input[type="number"] {
+    direction: ltr;
+    text-align: left;
+}
+
+/* Fix for email inputs in RTL */
+[dir="rtl"] input[type="email"] {
+    direction: ltr;
+    text-align: left;
+}
+
+/* Fix for URL inputs in RTL */
+[dir="rtl"] input[type="url"] {
+    direction: ltr;
+    text-align: left;
+}
+
+/* Ensure icons don't flip */
+[dir="rtl"] i,
+[dir="rtl"] .fas,
+[dir="rtl"] .far,
+[dir="rtl"] .fab,
+[dir="rtl"] .fal {
+    transform: none;
+}
+
+/* Fix for checkboxes and radio buttons */
+[dir="rtl"] .form-check {
+    padding-right: 1.5em;
+    padding-left: 0;
+}
+
+[dir="rtl"] .form-check-input {
+    margin-right: -1.5em;
+    margin-left: 0;
+    float: right;
+}
+
+[dir="rtl"] .form-check-label {
+    padding-right: 0.5em;
+    padding-left: 0;
 }
 </style>
 @endpush
