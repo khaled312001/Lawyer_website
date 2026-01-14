@@ -21,19 +21,19 @@
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
-            <nav class="navbar navbar-expand-lg main-navbar" style="padding: 8px 12px;">
-                <div class="navbar-left d-flex align-items-center">
+            <nav class="navbar navbar-expand-lg main-navbar admin-navbar-improved">
+                <div class="navbar-left d-flex align-items-center flex-grow-1">
                     {{-- Mobile & Desktop Sidebar Toggle --}}
-                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg me-3">
+                    <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg sidebar-toggle-btn">
                         <i class="fas fa-bars"></i>
                     </a>
                     
                     {{-- Logo --}}
-                    <a href="{{ route('admin.dashboard') }}" class="navbar-logo d-flex align-items-center me-3">
+                    <a href="{{ route('admin.dashboard') }}" class="navbar-logo d-flex align-items-center">
                     </a>
                     
-                    {{-- Desktop Menu Items --}}
-                    <div class="d-none d-lg-flex align-items-center">
+                    {{-- Desktop Menu Items - Language & Currency Grouped --}}
+                    <div class="d-none d-lg-flex align-items-center navbar-controls-group">
                         {{-- language select --}}
                         @include('backend_layouts.partials.language_select')
                         {{-- currency select --}}
@@ -41,37 +41,41 @@
                     </div>
                     
                     {{-- Mobile Menu Toggle Button --}}
-                    <button class="navbar-toggler d-lg-none ms-auto border-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" aria-expanded="false" aria-label="Toggle navigation" style="padding: 8px;">
+                    <button class="navbar-toggler d-lg-none ms-auto border-0 bg-transparent mobile-menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-ellipsis-v text-white"></i>
                     </button>
                 </div>
                 
-                <div class="navbar-center me-auto search-box position-relative d-none d-md-block">
-                    <x-admin.form-input id="search_menu" :placeholder="__('Search option')" />
-                    <div id="admin_menu_list" class="position-absolute d-none rounded-2">
-                        @foreach (App\Enums\RouteList::getAll() as $route_item)
-                            @if (checkAdminHasPermission($route_item?->permission) || empty($route_item?->permission))
-                                <a @isset($route_item->tab)
-                                        data-active-tab="{{ $route_item->tab }}" class="border-bottom search-menu-item"
-                                    @else
-                                        class="border-bottom"
-                                    @endisset
-                                    href="{{ $route_item?->route }}">{{ $route_item?->name }}</a>
-                            @endif
-                        @endforeach
-                        <a class="not-found-message d-none" href="javascript:;">{{ __('Not Found!') }}</a>
+                {{-- Search Box - Centered --}}
+                <div class="navbar-center search-box-wrapper d-none d-md-flex">
+                    <div class="search-box position-relative">
+                        <x-admin.form-input id="search_menu" :placeholder="__('Search option')" />
+                        <div id="admin_menu_list" class="position-absolute d-none rounded-2 search-dropdown">
+                            @foreach (App\Enums\RouteList::getAll() as $route_item)
+                                @if (checkAdminHasPermission($route_item?->permission) || empty($route_item?->permission))
+                                    <a @isset($route_item->tab)
+                                            data-active-tab="{{ $route_item->tab }}" class="border-bottom search-menu-item"
+                                        @else
+                                            class="border-bottom"
+                                        @endisset
+                                        href="{{ $route_item?->route }}">{{ $route_item?->name }}</a>
+                                @endif
+                            @endforeach
+                            <a class="not-found-message d-none" href="javascript:;">{{ __('Not Found!') }}</a>
+                        </div>
                     </div>
                 </div>
                 
+                {{-- Right Side Actions --}}
                 <div class="navbar-right d-flex align-items-center">
-                    <ul class="navbar-nav d-none d-lg-flex align-items-center">
+                    <ul class="navbar-nav d-none d-lg-flex align-items-center navbar-actions-list">
                         {{-- Notifications Dropdown --}}
                         <li class="dropdown dropdown-list-toggle notification-dropdown">
-                            <a href="javascript:;" data-bs-toggle="dropdown" class="nav-link nav-link-lg notification-icon p-0 position-relative">
+                            <a href="javascript:;" data-bs-toggle="dropdown" class="nav-link nav-link-lg notification-icon position-relative">
                                 <i class="fas fa-bell"></i>
                                 <span class="notification-badge" id="notification-count" style="display: none;">0</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right notification-dropdown-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                            <div class="dropdown-menu dropdown-menu-right notification-dropdown-menu">
                                 <div class="dropdown-header d-flex justify-content-between align-items-center">
                                     <h6 class="mb-0">{{ __('Notifications') }}</h6>
                                     <a href="javascript:;" class="text-primary small mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
@@ -91,19 +95,22 @@
                             </div>
                         </li>
 
+                        {{-- Visit Website Link --}}
                         <li class="dropdown dropdown-list-toggle">
-                            <a target="_blank" href="{{ route('home') }}" class="nav-link nav-link-lg p-0">
-                                <i class="fas fa-home"></i> <span class="d-md-none d-lg-inline-block">{{ __('Visit Website') }}</span>
+                            <a target="_blank" href="{{ route('home') }}" class="nav-link nav-link-lg visit-site-link">
+                                <i class="fas fa-home"></i> 
+                                <span class="d-md-none d-lg-inline-block">{{ __('Visit Website') }}</span>
                             </a>
                         </li>
 
+                        {{-- User Profile Dropdown --}}
                         <li class="dropdown">
                             <a href="javascript:;" data-bs-toggle="dropdown"
                                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                                 <img alt="image"
                                     src="{{ !empty($header_admin->image) ? asset($header_admin->image) : ($setting?->default_avatar ? asset($setting->default_avatar) : '') }}"
-                                    class="me-1 my-1 rounded-circle">
-                                <div class="d-sm-none d-lg-inline-block">{{ $header_admin->name }}</div>
+                                    class="user-avatar rounded-circle">
+                                <div class="d-sm-none d-lg-inline-block user-name">{{ $header_admin->name }}</div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 @adminCan('admin.profile.view')
@@ -127,11 +134,11 @@
                     </ul>
                     
                     {{-- Mobile User Avatar --}}
-                    <div class="d-lg-none ms-3">
+                    <div class="d-lg-none mobile-user-avatar">
                         <a href="javascript:;" data-bs-toggle="collapse" data-bs-target="#mobileNavbarMenu" aria-controls="mobileNavbarMenu" class="nav-link nav-link-lg nav-link-user p-0">
                             <img alt="image"
                                 src="{{ !empty($header_admin->image) ? asset($header_admin->image) : ($setting?->default_avatar ? asset($setting->default_avatar) : '') }}"
-                                class="rounded-circle" style="width: 35px; height: 35px; object-fit: cover;">
+                                class="rounded-circle mobile-avatar-img">
                         </a>
                     </div>
                 </div>

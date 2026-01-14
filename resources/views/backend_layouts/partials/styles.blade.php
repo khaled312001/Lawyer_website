@@ -20,3 +20,4 @@
 <link rel="stylesheet" href="{{ asset('backend/css/iziToast.min.css') }}">
 <link rel="stylesheet" href="{{ asset('backend/css/admin-mobile.css') }}?v={{$setting?->version}}">
 <link rel="stylesheet" href="{{ asset('backend/css/admin-mobile-improvements.css') }}?v={{$setting?->version}}">
+<link rel="stylesheet" href="{{ asset('backend/css/admin-navbar-improved.css') }}?v={{$setting?->version}}">

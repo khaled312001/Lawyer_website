@@ -1,0 +1,360 @@
+/* ============================================
+   Admin Navbar Improved Design
+   ============================================ */
+
+/* Main Navbar Container */
+.admin-navbar-improved {
+    padding: 10px 20px !important;
+    min-height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 15px !important;
+    background: linear-gradient(135deg, #6777ef 0%, #764ba2 100%) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Navbar Left Section */
+.admin-navbar-improved .navbar-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    flex: 0 0 auto !important;
+    min-width: fit-content !important;
+}
+
+/* Sidebar Toggle Button */
+.admin-navbar-improved .sidebar-toggle-btn {
+    width: 42px !important;
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.admin-navbar-improved .sidebar-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.05) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.admin-navbar-improved .sidebar-toggle-btn:active {
+    transform: scale(0.95) !important;
+}
+
+/* Navbar Logo */
+.admin-navbar-improved .navbar-logo {
+    padding: 0 10px !important;
+    text-decoration: none !important;
+}
+
+/* Controls Group (Language & Currency) */
+.admin-navbar-improved .navbar-controls-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-left: 15px !important;
+    padding-left: 15px !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.admin-navbar-improved .navbar-controls-group .setLanguageHeader,
+.admin-navbar-improved .navbar-controls-group .set-currency-header {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+.admin-navbar-improved .navbar-controls-group .setLanguageHeader:hover,
+.admin-navbar-improved .navbar-controls-group .set-currency-header:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.admin-navbar-improved .navbar-controls-group .setLanguageHeader a,
+.admin-navbar-improved .navbar-controls-group .set-currency-header a {
+    color: #fff !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    padding: 0 !important;
+}
+
+/* Search Box Wrapper */
+.admin-navbar-improved .search-box-wrapper {
+    flex: 1 1 auto !important;
+    max-width: 500px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+}
+
+.admin-navbar-improved .search-box {
+    position: relative !important;
+    width: 100% !important;
+}
+
+.admin-navbar-improved .search-box input {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 25px !important;
+    padding: 10px 20px 10px 45px !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+.admin-navbar-improved .search-box input:focus {
+    background: #fff !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+    outline: none !important;
+}
+
+.admin-navbar-improved .search-box input::placeholder {
+    color: #999 !important;
+}
+
+.admin-navbar-improved .search-box::before {
+    content: "\f002" !important;
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+    position: absolute !important;
+    left: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #999 !important;
+    z-index: 1 !important;
+}
+
+.admin-navbar-improved .search-dropdown {
+    background: #fff !important;
+    border: 1px solid #e3e6f0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    top: calc(100% + 5px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    z-index: 1000 !important;
+}
+
+/* Navbar Right Section */
+.admin-navbar-improved .navbar-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex: 0 0 auto !important;
+}
+
+.admin-navbar-improved .navbar-actions-list {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Notification Icon */
+.admin-navbar-improved .notification-icon {
+    width: 42px !important;
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    position: relative !important;
+}
+
+.admin-navbar-improved .notification-icon:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.05) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.admin-navbar-improved .notification-badge {
+    position: absolute !important;
+    top: -5px !important;
+    right: -5px !important;
+    background: #ff4757 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    padding: 2px 6px !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    min-width: 18px !important;
+    text-align: center !important;
+    border: 2px solid #6777ef !important;
+}
+
+.admin-navbar-improved .notification-dropdown-menu {
+    width: 350px !important;
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    margin-top: 10px !important;
+}
+
+/* Visit Site Link */
+.admin-navbar-improved .visit-site-link {
+    width: auto !important;
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 0 15px !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.admin-navbar-improved .visit-site-link:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: scale(1.05) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    color: #fff !important;
+}
+
+/* User Profile Dropdown */
+.admin-navbar-improved .nav-link-user {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 6px 12px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 25px !important;
+    transition: all 0.3s ease !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.admin-navbar-improved .nav-link-user:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    color: #fff !important;
+}
+
+.admin-navbar-improved .user-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: cover !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+.admin-navbar-improved .user-name {
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    color: #fff !important;
+}
+
+/* Mobile Menu Toggle */
+.admin-navbar-improved .mobile-menu-toggle {
+    width: 42px !important;
+    height: 42px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.admin-navbar-improved .mobile-menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Mobile User Avatar */
+.admin-navbar-improved .mobile-user-avatar {
+    margin-left: 10px !important;
+}
+
+.admin-navbar-improved .mobile-avatar-img {
+    width: 35px !important;
+    height: 35px !important;
+    object-fit: cover !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 991.98px) {
+    .admin-navbar-improved {
+        padding: 10px 15px !important;
+        gap: 10px !important;
+    }
+    
+    .admin-navbar-improved .navbar-left {
+        gap: 10px !important;
+    }
+    
+    .admin-navbar-improved .navbar-controls-group {
+        display: none !important;
+    }
+    
+    .admin-navbar-improved .search-box-wrapper {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-navbar-improved {
+        padding: 8px 12px !important;
+        min-height: 60px !important;
+    }
+    
+    .admin-navbar-improved .sidebar-toggle-btn,
+    .admin-navbar-improved .mobile-menu-toggle {
+        width: 38px !important;
+        height: 38px !important;
+    }
+}
+
+/* Dropdown Menu Improvements */
+.admin-navbar-improved .dropdown-menu {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+    border: none !important;
+    margin-top: 10px !important;
+    padding: 8px 0 !important;
+}
+
+.admin-navbar-improved .dropdown-item {
+    padding: 10px 20px !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.admin-navbar-improved .dropdown-item:hover {
+    background: #f8f9fa !important;
+    color: #6777ef !important;
+}
+
+.admin-navbar-improved .dropdown-item i {
+    width: 20px !important;
+    text-align: center !important;
+}
