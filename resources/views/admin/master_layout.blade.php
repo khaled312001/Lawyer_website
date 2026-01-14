@@ -17,7 +17,7 @@
     @stack('css')
 </head>
 
-<body class="sidebar-gone">
+<body>
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
@@ -249,23 +249,41 @@
     @stack('js')
     
     <script>
-        // Close sidebar by default to show full navbar
+        // Sidebar behavior: Always open on desktop, toggleable on mobile only
         $(document).ready(function() {
-            // Ensure sidebar is closed on page load
-            if (!$('body').hasClass('sidebar-show')) {
-                $('body').addClass('sidebar-gone');
-                $('body').removeClass('sidebar-show');
+            function handleSidebar() {
+                // On mobile (width <= 1024px), allow toggle
+                if ($(window).width() <= 1024) {
+                    // Mobile: Sidebar should be closed by default
+                    if (!$('body').hasClass('sidebar-show')) {
+                        $('body').addClass('sidebar-gone');
+                    }
+                } else {
+                    // Desktop: Always keep sidebar open
+                    $('body').removeClass('sidebar-gone sidebar-show');
+                }
             }
             
-            // Toggle sidebar when clicking the toggle button
+            // Initial check
+            handleSidebar();
+            
+            // Check on window resize
+            $(window).on('resize', function() {
+                handleSidebar();
+            });
+            
+            // Toggle sidebar only on mobile
             $('[data-toggle="sidebar"]').on('click', function(e) {
                 e.preventDefault();
-                if ($('body').hasClass('sidebar-gone')) {
-                    $('body').removeClass('sidebar-gone');
-                    $('body').addClass('sidebar-show');
-                } else {
-                    $('body').removeClass('sidebar-show');
-                    $('body').addClass('sidebar-gone');
+                // Only allow toggle on mobile
+                if ($(window).width() <= 1024) {
+                    if ($('body').hasClass('sidebar-gone')) {
+                        $('body').removeClass('sidebar-gone');
+                        $('body').addClass('sidebar-show');
+                    } else {
+                        $('body').removeClass('sidebar-show');
+                        $('body').addClass('sidebar-gone');
+                    }
                 }
             });
         });
@@ -472,6 +490,7 @@
             });
             
             // Close sidebar when clicking backdrop on mobile
+            // Close sidebar when clicking outside on mobile only
             $(document).on('click', function(e) {
                 if ($(window).width() <= 1024) {
                     if ($('body').hasClass('sidebar-show')) {
@@ -480,6 +499,7 @@
                             !$(e.target).closest('[data-toggle="sidebar"]').length &&
                             !$(e.target).is('[data-toggle="sidebar"]')) {
                             $('body').removeClass('sidebar-show');
+                            $('body').addClass('sidebar-gone');
                         }
                     }
                 }
@@ -495,6 +515,13 @@
                             $('body').css('overflow', 'auto');
                         }
                     }, 100);
+                }
+            });
+            
+            // Ensure sidebar is open on desktop when window is resized
+            $(window).on('resize', function() {
+                if ($(window).width() > 1024) {
+                    $('body').removeClass('sidebar-gone sidebar-show');
                 }
             });
         });

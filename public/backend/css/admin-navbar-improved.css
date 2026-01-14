@@ -19,17 +19,44 @@
     left: 0 !important;
 }
 
-/* Ensure navbar takes full width when sidebar is closed */
-body.sidebar-gone .admin-navbar-improved,
-body.sidebar-gone .navbar {
-    left: 0 !important;
-    width: 100% !important;
+/* Desktop: Navbar position when sidebar is open */
+@media (min-width: 1025px) {
+    .admin-navbar-improved,
+    .navbar {
+        left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+    
+    .navbar-bg {
+        left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+    
+    /* Override sidebar-gone on desktop */
+    body.sidebar-gone .admin-navbar-improved,
+    body.sidebar-gone .navbar {
+        left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+    
+    body.sidebar-gone .navbar-bg {
+        left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
 }
 
-/* Ensure navbar-bg also takes full width */
-body.sidebar-gone .navbar-bg {
-    left: 0 !important;
-    width: 100% !important;
+/* Mobile: Navbar takes full width when sidebar is closed */
+@media (max-width: 1024px) {
+    body.sidebar-gone .admin-navbar-improved,
+    body.sidebar-gone .navbar {
+        left: 0 !important;
+        width: 100% !important;
+    }
+    
+    body.sidebar-gone .navbar-bg {
+        left: 0 !important;
+        width: 100% !important;
+    }
 }
 
 /* Navbar Left Section */
@@ -334,17 +361,62 @@ body.sidebar-gone .navbar-bg {
     border: 2px solid rgba(255, 255, 255, 0.3) !important;
 }
 
-/* Ensure sidebar is closed by default */
-body:not(.sidebar-show) .main-sidebar {
-    left: -250px !important;
+/* Sidebar behavior: Always open on desktop, toggleable on mobile */
+/* Desktop: Sidebar always visible */
+@media (min-width: 1025px) {
+    .main-sidebar {
+        left: 0 !important;
+    }
+    
+    body.sidebar-gone .main-sidebar {
+        left: 0 !important; /* Override sidebar-gone on desktop */
+    }
+    
+    .main-content {
+        margin-left: 250px !important;
+    }
+    
+    .navbar {
+        left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+    
+    .navbar-bg {
+        left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
 }
 
-/* Ensure main content takes full width when sidebar is closed */
-body.sidebar-gone .main-content {
-    margin-left: 0 !important;
-    width: 100% !important;
-    padding-left: 30px !important;
-    padding-right: 30px !important;
+/* Mobile: Sidebar toggleable */
+@media (max-width: 1024px) {
+    /* Sidebar closed by default on mobile */
+    body:not(.sidebar-show) .main-sidebar {
+        left: -250px !important;
+    }
+    
+    /* Sidebar open when sidebar-show class is present */
+    body.sidebar-show .main-sidebar {
+        left: 0 !important;
+    }
+    
+    /* Main content takes full width when sidebar is closed on mobile */
+    body.sidebar-gone .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    /* Navbar takes full width on mobile */
+    .navbar {
+        left: 0 !important;
+        width: 100% !important;
+    }
+    
+    .navbar-bg {
+        left: 0 !important;
+        width: 100% !important;
+    }
 }
 
 /* Responsive Design */
