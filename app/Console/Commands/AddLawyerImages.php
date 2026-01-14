@@ -14,7 +14,7 @@ class AddLawyerImages extends Command
      *
      * @var string
      */
-    protected $signature = 'lawyers:add-images';
+    protected $signature = 'lawyers:add-images {--force : تحديث جميع المحاميين حتى لو كان لديهم صور}';
 
     /**
      * The console command description.
@@ -32,10 +32,13 @@ class AddLawyerImages extends Command
         $this->newLine();
 
         try {
+            $force = $this->option('force');
+            
             // الحصول على جميع المحاميين
             $lawyers = Lawyer::all();
             $updatedCount = 0;
             $skippedCount = 0;
+            $invalidImageCount = 0;
 
             // الحصول على الصورة الافتراضية من الإعدادات
             $defaultAvatar = Setting::where('key', 'default_avatar')->first()?->value;
@@ -81,14 +84,21 @@ class AddLawyerImages extends Command
             foreach ($lawyers as $lawyer) {
                 // التحقق من وجود صورة للمحامي
                 $needsImage = false;
+                $imageStatus = '';
                 
                 if (empty($lawyer->image)) {
                     $needsImage = true;
+                    $imageStatus = 'لا توجد صورة';
                 } elseif (!File::exists(public_path($lawyer->image))) {
                     $needsImage = true;
+                    $imageStatus = 'الصورة غير موجودة: ' . $lawyer->image;
+                    $invalidImageCount++;
+                } else {
+                    $imageStatus = 'لديه صورة صحيحة';
                 }
                 
-                if ($needsImage) {
+                // إذا كان الخيار --force مفعّل، قم بتحديث جميع المحاميين
+                if ($force || $needsImage) {
                     // اختيار صورة من القائمة المتاحة
                     if (!empty($existingImages)) {
                         $selectedImage = $existingImages[$imageIndex % count($existingImages)];
@@ -101,8 +111,15 @@ class AddLawyerImages extends Command
                     
                     $lawyer->save();
                     $updatedCount++;
+                    
+                    if ($this->getOutput()->isVerbose()) {
+                        $this->line("  ✓ {$lawyer->name}: {$imageStatus} -> تم التحديث إلى: {$lawyer->image}");
+                    }
                 } else {
                     $skippedCount++;
+                    if ($this->getOutput()->isVerbose()) {
+                        $this->line("  - {$lawyer->name}: {$imageStatus}");
+                    }
                 }
                 
                 $bar->advance();
@@ -114,8 +131,22 @@ class AddLawyerImages extends Command
             $this->info('=== النتائج ===');
             $this->info("تم تحديث: {$updatedCount} محامي");
             $this->info("تم تخطي: {$skippedCount} محامي");
+            if ($invalidImageCount > 0) {
+                $this->warn("صور غير موجودة تم اكتشافها: {$invalidImageCount}");
+            }
             $this->newLine();
-            $this->info('تم الانتهاء بنجاح! ✅');
+            
+            if ($force) {
+                $this->info('تم تحديث جميع المحاميين بنجاح! ✅');
+            } else {
+                $this->info('تم الانتهاء بنجاح! ✅');
+                if ($updatedCount == 0 && $skippedCount > 0) {
+                    $this->newLine();
+                    $this->comment('💡 ملاحظة: جميع المحاميين لديهم صور بالفعل.');
+                    $this->comment('   استخدم الخيار --force لتحديث جميع المحاميين:');
+                    $this->comment('   php artisan lawyers:add-images --force');
+                }
+            }
 
             return Command::SUCCESS;
             
