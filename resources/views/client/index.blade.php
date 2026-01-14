@@ -237,9 +237,9 @@
 
     @if (1 == $home_sections?->department_status)
         <!--Department Start-->
-        <section class="case-study-home-page case-study-area pb_40">
+        <section class="case-study-home-page case-study-area">
             <div class="container">
-                <div class="row mb_25 mt_20">
+                <div class="row mb_25">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown" data-wow-delay="0.1s">
                         <div class="main-headline">
                             <h2 class="title"><span>{{ ucfirst($home_sections?->department_first_heading) }}</span>
@@ -368,7 +368,10 @@
                                         <div class="lawyer-image-wrapper">
                                             <a aria-label="{{ $lawyer?->name }}"
                                                 href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="lawyer-image-link">
-                                                <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}" alt="{{ $lawyer?->name }}" loading="lazy" class="lawyer-image" onerror="this.onerror=null; this.src='{{ asset($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
+                                                @php
+                                                    $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                                                @endphp
+                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" class="lawyer-image" onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
                                                 <div class="lawyer-image-overlay">
                                                     <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
                                                 </div>
