@@ -27,6 +27,7 @@ law.sql
 *.zip
 *.sql
 update_google_credentials.sql
+update_google_oauth_local.sql
 update_google_credentials.php
 GOOGLE_CREDENTIALS_SETUP.md
 FIX_GIT_SECRETS.md
