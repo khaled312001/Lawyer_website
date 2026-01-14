@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider {
      * Bootstrap any application services.
      */
     public function boot(): void {
+        // Ensure storage directories exist
+        $this->ensureStorageDirectoriesExist();
+        
         // Load JSON translations from lang directory (root/lang not resources/lang)
         $langPath = base_path('lang');
         $this->loadJsonTranslationsFrom($langPath);
@@ -112,5 +115,30 @@ class AppServiceProvider extends ServiceProvider {
         Blade::directive('endadminCan', function () {
             return '<?php endif; ?>';
         });
+    }
+
+    /**
+     * Ensure all required storage directories exist with proper permissions.
+     */
+    protected function ensureStorageDirectoriesExist(): void {
+        $directories = [
+            storage_path('framework/sessions'),
+            storage_path('framework/cache'),
+            storage_path('framework/views'),
+            storage_path('framework/testing'),
+            storage_path('logs'),
+            storage_path('app/public'),
+        ];
+
+        foreach ($directories as $directory) {
+            if (!is_dir($directory)) {
+                @mkdir($directory, 0755, true);
+            }
+            
+            // Ensure directory is writable
+            if (is_dir($directory) && !is_writable($directory)) {
+                @chmod($directory, 0755);
+            }
+        }
     }
 }
