@@ -38,21 +38,26 @@
                 <div class="col-md-8">
                     <div class="service-detail-text pt_30">
 
+                        @if ($service?->images && $service->images->count() > 0)
                         <div class="row mb_30">
                             <div class="col-md-12">
                                 <!-- Swiper -->
                                 <div class="swiper-container pro-detail-top">
                                     <div class="swiper-wrapper">
-                                        @foreach ($service?->images as $item)
+                                        @foreach ($service->images as $item)
+                                            @if ($item?->large_image && file_exists(public_path($item->large_image)))
                                             <div class="swiper-slide">
                                                 <div class="catagory-item">
                                                     <div class="catagory-img-holder">
-                                                        <img src="{{ url($item?->large_image) }}" alt="{{__('Service')}}" loading="lazy">
+                                                        <img src="{{ asset($item->large_image) }}" 
+                                                             alt="{{ $service?->title }}" 
+                                                             loading="lazy"
+                                                             onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;">
                                                         <div class="catagory-text">
                                                             <div class="catagory-text-table">
                                                                 <div class="catagory-text-cell">
                                                                     <ul class="catagory-hover">
-                                                                        <li><a aria-label="{{ __('Search') }}" href="{{ url($item?->large_image) }}"
+                                                                        <li><a aria-label="{{ __('Search') }}" href="{{ asset($item->large_image) }}"
                                                                                 class="magnific"><i
                                                                                     class="fas fa-search"></i></a></li>
                                                                     </ul>
@@ -62,6 +67,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
                                         @endforeach
 
 
@@ -70,16 +76,24 @@
                                     <div class="swiper-button-next swiper-button-white"></div>
                                     <div class="swiper-button-prev swiper-button-white"></div>
                                 </div>
+                                @if ($service->images->where('small_image', '!=', null)->count() > 0)
                                 <div class="swiper-container pro-detail-thumbs">
                                     <div class="swiper-wrapper">
-                                        @foreach ($service?->images as $item)
-                                            <div class="swiper-slide"><img src="{{ url($item?->small_image) }}" alt="{{__('Service')}}" loading="lazy"></div>
+                                        @foreach ($service->images as $item)
+                                            @if ($item?->small_image && file_exists(public_path($item->small_image)))
+                                            <div class="swiper-slide"><img src="{{ asset($item->small_image) }}" 
+                                                                           alt="{{ $service?->title }}" 
+                                                                           loading="lazy"
+                                                                           onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;"></div>
+                                            @endif
                                         @endforeach
 
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
+                        @endif
                         {!! $service?->description !!}
                     </div>
                     @if ($service?->service_faq->count() != 0)
