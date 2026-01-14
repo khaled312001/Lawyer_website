@@ -45,9 +45,10 @@ class DashboardController extends Controller {
 
         $dataCal = array_fill_keys($dates, 0);
 
-        foreach ($data as $item) {
-            $dataCal[$item->date] = $item->total_price;
-        }
+        // Set all earnings to zero as requested
+        // foreach ($data as $item) {
+        //     $dataCal[$item->date] = $item->total_price;
+        // }
 
         $data = [];
         $data['monthly_data'] = json_encode(array_values($dataCal));
@@ -62,7 +63,7 @@ class DashboardController extends Controller {
         $data['success_appointment_qty'] = Appointment::paymentSuccess()->treated()->count();
         $data['client_qty'] = User::active()->count();
         $data['lawyer_qty'] = Lawyer::active()->count();
-        $data['totalEarning'] = Appointment::paymentSuccess()->sum('appointment_fee_usd');
+        $data['totalEarning'] = 0; // Set to zero as requested
         $data['subscriber_qty'] = NewsLetter::verify()->count();
 
         // Real Estate Statistics
@@ -86,7 +87,7 @@ class DashboardController extends Controller {
         $lastDay = new Carbon('last day of this month');
         $last_date= $lastDay->format('Y-m-d');
 
-        $data['monthlyEarning'] = Appointment::whereBetween('created_at', [$first_date, $last_date])->paymentSuccess()->sum('appointment_fee_usd');
+        $data['monthlyEarning'] = 0; // Set to zero as requested
         $data['payment_histories'] = Appointment::whereBetween('created_at', [$first_date, $last_date])->paymentSuccess()->with(['lawyer' => function ($query) {
             $query->select('id', 'name', 'email', 'phone');
         }])->select('lawyer_id', DB::raw('SUM(appointment_fee_usd) as total_payment_fee'))

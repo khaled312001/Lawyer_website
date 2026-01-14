@@ -124,38 +124,8 @@
                             </div>
                         </div>
 
-                        <!-- Earnings Monthly -->
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="card card-statistic-1">
-                                <div class="card-icon bg-success">
-                                    <i class="fas fa-dollar-sign"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h4>{{ __('Earnings') }} ({{ __('Monthly') }})</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        {{ currency($monthlyEarning) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Earnings Total -->
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="card card-statistic-1">
-                                <div class="card-icon bg-success">
-                                    <i class="fas fa-dollar-sign"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h4>{{ __('Earnings') }} ({{ __('Total') }})</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        {{ currency($totalEarning) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Earnings Monthly - Hidden -->
+                        <!-- Earnings Total - Hidden -->
                         <!-- Earnings Subscriber -->
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                             <div class="card card-statistic-1">
@@ -522,7 +492,8 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!-- Earnings Chart - Hidden -->
+                    <div class="row d-none">
                         <!-- Area Chart -->
                         <div class="col">
                             <div class="mb-4 shadow card">

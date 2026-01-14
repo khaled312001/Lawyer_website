@@ -17,7 +17,7 @@
     @stack('css')
 </head>
 
-<body>
+<body class="sidebar-gone">
     <div id="app">
         <div class="main-wrapper">
             <div class="navbar-bg"></div>
@@ -247,6 +247,29 @@
     @include('backend_layouts.partials.javascripts')
 
     @stack('js')
+    
+    <script>
+        // Close sidebar by default to show full navbar
+        $(document).ready(function() {
+            // Ensure sidebar is closed on page load
+            if (!$('body').hasClass('sidebar-show')) {
+                $('body').addClass('sidebar-gone');
+                $('body').removeClass('sidebar-show');
+            }
+            
+            // Toggle sidebar when clicking the toggle button
+            $('[data-toggle="sidebar"]').on('click', function(e) {
+                e.preventDefault();
+                if ($('body').hasClass('sidebar-gone')) {
+                    $('body').removeClass('sidebar-gone');
+                    $('body').addClass('sidebar-show');
+                } else {
+                    $('body').removeClass('sidebar-show');
+                    $('body').addClass('sidebar-gone');
+                }
+            });
+        });
+    </script>
     
     <script>
         // Notifications functionality
