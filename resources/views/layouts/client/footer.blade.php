@@ -59,7 +59,20 @@
                                 <i class="fas fa-phone"></i>
                                 <div>
                                     <p class="title">{{ __('Phone') }}</p>
-                                    <p>{!! nl2br(e($contactInfo?->phone)) !!}</p>
+                                    <p>
+                                        @php
+                                            $phoneDisplay = $contactInfo?->phone ?? '';
+                                            // Add + before number for Arabic language
+                                            if (getSessionLanguage() == 'ar' && $phoneDisplay && !str_starts_with($phoneDisplay, '+')) {
+                                                $phoneDisplay = '+' . $phoneDisplay;
+                                            }
+                                            // Handle multiple lines (nl2br)
+                                            $phoneLines = explode("\n", $phoneDisplay);
+                                            foreach ($phoneLines as $line) {
+                                                echo e($line) . '<br>';
+                                            }
+                                        @endphp
+                                    </p>
                                 </div>
                             </li>
                         </ul>

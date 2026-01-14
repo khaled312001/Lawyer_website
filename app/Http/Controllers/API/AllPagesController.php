@@ -230,9 +230,26 @@ class AllPagesController extends Controller {
         $pagination_qty = CustomPagination::where('section_name', 'Department')->select('item_qty')->first()?->item_qty ?? 10;
         $departments = Department::select('id', 'slug', 'thumbnail_image')->with([
             'translations' => function ($query) use ($code) {
-                $query->where('lang_code', $code)->select('department_id', 'name');
+                $query->where('lang_code', $code)->select('department_id', 'name', 'description');
             },
-        ])->active()->paginate($pagination_qty);
+            'images' => function ($query) {
+                $query->select('department_id');
+            },
+        ])->active()
+        ->whereHas('translations', function ($query) use ($code) {
+            $query->where('lang_code', $code)
+                  ->whereNotNull('description')
+                  ->where('description', '!=', '');
+        })
+        ->where(function ($query) {
+            $query->whereHas('images')
+                  ->orWhereHas('translations', function ($q) {
+                      $q->whereNotNull('description')
+                        ->where('description', '!=', '');
+                  });
+        })
+        ->where('slug', '!=', 'family-and-personal-status-law')
+        ->paginate($pagination_qty);
         if ($departments->count()) {
             return response()->json(['status' => 'success', 'data' => $departments], 200);
         }
@@ -240,6 +257,11 @@ class AllPagesController extends Controller {
     }
 
     public function departmentDetails($slug): JsonResponse {
+        // Prevent access to family-and-personal-status-law department
+        if ($slug === 'family-and-personal-status-law') {
+            return response()->json(['status' => 'error', 'message' => 'Not Found!'], 404);
+        }
+        
         $code = strtolower(request()->query('language', 'en'));
         $department = Department::select('id', 'slug', 'thumbnail_image')->with([
             'translations'                => function ($query) use ($code) {
@@ -257,7 +279,20 @@ class AllPagesController extends Controller {
             'videos'                      => function ($query) {
                 $query->select('department_id', 'link');
             },
-        ])->whereSlug($slug)->active()->first();
+        ])->whereSlug($slug)
+        ->whereHas('translations', function ($query) use ($code) {
+            $query->where('lang_code', $code)
+                  ->whereNotNull('description')
+                  ->where('description', '!=', '');
+        })
+        ->where(function ($query) {
+            $query->whereHas('images')
+                  ->orWhereHas('translations', function ($q) {
+                      $q->whereNotNull('description')
+                        ->where('description', '!=', '');
+                  });
+        })
+        ->active()->first();
 
         if (!$department) {
             return response()->json(['status' => 'error', 'message' => 'Not Found!'], 404);

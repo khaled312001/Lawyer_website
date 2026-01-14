@@ -204,9 +204,16 @@
                 </div>
                 <div class="header-right">
                     @if ($contactInfo?->top_bar_phone)
+                        @php
+                            $displayPhone = $contactInfo->top_bar_phone;
+                            // Add + before number for Arabic language
+                            if (getSessionLanguage() == 'ar' && !str_starts_with($displayPhone, '+')) {
+                                $displayPhone = '+' . $displayPhone;
+                            }
+                        @endphp
                         <a href="tel:{{ $contactInfo->top_bar_phone }}" class="header-contact-item">
                             <i class="fas fa-phone"></i>
-                            <span>{{ $contactInfo->top_bar_phone }}</span>
+                            <span>{{ $displayPhone }}</span>
                         </a>
                     @endif
                     @if ($contactInfo?->top_bar_email)
@@ -382,9 +389,16 @@
                     </a>
                 </div>
                 @if ($contactInfo?->top_bar_phone)
+                    @php
+                        $displayPhone = $contactInfo->top_bar_phone;
+                        // Add + before number for Arabic language
+                        if (getSessionLanguage() == 'ar' && !str_starts_with($displayPhone, '+')) {
+                            $displayPhone = '+' . $displayPhone;
+                        }
+                    @endphp
                     <a href="tel:{{ $contactInfo->top_bar_phone }}" class="side-menu-header-link">
                         <i class="fas fa-phone"></i>
-                        <span>{{ $contactInfo->top_bar_phone }}</span>
+                        <span>{{ $displayPhone }}</span>
                     </a>
                 @endif
                 @if ($contactInfo?->top_bar_email)

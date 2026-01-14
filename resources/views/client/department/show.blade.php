@@ -39,22 +39,25 @@
                 <div class="col-md-8">
                     <div class="service-detail-text pt_30">
 
+                        @if ($department?->images && $department->images->count() > 0)
                         <div class="row mb_30">
                             <div class="col-md-12">
                                 <!-- Swiper -->
                                 <div class="swiper-container pro-detail-top">
                                     <div class="swiper-wrapper">
-                                        @foreach ($department?->images as $item)
+                                        @foreach ($department->images as $item)
+                                            @if ($item?->large_image && file_exists(public_path($item->large_image)))
                                             <div class="swiper-slide">
                                                 <div class="catagory-item">
                                                     <div class="catagory-img-holder">
-                                                        <img src="{{ url($item?->large_image) }}"
-                                                            alt="{{ $department?->name }}" loading="lazy">
+                                                        <img src="{{ asset($item->large_image) }}"
+                                                            alt="{{ $department?->name }}" loading="lazy"
+                                                            onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;">
                                                         <div class="catagory-text">
                                                             <div class="catagory-text-table">
                                                                 <div class="catagory-text-cell">
                                                                     <ul class="catagory-hover">
-                                                                        <li><a aria-label="{{ __('Search') }}" href="{{ url($item?->large_image) }}"
+                                                                        <li><a aria-label="{{ __('Search') }}" href="{{ asset($item->large_image) }}"
                                                                                 class="magnific"><i
                                                                                     class="fas fa-search"></i></a></li>
                                                                     </ul>
@@ -64,6 +67,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
                                         @endforeach
 
 
@@ -72,17 +76,23 @@
                                     <div class="swiper-button-next swiper-button-white"></div>
                                     <div class="swiper-button-prev swiper-button-white"></div>
                                 </div>
+                                @if ($department->images->where('small_image', '!=', null)->count() > 0)
                                 <div class="swiper-container pro-detail-thumbs">
                                     <div class="swiper-wrapper">
-                                        @foreach ($department?->images as $item)
-                                            <div class="swiper-slide"><img src="{{ url($item?->small_image) }}"
-                                                    alt="{{ $department?->name }}" loading="lazy"></div>
+                                        @foreach ($department->images as $item)
+                                            @if ($item?->small_image && file_exists(public_path($item->small_image)))
+                                            <div class="swiper-slide"><img src="{{ asset($item->small_image) }}"
+                                                    alt="{{ $department?->name }}" loading="lazy"
+                                                    onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;"></div>
+                                            @endif
                                         @endforeach
 
                                     </div>
                                 </div>
+                                @endif
                             </div>
                         </div>
+                        @endif
                         {!! $department?->description !!}
                     </div>
                     @if ($department->department_faq->count() != 0)
@@ -133,7 +143,19 @@
                             <p>{{ $contactInfo?->description }}</p>
                             <ul>
                                 <li><i class="fas fa-phone"></i> {!! nl2br(e($contactInfo?->email)) !!}</li>
-                                <li><i class="far fa-envelope"></i> {!! nl2br(e($contactInfo?->phone)) !!}</li>
+                                <li><i class="far fa-envelope"></i> 
+                                    @php
+                                        $phoneDisplay = $contactInfo?->phone ?? '';
+                                        // Add + before number for Arabic language
+                                        if (getSessionLanguage() == 'ar' && $phoneDisplay && !str_starts_with($phoneDisplay, '+')) {
+                                            $phoneDisplay = '+' . $phoneDisplay;
+                                        }
+                                        $phoneLines = explode("\n", $phoneDisplay);
+                                        foreach ($phoneLines as $line) {
+                                            echo e($line) . '<br>';
+                                        }
+                                    @endphp
+                                </li>
                                 <li><i class="fas fa-map-marker-alt"></i>{!! nl2br(e($contactInfo?->address)) !!}</li>
                             </ul>
                         </div>

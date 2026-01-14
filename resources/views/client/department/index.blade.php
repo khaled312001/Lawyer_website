@@ -34,7 +34,10 @@
                         <div class="case-item">
                             <div class="case-box">
                                 <div class="case-image">
-                                    <img src="{{ $department?->thumbnail_image }}" alt="" loading="lazy">
+                                    <img src="{{ asset($department?->thumbnail_image ?? 'client/images/default-image.jpg') }}" 
+                                         alt="{{ $department?->name }}" 
+                                         loading="lazy"
+                                         onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;">
                                     <div class="overlay"><a aria-label="{{ $department?->name }}"
                                             href="{{ route('website.department.details', $department?->slug) }}"
                                             class="btn-case">{{ __('See Details') }}</a>

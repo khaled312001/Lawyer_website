@@ -33,9 +33,22 @@ class HomeController extends Controller {
         ])->orderBy('id', 'asc')->active()->get();
         $departmentsForSearch = Department::select('id')->with([
             'translation' => function ($query) {
-                $query->select('department_id', 'name');
+                $query->select('department_id', 'name', 'description');
             },
-        ])->active()->latest()->get();
+        ])->active()->latest()
+        ->whereHas('translation', function ($query) {
+            $query->whereNotNull('description')
+                  ->where('description', '!=', '');
+        })
+        ->where(function ($query) {
+            $query->whereHas('images')
+                  ->orWhereHas('translation', function ($q) {
+                      $q->whereNotNull('description')
+                        ->where('description', '!=', '');
+                  });
+        })
+        ->where('slug', '!=', 'family-and-personal-status-law')
+        ->get();
         $lawyersForSearch = Lawyer::select('id', 'name')->orderBy('name', 'asc')->active()->verify()->get();
         $sliders = Slider::select('image','title')->active()->get();
         $home_sections = SectionControl::first();
@@ -67,9 +80,25 @@ class HomeController extends Controller {
         ])->active()->latest()->take(4)->get();
         $departments = Department::select('id', 'slug', 'thumbnail_image')->with([
             'translation' => function ($query) {
-                $query->select('department_id', 'name');
+                $query->select('department_id', 'name', 'description');
             },
-        ])->active()->latest()->homepage()->get();
+            'images' => function ($query) {
+                $query->select('department_id');
+            },
+        ])->active()->latest()->homepage()
+        ->whereHas('translation', function ($query) {
+            $query->whereNotNull('description')
+                  ->where('description', '!=', '');
+        })
+        ->where(function ($query) {
+            $query->whereHas('images')
+                  ->orWhereHas('translation', function ($q) {
+                      $q->whereNotNull('description')
+                        ->where('description', '!=', '');
+                  });
+        })
+        ->where('slug', '!=', 'family-and-personal-status-law')
+        ->get();
         $testimonials = Testimonial::select('id', 'image')->with([
             'translation' => function ($query) {
                 $query->select('testimonial_id', 'name', 'designation', 'comment');
@@ -335,9 +364,25 @@ class HomeController extends Controller {
         }
         $departments = Department::select('id', 'slug', 'thumbnail_image')->with([
             'translation' => function ($query) {
-                $query->select('department_id', 'name');
+                $query->select('department_id', 'name', 'description');
             },
-        ])->active()->paginate($pagination_qty);
+            'images' => function ($query) {
+                $query->select('department_id');
+            },
+        ])->active()
+        ->whereHas('translation', function ($query) {
+            $query->whereNotNull('description')
+                  ->where('description', '!=', '');
+        })
+        ->where(function ($query) {
+            $query->whereHas('images')
+                  ->orWhereHas('translation', function ($q) {
+                      $q->whereNotNull('description')
+                        ->where('description', '!=', '');
+                  });
+        })
+        ->where('slug', '!=', 'family-and-personal-status-law')
+        ->paginate($pagination_qty);
         return view('client.department.index', compact('departments'));
     }
 
@@ -371,7 +416,20 @@ class HomeController extends Controller {
             'translation' => function ($query) {
                 $query->select('department_id', 'name');
             },
-        ])->active()->get();
+        ])->active()
+        ->whereHas('translation', function ($query) {
+            $query->whereNotNull('description')
+                  ->where('description', '!=', '');
+        })
+        ->where(function ($query) {
+            $query->whereHas('images')
+                  ->orWhereHas('translation', function ($q) {
+                      $q->whereNotNull('description')
+                        ->where('description', '!=', '');
+                  });
+        })
+        ->where('slug', '!=', 'family-and-personal-status-law')
+        ->get();
 
         $home_sections = SectionControl::select('id')->with([
             'translation' => function ($query) {

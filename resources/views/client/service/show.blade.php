@@ -131,48 +131,30 @@
                             <p>{{ $contactInfo?->description }}</p>
                             <ul>
                                 <li><i class="fas fa-phone"></i> {!! nl2br(e($contactInfo?->email)) !!}</li>
-                                <li><i class="far fa-envelope"></i> {!! nl2br(e($contactInfo?->phone)) !!}</li>
+                                <li><i class="far fa-envelope"></i> 
+                                    @php
+                                        $phoneDisplay = $contactInfo?->phone ?? '';
+                                        // Add + before number for Arabic language
+                                        if (getSessionLanguage() == 'ar' && $phoneDisplay && !str_starts_with($phoneDisplay, '+')) {
+                                            $phoneDisplay = '+' . $phoneDisplay;
+                                        }
+                                        $phoneLines = explode("\n", $phoneDisplay);
+                                        foreach ($phoneLines as $line) {
+                                            echo e($line) . '<br>';
+                                        }
+                                    @endphp
+                                </li>
                                 <li><i class="fas fa-map-marker-alt"></i>{!! nl2br(e($contactInfo?->address)) !!}</li>
                             </ul>
                         </div>
                         <div class="service-qucikcontact event-form mt_30">
                             <h3>{{ __('Quick Contact') }}</h3>
-                            <form action="{{ route('send-contact-message') }}" method="POST">
-                                @csrf
-                                <div class="form-row row">
-                                    <div class="form-group col-md-12">
-                                        <input type="text" class="form-control" id="name"
-                                            placeholder="{{ __('Name') }}" name="name">
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <input type="text" class="form-control" placeholder="{{ __('Phone') }}"
-                                            name="phone">
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <input type="email" class="form-control" placeholder="{{ __('Email') }}"
-                                            name="email">
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <input type="text" class="form-control" placeholder="{{ __('Subject') }}"
-                                            name="subject">
-                                    </div>
-
-                                    <div class="form-group col-md-12">
-                                        <textarea name="message" class="form-control" placeholder="{{ __('Message') }}"></textarea>
-                                    </div>
-                                    @if ($setting->recaptcha_status == 'active')
-                                        <div class="form-group col-12">
-                                            <div class="g-recaptcha" data-sitekey="{{ $setting->recaptcha_site_key }}">
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    <div class="form-group col-md-12">
-                                        <button type="submit" class="btn">{{ __('Send Message') }}</button>
-                                    </div>
-
-                                </div>
-                            </form>
+                            <div class="quick-contact-content">
+                                <p>{{ __('Book a consultation with our expert lawyers for personalized legal advice.') }}</p>
+                                <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-primary btn-block">
+                                    <i class="fas fa-calendar-check"></i> {{ __('Book Consultation') }}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

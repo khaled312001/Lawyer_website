@@ -26,7 +26,14 @@
                                                     {{ $contactInfo?->address }}
                                                 </div>
                                                 <div class="phone">
-                                                    {{ $setting?->prescription_phone }}
+                                                    @php
+                                                        $prescriptionPhone = $setting?->prescription_phone ?? '';
+                                                        // Add + before number for Arabic language
+                                                        if (getSessionLanguage() == 'ar' && $prescriptionPhone && !str_starts_with($prescriptionPhone, '+')) {
+                                                            $prescriptionPhone = '+' . $prescriptionPhone;
+                                                        }
+                                                    @endphp
+                                                    {{ $prescriptionPhone }}
                                                 </div>
                                                 <div class="email">
                                                     {{ $setting?->prescription_email }}

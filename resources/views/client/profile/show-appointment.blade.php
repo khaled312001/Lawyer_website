@@ -43,7 +43,15 @@
                                                         <i class="fas fa-map-marker-alt"></i> {{ $contactInfo?->address }}
                                                     </div>
                                                     <div class="phone">
-                                                        <i class="fas fa-phone"></i> {{ $setting?->prescription_phone }}
+                                                        <i class="fas fa-phone"></i> 
+                                                        @php
+                                                            $prescriptionPhone = $setting?->prescription_phone ?? '';
+                                                            // Add + before number for Arabic language
+                                                            if (getSessionLanguage() == 'ar' && $prescriptionPhone && !str_starts_with($prescriptionPhone, '+')) {
+                                                                $prescriptionPhone = '+' . $prescriptionPhone;
+                                                            }
+                                                        @endphp
+                                                        {{ $prescriptionPhone }}
                                                     </div>
                                                     <div class="email">
                                                         <i class="far fa-envelope"></i> {{ $setting?->prescription_email }}

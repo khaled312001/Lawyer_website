@@ -110,8 +110,15 @@
                                 <i class="fas fa-phone"></i> {{ __('Phone') }}:
                             </span>
                             <div class="contact-text">
-                                <a aria-label="{{ $contactInfo?->phone }}" href="tel:{!! nl2br($contactInfo?->phone) !!}">
-                                    {!! nl2br($contactInfo?->phone) !!}</a>
+                                @php
+                                    $phoneDisplay = $contactInfo?->phone ?? '';
+                                    // Add + before number for Arabic language
+                                    if (getSessionLanguage() == 'ar' && $phoneDisplay && !str_starts_with($phoneDisplay, '+')) {
+                                        $phoneDisplay = '+' . $phoneDisplay;
+                                    }
+                                @endphp
+                                <a aria-label="{{ $contactInfo?->phone }}" href="tel:{{ $contactInfo?->phone }}">
+                                    {!! nl2br(e($phoneDisplay)) !!}</a>
                                 <br>
                             </div>
                         </div>
