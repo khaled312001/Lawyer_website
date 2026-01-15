@@ -30,38 +30,8 @@
                         <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($property->title, 30) }}</li>
                     </ol>
                 </nav>
-                <center>
-                <div class="property-header-content property-header-content-v2">
-                   
-                    <h1 class="property-title property-title-v2">{{ $property->title }}</h1>
-                    <div class="property-location property-location-v2" style="text-align: left !important; direction: ltr !important;align-items: center !important;justify-content: center !important;">
-                        <i class="fas fa-map-marker-alt property-icon-v2"></i>
-                        <span class="property-text-v2">{{ $property->location_string }}</span>
-                    </div>
-                    <div class="proprty-meta prperty-eta-v2" style="text-align: left !important; direction: ltr !important;align-items: center !important;justify-content: center !important;">
-                        <span class="meta-item meta-item-v2">
-                            <i class="fas fa-tag meta-icon-v2"></i> 
-                            <span class="meta-text-v2">{{ $property->listing_type_label }}</span>
-                        </span>
-                        <span class="meta-item meta-item-v2">
-                            <i class="fas fa-building meta-icon-v2"></i> 
-                            <span class="meta-text-v2">{{ $property->property_type_label }}</span>
-                        </span>
-                        @if($property->area)
-                            <span class="meta-item meta-item-v2">
-                                <i class="fas fa-vector-square meta-icon-v2"></i> 
-                                <span class="meta-text-v2">{{ $property->formatted_area }}</span>
-                            </span>
-                        @endif
-                        @if($property->formatted_price)
-                            <span class="meta-item price-badge meta-item-v2">
-                                <i class="fas fa-dollar-sign meta-icon-v2"></i> 
-                                <span class="meta-text-v2">{{ $property->formatted_price }}</span>
-                            </span>
-                        @endif
-                    </div>
-                    </center>
-                </div>
+           
+               
             </div>
         </div>
     </div>
