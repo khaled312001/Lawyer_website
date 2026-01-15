@@ -34,6 +34,22 @@
                             <strong>{{ session('whatsapp_phone') }}</strong>
                         </p>
                         
+                        @if(session('whatsapp_otp_display'))
+                            <div class="alert alert-info text-center">
+                                <strong>{{ __('Your verification code is') }}: {{ session('whatsapp_otp_display') }}</strong>
+                                <br>
+                                <small>{{ __('If you did not receive the message, please check your WhatsApp or use this code') }}</small>
+                            </div>
+                        @endif
+                        
+                        @if(session('whatsapp_url'))
+                            <div class="alert alert-warning text-center">
+                                <a href="{{ session('whatsapp_url') }}" target="_blank" class="btn btn-sm btn-success">
+                                    <i class="fab fa-whatsapp"></i> {{ __('Open WhatsApp to send message') }}
+                                </a>
+                            </div>
+                        @endif
+                        
                         <form action="{{ route('whatsapp.verify-otp') }}" method="post">
                             @csrf
                             <div class="row">
