@@ -1369,6 +1369,45 @@
         transition: all 0.3s ease;
     }
 
+    /* RTL: Icons on the right (before text in RTL reading direction) */
+    [dir="rtl"] .side-menu-header-link {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 8px;
+    }
+
+    [dir="rtl"] .side-menu-header-link i {
+        order: 1;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    [dir="rtl"] .side-menu-header-link span {
+        order: 2;
+        text-align: right;
+    }
+
+    /* LTR content detection for phone/email - icons on right, text on left */
+    [dir="rtl"] .side-menu-header-link[href^="tel:"],
+    [dir="rtl"] .side-menu-header-link[href^="mailto:"] {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    [dir="rtl"] .side-menu-header-link[href^="tel:"] i,
+    [dir="rtl"] .side-menu-header-link[href^="mailto:"] i {
+        order: 1;
+        margin-right: 0;
+    }
+
+    [dir="rtl"] .side-menu-header-link[href^="tel:"] span,
+    [dir="rtl"] .side-menu-header-link[href^="mailto:"] span {
+        order: 2;
+        direction: ltr;
+        text-align: left;
+        margin-left: 8px;
+    }
+
     .side-menu-header-link:hover {
         background: linear-gradient(90deg, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.12) 0%, rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.05) 100%);
         color: var(--colorPrimary, #c8b47e);
@@ -6780,32 +6819,43 @@
         flex-shrink: 0;
     }
 
-    /* RTL: Icons for header links - phone/email icons stay on right */
+    /* RTL: Icons on the right (before text in RTL reading direction) */
+    [dir="rtl"] .side-menu-header-link {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 8px;
+    }
+
     [dir="rtl"] .side-menu-header-link i {
-        order: 2;
+        order: 1;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     [dir="rtl"] .side-menu-header-link span {
-        order: 1;
+        order: 2;
         text-align: right;
     }
 
-    /* LTR content detection for phone/email - keep icon on right */
+    /* LTR content detection for phone/email - icons on right, text on left */
     [dir="rtl"] .side-menu-header-link[href^="tel:"],
     [dir="rtl"] .side-menu-header-link[href^="mailto:"] {
         flex-direction: row;
+        gap: 8px;
     }
 
     [dir="rtl"] .side-menu-header-link[href^="tel:"] i,
     [dir="rtl"] .side-menu-header-link[href^="mailto:"] i {
-        order: 2;
+        order: 1;
+        margin-right: 0;
     }
 
     [dir="rtl"] .side-menu-header-link[href^="tel:"] span,
     [dir="rtl"] .side-menu-header-link[href^="mailto:"] span {
-        order: 1;
+        order: 2;
         direction: ltr;
         text-align: left;
+        margin-left: 8px;
     }
 
     .side-menu-header-link:hover {
