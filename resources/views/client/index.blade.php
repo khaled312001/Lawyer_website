@@ -551,32 +551,32 @@
                         <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
                         <p class="mb_30">{{ __('With your account on our website, you always have access to our legal experts. Plus, you can easily track your case, see when we need more information, and get a clear overview of how far along the process is.') }}</p>
                         
-                        <div class="app-features mb_40">
-                            <div class="feature-item mb_20">
-                                <div class="feature-icon">
-                                    <i class="fas fa-user-circle"></i>
-                                </div>
-                                <div class="feature-text">
+                        <div class="app-features aman-features-wrapper-rtl mb_40">
+                            <div class="feature-item aman-feature-card-rtl mb_20">
+                                <div class="feature-text aman-feature-text-rtl">
                                     <h4>{{ __('1. Create your account') }}</h4>
                                     <p>{{ __('Easily create an account using your email. Access all our legal services and manage your cases from anywhere.') }}</p>
                                 </div>
-                            </div>
-                            <div class="feature-item mb_20">
-                                <div class="feature-icon">
-                                    <i class="fas fa-chart-line"></i>
+                                <div class="feature-icon aman-feature-icon-rtl">
+                                    <i class="fas fa-user-circle"></i>
                                 </div>
-                                <div class="feature-text">
+                            </div>
+                            <div class="feature-item aman-feature-card-rtl mb_20">
+                                <div class="feature-text aman-feature-text-rtl">
                                     <h4>{{ __('2. Track your case status') }}</h4>
                                     <p>{{ __('Stay updated on any required information and get a clear view of your case\'s progress through your dashboard.') }}</p>
                                 </div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-calendar-check"></i>
+                                <div class="feature-icon aman-feature-icon-rtl">
+                                    <i class="fas fa-chart-line"></i>
                                 </div>
-                                <div class="feature-text">
+                            </div>
+                            <div class="feature-item aman-feature-card-rtl">
+                                <div class="feature-text aman-feature-text-rtl">
                                     <h4>{{ __('3. Book consultations') }}</h4>
                                     <p>{{ __('Need legal help? Schedule an appointment with our expert lawyers directly through the website, available throughout the week.') }}</p>
+                                </div>
+                                <div class="feature-icon aman-feature-icon-rtl">
+                                    <i class="fas fa-calendar-check"></i>
                                 </div>
                             </div>
                         </div>

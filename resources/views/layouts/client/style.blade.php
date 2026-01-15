@@ -83,7 +83,7 @@
        NEW NAVIGATION SYSTEM - RESPONSIVE & MODERN
        ============================================ */
 
-    /* Top Alert Banner - في الأعلى */
+    /* Top Alert Banner - في الأعلى لكن تحت navbar */
     .top-alert-banner {
         background: linear-gradient(135deg, #ffe5e5 0%, #ffd6d6 100%);
         padding: 12px 0;
@@ -92,7 +92,7 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 10001 !important;
+        z-index: 9998 !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         margin-top: 0 !important;
     }
@@ -325,7 +325,7 @@
         box-shadow: 0 4px 12px rgba(200, 180, 126, 0.3);
     }
 
-    /* Main Navigation Bar - Enhanced Design - Always Visible on Scroll */
+    /* Main Navigation Bar - Enhanced Design - Always Visible on Scroll - الأعلى دائماً */
     body.client-frontend .main-navbar {
         background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
         padding: 0;
@@ -335,7 +335,7 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 9999 !important;
+        z-index: 10000 !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         overflow: visible !important;
         border-bottom: 2px solid rgba(200, 180, 126, 0.15);
@@ -668,7 +668,17 @@
     /* Ensure navbar is always on top */
     body.client-frontend .top-header-bar {
         position: fixed !important;
+        z-index: 9999 !important;
+    }
+
+    /* Main navbar فوق الكل */
+    body.client-frontend .main-navbar {
         z-index: 10000 !important;
+    }
+
+    /* البانر تحت navbar */
+    body.client-frontend .top-alert-banner {
+        z-index: 9998 !important;
     }
 
     /* Ensure first section doesn't have extra padding */
@@ -9958,7 +9968,7 @@
         padding-top: 170px !important; /* بانر ترحيبي 50px + شريط علوي 50px + قائمة رئيسية 70px */
     }
 
-    /* البانر الترحيبي - في الأعلى تماماً */
+    /* البانر الترحيبي - في الأعلى لكن تحت navbar */
     html[dir="rtl"] .top-alert-banner,
     html[lang="ar"] .top-alert-banner {
         position: fixed !important;
@@ -9966,7 +9976,7 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 10001 !important;
+        z-index: 9998 !important;
         height: 50px !important;
         display: flex !important;
         align-items: center !important;
@@ -9981,11 +9991,11 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 10000 !important;
+        z-index: 9999 !important;
         height: 50px !important;
     }
 
-    /* القائمة الرئيسية - تحت الشريط العلوي */
+    /* القائمة الرئيسية - تحت الشريط العلوي - الأعلى دائماً */
     html[dir="rtl"] body.client-frontend .main-navbar,
     html[lang="ar"] body.client-frontend .main-navbar {
         position: fixed !important;
@@ -9993,7 +10003,7 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 9999 !important;
+        z-index: 10000 !important;
         height: 70px !important;
     }
 
@@ -10211,14 +10221,14 @@
        كلاسات جديدة مخصصة - AMAN LAW RTL CUSTOM CLASSES
        =================================================================== */
 
-    /* البانر الترحيبي - كلاسات جديدة */
+    /* البانر الترحيبي - كلاسات جديدة - دائماً تحت navbar */
     .aman-welcome-banner-rtl {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 10001 !important;
+        z-index: 9998 !important;
         height: 50px !important;
         background: linear-gradient(135deg, #ffe5e5 0%, #ffd6d6 100%) !important;
         padding: 12px 0 !important;
@@ -10259,7 +10269,7 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 10000 !important;
+        z-index: 9999 !important;
         height: 50px !important;
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
         border-bottom: 1px solid #e9ecef !important;
@@ -10281,14 +10291,14 @@
         direction: rtl !important;
     }
 
-    /* القائمة الرئيسية - كلاسات جديدة */
+    /* القائمة الرئيسية - كلاسات جديدة - الأعلى دائماً */
     .aman-main-nav-rtl {
         position: fixed !important;
         top: 100px !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 9999 !important;
+        z-index: 10000 !important;
         height: 70px !important;
     }
 
@@ -11036,6 +11046,262 @@
         }
 
         .aman-benefit-text-new-rtl br + * {
+            font-size: 14px !important;
+        }
+    }
+
+    /* ===================================================================
+       STEPS CARDS RTL - كروت الخطوات مع أيقونات على اليمين
+       =================================================================== */
+
+    /* كروت الخطوات */
+    .aman-steps-card-rtl {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+        padding: 25px !important;
+        background: #fff !important;
+        border-radius: 12px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        transition: all 0.3s ease !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* النص على اليمين */
+    .aman-steps-text-rtl {
+        order: 1 !important;
+        flex: 1 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-steps-text-rtl strong {
+        display: block !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        margin-bottom: 10px !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-steps-text-rtl p {
+        text-align: right !important;
+        direction: rtl !important;
+        font-size: 15px !important;
+        color: #666 !important;
+        line-height: 1.6 !important;
+        margin: 0 !important;
+    }
+
+    /* الأيقونة على اليمين */
+    .aman-steps-icon-rtl {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        font-size: 40px !important;
+        color: var(--colorPrimary) !important;
+        min-width: 50px !important;
+        width: 50px !important;
+        text-align: center !important;
+        margin: 0 !important;
+    }
+
+    /* hover effect */
+    .aman-steps-card-rtl:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12) !important;
+    }
+
+    .aman-steps-card-rtl:hover .aman-steps-icon-rtl {
+        color: var(--colorSecondary) !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* كارت إنشاء الحساب */
+    .aman-account-card-rtl {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        padding: 30px !important;
+        background: #fff !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        transition: all 0.3s ease !important;
+        direction: rtl !important;
+        text-align: right !important;
+        position: relative !important;
+    }
+
+    .aman-account-title-rtl {
+        display: block !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        margin-bottom: 12px !important;
+        text-align: right !important;
+        direction: rtl !important;
+        width: 100% !important;
+    }
+
+    .aman-account-desc-rtl {
+        text-align: right !important;
+        direction: rtl !important;
+        font-size: 15px !important;
+        color: #666 !important;
+        line-height: 1.6 !important;
+        margin-bottom: 15px !important;
+        width: 100% !important;
+    }
+
+    .aman-account-icon-rtl {
+        position: absolute !important;
+        top: 30px !important;
+        right: 30px !important;
+        font-size: 50px !important;
+        color: var(--colorPrimary) !important;
+        opacity: 0.15 !important;
+    }
+
+    .aman-account-card-rtl:hover .aman-account-icon-rtl {
+        opacity: 0.25 !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* responsive للموبايل */
+    @media (max-width: 768px) {
+        .aman-steps-card-rtl {
+            padding: 20px !important;
+            gap: 15px !important;
+        }
+
+        .aman-steps-icon-rtl {
+            font-size: 35px !important;
+            min-width: 45px !important;
+            width: 45px !important;
+        }
+
+        .aman-steps-text-rtl strong {
+            font-size: 16px !important;
+        }
+
+        .aman-steps-text-rtl p {
+            font-size: 14px !important;
+        }
+
+        .aman-account-icon-rtl {
+            font-size: 40px !important;
+            top: 25px !important;
+            right: 25px !important;
+        }
+    }
+
+    /* ===================================================================
+       FEATURE CARDS RTL - كروت المميزات مع أيقونات على اليمين
+       =================================================================== */
+
+    /* wrapper المميزات */
+    .aman-features-wrapper-rtl {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* كل كارت مميزة */
+    .aman-feature-card-rtl {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+        padding: 25px !important;
+        background: #fff !important;
+        border-radius: 12px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        transition: all 0.3s ease !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* النص على اليمين */
+    .aman-feature-text-rtl {
+        order: 1 !important;
+        flex: 1 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-feature-text-rtl h4 {
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        margin-bottom: 10px !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-feature-text-rtl p {
+        text-align: right !important;
+        direction: rtl !important;
+        font-size: 15px !important;
+        color: #666 !important;
+        line-height: 1.6 !important;
+        margin: 0 !important;
+    }
+
+    /* الأيقونة على اليمين */
+    .aman-feature-icon-rtl {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        width: 60px !important;
+        height: 60px !important;
+        min-width: 60px !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3) !important;
+    }
+
+    .aman-feature-icon-rtl i {
+        font-size: 28px !important;
+        color: #fff !important;
+    }
+
+    /* hover effect */
+    .aman-feature-card-rtl:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12) !important;
+    }
+
+    .aman-feature-card-rtl:hover .aman-feature-icon-rtl {
+        transform: scale(1.1) rotate(5deg) !important;
+    }
+
+    /* responsive للموبايل */
+    @media (max-width: 768px) {
+        .aman-feature-card-rtl {
+            padding: 20px !important;
+            gap: 15px !important;
+        }
+
+        .aman-feature-icon-rtl {
+            width: 50px !important;
+            height: 50px !important;
+            min-width: 50px !important;
+        }
+
+        .aman-feature-icon-rtl i {
+            font-size: 24px !important;
+        }
+
+        .aman-feature-text-rtl h4 {
+            font-size: 16px !important;
+        }
+
+        .aman-feature-text-rtl p {
             font-size: 14px !important;
         }
     }
