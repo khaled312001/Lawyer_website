@@ -38,7 +38,7 @@
                         <i class="fas fa-map-marker-alt property-icon-v2"></i>
                         <span class="property-text-v2">{{ $property->location_string }}</span>
                     </div>
-                    <div class="property-meta property-meta-v2" style="text-align: left !important; direction: ltr !important;align-items: center !important;justify-content: center !important;">
+                    <div class="proprty-meta prperty-eta-v2" style="text-align: left !important; direction: ltr !important;align-items: center !important;justify-content: center !important;">
                         <span class="meta-item meta-item-v2">
                             <i class="fas fa-tag meta-icon-v2"></i> 
                             <span class="meta-text-v2">{{ $property->listing_type_label }}</span>
