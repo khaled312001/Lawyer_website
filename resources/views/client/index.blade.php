@@ -1011,16 +1011,42 @@
         animation: legalFadeInUp 0.8s ease 0.6s both;
     }
     
+    /* Override any conflicting styles for features container */
+    .legal-hero-content .legal-hero-features,
+    .legal-hero-content-right .legal-hero-features,
+    .legal-hero-content-right .legal-hero-features-right {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
     /* Force right alignment for features */
     .legal-hero-features-right {
         justify-content: flex-end !important;
         align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        direction: rtl !important;
     }
     
     [dir="ltr"] .legal-hero-features-right,
     html:not([dir="rtl"]) .legal-hero-features-right {
         justify-content: flex-end !important;
         align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        direction: rtl !important;
     }
 
     .legal-hero-feature-item {
@@ -1036,6 +1062,13 @@
         border-radius: 30px;
         border: 1px solid rgba(255, 255, 255, 0.15);
         transition: all 0.3s ease;
+    }
+    
+    /* Override any conflicting styles for feature items */
+    .legal-hero-features-right .legal-hero-feature-item,
+    .legal-hero-features-right .legal-hero-feature-item-right {
+        margin-left: auto !important;
+        margin-right: 0 !important;
     }
 
     .legal-hero-feature-item:hover {
@@ -1061,6 +1094,9 @@
         justify-content: flex-end !important;
         text-align: right !important;
         direction: rtl !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
     
     [dir="ltr"] .legal-hero-feature-item-right,
@@ -1069,17 +1105,22 @@
         justify-content: flex-end !important;
         text-align: right !important;
         direction: rtl !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
     
     .legal-hero-feature-item-right i {
         order: 2 !important;
         margin-left: 12px !important;
         margin-right: 0 !important;
+        flex-shrink: 0 !important;
     }
     
     .legal-hero-feature-item-right span {
         order: 1 !important;
         text-align: right !important;
+        direction: rtl !important;
     }
 
     .legal-hero-buttons {
@@ -1632,11 +1673,18 @@
         .legal-hero-features-right {
             justify-content: flex-end !important;
             align-items: flex-end !important;
+            width: 100% !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            direction: rtl !important;
         }
-        
+
         .legal-hero-feature-item-right {
             flex-direction: row-reverse !important;
             justify-content: flex-end !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            align-self: flex-end !important;
         }
         
         .legal-hero-buttons-right {
@@ -1860,11 +1908,18 @@
         .legal-hero-features-right {
             justify-content: flex-end !important;
             align-items: flex-end !important;
+            width: 100% !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            direction: rtl !important;
         }
-        
+
         .legal-hero-feature-item-right {
             flex-direction: row-reverse !important;
             justify-content: flex-end !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            align-self: flex-end !important;
         }
         
         .legal-hero-buttons-right {
@@ -2030,11 +2085,18 @@
     [dir="rtl"] .legal-hero-features-right {
         justify-content: flex-end !important;
         align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        direction: rtl !important;
     }
-    
+
     [dir="rtl"] .legal-hero-feature-item-right {
         flex-direction: row-reverse !important;
         justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
     
     [dir="rtl"] .legal-hero-buttons-right {
@@ -2176,15 +2238,22 @@
             direction: rtl !important;
         }
         
-        [dir="rtl"] .legal-hero-features-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-        }
-        
-        [dir="rtl"] .legal-hero-feature-item-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-        }
+    [dir="rtl"] .legal-hero-features-right {
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .legal-hero-feature-item-right {
+        flex-direction: row-reverse !important;
+        justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
+    }
         
         [dir="rtl"] .legal-hero-buttons-right {
             justify-content: flex-end !important;
@@ -2251,15 +2320,22 @@
             direction: rtl !important;
         }
         
-        [dir="rtl"] .legal-hero-features-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-        }
-        
-        [dir="rtl"] .legal-hero-feature-item-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-        }
+    [dir="rtl"] .legal-hero-features-right {
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .legal-hero-feature-item-right {
+        flex-direction: row-reverse !important;
+        justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
+    }
         
         [dir="rtl"] .legal-hero-buttons-right {
             justify-content: flex-end !important;
@@ -5521,6 +5597,59 @@
     .swiper-button-prev::after {
         font-size: 16px !important;
     }
+}
+
+/* ============================================
+   FINAL OVERRIDE - Force Features to Right
+   ============================================ */
+.legal-hero-features-right,
+.legal-hero-content-right .legal-hero-features,
+.legal-hero-content-right .legal-hero-features-right {
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.legal-hero-feature-item-right,
+.legal-hero-features-right .legal-hero-feature-item,
+.legal-hero-features-right .legal-hero-feature-item-right {
+    flex-direction: row-reverse !important;
+    justify-content: flex-end !important;
+    text-align: right !important;
+    direction: rtl !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    align-self: flex-end !important;
+}
+
+[dir="ltr"] .legal-hero-features-right,
+[dir="ltr"] .legal-hero-content-right .legal-hero-features,
+html:not([dir="rtl"]) .legal-hero-features-right,
+html:not([dir="rtl"]) .legal-hero-content-right .legal-hero-features {
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .legal-hero-feature-item-right,
+[dir="ltr"] .legal-hero-features-right .legal-hero-feature-item,
+html:not([dir="rtl"]) .legal-hero-feature-item-right,
+html:not([dir="rtl"]) .legal-hero-features-right .legal-hero-feature-item {
+    flex-direction: row-reverse !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    direction: rtl !important;
 }
 
 @media (max-width: 480px) {
