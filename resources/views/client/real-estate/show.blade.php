@@ -387,14 +387,14 @@
 .property-header-content {
     position: relative;
     z-index: 2;
-    text-align: right;
+    text-align: right !important;
     color: #fff !important;
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .property-header-content {
-    text-align: left;
-    direction: ltr;
+    text-align: right !important;
+    direction: rtl !important;
     color: #fff !important;
 }
 
@@ -410,9 +410,9 @@
 }
 
 [dir="ltr"] .property-header-content-v2 {
-    direction: ltr !important;
-    text-align: left !important;
-    align-items: flex-start !important;
+    direction: rtl !important;
+    text-align: right !important;
+    align-items: flex-end !important;
 }
 
 .property-title-v2 {
@@ -422,8 +422,8 @@
 }
 
 [dir="ltr"] .property-title-v2 {
-    text-align: left !important;
-    direction: ltr !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .property-location-v2 {
@@ -438,9 +438,9 @@
 }
 
 [dir="ltr"] .property-location-v2 {
-    justify-content: flex-start !important;
-    direction: ltr !important;
-    text-align: left !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-icon-v2 {
@@ -454,9 +454,9 @@
 }
 
 [dir="ltr"] .property-icon-v2 {
-    order: 2 !important;
-    margin-left: 0 !important;
-    margin-right: 0.5rem !important;
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
 }
 
 .property-text-v2 {
@@ -467,9 +467,9 @@
 }
 
 [dir="ltr"] .property-text-v2 {
-    order: 1 !important;
-    direction: ltr !important;
-    text-align: left !important;
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
     color: #fff !important;
 }
 
@@ -485,8 +485,8 @@
 }
 
 [dir="ltr"] .property-meta-v2 {
-    justify-content: flex-start !important;
-    direction: ltr !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
 }
 
 .meta-item-v2 {
@@ -501,9 +501,9 @@
 }
 
 [dir="ltr"] .meta-item-v2 {
-    justify-content: flex-start !important;
-    direction: ltr !important;
-    text-align: left !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .meta-icon-v2 {
@@ -517,9 +517,9 @@
 }
 
 [dir="ltr"] .meta-icon-v2 {
-    order: 2 !important;
-    margin-left: 0 !important;
-    margin-right: 0.5rem !important;
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
 }
 
 .meta-item-v2.price-badge .meta-icon-v2 {
@@ -534,9 +534,9 @@
 }
 
 [dir="ltr"] .meta-text-v2 {
-    order: 1 !important;
-    direction: ltr !important;
-    text-align: left !important;
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
     color: #fff !important;
 }
 
@@ -561,14 +561,14 @@
     margin-bottom: 15px;
     text-shadow: 0 4px 15px rgba(0,0,0,0.5);
     line-height: 1.2;
-    text-align: right;
-    direction: rtl;
+    text-align: right !important;
+    direction: rtl !important;
     color: #fff !important;
 }
 
 [dir="ltr"] .property-title {
-    text-align: left;
-    direction: ltr;
+    text-align: right !important;
+    direction: rtl !important;
     color: #fff !important;
 }
 
@@ -577,19 +577,19 @@
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-end !important;
     gap: 10px;
     font-weight: 500;
-    direction: rtl;
-    text-align: right;
+    direction: rtl !important;
+    text-align: right !important;
     color: #fff !important;
     flex-wrap: nowrap;
 }
 
 [dir="ltr"] .property-location {
-    justify-content: flex-start;
-    direction: ltr;
-    text-align: left;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
     color: #fff !important;
 }
 
@@ -597,7 +597,7 @@
     color: var(--colorSecondary, #f4d03f);
     font-size: 22px;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    order: 1;
+    order: 1 !important;
     flex-shrink: 0;
     width: 24px;
     text-align: center;
@@ -605,40 +605,40 @@
 }
 
 [dir="ltr"] .property-location i {
-    order: 2;
-    margin-left: 0;
-    margin-right: 0.5rem;
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .property-location span {
-    order: 2;
-    text-align: right;
+    order: 2 !important;
+    text-align: right !important;
     color: #fff !important;
     margin-right: 0;
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .property-location span {
-    order: 1;
-    text-align: left;
+    order: 2 !important;
+    text-align: right !important;
     color: #fff !important;
     margin-left: 0;
-    direction: ltr;
+    direction: rtl !important;
 }
 
 .property-meta {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end !important;
     gap: 12px;
     flex-wrap: wrap;
     margin-top: 25px;
-    direction: rtl;
+    direction: rtl !important;
     align-items: center;
 }
 
 [dir="ltr"] .property-meta {
-    justify-content: flex-start;
-    direction: ltr;
+    justify-content: flex-end !important;
+    direction: rtl !important;
 }
 
 .meta-item {
@@ -654,18 +654,18 @@
     border: 1px solid rgba(255,255,255,0.3);
     transition: all 0.3s ease;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    direction: rtl;
-    text-align: right;
-    justify-content: flex-end;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
     color: #fff !important;
     flex-wrap: nowrap;
     white-space: nowrap;
 }
 
 [dir="ltr"] .meta-item {
-    direction: ltr;
-    text-align: left;
-    justify-content: flex-start;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
     color: #fff !important;
 }
 
@@ -678,7 +678,7 @@
 .meta-item i {
     font-size: 16px;
     color: var(--colorSecondary, #f4d03f);
-    order: 1;
+    order: 1 !important;
     flex-shrink: 0;
     width: 18px;
     text-align: center;
@@ -687,26 +687,26 @@
 }
 
 [dir="ltr"] .meta-item i {
-    order: 2;
-    margin-left: 0;
-    margin-right: 0.5rem;
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .meta-item span {
-    order: 2;
-    text-align: right;
+    order: 2 !important;
+    text-align: right !important;
     color: #fff !important;
     margin-right: 0;
     flex: 0 1 auto;
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .meta-item span {
-    order: 1;
-    text-align: left;
+    order: 2 !important;
+    text-align: right !important;
     color: #fff !important;
     margin-left: 0;
-    direction: ltr;
+    direction: rtl !important;
 }
 
 .meta-item.price-badge {
@@ -1001,21 +1001,21 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    direction: rtl;
-    text-align: right;
-    justify-content: flex-end;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 [dir="ltr"] .section-title {
-    direction: ltr;
-    text-align: left;
-    justify-content: flex-start;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .section-title i {
     color: var(--colorPrimary);
     font-size: 28px;
-    order: 1;
+    order: 1 !important;
     flex-shrink: 0;
     width: 28px;
     text-align: center;
@@ -1023,9 +1023,9 @@
 }
 
 [dir="ltr"] .section-title i {
-    order: 2;
-    margin-left: 0;
-    margin-right: 0.5rem;
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .section-title::after {
@@ -1051,21 +1051,21 @@
 }
 
 .overview-item {
-    text-align: right;
+    text-align: right !important;
     padding: 20px;
     background: #f8f9fa;
     border-radius: 10px;
     transition: all 0.3s ease;
-    direction: rtl;
+    direction: rtl !important;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: flex-end !important;
 }
 
 [dir="ltr"] .overview-item {
-    text-align: left;
-    direction: ltr;
-    align-items: flex-start;
+    text-align: right !important;
+    direction: rtl !important;
+    align-items: flex-end !important;
 }
 
 .overview-item:hover {
@@ -1078,13 +1078,13 @@
     order: 1;
     margin-bottom: 10px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end !important;
     width: 100%;
     align-items: center;
 }
 
 [dir="ltr"] .overview-icon {
-    justify-content: flex-start;
+    justify-content: flex-end !important;
 }
 
 .overview-item .overview-icon i {
@@ -1101,22 +1101,26 @@
 
 .overview-item .label {
     order: 2;
-    text-align: right;
+    text-align: right !important;
     width: 100%;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .overview-item .label {
-    text-align: left;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .overview-item .value {
     order: 3;
-    text-align: right;
+    text-align: right !important;
     width: 100%;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .overview-item .value {
-    text-align: left;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .overview-item .label {
@@ -1151,13 +1155,13 @@
     line-height: 1.9;
     color: #4a5568;
     font-size: 17px;
-    text-align: right;
-    direction: rtl;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .description-content {
-    text-align: left;
-    direction: ltr;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .description-content p {
@@ -1195,16 +1199,16 @@
     border-radius: 8px;
     font-size: 14px;
     color: #555;
-    direction: rtl;
-    text-align: right;
-    justify-content: flex-end;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
     flex-wrap: nowrap;
 }
 
 [dir="ltr"] .feature-item {
-    direction: ltr;
-    text-align: left;
-    justify-content: flex-start;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .feature-item:hover {
@@ -1214,13 +1218,13 @@
 }
 
 [dir="ltr"] .feature-item:hover {
-    transform: translateX(5px);
+    transform: translateX(-5px);
 }
 
 .feature-item i {
     color: var(--colorPrimary);
     font-size: 16px;
-    order: 1;
+    order: 1 !important;
     flex-shrink: 0;
     width: 18px;
     text-align: center;
@@ -1228,9 +1232,9 @@
 }
 
 [dir="ltr"] .feature-item i {
-    order: 2;
-    margin-left: 0;
-    margin-right: 0.5rem;
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .feature-item:hover i {
@@ -1238,17 +1242,17 @@
 }
 
 .feature-item span {
-    order: 2;
-    text-align: right;
+    order: 2 !important;
+    text-align: right !important;
     margin-right: 0;
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .feature-item span {
-    order: 1;
-    text-align: left;
+    order: 2 !important;
+    text-align: right !important;
     margin-left: 0;
-    direction: ltr;
+    direction: rtl !important;
 }
 
 /* Property Contact */
@@ -1323,30 +1327,30 @@
     color: white;
     padding: 35px 30px;
     border-radius: 20px;
-    text-align: right;
+    text-align: right !important;
     box-shadow: 0 10px 35px rgba(200, 180, 126, 0.4);
     position: sticky;
     top: 100px;
     border: 2px solid rgba(255,255,255,0.2);
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .price-card {
-    text-align: left;
-    direction: ltr;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-header {
     margin-bottom: 30px;
     padding-bottom: 25px;
     border-bottom: 2px solid rgba(255,255,255,0.3);
-    text-align: right;
-    direction: rtl;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .price-header {
-    text-align: left;
-    direction: ltr;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-label {
@@ -1356,11 +1360,13 @@
     letter-spacing: 1px;
     margin-bottom: 10px;
     font-weight: 600;
-    text-align: right;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .price-label {
-    text-align: left;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-amount {
@@ -1369,11 +1375,13 @@
     margin-bottom: 10px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     line-height: 1.2;
-    text-align: right;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .price-amount {
-    text-align: left;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-period {
@@ -1381,23 +1389,23 @@
     opacity: 0.95;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-end !important;
     gap: 6px;
     font-weight: 500;
-    direction: rtl;
-    text-align: right;
+    direction: rtl !important;
+    text-align: right !important;
     flex-wrap: nowrap;
 }
 
 [dir="ltr"] .price-period {
-    justify-content: flex-start;
-    direction: ltr;
-    text-align: left;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .price-period i {
     font-size: 14px;
-    order: 1;
+    order: 1 !important;
     flex-shrink: 0;
     width: 16px;
     text-align: center;
@@ -1405,23 +1413,23 @@
 }
 
 [dir="ltr"] .price-period i {
-    order: 2;
-    margin-left: 0;
-    margin-right: 0.5rem;
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .price-period span {
-    order: 2;
-    text-align: right;
+    order: 2 !important;
+    text-align: right !important;
     margin-right: 0;
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .price-period span {
-    order: 1;
-    text-align: left;
+    order: 2 !important;
+    text-align: right !important;
     margin-left: 0;
-    direction: ltr;
+    direction: rtl !important;
 }
 
 .price-actions {
@@ -1619,21 +1627,21 @@
     gap: 10px;
     padding-bottom: 15px;
     border-bottom: 2px solid #e9ecef;
-    direction: rtl;
-    text-align: right;
-    justify-content: flex-end;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 [dir="ltr"] .similar-properties h4 {
-    direction: ltr;
-    text-align: left;
-    justify-content: flex-start;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .similar-properties h4 i {
     color: var(--colorPrimary);
     font-size: 22px;
-    order: 1;
+    order: 1 !important;
     flex-shrink: 0;
     width: 22px;
     text-align: center;
@@ -1641,23 +1649,23 @@
 }
 
 [dir="ltr"] .similar-properties h4 i {
-    order: 2;
-    margin-left: 0;
-    margin-right: 0.5rem;
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .similar-properties h4 span {
-    order: 2;
-    text-align: right;
+    order: 2 !important;
+    text-align: right !important;
     margin-right: 0;
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .similar-properties h4 span {
-    order: 1;
-    text-align: left;
+    order: 2 !important;
+    text-align: right !important;
     margin-left: 0;
-    direction: ltr;
+    direction: rtl !important;
 }
 
 .similar-properties-list {

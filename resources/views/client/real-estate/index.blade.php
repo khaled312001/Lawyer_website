@@ -1045,13 +1045,13 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    direction: rtl;
-    text-align: right;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 [dir="ltr"] .property-content {
-    direction: ltr;
-    text-align: left;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 /* ============================================
@@ -1078,8 +1078,8 @@
 }
 
 [dir="ltr"] .property-title-v2 {
-    text-align: left !important;
-    direction: ltr !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .property-title-v2 a {
@@ -1088,8 +1088,8 @@
 }
 
 [dir="ltr"] .property-title-v2 a {
-    direction: ltr !important;
-    text-align: left !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-meta-v2 {
@@ -1119,9 +1119,9 @@
 
 [dir="ltr"] .property-type-v2,
 [dir="ltr"] .property-location-v2 {
-    justify-content: flex-start !important;
-    direction: ltr !important;
-    text-align: left !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-icon-v2 {
@@ -1135,9 +1135,9 @@
 }
 
 [dir="ltr"] .property-icon-v2 {
-    order: 2 !important;
-    margin-left: 0 !important;
-    margin-right: 0.5rem !important;
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
 }
 
 .property-text-v2 {
@@ -1148,9 +1148,9 @@
 }
 
 [dir="ltr"] .property-text-v2 {
-    order: 1 !important;
-    direction: ltr !important;
-    text-align: left !important;
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-details-v2 {
@@ -1189,9 +1189,9 @@
 }
 
 [dir="ltr"] .detail-item-v2 {
-    justify-content: flex-start !important;
-    direction: ltr !important;
-    text-align: left !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .detail-icon-v2 {
@@ -1205,9 +1205,9 @@
 }
 
 [dir="ltr"] .detail-icon-v2 {
-    order: 2 !important;
-    margin-left: 0 !important;
-    margin-right: 0.5rem !important;
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
 }
 
 .detail-text-v2 {
@@ -1217,9 +1217,9 @@
 }
 
 [dir="ltr"] .detail-text-v2 {
-    order: 1 !important;
-    direction: ltr !important;
-    text-align: left !important;
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-price-v2 {
@@ -1230,8 +1230,8 @@
 }
 
 [dir="ltr"] .property-price-v2 {
-    text-align: left !important;
-    direction: ltr !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-amount-v2 {
@@ -1241,8 +1241,8 @@
 }
 
 [dir="ltr"] .price-amount-v2 {
-    text-align: left !important;
-    direction: ltr !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-per-sqm-v2 {
@@ -1252,8 +1252,8 @@
 }
 
 [dir="ltr"] .price-per-sqm-v2 {
-    text-align: left !important;
-    direction: ltr !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .property-actions-v2 {
@@ -1268,8 +1268,8 @@
 }
 
 [dir="ltr"] .property-actions-v2 {
-    justify-content: flex-start !important;
-    direction: ltr !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
 }
 
 .property-btn-v2 {
@@ -1284,9 +1284,9 @@
 }
 
 [dir="ltr"] .property-btn-v2 {
-    justify-content: flex-start !important;
-    direction: ltr !important;
-    text-align: left !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-btn-icon-v2 {
@@ -1296,9 +1296,9 @@
 }
 
 [dir="ltr"] .property-btn-icon-v2 {
-    order: 2 !important;
-    margin-left: 0 !important;
-    margin-right: 0.5rem !important;
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
 }
 
 .property-btn-text-v2 {
@@ -1308,9 +1308,9 @@
 }
 
 [dir="ltr"] .property-btn-text-v2 {
-    order: 1 !important;
-    direction: ltr !important;
-    text-align: left !important;
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-title {
