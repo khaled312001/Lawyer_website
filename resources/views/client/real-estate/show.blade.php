@@ -300,6 +300,24 @@
    PROPERTY DETAILS PAGE STYLES
    ============================================ */
 
+/* Desktop/Laptop - Right Alignment for Hero Section */
+@media (min-width: 992px) {
+    .property-header {
+        direction: rtl !important;
+    }
+    
+    .property-header .container {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    .property-header .row {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+    }
+}
+
 /* Property Header - Enhanced Design */
 .property-header {
     padding: 100px 0 80px;
@@ -310,6 +328,23 @@
     min-height: 400px;
     display: flex;
     align-items: center;
+    direction: rtl !important;
+}
+
+.property-header .container {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-header .row {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+.property-header [class*="col-"] {
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-header::before {
@@ -327,6 +362,8 @@
     position: relative;
     z-index: 2;
     margin-bottom: 30px;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-breadcrumb .breadcrumb {
@@ -335,6 +372,9 @@
     padding: 12px 20px;
     border-radius: 25px;
     margin: 0;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .property-breadcrumb .breadcrumb-item a {
@@ -355,6 +395,15 @@
 .property-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
     color: #fff !important;
     content: "›";
+}
+
+/* Ensure all content in property-header is right-aligned */
+.property-header > *,
+.property-header .container > *,
+.property-header .row > *,
+.property-header [class*="col-"] > * {
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-header-content {
@@ -1857,6 +1906,18 @@
     .property-header {
         padding: 80px 0 60px;
         min-height: 350px;
+        direction: rtl !important;
+    }
+    
+    .property-header .container {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    .property-header .row {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
     }
 
     .property-title {
@@ -1896,6 +1957,7 @@
     .property-header {
         padding: 70px 0 50px;
         min-height: 300px;
+        direction: rtl !important;
     }
 
     /* Remove all padding on mobile to start from right edge - Override global styles */
@@ -1909,6 +1971,19 @@
         margin-left: 0 !important;
         max-width: 100% !important;
         width: 100% !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    .property-header .row {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+    }
+    
+    .property-header [class*="col-"] {
+        direction: rtl !important;
+        text-align: right !important;
     }
 
     section.property-header .row,
@@ -1944,6 +2019,8 @@
         padding-left: 0 !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        direction: rtl !important;
+        text-align: right !important;
     }
 
     .property-breadcrumb .breadcrumb {
@@ -1951,6 +2028,9 @@
         font-size: 13px;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
     }
 
     .property-title,
@@ -2657,6 +2737,8 @@
     section.property-header,
     .property-header {
         padding-left: 0 !important;
+        direction: rtl !important;
+        text-align: right !important;
     }
     
     section.property-header .container,
