@@ -31,8 +31,9 @@
                     </ol>
                 </nav>
                 <div class="property-header-content property-header-content-v2">
+                    <center>
                     <h1 class="property-title property-title-v2">{{ $property->title }}</h1>
-                    <div class="property-location property-location-v2">
+                    <div class="property-location property-location-v2" style="text-align: right !important; direction: rtl !important;">
                         <i class="fas fa-map-marker-alt property-icon-v2"></i>
                         <span class="property-text-v2">{{ $property->location_string }}</span>
                     </div>
@@ -58,6 +59,7 @@
                             </span>
                         @endif
                     </div>
+                    </center>
                 </div>
             </div>
         </div>
