@@ -311,6 +311,7 @@
         const amanTopBar = document.querySelector('.aman-top-bar-rtl, .top-header-bar');
         const amanMainNav = document.querySelector('.aman-main-nav-rtl, .main-navbar');
         const amanBody = document.body;
+        const isMobile = window.innerWidth <= 768;
 
         window.addEventListener('scroll', function() {
             clearTimeout(amanScrollTimer);
@@ -318,13 +319,18 @@
             amanScrollTimer = setTimeout(function() {
                 let amanScrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
-                if (amanScrollTop > 100) {
-                    // عند النزول - إخفاء البانر والشريط العلوي
-                    if (amanWelcomeBanner) {
-                        amanWelcomeBanner.style.transform = 'translateY(-100%)';
-                        amanWelcomeBanner.style.opacity = '0';
-                        amanWelcomeBanner.style.pointerEvents = 'none';
+                // على الموبايل، navbar يبقى في الأعلى دائماً
+                if (isMobile) {
+                    if (amanMainNav) {
+                        amanMainNav.style.top = '0';
+                        amanMainNav.classList.add('scrolled', 'aman-scrolled-state');
                     }
+                    amanBody.classList.add('header-scrolled', 'aman-header-hidden');
+                    return;
+                }
+                
+                if (amanScrollTop > 100) {
+                    // عند النزول - إخفاء الشريط العلوي فقط
                     if (amanTopBar) {
                         amanTopBar.style.transform = 'translateY(-100%)';
                         amanTopBar.style.opacity = '0';
@@ -336,19 +342,14 @@
                     }
                     amanBody.classList.add('header-scrolled', 'aman-header-hidden');
                 } else {
-                    // عند الصعود - إظهار كل شيء
-                    if (amanWelcomeBanner) {
-                        amanWelcomeBanner.style.transform = 'translateY(0)';
-                        amanWelcomeBanner.style.opacity = '1';
-                        amanWelcomeBanner.style.pointerEvents = 'auto';
-                    }
+                    // عند الصعود - إظهار الشريط العلوي
                     if (amanTopBar) {
                         amanTopBar.style.transform = 'translateY(0)';
                         amanTopBar.style.opacity = '1';
                         amanTopBar.style.pointerEvents = 'auto';
                     }
                     if (amanMainNav) {
-                        amanMainNav.style.top = '100px';
+                        amanMainNav.style.top = '50px';
                         amanMainNav.classList.remove('scrolled', 'aman-scrolled-state');
                     }
                     amanBody.classList.remove('header-scrolled', 'aman-header-hidden');
@@ -356,6 +357,14 @@
                 
                 amanLastScrollTop = amanScrollTop;
             }, 10);
+        });
+        
+        // تحديث عند تغيير حجم الشاشة
+        window.addEventListener('resize', function() {
+            const newIsMobile = window.innerWidth <= 768;
+            if (newIsMobile !== isMobile && amanMainNav) {
+                amanMainNav.style.top = '0';
+            }
         });
 
         window.addEventListener("load", function() {
