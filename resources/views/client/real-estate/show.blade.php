@@ -1925,23 +1925,29 @@
         min-height: 300px;
     }
 
-    /* Remove all padding on mobile to start from right edge */
-    .property-header .container,
-    .property-header .container-fluid {
+    /* Remove all padding on mobile to start from right edge - Override global styles */
+    section.property-header .container,
+    section.property-header .container-fluid,
+    .property-header section .container,
+    .property-header section .container-fluid {
         padding-right: 0 !important;
         padding-left: 0 !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
         max-width: 100% !important;
+        width: 100% !important;
     }
 
+    section.property-header .row,
     .property-header .row {
         padding-right: 0 !important;
         padding-left: 0 !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        --bs-gutter-x: 0 !important;
     }
 
+    section.property-header [class*="col-"],
     .property-header [class*="col-"] {
         padding-right: 0 !important;
         padding-left: 0 !important;
@@ -1956,16 +1962,19 @@
         margin-left: 0 !important;
         margin-right: 0 !important;
         width: 100% !important;
+        max-width: 100% !important;
     }
 
     .property-breadcrumb {
         margin-bottom: 20px;
         padding-right: 0 !important;
         padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
     .property-breadcrumb .breadcrumb {
-        padding: 10px 0 10px 0;
+        padding: 10px 0 10px 0 !important;
         font-size: 13px;
         margin-right: 0 !important;
         margin-left: 0 !important;
@@ -1979,6 +1988,8 @@
         padding-left: 0 !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .property-location,
@@ -1989,6 +2000,8 @@
         padding-left: 0 !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .property-meta,
@@ -2001,6 +2014,8 @@
         margin-right: 0 !important;
         margin-left: 0 !important;
         justify-content: flex-end !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .meta-item,
@@ -2427,6 +2442,60 @@
         padding-left: 0 !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Override global container padding for property header on mobile */
+    [dir="rtl"] section.property-header .container,
+    [dir="rtl"] section.property-header .container-fluid,
+    [dir="rtl"] .property-header .container,
+    [dir="rtl"] .property-header .container-fluid {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    [dir="rtl"] section.property-header .row,
+    [dir="rtl"] .property-header .row {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    [dir="rtl"] section.property-header [class*="col-"],
+    [dir="rtl"] .property-header [class*="col-"] {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    /* Final override - Force no padding on mobile for property header */
+    @media (max-width: 768px) {
+        .property-header * {
+            box-sizing: border-box;
+        }
+        
+        .property-header .container,
+        .property-header .container-fluid,
+        .property-header .row,
+        .property-header [class*="col-"],
+        .property-header-content,
+        .property-header-content-v2,
+        .property-title,
+        .property-title-v2,
+        .property-location,
+        .property-location-v2,
+        .property-meta,
+        .property-meta-v2,
+        .meta-item,
+        .meta-item-v2 {
+            padding-right: 0 !important;
+            padding-left: 0 !important;
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+        }
     }
 
     [dir="rtl"] .section-title {
@@ -2604,6 +2673,75 @@
 
     .property-gallery {
         break-inside: avoid;
+    }
+}
+
+/* ============================================
+   FINAL MOBILE OVERRIDE - Property Header Right Edge
+   ============================================ */
+@media (max-width: 768px) {
+    /* Override ALL global styles for property header on mobile */
+    section.property-header,
+    .property-header {
+        padding-left: 0 !important;
+    }
+    
+    section.property-header .container,
+    section.property-header .container-fluid,
+    .property-header .container,
+    .property-header .container-fluid {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    section.property-header .row,
+    .property-header .row {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        --bs-gutter-x: 0 !important;
+        --bs-gutter-y: 0 !important;
+    }
+    
+    section.property-header [class*="col-"],
+    .property-header [class*="col-"] {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .property-header-content,
+    .property-header-content-v2 {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .property-title,
+    .property-title-v2,
+    .property-location,
+    .property-location-v2,
+    .property-meta,
+    .property-meta-v2 {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .meta-item,
+    .meta-item-v2 {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 }
 </style>
