@@ -1030,6 +1030,13 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .property-content {
+    direction: ltr;
+    text-align: left;
 }
 
 .property-title {
@@ -1037,6 +1044,13 @@
     font-weight: 600;
     margin-bottom: 1rem;
     line-height: 1.4;
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="ltr"] .property-title {
+    text-align: left;
+    direction: ltr;
 }
 
 .property-title a {
@@ -1056,6 +1070,13 @@
     margin-bottom: 1rem;
     font-size: 0.9rem;
     color: #666;
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="ltr"] .property-meta {
+    text-align: left;
+    direction: ltr;
 }
 
 .property-type,
@@ -1063,12 +1084,42 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    justify-content: flex-start;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .property-type,
+[dir="ltr"] .property-location {
+    direction: ltr;
+    text-align: left;
+    justify-content: flex-start;
 }
 
 .property-type i,
 .property-location i {
     color: var(--colorPrimary);
     width: 16px;
+    flex-shrink: 0;
+    order: 2;
+}
+
+[dir="ltr"] .property-type i,
+[dir="ltr"] .property-location i {
+    order: 1;
+}
+
+.property-type span,
+.property-location span {
+    order: 1;
+    flex: 1;
+    text-align: right;
+}
+
+[dir="ltr"] .property-type span,
+[dir="ltr"] .property-location span {
+    order: 2;
+    text-align: left;
 }
 
 .property-details {
@@ -1078,6 +1129,15 @@
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid #e9ecef;
+    justify-content: flex-start;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .property-details {
+    direction: ltr;
+    text-align: left;
+    justify-content: flex-start;
 }
 
 .detail-item {
@@ -1086,15 +1146,47 @@
     gap: 0.4rem;
     font-size: 0.9rem;
     color: #666;
+    direction: rtl;
+    text-align: right;
+    justify-content: flex-start;
+}
+
+[dir="ltr"] .detail-item {
+    direction: ltr;
+    text-align: left;
+    justify-content: flex-start;
 }
 
 .detail-item i {
     color: var(--colorPrimary);
     width: 16px;
+    flex-shrink: 0;
+    order: 2;
+}
+
+[dir="ltr"] .detail-item i {
+    order: 1;
+}
+
+.detail-item span {
+    order: 1;
+    text-align: right;
+}
+
+[dir="ltr"] .detail-item span {
+    order: 2;
+    text-align: left;
 }
 
 .property-price {
     margin-bottom: 1.5rem;
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="ltr"] .property-price {
+    text-align: left;
+    direction: ltr;
 }
 
 .price-amount {
@@ -1102,6 +1194,11 @@
     font-weight: 700;
     color: var(--colorPrimary);
     display: block;
+    text-align: right;
+}
+
+[dir="ltr"] .price-amount {
+    text-align: left;
 }
 
 .price-per-sqm {
@@ -1109,12 +1206,24 @@
     color: #999;
     display: block;
     margin-top: 0.25rem;
+    text-align: right;
+}
+
+[dir="ltr"] .price-per-sqm {
+    text-align: left;
 }
 
 .property-actions {
     display: flex;
     gap: 0.75rem;
     margin-top: auto;
+    justify-content: flex-start;
+    direction: rtl;
+}
+
+[dir="ltr"] .property-actions {
+    direction: ltr;
+    justify-content: flex-start;
 }
 
 .property-actions .btn {
@@ -1124,6 +1233,37 @@
     font-weight: 600;
     border-radius: 8px;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .property-actions .btn {
+    direction: ltr;
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.property-actions .btn i {
+    order: 2;
+    flex-shrink: 0;
+}
+
+[dir="ltr"] .property-actions .btn i {
+    order: 1;
+}
+
+.property-actions .btn span {
+    order: 1;
+    text-align: right;
+}
+
+[dir="ltr"] .property-actions .btn span {
+    order: 2;
+    text-align: left;
 }
 
 .property-actions .btn-outline-primary {
