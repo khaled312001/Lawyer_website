@@ -551,27 +551,33 @@
                         <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
                         <p class="mb_30">{{ __('With your account on our website, you always have access to our legal experts. Plus, you can easily track your case, see when we need more information, and get a clear overview of how far along the process is.') }}</p>
                         
-                        <div class="steps-wrapper aman-steps-wrapper-rtl mb_40">
-                            <div class="step-card aman-step-card-rtl mb_20">
-                                <span class="step-text aman-step-text-rtl">
-                                    <strong>{{ __('1. Create your account') }}</strong>
-                                    <p>{{ __('Easily create an account using your email. Access all our legal services and manage your cases from anywhere.') }}</p>
-                                </span>
-                                <i class="fas fa-user-circle step-icon aman-step-icon-rtl"></i>
+                        <div class="case-steps-wrapper mb_40">
+                            <div class="case-step-item">
+                                <div class="case-step-icon-wrapper">
+                                    <i class="fas fa-user-plus case-step-icon"></i>
+                                </div>
+                                <div class="case-step-content">
+                                    <h4 class="case-step-title">{{ __('1. Create your account') }}</h4>
+                                    <p class="case-step-description">{{ __('Easily create an account using your email. Access all our legal services and manage your cases from anywhere.') }}</p>
+                                </div>
                             </div>
-                            <div class="step-card aman-step-card-rtl mb_20">
-                                <span class="step-text aman-step-text-rtl">
-                                    <strong>{{ __('2. Track your case status') }}</strong>
-                                    <p>{{ __('Stay updated on any required information and get a clear view of your case\'s progress through your dashboard.') }}</p>
-                                </span>
-                                <i class="fas fa-chart-line step-icon aman-step-icon-rtl"></i>
+                            <div class="case-step-item">
+                                <div class="case-step-icon-wrapper">
+                                    <i class="fas fa-chart-line case-step-icon"></i>
+                                </div>
+                                <div class="case-step-content">
+                                    <h4 class="case-step-title">{{ __('2. Track your case status') }}</h4>
+                                    <p class="case-step-description">{{ __('Stay updated on any required information and get a clear view of your case\'s progress through your dashboard.') }}</p>
+                                </div>
                             </div>
-                            <div class="step-card aman-step-card-rtl">
-                                <span class="step-text aman-step-text-rtl">
-                                    <strong>{{ __('3. Book consultations') }}</strong>
-                                    <p>{{ __('Need legal help? Schedule an appointment with our expert lawyers directly through the website, available throughout the week.') }}</p>
-                                </span>
-                                <i class="fas fa-calendar-check step-icon aman-step-icon-rtl"></i>
+                            <div class="case-step-item">
+                                <div class="case-step-icon-wrapper">
+                                    <i class="fas fa-calendar-check case-step-icon"></i>
+                                </div>
+                                <div class="case-step-content">
+                                    <h4 class="case-step-title">{{ __('3. Book consultations') }}</h4>
+                                    <p class="case-step-description">{{ __('Need legal help? Schedule an appointment with our expert lawyers directly through the website, available throughout the week.') }}</p>
+                                </div>
                             </div>
                         </div>
 

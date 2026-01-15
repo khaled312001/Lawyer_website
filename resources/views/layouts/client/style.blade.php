@@ -11690,6 +11690,209 @@
     }
 
     /* ===================================================================
+       CASE STEPS - تصميم جديد وبسيط للخطوات مع أيقونات واضحة
+       =================================================================== */
+    
+    .case-steps-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+    
+    .case-step-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 25px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid #f0f0f0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .case-step-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .case-step-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        border-color: var(--colorPrimary);
+    }
+    
+    .case-step-item:hover::before {
+        opacity: 1;
+    }
+    
+    .case-step-icon-wrapper {
+        flex-shrink: 0;
+        width: 70px;
+        height: 70px;
+        min-width: 70px;
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .case-step-icon-wrapper::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .case-step-item:hover .case-step-icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .case-step-item:hover .case-step-icon-wrapper::before {
+        opacity: 1;
+    }
+    
+    .case-step-icon {
+        font-size: 32px;
+        color: #ffffff;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+    
+    .case-step-item:hover .case-step-icon {
+        transform: scale(1.1);
+    }
+    
+    .case-step-content {
+        flex: 1;
+        padding-top: 5px;
+    }
+    
+    .case-step-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0 0 10px 0;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+    
+    .case-step-item:hover .case-step-title {
+        color: var(--colorPrimary);
+    }
+    
+    .case-step-description {
+        font-size: 15px;
+        color: #6c757d;
+        line-height: 1.7;
+        margin: 0;
+    }
+    
+    /* RTL Support */
+    [dir="rtl"] .case-step-item {
+        direction: rtl;
+        text-align: right;
+    }
+    
+    [dir="rtl"] .case-step-content {
+        text-align: right;
+    }
+    
+    [dir="ltr"] .case-step-item {
+        direction: ltr;
+        text-align: left;
+    }
+    
+    [dir="ltr"] .case-step-content {
+        text-align: left;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .case-steps-wrapper {
+            gap: 20px;
+        }
+        
+        .case-step-item {
+            padding: 20px;
+            gap: 15px;
+        }
+        
+        .case-step-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            min-height: 60px;
+        }
+        
+        .case-step-icon {
+            font-size: 28px;
+        }
+        
+        .case-step-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .case-step-description {
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .case-step-item {
+            padding: 18px;
+            gap: 12px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .case-step-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            min-height: 70px;
+        }
+        
+        .case-step-content {
+            text-align: center;
+            padding-top: 0;
+        }
+        
+        .case-step-title {
+            font-size: 17px;
+        }
+        
+        .case-step-description {
+            font-size: 13px;
+        }
+    }
+
+    /* ===================================================================
        MOBILE MENU - قائمة الموبايل الجديدة مع أيقونات على اليمين دائماً
        =================================================================== */
 
