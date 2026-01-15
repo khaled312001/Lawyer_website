@@ -3126,6 +3126,8 @@
         border-radius: 12px;
         border: 1px solid #e9ecef;
         transition: all 0.3s ease;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .lawyer-card-modern:hover .enhanced-lawyer-info-box {
@@ -3320,8 +3322,23 @@
         }
         
         .enhanced-lawyer-info-box {
-            padding: 18px;
+            padding: 18px 20px !important;
             gap: 10px;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+            /* Make it take full width of lawyer card - extend to edges */
+            margin-left: -20px !important;
+            margin-right: -20px !important;
+            width: calc(100% + 40px) !important;
+            border-radius: 0 !important;
+        }
+        
+        /* Ensure parent container doesn't restrict width */
+        .enhanced-lawyer-content {
+            width: 100% !important;
+            max-width: 100% !important;
         }
         
         .enhanced-info-icon-wrapper {
@@ -3356,8 +3373,23 @@
         }
         
         .enhanced-lawyer-info-box {
-            padding: 15px;
+            padding: 15px 20px !important;
             gap: 8px;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+            /* Make it take full width of lawyer card - extend to edges */
+            margin-left: -15px !important;
+            margin-right: -15px !important;
+            width: calc(100% + 30px) !important;
+            border-radius: 0 !important;
+        }
+        
+        /* Ensure parent container doesn't restrict width */
+        .enhanced-lawyer-content {
+            width: 100% !important;
+            max-width: 100% !important;
         }
         
         .enhanced-lawyer-info-item {

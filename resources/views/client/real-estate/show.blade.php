@@ -2151,11 +2151,10 @@
     max-height: 90vh;
     object-fit: contain;
     border-radius: 10px;
+    transition: opacity 0.2s ease;
 }
 
-.lightbox-close,
-.lightbox-prev,
-.lightbox-next {
+.lightbox-close {
     position: absolute;
     background: rgba(255,255,255,0.9);
     border: none;
@@ -2170,53 +2169,43 @@
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 10;
-}
-
-.lightbox-close {
     top: -60px;
     right: 0;
 }
 
-.lightbox-prev {
-    left: -60px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.lightbox-next {
-    right: -60px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.lightbox-close:hover,
-.lightbox-prev:hover,
-.lightbox-next:hover {
+.lightbox-close:hover {
     background: var(--colorPrimary);
     color: white;
     transform: scale(1.1);
 }
 
-.lightbox-next:hover {
-    transform: translateY(-50%) scale(1.1);
+/* Hide navigation arrows */
+.lightbox-prev,
+.lightbox-next {
+    display: none !important;
 }
 
-.lightbox-prev:hover {
-    transform: translateY(-50%) scale(1.1);
+/* Make image draggable/swipeable */
+.lightbox-image {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: pan-y;
+}
+
+.lightbox-image:active {
+    cursor: grabbing;
 }
 
 @media (max-width: 768px) {
     .lightbox-close {
         top: 10px;
         right: 10px;
-    }
-
-    .lightbox-prev {
-        left: 10px;
-    }
-
-    .lightbox-next {
-        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
     }
 
     .lightbox-content img {
@@ -2320,7 +2309,7 @@ $(document).ready(function() {
         // Simple lightbox implementation
         const currentImg = images[currentImageIndex];
         const propertyTitle = @json($property->title);
-        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><img src="' + currentImg + '" alt="' + propertyTitle + '"><button class="lightbox-close"><i class="fas fa-times"></i></button><button class="lightbox-prev"><i class="fas fa-chevron-left"></i></button><button class="lightbox-next"><i class="fas fa-chevron-right"></i></button></div></div>';
+        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><img src="' + currentImg + '" alt="' + propertyTitle + '" class="lightbox-image"><button class="lightbox-close"><i class="fas fa-times"></i></button></div></div>';
         const lightbox = $(lightboxHtml);
         $('body').append(lightbox);
         
@@ -2329,15 +2318,82 @@ $(document).ready(function() {
             lightbox.remove();
         });
         
-        // Navigation buttons
-        lightbox.find('.lightbox-prev').on('click', function() {
-            changeGalleryImage(-1);
-            lightbox.find('img').attr('src', images[currentImageIndex]);
+        // Swipe functionality for navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const lightboxImage = lightbox.find('.lightbox-image');
+        
+        // Touch events for mobile
+        lightboxImage.on('touchstart', function(e) {
+            touchStartX = e.originalEvent.touches[0].clientX;
+            touchStartY = e.originalEvent.touches[0].clientY;
         });
         
-        lightbox.find('.lightbox-next').on('click', function() {
-            changeGalleryImage(1);
-            lightbox.find('img').attr('src', images[currentImageIndex]);
+        lightboxImage.on('touchend', function(e) {
+            touchEndX = e.originalEvent.changedTouches[0].clientX;
+            touchEndY = e.originalEvent.changedTouches[0].clientY;
+            handleSwipe();
+        });
+        
+        // Mouse events for desktop (drag)
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        
+        lightboxImage.on('mousedown', function(e) {
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            lightboxImage.css('cursor', 'grabbing');
+            e.preventDefault();
+        });
+        
+        $(document).on('mousemove.lightbox', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+            }
+        });
+        
+        $(document).on('mouseup.lightbox', function(e) {
+            if (isDragging) {
+                touchEndX = e.clientX;
+                touchEndY = e.clientY;
+                touchStartX = dragStartX;
+                touchStartY = dragStartY;
+                handleSwipe();
+                isDragging = false;
+                lightboxImage.css('cursor', 'grab');
+            }
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum distance for swipe
+            const diffX = touchStartX - touchEndX;
+            const diffY = Math.abs(touchStartY - touchEndY);
+            
+            // Only trigger swipe if horizontal movement is greater than vertical (to avoid conflicts with scrolling)
+            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > diffY) {
+                if (diffX > 0) {
+                    // Swipe left - next image
+                    changeGalleryImage(1);
+                } else {
+                    // Swipe right - previous image
+                    changeGalleryImage(-1);
+                }
+                // Add smooth transition
+                lightboxImage.css('opacity', '0.7');
+                setTimeout(function() {
+                    lightboxImage.attr('src', images[currentImageIndex]);
+                    lightboxImage.css('opacity', '1');
+                }, 150);
+            }
+        }
+        
+        // Clean up event listeners when lightbox is closed
+        lightbox.on('remove', function() {
+            $(document).off('mousemove.lightbox mouseup.lightbox');
         });
         
         // Close on overlay click
