@@ -2859,6 +2859,317 @@
         }
     }
 
+    /* ===================================================================
+       ENHANCED LAWYER CONTENT - تصميم محسّن لمعلومات المحامي
+       =================================================================== */
+    
+    .enhanced-lawyer-content {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .enhanced-lawyer-name {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+    
+    .enhanced-lawyer-name a {
+        color: #2c3e50;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .lawyer-card-modern:hover .enhanced-lawyer-name a {
+        color: var(--colorPrimary);
+    }
+    
+    /* Info Box Container */
+    .enhanced-lawyer-info-box {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+    
+    .lawyer-card-modern:hover .enhanced-lawyer-info-box {
+        border-color: var(--colorPrimary);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Info Item */
+    .enhanced-lawyer-info-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        transition: all 0.3s ease;
+    }
+    
+    .enhanced-lawyer-info-item:not(:last-child) {
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 12px;
+    }
+    
+    .enhanced-lawyer-info-item:hover {
+        transform: translateX(-3px);
+    }
+    
+    [dir="rtl"] .enhanced-lawyer-info-item:hover {
+        transform: translateX(3px);
+    }
+    
+    /* Icon Wrapper */
+    .enhanced-info-icon-wrapper {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+    
+    .enhanced-lawyer-info-item:hover .enhanced-info-icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+    
+    .enhanced-info-icon {
+        font-size: 16px;
+        color: #ffffff;
+        transition: all 0.3s ease;
+    }
+    
+    /* Rating Icon Wrapper - Special Style */
+    .enhanced-rating-icon-wrapper {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    }
+    
+    /* Info Text */
+    .enhanced-info-text {
+        font-size: 15px;
+        color: #495057;
+        font-weight: 500;
+        line-height: 1.5;
+        flex: 1;
+    }
+    
+    /* Rating Item - Special Layout */
+    .enhanced-rating-item {
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+        align-items: flex-start;
+    }
+    
+    .enhanced-rating-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .enhanced-rating-stars {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+    }
+    
+    .enhanced-rating-stars i {
+        font-size: 14px;
+        color: #ffc107;
+    }
+    
+    .enhanced-rating-text {
+        font-size: 14px;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .enhanced-rating-text strong {
+        font-size: 16px;
+        color: #2c3e50;
+        font-weight: 700;
+    }
+    
+    .enhanced-rating-text .rating-count {
+        color: #6c757d;
+        font-size: 13px;
+    }
+    
+    .enhanced-rating-text.no-rating {
+        color: #999;
+        font-style: italic;
+    }
+    
+    /* View Profile Button */
+    .enhanced-lawyer-view-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-top: auto;
+    }
+    
+    .enhanced-lawyer-view-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        color: #ffffff;
+    }
+    
+    .enhanced-lawyer-view-btn .btn-text {
+        transition: transform 0.3s ease;
+    }
+    
+    .enhanced-lawyer-view-btn:hover .btn-text {
+        transform: translateX(-3px);
+    }
+    
+    [dir="rtl"] .enhanced-lawyer-view-btn:hover .btn-text {
+        transform: translateX(3px);
+    }
+    
+    .enhanced-lawyer-view-btn .btn-icon {
+        transition: transform 0.3s ease;
+    }
+    
+    .enhanced-lawyer-view-btn:hover .btn-icon {
+        transform: translateX(5px);
+    }
+    
+    [dir="rtl"] .enhanced-lawyer-view-btn:hover .btn-icon {
+        transform: translateX(-5px);
+    }
+    
+    /* RTL Support */
+    [dir="rtl"] .enhanced-lawyer-content,
+    [dir="rtl"] .enhanced-lawyer-info-box,
+    [dir="rtl"] .enhanced-lawyer-info-item {
+        direction: rtl;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .enhanced-lawyer-content,
+    [dir="ltr"] .enhanced-lawyer-info-box,
+    [dir="ltr"] .enhanced-lawyer-info-item {
+        direction: ltr;
+        text-align: left;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .enhanced-lawyer-content {
+            padding: 25px 20px;
+            gap: 18px;
+        }
+        
+        .enhanced-lawyer-name {
+            font-size: 22px;
+        }
+        
+        .enhanced-lawyer-info-box {
+            padding: 18px;
+            gap: 10px;
+        }
+        
+        .enhanced-info-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            min-height: 36px;
+        }
+        
+        .enhanced-info-icon {
+            font-size: 14px;
+        }
+        
+        .enhanced-info-text {
+            font-size: 14px;
+        }
+        
+        .enhanced-lawyer-view-btn {
+            padding: 12px 20px;
+            font-size: 15px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .enhanced-lawyer-content {
+            padding: 20px 15px;
+            gap: 15px;
+        }
+        
+        .enhanced-lawyer-name {
+            font-size: 20px;
+        }
+        
+        .enhanced-lawyer-info-box {
+            padding: 15px;
+            gap: 8px;
+        }
+        
+        .enhanced-lawyer-info-item {
+            gap: 10px;
+            padding: 8px 0;
+        }
+        
+        .enhanced-lawyer-info-item:not(:last-child) {
+            padding-bottom: 10px;
+        }
+        
+        .enhanced-info-icon-wrapper {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            min-height: 32px;
+            border-radius: 8px;
+        }
+        
+        .enhanced-info-icon {
+            font-size: 13px;
+        }
+        
+        .enhanced-info-text {
+            font-size: 13px;
+        }
+        
+        .enhanced-rating-text {
+            font-size: 13px;
+        }
+        
+        .enhanced-rating-text strong {
+            font-size: 15px;
+        }
+        
+        .enhanced-lawyer-view-btn {
+            padding: 11px 18px;
+            font-size: 14px;
+        }
+    }
+
     /* ============================================
        REGISTER PAGE - MODERN DESIGN IMPROVEMENTS
        ============================================ */

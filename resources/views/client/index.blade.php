@@ -377,51 +377,73 @@
                                                 </div>
                                             </a>
                                         </div>
-                                        <div class="lawyer-content">
-                                            <h3 class="lawyer-name">
+                                        <div class="lawyer-content enhanced-lawyer-content">
+                                            <h3 class="lawyer-name enhanced-lawyer-name">
                                                 <a aria-label="{{ $lawyer?->name }}"
                                                     href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
                                                     {{ $lawyer?->name }}
                                                 </a>
                                             </h3>
-                                            <div class="lawyer-meta">
+                                            
+                                            <div class="enhanced-lawyer-info-box">
                                                 @if($lawyer->department)
-                                                <span class="lawyer-department-meta">
-                                                    <i class="fas fa-briefcase"></i>
-                                                    <span>{{ $lawyer->department->name }}</span>
-                                                </span>
+                                                <div class="enhanced-lawyer-info-item">
+                                                    <div class="enhanced-info-icon-wrapper">
+                                                        <i class="fas fa-briefcase enhanced-info-icon"></i>
+                                                    </div>
+                                                    <span class="enhanced-info-text">{{ $lawyer->department->name }}</span>
+                                                </div>
                                                 @endif
+                                                
                                                 @if($lawyer->location)
-                                                <span class="lawyer-location-meta">
-                                                    <i class="fas fa-map-marker-alt"></i>
-                                                    <span>{{ ucfirst($lawyer->location->name) }}</span>
-                                                </span>
+                                                <div class="enhanced-lawyer-info-item">
+                                                    <div class="enhanced-info-icon-wrapper">
+                                                        <i class="fas fa-map-marker-alt enhanced-info-icon"></i>
+                                                    </div>
+                                                    <span class="enhanced-info-text">{{ ucfirst($lawyer->location->name) }}</span>
+                                                </div>
+                                                @endif
+                                                
+                                                @if($lawyer->designations)
+                                                <div class="enhanced-lawyer-info-item">
+                                                    <div class="enhanced-info-icon-wrapper">
+                                                        <i class="fas fa-graduation-cap enhanced-info-icon"></i>
+                                                    </div>
+                                                    <span class="enhanced-info-text">{{ $lawyer->designations }}</span>
+                                                </div>
+                                                @endif
+                                                
+                                                @if($lawyer->total_ratings > 0)
+                                                <div class="enhanced-lawyer-info-item enhanced-rating-item">
+                                                    <div class="enhanced-info-icon-wrapper enhanced-rating-icon-wrapper">
+                                                        <i class="fas fa-star enhanced-info-icon"></i>
+                                                    </div>
+                                                    <div class="enhanced-rating-content">
+                                                        <div class="enhanced-rating-stars">
+                                                            {!! displayStars($lawyer->average_rating) !!}
+                                                        </div>
+                                                        <span class="enhanced-rating-text">
+                                                            <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
+                                                            <span class="rating-count">({{ $lawyer->total_ratings }})</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                @else
+                                                <div class="enhanced-lawyer-info-item enhanced-rating-item">
+                                                    <div class="enhanced-info-icon-wrapper enhanced-rating-icon-wrapper">
+                                                        <i class="fas fa-star enhanced-info-icon"></i>
+                                                    </div>
+                                                    <div class="enhanced-rating-content">
+                                                        <span class="enhanced-rating-text no-rating">{{ __('No ratings') }}</span>
+                                                    </div>
+                                                </div>
                                                 @endif
                                             </div>
-                                            @if($lawyer->designations)
-                                            <p class="lawyer-designations">
-                                                <i class="fas fa-graduation-cap"></i>
-                                                {{ $lawyer->designations }}
-                                            </p>
-                                            @endif
-                                            @if($lawyer->total_ratings > 0)
-                                            <div class="lawyer-rating">
-                                                {!! displayStars($lawyer->average_rating) !!}
-                                                <span class="rating-text">
-                                                    <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
-                                                    ({{ $lawyer->total_ratings }})
-                                                </span>
-                                            </div>
-                                            @else
-                                            <div class="lawyer-rating">
-                                                {!! displayStars(0) !!}
-                                                <span class="rating-text no-rating">{{ __('No ratings') }}</span>
-                                            </div>
-                                            @endif
-                                            <a class="lawyer-view-profile" aria-label="{{ __('View Profile') }}"
+                                            
+                                            <a class="enhanced-lawyer-view-btn" aria-label="{{ __('View Profile') }}"
                                                 href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
-                                                <span>{{ __('View Profile') }}</span>
-                                                <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
+                                                <span class="btn-text">{{ __('View Profile') }}</span>
+                                                <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }} btn-icon"></i>
                                             </a>
                                         </div>
                                     </div>
