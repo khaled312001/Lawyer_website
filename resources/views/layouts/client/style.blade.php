@@ -71,6 +71,11 @@
         --text-primary: var(--colorBlack);
         --text-secondary: #666;
         --text-muted: #999;
+        
+        /* Navigation Heights */
+        --top-header-bar-height: 50px;
+        --main-navbar-height: 70px;
+        --total-navbar-height: 120px; /* top-header-bar + main-navbar */
     }
 
     /* ============================================
@@ -84,6 +89,7 @@
         position: relative;
         z-index: 1000;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        margin-top: var(--total-navbar-height); /* Space for top header bar + main navbar */
     }
 
     .top-alert-banner.hidden {
@@ -135,8 +141,12 @@
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         padding: 12px 0;
         border-bottom: 1px solid #e9ecef;
-        position: relative;
-        z-index: 999;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10000 !important;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
     }
 
@@ -316,7 +326,7 @@
         padding: 0;
         box-shadow: 0 4px 25px rgba(0,0,0,0.08), 0 2px 10px rgba(0,0,0,0.05);
         position: fixed !important;
-        top: 0 !important;
+        top: var(--top-header-bar-height) !important; /* Position below top header bar */
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -647,13 +657,13 @@
 
     /* Add padding-top to body to prevent content from hiding behind fixed navbar */
     body.client-frontend {
-        padding-top: 70px !important;
+        padding-top: var(--total-navbar-height) !important; /* Top header bar + Main navbar */
     }
 
     /* Ensure navbar is always on top */
     body.client-frontend .top-header-bar {
-        position: relative;
-        z-index: 9998;
+        position: fixed !important;
+        z-index: 10000 !important;
     }
 
     /* Ensure first section doesn't have extra padding */
@@ -662,10 +672,16 @@
         margin-top: 0 !important;
     }
 
-    /* On mobile, top-header-bar is hidden, so padding stays at 70px */
+    /* On mobile, adjust padding for smaller screens */
     @media (max-width: 768px) {
         body.client-frontend {
-            padding-top: 70px !important;
+            padding-top: var(--total-navbar-height) !important; /* Keep same padding on mobile */
+        }
+        body.client-frontend .main-navbar {
+            top: var(--top-header-bar-height) !important; /* Keep main navbar below top header bar */
+        }
+        .top-alert-banner {
+            margin-top: var(--total-navbar-height) !important; /* Keep alert banner below both bars */
         }
     }
 
@@ -2099,12 +2115,25 @@
         position: relative;
     }
 
+    /* دعم RTL - محاذاة كاملة لليمين في العربية */
+    [dir="rtl"] .team-text {
+        text-align: right;
+        direction: rtl;
+    }
+
     .team-name {
         font-size: 20px;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         color: var(--colorBlack);
         transition: color 0.3s ease;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    /* دعم RTL للاسم */
+    [dir="rtl"] .team-name {
+        text-align: center;
     }
 
     .team-item:hover .team-name {
@@ -2113,25 +2142,105 @@
 
     .team-text p {
         font-size: 14px;
-        margin: 5px 0;
+        margin: 8px 0;
         color: #666;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        direction: ltr;
+        text-align: left;
+        justify-content: flex-start;
+    }
+
+    /* دعم RTL للنصوص - محاذاة لليمين في العربية */
+    [dir="rtl"] .team-text p {
+        direction: rtl;
+        text-align: right;
+        justify-content: flex-end;
+        flex-direction: row-reverse;
     }
 
     .team-text p i {
         color: var(--colorPrimary);
-        font-size: 14px;
-        width: 18px;
+        font-size: 16px;
+        width: 20px;
+        min-width: 20px;
+        text-align: center;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* في LTR: الأيقونات على اليسار */
+    .team-text p i.fa-briefcase,
+    .team-text p i.fa-graduation-cap,
+    .team-text p i.fa-street-view {
+        order: -1;
+    }
+
+    /* في RTL: الأيقونات على اليمين */
+    [dir="rtl"] .team-text p i.fa-briefcase,
+    [dir="rtl"] .team-text p i.fa-graduation-cap,
+    [dir="rtl"] .team-text p i.fa-street-view {
+        order: 1;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* ضمان أن النص يبدأ بعد الأيقونة مباشرة في RTL */
+    [dir="rtl"] .team-text p {
+        text-align: right;
+    }
+
+    [dir="rtl"] .team-text p span {
+        text-align: right;
     }
 
     .team-text span {
         color: var(--colorPrimary);
+        display: inline;
     }
 
     .team-text span b {
         font-weight: 500;
+        color: #666;
+    }
+
+    /* تحسين محاذاة التقييمات */
+    .team-text .mt-2 {
+        margin-top: 15px !important;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        direction: ltr;
+    }
+
+    /* في RTL: محاذاة التقييمات لليمين */
+    [dir="rtl"] .team-text .mt-2 {
+        justify-content: flex-end;
+        direction: rtl;
+        text-align: right;
+    }
+
+    [dir="rtl"] .team-text .mt-2 span {
+        text-align: right;
+    }
+
+    .team-text .mt-2 span {
+        font-size: 12px;
+        color: #666;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* ضمان أن النجوم والتقييم في نفس السطر */
+    .team-text .mt-2 .stars,
+    .team-text .mt-2 .fa-star {
+        display: inline-flex;
+        align-items: center;
     }
 
     /* Action Icon - Arrow */
@@ -2154,8 +2263,19 @@
         box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3);
     }
 
+    /* في RTL: نقل الأيقونة لليمين */
+    [dir="rtl"] .team-action-icon {
+        left: auto;
+        right: 25px;
+        transform: translateX(10px);
+    }
+
     .team-item:hover .team-action-icon {
         opacity: 1;
+        transform: translateX(0);
+    }
+
+    [dir="rtl"] .team-item:hover .team-action-icon {
         transform: translateX(0);
     }
 
@@ -9496,6 +9616,211 @@
 
         .section {
             padding: 20px 0 !important;
+        }
+    }
+
+    /* تقليل المسافة بين قسم خدماتنا القانونية وأقسامنا القانونية */
+    .service-area {
+        padding-bottom: 20px !important;
+    }
+
+    .team-area {
+        padding-top: 20px !important;
+    }
+
+    /* على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .service-area {
+            padding-bottom: 15px !important;
+        }
+
+        .team-area {
+            padding-top: 15px !important;
+        }
+    }
+
+    /* تحسين تصميم كروت الشهادات لتكون متساوية */
+    .testimonial-item {
+        height: 100% !important;
+        min-height: 400px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-sizing: border-box !important;
+    }
+
+    .testimonial-item p {
+        flex: 1 !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        margin-bottom: 20px !important;
+        line-height: 1.6 !important;
+    }
+
+    .testi-info {
+        margin-top: auto !important;
+        flex-shrink: 0 !important;
+        padding-top: 20px !important;
+    }
+
+    /* جعل الكروت في نفس الصف متساوية في الارتفاع */
+    .testimonial_slider .slick-slide,
+    .testimonial_slider .slick-track .slick-slide,
+    .owl-testimonial .owl-item,
+    .testimonial-area .row > div,
+    .testimonial-area .col-md-6,
+    .testimonial-area .col-lg-6 {
+        display: flex !important;
+        height: auto !important;
+    }
+
+    .testimonial_slider .slick-slide > div,
+    .owl-testimonial .owl-item > div,
+    .testimonial-area .row > div > div,
+    .testimonial-area .col-md-6 > div,
+    .testimonial-area .col-lg-6 > div {
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* ضمان أن جميع الكروت في نفس الصف لها نفس الارتفاع */
+    .testimonial_slider .slick-track,
+    .owl-testimonial .owl-stage {
+        display: flex !important;
+        align-items: stretch !important;
+    }
+
+    .testimonial_slider .slick-slide,
+    .owl-testimonial .owl-item {
+        height: auto !important;
+        display: flex !important;
+    }
+
+    /* على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .testimonial-item {
+            min-height: 350px !important;
+            padding: 60px 30px 50px 30px !important;
+        }
+
+        .testimonial-item:before {
+            left: 20px !important;
+            top: 10px !important;
+            font-size: 60px !important;
+        }
+
+        .testi-info {
+            padding: 15px 0px 15px 80px !important;
+        }
+    }
+
+    /* على الشاشات المتوسطة */
+    @media (min-width: 769px) and (max-width: 991px) {
+        .testimonial-item {
+            min-height: 380px !important;
+            padding: 70px 50px 60px 50px !important;
+        }
+    }
+
+    /* على الشاشات الكبيرة */
+    @media (min-width: 992px) {
+        .testimonial-item {
+            min-height: 420px !important;
+        }
+    }
+
+    /* تحسين محاذاة كروت المحامين في الصفحة الرئيسية */
+    .team-area .row > div,
+    .team-page .row > div {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .team-item-link {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        text-decoration: none !important;
+    }
+
+    /* ضمان أن جميع الكروت متساوية في الارتفاع */
+    .team-item {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* تحسين محاذاة النصوص والأيقونات */
+    .team-text {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* ضمان أن الأيقونات دائماً في نفس الموضع */
+    .team-text p {
+        display: flex !important;
+        align-items: center !important;
+        margin: 8px 0 !important;
+    }
+
+    /* في RTL: محاذاة كاملة لليمين في العربية */
+    [dir="rtl"] .team-text {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .team-text p {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+        flex-direction: row-reverse !important;
+    }
+
+    [dir="rtl"] .team-text p i {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        order: 1 !important;
+    }
+
+    [dir="rtl"] .team-text p span {
+        text-align: right !important;
+    }
+
+    [dir="rtl"] .team-text .mt-2 {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+    }
+
+    [dir="rtl"] .team-text .mt-2 span {
+        text-align: right !important;
+    }
+
+    /* على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .team-text p {
+            font-size: 13px !important;
+            margin: 6px 0 !important;
+        }
+
+        .team-text p i {
+            font-size: 14px !important;
+            width: 18px !important;
+            min-width: 18px !important;
+        }
+
+        .team-name {
+            font-size: 18px !important;
+            margin-bottom: 12px !important;
+        }
+
+        /* RTL على الشاشات الصغيرة */
+        [dir="rtl"] .team-text p {
+            flex-direction: row-reverse !important;
+            text-align: right !important;
         }
     }
 </style>

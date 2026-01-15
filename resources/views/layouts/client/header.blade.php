@@ -140,18 +140,6 @@
         </script>
     @endif
 
-    <!--New Top Alert Banner-->
-    <div class="top-alert-banner" id="topAlertBanner">
-        <div class="container-fluid">
-            <div class="alert-content">
-                <span class="alert-text">{{ __('Welcome to our legal services platform - Get expert legal advice from qualified lawyers') }}</span>
-                <button class="alert-close-btn" onclick="closeAlertBanner()" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!--New Header Bar-->
     <div class="top-header-bar">
         <div class="container-fluid">
@@ -242,7 +230,6 @@
             </div>
         </div>
     </div>
-
 
     <!--New Main Navigation Bar-->
     <nav class="main-navbar" id="mainNavbar">
@@ -365,6 +352,18 @@
             </div>
         </div>
     </nav>
+
+    <!--New Top Alert Banner-->
+    <div class="top-alert-banner" id="topAlertBanner">
+        <div class="container-fluid">
+            <div class="alert-content">
+                <span class="alert-text">{{ __('Welcome to our legal services platform - Get expert legal advice from qualified lawyers') }}</span>
+                <button class="alert-close-btn" onclick="closeAlertBanner()" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
     @php
         $getDepartments = getDepartments();
     @endphp
