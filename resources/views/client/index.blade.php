@@ -664,34 +664,34 @@
                         <h2 class="title mb_30">{{ __('Fixed Price Guarantee') }}</h2>
                         <p class="mb_30">{{ __("When you work with us, you will always receive a price estimate in advance. We work with fixed and transparent prices, so you don't have to worry about any unexpected or hidden fees. You will know exactly what you will pay before starting any legal service.") }}</p>
                         
-                        <div class="price-benefits">
-                            <div class="benefit-item mb_20">
-                                <i class="fas fa-shield-alt"></i>
-                                <div class="benefit-content">
+                        <div class="price-benefits aman-price-cards-wrapper-rtl">
+                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
+                                <span class="aman-benefit-text-new-rtl">
                                     <strong>{{ __('No Hidden Fees') }}</strong>
                                     <p>{{ __('All costs are clearly stated upfront. No surprises, no additional charges after service completion.') }}</p>
-                                </div>
+                                </span>
+                                <i class="fas fa-shield-alt aman-benefit-icon-new-rtl"></i>
                             </div>
-                            <div class="benefit-item mb_20">
-                                <i class="fas fa-eye"></i>
-                                <div class="benefit-content">
+                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
+                                <span class="aman-benefit-text-new-rtl">
                                     <strong>{{ __('Transparent Pricing') }}</strong>
                                     <p>{{ __('Complete transparency in all our pricing. You see exactly what you pay for each service.') }}</p>
-                                </div>
+                                </span>
+                                <i class="fas fa-eye aman-benefit-icon-new-rtl"></i>
                             </div>
-                            <div class="benefit-item mb_20">
-                                <i class="fas fa-handshake"></i>
-                                <div class="benefit-content">
+                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
+                                <span class="aman-benefit-text-new-rtl">
                                     <strong>{{ __('Price Agreed Upfront') }}</strong>
                                     <p>{{ __('The price is agreed upon before starting any work. No price changes during the service.') }}</p>
-                                </div>
+                                </span>
+                                <i class="fas fa-handshake aman-benefit-icon-new-rtl"></i>
                             </div>
-                            <div class="benefit-item">
-                                <i class="fas fa-credit-card"></i>
-                                <div class="benefit-content">
+                            <div class="benefit-item aman-benefit-card-new-rtl">
+                                <span class="aman-benefit-text-new-rtl">
                                     <strong>{{ __('Flexible Payment Plans') }}</strong>
                                     <p>{{ __('We offer flexible payment options that suit your budget. Pay in installments if needed.') }}</p>
-                                </div>
+                                </span>
+                                <i class="fas fa-credit-card aman-benefit-icon-new-rtl"></i>
                             </div>
                         </div>
 

@@ -182,7 +182,7 @@
     <div class="footer-copyrignt">
         <div class="container">
             <div class="copyright-text text-center">
-                <p>{{ $contactInfo?->copyright }}</p>
+                <p>{{ __('Copyright') }} &copy; 2026, Aman Law. {{ __('All rights reserved') }}.</p>
             </div>
         </div>
     </div>
@@ -299,6 +299,61 @@
 
     <script>
         "use strict";
+        
+        // Header Scroll Animation - إخفاء/إظهار الهيدر عند السكرول
+        let amanLastScrollTop = 0;
+        let amanScrollTimer = null;
+        const amanWelcomeBanner = document.querySelector('.aman-welcome-banner-rtl, .top-alert-banner');
+        const amanTopBar = document.querySelector('.aman-top-bar-rtl, .top-header-bar');
+        const amanMainNav = document.querySelector('.aman-main-nav-rtl, .main-navbar');
+        const amanBody = document.body;
+
+        window.addEventListener('scroll', function() {
+            clearTimeout(amanScrollTimer);
+            
+            amanScrollTimer = setTimeout(function() {
+                let amanScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                if (amanScrollTop > 100) {
+                    // عند النزول - إخفاء البانر والشريط العلوي
+                    if (amanWelcomeBanner) {
+                        amanWelcomeBanner.style.transform = 'translateY(-100%)';
+                        amanWelcomeBanner.style.opacity = '0';
+                        amanWelcomeBanner.style.pointerEvents = 'none';
+                    }
+                    if (amanTopBar) {
+                        amanTopBar.style.transform = 'translateY(-100%)';
+                        amanTopBar.style.opacity = '0';
+                        amanTopBar.style.pointerEvents = 'none';
+                    }
+                    if (amanMainNav) {
+                        amanMainNav.style.top = '0';
+                        amanMainNav.classList.add('scrolled', 'aman-scrolled-state');
+                    }
+                    amanBody.classList.add('header-scrolled', 'aman-header-hidden');
+                } else {
+                    // عند الصعود - إظهار كل شيء
+                    if (amanWelcomeBanner) {
+                        amanWelcomeBanner.style.transform = 'translateY(0)';
+                        amanWelcomeBanner.style.opacity = '1';
+                        amanWelcomeBanner.style.pointerEvents = 'auto';
+                    }
+                    if (amanTopBar) {
+                        amanTopBar.style.transform = 'translateY(0)';
+                        amanTopBar.style.opacity = '1';
+                        amanTopBar.style.pointerEvents = 'auto';
+                    }
+                    if (amanMainNav) {
+                        amanMainNav.style.top = '100px';
+                        amanMainNav.classList.remove('scrolled', 'aman-scrolled-state');
+                    }
+                    amanBody.classList.remove('header-scrolled', 'aman-header-hidden');
+                }
+                
+                amanLastScrollTop = amanScrollTop;
+            }, 10);
+        });
+
         window.addEventListener("load", function() {
             @php
                 $currentLang = app()->getLocale();

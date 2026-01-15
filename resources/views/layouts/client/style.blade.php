@@ -10225,6 +10225,17 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
     }
 
+    /* إخفاء البانر الترحيبي على الموبايل */
+    @media (max-width: 768px) {
+        .aman-welcome-banner-rtl,
+        .top-alert-banner {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+        }
+    }
+
     .aman-banner-content-rtl {
         display: flex !important;
         align-items: center !important;
@@ -10254,6 +10265,14 @@
         border-bottom: 1px solid #e9ecef !important;
     }
 
+    /* على الموبايل - الشريط العلوي يصبح في الأعلى */
+    @media (max-width: 768px) {
+        .aman-top-bar-rtl,
+        .top-header-bar {
+            top: 0 !important;
+        }
+    }
+
     .aman-bar-content-rtl {
         display: flex !important;
         align-items: center !important;
@@ -10271,6 +10290,14 @@
         width: 100% !important;
         z-index: 9999 !important;
         height: 70px !important;
+    }
+
+    /* على الموبايل - القائمة الرئيسية تحت الشريط العلوي فقط */
+    @media (max-width: 768px) {
+        .aman-main-nav-rtl,
+        body.client-frontend .main-navbar {
+            top: 50px !important;
+        }
     }
 
     .aman-nav-wrapper-rtl {
@@ -10400,21 +10427,28 @@
     /* Responsive للموبايل */
     @media (max-width: 768px) {
         body.client-frontend {
-            padding-top: 170px !important;
+            padding-top: 120px !important; /* شريط علوي 50px + قائمة رئيسية 70px فقط */
         }
 
-        .aman-welcome-banner-rtl {
+        .aman-welcome-banner-rtl,
+        .top-alert-banner {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .aman-top-bar-rtl,
+        .top-header-bar {
+            top: 0 !important;
             height: 50px !important;
-            font-size: 13px !important;
         }
 
-        .aman-top-bar-rtl {
+        .aman-main-nav-rtl,
+        body.client-frontend .main-navbar {
             top: 50px !important;
-            height: 50px !important;
-        }
-
-        .aman-main-nav-rtl {
-            top: 100px !important;
             height: 70px !important;
         }
 
@@ -10426,6 +10460,12 @@
             font-size: 14px !important;
             width: 18px !important;
             min-width: 18px !important;
+        }
+
+        /* عند السكرول على الموبايل */
+        body.header-scrolled.client-frontend,
+        body.aman-header-hidden.client-frontend {
+            padding-top: 70px !important;
         }
     }
 
@@ -10441,5 +10481,562 @@
     html[lang="ar"] .aman-lawyer-card-rtl,
     html[lang="ar"] .aman-benefit-card-rtl {
         box-sizing: border-box !important;
+    }
+
+    /* ===================================================================
+       SCROLL ANIMATION - تأثيرات السكرول
+       =================================================================== */
+
+    /* إضافة transition للعناصر */
+    .aman-welcome-banner-rtl,
+    .top-alert-banner,
+    .aman-top-bar-rtl,
+    .top-header-bar,
+    .aman-main-nav-rtl,
+    .main-navbar {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* عند السكرول - تقليل padding للbody */
+    body.header-scrolled.client-frontend {
+        padding-top: 70px !important;
+    }
+
+    /* القائمة الرئيسية عند السكرول */
+    .main-navbar.scrolled,
+    .aman-main-nav-rtl.scrolled,
+    .main-navbar.aman-scrolled-state,
+    .aman-main-nav-rtl.aman-scrolled-state {
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(10px) !important;
+        top: 0 !important;
+    }
+
+    /* تأثير السكرول على desktop */
+    @media (min-width: 769px) {
+        .main-navbar.scrolled,
+        .aman-main-nav-rtl.scrolled {
+            top: 0 !important;
+        }
+    }
+
+    /* البانر الترحيبي - تأثير الاختفاء */
+    .aman-welcome-banner-rtl,
+    .top-alert-banner {
+        transition: transform 0.4s ease, opacity 0.4s ease !important;
+    }
+
+    /* الشريط العلوي - تأثير الاختفاء */
+    .aman-top-bar-rtl,
+    .top-header-bar {
+        transition: transform 0.4s ease, opacity 0.4s ease !important;
+    }
+
+    /* على الموبايل - تعديل السكرول */
+    @media (max-width: 768px) {
+        body.header-scrolled.client-frontend,
+        body.aman-header-hidden.client-frontend {
+            padding-top: 70px !important;
+        }
+
+        .main-navbar.scrolled,
+        .aman-main-nav-rtl.scrolled,
+        .main-navbar.aman-scrolled-state,
+        .aman-main-nav-rtl.aman-scrolled-state {
+            height: 70px !important;
+            top: 0 !important;
+        }
+
+        /* إخفاء الشريط العلوي عند السكرول على الموبايل */
+        body.header-scrolled .aman-top-bar-rtl,
+        body.header-scrolled .top-header-bar {
+            display: none !important;
+        }
+    }
+
+    /* تحسينات إضافية للسكرول السلس */
+    html {
+        scroll-behavior: smooth !important;
+    }
+
+    body.client-frontend {
+        scroll-padding-top: 170px !important;
+    }
+
+    body.header-scrolled.client-frontend {
+        scroll-padding-top: 70px !important;
+    }
+
+    /* ===================================================================
+       FORCE RTL ALIGNMENT - إجبار المحاذاة لليمين في العربية
+       =================================================================== */
+
+    /* إجبار محاذاة كروت المحامين */
+    html[dir="rtl"] .aman-lawyer-info-rtl,
+    html[lang="ar"] .aman-lawyer-info-rtl,
+    [dir="rtl"] .aman-lawyer-info-rtl,
+    body[dir="rtl"] .aman-lawyer-info-rtl {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .aman-lawyer-detail-rtl,
+    html[lang="ar"] .aman-lawyer-detail-rtl,
+    [dir="rtl"] .aman-lawyer-detail-rtl,
+    body[dir="rtl"] .aman-lawyer-detail-rtl {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+        flex-direction: row-reverse !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    html[dir="rtl"] .aman-lawyer-detail-rtl i,
+    html[dir="rtl"] .aman-lawyer-detail-rtl .aman-icon-rtl,
+    html[lang="ar"] .aman-lawyer-detail-rtl i,
+    html[lang="ar"] .aman-lawyer-detail-rtl .aman-icon-rtl,
+    [dir="rtl"] .aman-lawyer-detail-rtl i,
+    body[dir="rtl"] .aman-lawyer-detail-rtl i {
+        order: 1 !important;
+        margin-left: 10px !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .aman-lawyer-detail-rtl span,
+    html[dir="rtl"] .aman-lawyer-detail-rtl b,
+    html[lang="ar"] .aman-lawyer-detail-rtl span,
+    html[lang="ar"] .aman-lawyer-detail-rtl b,
+    [dir="rtl"] .aman-lawyer-detail-rtl span,
+    body[dir="rtl"] .aman-lawyer-detail-rtl span {
+        order: 2 !important;
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    /* إجبار محاذاة كروت ضمان السعر الثابت */
+    html[dir="rtl"] .benefit-item,
+    html[lang="ar"] .benefit-item,
+    [dir="rtl"] .benefit-item,
+    body[dir="rtl"] .benefit-item {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+        align-items: flex-start !important;
+    }
+
+    html[dir="rtl"] .benefit-item i,
+    html[lang="ar"] .benefit-item i,
+    [dir="rtl"] .benefit-item i,
+    body[dir="rtl"] .benefit-item i {
+        order: 1 !important;
+        margin-left: 15px !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .benefit-content,
+    html[dir="rtl"] .benefit-item span,
+    html[lang="ar"] .benefit-content,
+    html[lang="ar"] .benefit-item span,
+    [dir="rtl"] .benefit-content,
+    body[dir="rtl"] .benefit-content {
+        order: 2 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        flex: 1 !important;
+    }
+
+    html[dir="rtl"] .benefit-content strong,
+    html[dir="rtl"] .benefit-content p,
+    html[lang="ar"] .benefit-content strong,
+    html[lang="ar"] .benefit-content p,
+    [dir="rtl"] .benefit-content strong,
+    [dir="rtl"] .benefit-content p {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    /* إجبار محاذاة القائمة الجانبية للموبايل */
+    html[dir="rtl"] .side-menu-link,
+    html[lang="ar"] .side-menu-link,
+    [dir="rtl"] .side-menu-link,
+    body[dir="rtl"] .side-menu-link {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+    }
+
+    html[dir="rtl"] .side-menu-link i,
+    html[lang="ar"] .side-menu-link i,
+    [dir="rtl"] .side-menu-link i,
+    body[dir="rtl"] .side-menu-link i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .side-menu-link span,
+    html[lang="ar"] .side-menu-link span,
+    [dir="rtl"] .side-menu-link span,
+    body[dir="rtl"] .side-menu-link span {
+        order: 2 !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .side-menu-header-link,
+    html[lang="ar"] .side-menu-header-link,
+    [dir="rtl"] .side-menu-header-link,
+    body[dir="rtl"] .side-menu-header-link {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .side-menu-header-link i,
+    html[lang="ar"] .side-menu-header-link i,
+    [dir="rtl"] .side-menu-header-link i,
+    body[dir="rtl"] .side-menu-header-link i {
+        order: 1 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .side-menu-header-link span,
+    html[lang="ar"] .side-menu-header-link span,
+    [dir="rtl"] .side-menu-header-link span,
+    body[dir="rtl"] .side-menu-header-link span {
+        order: 2 !important;
+        text-align: right !important;
+    }
+
+    /* إجبار محاذاة كل النصوص في team-text */
+    html[dir="rtl"] .team-text,
+    html[lang="ar"] .team-text,
+    [dir="rtl"] .team-text,
+    body[dir="rtl"] .team-text {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .team-text p,
+    html[lang="ar"] .team-text p,
+    [dir="rtl"] .team-text p,
+    body[dir="rtl"] .team-text p {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+        flex-direction: row-reverse !important;
+    }
+
+    html[dir="rtl"] .team-text p i,
+    html[lang="ar"] .team-text p i,
+    [dir="rtl"] .team-text p i,
+    body[dir="rtl"] .team-text p i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .team-text p span,
+    html[lang="ar"] .team-text p span,
+    [dir="rtl"] .team-text p span,
+    body[dir="rtl"] .team-text p span {
+        order: 2 !important;
+        text-align: right !important;
+    }
+
+    /* price-benefits */
+    html[dir="rtl"] .price-benefits .benefit-item,
+    html[lang="ar"] .price-benefits .benefit-item,
+    [dir="rtl"] .price-benefits .benefit-item,
+    body[dir="rtl"] .price-benefits .benefit-item {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .price-benefits .benefit-item i,
+    html[lang="ar"] .price-benefits .benefit-item i,
+    [dir="rtl"] .price-benefits .benefit-item i,
+    body[dir="rtl"] .price-benefits .benefit-item i {
+        order: 1 !important;
+        margin-left: 15px !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .price-benefits .benefit-item span,
+    html[dir="rtl"] .price-benefits .benefit-content,
+    html[lang="ar"] .price-benefits .benefit-item span,
+    html[lang="ar"] .price-benefits .benefit-content,
+    [dir="rtl"] .price-benefits .benefit-item span,
+    body[dir="rtl"] .price-benefits .benefit-content {
+        order: 2 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    /* ===================================================================
+       MOBILE MENU RTL FORCE - إجبار محاذاة القائمة الجانبية على الموبايل
+       =================================================================== */
+
+    @media (max-width: 991px) {
+        /* القائمة الجانبية كاملة */
+        html[dir="rtl"] .side-menu-content,
+        html[lang="ar"] .side-menu-content,
+        [dir="rtl"] .side-menu-content,
+        body[dir="rtl"] .side-menu-content,
+        html[dir="rtl"] .mobile-side-menu,
+        html[lang="ar"] .mobile-side-menu {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
+        /* جميع روابط القائمة */
+        html[dir="rtl"] .side-menu-link,
+        html[lang="ar"] .side-menu-link,
+        [dir="rtl"] .side-menu-link,
+        body[dir="rtl"] .side-menu-link,
+        html[dir="rtl"] .side-menu-header-link,
+        html[lang="ar"] .side-menu-header-link,
+        [dir="rtl"] .side-menu-header-link,
+        body[dir="rtl"] .side-menu-header-link {
+            flex-direction: row-reverse !important;
+            direction: rtl !important;
+            text-align: right !important;
+            justify-content: flex-start !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+
+        /* جميع الأيقونات على اليسار */
+        html[dir="rtl"] .side-menu-link i,
+        html[lang="ar"] .side-menu-link i,
+        [dir="rtl"] .side-menu-link i,
+        body[dir="rtl"] .side-menu-link i,
+        html[dir="rtl"] .side-menu-header-link i,
+        html[lang="ar"] .side-menu-header-link i,
+        [dir="rtl"] .side-menu-header-link i,
+        body[dir="rtl"] .side-menu-header-link i {
+            order: 1 !important;
+            margin-left: 10px !important;
+            margin-right: 0 !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* جميع النصوص على اليمين */
+        html[dir="rtl"] .side-menu-link span,
+        html[lang="ar"] .side-menu-link span,
+        [dir="rtl"] .side-menu-link span,
+        body[dir="rtl"] .side-menu-link span,
+        html[dir="rtl"] .side-menu-header-link span,
+        html[lang="ar"] .side-menu-header-link span,
+        [dir="rtl"] .side-menu-header-link span,
+        body[dir="rtl"] .side-menu-header-link span {
+            order: 2 !important;
+            text-align: right !important;
+            flex: 1 !important;
+            direction: rtl !important;
+        }
+
+        /* القائمة الفرعية */
+        html[dir="rtl"] .side-submenu,
+        html[lang="ar"] .side-submenu,
+        [dir="rtl"] .side-submenu,
+        body[dir="rtl"] .side-submenu {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
+        html[dir="rtl"] .side-submenu a,
+        html[lang="ar"] .side-submenu a,
+        [dir="rtl"] .side-submenu a,
+        body[dir="rtl"] .side-submenu a {
+            flex-direction: row-reverse !important;
+            text-align: right !important;
+            justify-content: flex-start !important;
+        }
+
+        html[dir="rtl"] .side-submenu a i,
+        html[lang="ar"] .side-submenu a i,
+        [dir="rtl"] .side-submenu a i,
+        body[dir="rtl"] .side-submenu a i {
+            order: 1 !important;
+            margin-left: 10px !important;
+            margin-right: 0 !important;
+        }
+
+        html[dir="rtl"] .side-submenu a span,
+        html[lang="ar"] .side-submenu a span,
+        [dir="rtl"] .side-submenu a span,
+        body[dir="rtl"] .side-submenu a span {
+            order: 2 !important;
+            text-align: right !important;
+        }
+
+        /* زر الحجز */
+        html[dir="rtl"] .appointment-link,
+        html[lang="ar"] .appointment-link,
+        [dir="rtl"] .appointment-link,
+        body[dir="rtl"] .appointment-link,
+        html[dir="rtl"] .appointment-item .side-menu-link,
+        html[lang="ar"] .appointment-item .side-menu-link {
+            flex-direction: row-reverse !important;
+            text-align: right !important;
+        }
+
+        /* سيليكتورات اللغة والعملة */
+        html[dir="rtl"] .side-menu-selectors,
+        html[lang="ar"] .side-menu-selectors,
+        [dir="rtl"] .side-menu-selectors,
+        body[dir="rtl"] .side-menu-selectors {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
+        html[dir="rtl"] .side-menu-select,
+        html[lang="ar"] .side-menu-select,
+        [dir="rtl"] .side-menu-select,
+        body[dir="rtl"] .side-menu-select {
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
+        /* تأثير الـ hover */
+        html[dir="rtl"] .side-menu-link:hover,
+        html[lang="ar"] .side-menu-link:hover,
+        [dir="rtl"] .side-menu-link:hover,
+        body[dir="rtl"] .side-menu-link:hover,
+        html[dir="rtl"] .side-menu-header-link:hover,
+        html[lang="ar"] .side-menu-header-link:hover,
+        [dir="rtl"] .side-menu-header-link:hover,
+        body[dir="rtl"] .side-menu-header-link:hover {
+            padding-left: 18px !important;
+            padding-right: 24px !important;
+            transform: translateX(-5px) !important;
+        }
+
+        /* سهم القائمة الفرعية */
+        html[dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle,
+        html[lang="ar"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle,
+        [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle,
+        body[dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
+            order: 0 !important;
+            margin-left: 0 !important;
+            margin-right: auto !important;
+        }
+
+        /* Cart Badge */
+        html[dir="rtl"] .side-menu-badge,
+        html[lang="ar"] .side-menu-badge,
+        [dir="rtl"] .side-menu-badge,
+        body[dir="rtl"] .side-menu-badge {
+            left: auto !important;
+            right: 10px !important;
+        }
+    }
+
+    /* ===================================================================
+       BENEFIT CARDS RTL - كروت ضمان السعر الثابت مع أيقونات على اليمين
+       =================================================================== */
+
+    /* wrapper الكروت */
+    .aman-price-cards-wrapper-rtl {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* كل كارت */
+    .aman-benefit-card-new-rtl {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+        padding: 20px !important;
+        background: #fff !important;
+        border-radius: 12px !important;
+        margin-bottom: 15px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        transition: all 0.3s ease !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* النص على اليمين */
+    .aman-benefit-text-new-rtl {
+        order: 1 !important;
+        flex: 1 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-benefit-text-new-rtl strong {
+        display: block !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        margin-bottom: 8px !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-benefit-text-new-rtl br + * {
+        text-align: right !important;
+        direction: rtl !important;
+        font-size: 15px !important;
+        color: #666 !important;
+        line-height: 1.6 !important;
+    }
+
+    /* الأيقونة على اليمين */
+    .aman-benefit-icon-new-rtl {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        font-size: 32px !important;
+        color: var(--colorPrimary) !important;
+        min-width: 40px !important;
+        width: 40px !important;
+        text-align: center !important;
+        margin-top: 5px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* hover effect */
+    .aman-benefit-card-new-rtl:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12) !important;
+    }
+
+    .aman-benefit-card-new-rtl:hover .aman-benefit-icon-new-rtl {
+        color: var(--colorSecondary) !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* responsive للموبايل */
+    @media (max-width: 768px) {
+        .aman-benefit-card-new-rtl {
+            padding: 15px !important;
+            gap: 12px !important;
+        }
+
+        .aman-benefit-icon-new-rtl {
+            font-size: 28px !important;
+            min-width: 35px !important;
+            width: 35px !important;
+        }
+
+        .aman-benefit-text-new-rtl strong {
+            font-size: 16px !important;
+        }
+
+        .aman-benefit-text-new-rtl br + * {
+            font-size: 14px !important;
+        }
     }
 </style>
