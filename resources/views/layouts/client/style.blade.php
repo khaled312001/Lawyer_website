@@ -779,7 +779,7 @@
 
     .side-menu-content {
         position: fixed;
-        top: 0;
+        top: 0 !important;
         right: -100%;
         width: 320px;
         max-width: 85vw;
@@ -792,6 +792,8 @@
         overflow-x: hidden;
         display: flex;
         flex-direction: column;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     
     /* Make main menu items visible without scroll */
@@ -821,7 +823,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 22px 26px;
+        padding: 15px 26px 22px 26px !important;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
         border-bottom: 2px solid rgba(255,255,255,0.2);
         background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, var(--colorSecondary, #8b7355) 100%);
         position: relative;
@@ -10207,11 +10211,22 @@
         height: 70px !important;
     }
 
-    /* على الموبايل - القائمة الرئيسية تحت الشريط العلوي فقط */
+    /* على الموبايل - القائمة الرئيسية في الأعلى بدون فراغ */
     @media (max-width: 768px) {
         .aman-main-nav-rtl,
         body.client-frontend .main-navbar {
-            top: 50px !important;
+            top: 0 !important;
+        }
+        
+        /* إخفاء الشريط العلوي على الموبايل */
+        .top-header-bar,
+        .aman-top-bar-rtl {
+            display: none !important;
+        }
+        
+        /* تحديث padding-top للجسم */
+        body.client-frontend {
+            padding-top: 70px !important; /* فقط ارتفاع navbar */
         }
     }
 
@@ -11554,7 +11569,7 @@
     .aman-step-card-rtl {
         display: flex !important;
         flex-direction: row !important;
-        align-items: flex-start !important;
+        align-items: center !important;
         gap: 15px !important;
         padding: 20px !important;
         background: #fff !important;
@@ -11595,17 +11610,19 @@
         margin: 0 !important;
     }
 
-    /* الأيقونة على اليمين دائماً */
+    /* الأيقونة على اليمين دائماً - صغيرة وفي نفس الصف */
     .step-icon,
     .aman-step-icon-rtl {
         order: 2 !important;
         flex-shrink: 0 !important;
-        font-size: 32px !important;
+        font-size: 20px !important;
         color: var(--colorPrimary) !important;
-        min-width: 40px !important;
-        width: 40px !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
         text-align: center !important;
-        margin-top: 5px !important;
+        margin: 0 !important;
+        line-height: 1 !important;
     }
 
     /* hover effect */
@@ -11631,9 +11648,7 @@
 
         .step-icon,
         .aman-step-icon-rtl {
-            font-size: 28px !important;
-            min-width: 35px !important;
-            width: 35px !important;
+            font-size: 18px !important;
         }
 
         .step-text strong,
@@ -11657,12 +11672,19 @@
         flex-direction: column !important;
         gap: 0 !important;
         padding: 0 !important;
+        margin: 0 !important;
     }
 
     /* كل قسم في القائمة */
     .mobile-menu-section {
         border-bottom: 1px solid #e9ecef !important;
         padding: 10px 0 !important;
+        margin: 0 !important;
+    }
+
+    .mobile-menu-section:first-child {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
     }
 
     .mobile-menu-section:last-child {
