@@ -605,12 +605,12 @@
 
                         <div class="app-download-buttons">
                             <a href="{{ route('register') }}" class="app-download-btn" aria-label="Create Account">
-                                <i class="fas fa-user-plus me-2"></i>
                                 <span class="btn-text">{{ __('Create Account') }}</span>
+                                <i class="fas fa-user-plus"></i>
                             </a>
                             <a href="{{ route('website.lawyers') }}" class="app-download-btn" aria-label="Find a Lawyer">
-                                <i class="fas fa-search me-2"></i>
                                 <span class="btn-text">{{ __('Find a Lawyer') }}</span>
+                                <i class="fas fa-search"></i>
                             </a>
                         </div>
                     </div>
@@ -1006,10 +1006,20 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         display: inline-flex;
         align-items: center;
-        gap: 12px;
+        justify-content: flex-end;
+        gap: 8px;
         text-decoration: none;
         position: relative;
         overflow: hidden;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    /* LTR Support */
+    [dir="ltr"] .legal-hero-btn-primary {
+        direction: ltr;
+        text-align: left;
+        justify-content: flex-start;
     }
 
     .legal-hero-btn-primary::before {
@@ -1032,6 +1042,25 @@
         flex-shrink: 0;
         font-size: 20px;
         transition: transform 0.3s ease;
+        order: 2;
+    }
+    
+    [dir="ltr"] .legal-hero-btn-primary i,
+    [dir="ltr"] .legal-hero-btn-secondary i {
+        order: 1;
+    }
+
+    .legal-hero-btn-primary span,
+    .legal-hero-btn-secondary span {
+        order: 1;
+        flex: 1;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .legal-hero-btn-primary span,
+    [dir="ltr"] .legal-hero-btn-secondary span {
+        order: 2;
+        text-align: left;
     }
 
     .legal-hero-btn-primary:hover i,
@@ -1041,7 +1070,8 @@
 
     [dir="rtl"] .legal-hero-btn-primary,
     [dir="rtl"] .legal-hero-btn-secondary {
-        flex-direction: row-reverse;
+        flex-direction: row;
+        justify-content: flex-end;
     }
 
     .legal-hero-btn-primary:hover {
@@ -1063,11 +1093,21 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         display: inline-flex;
         align-items: center;
-        gap: 12px;
+        justify-content: flex-end;
+        gap: 8px;
         text-decoration: none;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    /* LTR Support */
+    [dir="ltr"] .legal-hero-btn-secondary {
+        direction: ltr;
+        text-align: left;
+        justify-content: flex-start;
     }
 
     .legal-hero-btn-secondary::before {
@@ -1465,16 +1505,31 @@
             flex-direction: column;
             gap: 12px;
             width: 100%;
+            justify-content: flex-end;
+            align-items: flex-end;
         }
 
         .legal-hero-btn-primary,
         .legal-hero-btn-secondary {
             width: 100%;
             max-width: 300px;
-            margin: 0 auto;
-            justify-content: center;
+            margin: 0;
+            justify-content: flex-end;
             padding: 14px 25px;
             font-size: 15px;
+            direction: rtl;
+            text-align: right;
+        }
+        
+        [dir="ltr"] .legal-hero-buttons {
+            align-items: flex-start;
+        }
+        
+        [dir="ltr"] .legal-hero-btn-primary,
+        [dir="ltr"] .legal-hero-btn-secondary {
+            justify-content: flex-start;
+            direction: ltr;
+            text-align: left;
         }
 
         .legal-hero-stats {
@@ -1630,8 +1685,8 @@
     }
 
     [dir="rtl"] .legal-hero-buttons {
-        flex-direction: row-reverse;
-        justify-content: flex-start;
+        flex-direction: row;
+        justify-content: flex-end;
     }
 
     [dir="rtl"] .legal-hero-features {
@@ -1755,7 +1810,8 @@
         }
 
         [dir="rtl"] .legal-hero-buttons {
-            justify-content: center;
+            justify-content: flex-end;
+            align-items: flex-end;
         }
 
         [dir="rtl"] .legal-stat-content {

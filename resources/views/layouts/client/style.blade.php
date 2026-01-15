@@ -1637,21 +1637,30 @@
     .app-download-btn {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        gap: 12px;
-        padding: 16px 32px;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 16px 24px;
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
         border-radius: 12px;
         text-decoration: none;
         font-weight: 600;
         font-size: 16px;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 4px 15px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.35);
         border: 2px solid transparent;
         min-width: 200px;
         position: relative;
         overflow: hidden;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    /* LTR Support */
+    [dir="ltr"] .app-download-btn {
+        direction: ltr;
+        text-align: left;
+        justify-content: flex-start;
     }
     
     .app-download-btn::before {
@@ -1684,6 +1693,12 @@
     .app-download-btn i {
         font-size: 18px;
         transition: transform 0.3s ease;
+        flex-shrink: 0;
+        order: 2;
+    }
+    
+    [dir="ltr"] .app-download-btn i {
+        order: 1;
     }
     
     .app-download-btn:hover i {
@@ -1693,6 +1708,14 @@
     .app-download-btn .btn-text {
         font-weight: 600;
         letter-spacing: 0.3px;
+        order: 1;
+        flex: 1;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .app-download-btn .btn-text {
+        order: 2;
+        text-align: left;
     }
 
     .app-download-btn img {
@@ -12222,6 +12245,27 @@
         margin: 0 !important;
     }
 
+    /* القائمة الرئيسية (Main Navigation) - أول ترتيب */
+    /* القسم الذي يحتوي على .mobile-menu-list يكون أولاً */
+    .mobile-menu-section:has(.mobile-menu-list),
+    .mobile-menu-section:nth-child(2) {
+        order: 1 !important;
+    }
+
+    /* Quick Actions - ثاني ترتيب (القسم الأول بدون mobile-menu-list) */
+    .mobile-menu-section:first-child:not(:has(.mobile-menu-list)),
+    .mobile-menu-section:first-child {
+        order: 2 !important;
+    }
+
+    /* Language & Currency - آخر ترتيب */
+    .mobile-menu-section:has(.mobile-menu-form),
+    .mobile-menu-section:has(.mobile-menu-select),
+    .mobile-menu-section:nth-child(3),
+    .mobile-menu-section:last-child:not(:has(.mobile-menu-list)) {
+        order: 3 !important;
+    }
+
     .mobile-menu-section:first-child {
         padding-top: 0 !important;
         margin-top: 0 !important;
@@ -12231,12 +12275,25 @@
         border-bottom: none !important;
     }
 
+    /* Fallback للمتصفحات التي لا تدعم :has() */
+    @supports not selector(:has(*)) {
+        .mobile-menu-section:nth-child(2) {
+            order: 1 !important;
+        }
+        .mobile-menu-section:nth-child(1) {
+            order: 2 !important;
+        }
+        .mobile-menu-section:nth-child(3) {
+            order: 3 !important;
+        }
+    }
+
     /* كل عنصر في القائمة */
     .mobile-menu-item {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         padding: 15px 20px !important;
         text-decoration: none !important;
         color: #333 !important;
@@ -12247,6 +12304,7 @@
         text-align: right !important;
         direction: rtl !important;
         position: relative !important;
+        gap: 10px !important;
     }
 
     .mobile-menu-item:hover {
@@ -12265,15 +12323,16 @@
         color: inherit !important;
     }
 
-    /* الأيقونة على اليمين دائماً */
+    /* الأيقونة على يسار النص مباشرة - قريبة من النص */
     .mobile-menu-icon {
         order: 2 !important;
         flex-shrink: 0 !important;
         font-size: 20px !important;
         color: var(--colorPrimary) !important;
         margin-right: 0 !important;
-        margin-left: 15px !important;
+        margin-left: 0 !important;
         width: 24px !important;
+        min-width: 24px !important;
         text-align: center !important;
     }
 
@@ -12858,18 +12917,48 @@
     }
     
     .enhanced-icon-1 {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4) !important;
     }
     
     .enhanced-icon-2 {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4) !important;
     }
     
     .enhanced-icon-3 {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+        box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4) !important;
+    }
+    
+    /* تعزيز الألوان على اللابتوب */
+    @media (min-width: 769px) {
+        .enhanced-icon-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5) !important;
+        }
+        
+        .enhanced-icon-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+            box-shadow: 0 12px 35px rgba(245, 87, 108, 0.5) !important;
+        }
+        
+        .enhanced-icon-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+            box-shadow: 0 12px 35px rgba(79, 172, 254, 0.5) !important;
+        }
+        
+        .enhanced-icon-1:hover {
+            box-shadow: 0 18px 45px rgba(102, 126, 234, 0.6) !important;
+        }
+        
+        .enhanced-icon-2:hover {
+            box-shadow: 0 18px 45px rgba(245, 87, 108, 0.6) !important;
+        }
+        
+        .enhanced-icon-3:hover {
+            box-shadow: 0 18px 45px rgba(79, 172, 254, 0.6) !important;
+        }
     }
     
     .enhanced-step-icon-wrapper::before {
