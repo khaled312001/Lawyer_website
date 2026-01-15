@@ -6629,14 +6629,33 @@
         width: 40px;
         height: 40px;
         min-width: 40px;
+        order: 1;
     }
     
     [dir="ltr"] .footer-address ul li i {
         margin-right: 0;
+        order: 1;
     }
     
     [dir="rtl"] .footer-address ul li i {
         margin-left: 0;
+        order: 1;
+    }
+    
+    .footer-address ul li > div {
+        order: 2;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .footer-address ul li > div {
+        direction: ltr;
+        text-align: left;
+    }
+    
+    [dir="rtl"] .footer-address ul li > div {
+        direction: rtl;
+        text-align: right;
     }
 
     .footer-address ul li .title {

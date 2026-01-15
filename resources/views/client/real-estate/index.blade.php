@@ -161,7 +161,7 @@
                                     <label class="filter-label d-none d-md-block">&nbsp;</label>
                                     <button type="submit" class="btn btn-primary w-100">
                                         <i class="fas fa-search d-md-none"></i>
-                                        <span class="d-none d-md-inline">{{ __('Search') }}</span>
+                                        <span class="d-none d-md-inline">بحث</span>
                                     </button>
                                 </div>
                             </div>
@@ -891,11 +891,19 @@
     padding: 0.75rem 1.5rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    color: white;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(200, 180, 126, 0.3);
+}
+
+/* Make search icon white in primary button */
+.btn-primary i,
+.btn-primary .fas,
+.btn-primary .fa-search {
+    color: #fff !important;
 }
 
 /* Results Count Section */
@@ -1105,11 +1113,14 @@
     order: 1;
     text-align: center;
     font-size: 0.95rem;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .property-type i,
 [dir="ltr"] .property-location i {
     order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .property-type span,
@@ -1117,15 +1128,16 @@
     order: 2;
     flex: 1;
     text-align: right;
-    margin-right: 0.5rem;
+    margin-right: 0;
+    direction: rtl;
 }
 
 [dir="ltr"] .property-type span,
 [dir="ltr"] .property-location span {
     order: 1;
     text-align: left;
-    margin-right: 0;
-    margin-left: 0.5rem;
+    margin-left: 0;
+    direction: ltr;
 }
 
 .property-details {
@@ -1167,10 +1179,18 @@
     transform: translateY(-1px);
 }
 
+.detail-item * {
+    direction: rtl;
+}
+
 [dir="ltr"] .detail-item {
     direction: ltr;
     text-align: left;
     justify-content: flex-start;
+}
+
+[dir="ltr"] .detail-item * {
+    direction: ltr;
 }
 
 .detail-item i {
@@ -1180,10 +1200,21 @@
     order: 1;
     text-align: center;
     font-size: 0.95rem;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .detail-item i {
     order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+.detail-item {
+    direction: rtl;
+}
+
+[dir="ltr"] .detail-item {
+    direction: ltr;
 }
 
 .property-price {
@@ -1253,20 +1284,39 @@
     white-space: nowrap;
 }
 
+.property-actions .btn * {
+    direction: rtl;
+}
+
 [dir="ltr"] .property-actions .btn {
     direction: ltr;
     text-align: left;
     justify-content: flex-start;
 }
 
+[dir="ltr"] .property-actions .btn * {
+    direction: ltr;
+}
+
 .property-actions .btn i {
     order: 1;
     flex-shrink: 0;
     font-size: 0.9rem;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .property-actions .btn i {
     order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+.property-actions .btn {
+    direction: rtl;
+}
+
+[dir="ltr"] .property-actions .btn {
+    direction: ltr;
 }
 
 .property-actions .btn-outline-primary {

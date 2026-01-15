@@ -459,25 +459,29 @@
     flex-shrink: 0;
     width: 24px;
     text-align: center;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .property-location i {
     order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .property-location span {
     order: 2;
     text-align: right;
     color: #fff !important;
-    margin-right: 0.5rem;
+    margin-right: 0;
+    direction: rtl;
 }
 
 [dir="ltr"] .property-location span {
     order: 1;
     text-align: left;
     color: #fff !important;
-    margin-right: 0;
-    margin-left: 0.5rem;
+    margin-left: 0;
+    direction: ltr;
 }
 
 .property-meta {
@@ -537,10 +541,13 @@
     width: 18px;
     text-align: center;
     filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .meta-item i {
     order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .meta-item span {
@@ -549,6 +556,7 @@
     color: #fff !important;
     margin-right: 0;
     flex: 0 1 auto;
+    direction: rtl;
 }
 
 [dir="ltr"] .meta-item span {
@@ -556,6 +564,7 @@
     text-align: left;
     color: #fff !important;
     margin-left: 0;
+    direction: ltr;
 }
 
 .meta-item.price-badge {
@@ -852,7 +861,7 @@
     gap: 12px;
     direction: rtl;
     text-align: right;
-    justify-content: flex-start;
+    justify-content: flex-end;
 }
 
 [dir="ltr"] .section-title {
@@ -864,12 +873,17 @@
 .section-title i {
     color: var(--colorPrimary);
     font-size: 28px;
-    order: 2;
+    order: 1;
     flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .section-title i {
-    order: 1;
+    order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .section-title::after {
@@ -901,11 +915,15 @@
     border-radius: 10px;
     transition: all 0.3s ease;
     direction: rtl;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 [dir="ltr"] .overview-item {
     text-align: left;
     direction: ltr;
+    align-items: flex-start;
 }
 
 .overview-item:hover {
@@ -914,15 +932,49 @@
     transform: translateY(-3px);
 }
 
-.overview-item i {
-    font-size: 32px;
-    color: var(--colorPrimary);
+.overview-icon {
+    order: 1;
     margin-bottom: 10px;
-    display: block;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
 }
 
-.overview-item:hover i {
+[dir="ltr"] .overview-icon {
+    justify-content: flex-start;
+}
+
+.overview-item .overview-icon i {
+    font-size: 32px;
+    color: var(--colorPrimary);
+    margin-bottom: 0;
+    display: block;
+    order: 1;
+}
+
+.overview-item:hover .overview-icon i {
     color: white;
+}
+
+.overview-item .label {
+    order: 2;
+    text-align: right;
+    width: 100%;
+}
+
+[dir="ltr"] .overview-item .label {
+    text-align: left;
+}
+
+.overview-item .value {
+    order: 3;
+    text-align: right;
+    width: 100%;
+}
+
+[dir="ltr"] .overview-item .value {
+    text-align: left;
 }
 
 .overview-item .label {
@@ -1003,7 +1055,8 @@
     color: #555;
     direction: rtl;
     text-align: right;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
 }
 
 [dir="ltr"] .feature-item {
@@ -1025,12 +1078,17 @@
 .feature-item i {
     color: var(--colorPrimary);
     font-size: 16px;
-    order: 2;
+    order: 1;
     flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .feature-item i {
-    order: 1;
+    order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .feature-item:hover i {
@@ -1038,13 +1096,17 @@
 }
 
 .feature-item span {
-    order: 1;
+    order: 2;
     text-align: right;
+    margin-right: 0;
+    direction: rtl;
 }
 
 [dir="ltr"] .feature-item span {
-    order: 2;
+    order: 1;
     text-align: left;
+    margin-left: 0;
+    direction: ltr;
 }
 
 /* Property Contact */
@@ -1182,6 +1244,7 @@
     font-weight: 500;
     direction: rtl;
     text-align: right;
+    flex-wrap: nowrap;
 }
 
 [dir="ltr"] .price-period {
@@ -1192,22 +1255,31 @@
 
 .price-period i {
     font-size: 14px;
-    order: 2;
+    order: 1;
     flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .price-period i {
-    order: 1;
+    order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .price-period span {
-    order: 1;
+    order: 2;
     text-align: right;
+    margin-right: 0;
+    direction: rtl;
 }
 
 [dir="ltr"] .price-period span {
-    order: 2;
+    order: 1;
     text-align: left;
+    margin-left: 0;
+    direction: ltr;
 }
 
 .price-actions {
@@ -1267,23 +1339,32 @@
 }
 
 .price-actions .btn i {
-    order: 2;
+    order: 1;
     flex-shrink: 0;
     margin: 0;
+    width: 18px;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .price-actions .btn i {
-    order: 1;
+    order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .price-actions .btn span {
-    order: 1;
+    order: 2;
     text-align: right;
+    margin-right: 0;
+    direction: rtl;
 }
 
 [dir="ltr"] .price-actions .btn span {
-    order: 2;
+    order: 1;
     text-align: left;
+    margin-left: 0;
+    direction: ltr;
 }
 
 /* Property Summary */
@@ -1398,7 +1479,7 @@
     border-bottom: 2px solid #e9ecef;
     direction: rtl;
     text-align: right;
-    justify-content: flex-start;
+    justify-content: flex-end;
 }
 
 [dir="ltr"] .similar-properties h4 {
@@ -1410,22 +1491,31 @@
 .similar-properties h4 i {
     color: var(--colorPrimary);
     font-size: 22px;
-    order: 2;
+    order: 1;
     flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .similar-properties h4 i {
-    order: 1;
+    order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .similar-properties h4 span {
-    order: 1;
+    order: 2;
     text-align: right;
+    margin-right: 0;
+    direction: rtl;
 }
 
 [dir="ltr"] .similar-properties h4 span {
-    order: 2;
+    order: 1;
     text-align: left;
+    margin-left: 0;
+    direction: ltr;
 }
 
 .similar-properties-list {
@@ -1591,7 +1681,8 @@
     gap: 6px;
     direction: rtl;
     text-align: right;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
 }
 
 [dir="ltr"] .similar-property-location,
@@ -1605,25 +1696,34 @@
 .similar-property-area i {
     color: var(--colorPrimary);
     font-size: 12px;
-    order: 2;
+    order: 1;
     flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
 [dir="ltr"] .similar-property-location i,
 [dir="ltr"] .similar-property-area i {
-    order: 1;
+    order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
 }
 
 .similar-property-location span,
 .similar-property-area span {
-    order: 1;
+    order: 2;
     text-align: right;
+    margin-right: 0;
+    direction: rtl;
 }
 
 [dir="ltr"] .similar-property-location span,
 [dir="ltr"] .similar-property-area span {
-    order: 2;
+    order: 1;
     text-align: left;
+    margin-left: 0;
+    direction: ltr;
 }
 
 /* ============================================
@@ -2202,29 +2302,9 @@
     transition: opacity 0.2s ease;
 }
 
+/* Close button removed - users can close by clicking outside or using ESC key */
 .lightbox-close {
-    position: absolute;
-    background: rgba(255,255,255,0.9);
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10;
-    top: -60px;
-    right: 0;
-}
-
-.lightbox-close:hover {
-    background: var(--colorPrimary);
-    color: white;
-    transform: scale(1.1);
+    display: none !important;
 }
 
 /* Hide navigation arrows */
@@ -2357,14 +2437,9 @@ $(document).ready(function() {
         // Simple lightbox implementation
         const currentImg = images[currentImageIndex];
         const propertyTitle = @json($property->title);
-        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><img src="' + currentImg + '" alt="' + propertyTitle + '" class="lightbox-image"><button class="lightbox-close"><i class="fas fa-times"></i></button></div></div>';
+        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><img src="' + currentImg + '" alt="' + propertyTitle + '" class="lightbox-image"></div></div>';
         const lightbox = $(lightboxHtml);
         $('body').append(lightbox);
-        
-        // Close button
-        lightbox.find('.lightbox-close').on('click', function() {
-            lightbox.remove();
-        });
         
         // Swipe functionality for navigation
         let touchStartX = 0;
@@ -2441,13 +2516,21 @@ $(document).ready(function() {
         
         // Clean up event listeners when lightbox is closed
         lightbox.on('remove', function() {
-            $(document).off('mousemove.lightbox mouseup.lightbox');
+            $(document).off('mousemove.lightbox mouseup.lightbox keydown.lightbox');
         });
         
         // Close on overlay click
         lightbox.on('click', function(e) {
             if (e.target === this) {
                 lightbox.remove();
+            }
+        });
+        
+        // Close on ESC key
+        $(document).on('keydown.lightbox', function(e) {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                lightbox.remove();
+                $(document).off('keydown.lightbox');
             }
         });
     };

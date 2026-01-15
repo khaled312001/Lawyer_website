@@ -4868,6 +4868,16 @@ Footer
     color: var(--colorPrimary);
 }
 
+[dir="rtl"] .footer-address ul li i {
+    left: auto;
+    right: 0px;
+}
+
+[dir="ltr"] .footer-address ul li i {
+    left: 0px;
+    right: auto;
+}
+
 .footer-address ul li .title {
     position: relative;
     display: block;
