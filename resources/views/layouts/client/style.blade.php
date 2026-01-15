@@ -86,14 +86,15 @@
     .top-header-bar {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         padding: 12px 0;
-        border-bottom: 1px solid #e9ecef;
+        border-bottom: none !important;
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
         z-index: 10000 !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        box-shadow: none !important;
+        margin: 0 !important;
     }
 
     .header-bar-content {
@@ -272,15 +273,17 @@
         padding: 0;
         box-shadow: 0 4px 25px rgba(0,0,0,0.08), 0 2px 10px rgba(0,0,0,0.05);
         position: fixed !important;
-        top: 100px !important; /* تحت البانر الترحيبي (50px) + الشريط العلوي (50px) */
+        top: 50px !important; /* مباشرة تحت الشريط العلوي بدون فراغ */
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
         z-index: 10000 !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         overflow: visible !important;
+        border-top: none !important;
         border-bottom: 2px solid rgba(200, 180, 126, 0.15);
         backdrop-filter: blur(10px);
+        margin: 0 !important;
     }
 
     body.client-frontend .main-navbar.sticky {
@@ -9891,6 +9894,8 @@
         width: 100% !important;
         z-index: 9999 !important;
         height: 50px !important;
+        border-bottom: none !important;
+        margin: 0 !important;
     }
 
     /* القائمة الرئيسية - تحت الشريط العلوي - الأعلى دائماً */
@@ -9903,6 +9908,8 @@
         width: 100% !important;
         z-index: 10000 !important;
         height: 70px !important;
+        border-top: none !important;
+        margin: 0 !important;
     }
 
     /* 2. محاذاة كروت المحامين لليمين في العربية */
@@ -10051,7 +10058,7 @@
     @media (max-width: 768px) {
         html[dir="rtl"] body.client-frontend,
         html[lang="ar"] body.client-frontend {
-            padding-top: 170px !important;
+            padding-top: 120px !important;
         }
 
         html[dir="rtl"] .top-alert-banner,
@@ -10067,7 +10074,7 @@
 
         html[dir="rtl"] body.client-frontend .main-navbar,
         html[lang="ar"] body.client-frontend .main-navbar {
-            top: 100px !important;
+            top: 50px !important;
             height: 70px !important;
         }
     }
@@ -10461,7 +10468,7 @@
     }
 
     body.client-frontend {
-        scroll-padding-top: 170px !important;
+        scroll-padding-top: 120px !important;
     }
 
     body.header-scrolled.client-frontend {
@@ -11527,6 +11534,319 @@
 
         .aman-feature-vertical-rtl .aman-feature-icon-rtl {
             margin-bottom: 12px !important;
+        }
+    }
+
+    /* ===================================================================
+       STEPS CARDS - كروت الخطوات مع أيقونات على اليمين دائماً
+       =================================================================== */
+
+    /* Wrapper للخطوات */
+    .steps-wrapper,
+    .aman-steps-wrapper-rtl {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+
+    /* كل كارت خطوة */
+    .step-card,
+    .aman-step-card-rtl {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+        padding: 20px !important;
+        background: #fff !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        transition: all 0.3s ease !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* النص على اليمين دائماً */
+    .step-text,
+    .aman-step-text-rtl {
+        order: 1 !important;
+        flex: 1 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .step-text strong,
+    .aman-step-text-rtl strong {
+        display: block !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        margin-bottom: 8px !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .step-text p,
+    .aman-step-text-rtl p {
+        text-align: right !important;
+        direction: rtl !important;
+        font-size: 15px !important;
+        color: #666 !important;
+        line-height: 1.6 !important;
+        margin: 0 !important;
+    }
+
+    /* الأيقونة على اليمين دائماً */
+    .step-icon,
+    .aman-step-icon-rtl {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        font-size: 32px !important;
+        color: var(--colorPrimary) !important;
+        min-width: 40px !important;
+        width: 40px !important;
+        text-align: center !important;
+        margin-top: 5px !important;
+    }
+
+    /* hover effect */
+    .step-card:hover,
+    .aman-step-card-rtl:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.12) !important;
+    }
+
+    .step-card:hover .step-icon,
+    .aman-step-card-rtl:hover .aman-step-icon-rtl {
+        color: var(--colorSecondary) !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* responsive للموبايل */
+    @media (max-width: 768px) {
+        .step-card,
+        .aman-step-card-rtl {
+            padding: 15px !important;
+            gap: 12px !important;
+        }
+
+        .step-icon,
+        .aman-step-icon-rtl {
+            font-size: 28px !important;
+            min-width: 35px !important;
+            width: 35px !important;
+        }
+
+        .step-text strong,
+        .aman-step-text-rtl strong {
+            font-size: 16px !important;
+        }
+
+        .step-text p,
+        .aman-step-text-rtl p {
+            font-size: 14px !important;
+        }
+    }
+
+    /* ===================================================================
+       MOBILE MENU - قائمة الموبايل الجديدة مع أيقونات على اليمين دائماً
+       =================================================================== */
+
+    /* Container للقائمة */
+    .mobile-menu-items {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* كل قسم في القائمة */
+    .mobile-menu-section {
+        border-bottom: 1px solid #e9ecef !important;
+        padding: 10px 0 !important;
+    }
+
+    .mobile-menu-section:last-child {
+        border-bottom: none !important;
+    }
+
+    /* كل عنصر في القائمة */
+    .mobile-menu-item {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 15px 20px !important;
+        text-decoration: none !important;
+        color: #333 !important;
+        transition: all 0.3s ease !important;
+        background: transparent !important;
+        border: none !important;
+        width: 100% !important;
+        text-align: right !important;
+        direction: rtl !important;
+        position: relative !important;
+    }
+
+    .mobile-menu-item:hover {
+        background: #f8f9fa !important;
+        color: var(--colorPrimary) !important;
+    }
+
+    /* النص على اليمين دائماً */
+    .mobile-menu-text {
+        order: 1 !important;
+        flex: 1 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        color: inherit !important;
+    }
+
+    /* الأيقونة على اليمين دائماً */
+    .mobile-menu-icon {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        font-size: 20px !important;
+        color: var(--colorPrimary) !important;
+        margin-right: 0 !important;
+        margin-left: 15px !important;
+        width: 24px !important;
+        text-align: center !important;
+    }
+
+    .mobile-menu-item:hover .mobile-menu-icon {
+        color: var(--colorSecondary) !important;
+    }
+
+    /* Badge للعربة */
+    .mobile-menu-badge {
+        position: absolute !important;
+        top: 10px !important;
+        left: 15px !important;
+        background: var(--colorPrimary) !important;
+        color: #fff !important;
+        border-radius: 50% !important;
+        width: 20px !important;
+        height: 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+    }
+
+    /* قائمة القوائم */
+    .mobile-menu-list {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .mobile-menu-list-item {
+        list-style: none !important;
+        margin: 0 !important;
+    }
+
+    /* زر الموعد */
+    .mobile-appointment-btn {
+        background: var(--colorPrimary) !important;
+        color: #fff !important;
+        border-radius: 8px !important;
+        margin: 10px 20px !important;
+        font-weight: 600 !important;
+    }
+
+    .mobile-appointment-btn:hover {
+        background: var(--colorSecondary) !important;
+        color: #fff !important;
+    }
+
+    .mobile-appointment-btn .mobile-menu-text {
+        color: #fff !important;
+    }
+
+    .mobile-appointment-btn .mobile-menu-icon {
+        color: #fff !important;
+    }
+
+    .mobile-appointment-btn:hover .mobile-menu-icon {
+        color: #fff !important;
+    }
+
+    /* القوائم الفرعية */
+    .mobile-submenu {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #f8f9fa !important;
+        display: none !important;
+    }
+
+    .mobile-menu-list-item.has-submenu.active .mobile-submenu {
+        display: block !important;
+    }
+
+    .mobile-submenu .mobile-menu-item {
+        padding-left: 40px !important;
+        font-size: 14px !important;
+    }
+
+    /* Toggle للقوائم الفرعية */
+    .mobile-submenu-toggle {
+        order: 3 !important;
+        flex-shrink: 0 !important;
+        font-size: 14px !important;
+        color: #666 !important;
+        margin-right: 10px !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    .mobile-menu-list-item.has-submenu.active .mobile-submenu-toggle {
+        transform: rotate(180deg) !important;
+    }
+
+    /* Selectors للغة والعملة */
+    .mobile-menu-form {
+        padding: 0 20px !important;
+        margin: 10px 0 !important;
+    }
+
+    .mobile-menu-select {
+        width: 100% !important;
+        padding: 12px 15px !important;
+        border: 1px solid #e9ecef !important;
+        border-radius: 8px !important;
+        background: #fff !important;
+        font-size: 15px !important;
+        color: #333 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        appearance: none !important;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: left 15px center !important;
+        padding-left: 40px !important;
+    }
+
+    .mobile-menu-select:focus {
+        outline: none !important;
+        border-color: var(--colorPrimary) !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .mobile-menu-item {
+            padding: 12px 15px !important;
+        }
+
+        .mobile-menu-text {
+            font-size: 15px !important;
+        }
+
+        .mobile-menu-icon {
+            font-size: 18px !important;
+            width: 20px !important;
         }
     }
 </style>

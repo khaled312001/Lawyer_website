@@ -563,6 +563,33 @@
     </script>
 @endif
 
+<script>
+    // Mobile Menu Submenu Toggle
+    function toggleSubmenu(element) {
+        const listItem = element.closest('.mobile-menu-list-item');
+        if (listItem) {
+            listItem.classList.toggle('active');
+        }
+    }
+
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileSideMenu');
+        if (menu) {
+            menu.classList.toggle('active');
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+    }
+
+    // Close mobile menu when clicking overlay
+    document.addEventListener('DOMContentLoaded', function() {
+        const overlay = document.querySelector('.side-menu-overlay');
+        if (overlay) {
+            overlay.addEventListener('click', toggleMobileMenu);
+        }
+    });
+</script>
+
 </body>
 
 </html>

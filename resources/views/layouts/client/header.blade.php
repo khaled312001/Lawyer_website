@@ -369,61 +369,173 @@
                 </button>
             </div>
             
-            <!-- Header Items in Side Menu -->
-            <div class="side-menu-header-items">
-                <div class="side-menu-cart">
-                    <a href="{{ route('client.payment') }}" class="side-menu-header-link aman-menu-link-rtl">
-                        <span class="aman-menu-text-rtl">{{ __('Appointment List') }}</span>
-                        <i class="fas fa-shopping-cart aman-menu-icon-rtl"></i>
+            <!-- Mobile Menu Items -->
+            <div class="mobile-menu-items">
+                <!-- Quick Actions -->
+                <div class="mobile-menu-section">
+                    <a href="{{ route('client.payment') }}" class="mobile-menu-item">
+                        <span class="mobile-menu-text">{{ __('Appointment List') }}</span>
+                        <i class="fas fa-shopping-cart mobile-menu-icon"></i>
                         @if(Cart::count() > 0)
-                            <span class="side-menu-badge">{{ Cart::count() }}</span>
+                            <span class="mobile-menu-badge">{{ Cart::count() }}</span>
                         @endif
                     </a>
-                </div>
-                @if ($contactInfo?->top_bar_phone)
-                    @php
-                        $displayPhone = $contactInfo->top_bar_phone;
-                        // Move + to end for Arabic language (RTL)
-                        if (getSessionLanguage() == 'ar') {
-                            // Remove + from start if exists
-                            if (str_starts_with($displayPhone, '+')) {
-                                $displayPhone = substr($displayPhone, 1);
+                    @if ($contactInfo?->top_bar_phone)
+                        @php
+                            $displayPhone = $contactInfo->top_bar_phone;
+                            if (getSessionLanguage() == 'ar') {
+                                if (str_starts_with($displayPhone, '+')) {
+                                    $displayPhone = substr($displayPhone, 1);
+                                }
+                                $displayPhone = $displayPhone . '+';
                             }
-                            // Add + at the end
-                            $displayPhone = $displayPhone . '+';
-                        }
-                    @endphp
-                    <a href="tel:{{ $contactInfo->top_bar_phone }}" class="side-menu-header-link aman-menu-link-rtl">
-                        <span class="aman-menu-text-rtl">{{ $displayPhone }}</span>
-                        <i class="fas fa-phone aman-menu-icon-rtl"></i>
-                    </a>
-                @endif
-                @if ($contactInfo?->top_bar_email)
-                    <a href="mailto:{{ $contactInfo->top_bar_email }}" class="side-menu-header-link aman-menu-link-rtl">
-                        <span class="aman-menu-text-rtl">{{ $contactInfo->top_bar_email }}</span>
-                        <i class="far fa-envelope aman-menu-icon-rtl"></i>
-                    </a>
-                @endif
-                @guest
-                    <a href="{{ url('login') }}" class="side-menu-header-link aman-menu-link-rtl">
-                        <span class="aman-menu-text-rtl">{{ __('Login') }}</span>
-                        <i class="fas fa-sign-in-alt aman-menu-icon-rtl"></i>
-                    </a>
-                    <a href="{{ url('register') }}" class="side-menu-header-link aman-menu-link-rtl">
-                        <span class="aman-menu-text-rtl">{{ __('Register') }}</span>
-                        <i class="fas fa-user-plus aman-menu-icon-rtl"></i>
-                    </a>
-                @else
-                    <a href="{{ route('dashboard') }}" class="side-menu-header-link aman-menu-link-rtl">
-                        <span class="aman-menu-text-rtl">{{ __('My account') }}</span>
-                        <i class="fas fa-user aman-menu-icon-rtl"></i>
-                    </a>
-                @endguest
+                        @endphp
+                        <a href="tel:{{ $contactInfo->top_bar_phone }}" class="mobile-menu-item">
+                            <span class="mobile-menu-text">{{ $displayPhone }}</span>
+                            <i class="fas fa-phone mobile-menu-icon"></i>
+                        </a>
+                    @endif
+                    @if ($contactInfo?->top_bar_email)
+                        <a href="mailto:{{ $contactInfo->top_bar_email }}" class="mobile-menu-item">
+                            <span class="mobile-menu-text">{{ $contactInfo->top_bar_email }}</span>
+                            <i class="far fa-envelope mobile-menu-icon"></i>
+                        </a>
+                    @endif
+                    @guest
+                        <a href="{{ url('login') }}" class="mobile-menu-item">
+                            <span class="mobile-menu-text">{{ __('Login') }}</span>
+                            <i class="fas fa-sign-in-alt mobile-menu-icon"></i>
+                        </a>
+                        <a href="{{ url('register') }}" class="mobile-menu-item">
+                            <span class="mobile-menu-text">{{ __('Register') }}</span>
+                            <i class="fas fa-user-plus mobile-menu-icon"></i>
+                        </a>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="mobile-menu-item">
+                            <span class="mobile-menu-text">{{ __('My account') }}</span>
+                            <i class="fas fa-user mobile-menu-icon"></i>
+                        </a>
+                    @endguest
+                </div>
+
+                <!-- Main Navigation -->
+                <div class="mobile-menu-section">
+                    @if ($public_menu = mainMenu())
+                        <ul class="mobile-menu-list">
+                            @foreach ($public_menu as $menu)
+                                @php
+                                    $is_child = isset($menu['child']) && is_array($menu['child']) && count($menu['child']) > 0;
+                                    $icon = 'fas fa-circle';
+                                    $label_lower = strtolower($menu['label']);
+                                    if (strpos($label_lower, 'home') !== false || $menu['link'] == '/' || $menu['link'] == '/home') {
+                                        $icon = 'fas fa-home';
+                                    } elseif (strpos($label_lower, 'lawyer') !== false || strpos($label_lower, 'محام') !== false) {
+                                        $icon = 'fas fa-gavel';
+                                    } elseif (strpos($label_lower, 'blog') !== false || strpos($label_lower, 'مدونة') !== false) {
+                                        $icon = 'fas fa-blog';
+                                    } elseif (strpos($label_lower, 'about') !== false || strpos($label_lower, 'معلومات') !== false || strpos($label_lower, 'عنا') !== false) {
+                                        $icon = 'fas fa-info-circle';
+                                    } elseif (strpos($label_lower, 'page') !== false || strpos($label_lower, 'صفحة') !== false) {
+                                        $icon = 'fas fa-file-alt';
+                                    } elseif (strpos($label_lower, 'contact') !== false || strpos($label_lower, 'اتصل') !== false || strpos($label_lower, 'تواصل') !== false) {
+                                        $icon = 'fas fa-envelope';
+                                    } elseif (strpos($label_lower, 'service') !== false || strpos($label_lower, 'خدمة') !== false) {
+                                        $icon = 'fas fa-briefcase';
+                                    } elseif (strpos($label_lower, 'department') !== false || strpos($label_lower, 'قسم') !== false) {
+                                        $icon = 'fas fa-building';
+                                    } elseif (strpos($label_lower, 'testimonial') !== false || strpos($label_lower, 'شهادة') !== false) {
+                                        $icon = 'fas fa-quote-left';
+                                    } elseif (strpos($label_lower, 'faq') !== false || strpos($label_lower, 'سؤال') !== false) {
+                                        $icon = 'fas fa-question-circle';
+                                    } elseif (strpos($label_lower, 'real estate') !== false || strpos($label_lower, 'عقار') !== false || strpos($label_lower, 'عقارات') !== false) {
+                                        $icon = 'fas fa-building';
+                                    } elseif (strpos($label_lower, 'more') !== false || strpos($label_lower, 'المزيد') !== false || strpos($label_lower, 'أكثر') !== false) {
+                                        $icon = 'fas fa-ellipsis-h';
+                                    }
+                                @endphp
+                                <li class="mobile-menu-list-item @if($is_child) has-submenu @endif">
+                                    @if($is_child)
+                                        <a href="javascript:;" class="mobile-menu-item" onclick="toggleSubmenu(this)">
+                                            <span class="mobile-menu-text">{{ $menu['label'] }}</span>
+                                            <i class="{{ $icon }} mobile-menu-icon"></i>
+                                            <i class="fas fa-chevron-down mobile-submenu-toggle"></i>
+                                        </a>
+                                        <ul class="mobile-submenu">
+                                            @foreach ($menu['child'] as $child)
+                                                @php
+                                                    $child_icon = 'fas fa-circle';
+                                                    $child_label_lower = strtolower($child['label']);
+                                                    if (strpos($child_label_lower, 'home') !== false || $child['link'] == '/' || $child['link'] == '/home') {
+                                                        $child_icon = 'fas fa-home';
+                                                    } elseif (strpos($child_label_lower, 'lawyer') !== false || strpos($child_label_lower, 'محام') !== false) {
+                                                        $child_icon = 'fas fa-gavel';
+                                                    } elseif (strpos($child_label_lower, 'blog') !== false || strpos($child_label_lower, 'مدونة') !== false) {
+                                                        $child_icon = 'fas fa-blog';
+                                                    } elseif (strpos($child_label_lower, 'about') !== false || strpos($child_label_lower, 'معلومات') !== false) {
+                                                        $child_icon = 'fas fa-info-circle';
+                                                    } elseif (strpos($child_label_lower, 'page') !== false || strpos($child_label_lower, 'صفحة') !== false) {
+                                                        $child_icon = 'fas fa-file-alt';
+                                                    } elseif (strpos($child_label_lower, 'contact') !== false || strpos($child_label_lower, 'اتصل') !== false) {
+                                                        $child_icon = 'fas fa-envelope';
+                                                    } elseif (strpos($child_label_lower, 'service') !== false || strpos($child_label_lower, 'خدمة') !== false) {
+                                                        $child_icon = 'fas fa-briefcase';
+                                                    } elseif (strpos($child_label_lower, 'department') !== false || strpos($child_label_lower, 'قسم') !== false) {
+                                                        $child_icon = 'fas fa-building';
+                                                    } elseif (strpos($child_label_lower, 'testimonial') !== false || strpos($child_label_lower, 'شهادة') !== false) {
+                                                        $child_icon = 'fas fa-quote-left';
+                                                    } elseif (strpos($child_label_lower, 'faq') !== false || strpos($child_label_lower, 'سؤال') !== false) {
+                                                        $child_icon = 'fas fa-question-circle';
+                                                    } elseif (strpos($child_label_lower, 'real estate') !== false || strpos($child_label_lower, 'عقار') !== false || strpos($child_label_lower, 'عقارات') !== false) {
+                                                        $child_icon = 'fas fa-building';
+                                                    } else {
+                                                        $child_icon = 'fas fa-chevron-right';
+                                                    }
+                                                @endphp
+                                                <li>
+                                                    <a href="{{ $child['link'] == '#' || empty($child['link']) ? 'javascript:;' : url($child['link']) }}"
+                                                       @if ($child['open_new_tab']) target="_blank" @endif
+                                                       class="mobile-menu-item">
+                                                        <span class="mobile-menu-text">{{ $child['label'] }}</span>
+                                                        <i class="{{ $child_icon }} mobile-menu-icon"></i>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <a href="{{ $menu['link'] == '#' || empty($menu['link']) ? 'javascript:;' : url($menu['link']) }}"
+                                           @if ($menu['open_new_tab']) target="_blank" @endif
+                                           class="mobile-menu-item">
+                                            <span class="mobile-menu-text">{{ $menu['label'] }}</span>
+                                            <i class="{{ $icon }} mobile-menu-icon"></i>
+                                        </a>
+                                    @endif
+                                </li>
+                            @endforeach
+                            <li class="mobile-menu-list-item mobile-appointment-item">
+                                <a href="{{ route('website.book.consultation.appointment') }}" class="mobile-menu-item mobile-appointment-btn">
+                                    <span class="mobile-menu-text">{{ __('Book Consultation Appointment') }}</span>
+                                    <i class="fas fa-calendar-check mobile-menu-icon"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    @else
+                        <ul class="mobile-menu-list">
+                            <li class="mobile-menu-list-item">
+                                <a href="{{ route('home') }}" class="mobile-menu-item" aria-label="{{ __('Home') }}">
+                                    <span class="mobile-menu-text">{{ __('Home') }}</span>
+                                    <i class="fas fa-home mobile-menu-icon"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    @endif
+                </div>
+
+                <!-- Language & Currency Selectors -->
                 @if (allCurrencies()?->where('status', 'active')->count() > 1 || allLanguages()?->where('status', 1)->count() > 1)
-                    <div class="side-menu-selectors">
+                    <div class="mobile-menu-section">
                         @if (allCurrencies()?->where('status', 'active')->count() > 1)
-                            <form id="setCurrencySideMenu" action="{{ route('set-currency') }}" method="get" class="side-menu-form">
-                                <select class="side-menu-select" name="currency" onchange="this.form.submit()">
+                            <form id="setCurrencyMobileMenu" action="{{ route('set-currency') }}" method="get" class="mobile-menu-form">
+                                <select class="mobile-menu-select" name="currency" onchange="this.form.submit()">
                                     @forelse (allCurrencies()?->where('status', 'active') as $currency)
                                         <option value="{{ $currency->currency_code }}"
                                             {{ getSessionCurrency() == $currency->currency_code ? 'selected' : '' }}>
@@ -438,8 +550,8 @@
                             </form>
                         @endif
                         @if (allLanguages()?->where('status', 1)->count() > 1)
-                            <form id="setLanguageSideMenu" action="{{ route('set-language') }}" method="get" class="side-menu-form">
-                                <select class="side-menu-select" name="code" onchange="this.form.submit()">
+                            <form id="setLanguageMobileMenu" action="{{ route('set-language') }}" method="get" class="mobile-menu-form">
+                                <select class="mobile-menu-select" name="code" onchange="this.form.submit()">
                                     @forelse (allLanguages()?->where('status', 1) as $language)
                                         <option value="{{ $language->code }}"
                                             {{ getSessionLanguage() == $language->code ? 'selected' : '' }}>
@@ -454,117 +566,6 @@
                             </form>
                         @endif
                     </div>
-                @endif
-            </div>
-            
-            <div class="side-menu-body">
-                @if ($public_menu = mainMenu())
-                    <ul class="side-menu-list">
-                        @foreach ($public_menu as $menu)
-                            @php
-                                $is_child = isset($menu['child']) && is_array($menu['child']) && count($menu['child']) > 0;
-                                $icon = 'fas fa-circle';
-                                $label_lower = strtolower($menu['label']);
-                                if (strpos($label_lower, 'home') !== false || $menu['link'] == '/' || $menu['link'] == '/home') {
-                                    $icon = 'fas fa-home';
-                                } elseif (strpos($label_lower, 'lawyer') !== false || strpos($label_lower, 'محام') !== false) {
-                                    $icon = 'fas fa-gavel';
-                                } elseif (strpos($label_lower, 'blog') !== false || strpos($label_lower, 'مدونة') !== false) {
-                                    $icon = 'fas fa-blog';
-                                } elseif (strpos($label_lower, 'about') !== false || strpos($label_lower, 'معلومات') !== false || strpos($label_lower, 'عنا') !== false) {
-                                    $icon = 'fas fa-info-circle';
-                                } elseif (strpos($label_lower, 'page') !== false || strpos($label_lower, 'صفحة') !== false) {
-                                    $icon = 'fas fa-file-alt';
-                                } elseif (strpos($label_lower, 'contact') !== false || strpos($label_lower, 'اتصل') !== false || strpos($label_lower, 'تواصل') !== false) {
-                                    $icon = 'fas fa-envelope';
-                                } elseif (strpos($label_lower, 'service') !== false || strpos($label_lower, 'خدمة') !== false) {
-                                    $icon = 'fas fa-briefcase';
-                                } elseif (strpos($label_lower, 'department') !== false || strpos($label_lower, 'قسم') !== false) {
-                                    $icon = 'fas fa-building';
-                                } elseif (strpos($label_lower, 'testimonial') !== false || strpos($label_lower, 'شهادة') !== false) {
-                                    $icon = 'fas fa-quote-left';
-                                } elseif (strpos($label_lower, 'faq') !== false || strpos($label_lower, 'سؤال') !== false) {
-                                    $icon = 'fas fa-question-circle';
-                                } elseif (strpos($label_lower, 'real estate') !== false || strpos($label_lower, 'عقار') !== false || strpos($label_lower, 'عقارات') !== false) {
-                                    $icon = 'fas fa-building';
-                                } elseif (strpos($label_lower, 'more') !== false || strpos($label_lower, 'المزيد') !== false || strpos($label_lower, 'أكثر') !== false) {
-                                    $icon = 'fas fa-ellipsis-h';
-                                }
-                            @endphp
-                            <li class="side-menu-item @if($is_child) has-submenu @endif">
-                                @if($is_child)
-                                    <a href="javascript:;" class="side-menu-link aman-menu-link-rtl" onclick="toggleSubmenu(this)">
-                                        <span class="aman-menu-text-rtl">{{ $menu['label'] }}</span>
-                                        <i class="{{ $icon }} aman-menu-icon-rtl"></i>
-                                        <i class="fas fa-chevron-down submenu-toggle aman-submenu-toggle-rtl"></i>
-                                    </a>
-                                    <ul class="side-submenu">
-                                        @foreach ($menu['child'] as $child)
-                                            @php
-                                                $child_icon = 'fas fa-circle';
-                                                $child_label_lower = strtolower($child['label']);
-                                                if (strpos($child_label_lower, 'home') !== false || $child['link'] == '/' || $child['link'] == '/home') {
-                                                    $child_icon = 'fas fa-home';
-                                                } elseif (strpos($child_label_lower, 'lawyer') !== false || strpos($child_label_lower, 'محام') !== false) {
-                                                    $child_icon = 'fas fa-gavel';
-                                                } elseif (strpos($child_label_lower, 'blog') !== false || strpos($child_label_lower, 'مدونة') !== false) {
-                                                    $child_icon = 'fas fa-blog';
-                                                } elseif (strpos($child_label_lower, 'about') !== false || strpos($child_label_lower, 'معلومات') !== false) {
-                                                    $child_icon = 'fas fa-info-circle';
-                                                } elseif (strpos($child_label_lower, 'page') !== false || strpos($child_label_lower, 'صفحة') !== false) {
-                                                    $child_icon = 'fas fa-file-alt';
-                                                } elseif (strpos($child_label_lower, 'contact') !== false || strpos($child_label_lower, 'اتصل') !== false) {
-                                                    $child_icon = 'fas fa-envelope';
-                                                } elseif (strpos($child_label_lower, 'service') !== false || strpos($child_label_lower, 'خدمة') !== false) {
-                                                    $child_icon = 'fas fa-briefcase';
-                                                } elseif (strpos($child_label_lower, 'department') !== false || strpos($child_label_lower, 'قسم') !== false) {
-                                                    $child_icon = 'fas fa-building';
-                                                } elseif (strpos($child_label_lower, 'testimonial') !== false || strpos($child_label_lower, 'شهادة') !== false) {
-                                                    $child_icon = 'fas fa-quote-left';
-                                                } elseif (strpos($child_label_lower, 'faq') !== false || strpos($child_label_lower, 'سؤال') !== false) {
-                                                    $child_icon = 'fas fa-question-circle';
-                                                } elseif (strpos($child_label_lower, 'real estate') !== false || strpos($child_label_lower, 'عقار') !== false || strpos($child_label_lower, 'عقارات') !== false) {
-                                                    $child_icon = 'fas fa-building';
-                                                } else {
-                                                    $child_icon = 'fas fa-chevron-right';
-                                                }
-                                            @endphp
-                                            <li>
-                                                <a href="{{ $child['link'] == '#' || empty($child['link']) ? 'javascript:;' : url($child['link']) }}"
-                                                   @if ($child['open_new_tab']) target="_blank" @endif
-                                                   class="aman-submenu-link-rtl">
-                                                    <span class="aman-menu-text-rtl">{{ $child['label'] }}</span>
-                                                    <i class="{{ $child_icon }} aman-menu-icon-rtl"></i>
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @else
-                                    <a href="{{ $menu['link'] == '#' || empty($menu['link']) ? 'javascript:;' : url($menu['link']) }}"
-                                       @if ($menu['open_new_tab']) target="_blank" @endif
-                                       class="side-menu-link aman-menu-link-rtl">
-                                        <span class="aman-menu-text-rtl">{{ $menu['label'] }}</span>
-                                        <i class="{{ $icon }} aman-menu-icon-rtl"></i>
-                                    </a>
-                                @endif
-                            </li>
-                        @endforeach
-                        <li class="side-menu-item appointment-item">
-                            <a href="{{ route('website.book.consultation.appointment') }}" class="side-menu-link appointment-link aman-menu-link-rtl">
-                                <span class="aman-menu-text-rtl">{{ __('Book Consultation Appointment') }}</span>
-                                <i class="fas fa-calendar-check aman-menu-icon-rtl"></i>
-                            </a>
-                        </li>
-                    </ul>
-                @else
-                    <ul class="side-menu-list">
-                        <li class="side-menu-item">
-                            <a href="{{ route('home') }}" class="side-menu-link" aria-label="{{ __('Home') }}">
-                                <i class="fas fa-home"></i>
-                                <span>{{ __('Home') }}</span>
-                            </a>
-                        </li>
-                    </ul>
                 @endif
             </div>
         </div>
