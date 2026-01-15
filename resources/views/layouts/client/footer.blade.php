@@ -203,7 +203,7 @@
 
 <script>
     @php
-        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
     @endphp
     var isRtl = "{{ $textDirection == 'rtl' }}"
     var rtlTrue = false;

@@ -5108,12 +5108,9 @@ Footer
 /*scroll-top*/
 .scroll-top {
     cursor: pointer;
-    text-align: center;
-    font-size: 24px;
     position: fixed;
     width: 50px;
     height: 50px;
-    line-height: 50px;
     bottom: 90px;
     right: 26px;
     background: var(--colorPrimary);
@@ -5130,6 +5127,19 @@ Footer
     -moz-transition: all 0.3s;
     -ms-transition: all 0.3s;
     -o-transition: all 0.3s;
+    /* Center icon inside the box using flexbox */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-top i {
+    font-size: 24px;
+    color: var(--colorWhite);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /*Banner Section*/
@@ -5138,7 +5148,7 @@ Footer
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top center;
-    color: var(--colorWhite);
+    color: #fff !important;
     padding: 100px 0px;
 }
 
@@ -5150,18 +5160,21 @@ Footer
     top: 0;
     left: 0;
     background: #000;
-    opacity: 0.1;
+    opacity: 0.5;
+    z-index: 1;
 }
 
 .banner-text {
     position: relative;
+    z-index: 2;
+    color: #fff !important;
 }
 
 .banner-text h1 {
     font-size: 46px;
     font-weight: 600;
     margin-bottom: 15px;
-    color: var(--colorWhite);
+    color: #fff !important;
 }
 
 .banner-text ul li {
@@ -5171,7 +5184,7 @@ Footer
 .banner-text ul li a {
     position: relative;
     font-size: 18px;
-    color: var(--colorWhite);
+    color: #fff !important;
 }
 
 .banner-text ul li a:after {
@@ -5184,6 +5197,7 @@ Footer
 .banner-text ul li span {
     text-decoration: underline;
     text-underline-offset: 4px;
+    color: #fff !important;
 }
 
 

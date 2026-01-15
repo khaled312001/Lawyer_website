@@ -742,6 +742,39 @@ class HomeController extends Controller {
                 ->first();
         }
 
-        return view('client.book-consultation-appointment', compact('departments', 'lawyers', 'property'));
+        // Get all countries with phone codes
+        $countries = \Modules\Language\app\Enums\AllCountriesDetailsEnum::getAll()
+            ->sortBy('name')
+            ->map(function ($country) {
+                return (object) [
+                    'name' => $country->name,
+                    'code' => $country->code,
+                    'phone' => $country->phone,
+                    'flag' => $this->countryCodeToEmoji($country->code),
+                ];
+            });
+
+        return view('client.book-consultation-appointment', compact('departments', 'lawyers', 'property', 'countries'));
+    }
+
+    /**
+     * Convert a country code (ISO 3166-1 alpha-2) to its flag emoji.
+     *
+     * @param string $code Two-letter country code
+     * @return string Flag emoji
+     */
+    private function countryCodeToEmoji(string $code): string
+    {
+        $code = strtoupper($code);
+        
+        if (!preg_match('/^[A-Z]{2}$/', $code)) {
+            return '';
+        }
+
+        $offset = 0x1F1E6; // Unicode code point for regional indicator 'A'
+        $first = mb_ord($code[0], 'UTF-8') - ord('A') + $offset;
+        $second = mb_ord($code[1], 'UTF-8') - ord('A') + $offset;
+
+        return mb_chr($first, 'UTF-8') . mb_chr($second, 'UTF-8');
     }
 }

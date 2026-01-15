@@ -136,11 +136,14 @@
 
 /* Scroll Top Icon */
 .scroll-top i {
-    display: inline-block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     visibility: visible !important;
     opacity: 1 !important;
     font-size: 24px !important;
     color: var(--colorWhite) !important;
+    line-height: 1 !important;
 }
 
 /* Ensure Font Awesome classes work */

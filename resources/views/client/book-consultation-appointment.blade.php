@@ -156,10 +156,10 @@
                             <!-- Lawyer Selection -->
                             <div class="mb-4">
                                 <label for="lawyer_id" class="form-label">
-                                    <i class="fas fa-user-tie me-2"></i>{{ __('Select Lawyer') }} <span class="text-danger">*</span>
+                                    <i class="fas fa-user-tie me-2"></i>{{ __('Select Lawyer') }}
                                 </label>
                                 <div class="lawyer-selection-wrapper">
-                                    <select name="lawyer_id" id="lawyer_id" class="form-select lawyer-select @error('lawyer_id') is-invalid @enderror" required>
+                                    <select name="lawyer_id" id="lawyer_id" class="form-select lawyer-select @error('lawyer_id') is-invalid @enderror">
                                         <option value="">{{ __('Choose a lawyer for your consultation') }}</option>
                                         @foreach($lawyers ?? [] as $lawyer)
                                             <option value="{{ $lawyer->id }}"
@@ -210,7 +210,7 @@
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                                 <small class="form-text text-muted">
-                                    <i class="fas fa-info-circle me-1"></i>{{ __('Select the lawyer you want to consult with') }}
+                                    <i class="fas fa-info-circle me-1"></i>{{ __('Select the lawyer you want to consult with (optional)') }}
                                 </small>
                             </div>
 
@@ -283,22 +283,12 @@
                                         <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span></label>
                                         <div class="input-group phone-input-group">
                                             <select name="country_code" id="country_code" class="form-select country-code-select @error('country_code') is-invalid @enderror" required>
-                                                <option value="+963" {{ (old('country_code') ?: '+963') == '+963' ? 'selected' : '' }}>🇸🇾 +963</option>
-                                                <option value="+1" {{ old('country_code') == '+1' ? 'selected' : '' }}>🇺🇸 +1</option>
-                                                <option value="+44" {{ old('country_code') == '+44' ? 'selected' : '' }}>🇬🇧 +44</option>
-                                                <option value="+49" {{ old('country_code') == '+49' ? 'selected' : '' }}>🇩🇪 +49</option>
-                                                <option value="+33" {{ old('country_code') == '+33' ? 'selected' : '' }}>🇫🇷 +33</option>
-                                                <option value="+966" {{ old('country_code') == '+966' ? 'selected' : '' }}>🇸🇦 +966</option>
-                                                <option value="+971" {{ old('country_code') == '+971' ? 'selected' : '' }}>🇦🇪 +971</option>
-                                                <option value="+20" {{ old('country_code') == '+20' ? 'selected' : '' }}>🇪🇬 +20</option>
-                                                <option value="+962" {{ old('country_code') == '+962' ? 'selected' : '' }}>🇯🇴 +962</option>
-                                                <option value="+961" {{ old('country_code') == '+961' ? 'selected' : '' }}>🇱🇧 +961</option>
-                                                <option value="+964" {{ old('country_code') == '+964' ? 'selected' : '' }}>🇮🇶 +964</option>
-                                                <option value="+965" {{ old('country_code') == '+965' ? 'selected' : '' }}>🇰🇼 +965</option>
-                                                <option value="+974" {{ old('country_code') == '+974' ? 'selected' : '' }}>🇶🇦 +974</option>
-                                                <option value="+973" {{ old('country_code') == '+973' ? 'selected' : '' }}>🇧🇭 +973</option>
-                                                <option value="+968" {{ old('country_code') == '+968' ? 'selected' : '' }}>🇴🇲 +968</option>
-                                                <option value="+970" {{ old('country_code') == '+970' ? 'selected' : '' }}>🇵🇸 +970</option>
+                                                <option value="">{{ __('Select Country Code') }}</option>
+                                                @foreach($countries ?? [] as $country)
+                                                    <option value="+{{ $country->phone }}" {{ (old('country_code') ?: '+963') == '+'.$country->phone ? 'selected' : '' }}>
+                                                        {{ $country->flag }} {{ $country->name }} (+{{ $country->phone }})
+                                                    </option>
+                                                @endforeach
                                             </select>
                                             <input type="tel" name="client_phone" id="client_phone" class="form-control @error('client_phone') is-invalid @enderror" required value="{{ old('client_phone', Auth::user()->details->phone ?? '') }}" placeholder="{{ __('Enter your phone number') }}">
                                         </div>
@@ -392,14 +382,8 @@
             let isValid = true;
             let firstErrorField = null;
 
-            // Validate lawyer selection
-            if (!lawyerId) {
-                isValid = false;
-                $('#lawyer_id').addClass('is-invalid').focus();
-                if (!firstErrorField) firstErrorField = $('#lawyer_id');
-            } else {
-                $('#lawyer_id').removeClass('is-invalid');
-            }
+            // Lawyer selection is optional - no validation needed
+            $('#lawyer_id').removeClass('is-invalid');
 
             // Validate appointment date
             if (!appointmentDate || appointmentDate < today) {
@@ -626,6 +610,21 @@
             $(this).removeClass('is-invalid');
         });
 
+        // Initialize Select2 for country code dropdown
+        $('#country_code').select2({
+            placeholder: '{{ __("Select Country Code") }}',
+            allowClear: false,
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return '{{ __("No countries found") }}';
+                },
+                searching: function() {
+                    return '{{ __("Searching...") }}';
+                }
+            }
+        });
+
         // Update phone field when country code changes
         $('#country_code').on('change', function() {
             $('#client_phone').trigger('input');
@@ -699,6 +698,10 @@
 
 .page-title-content ul li a:hover {
     color: #fff;
+}
+
+.page-title-content ul li span {
+    color: #fff !important;
 }
 
 .page-title-content ul li:not(:last-child)::after {

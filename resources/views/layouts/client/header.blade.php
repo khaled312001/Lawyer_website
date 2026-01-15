@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 @php
-    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
 @endphp
 <html class="no-js" lang="{{ app()->getLocale() }}" dir="{{ $textDirection }}">
 

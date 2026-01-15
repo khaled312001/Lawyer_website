@@ -74,19 +74,11 @@
                 <div class="property-gallery mb_40">
                     @if($property->gallery_images && count($property->gallery_images) > 0)
                         <div class="gallery-main">
-                            <img id="main-gallery-image" src="{{ $property->gallery_images[0] }}" alt="{{ $property->title }}" class="img-fluid">
+                            <img id="main-gallery-image" src="{{ $property->gallery_images[0] }}" alt="{{ $property->title }}" class="img-fluid" onclick="openFullscreenGallery()" style="cursor: pointer;">
                             <div class="gallery-overlay">
                                 <div class="gallery-counter">
                                     <span id="current-image">1</span> / <span id="total-images">{{ count($property->gallery_images) }}</span>
                                 </div>
-                            </div>
-                            <div class="gallery-nav">
-                                <button class="gallery-nav-btn prev" onclick="changeGalleryImage(-1)" aria-label="{{ __('Previous Image') }}">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button class="gallery-nav-btn next" onclick="changeGalleryImage(1)" aria-label="{{ __('Next Image') }}">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
                             </div>
                             <button class="gallery-fullscreen-btn" onclick="openFullscreenGallery()" aria-label="{{ __('View Fullscreen') }}">
                                 <i class="fas fa-expand"></i>
@@ -548,6 +540,7 @@
     height: 500px;
     overflow: hidden;
     background: #000;
+    cursor: pointer;
 }
 
 .gallery-main img {
@@ -555,10 +548,36 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .gallery-main:hover img {
     transform: scale(1.05);
+}
+
+.gallery-main:active img {
+    transform: scale(0.98);
+}
+
+.gallery-main::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.gallery-main:hover::after {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .gallery-overlay {
@@ -566,6 +585,7 @@
     top: 20px;
     right: 20px;
     z-index: 3;
+    pointer-events: none;
 }
 
 .gallery-counter {
@@ -576,6 +596,7 @@
     border-radius: 20px;
     font-size: 14px;
     font-weight: 600;
+    pointer-events: none;
 }
 
 .gallery-nav {

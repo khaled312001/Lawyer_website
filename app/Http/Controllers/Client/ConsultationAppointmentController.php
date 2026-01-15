@@ -18,6 +18,7 @@ class ConsultationAppointmentController extends Controller
         $request->validate([
             'appointment_date' => 'required|date|after_or_equal:today',
             'appointment_time' => 'required',
+            'lawyer_id' => 'nullable|exists:lawyers,id',
             'department_id' => 'nullable|exists:departments,id',
             'case_type' => 'required|string|max:255',
             'case_details' => 'required|string',

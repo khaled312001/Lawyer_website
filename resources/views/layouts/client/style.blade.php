@@ -21,7 +21,7 @@
 
 <link rel="stylesheet" href="{{ asset('client/css/style.css') }}?v={{ $setting?->version }}">
 @php
-    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
 @endphp
 @if ($textDirection == 'rtl')
     <link rel="stylesheet" href="{{ asset('client/css/rtl.css') }}?v={{ $setting?->version }}">
@@ -76,6 +76,195 @@
         --top-header-bar-height: 50px;
         --main-navbar-height: 70px;
         --total-navbar-height: 120px; /* top-header-bar + main-navbar */
+    }
+
+    /* ===================================================================
+       RTL DEFAULT - جعل الموقع عربي افتراضياً دائماً
+       =================================================================== */
+    
+    /* إجبار RTL على body و html */
+    body,
+    html {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع العناصر الأساسية */
+    * {
+        direction: inherit;
+    }
+
+    /* جميع الحاويات */
+    .container,
+    .container-fluid,
+    .row,
+    [class*="col-"] {
+        direction: rtl !important;
+    }
+
+    /* جميع العناوين */
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النصوص */
+    p, span, div, a, li, td, th {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع القوائم */
+    ul, ol, li {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النماذج */
+    input, textarea, select, .form-control, .form-select {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأزرار */
+    button, .btn, a.btn {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأقسام */
+    section, .section, [class*="section"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الكروت */
+    .card, [class*="card"], [class*="item"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع العناوين الرئيسية */
+    .title, .main-headline, .headline {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الجداول */
+    table, thead, tbody, tr, td, th {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Flexbox - محاذاة افتراضية لليمين */
+    [class*="flex"], 
+    .d-flex,
+    .flex {
+        direction: rtl !important;
+    }
+
+    /* Grid - محاذاة افتراضية لليمين */
+    [class*="grid"],
+    .grid {
+        direction: rtl !important;
+    }
+
+    /* إصلاح justify-content */
+    [class*="justify-content-start"] {
+        justify-content: flex-end !important;
+    }
+
+    [class*="justify-content-end"] {
+        justify-content: flex-start !important;
+    }
+
+    /* إصلاح text-align */
+    [class*="text-left"],
+    .text-left {
+        text-align: right !important;
+    }
+
+    [class*="text-right"],
+    .text-right {
+        text-align: right !important;
+    }
+
+    [class*="text-center"],
+    .text-center {
+        text-align: center !important;
+    }
+
+    /* إصلاح margin و padding */
+    .ms-auto {
+        margin-right: auto !important;
+        margin-left: 0 !important;
+    }
+
+    .me-auto {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+
+    .ms-1, .ms-2, .ms-3, .ms-4, .ms-5 {
+        margin-right: var(--bs-spacer) !important;
+        margin-left: 0 !important;
+    }
+
+    .me-1, .me-2, .me-3, .me-4, .me-5 {
+        margin-left: var(--bs-spacer) !important;
+        margin-right: 0 !important;
+    }
+
+    .ps-1, .ps-2, .ps-3, .ps-4, .ps-5 {
+        padding-right: var(--bs-spacer) !important;
+        padding-left: 0 !important;
+    }
+
+    .pe-1, .pe-2, .pe-3, .pe-4, .pe-5 {
+        padding-left: var(--bs-spacer) !important;
+        padding-right: 0 !important;
+    }
+
+    /* إصلاح float */
+    .float-left {
+        float: right !important;
+    }
+
+    .float-right {
+        float: left !important;
+    }
+
+    /* إصلاح border */
+    .border-left {
+        border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        border-left: none !important;
+    }
+
+    .border-right {
+        border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        border-right: none !important;
+    }
+
+    /* إصلاح rounded */
+    .rounded-start {
+        border-top-right-radius: var(--bs-border-radius) !important;
+        border-bottom-right-radius: var(--bs-border-radius) !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .rounded-end {
+        border-top-left-radius: var(--bs-border-radius) !important;
+        border-bottom-left-radius: var(--bs-border-radius) !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
     }
 
     /* ============================================
@@ -1490,7 +1679,7 @@
 
     /* RTL Support */
     @php
-        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
     @endphp
     @if ($textDirection == 'rtl')
         .side-menu-content {
@@ -1530,6 +1719,23 @@
             bottom: 26px;
         }
     @endif
+    
+    /* Center icon inside scroll-top button */
+    .scroll-top {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+    
+    .scroll-top i {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 
     /* Mobile App Section - Stay on top of your case */
     .mobile-app-area {
@@ -3273,7 +3479,51 @@
     }
 
     .banner-text ul li span {
-        color: rgba(255,255,255,0.7);
+        color: #fff !important;
+    }
+    
+    /* Ensure all breadcrumb text is light/white on dark backgrounds */
+    .banner-area .banner-text,
+    .banner-area .banner-text *,
+    .page-title-area .page-title-content,
+    .page-title-area .page-title-content *,
+    .banner-text ul li,
+    .banner-text ul li a,
+    .banner-text ul li span,
+    .page-title-content ul li,
+    .page-title-content ul li a,
+    .page-title-content ul li span {
+        color: #fff !important;
+    }
+    
+    .banner-text ul li a:hover,
+    .page-title-content ul li a:hover {
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    /* Dark overlay for better text visibility on dark images */
+    .banner-area::before,
+    .page-title-area::before {
+        background: rgba(0,0,0,0.5) !important;
+        z-index: 1;
+    }
+    
+    .banner-text,
+    .page-title-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    /* Ensure all text in breadcrumb areas is white */
+    .banner-area h1,
+    .banner-area h2,
+    .banner-area h3,
+    .page-title-area h1,
+    .page-title-area h2,
+    .page-title-area h3,
+    .page-title-content .title {
+        color: #fff !important;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
     }
 
     /* ============================================
@@ -13185,5 +13435,115 @@
     .service-area + section {
         margin-top: 0 !important;
         padding-top: 0 !important;
+    }
+
+    /* ===================================================================
+       RTL DEFAULT - جعل الموقع عربي افتراضياً دائماً
+       =================================================================== */
+    
+    /* إجبار RTL على body و html */
+    body,
+    html {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الحاويات */
+    .container,
+    .container-fluid,
+    .row {
+        direction: rtl !important;
+    }
+
+    /* جميع العناوين */
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6,
+    .title, .main-headline, .headline {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النصوص */
+    p, span, div, a, li, td, th {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع القوائم */
+    ul, ol, li {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النماذج */
+    input, textarea, select, .form-control, .form-select {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأزرار */
+    button, .btn, a.btn {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأقسام */
+    section, .section, [class*="section"],
+    .service-area, .about-area, .blog-area,
+    .testimonial-area, .team-area, .how-it-works-area,
+    .mobile-app-area, .fixed-price-area {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الكروت */
+    .card, [class*="card"], [class*="item"],
+    .service-item, .choose-item, .blog-card,
+    .testimonial-item, .team-item {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Flexbox - محاذاة افتراضية لليمين */
+    [class*="flex"], 
+    .d-flex,
+    .flex {
+        direction: rtl !important;
+    }
+
+    /* إصلاح justify-content */
+    [class*="justify-content-start"] {
+        justify-content: flex-end !important;
+    }
+
+    /* إصلاح text-align */
+    [class*="text-left"],
+    .text-left {
+        text-align: right !important;
+    }
+
+    /* Bootstrap utilities - RTL */
+    .ms-auto {
+        margin-right: auto !important;
+        margin-left: 0 !important;
+    }
+
+    .me-auto {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+
+    .float-left {
+        float: right !important;
+    }
+
+    .float-right {
+        float: left !important;
     }
 </style>
