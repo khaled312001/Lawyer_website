@@ -1925,34 +1925,73 @@
         min-height: 300px;
     }
 
+    /* Remove left padding on mobile to start from right edge */
+    .property-header .container,
+    .property-header .container-fluid,
+    .property-header .row,
+    .property-header [class*="col-"] {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .property-header-content,
+    .property-header-content-v2 {
+        padding-right: 15px !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
     .property-breadcrumb {
         margin-bottom: 20px;
+        padding-right: 15px !important;
+        padding-left: 0 !important;
     }
 
     .property-breadcrumb .breadcrumb {
-        padding: 10px 15px;
+        padding: 10px 15px 10px 0;
         font-size: 13px;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
-    .property-title {
+    .property-title,
+    .property-title-v2 {
         font-size: 26px;
         margin-bottom: 12px;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
-    .property-location {
+    .property-location,
+    .property-location-v2 {
         font-size: 16px;
         margin-bottom: 15px;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
-    .property-meta {
+    .property-meta,
+    .property-meta-v2 {
         gap: 10px;
         flex-direction: row;
         flex-wrap: wrap;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
-    .meta-item {
+    .meta-item,
+    .meta-item-v2 {
         padding: 8px 14px;
         font-size: 13px;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
     .gallery-main {
@@ -2364,8 +2403,11 @@
 
 /* RTL Mobile Support */
 @media (max-width: 768px) {
-    [dir="rtl"] .property-header-content {
-        text-align: center;
+    [dir="rtl"] .property-header-content,
+    [dir="rtl"] .property-header-content-v2 {
+        text-align: right !important;
+        padding-right: 15px !important;
+        padding-left: 0 !important;
     }
 
     [dir="rtl"] .section-title {
