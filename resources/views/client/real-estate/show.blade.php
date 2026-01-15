@@ -380,7 +380,7 @@
 }
 
 .property-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
-    color: rgba(255,255,255,0.7);
+    color: #fff !important;
     content: "›";
 }
 
@@ -388,13 +388,29 @@
     position: relative;
     z-index: 2;
     text-align: right;
-    color: white;
+    color: #fff !important;
     direction: rtl;
 }
 
 [dir="ltr"] .property-header-content {
     text-align: left;
     direction: ltr;
+    color: #fff !important;
+}
+
+/* Ensure all text in property-header is white */
+.property-header,
+.property-header * {
+    color: #fff !important;
+}
+
+/* Override for icons to maintain their color */
+.property-header i {
+    color: var(--colorSecondary, #f4d03f) !important;
+}
+
+.property-header .meta-item.price-badge i {
+    color: #fff !important;
 }
 
 .property-title {
@@ -405,11 +421,13 @@
     line-height: 1.2;
     text-align: right;
     direction: rtl;
+    color: #fff !important;
 }
 
 [dir="ltr"] .property-title {
     text-align: left;
     direction: ltr;
+    color: #fff !important;
 }
 
 .property-location {
@@ -422,43 +440,54 @@
     font-weight: 500;
     direction: rtl;
     text-align: right;
+    color: #fff !important;
+    flex-wrap: nowrap;
 }
 
 [dir="ltr"] .property-location {
     justify-content: flex-start;
     direction: ltr;
     text-align: left;
+    color: #fff !important;
 }
 
 .property-location i {
     color: var(--colorSecondary, #f4d03f);
     font-size: 22px;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-    order: 2;
+    order: 1;
     flex-shrink: 0;
+    width: 24px;
+    text-align: center;
 }
 
 [dir="ltr"] .property-location i {
-    order: 1;
+    order: 2;
 }
 
 .property-location span {
-    order: 1;
+    order: 2;
     text-align: right;
+    color: #fff !important;
+    margin-right: 0.5rem;
 }
 
 [dir="ltr"] .property-location span {
-    order: 2;
+    order: 1;
     text-align: left;
+    color: #fff !important;
+    margin-right: 0;
+    margin-left: 0.5rem;
 }
 
 .property-meta {
     display: flex;
     justify-content: flex-end;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
     margin-top: 25px;
     direction: rtl;
+    align-items: center;
 }
 
 [dir="ltr"] .property-meta {
@@ -472,7 +501,7 @@
     gap: 8px;
     background: rgba(255,255,255,0.25);
     backdrop-filter: blur(10px);
-    padding: 10px 20px;
+    padding: 10px 18px;
     border-radius: 25px;
     font-size: 15px;
     font-weight: 600;
@@ -481,13 +510,17 @@
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     direction: rtl;
     text-align: right;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    color: #fff !important;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 [dir="ltr"] .meta-item {
     direction: ltr;
     text-align: left;
     justify-content: flex-start;
+    color: #fff !important;
 }
 
 .meta-item:hover {
@@ -499,31 +532,46 @@
 .meta-item i {
     font-size: 16px;
     color: var(--colorSecondary, #f4d03f);
-    order: 2;
+    order: 1;
     flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 [dir="ltr"] .meta-item i {
-    order: 1;
+    order: 2;
 }
 
 .meta-item span {
-    order: 1;
+    order: 2;
     text-align: right;
+    color: #fff !important;
+    margin-right: 0;
+    flex: 0 1 auto;
 }
 
 [dir="ltr"] .meta-item span {
-    order: 2;
+    order: 1;
     text-align: left;
+    color: #fff !important;
+    margin-left: 0;
 }
 
 .meta-item.price-badge {
     background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, var(--colorSecondary, #8b7355) 100%);
     border-color: rgba(255,255,255,0.5);
+    box-shadow: 0 3px 15px rgba(200, 180, 126, 0.4);
+}
+
+.meta-item.price-badge:hover {
+    box-shadow: 0 5px 20px rgba(200, 180, 126, 0.6);
+    transform: translateY(-3px);
 }
 
 .meta-item.price-badge i {
-    color: #fff;
+    color: #fff !important;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 /* Property Gallery - Enhanced Design */

@@ -285,8 +285,12 @@
                                             <select name="country_code" id="country_code" class="form-select country-code-select @error('country_code') is-invalid @enderror" required>
                                                 <option value="">{{ __('Select Country Code') }}</option>
                                                 @foreach($countries ?? [] as $country)
+                                                    @php
+                                                        $currentLang = app()->getLocale();
+                                                        $countryName = $currentLang === 'ar' ? ($country->name_ar ?? $country->name) : $country->name;
+                                                    @endphp
                                                     <option value="+{{ $country->phone }}" {{ (old('country_code') ?: '+963') == '+'.$country->phone ? 'selected' : '' }}>
-                                                        {{ $country->flag }} {{ $country->name }} (+{{ $country->phone }})
+                                                        {{ $country->flag }} {{ $countryName }} (+{{ $country->phone }})
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -1427,8 +1431,14 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     }
 
     .country-code-select {
-        width: 80px !important;
+        width: auto !important;
+        min-width: 180px !important;
         font-size: 13px !important;
+    }
+    
+    /* Ensure flag emojis display correctly on mobile */
+    .country-code-select option {
+        font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", sans-serif !important;
     }
 
     .phone-input-group {
@@ -1436,7 +1446,8 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     }
 
     .country-code-select {
-        width: 70px !important;
+        width: auto !important;
+        min-width: 180px !important;
         font-size: 12px !important;
         border-radius: 10px 10px 0 0 !important;
         border-bottom: none !important;
@@ -1958,14 +1969,29 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .country-code-select {
-    width: 90px !important;
+    width: auto !important;
+    min-width: 200px !important;
     flex-shrink: 0;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border-right: none !important;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
-    font-weight: 600 !important;
     font-size: 14px !important;
+}
+
+/* Ensure flag emojis display correctly */
+.country-code-select option {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", sans-serif !important;
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+}
+
+.country-code-select option::before {
+    content: '';
+}
+
+/* Fix flag display in select2 dropdown */
+.select2-results__option {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", sans-serif !important;
 }
 
 .country-code-select:focus {

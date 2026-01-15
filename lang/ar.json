@@ -1735,6 +1735,7 @@
     "Select a lawyer to see details": "اختر محامي لرؤية التفاصيل",
     "Choose from the list above": "اختر من القائمة أعلاه",
     "Select the lawyer you want to consult with": "اختر المحامي الذي تريد الاستشارة معه",
+    "Select the lawyer you want to consult with (optional)": "اختر المحامي الذي تريد الاستشارة معه (اختياري)",
     "Appointment date *": "تاريخ الموعد *",
     "dd-----yyyy": "يوم-شهر-سنة",
     "12-Jan-2026": "12-يناير-2026",

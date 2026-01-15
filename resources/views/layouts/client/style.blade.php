@@ -3139,6 +3139,7 @@
     .enhanced-lawyer-info-item {
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 12px;
         padding: 10px 0;
         transition: all 0.3s ease;
@@ -3196,6 +3197,7 @@
         font-weight: 500;
         line-height: 1.5;
         flex: 1;
+        text-align: center;
     }
     
     /* Rating Item - Special Layout */
@@ -3210,11 +3212,14 @@
         display: flex;
         flex-direction: column;
         gap: 6px;
+        align-items: center;
+        text-align: center;
     }
     
     .enhanced-rating-stars {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 2px;
     }
     
@@ -3228,7 +3233,9 @@
         color: #495057;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 5px;
+        text-align: center;
     }
     
     .enhanced-rating-text strong {
@@ -3297,17 +3304,28 @@
     
     /* RTL Support */
     [dir="rtl"] .enhanced-lawyer-content,
-    [dir="rtl"] .enhanced-lawyer-info-box,
-    [dir="rtl"] .enhanced-lawyer-info-item {
+    [dir="rtl"] .enhanced-lawyer-info-box {
         direction: rtl;
-        text-align: right;
     }
     
     [dir="ltr"] .enhanced-lawyer-content,
-    [dir="ltr"] .enhanced-lawyer-info-box,
-    [dir="ltr"] .enhanced-lawyer-info-item {
+    [dir="ltr"] .enhanced-lawyer-info-box {
         direction: ltr;
-        text-align: left;
+    }
+    
+    /* Center text in all items - override RTL/LTR */
+    .enhanced-lawyer-info-item {
+        justify-content: center !important;
+    }
+    
+    .enhanced-info-text,
+    .enhanced-rating-content,
+    .enhanced-rating-text {
+        text-align: center !important;
+    }
+    
+    .enhanced-rating-stars {
+        justify-content: center !important;
     }
     
     /* Responsive Design */
