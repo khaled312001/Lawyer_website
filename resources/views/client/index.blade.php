@@ -3022,28 +3022,72 @@
     [dir="rtl"] .lawyer-meta {
         justify-content: flex-end;
         align-items: flex-end;
+        direction: rtl;
     }
 
     [dir="rtl"] .lawyer-department-meta,
     [dir="rtl"] .lawyer-location-meta {
-        flex-direction: row-reverse;
+        flex-direction: row;
         justify-content: flex-end;
+        text-align: right;
+        direction: rtl;
+    }
+
+    [dir="rtl"] .lawyer-department-meta i,
+    [dir="rtl"] .lawyer-location-meta i {
+        order: 2;
+        margin-left: 8px;
+        margin-right: 0;
+    }
+
+    [dir="rtl"] .lawyer-department-meta span,
+    [dir="rtl"] .lawyer-location-meta span {
+        order: 1;
+        text-align: right;
     }
 
     [dir="rtl"] .lawyer-designations {
-        flex-direction: row-reverse;
+        flex-direction: row;
         justify-content: flex-end;
+        text-align: right;
+        direction: rtl;
+    }
+
+    [dir="rtl"] .lawyer-designations i {
+        order: 2;
+        margin-left: 8px;
+        margin-right: 0;
     }
 
     /* RTL Support for Lawyer Rating and View Profile */
     [dir="rtl"] .lawyer-rating {
-        flex-direction: row-reverse;
+        flex-direction: row;
         justify-content: flex-end;
+        text-align: right;
+        direction: rtl;
+    }
+
+    [dir="rtl"] .lawyer-rating .rating-text {
+        order: 1;
+        text-align: right;
     }
 
     [dir="rtl"] .lawyer-view-profile {
-        flex-direction: row-reverse;
+        flex-direction: row;
         justify-content: flex-end;
+        text-align: right;
+        direction: rtl;
+    }
+
+    [dir="rtl"] .lawyer-view-profile i {
+        order: 2;
+        margin-left: 10px;
+        margin-right: 0;
+    }
+
+    [dir="rtl"] .lawyer-view-profile span {
+        order: 1;
+        text-align: right;
     }
 
     /* Mobile RTL Support for Lawyer Card */
@@ -5131,6 +5175,21 @@
     [dir="rtl"] .choose-item,
     [dir="rtl"] .blog-card-modern,
     [dir="rtl"] .lawyer-card-modern {
+        text-align: right;
+        direction: rtl;
+    }
+
+    [dir="rtl"] .lawyer-content {
+        text-align: right;
+        direction: rtl;
+        align-items: flex-end;
+    }
+
+    [dir="rtl"] .lawyer-name {
+        text-align: right;
+    }
+
+    [dir="rtl"] .lawyer-name a {
         text-align: right;
     }
 

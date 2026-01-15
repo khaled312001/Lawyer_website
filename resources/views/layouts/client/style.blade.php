@@ -1040,7 +1040,9 @@
     }
 
     [dir="rtl"] .side-menu-link i {
-        order: 2;
+        order: 1;
+        margin-left: 0;
+        margin-right: 8px;
     }
 
     .side-menu-link span {
@@ -1050,6 +1052,12 @@
 
     [dir="rtl"] .side-menu-link span {
         text-align: right;
+        order: 2;
+    }
+
+    [dir="rtl"] .side-menu-link {
+        flex-direction: row;
+        justify-content: flex-start;
     }
 
     .side-menu-link:hover {
@@ -1084,6 +1092,12 @@
         font-size: 12px;
         transition: transform 0.3s ease;
         flex-shrink: 0;
+    }
+
+    [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
+        margin-left: auto;
+        margin-right: 0;
+        order: 3;
     }
 
     .side-menu-item.has-submenu.active .side-menu-link .submenu-toggle {
@@ -1167,9 +1181,9 @@
     }
 
     [dir="rtl"] .side-submenu li a i {
-        order: 2;
+        order: 1;
         margin-left: 0;
-        margin-right: 0;
+        margin-right: 8px;
     }
 
     .side-submenu li a span {
@@ -1179,14 +1193,15 @@
 
     [dir="rtl"] .side-submenu li a span {
         text-align: right;
-        order: 1;
-        justify-content: flex-end;
+        order: 2;
+        justify-content: flex-start;
     }
 
-    /* RTL: Ensure submenu links are right-aligned */
+    /* RTL: Ensure submenu links are right-aligned with icons on the right */
     [dir="rtl"] .side-submenu li a {
-        justify-content: flex-end;
+        justify-content: flex-start;
         text-align: right;
+        flex-direction: row;
     }
 
     .side-submenu li a:hover {
@@ -6469,11 +6484,11 @@
         justify-content: center;
     }
 
-    /* RTL: Icons stay on right (visually) for Arabic text items */
+    /* RTL: Icons on the right (before text in RTL reading direction) */
     [dir="rtl"] .side-menu-link i {
-        order: 2;
+        order: 1;
         margin-left: 0;
-        margin-right: 0;
+        margin-right: 8px;
     }
 
     .side-menu-link span {
@@ -6485,14 +6500,15 @@
 
     [dir="rtl"] .side-menu-link span {
         text-align: right;
-        order: 1;
-        justify-content: flex-end;
+        order: 2;
+        justify-content: flex-start;
     }
 
     /* RTL: Ensure main menu links are right-aligned */
     [dir="rtl"] .side-menu-body .side-menu-link {
-        justify-content: flex-end;
+        justify-content: flex-start;
         text-align: right;
+        flex-direction: row;
     }
 
     .side-menu-link:hover i {
@@ -6516,8 +6532,8 @@
     }
 
     [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
-        margin-left: 0;
-        margin-right: auto;
+        margin-left: auto;
+        margin-right: 0;
         order: 3;
     }
 
@@ -6599,9 +6615,9 @@
     }
 
     [dir="rtl"] .side-submenu li a i {
-        order: 2;
+        order: 1;
         margin-left: 0;
-        margin-right: 0;
+        margin-right: 8px;
     }
 
     .side-submenu li a span {
@@ -6611,14 +6627,15 @@
 
     [dir="rtl"] .side-submenu li a span {
         text-align: right;
-        order: 1;
-        justify-content: flex-end;
+        order: 2;
+        justify-content: flex-start;
     }
 
-    /* RTL: Ensure submenu links are right-aligned */
+    /* RTL: Ensure submenu links are right-aligned with icons on the right */
     [dir="rtl"] .side-submenu li a {
-        justify-content: flex-end;
+        justify-content: flex-start;
         text-align: right;
+        flex-direction: row;
     }
 
     .side-submenu li a:hover {
@@ -6957,8 +6974,9 @@
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link {
-            justify-content: flex-end;
+            justify-content: flex-start;
             text-align: right;
+            flex-direction: row;
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link:hover {
@@ -6968,29 +6986,30 @@
 
         /* RTL: Ensure icons are properly aligned on the right */
         [dir="rtl"] .side-menu-body .side-menu-link i {
-            order: 2;
+            order: 1;
             margin-left: 0;
-            margin-right: 0;
+            margin-right: 8px;
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link span {
-            order: 1;
+            order: 2;
             text-align: right;
-            justify-content: flex-end;
+            justify-content: flex-start;
         }
 
         /* RTL: Submenu toggle button alignment */
         [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
-            margin-left: 0;
-            margin-right: auto;
+            margin-left: auto;
+            margin-right: 0;
             order: 3;
         }
 
         /* RTL: Submenu items alignment */
         [dir="rtl"] .side-submenu li a {
-            justify-content: flex-end;
+            justify-content: flex-start;
             text-align: right;
-            padding: 12px 50px 12px 20px;
+            padding: 12px 20px 12px 50px;
+            flex-direction: row;
         }
 
         [dir="rtl"] .side-submenu li a:hover {
@@ -7000,15 +7019,20 @@
 
         /* RTL: Submenu icons alignment */
         [dir="rtl"] .side-submenu li a i {
-            order: 2;
+            order: 1;
             margin-left: 0;
-            margin-right: 0;
+            margin-right: 8px;
         }
 
         [dir="rtl"] .side-submenu li a span {
-            order: 1;
+            order: 2;
             text-align: right;
-            justify-content: flex-end;
+            justify-content: flex-start;
+        }
+
+        [dir="rtl"] .side-submenu li a {
+            flex-direction: row;
+            justify-content: flex-start;
         }
 
         [dir="rtl"] .side-menu-header-link:hover {
@@ -7019,45 +7043,47 @@
     @media (max-width: 480px) {
         /* RTL: Enhanced mobile alignment for smaller screens */
         [dir="rtl"] .side-menu-body .side-menu-link {
-            justify-content: flex-end;
+            justify-content: flex-start;
             text-align: right;
             padding: 12px 15px;
+            flex-direction: row;
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link i {
-            order: 2;
+            order: 1;
             margin-left: 0;
-            margin-right: 0;
+            margin-right: 8px;
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link span {
-            order: 1;
+            order: 2;
             text-align: right;
-            justify-content: flex-end;
+            justify-content: flex-start;
         }
 
         [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
-            margin-left: 0;
-            margin-right: auto;
+            margin-left: auto;
+            margin-right: 0;
             order: 3;
         }
 
         [dir="rtl"] .side-submenu li a {
-            justify-content: flex-end;
+            justify-content: flex-start;
             text-align: right;
-            padding: 10px 50px 10px 15px;
+            padding: 10px 15px 10px 50px;
+            flex-direction: row;
         }
 
         [dir="rtl"] .side-submenu li a i {
-            order: 2;
+            order: 1;
             margin-left: 0;
-            margin-right: 0;
+            margin-right: 8px;
         }
 
         [dir="rtl"] .side-submenu li a span {
-            order: 1;
+            order: 2;
             text-align: right;
-            justify-content: flex-end;
+            justify-content: flex-start;
         }
     }
 
