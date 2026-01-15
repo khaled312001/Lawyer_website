@@ -1402,45 +1402,44 @@
             padding: 30px 0;
         }
 
-        .legal-hero-animated-icons i {
-            font-size: 50px;
+        .legal-hero-animated-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            right: auto;
+            bottom: auto;
         }
 
-        /* Center all icons horizontally on mobile */
+        .legal-hero-animated-icons i {
+            font-size: 45px;
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            bottom: auto !important;
+            transform: none !important;
+            margin: 0;
+        }
+
+        /* Center all icons in a vertical column */
         .legal-icon-1,
         .legal-icon-2,
         .legal-icon-3,
         .legal-icon-4,
         .legal-icon-5,
         .legal-icon-6 {
-            left: 50% !important;
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
             right: auto !important;
-            transform: translateX(-50%);
-        }
-
-        .legal-icon-1 {
-            top: 5%;
-        }
-
-        .legal-icon-2 {
-            top: 15%;
-        }
-
-        .legal-icon-3 {
-            top: 35%;
-        }
-
-        .legal-icon-4 {
-            top: 55%;
-        }
-
-        .legal-icon-5 {
-            top: 70%;
-        }
-
-        .legal-icon-6 {
-            bottom: 5%;
-            top: auto;
+            bottom: auto !important;
+            transform: none !important;
         }
 
         .legal-hero-content {
@@ -1583,20 +1582,44 @@
             padding: 25px 0;
         }
 
-        .legal-hero-animated-icons i {
-            font-size: 40px;
+        .legal-hero-animated-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            right: auto;
+            bottom: auto;
         }
 
-        /* Center all icons horizontally on small mobile */
+        .legal-hero-animated-icons i {
+            font-size: 35px;
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            bottom: auto !important;
+            transform: none !important;
+            margin: 0;
+        }
+
+        /* Center all icons in a vertical column */
         .legal-icon-1,
         .legal-icon-2,
         .legal-icon-3,
         .legal-icon-4,
         .legal-icon-5,
         .legal-icon-6 {
-            left: 50% !important;
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
             right: auto !important;
-            transform: translateX(-50%);
+            bottom: auto !important;
+            transform: none !important;
         }
 
         .legal-hero-content {
