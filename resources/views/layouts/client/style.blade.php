@@ -12469,6 +12469,300 @@
     }
 
     /* ===================================================================
+       ENHANCED HOW IT WORKS - تصميم محسّن لقسم كيف يعمل
+       =================================================================== */
+    
+    .enhanced-how-works-card {
+        position: relative;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        height: 100%;
+        border: 2px solid transparent;
+    }
+    
+    .enhanced-how-works-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        border-color: var(--colorPrimary);
+    }
+    
+    .enhanced-how-works-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    /* Step Number */
+    .enhanced-step-number {
+        position: absolute;
+        top: -20px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 800;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        border: 4px solid #ffffff;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-number {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Icon Wrapper */
+    .enhanced-step-icon-wrapper {
+        width: 100px;
+        height: 100px;
+        margin: 20px auto 30px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+    
+    .enhanced-icon-1 {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    
+    .enhanced-icon-2 {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+    }
+    
+    .enhanced-icon-3 {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+    }
+    
+    .enhanced-step-icon-wrapper::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-icon-wrapper::before {
+        opacity: 1;
+    }
+    
+    .enhanced-icon-1:hover {
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+    }
+    
+    .enhanced-icon-2:hover {
+        box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+    }
+    
+    .enhanced-icon-3:hover {
+        box-shadow: 0 15px 40px rgba(79, 172, 254, 0.5);
+    }
+    
+    /* Icon */
+    .enhanced-step-icon {
+        font-size: 42px;
+        color: #ffffff;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-icon {
+        transform: scale(1.15);
+    }
+    
+    /* Content */
+    .enhanced-step-content {
+        text-align: center;
+        padding-top: 10px;
+    }
+    
+    .enhanced-step-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0 0 15px 0;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-title {
+        color: var(--colorPrimary);
+    }
+    
+    .enhanced-step-description {
+        font-size: 15px;
+        color: #6c757d;
+        line-height: 1.8;
+        margin: 0;
+    }
+    
+    /* Decoration */
+    .enhanced-step-decoration {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent 0%, var(--colorPrimary) 50%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-decoration {
+        opacity: 1;
+    }
+    
+    /* RTL Support */
+    [dir="rtl"] .enhanced-step-number {
+        right: auto;
+        left: 30px;
+    }
+    
+    [dir="rtl"] .enhanced-step-content {
+        text-align: right;
+    }
+    
+    [dir="ltr"] .enhanced-step-content {
+        text-align: center;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .enhanced-how-works-card {
+            padding: 35px 25px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 90px;
+            height: 90px;
+            margin: 15px auto 25px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 38px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 20px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .enhanced-how-works-card {
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .enhanced-step-number {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            top: -15px;
+            right: 20px;
+            border-width: 3px;
+        }
+        
+        [dir="rtl"] .enhanced-step-number {
+            right: auto;
+            left: 20px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 10px auto 20px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 32px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .enhanced-step-description {
+            font-size: 14px;
+            line-height: 1.7;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .enhanced-how-works-card {
+            padding: 25px 18px;
+        }
+        
+        .enhanced-step-number {
+            width: 45px;
+            height: 45px;
+            font-size: 22px;
+            top: -12px;
+            right: 15px;
+        }
+        
+        [dir="rtl"] .enhanced-step-number {
+            right: auto;
+            left: 15px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            margin: 8px auto 18px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 28px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 17px;
+        }
+        
+        .enhanced-step-description {
+            font-size: 13px;
+        }
+    }
+
+    /* ===================================================================
        HOME BUTTON - حذف margin من أسفل قسم home-button ser-btn
        =================================================================== */
 
