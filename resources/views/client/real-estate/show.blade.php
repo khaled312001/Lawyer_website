@@ -30,31 +30,31 @@
                         <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($property->title, 30) }}</li>
                     </ol>
                 </nav>
-                <div class="property-header-content">
-                    <h1 class="property-title">{{ $property->title }}</h1>
-                    <div class="property-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>{{ $property->location_string }}</span>
+                <div class="property-header-content property-header-content-v2">
+                    <h1 class="property-title property-title-v2">{{ $property->title }}</h1>
+                    <div class="property-location property-location-v2">
+                        <i class="fas fa-map-marker-alt property-icon-v2"></i>
+                        <span class="property-text-v2">{{ $property->location_string }}</span>
                     </div>
-                    <div class="property-meta">
-                        <span class="meta-item">
-                            <i class="fas fa-tag"></i> 
-                            <span>{{ $property->listing_type_label }}</span>
+                    <div class="property-meta property-meta-v2">
+                        <span class="meta-item meta-item-v2">
+                            <i class="fas fa-tag meta-icon-v2"></i> 
+                            <span class="meta-text-v2">{{ $property->listing_type_label }}</span>
                         </span>
-                        <span class="meta-item">
-                            <i class="fas fa-building"></i> 
-                            <span>{{ $property->property_type_label }}</span>
+                        <span class="meta-item meta-item-v2">
+                            <i class="fas fa-building meta-icon-v2"></i> 
+                            <span class="meta-text-v2">{{ $property->property_type_label }}</span>
                         </span>
                         @if($property->area)
-                            <span class="meta-item">
-                                <i class="fas fa-vector-square"></i> 
-                                <span>{{ $property->formatted_area }}</span>
+                            <span class="meta-item meta-item-v2">
+                                <i class="fas fa-vector-square meta-icon-v2"></i> 
+                                <span class="meta-text-v2">{{ $property->formatted_area }}</span>
                             </span>
                         @endif
                         @if($property->formatted_price)
-                            <span class="meta-item price-badge">
-                                <i class="fas fa-dollar-sign"></i> 
-                                <span>{{ $property->formatted_price }}</span>
+                            <span class="meta-item price-badge meta-item-v2">
+                                <i class="fas fa-dollar-sign meta-icon-v2"></i> 
+                                <span class="meta-text-v2">{{ $property->formatted_price }}</span>
                             </span>
                         @endif
                     </div>
@@ -395,6 +395,148 @@
 [dir="ltr"] .property-header-content {
     text-align: left;
     direction: ltr;
+    color: #fff !important;
+}
+
+/* ============================================
+   NEW V2 STYLES - Complete RTL Alignment for Property Header
+   ============================================ */
+
+.property-header-content-v2 {
+    direction: rtl !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+    width: 100%;
+}
+
+[dir="ltr"] .property-header-content-v2 {
+    direction: ltr !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+}
+
+.property-title-v2 {
+    width: 100%;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-title-v2 {
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+.property-location-v2 {
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    flex-wrap: nowrap !important;
+}
+
+[dir="ltr"] .property-location-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.property-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 24px !important;
+    text-align: center !important;
+    color: var(--colorSecondary, #f4d03f) !important;
+    margin-left: 0.5rem !important;
+    font-size: 22px !important;
+}
+
+[dir="ltr"] .property-icon-v2 {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 0.5rem !important;
+}
+
+.property-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
+}
+
+[dir="ltr"] .property-text-v2 {
+    order: 1 !important;
+    direction: ltr !important;
+    text-align: left !important;
+    color: #fff !important;
+}
+
+.property-meta-v2 {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end !important;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+    direction: rtl !important;
+    align-items: center;
+}
+
+[dir="ltr"] .property-meta-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+}
+
+.meta-item-v2 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+}
+
+[dir="ltr"] .meta-item-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.meta-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 18px !important;
+    text-align: center !important;
+    color: var(--colorSecondary, #f4d03f) !important;
+    font-size: 16px !important;
+    margin-left: 0.5rem !important;
+}
+
+[dir="ltr"] .meta-icon-v2 {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 0.5rem !important;
+}
+
+.meta-item-v2.price-badge .meta-icon-v2 {
+    color: #fff !important;
+}
+
+.meta-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
+}
+
+[dir="ltr"] .meta-text-v2 {
+    order: 1 !important;
+    direction: ltr !important;
+    text-align: left !important;
     color: #fff !important;
 }
 

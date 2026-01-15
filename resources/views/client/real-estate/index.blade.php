@@ -228,45 +228,52 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="property-content">
-                            <h4 class="property-title">
+                        <div class="property-content property-content-v2">
+                            <h4 class="property-title property-title-v2">
                                 <a href="{{ route('website.real-estate.show', $property->slug) }}">{{ Str::limit($property->title, 50) }}</a>
                             </h4>
-                            <div class="property-meta">
-                                <span class="property-type">
-                                    <i class="fas fa-building"></i> {{ $property->property_type_label }}
+                            <div class="property-meta property-meta-v2">
+                                <span class="property-type property-type-v2">
+                                    <i class="fas fa-building property-icon-v2"></i>
+                                    <span class="property-text-v2">{{ $property->property_type_label }}</span>
                                 </span>
-                                <span class="property-location">
-                                    <i class="fas fa-map-marker-alt"></i> {{ $property->location_string }}
+                                <span class="property-location property-location-v2">
+                                    <i class="fas fa-map-marker-alt property-icon-v2"></i>
+                                    <span class="property-text-v2">{{ $property->location_string }}</span>
                                 </span>
                             </div>
-                            <div class="property-details">
+                            <div class="property-details property-details-v2">
                                 @if($property->bedrooms)
-                                    <span class="detail-item">
-                                        <i class="fas fa-bed"></i> {{ $property->bedrooms }} {{ __('Beds') }}
+                                    <span class="detail-item detail-item-v2">
+                                        <i class="fas fa-bed detail-icon-v2"></i>
+                                        <span class="detail-text-v2">{{ $property->bedrooms }} {{ __('Beds') }}</span>
                                     </span>
                                 @endif
                                 @if($property->bathrooms)
-                                    <span class="detail-item">
-                                        <i class="fas fa-bath"></i> {{ $property->bathrooms }} {{ __('Baths') }}
+                                    <span class="detail-item detail-item-v2">
+                                        <i class="fas fa-bath detail-icon-v2"></i>
+                                        <span class="detail-text-v2">{{ $property->bathrooms }} {{ __('Baths') }}</span>
                                     </span>
                                 @endif
-                                <span class="detail-item">
-                                    <i class="fas fa-expand-arrows-alt"></i> {{ $property->formatted_area }}
+                                <span class="detail-item detail-item-v2">
+                                    <i class="fas fa-expand-arrows-alt detail-icon-v2"></i>
+                                    <span class="detail-text-v2">{{ $property->formatted_area }}</span>
                                 </span>
                             </div>
-                            <div class="property-price">
-                                <strong class="price-amount">{{ $property->formatted_price }}</strong>
+                            <div class="property-price property-price-v2">
+                                <strong class="price-amount price-amount-v2">{{ $property->formatted_price }}</strong>
                                 @if($property->price_per_sqm)
-                                    <small class="price-per-sqm">({{ number_format($property->price_per_sqm) }} {{ $property->currency }}/m²)</small>
+                                    <small class="price-per-sqm price-per-sqm-v2">({{ number_format($property->price_per_sqm) }} {{ $property->currency }}/m²)</small>
                                 @endif
                             </div>
-                            <div class="property-actions">
-                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-info-circle"></i> {{ __('Details') }}
+                            <div class="property-actions property-actions-v2">
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm property-btn-v2">
+                                    <i class="fas fa-info-circle property-btn-icon-v2"></i>
+                                    <span class="property-btn-text-v2">{{ __('Details') }}</span>
                                 </a>
-                                <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-calendar-alt"></i> {{ __('Consultation') }}
+                                <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-sm property-btn-v2">
+                                    <i class="fas fa-calendar-alt property-btn-icon-v2"></i>
+                                    <span class="property-btn-text-v2">{{ __('Consultation') }}</span>
                                 </a>
                             </div>
                         </div>
@@ -1045,6 +1052,265 @@
 [dir="ltr"] .property-content {
     direction: ltr;
     text-align: left;
+}
+
+/* ============================================
+   NEW V2 STYLES - Complete RTL Alignment
+   ============================================ */
+
+.property-content-v2 {
+    direction: rtl !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+}
+
+[dir="ltr"] .property-content-v2 {
+    direction: ltr !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+}
+
+.property-title-v2 {
+    width: 100%;
+    text-align: right !important;
+    direction: rtl !important;
+    margin-bottom: 1rem;
+}
+
+[dir="ltr"] .property-title-v2 {
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+.property-title-v2 a {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-title-v2 a {
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.property-meta-v2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    align-items: flex-end;
+}
+
+[dir="ltr"] .property-meta-v2 {
+    align-items: flex-start;
+}
+
+.property-type-v2,
+.property-location-v2 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+[dir="ltr"] .property-type-v2,
+[dir="ltr"] .property-location-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.property-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 18px !important;
+    text-align: center !important;
+    color: var(--colorPrimary) !important;
+    margin-left: 0.5rem !important;
+    font-size: 0.95rem !important;
+}
+
+[dir="ltr"] .property-icon-v2 {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 0.5rem !important;
+}
+
+.property-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    flex: 1;
+}
+
+[dir="ltr"] .property-text-v2 {
+    order: 1 !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.property-details-v2 {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-details-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.detail-item-v2 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    flex-wrap: nowrap !important;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+[dir="ltr"] .detail-item-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.detail-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 18px !important;
+    text-align: center !important;
+    color: var(--colorPrimary) !important;
+    font-size: 0.95rem !important;
+    margin-left: 0.5rem !important;
+}
+
+[dir="ltr"] .detail-icon-v2 {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 0.5rem !important;
+}
+
+.detail-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .detail-text-v2 {
+    order: 1 !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.property-price-v2 {
+    width: 100%;
+    text-align: right !important;
+    direction: rtl !important;
+    margin-bottom: 1.5rem;
+}
+
+[dir="ltr"] .property-price-v2 {
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+.price-amount-v2 {
+    display: block;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-amount-v2 {
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+.price-per-sqm-v2 {
+    display: block;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-per-sqm-v2 {
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+.property-actions-v2 {
+    width: 100%;
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+[dir="ltr"] .property-actions-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+}
+
+.property-btn-v2 {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    flex: 1;
+    min-width: 120px;
+}
+
+[dir="ltr"] .property-btn-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.property-btn-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    margin-left: 0.5rem !important;
+}
+
+[dir="ltr"] .property-btn-icon-v2 {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 0.5rem !important;
+}
+
+.property-btn-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-btn-text-v2 {
+    order: 1 !important;
+    direction: ltr !important;
+    text-align: left !important;
 }
 
 .property-title {
