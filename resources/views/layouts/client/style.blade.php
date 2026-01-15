@@ -629,10 +629,10 @@
     /* On mobile, adjust padding for smaller screens */
     @media (max-width: 768px) {
         body.client-frontend {
-            padding-top: var(--total-navbar-height) !important; /* Keep same padding on mobile */
+            padding-top: 70px !important; /* Only main navbar height since top-header-bar is hidden */
         }
         body.client-frontend .main-navbar {
-            top: var(--top-header-bar-height) !important; /* Keep main navbar below top header bar */
+            top: 0 !important; /* Start from top since top-header-bar is hidden on mobile */
         }
     }
 
@@ -10376,7 +10376,7 @@
     @media (max-width: 768px) {
         html[dir="rtl"] body.client-frontend,
         html[lang="ar"] body.client-frontend {
-            padding-top: 120px !important;
+            padding-top: 70px !important; /* Only main navbar height since top-header-bar is hidden on mobile */
         }
 
         html[dir="rtl"] .top-alert-banner,
@@ -10386,13 +10386,12 @@
 
         html[dir="rtl"] .top-header-bar,
         html[lang="ar"] .top-header-bar {
-            top: 50px !important;
-            height: 50px !important;
+            display: none !important; /* Hidden on mobile */
         }
 
         html[dir="rtl"] body.client-frontend .main-navbar,
         html[lang="ar"] body.client-frontend .main-navbar {
-            top: 50px !important;
+            top: 0 !important; /* Start from top since top-header-bar is hidden on mobile */
             height: 70px !important;
         }
     }
