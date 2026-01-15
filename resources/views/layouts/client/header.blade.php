@@ -140,18 +140,6 @@
         </script>
     @endif
 
-    <!--New Top Alert Banner-->
-    <div class="top-alert-banner aman-welcome-banner-rtl" id="topAlertBanner">
-        <div class="container-fluid">
-            <div class="alert-content aman-banner-content-rtl">
-                <span class="alert-text aman-welcome-text-rtl">{{ __('Welcome to our legal services platform - Get expert legal advice from qualified lawyers') }}</span>
-                <button class="alert-close-btn aman-close-btn-rtl" onclick="closeAlertBanner()" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!--New Header Bar-->
     <div class="top-header-bar aman-top-bar-rtl">
         <div class="container-fluid">

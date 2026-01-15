@@ -73,81 +73,22 @@
         --text-muted: #999;
         
         /* Navigation Heights */
-        --top-alert-banner-height: 50px;
         --top-header-bar-height: 50px;
         --main-navbar-height: 70px;
-        --total-navbar-height: 170px; /* alert-banner + top-header-bar + main-navbar */
+        --total-navbar-height: 120px; /* top-header-bar + main-navbar */
     }
 
     /* ============================================
        NEW NAVIGATION SYSTEM - RESPONSIVE & MODERN
        ============================================ */
 
-    /* Top Alert Banner - في الأعلى لكن تحت navbar */
-    .top-alert-banner {
-        background: linear-gradient(135deg, #ffe5e5 0%, #ffd6d6 100%);
-        padding: 12px 0;
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        z-index: 9998 !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        margin-top: 0 !important;
-    }
-
-    .top-alert-banner.hidden {
-        display: none;
-    }
-
-    .alert-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        padding: 0 40px;
-    }
-
-    .alert-text {
-        font-size: 14px;
-        color: #333;
-        font-weight: 500;
-        text-align: center;
-        flex: 1;
-    }
-
-    .alert-close-btn {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #000;
-        color: #fff;
-        border: none;
-        border-radius: 50%;
-        width: 28px;
-        height: 28px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: all 0.3s ease;
-    }
-
-    .alert-close-btn:hover {
-        background: #333;
-        transform: translateY(-50%) scale(1.1);
-    }
-
-    /* Top Header Bar - تحت البانر الترحيبي */
+    /* Top Header Bar */
     .top-header-bar {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         padding: 12px 0;
         border-bottom: 1px solid #e9ecef;
         position: fixed !important;
-        top: 50px !important; /* تحت البانر الترحيبي */
+        top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -676,11 +617,6 @@
         z-index: 10000 !important;
     }
 
-    /* البانر تحت navbar */
-    body.client-frontend .top-alert-banner {
-        z-index: 9998 !important;
-    }
-
     /* Ensure first section doesn't have extra padding */
     body.client-frontend .slider,
     body.client-frontend #main-slider {
@@ -694,9 +630,6 @@
         }
         body.client-frontend .main-navbar {
             top: var(--top-header-bar-height) !important; /* Keep main navbar below top header bar */
-        }
-        .top-alert-banner {
-            margin-top: var(--total-navbar-height) !important; /* Keep alert banner below both bars */
         }
     }
 
@@ -2400,26 +2333,6 @@
     }
 
     @media (max-width: 768px) {
-        /* Top Alert Banner */
-        .top-alert-banner {
-            padding: 10px 0;
-        }
-
-        .alert-content {
-            padding: 0 30px;
-        }
-
-        .alert-text {
-            font-size: 12px;
-        }
-
-        .alert-close-btn {
-            width: 24px;
-            height: 24px;
-            right: 10px;
-            font-size: 12px;
-        }
-
         /* Hide Header Bar on Mobile - Move to Side Menu */
         .top-header-bar {
             display: none !important;
@@ -9965,29 +9878,14 @@
     /* 1. ترتيب الهيدر من الأعلى للأسفل */
     html[dir="rtl"] body.client-frontend,
     html[lang="ar"] body.client-frontend {
-        padding-top: 170px !important; /* بانر ترحيبي 50px + شريط علوي 50px + قائمة رئيسية 70px */
+        padding-top: 120px !important; /* شريط علوي 50px + قائمة رئيسية 70px */
     }
 
-    /* البانر الترحيبي - في الأعلى لكن تحت navbar */
-    html[dir="rtl"] .top-alert-banner,
-    html[lang="ar"] .top-alert-banner {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        z-index: 9998 !important;
-        height: 50px !important;
-        display: flex !important;
-        align-items: center !important;
-        margin: 0 !important;
-    }
-
-    /* الشريط العلوي - تحت البانر الترحيبي */
+    /* الشريط العلوي */
     html[dir="rtl"] .top-header-bar,
     html[lang="ar"] .top-header-bar {
         position: fixed !important;
-        top: 50px !important;
+        top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -9999,7 +9897,7 @@
     html[dir="rtl"] body.client-frontend .main-navbar,
     html[lang="ar"] body.client-frontend .main-navbar {
         position: fixed !important;
-        top: 100px !important;
+        top: 50px !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -10265,7 +10163,7 @@
     /* الشريط العلوي - كلاسات جديدة */
     .aman-top-bar-rtl {
         position: fixed !important;
-        top: 50px !important;
+        top: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -10294,7 +10192,7 @@
     /* القائمة الرئيسية - كلاسات جديدة - الأعلى دائماً */
     .aman-main-nav-rtl {
         position: fixed !important;
-        top: 100px !important;
+        top: 50px !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -10480,12 +10378,10 @@
     }
 
     /* تأكيد نهائي للكلاسات الجديدة */
-    html[dir="rtl"] .aman-welcome-banner-rtl,
     html[dir="rtl"] .aman-top-bar-rtl,
     html[dir="rtl"] .aman-main-nav-rtl,
     html[dir="rtl"] .aman-lawyer-card-rtl,
     html[dir="rtl"] .aman-benefit-card-rtl,
-    html[lang="ar"] .aman-welcome-banner-rtl,
     html[lang="ar"] .aman-top-bar-rtl,
     html[lang="ar"] .aman-main-nav-rtl,
     html[lang="ar"] .aman-lawyer-card-rtl,
@@ -10529,12 +10425,6 @@
         .aman-main-nav-rtl.scrolled {
             top: 0 !important;
         }
-    }
-
-    /* البانر الترحيبي - تأثير الاختفاء */
-    .aman-welcome-banner-rtl,
-    .top-alert-banner {
-        transition: transform 0.4s ease, opacity 0.4s ease !important;
     }
 
     /* الشريط العلوي - تأثير الاختفاء */
