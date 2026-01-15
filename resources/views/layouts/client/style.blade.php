@@ -310,13 +310,16 @@
         box-shadow: 0 4px 12px rgba(200, 180, 126, 0.3);
     }
 
-    /* Main Navigation Bar - Enhanced Design */
+    /* Main Navigation Bar - Enhanced Design - Always Visible on Scroll */
     body.client-frontend .main-navbar {
         background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
         padding: 0;
         box-shadow: 0 4px 25px rgba(0,0,0,0.08), 0 2px 10px rgba(0,0,0,0.05);
-        position: sticky;
-        top: 0;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
         z-index: 9999 !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         overflow: visible !important;
@@ -638,8 +641,32 @@
 
     /* Ensure navbar and dropdown are above everything */
     body.client-frontend .main-navbar {
-        position: relative;
+        position: fixed !important;
         overflow: visible !important;
+    }
+
+    /* Add padding-top to body to prevent content from hiding behind fixed navbar */
+    body.client-frontend {
+        padding-top: 70px !important;
+    }
+
+    /* Ensure navbar is always on top */
+    body.client-frontend .top-header-bar {
+        position: relative;
+        z-index: 9998;
+    }
+
+    /* Ensure first section doesn't have extra padding */
+    body.client-frontend .slider,
+    body.client-frontend #main-slider {
+        margin-top: 0 !important;
+    }
+
+    /* On mobile, top-header-bar is hidden, so padding stays at 70px */
+    @media (max-width: 768px) {
+        body.client-frontend {
+            padding-top: 70px !important;
+        }
     }
 
     /* Ensure container doesn't clip dropdown */
@@ -1181,9 +1208,9 @@
     }
 
     [dir="rtl"] .side-submenu li a i {
-        order: 1;
-        margin-left: 0;
-        margin-right: 8px;
+        order: 2;
+        margin-left: 8px;
+        margin-right: 0;
     }
 
     .side-submenu li a span {
@@ -1193,15 +1220,15 @@
 
     [dir="rtl"] .side-submenu li a span {
         text-align: right;
-        order: 2;
-        justify-content: flex-start;
+        order: 1;
+        justify-content: flex-end;
     }
 
-    /* RTL: Ensure submenu links are right-aligned with icons on the right */
+    /* RTL: Ensure submenu links are right-aligned with text on right, icons on left */
     [dir="rtl"] .side-submenu li a {
-        justify-content: flex-start;
+        justify-content: flex-end;
         text-align: right;
-        flex-direction: row;
+        flex-direction: row-reverse;
     }
 
     .side-submenu li a:hover {
@@ -1369,21 +1396,21 @@
         transition: all 0.3s ease;
     }
 
-    /* RTL: Icons on the right (before text in RTL reading direction) */
+    /* RTL: Text on the right, icons on the left of text (after text in RTL reading direction) */
     [dir="rtl"] .side-menu-header-link {
-        flex-direction: row;
-        justify-content: flex-start;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
         gap: 8px;
     }
 
     [dir="rtl"] .side-menu-header-link i {
-        order: 1;
-        margin-left: 0;
+        order: 2;
+        margin-left: 8px;
         margin-right: 0;
     }
 
     [dir="rtl"] .side-menu-header-link span {
-        order: 2;
+        order: 1;
         text-align: right;
     }
 
@@ -6654,9 +6681,9 @@
     }
 
     [dir="rtl"] .side-submenu li a i {
-        order: 1;
-        margin-left: 0;
-        margin-right: 8px;
+        order: 2;
+        margin-left: 8px;
+        margin-right: 0;
     }
 
     .side-submenu li a span {
@@ -6666,15 +6693,15 @@
 
     [dir="rtl"] .side-submenu li a span {
         text-align: right;
-        order: 2;
-        justify-content: flex-start;
+        order: 1;
+        justify-content: flex-end;
     }
 
-    /* RTL: Ensure submenu links are right-aligned with icons on the right */
+    /* RTL: Ensure submenu links are right-aligned with text on right, icons on left */
     [dir="rtl"] .side-submenu li a {
-        justify-content: flex-start;
+        justify-content: flex-end;
         text-align: right;
-        flex-direction: row;
+        flex-direction: row-reverse;
     }
 
     .side-submenu li a:hover {
@@ -6819,21 +6846,21 @@
         flex-shrink: 0;
     }
 
-    /* RTL: Icons on the right (before text in RTL reading direction) */
+    /* RTL: Text on the right, icons on the left of text (after text in RTL reading direction) */
     [dir="rtl"] .side-menu-header-link {
-        flex-direction: row;
-        justify-content: flex-start;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
         gap: 8px;
     }
 
     [dir="rtl"] .side-menu-header-link i {
-        order: 1;
-        margin-left: 0;
+        order: 2;
+        margin-left: 8px;
         margin-right: 0;
     }
 
     [dir="rtl"] .side-menu-header-link span {
-        order: 2;
+        order: 1;
         text-align: right;
     }
 
@@ -7034,17 +7061,17 @@
             padding-right: 22px;
         }
 
-        /* RTL: Ensure icons are properly aligned on the right */
+        /* RTL: Text on right, icons on left */
         [dir="rtl"] .side-menu-body .side-menu-link i {
-            order: 1;
-            margin-left: 0;
-            margin-right: 8px;
+            order: 2;
+            margin-left: 8px;
+            margin-right: 0;
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link span {
-            order: 2;
+            order: 1;
             text-align: right;
-            justify-content: flex-start;
+            justify-content: flex-end;
         }
 
         /* RTL: Submenu toggle button alignment */
@@ -7093,22 +7120,22 @@
     @media (max-width: 480px) {
         /* RTL: Enhanced mobile alignment for smaller screens */
         [dir="rtl"] .side-menu-body .side-menu-link {
-            justify-content: flex-start;
+            justify-content: flex-end;
             text-align: right;
             padding: 12px 15px;
-            flex-direction: row;
+            flex-direction: row-reverse;
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link i {
-            order: 1;
-            margin-left: 0;
-            margin-right: 8px;
+            order: 2;
+            margin-left: 8px;
+            margin-right: 0;
         }
 
         [dir="rtl"] .side-menu-body .side-menu-link span {
-            order: 2;
+            order: 1;
             text-align: right;
-            justify-content: flex-start;
+            justify-content: flex-end;
         }
 
         [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {

@@ -3018,11 +3018,12 @@
         left: -30px;
     }
 
-    /* RTL Support for Lawyer Card Meta Elements */
+    /* RTL Support for Lawyer Card Meta Elements - Everything aligned to the right */
     [dir="rtl"] .lawyer-meta {
         justify-content: flex-end;
         align-items: flex-end;
         direction: rtl;
+        text-align: right;
     }
 
     [dir="rtl"] .lawyer-department-meta,
@@ -3031,8 +3032,10 @@
         justify-content: flex-end;
         text-align: right;
         direction: rtl;
+        align-items: center;
     }
 
+    /* Text on the right, icons on the left of text (after text in RTL reading direction) */
     [dir="rtl"] .lawyer-department-meta i,
     [dir="rtl"] .lawyer-location-meta i {
         order: 2;
@@ -3051,34 +3054,49 @@
         justify-content: flex-end;
         text-align: right;
         direction: rtl;
+        align-items: center;
     }
 
+    /* Text on the right, icon on the left of text */
     [dir="rtl"] .lawyer-designations i {
         order: 2;
         margin-left: 8px;
         margin-right: 0;
     }
 
-    /* RTL Support for Lawyer Rating and View Profile */
+    /* RTL Support for Lawyer Rating - Text on right, stars on left */
     [dir="rtl"] .lawyer-rating {
-        flex-direction: row;
+        flex-direction: row-reverse;
         justify-content: flex-end;
         text-align: right;
         direction: rtl;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Stars should be on the left of text (after text in RTL reading direction) */
+    [dir="rtl"] .lawyer-rating .star-rating {
+        order: 2;
+        direction: ltr;
     }
 
     [dir="rtl"] .lawyer-rating .rating-text {
         order: 1;
         text-align: right;
+        margin-left: 0;
+        margin-right: 0;
     }
 
+    /* RTL Support for View Profile - Text on right, icon on left */
     [dir="rtl"] .lawyer-view-profile {
-        flex-direction: row;
+        flex-direction: row-reverse;
         justify-content: flex-end;
         text-align: right;
         direction: rtl;
+        align-items: center;
     }
 
+    /* Arrow icon on the left of text (after text in RTL reading direction) */
     [dir="rtl"] .lawyer-view-profile i {
         order: 2;
         margin-left: 10px;
@@ -3094,6 +3112,7 @@
     @media (max-width: 768px) {
         [dir="rtl"] .lawyer-meta {
             align-items: flex-end;
+            justify-content: flex-end;
         }
 
         [dir="rtl"] .lawyer-department-meta,
@@ -3110,6 +3129,16 @@
         [dir="rtl"] .lawyer-rating {
             justify-content: flex-end;
             text-align: right;
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .lawyer-rating .star-rating {
+            order: 2;
+        }
+
+        [dir="rtl"] .lawyer-rating .rating-text {
+            order: 1;
+            text-align: right;
         }
 
         [dir="rtl"] .lawyer-view-profile {
@@ -3121,6 +3150,7 @@
     @media (max-width: 480px) {
         [dir="rtl"] .lawyer-meta {
             align-items: flex-end;
+            justify-content: flex-end;
         }
 
         [dir="rtl"] .lawyer-department-meta,
@@ -3137,6 +3167,16 @@
 
         [dir="rtl"] .lawyer-rating {
             justify-content: flex-end;
+            text-align: right;
+            flex-direction: row-reverse;
+        }
+
+        [dir="rtl"] .lawyer-rating .star-rating {
+            order: 2;
+        }
+
+        [dir="rtl"] .lawyer-rating .rating-text {
+            order: 1;
             text-align: right;
         }
 
