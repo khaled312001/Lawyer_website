@@ -68,7 +68,7 @@
 </section>
 
 <!-- Property Details Section -->
-<section class="property-details-section pt_80 pb_80">
+<section class="property-details-section pt_80 pb_80" style="text-align: left !important; direction: ltr !important;align-items: center !important;justify-content: center !important;">
     <div class="container">
         <div class="row">
             <!-- Main Content -->
