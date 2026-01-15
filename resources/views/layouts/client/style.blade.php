@@ -1396,16 +1396,19 @@
         transition: all 0.3s ease;
     }
 
-    /* RTL: Text on the right, icons on the left of text (after text in RTL reading direction) */
+    /* RTL: Text on the right, icons close to text on left */
     [dir="rtl"] .side-menu-header-link {
         flex-direction: row-reverse;
         justify-content: flex-end;
-        gap: 8px;
+        gap: 10px;
+        padding: 12px 18px;
+        border-radius: 8px;
+        margin-bottom: 6px;
     }
 
     [dir="rtl"] .side-menu-header-link i {
         order: 2;
-        margin-left: 8px;
+        margin-left: 10px;
         margin-right: 0;
     }
 
@@ -6509,10 +6512,10 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 10px 18px;
+        padding: 12px 18px;
         color: #333;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 500;
         transition: all 0.3s ease;
         position: relative;
@@ -6520,28 +6523,36 @@
         width: 100%;
         box-sizing: border-box;
         direction: ltr;
+        border-radius: 8px;
+        margin-bottom: 4px;
     }
 
     [dir="rtl"] .side-menu-body .side-menu-link {
         direction: rtl;
+        justify-content: flex-end;
+        text-align: right;
+        flex-direction: row-reverse;
+        padding: 12px 18px;
     }
 
     .side-menu-body .side-menu-link:hover {
-        background: rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.08);
+        background: rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.1);
         color: var(--colorPrimary);
         padding-left: 22px;
+        transform: translateX(-2px);
     }
 
     [dir="rtl"] .side-menu-body .side-menu-link:hover {
         padding-left: 18px;
         padding-right: 22px;
+        transform: translateX(2px);
     }
 
     .side-menu-link i {
         color: var(--colorPrimary);
         font-size: 18px;
-        width: 22px;
-        min-width: 22px;
+        width: 20px;
+        min-width: 20px;
         text-align: center;
         transition: all 0.3s ease;
         flex-shrink: 0;
@@ -6550,11 +6561,11 @@
         justify-content: center;
     }
 
-    /* RTL: Icons on the right (before text in RTL reading direction) */
+    /* RTL: Text on right, icons close to text on left */
     [dir="rtl"] .side-menu-link i {
-        order: 1;
-        margin-left: 0;
-        margin-right: 8px;
+        order: 2;
+        margin-left: 10px;
+        margin-right: 0;
     }
 
     .side-menu-link span {
@@ -6566,15 +6577,8 @@
 
     [dir="rtl"] .side-menu-link span {
         text-align: right;
-        order: 2;
-        justify-content: flex-start;
-    }
-
-    /* RTL: Ensure main menu links are right-aligned */
-    [dir="rtl"] .side-menu-body .side-menu-link {
-        justify-content: flex-start;
-        text-align: right;
-        flex-direction: row;
+        order: 1;
+        justify-content: flex-end;
     }
 
     .side-menu-link:hover i {
@@ -6631,7 +6635,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        padding: 12px 20px 12px 50px;
+        padding: 10px 20px 10px 45px;
         color: #555;
         text-decoration: none;
         font-size: 14px;
@@ -6643,15 +6647,18 @@
         width: 100%;
         box-sizing: border-box;
         direction: ltr;
+        border-radius: 6px;
+        margin-bottom: 2px;
     }
 
     [dir="rtl"] .side-submenu li a {
         direction: rtl;
-        padding: 12px 50px 12px 20px;
+        padding: 10px 45px 10px 20px;
         border-left: none;
         border-right: 2px solid transparent;
         justify-content: flex-end;
         text-align: right;
+        flex-direction: row-reverse;
     }
 
     .side-submenu li a::before {
@@ -6743,51 +6750,62 @@
     }
 
     .appointment-link {
-        background: var(--colorPrimary) !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
-        border-radius: 10px;
+        border-radius: 12px;
         margin: 0 20px;
-        padding: 14px 20px;
+        padding: 16px 24px;
         justify-content: center;
         align-items: center;
-        font-weight: 600;
+        font-weight: 700;
         font-size: 16px;
-        box-shadow: 0 4px 15px rgba(107, 93, 71, 0.5) !important;
+        box-shadow: 0 6px 20px rgba(107, 93, 71, 0.4) !important;
         transition: all 0.3s ease;
-        border: 2px solid var(--colorPrimary) !important;
+        border: none !important;
         width: calc(100% - 40px);
         box-sizing: border-box;
         display: flex;
-        gap: 10px;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* RTL: Appointment button icon alignment - icon visually on left for Arabic */
+    /* RTL: Text on right, icon close to text on left */
     [dir="rtl"] .appointment-link {
-        flex-direction: row;
+        flex-direction: row-reverse;
+        justify-content: center;
+        text-align: right;
     }
 
     [dir="rtl"] .appointment-link i {
         order: 2;
+        margin-left: 12px;
+        margin-right: 0;
     }
 
     [dir="rtl"] .appointment-link span {
         order: 1;
+        text-align: right;
     }
 
     .appointment-link:hover {
-        background: var(--colorSecondary) !important;
-        border-color: var(--colorSecondary) !important;
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(107, 93, 71, 0.6) !important;
+        box-shadow: 0 8px 25px rgba(107, 93, 71, 0.6) !important;
+    }
+
+    .appointment-link:hover i {
+        transform: scale(1.1) rotate(5deg);
     }
 
     .appointment-link i {
         color: #fff !important;
-        font-size: 18px;
+        font-size: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
+        transition: transform 0.3s ease;
     }
 
     /* Header Items Section - Show Last */
@@ -6846,16 +6864,19 @@
         flex-shrink: 0;
     }
 
-    /* RTL: Text on the right, icons on the left of text (after text in RTL reading direction) */
+    /* RTL: Text on the right, icons close to text on left */
     [dir="rtl"] .side-menu-header-link {
         flex-direction: row-reverse;
         justify-content: flex-end;
-        gap: 8px;
+        gap: 10px;
+        padding: 12px 18px;
+        border-radius: 8px;
+        margin-bottom: 6px;
     }
 
     [dir="rtl"] .side-menu-header-link i {
         order: 2;
-        margin-left: 8px;
+        margin-left: 10px;
         margin-right: 0;
     }
 

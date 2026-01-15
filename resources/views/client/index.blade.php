@@ -2810,6 +2810,7 @@
     .lawyer-location-meta i {
         color: var(--colorPrimary);
         font-size: 14px;
+        flex-shrink: 0;
     }
 
     .lawyer-designations {
@@ -2825,6 +2826,7 @@
     .lawyer-designations i {
         color: var(--colorPrimary);
         font-size: 14px;
+        flex-shrink: 0;
     }
 
     .lawyer-rating {
@@ -2856,17 +2858,23 @@
         text-decoration: none;
         transition: all 0.3s ease;
         margin-top: auto;
-        padding: 12px 0;
+        padding: 12px 20px;
+        border-radius: 8px;
+        background: rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.08);
+        border: 1px solid rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.2);
     }
 
     .lawyer-view-profile i {
-        font-size: 14px;
+        font-size: 16px;
         transition: transform 0.3s ease;
     }
 
     .lawyer-card-modern:hover .lawyer-view-profile {
-        color: var(--colorSecondary);
+        color: #fff;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-color: var(--colorPrimary);
         transform: translateX(5px);
+        box-shadow: 0 4px 12px rgba(107, 93, 71, 0.3);
     }
 
     [dir="rtl"] .lawyer-card-modern:hover .lawyer-view-profile {
@@ -2879,6 +2887,25 @@
 
     [dir="rtl"] .lawyer-card-modern:hover .lawyer-view-profile i {
         transform: translateX(-3px);
+    }
+
+    /* RTL: Enhanced button design for Arabic */
+    [dir="rtl"] .lawyer-view-profile {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        text-align: right;
+        padding: 12px 20px;
+    }
+
+    [dir="rtl"] .lawyer-view-profile i {
+        order: 2;
+        margin-left: 12px;
+        margin-right: 0;
+    }
+
+    [dir="rtl"] .lawyer-view-profile span {
+        order: 1;
+        text-align: right;
     }
 
     /* Swiper Navigation */
@@ -3035,11 +3062,21 @@
         align-items: center;
     }
 
-    /* Text on the right, icons on the left of text (after text in RTL reading direction) */
+    /* Text on the right, icons close to text on left */
+    [dir="rtl"] .lawyer-department-meta,
+    [dir="rtl"] .lawyer-location-meta {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        text-align: right;
+        direction: rtl;
+        align-items: center;
+        gap: 10px;
+    }
+
     [dir="rtl"] .lawyer-department-meta i,
     [dir="rtl"] .lawyer-location-meta i {
         order: 2;
-        margin-left: 8px;
+        margin-left: 10px;
         margin-right: 0;
     }
 
@@ -3050,17 +3087,18 @@
     }
 
     [dir="rtl"] .lawyer-designations {
-        flex-direction: row;
+        flex-direction: row-reverse;
         justify-content: flex-end;
         text-align: right;
         direction: rtl;
         align-items: center;
+        gap: 10px;
     }
 
-    /* Text on the right, icon on the left of text */
+    /* Text on the right, icon close to text on left */
     [dir="rtl"] .lawyer-designations i {
         order: 2;
-        margin-left: 8px;
+        margin-left: 10px;
         margin-right: 0;
     }
 
@@ -3087,25 +3125,31 @@
         margin-right: 0;
     }
 
-    /* RTL Support for View Profile - Text on right, icon on left */
+    /* RTL Support for View Profile - Enhanced button design */
     [dir="rtl"] .lawyer-view-profile {
         flex-direction: row-reverse;
         justify-content: flex-end;
         text-align: right;
         direction: rtl;
         align-items: center;
+        padding: 12px 20px;
     }
 
-    /* Arrow icon on the left of text (after text in RTL reading direction) */
+    /* Arrow icon close to text on left */
     [dir="rtl"] .lawyer-view-profile i {
         order: 2;
-        margin-left: 10px;
+        margin-left: 12px;
         margin-right: 0;
+        font-size: 16px;
     }
 
     [dir="rtl"] .lawyer-view-profile span {
         order: 1;
         text-align: right;
+    }
+
+    [dir="rtl"] .lawyer-card-modern:hover .lawyer-view-profile {
+        box-shadow: 0 4px 12px rgba(107, 93, 71, 0.3);
     }
 
     /* Mobile RTL Support for Lawyer Card */
@@ -3119,11 +3163,26 @@
         [dir="rtl"] .lawyer-location-meta {
             text-align: right;
             justify-content: flex-end;
+            flex-direction: row-reverse;
+            gap: 10px;
+        }
+
+        [dir="rtl"] .lawyer-department-meta i,
+        [dir="rtl"] .lawyer-location-meta i {
+            margin-left: 10px;
+            margin-right: 0;
         }
 
         [dir="rtl"] .lawyer-designations {
             text-align: right;
             justify-content: flex-end;
+            flex-direction: row-reverse;
+            gap: 10px;
+        }
+
+        [dir="rtl"] .lawyer-designations i {
+            margin-left: 10px;
+            margin-right: 0;
         }
 
         [dir="rtl"] .lawyer-rating {
@@ -3144,6 +3203,12 @@
         [dir="rtl"] .lawyer-view-profile {
             justify-content: flex-end;
             text-align: right;
+            padding: 12px 18px;
+        }
+
+        [dir="rtl"] .lawyer-view-profile i {
+            margin-left: 12px;
+            margin-right: 0;
         }
     }
 
@@ -3158,12 +3223,32 @@
             text-align: right;
             justify-content: flex-end;
             width: 100%;
+            flex-direction: row-reverse;
+            gap: 10px;
+        }
+
+        [dir="rtl"] .lawyer-department-meta i,
+        [dir="rtl"] .lawyer-location-meta i {
+            margin-left: 10px;
+            margin-right: 0;
         }
 
         [dir="rtl"] .lawyer-designations {
             text-align: right;
             justify-content: flex-end;
+            flex-direction: row-reverse;
+            gap: 10px;
         }
+
+        [dir="rtl"] .lawyer-designations i {
+            margin-left: 10px;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] .lawyer-view-profile {
+            padding: 10px 16px;
+        }
+    }
 
         [dir="rtl"] .lawyer-rating {
             justify-content: flex-end;
