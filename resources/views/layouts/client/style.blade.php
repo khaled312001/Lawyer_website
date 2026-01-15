@@ -1136,6 +1136,8 @@
         padding: 12px 50px 12px 20px;
         border-left: none;
         border-right: 2px solid transparent;
+        justify-content: flex-end;
+        text-align: right;
     }
 
     .side-submenu li a::before {
@@ -1166,6 +1168,8 @@
 
     [dir="rtl"] .side-submenu li a i {
         order: 2;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .side-submenu li a span {
@@ -1176,6 +1180,13 @@
     [dir="rtl"] .side-submenu li a span {
         text-align: right;
         order: 1;
+        justify-content: flex-end;
+    }
+
+    /* RTL: Ensure submenu links are right-aligned */
+    [dir="rtl"] .side-submenu li a {
+        justify-content: flex-end;
+        text-align: right;
     }
 
     .side-submenu li a:hover {
@@ -6458,7 +6469,7 @@
         justify-content: center;
     }
 
-    /* RTL: Icons stay on left (visually) for Arabic text items */
+    /* RTL: Icons stay on right (visually) for Arabic text items */
     [dir="rtl"] .side-menu-link i {
         order: 2;
         margin-left: 0;
@@ -6475,6 +6486,13 @@
     [dir="rtl"] .side-menu-link span {
         text-align: right;
         order: 1;
+        justify-content: flex-end;
+    }
+
+    /* RTL: Ensure main menu links are right-aligned */
+    [dir="rtl"] .side-menu-body .side-menu-link {
+        justify-content: flex-end;
+        text-align: right;
     }
 
     .side-menu-link:hover i {
@@ -6550,6 +6568,8 @@
         padding: 12px 50px 12px 20px;
         border-left: none;
         border-right: 2px solid transparent;
+        justify-content: flex-end;
+        text-align: right;
     }
 
     .side-submenu li a::before {
@@ -6580,6 +6600,8 @@
 
     [dir="rtl"] .side-submenu li a i {
         order: 2;
+        margin-left: 0;
+        margin-right: 0;
     }
 
     .side-submenu li a span {
@@ -6590,6 +6612,13 @@
     [dir="rtl"] .side-submenu li a span {
         text-align: right;
         order: 1;
+        justify-content: flex-end;
+    }
+
+    /* RTL: Ensure submenu links are right-aligned */
+    [dir="rtl"] .side-submenu li a {
+        justify-content: flex-end;
+        text-align: right;
     }
 
     .side-submenu li a:hover {
@@ -6927,9 +6956,41 @@
             padding-right: 24px;
         }
 
+        [dir="rtl"] .side-menu-body .side-menu-link {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
         [dir="rtl"] .side-menu-body .side-menu-link:hover {
             padding-left: 18px;
             padding-right: 22px;
+        }
+
+        /* RTL: Ensure icons are properly aligned on the right */
+        [dir="rtl"] .side-menu-body .side-menu-link i {
+            order: 2;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] .side-menu-body .side-menu-link span {
+            order: 1;
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        /* RTL: Submenu toggle button alignment */
+        [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
+            margin-left: 0;
+            margin-right: auto;
+            order: 3;
+        }
+
+        /* RTL: Submenu items alignment */
+        [dir="rtl"] .side-submenu li a {
+            justify-content: flex-end;
+            text-align: right;
+            padding: 12px 50px 12px 20px;
         }
 
         [dir="rtl"] .side-submenu li a:hover {
@@ -6937,8 +6998,66 @@
             padding-left: 20px;
         }
 
+        /* RTL: Submenu icons alignment */
+        [dir="rtl"] .side-submenu li a i {
+            order: 2;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] .side-submenu li a span {
+            order: 1;
+            text-align: right;
+            justify-content: flex-end;
+        }
+
         [dir="rtl"] .side-menu-header-link:hover {
             transform: translateX(-5px);
+        }
+    }
+
+    @media (max-width: 480px) {
+        /* RTL: Enhanced mobile alignment for smaller screens */
+        [dir="rtl"] .side-menu-body .side-menu-link {
+            justify-content: flex-end;
+            text-align: right;
+            padding: 12px 15px;
+        }
+
+        [dir="rtl"] .side-menu-body .side-menu-link i {
+            order: 2;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] .side-menu-body .side-menu-link span {
+            order: 1;
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        [dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
+            margin-left: 0;
+            margin-right: auto;
+            order: 3;
+        }
+
+        [dir="rtl"] .side-submenu li a {
+            justify-content: flex-end;
+            text-align: right;
+            padding: 10px 50px 10px 15px;
+        }
+
+        [dir="rtl"] .side-submenu li a i {
+            order: 2;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        [dir="rtl"] .side-submenu li a span {
+            order: 1;
+            text-align: right;
+            justify-content: flex-end;
         }
     }
 

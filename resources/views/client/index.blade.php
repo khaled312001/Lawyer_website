@@ -3018,6 +3018,90 @@
         left: -30px;
     }
 
+    /* RTL Support for Lawyer Card Meta Elements */
+    [dir="rtl"] .lawyer-meta {
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    [dir="rtl"] .lawyer-department-meta,
+    [dir="rtl"] .lawyer-location-meta {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+
+    [dir="rtl"] .lawyer-designations {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+
+    /* RTL Support for Lawyer Rating and View Profile */
+    [dir="rtl"] .lawyer-rating {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+
+    [dir="rtl"] .lawyer-view-profile {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+
+    /* Mobile RTL Support for Lawyer Card */
+    @media (max-width: 768px) {
+        [dir="rtl"] .lawyer-meta {
+            align-items: flex-end;
+        }
+
+        [dir="rtl"] .lawyer-department-meta,
+        [dir="rtl"] .lawyer-location-meta {
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        [dir="rtl"] .lawyer-designations {
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        [dir="rtl"] .lawyer-rating {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        [dir="rtl"] .lawyer-view-profile {
+            justify-content: flex-end;
+            text-align: right;
+        }
+    }
+
+    @media (max-width: 480px) {
+        [dir="rtl"] .lawyer-meta {
+            align-items: flex-end;
+        }
+
+        [dir="rtl"] .lawyer-department-meta,
+        [dir="rtl"] .lawyer-location-meta {
+            text-align: right;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        [dir="rtl"] .lawyer-designations {
+            text-align: right;
+            justify-content: flex-end;
+        }
+
+        [dir="rtl"] .lawyer-rating {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        [dir="rtl"] .lawyer-view-profile {
+            justify-content: flex-end;
+            text-align: right;
+        }
+    }
+
     @media (max-width: 1200px) {
         [dir="rtl"] .lawyer-prev {
             right: 10px;
