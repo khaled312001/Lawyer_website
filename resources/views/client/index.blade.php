@@ -1135,12 +1135,24 @@
     .legal-hero-buttons-right {
         justify-content: flex-end !important;
         align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        direction: rtl !important;
     }
     
     [dir="ltr"] .legal-hero-buttons-right,
     html:not([dir="rtl"]) .legal-hero-buttons-right {
         justify-content: flex-end !important;
         align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        direction: rtl !important;
     }
 
     .legal-hero-btn-primary {
@@ -1177,6 +1189,9 @@
         direction: rtl !important;
         text-align: right !important;
         justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
     
     [dir="ltr"] .legal-hero-btn-primary-right,
@@ -1184,17 +1199,22 @@
         direction: rtl !important;
         text-align: right !important;
         justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
     
     .legal-hero-btn-primary-right i {
         order: 2 !important;
         margin-left: 8px !important;
         margin-right: 0 !important;
+        flex-shrink: 0 !important;
     }
     
     .legal-hero-btn-primary-right span {
         order: 1 !important;
         text-align: right !important;
+        direction: rtl !important;
     }
 
     .legal-hero-btn-primary::before {
@@ -1290,6 +1310,9 @@
         direction: rtl !important;
         text-align: right !important;
         justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
     
     [dir="ltr"] .legal-hero-btn-secondary-right,
@@ -1297,17 +1320,22 @@
         direction: rtl !important;
         text-align: right !important;
         justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
     
     .legal-hero-btn-secondary-right i {
         order: 2 !important;
         margin-left: 8px !important;
         margin-right: 0 !important;
+        flex-shrink: 0 !important;
     }
     
     .legal-hero-btn-secondary-right span {
         order: 1 !important;
         text-align: right !important;
+        direction: rtl !important;
     }
 
     .legal-hero-btn-secondary::before {
@@ -1690,13 +1718,20 @@
         .legal-hero-buttons-right {
             justify-content: flex-end !important;
             align-items: flex-end !important;
+            width: 100% !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            direction: rtl !important;
         }
-        
+
         .legal-hero-btn-primary-right,
         .legal-hero-btn-secondary-right {
             direction: rtl !important;
             text-align: right !important;
             justify-content: flex-end !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            align-self: flex-end !important;
         }
 
         .legal-hero-title {
@@ -1925,13 +1960,20 @@
         .legal-hero-buttons-right {
             justify-content: flex-end !important;
             align-items: flex-end !important;
+            width: 100% !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            direction: rtl !important;
         }
-        
+
         .legal-hero-btn-primary-right,
         .legal-hero-btn-secondary-right {
             direction: rtl !important;
             text-align: right !important;
             justify-content: flex-end !important;
+            margin-left: auto !important;
+            margin-right: 0 !important;
+            align-self: flex-end !important;
         }
 
         .legal-hero-badge {
@@ -2102,13 +2144,20 @@
     [dir="rtl"] .legal-hero-buttons-right {
         justify-content: flex-end !important;
         align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        direction: rtl !important;
     }
-    
+
     [dir="rtl"] .legal-hero-btn-primary-right,
     [dir="rtl"] .legal-hero-btn-secondary-right {
         direction: rtl !important;
         text-align: right !important;
         justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
     }
 
     /* RTL: نفس الترتيب البصري - الإحصائيات على اليسار والمحتوى على اليمين */
@@ -2255,17 +2304,24 @@
         align-self: flex-end !important;
     }
         
-        [dir="rtl"] .legal-hero-buttons-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-        }
-        
-        [dir="rtl"] .legal-hero-btn-primary-right,
-        [dir="rtl"] .legal-hero-btn-secondary-right {
-            direction: rtl !important;
-            text-align: right !important;
-            justify-content: flex-end !important;
-        }
+    [dir="rtl"] .legal-hero-buttons-right {
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .legal-hero-btn-primary-right,
+    [dir="rtl"] .legal-hero-btn-secondary-right {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
+    }
 
         [dir="rtl"] .legal-stat-content {
             text-align: center;
@@ -2337,17 +2393,24 @@
         align-self: flex-end !important;
     }
         
-        [dir="rtl"] .legal-hero-buttons-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-        }
-        
-        [dir="rtl"] .legal-hero-btn-primary-right,
-        [dir="rtl"] .legal-hero-btn-secondary-right {
-            direction: rtl !important;
-            text-align: right !important;
-            justify-content: flex-end !important;
-        }
+    [dir="rtl"] .legal-hero-buttons-right {
+        justify-content: flex-end !important;
+        align-items: flex-end !important;
+        width: 100% !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .legal-hero-btn-primary-right,
+    [dir="rtl"] .legal-hero-btn-secondary-right {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        align-self: flex-end !important;
+    }
     }
 
     /* Mobile Hero Section Column Ordering - Applied after all other media queries */
@@ -5738,6 +5801,80 @@ html:not([dir="rtl"]) .legal-hero-features-right .legal-hero-feature-item {
     .swiper-button-prev::after {
         font-size: 14px !important;
     }
+}
+
+/* ============================================
+   FINAL OVERRIDE - Force Buttons to Right
+   ============================================ */
+.legal-hero-buttons-right,
+.legal-hero-content-right .legal-hero-buttons,
+.legal-hero-content-right .legal-hero-buttons-right {
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.legal-hero-btn-primary-right,
+.legal-hero-btn-secondary-right,
+.legal-hero-buttons-right .legal-hero-btn-primary,
+.legal-hero-buttons-right .legal-hero-btn-secondary,
+.legal-hero-buttons-right .legal-hero-btn-primary-right,
+.legal-hero-buttons-right .legal-hero-btn-secondary-right {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    align-self: flex-end !important;
+}
+
+.legal-hero-btn-primary-right i,
+.legal-hero-btn-secondary-right i,
+.legal-hero-buttons-right .legal-hero-btn-primary i,
+.legal-hero-buttons-right .legal-hero-btn-secondary i {
+    order: 2 !important;
+    margin-left: 8px !important;
+    margin-right: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+.legal-hero-btn-primary-right span,
+.legal-hero-btn-secondary-right span,
+.legal-hero-buttons-right .legal-hero-btn-primary span,
+.legal-hero-buttons-right .legal-hero-btn-secondary span {
+    order: 1 !important;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .legal-hero-buttons-right,
+[dir="ltr"] .legal-hero-content-right .legal-hero-buttons,
+html:not([dir="rtl"]) .legal-hero-buttons-right,
+html:not([dir="rtl"]) .legal-hero-content-right .legal-hero-buttons {
+    justify-content: flex-end !important;
+    align-items: flex-end !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .legal-hero-btn-primary-right,
+[dir="ltr"] .legal-hero-btn-secondary-right,
+html:not([dir="rtl"]) .legal-hero-btn-primary-right,
+html:not([dir="rtl"]) .legal-hero-btn-secondary-right {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    margin-left: auto !important;
+    margin-right: 0 !important;
 }
 
 /* RTL Mobile Support */
