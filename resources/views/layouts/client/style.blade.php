@@ -10760,6 +10760,231 @@
         text-align: right !important;
     }
 
+    /* ستايلات جديدة لكروت المحامين */
+    .lawyer-content {
+        direction: rtl !important;
+        text-align: right !important;
+        padding: 20px 25px !important;
+    }
+
+    .lawyer-name {
+        text-align: right !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .lawyer-name a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
+    .lawyer-name a:hover {
+        color: var(--colorPrimary) !important;
+    }
+
+    .lawyer-meta {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .lawyer-department-meta,
+    .lawyer-location-meta {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+        font-size: 14px !important;
+        color: #666 !important;
+    }
+
+    .lawyer-department-meta i,
+    .lawyer-location-meta i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+        color: var(--colorPrimary) !important;
+        font-size: 16px !important;
+        width: 20px !important;
+        min-width: 20px !important;
+        text-align: center !important;
+        flex-shrink: 0 !important;
+    }
+
+    .lawyer-department-meta span,
+    .lawyer-location-meta span {
+        order: 2 !important;
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    .lawyer-designations {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+        margin: 8px 0 !important;
+        font-size: 14px !important;
+        color: #666 !important;
+    }
+
+    .lawyer-designations i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+        color: var(--colorPrimary) !important;
+        font-size: 16px !important;
+        width: 20px !important;
+        min-width: 20px !important;
+        text-align: center !important;
+        flex-shrink: 0 !important;
+    }
+
+    .lawyer-rating {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+        margin: 12px 0 !important;
+        gap: 8px !important;
+    }
+
+    .lawyer-rating .star-rating {
+        order: 1 !important;
+    }
+
+    .lawyer-rating .rating-text {
+        order: 2 !important;
+        color: #666 !important;
+        font-size: 12px !important;
+        text-align: right !important;
+    }
+
+    .lawyer-view-profile {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+        margin-top: 15px !important;
+        padding: 10px 15px !important;
+        background: var(--colorPrimary) !important;
+        color: #fff !important;
+        border-radius: 6px !important;
+        text-decoration: none !important;
+        font-size: 14px !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .lawyer-view-profile:hover {
+        background: var(--colorPrimaryDark, #0056b3) !important;
+        transform: translateY(-2px) !important;
+    }
+
+    .lawyer-view-profile span {
+        order: 2 !important;
+        text-align: right !important;
+    }
+
+    .lawyer-view-profile i {
+        order: 1 !important;
+        margin-left: 8px !important;
+        margin-right: 0 !important;
+    }
+
+    /* RTL support للكلاسات الجديدة */
+    html[dir="rtl"] .lawyer-content,
+    html[lang="ar"] .lawyer-content,
+    [dir="rtl"] .lawyer-content,
+    body[dir="rtl"] .lawyer-content {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .lawyer-name,
+    html[lang="ar"] .lawyer-name,
+    [dir="rtl"] .lawyer-name,
+    body[dir="rtl"] .lawyer-name {
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .lawyer-meta,
+    html[lang="ar"] .lawyer-meta,
+    [dir="rtl"] .lawyer-meta,
+    body[dir="rtl"] .lawyer-meta {
+        align-items: flex-end !important;
+    }
+
+    html[dir="rtl"] .lawyer-department-meta,
+    html[dir="rtl"] .lawyer-location-meta,
+    html[lang="ar"] .lawyer-department-meta,
+    html[lang="ar"] .lawyer-location-meta,
+    [dir="rtl"] .lawyer-department-meta,
+    [dir="rtl"] .lawyer-location-meta,
+    body[dir="rtl"] .lawyer-department-meta,
+    body[dir="rtl"] .lawyer-location-meta {
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .lawyer-designations,
+    html[lang="ar"] .lawyer-designations,
+    [dir="rtl"] .lawyer-designations,
+    body[dir="rtl"] .lawyer-designations {
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .lawyer-rating,
+    html[lang="ar"] .lawyer-rating,
+    [dir="rtl"] .lawyer-rating,
+    body[dir="rtl"] .lawyer-rating {
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .lawyer-view-profile,
+    html[lang="ar"] .lawyer-view-profile,
+    [dir="rtl"] .lawyer-view-profile,
+    body[dir="rtl"] .lawyer-view-profile {
+        justify-content: flex-end !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Responsive للموبايل */
+    @media (max-width: 768px) {
+        .lawyer-content {
+            padding: 15px 20px !important;
+        }
+
+        .lawyer-name {
+            font-size: 18px !important;
+        }
+
+        .lawyer-department-meta,
+        .lawyer-location-meta,
+        .lawyer-designations {
+            font-size: 13px !important;
+        }
+
+        .lawyer-department-meta i,
+        .lawyer-location-meta i,
+        .lawyer-designations i {
+            font-size: 14px !important;
+            width: 18px !important;
+            min-width: 18px !important;
+        }
+    }
+
     /* price-benefits */
     html[dir="rtl"] .price-benefits .benefit-item,
     html[lang="ar"] .price-benefits .benefit-item,
@@ -11303,6 +11528,115 @@
 
         .aman-feature-text-rtl p {
             font-size: 14px !important;
+        }
+    }
+
+    /* ===================================================================
+       MOBILE MENU RTL HTML - القائمة الجانبية للموبايل مع أيقونات على اليمين
+       =================================================================== */
+
+    /* روابط القائمة الجانبية */
+    .aman-menu-link-rtl {
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        direction: rtl !important;
+        text-align: right !important;
+        padding: 12px 20px !important;
+    }
+
+    .aman-menu-text-rtl {
+        order: 1 !important;
+        flex: 1 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-menu-icon-rtl {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        font-size: 18px !important;
+        color: var(--colorPrimary) !important;
+        width: 24px !important;
+        text-align: center !important;
+    }
+
+    /* القائمة الفرعية */
+    .aman-submenu-link-rtl {
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 10px !important;
+        direction: rtl !important;
+        text-align: right !important;
+        padding: 10px 20px 10px 40px !important;
+    }
+
+    /* سهم القائمة الفرعية */
+    .aman-submenu-toggle-rtl {
+        order: 0 !important;
+        margin-left: auto !important;
+        margin-right: 0 !important;
+        font-size: 14px !important;
+    }
+
+    /* Badge */
+    html[dir="rtl"] .side-menu-badge,
+    html[lang="ar"] .side-menu-badge {
+        left: auto !important;
+        right: 10px !important;
+    }
+
+    /* ===================================================================
+       VERTICAL FEATURE CARDS - كروت المميزات في عمود واحد طولياً
+       =================================================================== */
+
+    /* كروت المميزات في عمود واحد */
+    .aman-feature-vertical-rtl {
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-feature-vertical-rtl .aman-feature-icon-rtl {
+        order: 1 !important;
+        align-self: flex-end !important;
+        margin-bottom: 15px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    .aman-feature-vertical-rtl .aman-feature-text-rtl {
+        order: 2 !important;
+        width: 100% !important;
+        text-align: right !important;
+        align-self: flex-end !important;
+    }
+
+    .aman-feature-vertical-rtl .aman-feature-text-rtl h4 {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .aman-feature-vertical-rtl .aman-feature-text-rtl p {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    /* responsive للموبايل */
+    @media (max-width: 768px) {
+        .aman-feature-vertical-rtl {
+            padding: 20px !important;
+        }
+
+        .aman-feature-vertical-rtl .aman-feature-icon-rtl {
+            margin-bottom: 12px !important;
         }
     }
 </style>

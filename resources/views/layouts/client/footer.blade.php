@@ -182,7 +182,11 @@
     <div class="footer-copyrignt">
         <div class="container">
             <div class="copyright-text text-center">
-                <p>{{ __('Copyright') }} &copy; 2026, Aman Law. {{ __('All rights reserved') }}.</p>
+                @if(getSessionLanguage() == 'ar')
+                    <p>حقوق الطبع والنشر © 2026، أمان لو. جميع الحقوق محفوظة.</p>
+                @else
+                    <p>Copyright © 2026, Aman Law. All rights reserved.</p>
+                @endif
             </div>
         </div>
     </div>

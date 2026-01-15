@@ -384,9 +384,9 @@
             <!-- Header Items in Side Menu -->
             <div class="side-menu-header-items">
                 <div class="side-menu-cart">
-                    <a href="{{ route('client.payment') }}" class="side-menu-header-link">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span>{{ __('Appointment List') }}</span>
+                    <a href="{{ route('client.payment') }}" class="side-menu-header-link aman-menu-link-rtl">
+                        <span class="aman-menu-text-rtl">{{ __('Appointment List') }}</span>
+                        <i class="fas fa-shopping-cart aman-menu-icon-rtl"></i>
                         @if(Cart::count() > 0)
                             <span class="side-menu-badge">{{ Cart::count() }}</span>
                         @endif
@@ -405,30 +405,30 @@
                             $displayPhone = $displayPhone . '+';
                         }
                     @endphp
-                    <a href="tel:{{ $contactInfo->top_bar_phone }}" class="side-menu-header-link">
-                        <i class="fas fa-phone"></i>
-                        <span>{{ $displayPhone }}</span>
+                    <a href="tel:{{ $contactInfo->top_bar_phone }}" class="side-menu-header-link aman-menu-link-rtl">
+                        <span class="aman-menu-text-rtl">{{ $displayPhone }}</span>
+                        <i class="fas fa-phone aman-menu-icon-rtl"></i>
                     </a>
                 @endif
                 @if ($contactInfo?->top_bar_email)
-                    <a href="mailto:{{ $contactInfo->top_bar_email }}" class="side-menu-header-link">
-                        <i class="far fa-envelope"></i>
-                        <span>{{ $contactInfo->top_bar_email }}</span>
+                    <a href="mailto:{{ $contactInfo->top_bar_email }}" class="side-menu-header-link aman-menu-link-rtl">
+                        <span class="aman-menu-text-rtl">{{ $contactInfo->top_bar_email }}</span>
+                        <i class="far fa-envelope aman-menu-icon-rtl"></i>
                     </a>
                 @endif
                 @guest
-                    <a href="{{ url('login') }}" class="side-menu-header-link">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>{{ __('Login') }}</span>
+                    <a href="{{ url('login') }}" class="side-menu-header-link aman-menu-link-rtl">
+                        <span class="aman-menu-text-rtl">{{ __('Login') }}</span>
+                        <i class="fas fa-sign-in-alt aman-menu-icon-rtl"></i>
                     </a>
-                    <a href="{{ url('register') }}" class="side-menu-header-link">
-                        <i class="fas fa-user-plus"></i>
-                        <span>{{ __('Register') }}</span>
+                    <a href="{{ url('register') }}" class="side-menu-header-link aman-menu-link-rtl">
+                        <span class="aman-menu-text-rtl">{{ __('Register') }}</span>
+                        <i class="fas fa-user-plus aman-menu-icon-rtl"></i>
                     </a>
                 @else
-                    <a href="{{ route('dashboard') }}" class="side-menu-header-link">
-                        <i class="fas fa-user"></i>
-                        <span>{{ __('My account') }}</span>
+                    <a href="{{ route('dashboard') }}" class="side-menu-header-link aman-menu-link-rtl">
+                        <span class="aman-menu-text-rtl">{{ __('My account') }}</span>
+                        <i class="fas fa-user aman-menu-icon-rtl"></i>
                     </a>
                 @endguest
                 @if (allCurrencies()?->where('status', 'active')->count() > 1 || allLanguages()?->where('status', 1)->count() > 1)
@@ -505,10 +505,10 @@
                             @endphp
                             <li class="side-menu-item @if($is_child) has-submenu @endif">
                                 @if($is_child)
-                                    <a href="javascript:;" class="side-menu-link" onclick="toggleSubmenu(this)">
-                                        <i class="{{ $icon }}"></i>
-                                        <span>{{ $menu['label'] }}</span>
-                                        <i class="fas fa-chevron-down submenu-toggle"></i>
+                                    <a href="javascript:;" class="side-menu-link aman-menu-link-rtl" onclick="toggleSubmenu(this)">
+                                        <span class="aman-menu-text-rtl">{{ $menu['label'] }}</span>
+                                        <i class="{{ $icon }} aman-menu-icon-rtl"></i>
+                                        <i class="fas fa-chevron-down submenu-toggle aman-submenu-toggle-rtl"></i>
                                     </a>
                                     <ul class="side-submenu">
                                         @foreach ($menu['child'] as $child)
@@ -543,9 +543,10 @@
                                             @endphp
                                             <li>
                                                 <a href="{{ $child['link'] == '#' || empty($child['link']) ? 'javascript:;' : url($child['link']) }}"
-                                                   @if ($child['open_new_tab']) target="_blank" @endif>
-                                                    <i class="{{ $child_icon }}"></i>
-                                                    <span>{{ $child['label'] }}</span>
+                                                   @if ($child['open_new_tab']) target="_blank" @endif
+                                                   class="aman-submenu-link-rtl">
+                                                    <span class="aman-menu-text-rtl">{{ $child['label'] }}</span>
+                                                    <i class="{{ $child_icon }} aman-menu-icon-rtl"></i>
                                                 </a>
                                             </li>
                                         @endforeach
@@ -553,17 +554,17 @@
                                 @else
                                     <a href="{{ $menu['link'] == '#' || empty($menu['link']) ? 'javascript:;' : url($menu['link']) }}"
                                        @if ($menu['open_new_tab']) target="_blank" @endif
-                                       class="side-menu-link">
-                                        <i class="{{ $icon }}"></i>
-                                        <span>{{ $menu['label'] }}</span>
+                                       class="side-menu-link aman-menu-link-rtl">
+                                        <span class="aman-menu-text-rtl">{{ $menu['label'] }}</span>
+                                        <i class="{{ $icon }} aman-menu-icon-rtl"></i>
                                     </a>
                                 @endif
                             </li>
                         @endforeach
                         <li class="side-menu-item appointment-item">
-                            <a href="{{ route('website.book.consultation.appointment') }}" class="side-menu-link appointment-link">
-                                <i class="fas fa-calendar-check"></i>
-                                <span>{{ __('Book Consultation Appointment') }}</span>
+                            <a href="{{ route('website.book.consultation.appointment') }}" class="side-menu-link appointment-link aman-menu-link-rtl">
+                                <span class="aman-menu-text-rtl">{{ __('Book Consultation Appointment') }}</span>
+                                <i class="fas fa-calendar-check aman-menu-icon-rtl"></i>
                             </a>
                         </li>
                     </ul>
