@@ -1048,9 +1048,11 @@
     }
 
     [dir="rtl"] .side-menu-link {
-        direction: rtl;
+        direction: rtl !important;
         border-left: none;
         border-right: 3px solid transparent;
+        flex-direction: row-reverse !important;
+        text-align: right !important;
     }
 
     .side-menu-link::before {
@@ -1083,9 +1085,9 @@
     }
 
     [dir="rtl"] .side-menu-link i {
-        order: 1;
-        margin-left: 0;
-        margin-right: 8px;
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
     }
 
     .side-menu-link span {
@@ -1094,13 +1096,15 @@
     }
 
     [dir="rtl"] .side-menu-link span {
-        text-align: right;
-        order: 2;
+        text-align: right !important;
+        order: 2 !important;
+        flex: 1 !important;
     }
 
     [dir="rtl"] .side-menu-link {
-        flex-direction: row;
-        justify-content: flex-start;
+        flex-direction: row-reverse !important;
+        justify-content: flex-start !important;
+        text-align: right !important;
     }
 
     .side-menu-link:hover {
@@ -1111,10 +1115,11 @@
     }
 
     [dir="rtl"] .side-menu-link:hover {
-        padding-left: 20px;
-        padding-right: 24px;
-        border-left: none;
-        border-right-color: var(--colorPrimary, #c8b47e);
+        padding-left: 20px !important;
+        padding-right: 24px !important;
+        border-left: none !important;
+        border-right-color: var(--colorPrimary, #c8b47e) !important;
+        transform: translateX(-5px) !important;
     }
 
     .side-menu-link:hover::before {
@@ -5126,9 +5131,11 @@
             transition: all 0.3s ease;
         }
         
-        /* RTL Support for benefit items */
+        /* RTL Support for benefit items - محاذاة لليمين في العربية */
         [dir="rtl"] .benefit-item {
-            flex-direction: row-reverse;
+            flex-direction: row-reverse !important;
+            direction: rtl !important;
+            text-align: right !important;
         }
         
         [dir="ltr"] .benefit-item {
@@ -5147,26 +5154,31 @@
             margin-top: 5px;
             min-width: 32px;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        /* RTL Support for icons */
+        /* RTL Support for icons - الأيقونات على اليمين في العربية */
         [dir="rtl"] .benefit-item i {
-            margin-left: 0;
-            margin-right: 0;
+            margin-left: 15px !important;
+            margin-right: 0 !important;
+            order: 1 !important;
         }
         
         [dir="ltr"] .benefit-item i {
             margin-left: 0;
-            margin-right: 0;
+            margin-right: 15px;
         }
         
         .benefit-content {
             flex: 1;
         }
         
-        /* RTL Support for benefit content */
+        /* RTL Support for benefit content - النصوص محاذاة لليمين */
         [dir="rtl"] .benefit-content {
-            text-align: right;
+            text-align: right !important;
+            direction: rtl !important;
         }
         
         [dir="ltr"] .benefit-content {
@@ -5181,11 +5193,39 @@
             margin-bottom: 8px;
         }
         
+        /* RTL Support for strong text */
+        [dir="rtl"] .benefit-content strong {
+            text-align: right !important;
+        }
+        
         .benefit-content p {
             font-size: 15px;
             color: #666;
             line-height: 1.6;
             margin: 0;
+        }
+        
+        /* RTL Support for paragraph text */
+        [dir="rtl"] .benefit-content p {
+            text-align: right !important;
+        }
+        
+        /* تحسين محاذاة price-benefits في RTL */
+        [dir="rtl"] .price-benefits .benefit-item {
+            flex-direction: row-reverse !important;
+            direction: rtl !important;
+            text-align: right !important;
+        }
+        
+        [dir="rtl"] .price-benefits .benefit-item i {
+            margin-left: 15px !important;
+            margin-right: 0 !important;
+            order: 1 !important;
+        }
+        
+        [dir="rtl"] .price-benefits .benefit-item .benefit-content {
+            text-align: right !important;
+            direction: rtl !important;
         }
         
         .fixed-price-content .title {
@@ -9822,5 +9862,84 @@
             flex-direction: row-reverse !important;
             text-align: right !important;
         }
+    }
+
+    /* تحسين محاذاة كروت ضمان السعر الثابت في RTL */
+    [dir="rtl"] .price-benefits {
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .price-benefits .benefit-item {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+    }
+
+    [dir="rtl"] .price-benefits .benefit-item i {
+        order: 1 !important;
+        margin-left: 15px !important;
+        margin-right: 0 !important;
+    }
+
+    [dir="rtl"] .price-benefits .benefit-item .benefit-content {
+        text-align: right !important;
+        direction: rtl !important;
+        flex: 1 !important;
+    }
+
+    [dir="rtl"] .price-benefits .benefit-item .benefit-content strong {
+        text-align: right !important;
+    }
+
+    [dir="rtl"] .price-benefits .benefit-item .benefit-content p {
+        text-align: right !important;
+    }
+
+    /* على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        [dir="rtl"] .price-benefits .benefit-item {
+            flex-direction: row-reverse !important;
+            padding: 15px !important;
+        }
+
+        [dir="rtl"] .price-benefits .benefit-item i {
+            font-size: 24px !important;
+            min-width: 28px !important;
+        }
+    }
+
+    /* تحسينات إضافية للقائمة الجانبية للموبايل في RTL */
+    [dir="rtl"] .side-menu-content {
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .side-menu-body {
+        direction: rtl !important;
+    }
+
+    [dir="rtl"] .side-menu-list {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* تحسين محاذاة زر الحجز */
+    [dir="rtl"] .side-menu-link.appointment-link,
+    [dir="rtl"] .appointment-item .side-menu-link {
+        flex-direction: row-reverse !important;
+        text-align: right !important;
+    }
+
+    [dir="rtl"] .side-menu-link.appointment-link i,
+    [dir="rtl"] .appointment-item .side-menu-link i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+    }
+
+    [dir="rtl"] .side-menu-link.appointment-link span,
+    [dir="rtl"] .appointment-item .side-menu-link span {
+        order: 2 !important;
+        text-align: right !important;
     }
 </style>
