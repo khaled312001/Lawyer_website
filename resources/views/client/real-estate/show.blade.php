@@ -1925,31 +1925,47 @@
         min-height: 300px;
     }
 
-    /* Remove left padding on mobile to start from right edge */
+    /* Remove all padding on mobile to start from right edge */
     .property-header .container,
-    .property-header .container-fluid,
-    .property-header .row,
-    .property-header [class*="col-"] {
+    .property-header .container-fluid {
+        padding-right: 0 !important;
         padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        max-width: 100% !important;
+    }
+
+    .property-header .row {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .property-header [class*="col-"] {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
         margin-left: 0 !important;
     }
 
     .property-header-content,
     .property-header-content-v2 {
-        padding-right: 15px !important;
+        padding-right: 0 !important;
         padding-left: 0 !important;
         margin-left: 0 !important;
+        margin-right: 0 !important;
         width: 100% !important;
     }
 
     .property-breadcrumb {
         margin-bottom: 20px;
-        padding-right: 15px !important;
+        padding-right: 0 !important;
         padding-left: 0 !important;
     }
 
     .property-breadcrumb .breadcrumb {
-        padding: 10px 15px 10px 0;
+        padding: 10px 0 10px 0;
         font-size: 13px;
         margin-right: 0 !important;
         margin-left: 0 !important;
@@ -1984,6 +2000,7 @@
         padding-left: 0 !important;
         margin-right: 0 !important;
         margin-left: 0 !important;
+        justify-content: flex-end !important;
     }
 
     .meta-item,
@@ -2406,8 +2423,10 @@
     [dir="rtl"] .property-header-content,
     [dir="rtl"] .property-header-content-v2 {
         text-align: right !important;
-        padding-right: 15px !important;
+        padding-right: 0 !important;
         padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
     [dir="rtl"] .section-title {
