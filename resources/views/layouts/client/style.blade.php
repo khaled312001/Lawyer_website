@@ -820,18 +820,18 @@
     }
 
     .side-menu-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 26px 22px 26px !important;
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-        border-bottom: 2px solid rgba(255,255,255,0.2);
-        background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, var(--colorSecondary, #8b7355) 100%);
-        position: relative;
-        z-index: 10;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
-        min-height: 80px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 20px 26px !important;
+        margin: 0 !important;
+        border-bottom: 2px solid rgba(255,255,255,0.2) !important;
+        background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, var(--colorSecondary, #8b7355) 100%) !important;
+        position: relative !important;
+        z-index: 10 !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+        min-height: 80px !important;
+        width: 100% !important;
     }
     
     .side-menu-header::before {
@@ -858,8 +858,11 @@
     /* Mobile header improvements */
     @media (max-width: 991px) {
         .side-menu-header {
-            padding: 18px 20px;
-            min-height: 70px;
+            padding: 18px 20px !important;
+            min-height: 70px !important;
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
     }
 
@@ -11140,6 +11143,15 @@
         direction: rtl !important;
     }
 
+    .aman-benefit-text-new-rtl p {
+        text-align: right !important;
+        direction: rtl !important;
+        font-size: 15px !important;
+        color: #666 !important;
+        line-height: 1.6 !important;
+        margin: 0 !important;
+    }
+
     .aman-benefit-text-new-rtl br + * {
         text-align: right !important;
         direction: rtl !important;
@@ -11160,6 +11172,9 @@
         margin-top: 5px !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     /* hover effect */
@@ -11578,6 +11593,7 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
+        justify-content: flex-start !important;
         gap: 15px !important;
         padding: 20px !important;
         background: #fff !important;
@@ -11606,6 +11622,7 @@
         margin-bottom: 8px !important;
         text-align: right !important;
         direction: rtl !important;
+        line-height: 1.4 !important;
     }
 
     .step-text p,
@@ -11631,6 +11648,8 @@
         text-align: center !important;
         margin: 0 !important;
         line-height: 1 !important;
+        width: 24px !important;
+        min-width: 24px !important;
     }
 
     /* hover effect */
@@ -11967,10 +11986,11 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         text-align: right !important;
         direction: rtl !important;
         gap: 10px !important;
+        margin-bottom: 8px !important;
     }
 
     /* النص على اليمين */
@@ -11981,6 +12001,7 @@
         color: #666 !important;
         text-align: right !important;
         direction: rtl !important;
+        line-height: 1.5 !important;
     }
 
     /* الأيقونة على اليمين */
@@ -11990,7 +12011,11 @@
         font-size: 16px !important;
         color: var(--colorPrimary) !important;
         width: 20px !important;
+        min-width: 20px !important;
         text-align: center !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     /* التقييم */
@@ -11998,7 +12023,7 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         margin-bottom: 15px !important;
         text-align: right !important;
         direction: rtl !important;
@@ -12102,5 +12127,167 @@
         .lawyer-button-text-mobile {
             font-size: 14px !important;
         }
+    }
+
+    /* ===================================================================
+       HOW IT WORKS MOBILE - قسم كيف يعمل مع كل شيء على اليمين
+       =================================================================== */
+
+    /* كارت الخطوة */
+    .how-it-works-item-mobile,
+    .aman-how-works-card-rtl {
+        background: #fff !important;
+        border-radius: 12px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        padding: 25px !important;
+        transition: all 0.3s ease !important;
+        height: 100% !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .how-it-works-item-mobile:hover,
+    .aman-how-works-card-rtl:hover {
+        transform: translateY(-5px) !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
+    }
+
+    /* محتوى الكارت */
+    .how-works-content-mobile {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+        gap: 15px !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* الرقم */
+    .how-works-number-mobile {
+        order: 3 !important;
+        flex-shrink: 0 !important;
+        width: 40px !important;
+        height: 40px !important;
+        background: var(--colorPrimary) !important;
+        color: #fff !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        text-align: center !important;
+    }
+
+    /* النص */
+    .how-works-text-mobile {
+        order: 1 !important;
+        flex: 1 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    .how-works-title-mobile {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        color: #333 !important;
+        margin: 0 0 10px 0 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        line-height: 1.4 !important;
+    }
+
+    .how-works-description-mobile {
+        font-size: 15px !important;
+        color: #666 !important;
+        line-height: 1.6 !important;
+        margin: 0 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    /* الأيقونة */
+    .how-works-icon-mobile {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        font-size: 24px !important;
+        color: var(--colorPrimary) !important;
+        width: 30px !important;
+        min-width: 30px !important;
+        text-align: center !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-top: 5px !important;
+    }
+
+    .how-it-works-item-mobile:hover .how-works-icon-mobile {
+        color: var(--colorSecondary) !important;
+        transform: scale(1.1) !important;
+    }
+
+    .how-it-works-item-mobile:hover .how-works-number-mobile {
+        background: var(--colorSecondary) !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* Responsive للموبايل */
+    @media (max-width: 768px) {
+        .how-it-works-item-mobile,
+        .aman-how-works-card-rtl {
+            padding: 20px !important;
+            margin-bottom: 20px !important;
+        }
+
+        .how-works-content-mobile {
+            gap: 12px !important;
+        }
+
+        .how-works-number-mobile {
+            width: 35px !important;
+            height: 35px !important;
+            font-size: 16px !important;
+        }
+
+        .how-works-title-mobile {
+            font-size: 18px !important;
+        }
+
+        .how-works-description-mobile {
+            font-size: 14px !important;
+        }
+
+        .how-works-icon-mobile {
+            font-size: 20px !important;
+            width: 24px !important;
+            min-width: 24px !important;
+        }
+    }
+
+    /* ===================================================================
+       HOME BUTTON - حذف margin من أسفل قسم home-button ser-btn
+       =================================================================== */
+
+    .home-button.ser-btn {
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* حذف margin من row الذي يحتوي على home-button ser-btn */
+    .service-area .row:last-of-type {
+        margin-bottom: 0 !important;
+    }
+
+    /* حذف margin من service-area بعد home-button */
+    .service-area {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .service-area + section {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 </style>

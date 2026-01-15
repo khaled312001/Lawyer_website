@@ -605,33 +605,39 @@
             </div>
             <div class="row mt_50">
                 <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item text-center step-item-1">
-                        <div class="step-number">1</div>
-                        <div class="step-icon">
-                            <i class="fas fa-calendar-alt"></i>
+                    <div class="how-it-works-item-mobile aman-how-works-card-rtl">
+                        <div class="how-works-content-mobile">
+                            <div class="how-works-number-mobile">1</div>
+                            <div class="how-works-text-mobile">
+                                <h3 class="how-works-title-mobile">{{ __('Choose date, lawyer and time') }}</h3>
+                                <p class="how-works-description-mobile">{{ __('Start by choosing a date for your appointment. Then choose the lawyer you want to speak to and the time that suits you best.') }}</p>
+                            </div>
+                            <i class="fas fa-calendar-alt how-works-icon-mobile"></i>
                         </div>
-                        <h3 class="step-title">{{ __('Choose date, lawyer and time') }}</h3>
-                        <p class="step-description">{{ __('Start by choosing a date for your appointment. Then choose the lawyer you want to speak to and the time that suits you best.') }}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item text-center step-item-2">
-                        <div class="step-number">2</div>
-                        <div class="step-icon">
-                            <i class="fas fa-credit-card"></i>
+                    <div class="how-it-works-item-mobile aman-how-works-card-rtl">
+                        <div class="how-works-content-mobile">
+                            <div class="how-works-number-mobile">2</div>
+                            <div class="how-works-text-mobile">
+                                <h3 class="how-works-title-mobile">{{ __('Easy and secure payments') }}</h3>
+                                <p class="how-works-description-mobile">{{ __('When you\'ve chosen a date and time for your appointment, you\'ll be directed to a secure page for payments. Choose to pay with card or Klarna.') }}</p>
+                            </div>
+                            <i class="fas fa-credit-card how-works-icon-mobile"></i>
                         </div>
-                        <h3 class="step-title">{{ __('Easy and secure payments') }}</h3>
-                        <p class="step-description">{{ __('When you\'ve chosen a date and time for your appointment, you\'ll be directed to a secure page for payments. Choose to pay with card or Klarna.') }}</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item text-center step-item-3">
-                        <div class="step-number">3</div>
-                        <div class="step-icon">
-                            <i class="fas fa-envelope"></i>
+                    <div class="how-it-works-item-mobile aman-how-works-card-rtl">
+                        <div class="how-works-content-mobile">
+                            <div class="how-works-number-mobile">3</div>
+                            <div class="how-works-text-mobile">
+                                <h3 class="how-works-title-mobile">{{ __('Link to meeting in email') }}</h3>
+                                <p class="how-works-description-mobile">{{ __('After payment, you\'ll get a confirmation sent to your email, with a Google Meet-link. When it\'s time for your appointment, simply click on the link to start your meeting.') }}</p>
+                            </div>
+                            <i class="fas fa-envelope how-works-icon-mobile"></i>
                         </div>
-                        <h3 class="step-title">{{ __('Link to meeting in email') }}</h3>
-                        <p class="step-description">{{ __('After payment, you\'ll get a confirmation sent to your email, with a Google Meet-link. When it\'s time for your appointment, simply click on the link to start your meeting.') }}</p>
                     </div>
                 </div>
             </div>
