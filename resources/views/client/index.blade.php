@@ -306,9 +306,7 @@
                             <div class="testimonial-card-new">
                                 <div class="testimonial-card-inner">
                                     <!-- Quote Icon -->
-                                    <div class="testimonial-quote-icon-new">
-                                        <i class="fas fa-quote-right"></i>
-                                    </div>
+                                 
                                     
                                     <!-- Content -->
                                     <div class="testimonial-content-new">
