@@ -86,9 +86,9 @@
                 @if ($lawyers->count() != 0)
                     @foreach ($lawyers as $lawyer)
                         <div class="col-lg-3 col-md-4 col-sm-6 mt_30">
-                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="team-item-link" aria-label="{{ $lawyer?->name }}">
-                                <div class="team-item">
-                                    <div class="team-photo">
+                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="team-item-link aman-lawyer-link-rtl" aria-label="{{ $lawyer?->name }}">
+                                <div class="team-item aman-lawyer-card-rtl">
+                                    <div class="team-photo aman-lawyer-photo-rtl">
                                         <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
                                             alt="{{$lawyer?->name}}" loading="lazy">
                                         <div class="team-overlay">
@@ -98,11 +98,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="team-text">
-                                        <h4 class="team-name">{{ ucfirst($lawyer?->name) }}</h4>
-                                        <p><i class="fas fa-briefcase"></i> {{ ucfirst($lawyer?->department?->name) }}</p>
-                                        <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span></p>
-                                        <p><span><b><i class="fas fa-street-view"></i>
+                                    <div class="team-text aman-lawyer-info-rtl">
+                                        <h4 class="team-name aman-lawyer-name-rtl">{{ ucfirst($lawyer?->name) }}</h4>
+                                        <p class="aman-lawyer-detail-rtl"><i class="fas fa-briefcase aman-icon-rtl"></i> {{ ucfirst($lawyer?->department?->name) }}</p>
+                                        <p class="aman-lawyer-detail-rtl"><span><i class="fas fa-graduation-cap aman-icon-rtl"></i> {{ $lawyer?->designations }}</span></p>
+                                        <p class="aman-lawyer-detail-rtl"><span><b><i class="fas fa-street-view aman-icon-rtl"></i>
                                                     {{ ucfirst($lawyer?->location?->name) }}</b></span></p>
                                         @if($lawyer->total_ratings > 0)
                                         <div class="mt-2">

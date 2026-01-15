@@ -73,23 +73,28 @@
         --text-muted: #999;
         
         /* Navigation Heights */
+        --top-alert-banner-height: 50px;
         --top-header-bar-height: 50px;
         --main-navbar-height: 70px;
-        --total-navbar-height: 120px; /* top-header-bar + main-navbar */
+        --total-navbar-height: 170px; /* alert-banner + top-header-bar + main-navbar */
     }
 
     /* ============================================
        NEW NAVIGATION SYSTEM - RESPONSIVE & MODERN
        ============================================ */
 
-    /* Top Alert Banner */
+    /* Top Alert Banner - في الأعلى */
     .top-alert-banner {
         background: linear-gradient(135deg, #ffe5e5 0%, #ffd6d6 100%);
         padding: 12px 0;
-        position: relative;
-        z-index: 1000;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10001 !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        margin-top: var(--total-navbar-height); /* Space for top header bar + main navbar */
+        margin-top: 0 !important;
     }
 
     .top-alert-banner.hidden {
@@ -136,13 +141,13 @@
         transform: translateY(-50%) scale(1.1);
     }
 
-    /* Top Header Bar */
+    /* Top Header Bar - تحت البانر الترحيبي */
     .top-header-bar {
         background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
         padding: 12px 0;
         border-bottom: 1px solid #e9ecef;
         position: fixed !important;
-        top: 0 !important;
+        top: 50px !important; /* تحت البانر الترحيبي */
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -326,7 +331,7 @@
         padding: 0;
         box-shadow: 0 4px 25px rgba(0,0,0,0.08), 0 2px 10px rgba(0,0,0,0.05);
         position: fixed !important;
-        top: var(--top-header-bar-height) !important; /* Position below top header bar */
+        top: 100px !important; /* تحت البانر الترحيبي (50px) + الشريط العلوي (50px) */
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -657,7 +662,7 @@
 
     /* Add padding-top to body to prevent content from hiding behind fixed navbar */
     body.client-frontend {
-        padding-top: var(--total-navbar-height) !important; /* Top header bar + Main navbar */
+        padding-top: var(--total-navbar-height) !important; /* Alert banner + Top header bar + Main navbar */
     }
 
     /* Ensure navbar is always on top */
@@ -9941,5 +9946,500 @@
     [dir="rtl"] .appointment-item .side-menu-link span {
         order: 2 !important;
         text-align: right !important;
+    }
+
+    /* ===================================================================
+       كود تصميم منفصل ومخصص للغة العربية - RTL CUSTOM DESIGN
+       =================================================================== */
+
+    /* 1. ترتيب الهيدر من الأعلى للأسفل */
+    html[dir="rtl"] body.client-frontend,
+    html[lang="ar"] body.client-frontend {
+        padding-top: 170px !important; /* بانر ترحيبي 50px + شريط علوي 50px + قائمة رئيسية 70px */
+    }
+
+    /* البانر الترحيبي - في الأعلى تماماً */
+    html[dir="rtl"] .top-alert-banner,
+    html[lang="ar"] .top-alert-banner {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10001 !important;
+        height: 50px !important;
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+    }
+
+    /* الشريط العلوي - تحت البانر الترحيبي */
+    html[dir="rtl"] .top-header-bar,
+    html[lang="ar"] .top-header-bar {
+        position: fixed !important;
+        top: 50px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10000 !important;
+        height: 50px !important;
+    }
+
+    /* القائمة الرئيسية - تحت الشريط العلوي */
+    html[dir="rtl"] body.client-frontend .main-navbar,
+    html[lang="ar"] body.client-frontend .main-navbar {
+        position: fixed !important;
+        top: 100px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 9999 !important;
+        height: 70px !important;
+    }
+
+    /* 2. محاذاة كروت المحامين لليمين في العربية */
+    html[dir="rtl"] .team-text,
+    html[lang="ar"] .team-text {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .team-text p,
+    html[lang="ar"] .team-text p {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+        flex-direction: row-reverse !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    html[dir="rtl"] .team-text p i,
+    html[lang="ar"] .team-text p i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .team-text p span,
+    html[lang="ar"] .team-text p span {
+        order: 2 !important;
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    html[dir="rtl"] .team-name,
+    html[lang="ar"] .team-name {
+        text-align: center !important;
+    }
+
+    /* 3. محاذاة كروت ضمان السعر الثابت لليمين */
+    html[dir="rtl"] .benefit-item,
+    html[dir="rtl"] .price-benefits .benefit-item,
+    html[lang="ar"] .benefit-item,
+    html[lang="ar"] .price-benefits .benefit-item {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+        align-items: flex-start !important;
+    }
+
+    html[dir="rtl"] .benefit-item i,
+    html[dir="rtl"] .price-benefits .benefit-item i,
+    html[lang="ar"] .benefit-item i,
+    html[lang="ar"] .price-benefits .benefit-item i {
+        order: 1 !important;
+        margin-left: 15px !important;
+        margin-right: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    html[dir="rtl"] .benefit-content,
+    html[dir="rtl"] .price-benefits .benefit-content,
+    html[lang="ar"] .benefit-content,
+    html[lang="ar"] .price-benefits .benefit-content {
+        order: 2 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        flex: 1 !important;
+    }
+
+    html[dir="rtl"] .benefit-content strong,
+    html[dir="rtl"] .benefit-content p,
+    html[lang="ar"] .benefit-content strong,
+    html[lang="ar"] .benefit-content p {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    /* 4. محاذاة القائمة الجانبية للموبايل لليمين */
+    html[dir="rtl"] .side-menu-content,
+    html[lang="ar"] .side-menu-content {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    html[dir="rtl"] .side-menu-link,
+    html[lang="ar"] .side-menu-link {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    html[dir="rtl"] .side-menu-link i,
+    html[lang="ar"] .side-menu-link i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .side-menu-link span,
+    html[lang="ar"] .side-menu-link span {
+        order: 2 !important;
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    html[dir="rtl"] .side-menu-header-link,
+    html[lang="ar"] .side-menu-header-link {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    html[dir="rtl"] .side-menu-header-link i,
+    html[lang="ar"] .side-menu-header-link i {
+        order: 1 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    html[dir="rtl"] .side-menu-header-link span,
+    html[lang="ar"] .side-menu-header-link span {
+        order: 2 !important;
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    /* 5. محاذاة كروت الشهادات لتكون متساوية */
+    html[dir="rtl"] .testimonial-item,
+    html[lang="ar"] .testimonial-item {
+        height: 100% !important;
+        min-height: 400px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+    }
+
+    /* 6. تحسينات responsive للموبايل */
+    @media (max-width: 768px) {
+        html[dir="rtl"] body.client-frontend,
+        html[lang="ar"] body.client-frontend {
+            padding-top: 170px !important;
+        }
+
+        html[dir="rtl"] .top-alert-banner,
+        html[lang="ar"] .top-alert-banner {
+            height: 50px !important;
+        }
+
+        html[dir="rtl"] .top-header-bar,
+        html[lang="ar"] .top-header-bar {
+            top: 50px !important;
+            height: 50px !important;
+        }
+
+        html[dir="rtl"] body.client-frontend .main-navbar,
+        html[lang="ar"] body.client-frontend .main-navbar {
+            top: 100px !important;
+            height: 70px !important;
+        }
+    }
+
+    /* 7. تأكيد الأولوية على جميع التنسيقات */
+    html[dir="rtl"] *[class*="team-"],
+    html[dir="rtl"] *[class*="benefit-"],
+    html[dir="rtl"] *[class*="side-menu-"],
+    html[dir="rtl"] *[class*="testimonial-"],
+    html[lang="ar"] *[class*="team-"],
+    html[lang="ar"] *[class*="benefit-"],
+    html[lang="ar"] *[class*="side-menu-"],
+    html[lang="ar"] *[class*="testimonial-"] {
+        box-sizing: border-box !important;
+    }
+
+    /* 8. تحسينات إضافية للتأكد من عمل كل شيء */
+    html[dir="rtl"] .team-action-icon,
+    html[lang="ar"] .team-action-icon {
+        left: auto !important;
+        right: 25px !important;
+    }
+
+    html[dir="rtl"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle,
+    html[lang="ar"] .side-menu-item.has-submenu .side-menu-link .submenu-toggle {
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        order: 0 !important;
+    }
+
+    /* 9. ضمان عمل المحاذاة في جميع الحالات */
+    body[dir="rtl"],
+    body[lang="ar"],
+    html[dir="rtl"] body,
+    html[lang="ar"] body {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* 10. تأكيد نهائي لجميع العناصر */
+    html[dir="rtl"] .container,
+    html[dir="rtl"] .container-fluid,
+    html[lang="ar"] .container,
+    html[lang="ar"] .container-fluid {
+        direction: rtl !important;
+    }
+
+    /* ===================================================================
+       كلاسات جديدة مخصصة - AMAN LAW RTL CUSTOM CLASSES
+       =================================================================== */
+
+    /* البانر الترحيبي - كلاسات جديدة */
+    .aman-welcome-banner-rtl {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10001 !important;
+        height: 50px !important;
+        background: linear-gradient(135deg, #ffe5e5 0%, #ffd6d6 100%) !important;
+        padding: 12px 0 !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    }
+
+    .aman-banner-content-rtl {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 100% !important;
+        direction: rtl !important;
+        text-align: center !important;
+    }
+
+    .aman-welcome-text-rtl {
+        font-size: 14px !important;
+        color: #333 !important;
+        font-weight: 500 !important;
+        direction: rtl !important;
+    }
+
+    /* الشريط العلوي - كلاسات جديدة */
+    .aman-top-bar-rtl {
+        position: fixed !important;
+        top: 50px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 10000 !important;
+        height: 50px !important;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+        border-bottom: 1px solid #e9ecef !important;
+    }
+
+    .aman-bar-content-rtl {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        height: 100% !important;
+        direction: rtl !important;
+    }
+
+    /* القائمة الرئيسية - كلاسات جديدة */
+    .aman-main-nav-rtl {
+        position: fixed !important;
+        top: 100px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 9999 !important;
+        height: 70px !important;
+    }
+
+    .aman-nav-wrapper-rtl {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        height: 100% !important;
+        direction: rtl !important;
+    }
+
+    /* كروت المحامين - كلاسات جديدة */
+    .aman-lawyer-card-rtl {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+    }
+
+    .aman-lawyer-info-rtl {
+        direction: rtl !important;
+        text-align: right !important;
+        padding: 20px 25px !important;
+    }
+
+    .aman-lawyer-name-rtl {
+        text-align: center !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .aman-lawyer-detail-rtl {
+        display: flex !important;
+        align-items: center !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+        flex-direction: row-reverse !important;
+        margin: 8px 0 !important;
+        font-size: 14px !important;
+        color: #666 !important;
+    }
+
+    .aman-lawyer-detail-rtl .aman-icon-rtl {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+        color: var(--colorPrimary) !important;
+        font-size: 16px !important;
+        width: 20px !important;
+        min-width: 20px !important;
+        text-align: center !important;
+        flex-shrink: 0 !important;
+    }
+
+    .aman-lawyer-detail-rtl span {
+        order: 2 !important;
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    /* القائمة الجانبية للموبايل - كلاسات جديدة */
+    .aman-side-menu-rtl {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .aman-menu-link-rtl {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    .aman-menu-link-rtl i {
+        order: 1 !important;
+        margin-left: 12px !important;
+        margin-right: 0 !important;
+    }
+
+    .aman-menu-link-rtl span {
+        order: 2 !important;
+        text-align: right !important;
+        flex: 1 !important;
+    }
+
+    /* كروت ضمان السعر الثابت - كلاسات جديدة */
+    .aman-benefit-card-rtl {
+        flex-direction: row-reverse !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-start !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+        padding: 20px !important;
+        background: #fff !important;
+        border-radius: 12px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .aman-benefit-icon-rtl {
+        order: 1 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        flex-shrink: 0 !important;
+        font-size: 28px !important;
+        color: var(--colorPrimary) !important;
+        min-width: 32px !important;
+        text-align: center !important;
+    }
+
+    .aman-benefit-text-rtl {
+        order: 2 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        flex: 1 !important;
+    }
+
+    .aman-benefit-text-rtl strong,
+    .aman-benefit-text-rtl p {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+
+    /* Responsive للموبايل */
+    @media (max-width: 768px) {
+        body.client-frontend {
+            padding-top: 170px !important;
+        }
+
+        .aman-welcome-banner-rtl {
+            height: 50px !important;
+            font-size: 13px !important;
+        }
+
+        .aman-top-bar-rtl {
+            top: 50px !important;
+            height: 50px !important;
+        }
+
+        .aman-main-nav-rtl {
+            top: 100px !important;
+            height: 70px !important;
+        }
+
+        .aman-lawyer-detail-rtl {
+            font-size: 13px !important;
+        }
+
+        .aman-lawyer-detail-rtl .aman-icon-rtl {
+            font-size: 14px !important;
+            width: 18px !important;
+            min-width: 18px !important;
+        }
+    }
+
+    /* تأكيد نهائي للكلاسات الجديدة */
+    html[dir="rtl"] .aman-welcome-banner-rtl,
+    html[dir="rtl"] .aman-top-bar-rtl,
+    html[dir="rtl"] .aman-main-nav-rtl,
+    html[dir="rtl"] .aman-lawyer-card-rtl,
+    html[dir="rtl"] .aman-benefit-card-rtl,
+    html[lang="ar"] .aman-welcome-banner-rtl,
+    html[lang="ar"] .aman-top-bar-rtl,
+    html[lang="ar"] .aman-main-nav-rtl,
+    html[lang="ar"] .aman-lawyer-card-rtl,
+    html[lang="ar"] .aman-benefit-card-rtl {
+        box-sizing: border-box !important;
     }
 </style>
