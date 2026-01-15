@@ -870,7 +870,9 @@
         color: #ffffff;
         padding: 50px 0;
         max-width: 900px;
-        margin: 0 auto;
+        margin: 0 auto 0 0;
+        text-align: right;
+        direction: rtl;
     }
     
     .legal-hero-stats {
@@ -951,7 +953,7 @@
         flex-wrap: wrap;
         gap: 25px;
         margin-bottom: 40px;
-        justify-content: center;
+        justify-content: flex-end;
         animation: legalFadeInUp 0.8s ease 0.6s both;
     }
 
@@ -991,7 +993,7 @@
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: flex-end;
         animation: legalFadeInUp 0.8s ease 0.8s both;
     }
 
@@ -1444,7 +1446,8 @@
 
         .legal-hero-content {
             padding: 30px 0;
-            text-align: center;
+            text-align: right;
+            direction: rtl;
         }
 
         .legal-hero-title {
@@ -1500,13 +1503,13 @@
             flex-direction: column;
             gap: 12px;
             margin-bottom: 25px;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-end;
+            align-items: flex-end;
         }
 
         .legal-hero-feature-item {
             font-size: 14px;
-            justify-content: center;
+            justify-content: flex-end;
         }
 
         .legal-hero-buttons {
@@ -1624,6 +1627,9 @@
 
         .legal-hero-content {
             padding: 15px 0;
+            text-align: right;
+            direction: rtl;
+            margin: 0 auto 0 0;
         }
 
         .legal-hero-badge {
@@ -1734,13 +1740,13 @@
     }
 
     [dir="rtl"] .legal-hero-features {
-        flex-direction: row-reverse;
-        justify-content: flex-start;
+        flex-direction: row;
+        justify-content: flex-end;
     }
 
     [dir="rtl"] .legal-hero-feature-item {
         flex-direction: row-reverse;
-        justify-content: flex-start;
+        justify-content: flex-end;
     }
 
     [dir="rtl"] .legal-hero-feature-item i {
@@ -1834,23 +1840,24 @@
         }
 
         [dir="rtl"] .legal-hero-content {
-            text-align: center;
+            text-align: right;
         }
 
         [dir="rtl"] .legal-hero-title {
-            text-align: center;
+            text-align: right;
         }
 
         [dir="rtl"] .legal-hero-description {
-            text-align: center;
+            text-align: right;
         }
 
         [dir="rtl"] .legal-hero-features {
-            align-items: center;
+            align-items: flex-end;
+            justify-content: flex-end;
         }
 
         [dir="rtl"] .legal-hero-feature-item {
-            justify-content: center;
+            justify-content: flex-end;
         }
 
         [dir="rtl"] .legal-hero-buttons {
@@ -1865,15 +1872,29 @@
 
     @media (max-width: 480px) {
         [dir="rtl"] .legal-hero-content {
-            text-align: center;
+            text-align: right;
         }
 
         [dir="rtl"] .legal-hero-title {
-            text-align: center;
+            text-align: right;
         }
 
         [dir="rtl"] .legal-hero-description {
-            text-align: center;
+            text-align: right;
+        }
+        
+        [dir="rtl"] .legal-hero-features {
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+        
+        [dir="rtl"] .legal-hero-feature-item {
+            justify-content: flex-end;
+        }
+        
+        [dir="rtl"] .legal-hero-buttons {
+            justify-content: flex-end;
+            align-items: flex-end;
         }
     }
 
