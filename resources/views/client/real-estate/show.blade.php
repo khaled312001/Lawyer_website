@@ -1813,13 +1813,13 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    direction: rtl;
-    text-align: right;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 [dir="ltr"] .similar-property-meta {
-    direction: ltr;
-    text-align: left;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .similar-property-location,
@@ -1829,24 +1829,24 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    direction: rtl;
-    text-align: right;
-    justify-content: flex-end;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
     flex-wrap: nowrap;
 }
 
 [dir="ltr"] .similar-property-location,
 [dir="ltr"] .similar-property-area {
-    direction: ltr;
-    text-align: left;
-    justify-content: flex-start;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .similar-property-location i,
 .similar-property-area i {
     color: var(--colorPrimary);
     font-size: 12px;
-    order: 1;
+    order: 1 !important;
     flex-shrink: 0;
     width: 14px;
     text-align: center;
@@ -1855,25 +1855,25 @@
 
 [dir="ltr"] .similar-property-location i,
 [dir="ltr"] .similar-property-area i {
-    order: 2;
-    margin-left: 0;
-    margin-right: 0.5rem;
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .similar-property-location span,
 .similar-property-area span {
-    order: 2;
-    text-align: right;
+    order: 2 !important;
+    text-align: right !important;
     margin-right: 0;
-    direction: rtl;
+    direction: rtl !important;
 }
 
 [dir="ltr"] .similar-property-location span,
 [dir="ltr"] .similar-property-area span {
-    order: 1;
-    text-align: left;
+    order: 2 !important;
+    text-align: right !important;
     margin-left: 0;
-    direction: ltr;
+    direction: rtl !important;
 }
 
 /* ============================================

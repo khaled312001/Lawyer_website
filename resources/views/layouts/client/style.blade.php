@@ -13615,4 +13615,86 @@
     .float-right {
         float: left !important;
     }
+
+    /* ============================================
+       FORCE ALL ELEMENTS TO RIGHT ALIGNMENT IN ALL LANGUAGES
+       إجبار جميع العناصر على المحاذاة اليمين في جميع اللغات
+       ============================================ */
+
+    /* Force all elements with icons to align right */
+    [class*="property-"],
+    [class*="meta-"],
+    [class*="detail-"],
+    [class*="info-"],
+    [class*="location"],
+    [class*="type"],
+    [class*="item"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Force all elements with icons to have icons on right */
+    [class*="property-"] i,
+    [class*="meta-"] i,
+    [class*="detail-"] i,
+    [class*="info-"] i,
+    [class*="location"] i,
+    [class*="type"] i,
+    [class*="item"] i {
+        order: 1 !important;
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+    }
+
+    [dir="ltr"] [class*="property-"] i,
+    [dir="ltr"] [class*="meta-"] i,
+    [dir="ltr"] [class*="detail-"] i,
+    [dir="ltr"] [class*="info-"] i,
+    [dir="ltr"] [class*="location"] i,
+    [dir="ltr"] [class*="type"] i,
+    [dir="ltr"] [class*="item"] i {
+        order: 1 !important;
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+    }
+
+    /* Force all text after icons to align right */
+    [class*="property-"] span,
+    [class*="meta-"] span,
+    [class*="detail-"] span,
+    [class*="info-"] span,
+    [class*="location"] span,
+    [class*="type"] span,
+    [class*="item"] span {
+        order: 2 !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    [dir="ltr"] [class*="property-"] span,
+    [dir="ltr"] [class*="meta-"] span,
+    [dir="ltr"] [class*="detail-"] span,
+    [dir="ltr"] [class*="info-"] span,
+    [dir="ltr"] [class*="location"] span,
+    [dir="ltr"] [class*="type"] span,
+    [dir="ltr"] [class*="item"] span {
+        order: 2 !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Force all flex containers to align right */
+    [class*="property-"],
+    [class*="meta-"],
+    [class*="detail-"],
+    [class*="info-"] {
+        justify-content: flex-end !important;
+    }
+
+    [dir="ltr"] [class*="property-"],
+    [dir="ltr"] [class*="meta-"],
+    [dir="ltr"] [class*="detail-"],
+    [dir="ltr"] [class*="info-"] {
+        justify-content: flex-end !important;
+    }
 </style>

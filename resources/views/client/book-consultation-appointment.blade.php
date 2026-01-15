@@ -2468,11 +2468,41 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     gap: 8px;
     color: #666;
     font-size: 15px;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .property-location-info {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .property-location-info i {
     color: var(--colorPrimary);
     font-size: 16px;
+    order: 1 !important;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .property-location-info i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.property-location-info span {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-location-info span {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-info-grid {
@@ -2491,6 +2521,15 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     border: 1px solid #e9ecef;
     border-radius: 12px;
     transition: all 0.3s ease;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .property-info-item {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .property-info-item:hover {
