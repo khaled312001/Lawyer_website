@@ -23,7 +23,7 @@ class AuthenticatedSessionController extends Controller {
         $rules = [
             'email'                => 'required|email',
             'password'             => 'required',
-            'g-recaptcha-response' => $setting->recaptcha_status == 'active' ? ['required', new CustomRecaptcha()] : '',
+            'g-recaptcha-response' => $setting && $setting->recaptcha_status == 'active' ? ['required', new CustomRecaptcha()] : '',
         ];
 
         $customMessages = [
@@ -31,12 +31,14 @@ class AuthenticatedSessionController extends Controller {
             'password.required'             => __('Password is required'),
             'g-recaptcha-response.required' => __('Please complete the recaptcha to submit the form'),
         ];
-        $this->validate($request, $rules, $customMessages);
-
-        $credential = [
-            'email'    => $request->email,
-            'password' => $request->password,
-        ];
+        
+        try {
+            $this->validate($request, $rules, $customMessages);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->route('login', ['type' => 'lawyer'])
+                ->withErrors($e->errors())
+                ->withInput($request->only('email'));
+        }
 
         $lawyer = Lawyer::where('email', $request->email)->first();
 
@@ -62,6 +64,7 @@ class AuthenticatedSessionController extends Controller {
         $lawyerPassword = $lawyer->getRawOriginal('password');
         
         // Verify password manually with error handling
+        $passwordValid = false;
         try {
             $passwordValid = Hash::check($request->password, $lawyerPassword);
         } catch (\RuntimeException $e) {
@@ -69,6 +72,11 @@ class AuthenticatedSessionController extends Controller {
             if (str_contains($e->getMessage(), 'Bcrypt algorithm')) {
                 $passwordValid = password_verify($request->password, $lawyerPassword);
             } else {
+                // Log the error for debugging
+                \Log::error('Password verification error: ' . $e->getMessage(), [
+                    'email' => $request->email,
+                    'lawyer_id' => $lawyer->id
+                ]);
                 throw $e;
             }
         }
