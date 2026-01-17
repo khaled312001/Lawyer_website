@@ -97,7 +97,13 @@
                                         </div>
 
                                         <div class="form-group col-md-12">
-                                            <x-admin.form-image-preview recommended="300X270" name="lawyer_image" label="{{__('Image')}}" />
+                                            @php
+                                                $defaultImage = $setting->default_avatar ?? 'uploads/website-images/default-avatar.png';
+                                            @endphp
+                                            <x-admin.form-image-preview recommended="300X270" name="lawyer_image" 
+                                                label="{{ __('Lawyer Image') }}" 
+                                                button_label="{{ __('Upload Image') }}"
+                                                :image="$defaultImage" />
                                         </div>
 
                                     </div>
@@ -144,14 +150,39 @@
 @push('js')
     <script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
     <script>
-        $.uploadPreview({
-            input_field: "#image-upload",
-            preview_box: "#image-preview",
-            label_field: "#image-label",
-            label_default: "{{ __('Choose Image') }}",
-            label_selected: "{{ __('Change Image') }}",
-            no_label: false,
-            success_callback: null
+        $(document).ready(function() {
+            // Initialize image preview
+            $.uploadPreview({
+                input_field: "#image-upload",
+                preview_box: "#image-preview",
+                label_field: "#image-label",
+                label_default: "{{ __('Choose Image') }}",
+                label_selected: "{{ __('Change Image') }}",
+                no_label: false,
+                success_callback: function() {
+                    // Ensure the preview box shows the image
+                    $('#image-preview').css({
+                        'background-size': 'cover',
+                        'background-position': 'center',
+                        'background-repeat': 'no-repeat'
+                    });
+                }
+            });
+            
+            // Handle file input change manually as backup
+            $('#image-upload').on('change', function(e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#image-preview').css('background-image', 'url(' + e.target.result + ')');
+                        $('#image-preview').css('background-size', 'cover');
+                        $('#image-preview').css('background-position', 'center');
+                        $('#image-label').text("{{ __('Change Image') }}");
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
         });
     </script>
     <script>
