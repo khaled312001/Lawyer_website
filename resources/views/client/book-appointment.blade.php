@@ -64,9 +64,14 @@
                                 @endif
                                 <h3 class="lawyer-name">{{ $lawyer->name }}</h3>
                                 <div class="lawyer-specialties">
-                                    @if($lawyer->department)
+                                    @php
+                                        $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                            ? $lawyer->departments->first() 
+                                            : ($lawyer->department ?? null);
+                                    @endphp
+                                    @if($displayDept && $displayDept->name)
                                         <span class="specialty-badge">
-                                            <i class="fas fa-briefcase me-1"></i>{{ $lawyer->department->name ?? '' }}
+                                            <i class="fas fa-briefcase me-1"></i>{{ $displayDept->name }}
                                         </span>
                                     @endif
                                     @if ($lawyer->designations)

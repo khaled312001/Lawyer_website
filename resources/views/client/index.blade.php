@@ -386,12 +386,17 @@
                                             </h3>
                                             
                                             <div class="enhanced-lawyer-info-box">
-                                                @if($lawyer->department)
+                                                @php
+                                                    $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                        ? $lawyer->departments->first() 
+                                                        : ($lawyer->department ?? null);
+                                                @endphp
+                                                @if($displayDept && $displayDept->name)
                                                 <div class="enhanced-lawyer-info-item">
                                                     <div class="enhanced-info-icon-wrapper">
                                                         <i class="fas fa-briefcase enhanced-info-icon"></i>
                                                     </div>
-                                                    <span class="enhanced-info-text">{{ $lawyer->department->name }}</span>
+                                                    <span class="enhanced-info-text">{{ $displayDept->name }}</span>
                                                 </div>
                                                 @endif
                                                 

@@ -92,10 +92,15 @@
                                         </a>
                                     </h3>
                                     <div class="lawyer-card-meta-mobile">
-                                        @if($lawyer->department)
+                                        @php
+                                            $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                ? $lawyer->departments->first() 
+                                                : ($lawyer->department ?? null);
+                                        @endphp
+                                        @if($displayDept && $displayDept->name)
                                         <div class="lawyer-meta-item-mobile">
                                             <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
-                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->department->name) }}</span>
+                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
                                         </div>
                                         @endif
                                         @if($lawyer->location)

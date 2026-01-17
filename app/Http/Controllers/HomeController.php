@@ -114,6 +114,12 @@ class HomeController extends Controller {
                 'translations'            => function ($query) use ($currentLang) {
                     $query->where('lang_code', $currentLang)->select('lawyer_id', 'designations');
                 },
+                'departments'             => function ($query) {
+                    $query->select('id');
+                },
+                'departments.translations' => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('department_id', 'name');
+                },
                 'department'             => function ($query) {
                     $query->select('id');
                 },
@@ -155,7 +161,29 @@ class HomeController extends Controller {
                     $lawyer->designations = null;
                 }
                 
-                // Get department name
+                // Get department name - prefer departments (many-to-many) over department (singular)
+                $displayDepartment = null;
+                if ($lawyer->departments && $lawyer->departments->isNotEmpty()) {
+                    // Use first department from many-to-many relationship
+                    $displayDepartment = $lawyer->departments->first();
+                } elseif ($lawyer->department) {
+                    // Fallback to singular department relationship
+                    $displayDepartment = $lawyer->department;
+                }
+                
+                if ($displayDepartment && $displayDepartment->translations && $displayDepartment->translations->isNotEmpty()) {
+                    $deptTranslation = $displayDepartment->translations->firstWhere('lang_code', $currentLang);
+                    if ($deptTranslation) {
+                        $lawyer->department_display_name = $deptTranslation->name;
+                    } else {
+                        $fallbackDeptTranslation = $displayDepartment->translations->first();
+                        $lawyer->department_display_name = $fallbackDeptTranslation ? $fallbackDeptTranslation->name : null;
+                    }
+                } else {
+                    $lawyer->department_display_name = null;
+                }
+                
+                // Keep backward compatibility
                 if ($lawyer->department && $lawyer->department->translations && $lawyer->department->translations->isNotEmpty()) {
                     $deptTranslation = $lawyer->department->translations->firstWhere('lang_code', $currentLang);
                     if ($deptTranslation) {
@@ -502,6 +530,12 @@ class HomeController extends Controller {
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations');
             },
+            'departments'             => function ($query) {
+                $query->select('id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },
@@ -543,6 +577,12 @@ class HomeController extends Controller {
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations');
             },
+            'departments'             => function ($query) {
+                $query->select('id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },
@@ -577,6 +617,12 @@ class HomeController extends Controller {
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')->with([
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations');
+            },
+            'departments'             => function ($query) {
+                $query->select('id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
             },
             'department'             => function ($query) {
                 $query->select('id');
@@ -629,6 +675,12 @@ class HomeController extends Controller {
         $lawyer = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'fee','years_of_experience', 'image')->with([
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'seo_title', 'seo_description', 'designations', 'about', 'address', 'educations', 'experience', 'qualifications');
+            },
+            'departments'             => function ($query) {
+                $query->select('id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
             },
             'department'             => function ($query) {
                 $query->select('id');
@@ -726,6 +778,12 @@ class HomeController extends Controller {
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations', 'about');
             },
+            'departments'             => function ($query) {
+                $query->select('id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },
@@ -760,6 +818,12 @@ class HomeController extends Controller {
         ])->active()->get();
 
         $lawyers = Lawyer::select('id', 'department_id', 'name', 'image', 'slug')->with([
+            'departments'             => function ($query) {
+                $query->select('id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },

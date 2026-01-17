@@ -240,7 +240,12 @@
                                         </div>
                                         <div class="team-text">
                                             <h4 class="team-name">{{ ucfirst($lawyer?->name) }}</h4>
-                                            <p><i class="fas fa-briefcase"></i> {{ ucfirst($lawyer?->department?->name) }}</p>
+                                            @php
+                                                $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                    ? $lawyer->departments->first() 
+                                                    : ($lawyer->department ?? null);
+                                            @endphp
+                                            <p><i class="fas fa-briefcase"></i> {{ $displayDept && $displayDept->name ? ucfirst($displayDept->name) : '' }}</p>
                                             <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span>
                                             </p>
                                             <p><span><b><i class="fas fa-street-view"></i>

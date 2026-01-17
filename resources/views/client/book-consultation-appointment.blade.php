@@ -163,14 +163,20 @@
                                     <select name="lawyer_id" id="lawyer_id" class="form-select lawyer-select @error('lawyer_id') is-invalid @enderror">
                                         <option value="">{{ __('Choose a lawyer for your consultation') }}</option>
                                         @foreach($lawyers ?? [] as $lawyer)
+                                            @php
+                                                $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                    ? $lawyer->departments->first() 
+                                                    : ($lawyer->department ?? null);
+                                                $deptName = $displayDept && $displayDept->name ? $displayDept->name : __('Lawyer');
+                                            @endphp
                                             <option value="{{ $lawyer->id }}"
-                                                    data-department="{{ $lawyer->department->name ?? '' }}"
+                                                    data-department="{{ $deptName }}"
                                                     data-specialty="{{ $lawyer->designations ?? '' }}"
                                                     data-slug="{{ $lawyer->slug ?? '' }}"
                                                     data-rating="{{ $lawyer->average_rating ?? 0 }}"
                                                     data-rating-count="{{ $lawyer->total_ratings ?? 0 }}"
                                                     {{ old('lawyer_id') == $lawyer->id ? 'selected' : '' }}>
-                                                {{ $lawyer->name }} - {{ $lawyer->department->name ?? __('Lawyer') }}
+                                                {{ $lawyer->name }} - {{ $deptName }}
                                                 @if($lawyer->designations)
                                                     ({{ $lawyer->designations }})
                                                 @endif

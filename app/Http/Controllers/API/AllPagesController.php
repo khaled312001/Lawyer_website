@@ -67,6 +67,12 @@ class AllPagesController extends Controller {
                 'translations'            => function ($query) use ($code) {
                     $query->where('lang_code', $code)->select('lawyer_id', 'designations');
                 },
+                'departments'              => function ($query) {
+                    $query->select('id');
+                },
+                'departments.translations' => function ($query) use ($code) {
+                    $query->where('lang_code', $code)->select('department_id', 'name');
+                },
                 'department'              => function ($query) {
                     $query->select('id');
                 },
@@ -327,6 +333,12 @@ class AllPagesController extends Controller {
             'translations'            => function ($query) use ($code) {
                 $query->where('lang_code', $code)->select('lawyer_id', 'designations');
             },
+            'departments'              => function ($query) {
+                $query->select('id');
+            },
+            'departments.translations' => function ($query) use ($code) {
+                $query->where('lang_code', $code)->select('department_id', 'name');
+            },
             'department'              => function ($query) {
                 $query->select('id');
             },
@@ -363,6 +375,12 @@ class AllPagesController extends Controller {
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')->with([
             'translations'            => function ($query) use ($code) {
                 $query->where('lang_code', $code)->select('lawyer_id', 'designations');
+            },
+            'departments'              => function ($query) {
+                $query->select('id');
+            },
+            'departments.translations' => function ($query) use ($code) {
+                $query->where('lang_code', $code)->select('department_id', 'name');
             },
             'department'              => function ($query) {
                 $query->select('id');
@@ -407,6 +425,12 @@ class AllPagesController extends Controller {
         $lawyer = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'fee', 'image','years_of_experience')->with([
             'translations'            => function ($query) use ($code) {
                 $query->where('lang_code', $code)->select('lawyer_id', 'seo_title', 'seo_description', 'designations', 'about', 'address', 'educations', 'experience', 'qualifications',);
+            },
+            'departments'              => function ($query) {
+                $query->select('id');
+            },
+            'departments.translations' => function ($query) use ($code) {
+                $query->where('lang_code', $code)->select('department_id', 'name');
             },
             'department'              => function ($query) {
                 $query->select('id');
