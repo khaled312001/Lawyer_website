@@ -2,8 +2,15 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+// Check if PhpWord is installed before using it
+if (!class_exists('PhpOffice\PhpWord\IOFactory')) {
+    echo "❌ خطأ: مكتبة PhpOffice\PhpWord غير مثبتة\n";
+    echo "يرجى تثبيتها عبر الأمر التالي:\n";
+    echo "composer require phpoffice/phpword\n";
+    exit(1);
+}
+
 use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Settings;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
@@ -18,7 +25,9 @@ $app = require_once __DIR__ . '/bootstrap/app.php';
 $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
 // Set temporary directory for image extraction
-Settings::setTempDir(sys_get_temp_dir());
+if (class_exists('PhpOffice\PhpWord\Settings')) {
+    \PhpOffice\PhpWord\Settings::setTempDir(sys_get_temp_dir());
+}
 
 echo "=== استيراد المحاميين من ملف Word ===\n\n";
 
