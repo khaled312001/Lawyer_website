@@ -267,19 +267,25 @@ class RealEstate extends Model
 
         static::deleting(function ($realEstate) {
             try {
-                if ($realEstate->images && is_array($realEstate->images)) {
-                    foreach ($realEstate->images as $image) {
+                // Get raw attribute values to avoid triggering accessors that might cause array to string conversion
+                $imagesRaw = $realEstate->getRawOriginal('images');
+                $featuredImageRaw = $realEstate->getRawOriginal('featured_image');
+                
+                // Decode JSON if needed, or use as-is if already an array
+                $images = is_string($imagesRaw) ? json_decode($imagesRaw, true) : $imagesRaw;
+                
+                if ($images && is_array($images)) {
+                    foreach ($images as $image) {
                         if ($image && is_string($image) && !str($image)->contains('property-placeholder') && File::exists(public_path('storage/' . $image))) {
                             unlink(public_path('storage/' . $image));
                         }
                     }
                 }
-                if ($realEstate->featured_image && is_string($realEstate->featured_image) && !str($realEstate->featured_image)->contains('property-placeholder') && File::exists(public_path('storage/' . $realEstate->featured_image))) {
-                    unlink(public_path('storage/' . $realEstate->featured_image));
+                if ($featuredImageRaw && is_string($featuredImageRaw) && !str($featuredImageRaw)->contains('property-placeholder') && File::exists(public_path('storage/' . $featuredImageRaw))) {
+                    unlink(public_path('storage/' . $featuredImageRaw));
                 }
-                if ($realEstate->translations()->exists()) {
-                    $realEstate->translations()->delete();
-                }
+                // Delete translations using the relationship query builder
+                $realEstate->translations()->delete();
             } catch (\Exception $e) {
                 info($e);
             }

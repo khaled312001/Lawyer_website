@@ -12798,20 +12798,22 @@
     .lawyer-card-mobile,
     .aman-lawyer-card-mobile-rtl {
         background: #fff !important;
-        border-radius: 12px !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
         overflow: hidden !important;
-        transition: all 0.3s ease !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         display: flex !important;
         flex-direction: column !important;
         height: 100% !important;
         direction: rtl !important;
+        border: 1px solid rgba(0,0,0,0.05) !important;
     }
 
     .lawyer-card-mobile:hover,
     .aman-lawyer-card-mobile-rtl:hover {
-        transform: translateY(-5px) !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
+        transform: translateY(-8px) !important;
+        box-shadow: 0 8px 30px rgba(107, 93, 71, 0.2) !important;
+        border-color: var(--colorPrimary) !important;
     }
 
     /* صورة المحامي */
@@ -12835,7 +12837,7 @@
 
     /* محتوى الكارت */
     .lawyer-card-content-mobile {
-        padding: 20px !important;
+        padding: 24px !important;
         flex: 1 !important;
         display: flex !important;
         flex-direction: column !important;
@@ -12845,31 +12847,36 @@
 
     /* اسم المحامي */
     .lawyer-card-name-mobile {
-        margin: 0 0 15px 0 !important;
+        margin: 0 0 18px 0 !important;
         text-align: right !important;
         direction: rtl !important;
+        padding-bottom: 15px !important;
+        border-bottom: 2px solid rgba(107, 93, 71, 0.1) !important;
     }
 
     .lawyer-card-name-mobile a {
-        font-size: 20px !important;
-        font-weight: 600 !important;
-        color: #333 !important;
+        font-size: 22px !important;
+        font-weight: 700 !important;
+        color: #2c3e50 !important;
         text-decoration: none !important;
-        transition: color 0.3s ease !important;
+        transition: all 0.3s ease !important;
         text-align: right !important;
         direction: rtl !important;
+        line-height: 1.4 !important;
+        display: block !important;
     }
 
     .lawyer-card-name-mobile a:hover {
         color: var(--colorPrimary) !important;
+        transform: translateX(-3px) !important;
     }
 
     /* معلومات المحامي */
     .lawyer-card-meta-mobile {
-        margin-bottom: 15px !important;
+        margin-bottom: 18px !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 10px !important;
+        gap: 0 !important;
     }
 
     /* كل عنصر معلومات */
@@ -12877,36 +12884,55 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: space-between !important;
         text-align: right !important;
         direction: rtl !important;
-        gap: 10px !important;
-        margin-bottom: 8px !important;
+        gap: 12px !important;
+        margin-bottom: 10px !important;
+        padding: 8px 0 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.05) !important;
     }
 
-    /* النص على اليمين */
-    .lawyer-meta-text-mobile {
-        order: 1 !important;
-        flex: 1 !important;
-        font-size: 14px !important;
-        color: #666 !important;
-        text-align: right !important;
-        direction: rtl !important;
-        line-height: 1.5 !important;
+    .lawyer-meta-item-mobile:last-child {
+        border-bottom: none !important;
     }
 
-    /* الأيقونة على اليمين */
+    /* الأيقونة على اليمين دائماً */
     .lawyer-meta-icon-mobile {
-        order: 2 !important;
+        order: 1 !important;
         flex-shrink: 0 !important;
-        font-size: 16px !important;
+        font-size: 18px !important;
         color: var(--colorPrimary) !important;
-        width: 20px !important;
-        min-width: 20px !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        height: 24px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(107, 93, 71, 0.1) !important;
+        border-radius: 6px !important;
         text-align: center !important;
-        display: inline-block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .lawyer-meta-item-mobile:hover .lawyer-meta-icon-mobile {
+        background: var(--colorPrimary) !important;
+        color: #fff !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* النص على اليسار */
+    .lawyer-meta-text-mobile {
+        order: 2 !important;
+        flex: 1 !important;
+        font-size: 14px !important;
+        color: #555 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        line-height: 1.6 !important;
+        font-weight: 500 !important;
     }
 
     /* التقييم */
@@ -12914,36 +12940,42 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: flex-start !important;
-        margin-bottom: 15px !important;
+        justify-content: space-between !important;
+        margin-bottom: 18px !important;
+        padding: 12px !important;
+        background: rgba(107, 93, 71, 0.05) !important;
+        border-radius: 8px !important;
         text-align: right !important;
         direction: rtl !important;
-        gap: 10px !important;
+        gap: 12px !important;
+    }
+
+    .lawyer-rating-stars-mobile {
+        order: 1 !important;
+        flex-shrink: 0 !important;
+        text-align: right !important;
+        direction: rtl !important;
     }
 
     .lawyer-rating-text-mobile {
-        order: 1 !important;
+        order: 2 !important;
         flex: 1 !important;
-        font-size: 14px !important;
-        color: #666 !important;
+        font-size: 15px !important;
+        color: #555 !important;
         text-align: right !important;
         direction: rtl !important;
+        font-weight: 500 !important;
     }
 
     .lawyer-rating-text-mobile strong {
         color: #333 !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        font-size: 16px !important;
     }
 
     .lawyer-rating-text-mobile.no-rating {
         color: #999 !important;
-    }
-
-    .lawyer-rating-stars-mobile {
-        order: 2 !important;
-        flex-shrink: 0 !important;
-        text-align: right !important;
-        direction: rtl !important;
+        font-weight: 400 !important;
     }
 
     /* زر عرض الملف الشخصي */
@@ -12952,54 +12984,80 @@
         flex-direction: row !important;
         align-items: center !important;
         justify-content: space-between !important;
-        padding: 12px 20px !important;
-        background: var(--colorPrimary) !important;
+        padding: 14px 22px !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
         text-decoration: none !important;
-        border-radius: 8px !important;
+        border-radius: 10px !important;
         transition: all 0.3s ease !important;
         text-align: right !important;
         direction: rtl !important;
-        gap: 10px !important;
+        gap: 12px !important;
         margin-top: auto !important;
+        box-shadow: 0 2px 8px rgba(107, 93, 71, 0.2) !important;
     }
 
     .lawyer-card-button-mobile:hover {
-        background: var(--colorSecondary) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 6px 20px rgba(107, 93, 71, 0.35) !important;
+    }
+
+    .lawyer-button-icon-mobile {
+        order: 1 !important;
+        flex-shrink: 0 !important;
+        font-size: 18px !important;
+        color: #fff !important;
+        transition: transform 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 24px !important;
+        height: 24px !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
+    }
+
+    .lawyer-card-button-mobile:hover .lawyer-button-icon-mobile {
+        transform: translateX(-5px) scale(1.1) !important;
     }
 
     .lawyer-button-text-mobile {
-        order: 1 !important;
+        order: 2 !important;
         flex: 1 !important;
-        font-size: 15px !important;
+        font-size: 16px !important;
         font-weight: 600 !important;
         color: #fff !important;
         text-align: right !important;
         direction: rtl !important;
-    }
-
-    .lawyer-button-icon-mobile {
-        order: 2 !important;
-        flex-shrink: 0 !important;
-        font-size: 16px !important;
-        color: #fff !important;
+        letter-spacing: 0.3px !important;
     }
 
     /* Responsive للموبايل */
     @media (max-width: 768px) {
         .lawyer-card-mobile,
         .aman-lawyer-card-mobile-rtl {
-            margin-bottom: 20px !important;
+            margin-bottom: 25px !important;
+            border-radius: 14px !important;
         }
 
         .lawyer-card-content-mobile {
-            padding: 15px !important;
+            padding: 18px !important;
+        }
+
+        .lawyer-card-name-mobile {
+            margin-bottom: 15px !important;
+            padding-bottom: 12px !important;
         }
 
         .lawyer-card-name-mobile a {
-            font-size: 18px !important;
+            font-size: 19px !important;
+        }
+
+        .lawyer-meta-item-mobile {
+            gap: 10px !important;
+            margin-bottom: 8px !important;
+            padding: 6px 0 !important;
         }
 
         .lawyer-meta-text-mobile {
@@ -13007,16 +13065,37 @@
         }
 
         .lawyer-meta-icon-mobile {
+            font-size: 16px !important;
+            width: 22px !important;
+            min-width: 22px !important;
+            height: 22px !important;
+        }
+
+        .lawyer-card-rating-mobile {
+            padding: 10px !important;
+            margin-bottom: 15px !important;
+        }
+
+        .lawyer-rating-text-mobile {
             font-size: 14px !important;
-            width: 18px !important;
+        }
+
+        .lawyer-rating-text-mobile strong {
+            font-size: 15px !important;
         }
 
         .lawyer-card-button-mobile {
-            padding: 10px 15px !important;
+            padding: 12px 18px !important;
         }
 
         .lawyer-button-text-mobile {
-            font-size: 14px !important;
+            font-size: 15px !important;
+        }
+
+        .lawyer-button-icon-mobile {
+            font-size: 16px !important;
+            width: 22px !important;
+            height: 22px !important;
         }
     }
 

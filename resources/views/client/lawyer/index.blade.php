@@ -94,20 +94,20 @@
                                     <div class="lawyer-card-meta-mobile">
                                         @if($lawyer->department)
                                         <div class="lawyer-meta-item-mobile">
-                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->department->name) }}</span>
                                             <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
+                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->department->name) }}</span>
                                         </div>
                                         @endif
                                         @if($lawyer->location)
                                         <div class="lawyer-meta-item-mobile">
-                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
                                             <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
+                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
                                         </div>
                                         @endif
                                         @if($lawyer->designations)
                                         <div class="lawyer-meta-item-mobile">
-                                            <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
                                             <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
+                                            <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
                                         </div>
                                         @endif
                                     </div>
@@ -126,8 +126,8 @@
                                     </div>
                                     @endif
                                     <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
-                                        <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
                                         <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
+                                        <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
                                     </a>
                                 </div>
                             </div>
