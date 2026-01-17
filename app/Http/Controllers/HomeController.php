@@ -115,7 +115,7 @@ class HomeController extends Controller {
                     $query->where('lang_code', $currentLang)->select('lawyer_id', 'designations');
                 },
                 'departments'             => function ($query) {
-                    $query->select('id');
+                    $query->select('departments.id');
                 },
                 'departments.translations' => function ($query) use ($currentLang) {
                     $query->where('lang_code', $currentLang)->select('department_id', 'name');
@@ -531,7 +531,7 @@ class HomeController extends Controller {
                 $query->select('lawyer_id', 'designations');
             },
             'departments'             => function ($query) {
-                $query->select('id');
+                $query->select('departments.id');
             },
             'departments.translation' => function ($query) {
                 $query->select('department_id', 'name');
@@ -578,7 +578,7 @@ class HomeController extends Controller {
                 $query->select('lawyer_id', 'designations');
             },
             'departments'             => function ($query) {
-                $query->select('id');
+                $query->select('departments.id');
             },
             'departments.translation' => function ($query) {
                 $query->select('department_id', 'name');
@@ -619,7 +619,7 @@ class HomeController extends Controller {
                 $query->select('lawyer_id', 'designations');
             },
             'departments'             => function ($query) {
-                $query->select('id');
+                $query->select('departments.id');
             },
             'departments.translation' => function ($query) {
                 $query->select('department_id', 'name');
@@ -677,7 +677,7 @@ class HomeController extends Controller {
                 $query->select('lawyer_id', 'seo_title', 'seo_description', 'designations', 'about', 'address', 'educations', 'experience', 'qualifications');
             },
             'departments'             => function ($query) {
-                $query->select('id');
+                $query->select('departments.id');
             },
             'departments.translation' => function ($query) {
                 $query->select('department_id', 'name');
@@ -779,7 +779,7 @@ class HomeController extends Controller {
                 $query->select('lawyer_id', 'designations', 'about');
             },
             'departments'             => function ($query) {
-                $query->select('id');
+                $query->select('departments.id');
             },
             'departments.translation' => function ($query) {
                 $query->select('department_id', 'name');
@@ -819,7 +819,7 @@ class HomeController extends Controller {
 
         $lawyers = Lawyer::select('id', 'department_id', 'name', 'image', 'slug')->with([
             'departments'             => function ($query) {
-                $query->select('id');
+                $query->select('departments.id');
             },
             'departments.translation' => function ($query) {
                 $query->select('department_id', 'name');

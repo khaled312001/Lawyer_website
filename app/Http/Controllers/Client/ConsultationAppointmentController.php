@@ -7,12 +7,16 @@ use App\Models\Admin;
 use App\Models\AdminAppointment;
 use App\Notifications\NewAppointmentRequestNotification;
 use App\Models\User;
+use App\Traits\GlobalMailTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Modules\Lawyer\app\Models\Department;
 
 class ConsultationAppointmentController extends Controller
 {
+    use GlobalMailTrait;
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -88,6 +92,54 @@ class ConsultationAppointmentController extends Controller
             }
         } catch (\Exception $e) {
             info('Admin notification error: ' . $e->getMessage());
+        }
+
+        // Send email to admin
+        try {
+            $setting = Cache::get('setting');
+            $lawyerName = $appointment->lawyer ? $appointment->lawyer->name : __('Not Selected');
+            $clientPhone = $appointment->country_code . ' ' . $appointment->client_phone;
+            
+            $str_replace = [
+                'client_name' => $appointment->client_name ?? $appointment->user->name ?? __('Unknown'),
+                'client_email' => $appointment->client_email ?? $appointment->user->email ?? '',
+                'client_phone' => $clientPhone,
+                'client_city' => $appointment->client_city ?? '',
+                'client_country' => $appointment->client_country ?? '',
+                'lawyer_name' => $lawyerName,
+                'case_type' => $appointment->case_type ?? '',
+                'case_details' => $appointment->case_details ?? '',
+                'appointment_date' => $appointment->appointment_date,
+                'appointment_time' => $appointment->appointment_time,
+                'service' => $appointment->service ?? '',
+            ];
+            
+            // Try to use appointment_mail template, fallback to contact_mail if not exists
+            try {
+                [$subject, $message] = $this->fetchEmailTemplate('appointment_mail', $str_replace);
+            } catch (\Exception $e) {
+                // Fallback to contact_mail template
+                [$subject, $message] = $this->fetchEmailTemplate('contact_mail', [
+                    'name' => $appointment->client_name ?? $appointment->user->name ?? __('Unknown'),
+                    'email' => $appointment->client_email ?? $appointment->user->email ?? '',
+                    'phone' => $clientPhone,
+                    'subject' => __('New Consultation Appointment Request'),
+                    'message' => __('Client Name') . ': ' . ($appointment->client_name ?? $appointment->user->name ?? __('Unknown')) . "\n" .
+                                __('Phone') . ': ' . $clientPhone . "\n" .
+                                __('Lawyer') . ': ' . $lawyerName . "\n" .
+                                __('Case Type') . ': ' . ($appointment->case_type ?? '') . "\n" .
+                                __('Appointment Date') . ': ' . $appointment->appointment_date . "\n" .
+                                __('Appointment Time') . ': ' . $appointment->appointment_time . "\n" .
+                                __('Case Details') . ': ' . ($appointment->case_details ?? ''),
+                ]);
+            }
+            
+            $receiverEmail = $setting->contact_message_receiver_mail ?? $setting->mail_sender_email ?? '';
+            if ($receiverEmail) {
+                $this->sendMail($receiverEmail, $subject, $message);
+            }
+        } catch (\Exception $e) {
+            info('Appointment email error: ' . $e->getMessage());
         }
 
         // Redirect based on whether user is logged in
