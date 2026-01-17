@@ -5634,9 +5634,7 @@
     }
 
     /* Swiper improvements */
-    .swiper {
-        padding-bottom: 50px;
-    }
+  
 
     .swiper-pagination {
         bottom: 10px !important;
