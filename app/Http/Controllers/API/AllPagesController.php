@@ -61,7 +61,7 @@ class AllPagesController extends Controller {
             $q->where('lang_code', $code)->select('testimonial_id', 'name', 'designation', 'comment');
         }])->homepage()->active()->latest()->take($home_sections?->client_how_many)->get();
 
-        // Get only one lawyer per department (prefer highest rated)
+        // Get unique lawyers (avoid duplicates by ID)
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
             ->with([
                 'translations'            => function ($query) use ($code) {
@@ -91,14 +91,8 @@ class AllPagesController extends Controller {
             ->verify()
             ->latest()
             ->get()
-            ->groupBy('department_id')
-            ->map(function ($departmentLawyers) {
-                // For each department, return the lawyer with highest rating, or first one
-                return $departmentLawyers->sortByDesc(function ($lawyer) {
-                    return $lawyer->ratings->avg('rating') ?? 0;
-                })->first();
-            })
-            ->values()
+            ->unique('id') // Remove duplicates by ID
+            ->values() // Re-index array
             ->take($home_sections?->lawyer_how_many);
 
         $feature_blog = Blog::select('id', 'slug', 'image', 'created_at')->with(['translations' => function ($q) use ($code) {

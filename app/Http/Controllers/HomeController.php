@@ -105,7 +105,7 @@ class HomeController extends Controller {
             },
         ])->homepage()->latest()->active()->get();
 
-        // Get only one lawyer per department (prefer highest rated)
+        // Get unique lawyers (avoid duplicates by ID)
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
             ->with([
                 'translation'            => function ($query) {
@@ -133,15 +133,10 @@ class HomeController extends Controller {
             ->homepage()
             ->active()
             ->verify()
+            ->latest()
             ->get()
-            ->groupBy('department_id')
-            ->map(function ($departmentLawyers) {
-                // For each department, return the lawyer with highest rating, or first one
-                return $departmentLawyers->sortByDesc(function ($lawyer) {
-                    return $lawyer->ratings->avg('rating') ?? 0;
-                })->first();
-            })
-            ->values();
+            ->unique('id') // Remove duplicates by ID
+            ->values(); // Re-index array
 
         $feature_blog = Blog::select('id','admin_id', 'slug', 'image', 'created_at')->with([
             'admin' => function ($query) {
