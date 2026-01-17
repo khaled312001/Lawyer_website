@@ -37,8 +37,12 @@
             <div class="row align-items-center">
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="team-detail-photo">
-                        <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
-                            alt="{{ $lawyer?->name }}" loading="lazy">
+                        @php
+                            $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                        @endphp
+                        <img src="{{ url($lawyerImage) }}"
+                            alt="{{ $lawyer?->name }}" loading="lazy"
+                            onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
                     </div>
                 </div>
                 <div class="col-lg-8">
