@@ -409,7 +409,16 @@
                                                     <div class="enhanced-info-icon-wrapper">
                                                         <i class="fas fa-graduation-cap enhanced-info-icon"></i>
                                                     </div>
-                                                    <span class="enhanced-info-text">{{ $lawyer->designations }}</span>
+                                                    <span class="enhanced-info-text">{{ Str::limit($lawyer->designations, 50) }}</span>
+                                                </div>
+                                                @endif
+                                                
+                                                @if($lawyer->years_of_experience)
+                                                <div class="enhanced-lawyer-info-item">
+                                                    <div class="enhanced-info-icon-wrapper">
+                                                        <i class="fas fa-calendar-alt enhanced-info-icon"></i>
+                                                    </div>
+                                                    <span class="enhanced-info-text">{{ $lawyer->years_of_experience }} {{ __('Years Experience') }}</span>
                                                 </div>
                                                 @endif
                                                 
