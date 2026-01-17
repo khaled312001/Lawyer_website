@@ -69,43 +69,38 @@
                                     @method('PUT')
 
                                     <div class="row">
-                                        <div
-                                            class="form-group col-lg-4  col-md-6 {{ $code == $languages->first()->code ? '' : 'd-none' }}">
+                                        <div class="form-group col-lg-4  col-md-6">
                                             <x-admin.form-input id="name" name="name" data-translate="true"
                                                 label="{{ __('Name') }}" placeholder="{{ __('Enter Name') }}"
                                                 value="{{ $lawyer->name }}" required="true" />
                                         </div>
-                                        <div
-                                            class="form-group col-lg-4  col-md-6 {{ $code == $languages->first()->code ? '' : 'd-none' }}">
+                                        <div class="form-group col-lg-4  col-md-6">
                                             <x-admin.form-input id="phone" name="phone" label="{{ __('Phone') }}"
                                                 placeholder="{{ __('Enter Phone') }}" value="{{ $lawyer->phone }}"
                                                 required="true" />
                                         </div>
-                                        <div
-                                            class="form-group col-lg-4  col-md-6 {{ $code == $languages->first()->code ? '' : 'd-none' }}">
+                                        <div class="form-group col-lg-4  col-md-6">
                                             <x-admin.form-input type="email" id="email" name="email"
                                                 label="{{ __('Email') }}" placeholder="{{ __('Enter Email') }}"
                                                 value="{{ $lawyer->email }}" required="true" />
                                         </div>
-                                        <div
-                                            class="form-group col-lg-4  col-md-6 {{ $code == $languages->first()->code ? '' : 'd-none' }}">
+                                        <div class="form-group col-lg-4  col-md-6">
                                             <x-admin.form-input type="password" id="password" name="password"
                                                 label="{{ __('Password') }}" placeholder="{{ __('Enter Password') }}" />
                                         </div>
-                                        <div class="form-group col-lg-4  col-md-6 {{ $code == $languages->first()->code ? '' : 'd-none' }}">
+                                        <div class="form-group col-lg-4  col-md-6">
                                             <x-admin.form-input id="years_of_experience" name="years_of_experience" label="{{ __('Years of experience') }}"
                                                 placeholder="{{ __('Enter Years of experience') }}" value="{{ $lawyer->years_of_experience }}"
                                                 required="true" />
                                         </div>
-                                        <div
-                                            class="form-group @if ($code == $languages->first()->code) col-lg-4 col-md-6 @else col-12 @endif">
+                                        <div class="form-group col-lg-4 col-md-6">
                                             <x-admin.form-input id="designations" name="designations" data-translate="true"
                                                 label="{{ __('Designations') }}"
                                                 placeholder="{{ __('Enter Designations') }}"
                                                 value="{{ $lawyer->getTranslation($code)->designations }}"
                                                 required="true" />
                                         </div>
-                                        <div class="form-group col-md-12 {{ $code == $languages->first()->code ? '' : 'd-none' }}">
+                                        <div class="form-group col-md-12">
                                             <label>{{ __('Departments') }} <span class="text-danger">*</span></label>
                                             <div class="row">
                                                 @php $selectedDepartments = old('department_ids', $lawyer->departments ? $lawyer->departments->pluck('id')->toArray() : []); @endphp
@@ -148,8 +143,7 @@
                                                 value="{!! $lawyer->getTranslation($code)->qualifications !!}" required="true" />
                                         </div>
 
-                                        <div
-                                            class="form-group col-md-12 {{ $code == $languages->first()->code ? '' : 'd-none' }}">
+                                        <div class="form-group col-md-12">
                                             @php
                                                 $lawyerImage = $lawyer->image ? $lawyer->image : ($setting->default_avatar ?? 'uploads/website-images/default-avatar.png');
                                             @endphp
@@ -160,18 +154,16 @@
 
                                     </div>
                                     <div class="row">
-                                        @if ($code == $languages->first()->code)
-                                            <div class="form-group col-md-12">
-                                                <x-admin.form-switch name="show_homepage"
-                                                    label="{{ __('Show on homepage') }}" :checked="$lawyer->show_homepage == 1" />
-                                            </div>
+                                        <div class="form-group col-md-12">
+                                            <x-admin.form-switch name="show_homepage"
+                                                label="{{ __('Show on homepage') }}" :checked="$lawyer->show_homepage == 1" />
+                                        </div>
 
-                                            <div class="form-group col-md-12">
-                                                <x-admin.form-switch name="status" label="{{ __('Status') }}"
-                                                    :checked="$lawyer->status ==
-                                                        Modules\Lawyer\app\Enums\LawyerStatus::ACTIVE->value" />
-                                            </div>
-                                        @endif
+                                        <div class="form-group col-md-12">
+                                            <x-admin.form-switch name="status" label="{{ __('Status') }}"
+                                                :checked="$lawyer->status ==
+                                                    Modules\Lawyer\app\Enums\LawyerStatus::ACTIVE->value" />
+                                        </div>
                                         <div class="col-md-12">
                                             <x-admin.update-button :text="__('Update')" />
                                         </div>
@@ -234,44 +226,44 @@
 @endpush
 
 @push('js')
-    @if ($code == $languages->first()->code)
-        <script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
-        <script>
-            $(document).ready(function() {
-                // Initialize image preview
-                $.uploadPreview({
-                    input_field: "#image-upload",
-                    preview_box: "#image-preview",
-                    label_field: "#image-label",
-                    label_default: "{{ __('Choose Image') }}",
-                    label_selected: "{{ __('Change Image') }}",
-                    no_label: false,
-                    success_callback: function() {
-                        // Ensure the preview box shows the image
-                        $('#image-preview').css({
-                            'background-size': 'cover',
-                            'background-position': 'center',
-                            'background-repeat': 'no-repeat'
-                        });
-                    }
-                });
-                
-                // Handle file input change manually as backup
-                $('#image-upload').on('change', function(e) {
-                    var file = e.target.files[0];
-                    if (file) {
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            $('#image-preview').css('background-image', 'url(' + e.target.result + ')');
-                            $('#image-preview').css('background-size', 'cover');
-                            $('#image-preview').css('background-position', 'center');
-                            $('#image-label').text("{{ __('Change Image') }}");
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+    <script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize image preview
+            $.uploadPreview({
+                input_field: "#image-upload",
+                preview_box: "#image-preview",
+                label_field: "#image-label",
+                label_default: "{{ __('Choose Image') }}",
+                label_selected: "{{ __('Change Image') }}",
+                no_label: false,
+                success_callback: function() {
+                    // Ensure the preview box shows the image
+                    $('#image-preview').css({
+                        'background-size': 'cover',
+                        'background-position': 'center',
+                        'background-repeat': 'no-repeat'
+                    });
+                }
             });
-        </script>
+            
+            // Handle file input change manually as backup
+            $('#image-upload').on('change', function(e) {
+                var file = e.target.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#image-preview').css('background-image', 'url(' + e.target.result + ')');
+                        $('#image-preview').css('background-size', 'cover');
+                        $('#image-preview').css('background-position', 'center');
+                        $('#image-label').text("{{ __('Change Image') }}");
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+    @if ($code == $languages->first()->code)
         <script>
             (function($) {
                 "use strict";
