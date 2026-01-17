@@ -156,7 +156,8 @@
                             <!-- Lawyer Selection -->
                             <div class="mb-4">
                                 <label for="lawyer_id" class="form-label">
-                                    <i class="fas fa-user-tie me-2"></i>{{ __('Select Lawyer') }}
+                                    <span>{{ __('Select Lawyer') }}</span>
+                                    <i class="fas fa-user-tie"></i>
                                 </label>
                                 <div class="lawyer-selection-wrapper">
                                     <select name="lawyer_id" id="lawyer_id" class="form-select lawyer-select @error('lawyer_id') is-invalid @enderror">
@@ -218,7 +219,8 @@
                             <div class="row mb-4">
                                 <div class="col-md-6 mb-3">
                                     <label for="appointment_date" class="form-label">
-                                        <i class="fas fa-calendar-alt me-2"></i>{{ __('Appointment Date') }} <span class="text-danger">*</span>
+                                        <span>{{ __('Appointment Date') }} <span class="text-danger">*</span></span>
+                                        <i class="fas fa-calendar-alt"></i>
                                     </label>
                                     <input type="date" name="appointment_date" id="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}" placeholder="{{ __('12-Jan-2026') }}">
                                     @error('appointment_date')
@@ -228,7 +230,8 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="appointment_time" class="form-label">
-                                        <i class="fas fa-clock me-2"></i>{{ __('Appointment Time') }} <span class="text-danger">*</span>
+                                        <span>{{ __('Appointment Time') }} <span class="text-danger">*</span></span>
+                                        <i class="fas fa-clock"></i>
                                     </label>
                                     <input type="time" name="appointment_time" id="appointment_time" class="form-control @error('appointment_time') is-invalid @enderror" required value="{{ old('appointment_time') }}">
                                     @error('appointment_time')
@@ -242,7 +245,8 @@
                             <!-- Case Type -->
                             <div class="mb-4">
                                 <label for="case_type" class="form-label">
-                                    <i class="fas fa-tag me-2"></i>{{ __('Case Type') }} <span class="text-danger">*</span>
+                                    <span>{{ __('Case Type') }} <span class="text-danger">*</span></span>
+                                    <i class="fas fa-tag"></i>
                                 </label>
                                 <input type="text" name="case_type" id="case_type" class="form-control @error('case_type') is-invalid @enderror" required value="{{ old('case_type', request('service') === 'real_estate' ? __('Real Estate Consultation') : '') }}" placeholder="{{ __('e.g., Criminal, Civil, Family, Commercial, Contract, etc.') }}">
                                 @error('case_type')
@@ -254,7 +258,8 @@
                             <!-- Case Details -->
                             <div class="mb-4">
                                 <label for="case_details" class="form-label">
-                                    <i class="fas fa-file-alt me-2"></i>{{ __('Case Details') }} <span class="text-danger">*</span>
+                                    <span>{{ __('Case Details') }} <span class="text-danger">*</span></span>
+                                    <i class="fas fa-file-alt"></i>
                                 </label>
                                 <textarea name="case_details" id="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="5" required placeholder="{{ request('service') === 'real_estate' ? __('Provide details about the property consultation you need...') : __('Provide detailed information about your case...') }}">{{ old('case_details', '') }}</textarea>
                                 @error('case_details')
@@ -829,31 +834,73 @@
     opacity: 1;
 }
 
-/* Form Labels Enhancement */
+/* Form Labels Enhancement - Always align right */
 .form-label {
     font-weight: 600;
     color: #2c3e50;
     font-size: 15px;
     margin-bottom: 10px;
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: center !important;
     gap: 8px;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+}
+
+/* Labels without icons - still align right */
+.form-label:not(:has(i)) {
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+    display: block !important;
+}
+
+.form-label:not(:has(i))::before {
+    content: '';
+    display: none;
 }
 
 [dir="rtl"] .form-label {
-    flex-direction: row-reverse;
-    text-align: right;
-    justify-content: flex-start;
+    flex-direction: row-reverse !important;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .form-label {
+    flex-direction: row-reverse !important;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
 }
 
 .form-label i {
     color: var(--colorPrimary);
     font-size: 16px;
+    order: 1 !important;
+    margin-left: 8px !important;
+    margin-right: 0 !important;
+}
+
+[dir="rtl"] .form-label i,
+[dir="ltr"] .form-label i {
+    order: 1 !important;
+    margin-left: 8px !important;
+    margin-right: 0 !important;
 }
 
 .form-label .text-danger {
     color: #dc3545 !important;
     font-weight: 700;
+    order: 2 !important;
+}
+
+.form-label span:not(.text-danger):not(.text-primary) {
+    order: 2 !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Form Controls Enhancement */
@@ -1310,6 +1357,9 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
     .form-label {
         font-size: 14px;
+        text-align: right !important;
+        direction: rtl !important;
+        justify-content: flex-end !important;
     }
 
     .form-control,
@@ -1381,6 +1431,9 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     .form-label {
         font-size: 13px;
         margin-bottom: 8px;
+        text-align: right !important;
+        direction: rtl !important;
+        justify-content: flex-end !important;
     }
 
     .form-control,
@@ -1681,15 +1734,27 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     direction: rtl !important;
 }
 
-/* Form Labels RTL */
-[dir="rtl"] .form-label {
-    flex-direction: row-reverse;
-    text-align: right;
+/* Form Labels RTL - Force right alignment */
+[dir="rtl"] .form-label,
+[dir="ltr"] .form-label {
+    flex-direction: row-reverse !important;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
 }
 
-[dir="rtl"] .form-label i {
-    margin-left: 8px;
-    margin-right: 0;
+[dir="rtl"] .form-label i,
+[dir="ltr"] .form-label i {
+    order: 1 !important;
+    margin-left: 8px !important;
+    margin-right: 0 !important;
+}
+
+[dir="rtl"] .form-label span,
+[dir="ltr"] .form-label span {
+    order: 2 !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Form Controls RTL */
@@ -1947,16 +2012,24 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 .form-label small.text-muted {
     font-size: 11px;
     font-weight: 400;
-    margin-left: 6px;
+    margin-left: 0 !important;
+    margin-right: 6px !important;
     background: rgba(108, 117, 125, 0.1);
     padding: 2px 6px;
     border-radius: 10px;
     border: 1px solid rgba(108, 117, 125, 0.2);
+    text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
-[dir="rtl"] .form-label small.text-muted {
-    margin-left: 0;
-    margin-right: 6px;
+[dir="rtl"] .form-label small.text-muted,
+[dir="ltr"] .form-label small.text-muted {
+    margin-left: 0 !important;
+    margin-right: 6px !important;
+    text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
 /* ============================================
@@ -2899,16 +2972,25 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     direction: rtl !important;
 }
 
-[dir="rtl"] .form-label small {
+[dir="rtl"] .form-label small,
+[dir="ltr"] .form-label small {
     text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
-[dir="rtl"] .form-label small.text-muted {
+[dir="rtl"] .form-label small.text-muted,
+[dir="ltr"] .form-label small.text-muted {
     text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
-[dir="rtl"] .form-label small.text-primary {
+[dir="rtl"] .form-label small.text-primary,
+[dir="ltr"] .form-label small.text-primary {
     text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
 /* Invalid Feedback RTL */
@@ -3137,10 +3219,67 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     text-align: right !important;
 }
 
-/* Force all labels and their text to align right */
-[dir="rtl"] .form-label,
-[dir="rtl"] .form-label * {
+/* Force all labels and their text to align right - Global override */
+.form-label,
+.form-label * {
     text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-label,
+[dir="rtl"] .form-label *,
+[dir="ltr"] .form-label,
+[dir="ltr"] .form-label * {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-label,
+[dir="ltr"] .form-label {
+    flex-direction: row-reverse !important;
+    justify-content: flex-end !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+/* Labels without icons - still align right */
+.form-label:not(:has(i)) {
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+}
+
+[dir="rtl"] .form-label i,
+[dir="ltr"] .form-label i {
+    order: 1 !important;
+    margin-left: 8px !important;
+    margin-right: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+[dir="rtl"] .form-label > span,
+[dir="ltr"] .form-label > span,
+.form-label > span {
+    order: 2 !important;
+    text-align: right !important;
+    direction: rtl !important;
+    flex: 1 !important;
+}
+
+[dir="rtl"] .form-label .text-danger,
+[dir="ltr"] .form-label .text-danger,
+.form-label .text-danger {
+    order: 2 !important;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Labels with text directly (no span wrapper) */
+.form-label:not(:has(span)) {
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
 }
 
 /* Force all small text and helper text to align right */
