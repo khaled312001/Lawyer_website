@@ -468,6 +468,39 @@ try {
                 }
             }
             
+            // Delete withdraw requests (check if table and column exist)
+            if (DB::getSchemaBuilder()->hasTable('withdraw_requests')) {
+                try {
+                    if (DB::getSchemaBuilder()->hasColumn('withdraw_requests', 'lawyer_id')) {
+                        DB::table('withdraw_requests')->whereIn('lawyer_id', $lawyerIds)->delete();
+                    }
+                } catch (\Exception $e) {
+                    // Ignore if column doesn't exist
+                }
+            }
+            
+            // Delete shopping carts (check if table and column exist)
+            if (DB::getSchemaBuilder()->hasTable('shopping_carts')) {
+                try {
+                    if (DB::getSchemaBuilder()->hasColumn('shopping_carts', 'lawyer_id')) {
+                        DB::table('shopping_carts')->whereIn('lawyer_id', $lawyerIds)->delete();
+                    }
+                } catch (\Exception $e) {
+                    // Ignore if column doesn't exist
+                }
+            }
+            
+            // Delete admin appointments (check if table and column exist)
+            if (DB::getSchemaBuilder()->hasTable('admin_appointments')) {
+                try {
+                    if (DB::getSchemaBuilder()->hasColumn('admin_appointments', 'lawyer_id')) {
+                        DB::table('admin_appointments')->whereIn('lawyer_id', $lawyerIds)->delete();
+                    }
+                } catch (\Exception $e) {
+                    // Ignore if column doesn't exist
+                }
+            }
+            
             // Delete lawyer translations
             DB::table('lawyer_translations')->whereIn('lawyer_id', $lawyerIds)->delete();
             
