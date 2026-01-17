@@ -296,10 +296,12 @@ try {
                 
                 $currentLawyer = [
                     'name' => $name,
+                    'full_name' => '', // الاسم الكامل
                     'email' => '',
                     'phone' => '',
                     'fee' => 50.00,
-                    'years_of_experience' => '5',
+                    'years_of_experience' => '',
+                    'birth_year' => '',
                     'image' => isset($extractedImages[$imageIndex]) ? $extractedImages[$imageIndex] : null,
                     'about' => '',
                     'address' => '',
@@ -308,29 +310,54 @@ try {
                     'qualifications' => '',
                     'designations' => '',
                     'department_keywords' => [], // Store keywords to match with department later
+                    'courses' => '', // الدورات
+                    'memberships' => '', // العضويات
+                    'current_status' => '', // الحالة الحالية
                 ];
                 $imageIndex++;
             } elseif (!empty($currentLawyer)) {
-                // Check for "مجالات العمل" section to extract department info
-                if (preg_match('/^مجالات\s+العمل/u', $line) || preg_match('/^أنواع\s+الدعاوى/u', $line)) {
-                    // This is a section header, skip it but mark that we're in department section
+                // Check for section headers
+                if (preg_match('/^مجالات\s+(العمل|الخبرة)/u', $line) || preg_match('/^أنواع\s+الدعاوى/u', $line)) {
                     $currentLawyer['in_department_section'] = true;
                     continue;
                 }
                 
+                if (preg_match('/^الدورات\s+(والأنشطة|والتدريبية|والخبرات)/u', $line) || preg_match('/^محاضرات\s+ودورات/u', $line)) {
+                    $currentLawyer['in_courses_section'] = true;
+                    continue;
+                }
+                
+                // Extract full name
+                if (preg_match('/الاسم\s*(الكامل)?\s*[:：]\s*(.+)/u', $line, $matches)) {
+                    $currentLawyer['full_name'] = trim($matches[2]);
+                }
+                
                 // Extract department keywords from "مجالات العمل" section
                 if (isset($currentLawyer['in_department_section']) && preg_match('/[•\-\*]/u', $line)) {
-                    // Extract department keywords from bullet points
                     $deptLine = preg_replace('/^[•\-\*]\s*/u', '', $line);
                     $deptLine = trim($deptLine);
-                    if (!empty($deptLine)) {
+                    if (!empty($deptLine) && !preg_match('/^(ليس|إلا|مارس|ما زال)/u', $deptLine)) {
                         $currentLawyer['department_keywords'][] = $deptLine;
                     }
                     continue;
                 }
                 
-                // Check if line contains department-related keywords
-                if (preg_match('/(الدعاوى\s+المدنية|الدعاوى\s+الجزائية|الدعاوى\s+الجنائية|الدعاوى\s+العقارية|الدعاوى\s+الشرعية|عقود\s+الشركات|قانون\s+العمل|القانون\s+المدني|القانون\s+التجاري|القانون\s+الجنائي|القانون\s+العقاري|القانون\s+الشرعي)/u', $line)) {
+                // Extract courses
+                if (isset($currentLawyer['in_courses_section']) && preg_match('/[•\-\*]/u', $line)) {
+                    $courseLine = preg_replace('/^[•\-\*]\s*/u', '', $line);
+                    $courseLine = trim($courseLine);
+                    if (!empty($courseLine)) {
+                        if (empty($currentLawyer['courses'])) {
+                            $currentLawyer['courses'] = '<ul><li>' . $courseLine . '</li>';
+                        } else {
+                            $currentLawyer['courses'] .= '<li>' . $courseLine . '</li>';
+                        }
+                    }
+                    continue;
+                }
+                
+                // Check if line contains department-related keywords (outside section)
+                if (preg_match('/(الدعاوى\s+المدنية|الدعاوى\s+الجزائية|الدعاوى\s+الجنائية|الدعاوى\s+العقارية|الدعاوى\s+الشرعية|عقود\s+الشركات|دعاوى\s+الشركات|قانون\s+العمل|القانون\s+المدني|القانون\s+التجاري|القانون\s+الجنائي|القانون\s+العقاري|القانون\s+الشرعي|الأحوال\s+الشخصية|القضايا\s+العقارية)/u', $line)) {
                     $currentLawyer['department_keywords'][] = $line;
                 }
                 
@@ -342,42 +369,95 @@ try {
                 elseif (preg_match('/^[\d\s\+\-\(\)]+$/', $line) && strlen($line) > 7) {
                     $currentLawyer['phone'] = $line;
                 }
-                // Check for years of experience
-                elseif (preg_match('/(\d+)\s*(سنة|عام).*خبرة/u', $line, $matches)) {
-                    $currentLawyer['years_of_experience'] = $matches[1] ?? '5';
+                // Extract birth year
+                elseif (preg_match('/من\s+مواليد\s+عام\s+(\d{4})/u', $line, $matches)) {
+                    $currentLawyer['birth_year'] = $matches[1];
+                    $currentYear = date('Y');
+                    if (!empty($currentLawyer['birth_year'])) {
+                        $age = $currentYear - (int)$currentLawyer['birth_year'];
+                        // Estimate experience if not set
+                        if (empty($currentLawyer['years_of_experience'])) {
+                            $currentLawyer['years_of_experience'] = max(5, $age - 25); // Assume started at 25
+                        }
+                    }
                 }
-                // Check for education info
-                elseif (preg_match('/(خريج|جامعة|كلية|إجازة|دبلوم|شهادة|كلية الحقوق)/u', $line)) {
+                // Check for years of experience (multiple patterns)
+                elseif (preg_match('/(\d+)\s*(?:–|-)?\s*(\d+)?\s*(?:سنة|عام).*خبرة/u', $line, $matches)) {
+                    $currentLawyer['years_of_experience'] = $matches[1] ?? '';
+                    if (!empty($matches[2])) {
+                        $currentLawyer['years_of_experience'] = $matches[2]; // Use higher number
+                    }
+                }
+                elseif (preg_match('/خبرة.*?(\d+)\s*(?:سنة|عام)/u', $line, $matches)) {
+                    $currentLawyer['years_of_experience'] = $matches[1] ?? '';
+                }
+                elseif (preg_match('/(\d+)\s*(?:سنة|عام).*?خبرة/u', $line, $matches)) {
+                    $currentLawyer['years_of_experience'] = $matches[1] ?? '';
+                }
+                // Check for graduation year and calculate experience
+                elseif (preg_match('/تخرج.*?عام\s+(\d{4})/u', $line, $matches) || preg_match('/خريج.*?عام\s+(\d{4})/u', $line, $matches)) {
+                    $gradYear = (int)$matches[1];
+                    $currentYear = date('Y');
+                    $experience = $currentYear - $gradYear;
+                    if ($experience > 0) {
+                        $currentLawyer['years_of_experience'] = (string)$experience;
+                    }
+                }
+                // Check for education info (improved patterns)
+                elseif (preg_match('/(خريج|تخرج|التحق|حاصل\s+على|إجازة|بكالوريوس|كلية\s+الحقوق|جامعة)/u', $line)) {
                     if (empty($currentLawyer['educations'])) {
                         $currentLawyer['educations'] = '<ul><li>' . $line . '</li>';
                     } else {
                         $currentLawyer['educations'] .= '<li>' . $line . '</li>';
                     }
                 }
-                // Check for experience info
-                elseif (preg_match('/(عمل|مارس|محكّم|محامي|شريك|مكتب|محامي متدرب|محامي أول)/u', $line)) {
+                // Check for membership in bar association
+                elseif (preg_match('/(منتسب|انتسب|عضو).*?نقابة\s+المحامين/u', $line)) {
+                    if (empty($currentLawyer['memberships'])) {
+                        $currentLawyer['memberships'] = '<ul><li>' . $line . '</li>';
+                    } else {
+                        $currentLawyer['memberships'] .= '<li>' . $line . '</li>';
+                    }
+                }
+                // Check for professor status
+                elseif (preg_match('/(حاصل\s+على\s+صفة|حاصل\s+على\s+شهادة).*?(أستاذ|الأستاذية)/u', $line)) {
+                    if (empty($currentLawyer['qualifications'])) {
+                        $currentLawyer['qualifications'] = '<ul><li>' . $line . '</li>';
+                    } else {
+                        $currentLawyer['qualifications'] .= '<li>' . $line . '</li>';
+                    }
+                    // Also set as designation
+                    if (empty($currentLawyer['designations'])) {
+                        $currentLawyer['designations'] = 'محامي أستاذ';
+                    }
+                }
+                // Check for experience info (improved patterns)
+                elseif (preg_match('/(عمل|مارس|محكّم|محامي|شريك|مكتب|محامي\s+متدرب|محامي\s+أول|مثّل|شارك|حضر|تدير|عضو\s+مجلس)/u', $line)) {
                     if (empty($currentLawyer['experience'])) {
                         $currentLawyer['experience'] = '<ul><li>' . $line . '</li>';
                     } else {
                         $currentLawyer['experience'] .= '<li>' . $line . '</li>';
                     }
                 }
-                // Check for qualifications
-                elseif (preg_match('/(متخصص|عضو|محكم|معتمد)/u', $line)) {
-                    if (empty($currentLawyer['qualifications'])) {
-                        $currentLawyer['qualifications'] = '<ul><li>' . $line . '</li>';
-                    } else {
-                        $currentLawyer['qualifications'] .= '<li>' . $line . '</li>';
+                // Check for current status
+                elseif (preg_match('/ما\s+زال\s+(يمارس|يعمل)/u', $line)) {
+                    $currentLawyer['current_status'] = $line;
+                }
+                // Check for designations (specialization) - improved
+                elseif (preg_match('/محام[يٍة]\s+(?:أستاذ|متخصص).*?(\d+)\s*سنة/u', $line, $matches)) {
+                    $currentLawyer['designations'] = 'محامي أستاذ بخبرة ' . $matches[1] . ' سنة';
+                    if (empty($currentLawyer['years_of_experience'])) {
+                        $currentLawyer['years_of_experience'] = $matches[1];
                     }
                 }
-                // Check for designations (specialization)
-                elseif (preg_match('/^(محامٍ|محامي|محامية).*(متخصص|أستاذ)/u', $line)) {
-                    $currentLawyer['designations'] = $line;
+                elseif (preg_match('/محام[يٍة]\s+أستاذ/u', $line)) {
+                    if (empty($currentLawyer['designations'])) {
+                        $currentLawyer['designations'] = 'محامي أستاذ';
+                    }
                 }
-                // Otherwise, add to about
+                // Otherwise, add to about (but skip section headers)
                 else {
-                    // Skip if it's a section header or empty
-                    if (!preg_match('/^(مجالات|من مواليد|خريج|منتسب|حاصل|أنواع|الدورات|محاضرات|الأنشطة|التدريبية)/u', $line)) {
+                    if (!preg_match('/^(مجالات|من مواليد|خريج|منتسب|حاصل|أنواع|الدورات|محاضرات|الأنشطة|التدريبية|الاسم|الاسم الكامل)/u', $line)) {
                         if (empty($currentLawyer['about'])) {
                             $currentLawyer['about'] = $line;
                         } else {
@@ -395,6 +475,32 @@ try {
             }
             if (!empty($currentLawyer['experience']) && !str_ends_with($currentLawyer['experience'], '</ul>')) {
                 $currentLawyer['experience'] .= '</ul>';
+            }
+            if (!empty($currentLawyer['qualifications']) && !str_ends_with($currentLawyer['qualifications'], '</ul>')) {
+                $currentLawyer['qualifications'] .= '</ul>';
+            }
+            if (!empty($currentLawyer['courses']) && !str_ends_with($currentLawyer['courses'], '</ul>')) {
+                $currentLawyer['courses'] .= '</ul>';
+            }
+            if (!empty($currentLawyer['memberships']) && !str_ends_with($currentLawyer['memberships'], '</ul>')) {
+                $currentLawyer['memberships'] .= '</ul>';
+            }
+            
+            // Set default years of experience if not set
+            if (empty($currentLawyer['years_of_experience'])) {
+                $currentLawyer['years_of_experience'] = '5';
+            }
+            
+            // Build comprehensive about text
+            $aboutParts = [];
+            if (!empty($currentLawyer['current_status'])) {
+                $aboutParts[] = $currentLawyer['current_status'];
+            }
+            if (!empty($currentLawyer['about'])) {
+                $aboutParts[] = $currentLawyer['about'];
+            }
+            if (!empty($aboutParts)) {
+                $currentLawyer['about'] = implode(' ', $aboutParts);
             }
         }
         
@@ -734,16 +840,22 @@ try {
             // Use matched department or default
             $lawyerDepartmentId = isset($lawyerData['department_id']) ? $lawyerData['department_id'] : $department->id;
             
+            // Use full name if available, otherwise use name
+            $displayName = !empty($lawyerData['full_name']) ? $lawyerData['full_name'] : $lawyerData['name'];
+            
+            // Ensure years_of_experience is set
+            $yearsOfExperience = !empty($lawyerData['years_of_experience']) ? $lawyerData['years_of_experience'] : '5';
+            
             $lawyerRecord = [
                 'department_id'       => $lawyerDepartmentId,
                 'location_id'         => $location->id,
-                'name'                => $lawyerData['name'],
-                'slug'                => Str::slug($lawyerData['name']),
+                'name'                => $displayName,
+                'slug'                => Str::slug($displayName),
                 'email'               => $lawyerData['email'],
                 'password'            => Hash::make('1234'),
                 'phone'               => $lawyerData['phone'],
                 'fee'                 => $lawyerData['fee'],
-                'years_of_experience' => $lawyerData['years_of_experience'],
+                'years_of_experience' => $yearsOfExperience,
                 'image'               => $imagePath,
                 'status'              => 1,
                 'show_homepage'       => 1,
@@ -759,7 +871,13 @@ try {
             $lawyerId = DB::table('lawyers')->insertGetId($lawyerRecord);
             
             $insertedCount++;
-            echo "✓ تم إضافة المحامي: {$lawyerData['name']} (ID: {$lawyerId})\n";
+            echo "✓ تم إضافة المحامي: {$displayName} (ID: {$lawyerId})\n";
+            if (!empty($lawyerData['years_of_experience'])) {
+                echo "  - سنوات الخبرة: {$lawyerData['years_of_experience']}\n";
+            }
+            if (!empty($lawyerData['department_keywords'])) {
+                echo "  - مجالات العمل: " . implode(', ', array_slice($lawyerData['department_keywords'], 0, 3)) . "\n";
+            }
             
             // Delete existing translations
             LawyerTranslation::where('lawyer_id', $lawyerId)->delete();
@@ -768,9 +886,61 @@ try {
             $designationsAr = 'محامي';
             if (!empty($lawyerData['designations'])) {
                 $designationsAr = $lawyerData['designations'];
+            } elseif (!empty($lawyerData['years_of_experience']) && (int)$lawyerData['years_of_experience'] > 20) {
+                $designationsAr = 'محامي أستاذ بخبرة ' . $lawyerData['years_of_experience'] . ' سنة';
             } elseif (!empty($lawyerData['department_keywords'])) {
                 // Use first department keyword as designation
                 $designationsAr = 'محامي متخصص في ' . implode(' و ', array_slice($lawyerData['department_keywords'], 0, 2));
+            }
+            
+            // Build comprehensive about text in Arabic
+            $aboutAr = '';
+            if (!empty($lawyerData['current_status'])) {
+                $aboutAr .= $lawyerData['current_status'] . '. ';
+            }
+            if (!empty($lawyerData['about'])) {
+                $aboutAr .= $lawyerData['about'];
+            }
+            if (empty($aboutAr)) {
+                $aboutAr = 'محامي ذو خبرة يقدم خدمات قانونية متخصصة.';
+            }
+            
+            // Combine courses with qualifications
+            $qualificationsAr = '';
+            if (!empty($lawyerData['qualifications'])) {
+                $qualificationsAr = $lawyerData['qualifications'];
+            }
+            if (!empty($lawyerData['courses'])) {
+                if (!empty($qualificationsAr)) {
+                    $qualificationsAr .= $lawyerData['courses'];
+                } else {
+                    $qualificationsAr = '<h4>الدورات والأنشطة:</h4>' . $lawyerData['courses'];
+                }
+            }
+            if (!empty($lawyerData['memberships'])) {
+                if (!empty($qualificationsAr)) {
+                    $qualificationsAr .= '<h4>العضويات:</h4>' . $lawyerData['memberships'];
+                } else {
+                    $qualificationsAr = '<h4>العضويات:</h4>' . $lawyerData['memberships'];
+                }
+            }
+            
+            // Combine experience with courses if needed
+            $experienceAr = '';
+            if (!empty($lawyerData['experience'])) {
+                $experienceAr = $lawyerData['experience'];
+            }
+            
+            // Build comprehensive about text in English
+            $aboutEn = '';
+            if (!empty($lawyerData['years_of_experience'])) {
+                $aboutEn = 'Experienced lawyer with ' . $lawyerData['years_of_experience'] . ' years of experience. ';
+            }
+            if (!empty($lawyerData['about'])) {
+                $aboutEn .= $lawyerData['about'];
+            }
+            if (empty($aboutEn)) {
+                $aboutEn = 'Experienced lawyer providing specialized legal services.';
             }
             
             // Create translations with organized information
@@ -779,25 +949,25 @@ try {
                     'lawyer_id' => $lawyerId,
                     'lang_code' => 'en',
                     'designations' => !empty($lawyerData['designations']) ? $lawyerData['designations'] : 'Lawyer',
-                    'seo_title' => $lawyerData['name'],
-                    'seo_description' => 'Lawyer ' . $lawyerData['name'] . ' - ' . (!empty($lawyerData['designations']) ? $lawyerData['designations'] : 'Legal Services'),
-                    'about' => !empty($lawyerData['about']) ? $lawyerData['about'] : 'Experienced lawyer providing legal services.',
+                    'seo_title' => $displayName,
+                    'seo_description' => 'Lawyer ' . $displayName . ' - ' . (!empty($lawyerData['designations']) ? $lawyerData['designations'] : 'Legal Services'),
+                    'about' => $aboutEn,
                     'address' => !empty($lawyerData['address']) ? $lawyerData['address'] : '',
                     'educations' => !empty($lawyerData['educations']) ? $lawyerData['educations'] : '',
-                    'experience' => !empty($lawyerData['experience']) ? $lawyerData['experience'] : '',
-                    'qualifications' => !empty($lawyerData['qualifications']) ? $lawyerData['qualifications'] : '',
+                    'experience' => $experienceAr,
+                    'qualifications' => $qualificationsAr,
                 ],
                 [
                     'lawyer_id' => $lawyerId,
                     'lang_code' => 'ar',
                     'designations' => $designationsAr,
-                    'seo_title' => $lawyerData['name'],
-                    'seo_description' => 'محامي ' . $lawyerData['name'] . ' - ' . $designationsAr,
-                    'about' => !empty($lawyerData['about']) ? $lawyerData['about'] : 'محامي ذو خبرة يقدم خدمات قانونية.',
+                    'seo_title' => $displayName,
+                    'seo_description' => 'محامي ' . $displayName . ' - ' . $designationsAr,
+                    'about' => $aboutAr,
                     'address' => !empty($lawyerData['address']) ? $lawyerData['address'] : '',
                     'educations' => !empty($lawyerData['educations']) ? $lawyerData['educations'] : '',
-                    'experience' => !empty($lawyerData['experience']) ? $lawyerData['experience'] : '',
-                    'qualifications' => !empty($lawyerData['qualifications']) ? $lawyerData['qualifications'] : '',
+                    'experience' => $experienceAr,
+                    'qualifications' => $qualificationsAr,
                 ],
             ];
             
