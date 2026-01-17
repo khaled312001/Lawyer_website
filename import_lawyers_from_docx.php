@@ -259,20 +259,30 @@ try {
             // Check if this looks like a lawyer name (starts with الأستاذ or contains Arabic name pattern)
             // Arabic names typically contain Arabic characters
             $isArabicName = preg_match('/[\x{0600}-\x{06FF}]/u', $line);
-            $startsWithTitle = preg_match('/^(الأستاذ|المحامي|المحامية|د\.|دكتور|الأستاذة)/u', $line);
+            $startsWithTitle = preg_match('/^(الأستاذ|المحامي|المحامية|د\.|دكتور|الأستاذة)\s+/u', $line);
             
             // Exclude section headers and common non-name patterns
-            $isSectionHeader = preg_match('/^(مجالات|من مواليد|خريج|منتسب|حاصل|أنواع|الدورات|محاضرات|الأنشطة|التدريبية)/u', $line);
+            $isSectionHeader = preg_match('/^(مجالات|من مواليد|خريج|منتسب|حاصل|أنواع|الدورات|محاضرات|الأنشطة|التدريبية|الدعاوى|عقود|ليس|إلا|مارس|ما زال|محامٍ|منتسب|حاصل|خريج)/u', $line);
             $endsWithColon = str_ends_with($line, ':');
+            $containsBullet = preg_match('/[•\-\*]/u', $line);
+            
+            // Exclude lines that are clearly not names (contain common verbs or phrases)
+            $isNotName = preg_match('/(عمل|يقدم|يمثل|متخصص|خبرة|سنة|عام|حتى|خلال|الفترة|تاريخ|حتى تاريخه|إلى جانب|ما زال يمارس)/u', $line);
+            
+            // More strict name pattern: must start with title OR be a short line (2-4 words) that looks like a name
+            $wordCount = count(explode(' ', trim($line)));
+            $isShortName = $wordCount >= 2 && $wordCount <= 4;
             
             // Check if this could be a name (contains Arabic or English letters, not too long, not a bullet point, not a section header)
+            // Must start with title OR be a short name-like line
             $isName = $isArabicName && 
-                     !preg_match('/^[•\-\*]/u', $line) && 
+                     !$containsBullet && 
                      strlen($line) > 5 && 
-                     strlen($line) < 100 &&
+                     strlen($line) < 80 &&
                      !$isSectionHeader &&
                      !$endsWithColon &&
-                     ($startsWithTitle || (strlen($line) < 50 && !preg_match('/^(الدعاوى|عقود|ليس|إلا|مارس|ما زال)/u', $line)));
+                     !$isNotName &&
+                     ($startsWithTitle || ($isShortName && !preg_match('/^(الدعاوى|عقود|ليس|إلا|مارس|ما زال|محامٍ|منتسب|حاصل|خريج|عمل|يقدم|يمثل|متخصص)/u', $line)));
             
             if ($isName) {
                 // Save previous lawyer if exists
@@ -349,7 +359,24 @@ try {
         }
     }
     
-    echo "✓ تم العثور على " . count($lawyers) . " محامي في المستند\n\n";
+    // Limit lawyers to match number of images (if we have images)
+    if (!empty($extractedImages) && count($lawyers) > count($extractedImages)) {
+        echo "⚠️  تم العثور على " . count($lawyers) . " محامي ولكن هناك " . count($extractedImages) . " صورة فقط\n";
+        echo "سيتم استخدام أول " . count($extractedImages) . " محامي فقط\n\n";
+        $lawyers = array_slice($lawyers, 0, count($extractedImages));
+        
+        // Re-assign images correctly
+        foreach ($lawyers as $index => &$lawyer) {
+            $lawyer['image'] = isset($extractedImages[$index]) ? $extractedImages[$index] : null;
+        }
+        unset($lawyer);
+    }
+    
+    echo "✓ تم العثور على " . count($lawyers) . " محامي في المستند\n";
+    if (!empty($extractedImages)) {
+        echo "✓ تم العثور على " . count($extractedImages) . " صورة\n";
+    }
+    echo "\n";
     
     if (empty($lawyers)) {
         echo "⚠️  لم يتم العثور على بيانات محاميين في المستند.\n";
