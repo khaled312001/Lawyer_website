@@ -404,21 +404,20 @@
                                                 </div>
                                                 @endif
                                                 
-                                                @if($lawyer->designations)
+                                                @if($lawyer->designations || $lawyer->years_of_experience)
                                                 <div class="enhanced-lawyer-info-item">
                                                     <div class="enhanced-info-icon-wrapper">
                                                         <i class="fas fa-graduation-cap enhanced-info-icon"></i>
                                                     </div>
-                                                    <span class="enhanced-info-text">{{ Str::limit($lawyer->designations, 50) }}</span>
-                                                </div>
-                                                @endif
-                                                
-                                                @if($lawyer->years_of_experience)
-                                                <div class="enhanced-lawyer-info-item">
-                                                    <div class="enhanced-info-icon-wrapper">
-                                                        <i class="fas fa-calendar-alt enhanced-info-icon"></i>
-                                                    </div>
-                                                    <span class="enhanced-info-text">{{ $lawyer->years_of_experience }} {{ __('Years Experience') }}</span>
+                                                    <span class="enhanced-info-text">
+                                                        @if($lawyer->designations && $lawyer->years_of_experience)
+                                                            {{ $lawyer->designations }} {{ __('with') }} {{ $lawyer->years_of_experience }} {{ __('years of experience') }}
+                                                        @elseif($lawyer->designations)
+                                                            {{ Str::limit($lawyer->designations, 60) }}
+                                                        @elseif($lawyer->years_of_experience)
+                                                            {{ $lawyer->years_of_experience }} {{ __('Years Experience') }}
+                                                        @endif
+                                                    </span>
                                                 </div>
                                                 @endif
                                                 

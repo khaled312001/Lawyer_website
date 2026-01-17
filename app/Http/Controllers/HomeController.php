@@ -106,7 +106,7 @@ class HomeController extends Controller {
         ])->homepage()->latest()->active()->get();
 
         // Get unique lawyers (avoid duplicates by ID)
-        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
+        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image', 'years_of_experience')
             ->with([
                 'translation'            => function ($query) {
                     $query->select('lawyer_id', 'designations');
@@ -136,7 +136,13 @@ class HomeController extends Controller {
             ->latest()
             ->get()
             ->unique('id') // Remove duplicates by ID
-            ->values(); // Re-index array
+            ->values() // Re-index array
+            ->map(function ($lawyer) {
+                // Calculate ratings for each lawyer
+                $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
+                $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
+                return $lawyer;
+            });
 
         $feature_blog = Blog::select('id','admin_id', 'slug', 'image', 'created_at')->with([
             'admin' => function ($query) {

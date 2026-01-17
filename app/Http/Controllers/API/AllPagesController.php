@@ -62,7 +62,7 @@ class AllPagesController extends Controller {
         }])->homepage()->active()->latest()->take($home_sections?->client_how_many)->get();
 
         // Get unique lawyers (avoid duplicates by ID)
-        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
+        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image', 'years_of_experience')
             ->with([
                 'translations'            => function ($query) use ($code) {
                     $query->where('lang_code', $code)->select('lawyer_id', 'designations');
@@ -93,6 +93,12 @@ class AllPagesController extends Controller {
             ->get()
             ->unique('id') // Remove duplicates by ID
             ->values() // Re-index array
+            ->map(function ($lawyer) {
+                // Calculate ratings for each lawyer
+                $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
+                $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
+                return $lawyer;
+            })
             ->take($home_sections?->lawyer_how_many);
 
         $feature_blog = Blog::select('id', 'slug', 'image', 'created_at')->with(['translations' => function ($q) use ($code) {
