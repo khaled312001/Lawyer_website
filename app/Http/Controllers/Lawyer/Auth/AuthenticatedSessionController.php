@@ -61,8 +61,19 @@ class AuthenticatedSessionController extends Controller {
         // Get the raw password hash from database to avoid issues with 'hashed' cast
         $lawyerPassword = $lawyer->getRawOriginal('password');
         
-        // Verify password manually
-        if (Hash::check($request->password, $lawyerPassword)) {
+        // Verify password manually with error handling
+        try {
+            $passwordValid = Hash::check($request->password, $lawyerPassword);
+        } catch (\RuntimeException $e) {
+            // If there's an algorithm error, try using password_verify directly
+            if (str_contains($e->getMessage(), 'Bcrypt algorithm')) {
+                $passwordValid = password_verify($request->password, $lawyerPassword);
+            } else {
+                throw $e;
+            }
+        }
+        
+        if ($passwordValid) {
             // Login the lawyer directly
             Auth::guard('lawyer')->login($lawyer, $request->lawyer_remember ?? false);
 
