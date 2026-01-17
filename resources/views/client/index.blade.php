@@ -3907,15 +3907,16 @@
         align-items: center;
         justify-content: center;
         width: 100%;
+        text-align: center;
     }
 
     .service-item i {
         color: var(--colorPrimary);
         font-size: 64px;
         transition: all 0.4s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         background: linear-gradient(135deg, rgba(107, 93, 71, 0.1) 0%, rgba(90, 77, 58, 0.1) 100%);
         width: 110px;
         height: 110px;
@@ -3923,6 +3924,17 @@
         position: relative;
         z-index: 1;
         margin: 0 auto;
+        text-align: center;
+        line-height: 1 !important;
+    }
+    
+    .service-item i::before {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        line-height: 1;
     }
 
     .service-item:hover i {
@@ -4075,10 +4087,21 @@
             font-size: 56px;
             width: 100px;
             height: 100px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1 !important;
+        }
+        
+        .service-item i::before {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
         }
 
         .service-item .title {
@@ -4102,10 +4125,21 @@
             font-size: 48px;
             width: 90px;
             height: 90px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1 !important;
+        }
+        
+        .service-item i::before {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
         }
 
         .service-item .title {
@@ -4145,10 +4179,21 @@
             font-size: 42px;
             width: 80px;
             height: 80px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1 !important;
+        }
+        
+        .service-item i::before {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
         }
 
         .service-item .title {
