@@ -442,13 +442,18 @@ try {
             }
             
             // Delete meeting history (check if table and column exist)
-            if (DB::getSchemaBuilder()->hasTable('meeting_history')) {
-                try {
-                    if (DB::getSchemaBuilder()->hasColumn('meeting_history', 'lawyer_id')) {
-                        DB::table('meeting_history')->whereIn('lawyer_id', $lawyerIds)->delete();
+            // Try both table names: meeting_history and meeting_histories
+            $meetingHistoryTables = ['meeting_history', 'meeting_histories'];
+            foreach ($meetingHistoryTables as $tableName) {
+                if (DB::getSchemaBuilder()->hasTable($tableName)) {
+                    try {
+                        if (DB::getSchemaBuilder()->hasColumn($tableName, 'lawyer_id')) {
+                            DB::table($tableName)->whereIn('lawyer_id', $lawyerIds)->delete();
+                            break; // Found and deleted, no need to check other table names
+                        }
+                    } catch (\Exception $e) {
+                        // Ignore if column doesn't exist
                     }
-                } catch (\Exception $e) {
-                    // Ignore if column doesn't exist
                 }
             }
             
