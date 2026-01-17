@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Modules\RealEstate\app\Models\RealEstateTranslation;
 
 class RealEstate extends Model
 {
@@ -267,6 +268,10 @@ class RealEstate extends Model
 
         static::deleting(function ($realEstate) {
             try {
+                // Temporarily disable appends to avoid triggering accessors during deletion
+                $originalAppends = $realEstate->getAppends();
+                $realEstate->setAppends([]);
+                
                 // Get raw attribute values to avoid triggering accessors that might cause array to string conversion
                 $imagesRaw = $realEstate->getRawOriginal('images');
                 $featuredImageRaw = $realEstate->getRawOriginal('featured_image');
@@ -284,10 +289,14 @@ class RealEstate extends Model
                 if ($featuredImageRaw && is_string($featuredImageRaw) && !str($featuredImageRaw)->contains('property-placeholder') && File::exists(public_path('storage/' . $featuredImageRaw))) {
                     unlink(public_path('storage/' . $featuredImageRaw));
                 }
-                // Delete translations using the relationship query builder
-                $realEstate->translations()->delete();
+                
+                // Delete translations using the relationship query builder (avoid eager loading)
+                RealEstateTranslation::where('real_estate_id', $realEstate->id)->delete();
+                
+                // Restore appends (though model will be deleted anyway)
+                $realEstate->setAppends($originalAppends);
             } catch (\Exception $e) {
-                info($e);
+                info('Error deleting real estate: ' . $e->getMessage());
             }
         });
     }

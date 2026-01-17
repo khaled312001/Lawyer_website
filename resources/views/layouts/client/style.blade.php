@@ -3139,10 +3139,12 @@
     .enhanced-lawyer-info-item {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         gap: 12px;
         padding: 10px 0;
         transition: all 0.3s ease;
+        direction: rtl;
+        text-align: right;
     }
     
     .enhanced-lawyer-info-item:not(:last-child) {
@@ -3158,8 +3160,9 @@
         transform: translateX(3px);
     }
     
-    /* Icon Wrapper */
+    /* Icon Wrapper - Always on the right */
     .enhanced-info-icon-wrapper {
+        order: 1 !important;
         width: 40px;
         height: 40px;
         min-width: 40px;
@@ -3190,14 +3193,16 @@
         background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
     }
     
-    /* Info Text */
+    /* Info Text - Always on the left */
     .enhanced-info-text {
+        order: 2 !important;
         font-size: 15px;
         color: #495057;
         font-weight: 500;
         line-height: 1.5;
         flex: 1;
-        text-align: center;
+        text-align: right;
+        direction: rtl;
     }
     
     /* Rating Item - Special Layout */
@@ -3207,19 +3212,25 @@
         align-items: flex-start;
     }
     
+    .enhanced-rating-item .enhanced-info-icon-wrapper {
+        order: 1 !important;
+    }
+    
     .enhanced-rating-content {
+        order: 2 !important;
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: 6px;
-        align-items: center;
-        text-align: center;
+        align-items: flex-end;
+        text-align: right;
+        direction: rtl;
     }
     
     .enhanced-rating-stars {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         gap: 2px;
     }
     
@@ -3233,9 +3244,10 @@
         color: #495057;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         gap: 5px;
-        text-align: center;
+        text-align: right;
+        direction: rtl;
     }
     
     .enhanced-rating-text strong {
@@ -3258,7 +3270,7 @@
     .enhanced-lawyer-view-btn {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         gap: 10px;
         padding: 14px 24px;
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
@@ -3270,6 +3282,8 @@
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         margin-top: auto;
+        direction: rtl;
+        text-align: right;
     }
     
     .enhanced-lawyer-view-btn:hover {
@@ -3278,28 +3292,41 @@
         color: #ffffff;
     }
     
+    .enhanced-lawyer-view-btn .btn-icon {
+        order: 1 !important;
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+    }
+    
+    .enhanced-lawyer-view-btn:hover .btn-icon {
+        transform: translateX(-5px) scale(1.1);
+    }
+    
+    [dir="rtl"] .enhanced-lawyer-view-btn:hover .btn-icon {
+        transform: translateX(-5px) scale(1.1);
+    }
+    
     .enhanced-lawyer-view-btn .btn-text {
+        order: 2 !important;
+        flex: 1;
+        text-align: right;
+        direction: rtl;
         transition: transform 0.3s ease;
     }
     
     .enhanced-lawyer-view-btn:hover .btn-text {
-        transform: translateX(-3px);
+        transform: translateX(3px);
     }
     
     [dir="rtl"] .enhanced-lawyer-view-btn:hover .btn-text {
         transform: translateX(3px);
-    }
-    
-    .enhanced-lawyer-view-btn .btn-icon {
-        transition: transform 0.3s ease;
-    }
-    
-    .enhanced-lawyer-view-btn:hover .btn-icon {
-        transform: translateX(5px);
-    }
-    
-    [dir="rtl"] .enhanced-lawyer-view-btn:hover .btn-icon {
-        transform: translateX(-5px);
     }
     
     /* RTL Support */
@@ -3313,19 +3340,38 @@
         direction: ltr;
     }
     
-    /* Center text in all items - override RTL/LTR */
+    /* Icons always on the right, text on the left - RTL layout */
+    [dir="rtl"] .enhanced-lawyer-info-item,
     .enhanced-lawyer-info-item {
-        justify-content: center !important;
+        justify-content: space-between !important;
+        flex-direction: row !important;
+        direction: rtl !important;
     }
     
-    .enhanced-info-text,
-    .enhanced-rating-content,
+    [dir="rtl"] .enhanced-info-icon-wrapper,
+    .enhanced-info-icon-wrapper {
+        order: 1 !important;
+    }
+    
+    [dir="rtl"] .enhanced-info-text,
+    .enhanced-info-text {
+        order: 2 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+    
+    .enhanced-rating-content {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+    
     .enhanced-rating-text {
-        text-align: center !important;
+        text-align: right !important;
+        direction: rtl !important;
     }
     
     .enhanced-rating-stars {
-        justify-content: center !important;
+        justify-content: flex-end !important;
     }
     
     /* Responsive Design */

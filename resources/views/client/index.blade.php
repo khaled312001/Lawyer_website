@@ -404,20 +404,19 @@
                                                 </div>
                                                 @endif
                                                 
-                                                @if($lawyer->designations || $lawyer->years_of_experience)
+                                                @if($lawyer->designations)
                                                 <div class="enhanced-lawyer-info-item">
                                                     <div class="enhanced-info-icon-wrapper">
                                                         <i class="fas fa-graduation-cap enhanced-info-icon"></i>
                                                     </div>
-                                                    <span class="enhanced-info-text">
-                                                        @if($lawyer->designations && $lawyer->years_of_experience)
-                                                            {{ $lawyer->designations }} {{ __('with') }} {{ $lawyer->years_of_experience }} {{ __('years of experience') }}
-                                                        @elseif($lawyer->designations)
-                                                            {{ Str::limit($lawyer->designations, 60) }}
-                                                        @elseif($lawyer->years_of_experience)
-                                                            {{ $lawyer->years_of_experience }} {{ __('Years Experience') }}
-                                                        @endif
-                                                    </span>
+                                                    <span class="enhanced-info-text">{{ $lawyer->designations }}</span>
+                                                </div>
+                                                @elseif($lawyer->years_of_experience)
+                                                <div class="enhanced-lawyer-info-item">
+                                                    <div class="enhanced-info-icon-wrapper">
+                                                        <i class="fas fa-graduation-cap enhanced-info-icon"></i>
+                                                    </div>
+                                                    <span class="enhanced-info-text">{{ $lawyer->years_of_experience }} {{ __('Years Experience') }}</span>
                                                 </div>
                                                 @endif
                                                 
@@ -450,8 +449,8 @@
                                             
                                             <a class="enhanced-lawyer-view-btn" aria-label="{{ __('View Profile') }}"
                                                 href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
-                                                <span class="btn-text">{{ __('View Profile') }}</span>
                                                 <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }} btn-icon"></i>
+                                                <span class="btn-text">{{ __('View Profile') }}</span>
                                             </a>
                                         </div>
                                     </div>
