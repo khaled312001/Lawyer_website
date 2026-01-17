@@ -267,17 +267,17 @@ class RealEstate extends Model
 
         static::deleting(function ($realEstate) {
             try {
-                if ($realEstate->images) {
+                if ($realEstate->images && is_array($realEstate->images)) {
                     foreach ($realEstate->images as $image) {
-                        if ($image && !str($image)->contains('property-placeholder') && File::exists(public_path('storage/' . $image))) {
+                        if ($image && is_string($image) && !str($image)->contains('property-placeholder') && File::exists(public_path('storage/' . $image))) {
                             unlink(public_path('storage/' . $image));
                         }
                     }
                 }
-                if ($realEstate->featured_image && !str($realEstate->featured_image)->contains('property-placeholder') && File::exists(public_path('storage/' . $realEstate->featured_image))) {
+                if ($realEstate->featured_image && is_string($realEstate->featured_image) && !str($realEstate->featured_image)->contains('property-placeholder') && File::exists(public_path('storage/' . $realEstate->featured_image))) {
                     unlink(public_path('storage/' . $realEstate->featured_image));
                 }
-                if ($realEstate->translations) {
+                if ($realEstate->translations()->exists()) {
                     $realEstate->translations()->delete();
                 }
             } catch (\Exception $e) {

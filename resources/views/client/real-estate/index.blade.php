@@ -49,7 +49,7 @@
                 <div class="intro-content">
                     <div class="section-title-wrapper">
                         <span class="section-subtitle">{{ __('Real Estate Department') }}</span>
-                        <h2 class="section-title">{{ __('Your Trusted Partner in Real Estate') }}</h2>
+                        <h2 class="section-title">{{ __('شريكك الموثوق في العقارات') }}</h2>
                     </div>
                     <p class="intro-text">
                         {{ __('We provide comprehensive real estate services including property sales, rentals, legal consultations, and investment advice. Our experienced team helps you find the perfect property or sell your assets with confidence.') }}
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="placeholder-text">
                                     <h3>{{ __('Real Estate') }}</h3>
-                                    <p>{{ __('Your Trusted Partner') }}</p>
+                                    <p>{{ __('شريكك الموثوق في العقارات') }}</p>
                                 </div>
                                 <div class="placeholder-pattern"></div>
                             </div>

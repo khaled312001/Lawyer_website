@@ -105,23 +105,26 @@ class HomeController extends Controller {
             },
         ])->homepage()->latest()->active()->get();
 
+        // Get current language code
+        $currentLang = getSessionLanguage();
+        
         // Get unique lawyers (avoid duplicates by ID)
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image', 'years_of_experience')
             ->with([
-                'translation'            => function ($query) {
-                    $query->select('lawyer_id', 'designations');
+                'translations'            => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('lawyer_id', 'designations');
                 },
                 'department'             => function ($query) {
                     $query->select('id');
                 },
-                'department.translation' => function ($query) {
-                    $query->select('department_id', 'name');
+                'department.translations' => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('department_id', 'name');
                 },
                 'location'               => function ($query) {
                     $query->select('id');
                 },
-                'location.translation'   => function ($query) {
-                    $query->select('location_id', 'name');
+                'location.translations'   => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('location_id', 'name');
                 },
                 'socialMedia'            => function ($query) {
                     $query->select('lawyer_id', 'link', 'icon')->active();
@@ -137,7 +140,47 @@ class HomeController extends Controller {
             ->get()
             ->unique('id') // Remove duplicates by ID
             ->values() // Re-index array
-            ->map(function ($lawyer) {
+            ->map(function ($lawyer) use ($currentLang) {
+                // Get translation for current language
+                if ($lawyer->translations && $lawyer->translations->isNotEmpty()) {
+                    $translation = $lawyer->translations->firstWhere('lang_code', $currentLang);
+                    if ($translation) {
+                        $lawyer->designations = $translation->designations;
+                    } else {
+                        // Fallback to first available translation
+                        $fallbackTranslation = $lawyer->translations->first();
+                        $lawyer->designations = $fallbackTranslation ? $fallbackTranslation->designations : null;
+                    }
+                } else {
+                    $lawyer->designations = null;
+                }
+                
+                // Get department name
+                if ($lawyer->department && $lawyer->department->translations && $lawyer->department->translations->isNotEmpty()) {
+                    $deptTranslation = $lawyer->department->translations->firstWhere('lang_code', $currentLang);
+                    if ($deptTranslation) {
+                        $lawyer->department->name = $deptTranslation->name;
+                    } else {
+                        $fallbackDeptTranslation = $lawyer->department->translations->first();
+                        $lawyer->department->name = $fallbackDeptTranslation ? $fallbackDeptTranslation->name : null;
+                    }
+                } elseif ($lawyer->department) {
+                    $lawyer->department->name = null;
+                }
+                
+                // Get location name
+                if ($lawyer->location && $lawyer->location->translations && $lawyer->location->translations->isNotEmpty()) {
+                    $locTranslation = $lawyer->location->translations->firstWhere('lang_code', $currentLang);
+                    if ($locTranslation) {
+                        $lawyer->location->name = $locTranslation->name;
+                    } else {
+                        $fallbackLocTranslation = $lawyer->location->translations->first();
+                        $lawyer->location->name = $fallbackLocTranslation ? $fallbackLocTranslation->name : null;
+                    }
+                } elseif ($lawyer->location) {
+                    $lawyer->location->name = null;
+                }
+                
                 // Calculate ratings for each lawyer
                 $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
                 $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
