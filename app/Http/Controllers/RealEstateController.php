@@ -16,7 +16,7 @@ class RealEstateController extends Controller
     public function index(Request $request)
     {
         // Get real estate properties
-        $query = ModuleRealEstate::active()->with('translation');
+        $query = ModuleRealEstate::active()->with(['translation', 'translations']);
 
         // Search by title or description
         if ($request->filled('search')) {
@@ -110,7 +110,7 @@ class RealEstateController extends Controller
      */
     public function show($slug)
     {
-        $property = ModuleRealEstate::active()->where('slug', $slug)->with('translation')->firstOrFail();
+        $property = ModuleRealEstate::active()->where('slug', $slug)->with(['translation', 'translations'])->firstOrFail();
 
         // Increment views
         $property->incrementViews();
@@ -119,7 +119,7 @@ class RealEstateController extends Controller
         $similarProperties = ModuleRealEstate::active()
             ->where('property_type', $property->property_type)
             ->where('id', '!=', $property->id)
-            ->with('translation')
+            ->with(['translation', 'translations'])
             ->limit(4)
             ->get();
 

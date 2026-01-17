@@ -11,6 +11,12 @@
                         {{ __('Department') }}
                     </a>
                 </li>
+                <li
+                    class="{{ isRoute('admin.department.homepage-management', 'active') }}">
+                    <a class="nav-link" href="{{ route('admin.department.homepage-management') }}">
+                        <i class="fas fa-home"></i> {{ __('Homepage Departments') }}
+                    </a>
+                </li>
             @endif
             @if (checkAdminHasPermission('location.view'))
                 <li class="{{ isRoute('admin.location.index', 'active') }}">

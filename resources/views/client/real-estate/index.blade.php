@@ -243,7 +243,7 @@
                         </div>
                         <div class="property-content property-content-v2">
                             <h4 class="property-title property-title-v2">
-                                <a href="{{ route('website.real-estate.show', $property->slug) }}">{{ Str::limit($property->title, 50) }}</a>
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}">{{ Str::limit($property->title ?? __('Property') . ' #' . $property->id, 50) }}</a>
                             </h4>
                             <div class="property-meta property-meta-v2">
                                 <span class="property-type property-type-v2">

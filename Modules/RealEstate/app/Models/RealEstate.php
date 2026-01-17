@@ -216,12 +216,65 @@ class RealEstate extends Model
 
     public function getTitleAttribute(): ?string
     {
-        return $this->translation?->title ?? 'Untitled Property';
+        // Try to get translation for current language
+        $translation = $this->translation;
+        
+        if ($translation && !empty($translation->title)) {
+            return $translation->title;
+        }
+        
+        // Fallback: try to get any available translation
+        // Check if translations relationship is loaded
+        if ($this->relationLoaded('translations')) {
+            $fallbackTranslation = $this->translations
+                ->whereNotNull('title')
+                ->where('title', '!=', '')
+                ->first();
+        } else {
+            // If not loaded, query it
+            $fallbackTranslation = $this->translations()
+                ->whereNotNull('title')
+                ->where('title', '!=', '')
+                ->first();
+        }
+        
+        if ($fallbackTranslation && !empty($fallbackTranslation->title)) {
+            return $fallbackTranslation->title;
+        }
+        
+        // Last resort: return null instead of 'Untitled Property'
+        return null;
     }
 
     public function getDescriptionAttribute(): ?string
     {
-        return $this->translation?->description ?? '';
+        // Try to get translation for current language
+        $translation = $this->translation;
+        
+        if ($translation && !empty($translation->description)) {
+            return $translation->description;
+        }
+        
+        // Fallback: try to get any available translation
+        // Check if translations relationship is loaded
+        if ($this->relationLoaded('translations')) {
+            $fallbackTranslation = $this->translations
+                ->whereNotNull('description')
+                ->where('description', '!=', '')
+                ->first();
+        } else {
+            // If not loaded, query it
+            $fallbackTranslation = $this->translations()
+                ->whereNotNull('description')
+                ->where('description', '!=', '')
+                ->first();
+        }
+        
+        if ($fallbackTranslation && !empty($fallbackTranslation->description)) {
+            return $fallbackTranslation->description;
+        }
+        
+        return '';
     }
 
     public function translation(): ?HasOne

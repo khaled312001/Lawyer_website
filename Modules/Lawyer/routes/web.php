@@ -11,6 +11,10 @@ use Modules\Lawyer\app\Http\Controllers\DepartmentUtilityController;
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin', 'translation']], function () {
     Route::resource('department', DepartmentController::class)->names('department')->except('show');
     Route::put('/department/status-update/{id}', [DepartmentController::class, 'statusUpdate'])->name('department.status-update');
+    Route::get('/department/homepage-management', [DepartmentController::class, 'homepageManagement'])->name('department.homepage-management');
+    Route::put('/department/homepage-status/{id}', [DepartmentController::class, 'updateHomepageStatus'])->name('department.homepage-status');
+    Route::put('/department/homepage-order', [DepartmentController::class, 'updateHomepageOrder'])->name('department.homepage-order');
+    Route::put('/department/homepage-count', [DepartmentController::class, 'updateHomepageCount'])->name('department.homepage-count');
 
     Route::controller(DepartmentUtilityController::class)->group(function () {
         Route::get('department-gallery/{id}', 'showGallery')->name('department.gallery');
