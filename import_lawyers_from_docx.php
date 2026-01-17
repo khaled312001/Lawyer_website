@@ -801,11 +801,48 @@ try {
     $insertedCount = 0;
     $skippedCount = 0;
     
+    // Store login credentials for output
+    $loginCredentials = [];
+    
     foreach ($lawyers as $index => $lawyerData) {
         try {
-            // Generate email if not provided
+            // Use full name if available for email generation
+            $nameForEmail = !empty($lawyerData['full_name']) ? $lawyerData['full_name'] : $lawyerData['name'];
+            
+            // Generate professional email if not provided
             if (empty($lawyerData['email'])) {
-                $lawyerData['email'] = Str::slug($lawyerData['name'], '.') . '@law.com';
+                // Create email from name: first.last@amanlaw.ch
+                $nameParts = explode(' ', $nameForEmail);
+                if (count($nameParts) >= 2) {
+                    $firstName = Str::slug($nameParts[0], '');
+                    $lastName = Str::slug(end($nameParts), '');
+                    $lawyerData['email'] = strtolower($firstName . '.' . $lastName . '@amanlaw.ch');
+                } else {
+                    $lawyerData['email'] = strtolower(Str::slug($nameForEmail, '.') . '@amanlaw.ch');
+                }
+                
+                // Ensure email is unique
+                $baseEmail = $lawyerData['email'];
+                $counter = 1;
+                while (DB::table('lawyers')->where('email', $lawyerData['email'])->exists()) {
+                    $emailParts = explode('@', $baseEmail);
+                    $lawyerData['email'] = $emailParts[0] . $counter . '@' . $emailParts[1];
+                    $counter++;
+                }
+            }
+            
+            // Generate professional password (8 characters: name initials + numbers)
+            if (empty($lawyerData['password'])) {
+                $nameParts = explode(' ', $nameForEmail);
+                $initials = '';
+                foreach ($nameParts as $part) {
+                    if (!empty($part)) {
+                        $initials .= mb_substr($part, 0, 1, 'UTF-8');
+                    }
+                }
+                $initials = strtoupper(Str::slug($initials, ''));
+                $randomNum = rand(1000, 9999);
+                $lawyerData['password'] = $initials . $randomNum;
             }
             
             // Generate phone if not provided
@@ -852,7 +889,7 @@ try {
                 'name'                => $displayName,
                 'slug'                => Str::slug($displayName),
                 'email'               => $lawyerData['email'],
-                'password'            => Hash::make('1234'),
+                'password'            => Hash::make($lawyerData['password']),
                 'phone'               => $lawyerData['phone'],
                 'fee'                 => $lawyerData['fee'],
                 'years_of_experience' => $yearsOfExperience,
@@ -871,7 +908,18 @@ try {
             $lawyerId = DB::table('lawyers')->insertGetId($lawyerRecord);
             
             $insertedCount++;
+            
+            // Store credentials for final output
+            $loginCredentials[] = [
+                'name' => $displayName,
+                'email' => $lawyerData['email'],
+                'password' => $lawyerData['password'],
+                'id' => $lawyerId,
+            ];
+            
             echo "✓ تم إضافة المحامي: {$displayName} (ID: {$lawyerId})\n";
+            echo "  📧 الإيميل: {$lawyerData['email']}\n";
+            echo "  🔑 كلمة المرور: {$lawyerData['password']}\n";
             if (!empty($lawyerData['years_of_experience'])) {
                 echo "  - سنوات الخبرة: {$lawyerData['years_of_experience']}\n";
             }
@@ -986,6 +1034,24 @@ try {
     echo "\n=== النتائج ===\n";
     echo "تم الإضافة: {$insertedCount} محامي\n";
     echo "تم التخطي: {$skippedCount} محامي\n";
+    
+    // Display login credentials summary
+    if (!empty($loginCredentials)) {
+        echo "\n=== بيانات تسجيل الدخول للمحاميين ===\n";
+        echo "🔗 رابط تسجيل الدخول: https://amanlaw.ch/login?type=lawyer\n";
+        echo "   أو: http://127.0.0.1:8000/login?type=lawyer\n\n";
+        
+        foreach ($loginCredentials as $cred) {
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+            echo "👤 المحامي: {$cred['name']}\n";
+            echo "📧 الإيميل: {$cred['email']}\n";
+            echo "🔑 كلمة المرور: {$cred['password']}\n";
+            echo "🆔 رقم المحامي: {$cred['id']}\n";
+            echo "\n";
+        }
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+    }
+    
     echo "\n✅ تم الانتهاء بنجاح!\n";
     
 } catch (\Exception $e) {
