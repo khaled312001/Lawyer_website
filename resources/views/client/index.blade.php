@@ -3903,20 +3903,26 @@
     .service-icon-wrapper {
         margin-bottom: 25px;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
     }
 
     .service-item i {
         color: var(--colorPrimary);
         font-size: 64px;
         transition: all 0.4s ease;
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: linear-gradient(135deg, rgba(107, 93, 71, 0.1) 0%, rgba(90, 77, 58, 0.1) 100%);
         width: 110px;
         height: 110px;
-        line-height: 110px;
         border-radius: 25px;
         position: relative;
         z-index: 1;
+        margin: 0 auto;
     }
 
     .service-item:hover i {
@@ -4069,7 +4075,10 @@
             font-size: 56px;
             width: 100px;
             height: 100px;
-            line-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
         }
 
         .service-item .title {
@@ -4093,7 +4102,10 @@
             font-size: 48px;
             width: 90px;
             height: 90px;
-            line-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
         }
 
         .service-item .title {
@@ -4133,7 +4145,10 @@
             font-size: 42px;
             width: 80px;
             height: 80px;
-            line-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
         }
 
         .service-item .title {
@@ -5425,21 +5440,28 @@
         padding: 40px 0 !important;
     }
 
-    /* Main headline improvements */
+    /* Main headline improvements - Center all section titles and descriptions */
     .main-headline {
-        text-align: center;
+        text-align: center !important;
         margin-bottom: 30px;
+        width: 100%;
+    }
+    
+    .main-headline * {
+        text-align: center !important;
     }
 
     .main-headline .title {
         font-size: 28px !important;
         line-height: 1.3;
         margin-bottom: 15px;
+        text-align: center !important;
     }
 
     .main-headline p {
         font-size: 15px;
         line-height: 1.7;
+        text-align: center !important;
     }
 
     /* Service items improvements */
@@ -5608,10 +5630,12 @@
 
     .main-headline .title {
         font-size: 24px !important;
+        text-align: center !important;
     }
 
     .main-headline p {
         font-size: 14px;
+        text-align: center !important;
     }
 
     .service-item {
@@ -5742,10 +5766,12 @@ html:not([dir="rtl"]) .legal-hero-features-right .legal-hero-feature-item {
 
     .main-headline .title {
         font-size: 22px !important;
+        text-align: center !important;
     }
 
     .main-headline p {
         font-size: 13px;
+        text-align: center !important;
     }
 
     .service-item {
@@ -5890,7 +5916,15 @@ html:not([dir="rtl"]) .legal-hero-btn-secondary-right {
 /* RTL Mobile Support */
 @media (max-width: 991px) {
     [dir="rtl"] .main-headline {
-        text-align: center;
+        text-align: center !important;
+    }
+    
+    [dir="rtl"] .main-headline .title {
+        text-align: center !important;
+    }
+    
+    [dir="rtl"] .main-headline p {
+        text-align: center !important;
     }
 
     [dir="rtl"] .service-item,
