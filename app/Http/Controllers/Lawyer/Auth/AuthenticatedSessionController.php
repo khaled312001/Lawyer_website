@@ -81,6 +81,17 @@ class AuthenticatedSessionController extends Controller {
             }
         }
         
+        // Log login attempt for debugging (only in non-production or when debug is enabled)
+        if (config('app.debug')) {
+            \Log::info('Lawyer login attempt', [
+                'email' => $request->email,
+                'lawyer_id' => $lawyer->id,
+                'password_valid' => $passwordValid,
+                'status' => $lawyer->status,
+                'email_verified' => $lawyer->email_verified_at != null
+            ]);
+        }
+        
         if ($passwordValid) {
             // Login the lawyer directly
             Auth::guard('lawyer')->login($lawyer, $request->lawyer_remember ?? false);
