@@ -285,98 +285,49 @@
                         <div class="swiper-wrapper">
                             @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $lawyer)
                                 <div class="swiper-slide">
-                                    <div class="lawyer-card-modern">
-                                        <div class="lawyer-image-wrapper">
-                                            <a aria-label="{{ $lawyer?->name }}"
-                                                href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="lawyer-image-link">
+                                    <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
+                                        <div class="lawyer-card-image-mobile">
+                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
                                                 @php
                                                     $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
                                                 @endphp
-                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" class="lawyer-image" onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
-                                                <div class="lawyer-image-overlay">
-                                                    <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
-                                                </div>
+                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
                                             </a>
                                         </div>
-                                        <div class="lawyer-content enhanced-lawyer-content">
-                                            <h3 class="lawyer-name enhanced-lawyer-name">
-                                                <a aria-label="{{ $lawyer?->name }}"
-                                                    href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
-                                                    {{ $lawyer?->name }}
+                                        <div class="lawyer-card-content-mobile">
+                                            <h3 class="lawyer-card-name-mobile">
+                                                <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                                                    {{ ucfirst($lawyer?->name) }}
                                                 </a>
                                             </h3>
-                                            
-                                            <div class="enhanced-lawyer-info-box">
+                                            <div class="lawyer-card-meta-mobile">
                                                 @php
                                                     $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
                                                         ? $lawyer->departments->first() 
                                                         : ($lawyer->department ?? null);
                                                 @endphp
                                                 @if($displayDept && $displayDept->name)
-                                                <div class="enhanced-lawyer-info-item">
-                                                    <div class="enhanced-info-icon-wrapper">
-                                                        <i class="fas fa-briefcase enhanced-info-icon"></i>
-                                                    </div>
-                                                    <span class="enhanced-info-text">{{ $displayDept->name }}</span>
+                                                <div class="lawyer-meta-item-mobile">
+                                                    <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
                                                 </div>
                                                 @endif
-                                                
                                                 @if($lawyer->location)
-                                                <div class="enhanced-lawyer-info-item">
-                                                    <div class="enhanced-info-icon-wrapper">
-                                                        <i class="fas fa-map-marker-alt enhanced-info-icon"></i>
-                                                    </div>
-                                                    <span class="enhanced-info-text">{{ ucfirst($lawyer->location->name) }}</span>
+                                                <div class="lawyer-meta-item-mobile">
+                                                    <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
                                                 </div>
                                                 @endif
-                                                
                                                 @if($lawyer->designations)
-                                                <div class="enhanced-lawyer-info-item">
-                                                    <div class="enhanced-info-icon-wrapper">
-                                                        <i class="fas fa-graduation-cap enhanced-info-icon"></i>
-                                                    </div>
-                                                    <span class="enhanced-info-text">{{ $lawyer->designations }}</span>
-                                                </div>
-                                                @elseif($lawyer->years_of_experience)
-                                                <div class="enhanced-lawyer-info-item">
-                                                    <div class="enhanced-info-icon-wrapper">
-                                                        <i class="fas fa-graduation-cap enhanced-info-icon"></i>
-                                                    </div>
-                                                    <span class="enhanced-info-text">{{ $lawyer->years_of_experience }} {{ __('Years Experience') }}</span>
-                                                </div>
-                                                @endif
-                                                
-                                                @if($lawyer->total_ratings > 0)
-                                                <div class="enhanced-lawyer-info-item enhanced-rating-item">
-                                                    <div class="enhanced-info-icon-wrapper enhanced-rating-icon-wrapper">
-                                                        <i class="fas fa-star enhanced-info-icon"></i>
-                                                    </div>
-                                                    <div class="enhanced-rating-content">
-                                                        <div class="enhanced-rating-stars">
-                                                            {!! displayStars($lawyer->average_rating) !!}
-                                                        </div>
-                                                        <span class="enhanced-rating-text">
-                                                            <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
-                                                            <span class="rating-count">({{ $lawyer->total_ratings }})</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                @else
-                                                <div class="enhanced-lawyer-info-item enhanced-rating-item">
-                                                    <div class="enhanced-info-icon-wrapper enhanced-rating-icon-wrapper">
-                                                        <i class="fas fa-star enhanced-info-icon"></i>
-                                                    </div>
-                                                    <div class="enhanced-rating-content">
-                                                        <span class="enhanced-rating-text no-rating">{{ __('No ratings') }}</span>
-                                                    </div>
+                                                <div class="lawyer-meta-item-mobile">
+                                                    <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
                                                 </div>
                                                 @endif
                                             </div>
-                                            
-                                            <a class="enhanced-lawyer-view-btn" aria-label="{{ __('View Profile') }}"
-                                                href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
-                                                <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }} btn-icon"></i>
-                                                <span class="btn-text">{{ __('View Profile') }}</span>
+                                            <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
+                                                <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
+                                                <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -445,7 +396,7 @@
                                             <div class="blog-meta">
                                                 <span class="blog-author-meta">
                                                     <i class="fas fa-user"></i>
-                                                    <span>{{ $blog?->admin?->name ?? __('Admin') }}</span>
+                                                    <span>Admin</span>
                                                 </span>
                                                 <span class="blog-category-meta">
                                                     <i class="fas fa-folder"></i>

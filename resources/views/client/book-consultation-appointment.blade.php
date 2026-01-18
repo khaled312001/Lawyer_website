@@ -819,14 +819,14 @@
 }
 
 [dir="rtl"] .form-label {
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     text-align: right !important;
     direction: rtl !important;
     justify-content: flex-end !important;
 }
 
 [dir="ltr"] .form-label {
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     text-align: right !important;
     direction: rtl !important;
     justify-content: flex-end !important;
@@ -835,26 +835,26 @@
 .form-label i {
     color: var(--colorPrimary);
     font-size: 16px;
-    order: 1 !important;
-    margin-left: 8px !important;
-    margin-right: 0 !important;
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
 }
 
 [dir="rtl"] .form-label i,
 [dir="ltr"] .form-label i {
-    order: 1 !important;
-    margin-left: 8px !important;
-    margin-right: 0 !important;
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
 }
 
 .form-label .text-danger {
     color: #dc3545 !important;
     font-weight: 700;
-    order: 2 !important;
+    order: 1 !important;
 }
 
 .form-label span:not(.text-danger):not(.text-primary) {
-    order: 2 !important;
+    order: 1 !important;
     text-align: right !important;
     direction: rtl !important;
 }
@@ -1693,7 +1693,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 /* Form Labels RTL - Force right alignment */
 [dir="rtl"] .form-label,
 [dir="ltr"] .form-label {
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     text-align: right !important;
     direction: rtl !important;
     justify-content: flex-end !important;
@@ -1701,14 +1701,14 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 [dir="rtl"] .form-label i,
 [dir="ltr"] .form-label i {
-    order: 1 !important;
-    margin-left: 8px !important;
-    margin-right: 0 !important;
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
 }
 
 [dir="rtl"] .form-label span,
 [dir="ltr"] .form-label span {
-    order: 2 !important;
+    order: 1 !important;
     text-align: right !important;
     direction: rtl !important;
 }
@@ -3204,7 +3204,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 [dir="rtl"] .form-label,
 [dir="ltr"] .form-label {
-    flex-direction: row-reverse !important;
+    flex-direction: row !important;
     justify-content: flex-end !important;
     display: flex !important;
     align-items: center !important;
@@ -3220,16 +3220,16 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 [dir="rtl"] .form-label i,
 [dir="ltr"] .form-label i {
-    order: 1 !important;
-    margin-left: 8px !important;
-    margin-right: 0 !important;
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
     flex-shrink: 0 !important;
 }
 
 [dir="rtl"] .form-label > span,
 [dir="ltr"] .form-label > span,
 .form-label > span {
-    order: 2 !important;
+    order: 1 !important;
     text-align: right !important;
     direction: rtl !important;
     flex: 1 !important;
@@ -3238,7 +3238,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 [dir="rtl"] .form-label .text-danger,
 [dir="ltr"] .form-label .text-danger,
 .form-label .text-danger {
-    order: 2 !important;
+    order: 1 !important;
     text-align: right !important;
     direction: rtl !important;
 }

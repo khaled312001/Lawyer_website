@@ -17,7 +17,7 @@
     <meta name="description" content="{{ $seoDescription }}">
     <meta name="keywords" content="{{ $blog?->title }}, {{ __('legal blog, law article, legal news, مدونة قانونية, مقال قانوني') }}">
     <meta name="robots" content="index, follow">
-    <meta name="author" content="{{ $blog?->admin?->name ?? $setting->app_name ?? 'LawMent' }}">
+    <meta name="author" content="Admin">
     <meta name="article:published_time" content="{{ $publishedDate }}">
     <meta name="article:modified_time" content="{{ $modifiedDate }}">
     @if($blog?->category)
@@ -40,9 +40,7 @@
     <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
     <meta property="article:published_time" content="{{ $publishedDate }}">
     <meta property="article:modified_time" content="{{ $modifiedDate }}">
-    @if($blog?->admin)
-    <meta property="article:author" content="{{ $blog->admin->name }}">
-    @endif
+    <meta property="article:author" content="Admin">
     @if($blog?->category)
     <meta property="article:section" content="{{ $blog->category->name ?? '' }}">
     @endif
@@ -54,9 +52,7 @@
     <meta name="twitter:title" content="{{ $seoTitle }}">
     <meta name="twitter:description" content="{{ $seoDescription }}">
     <meta name="twitter:image" content="{{ $seoImage }}">
-    @if($blog?->admin)
-    <meta name="twitter:creator" content="{{ $blog->admin->name }}">
-    @endif
+    <meta name="twitter:creator" content="Admin">
 @endsection
 
 @section('structured_data')
@@ -71,7 +67,7 @@
         "dateModified": "{{ $modifiedDate }}",
         "author": {
             "@type": "Person",
-            "name": "{{ $blog->admin->name ?? $setting->app_name ?? 'LawMent' }}"
+            "name": "Admin"
         },
         "publisher": {
             "@type": "Organization",
@@ -167,7 +163,7 @@
                         <div class="single-blog-image">
                             <img src="{{ url($blog?->image) }}" alt="{{ $blog?->title }}" loading="lazy">
                             <div class="blog-author">
-                                <span><i class="fas fa-user"></i> {{ $blog?->admin?->name ?? __('Admin') }}</span>
+                                <span><i class="fas fa-user"></i> Admin</span>
                                 <span><i class="far fa-calendar-alt"></i> {{ formattedDate($blog?->created_at) }}</span>
                                 <span><i class="fas fa-tag" aria-hidden="true"></i> {{ $blog?->category?->title }}</span>
                             </div>
@@ -305,6 +301,383 @@
         <div id="fb-root"></div>
     @endif
 @endsection
+
+@push('css')
+<style>
+    /* Enhanced Single Blog Post Design */
+    .blog-page.single-blog {
+        background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+    }
+    
+    .blog-page.single-blog .blog-item {
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e9ecef;
+    }
+    
+    .blog-page.single-blog .single-blog-image {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px 16px 0 0;
+    }
+    
+    .blog-page.single-blog .single-blog-image img {
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s ease;
+    }
+    
+    .blog-page.single-blog .single-blog-image:hover img {
+        transform: scale(1.05);
+    }
+    
+    .blog-page.single-blog .blog-author {
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        padding: 18px 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap;
+        border-left: 5px solid var(--colorBlack);
+        border-right: 5px solid var(--colorBlack);
+    }
+    
+    .blog-page.single-blog .blog-author span {
+        font-size: 15px;
+        font-weight: 600;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 25px;
+        transition: all 0.3s ease;
+    }
+    
+    .blog-page.single-blog .blog-author span:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .blog-page.single-blog .blog-author span i {
+        font-size: 16px;
+        color: #ffffff;
+        margin: 0;
+    }
+    
+    .blog-page.single-blog .blog-text {
+        padding: 40px !important;
+        background: #ffffff;
+    }
+    
+    .blog-page.single-blog .blog-text p {
+        font-size: 16px;
+        line-height: 1.8;
+        color: #495057;
+        margin-bottom: 20px;
+    }
+    
+    .blog-page.single-blog .blog-text h1,
+    .blog-page.single-blog .blog-text h2,
+    .blog-page.single-blog .blog-text h3,
+    .blog-page.single-blog .blog-text h4 {
+        color: #2c3e50;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+    
+    .blog-page.single-blog .blog-text h1 {
+        font-size: 32px;
+    }
+    
+    .blog-page.single-blog .blog-text h2 {
+        font-size: 28px;
+    }
+    
+    .blog-page.single-blog .blog-text h3 {
+        font-size: 24px;
+    }
+    
+    .blog-page.single-blog .blog-text ul,
+    .blog-page.single-blog .blog-text ol {
+        margin: 20px 0;
+        padding-right: 30px;
+    }
+    
+    .blog-page.single-blog .blog-text li {
+        margin-bottom: 10px;
+        line-height: 1.8;
+        color: #495057;
+    }
+    
+    .blog-page.single-blog .blog-text blockquote {
+        border-right: 4px solid var(--colorPrimary);
+        padding: 20px 25px;
+        margin: 30px 0;
+        background: #f8f9fa;
+        border-radius: 8px;
+        font-style: italic;
+        color: #495057;
+    }
+    
+    .blog-page.single-blog .blog-text img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin: 25px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .blog-page.single-blog .blog-text a {
+        color: var(--colorPrimary);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .blog-page.single-blog .blog-text a:hover {
+        color: var(--colorSecondary);
+        border-bottom-color: var(--colorSecondary);
+    }
+    
+    /* Sidebar enhancements */
+    .blog-page.single-blog .sidebar {
+        position: sticky;
+        top: 100px;
+    }
+    
+    .blog-page.single-blog .sidebar-item {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9ecef;
+    }
+    
+    .blog-page.single-blog .sidebar-item h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid var(--colorPrimary);
+    }
+    
+    .blog-page.single-blog .sidebar-item ul li {
+        margin-bottom: 12px;
+    }
+    
+    .blog-page.single-blog .sidebar-item ul li a {
+        color: #495057;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+    
+    .blog-page.single-blog .sidebar-item ul li a:hover,
+    .blog-page.single-blog .sidebar-item ul li.active a {
+        background: var(--colorPrimary);
+        color: #ffffff;
+        transform: translateX(-5px);
+    }
+    
+    .blog-page.single-blog .blog-recent-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .blog-page.single-blog .blog-recent-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .blog-page.single-blog .blog-recent-photo {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .blog-page.single-blog .blog-recent-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    
+    .blog-page.single-blog .blog-recent-item:hover .blog-recent-photo img {
+        transform: scale(1.1);
+    }
+    
+    .blog-page.single-blog .blog-recent-text a {
+        font-size: 15px;
+        font-weight: 600;
+        color: #2c3e50;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        line-height: 1.5;
+        transition: color 0.3s ease;
+    }
+    
+    .blog-page.single-blog .blog-recent-text a:hover {
+        color: var(--colorPrimary);
+    }
+    
+    .blog-page.single-blog .blog-post-date {
+        font-size: 13px;
+        color: #6c757d;
+    }
+    
+    /* Comments section */
+    .blog-page.single-blog .comment-list {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-top: 40px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+    
+    .blog-page.single-blog .comment-list h4 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid var(--colorPrimary);
+    }
+    
+    .blog-page.single-blog .comment-item {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 25px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .blog-page.single-blog .comment-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    
+    .blog-page.single-blog .comment-item .thumb {
+        flex-shrink: 0;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    
+    .blog-page.single-blog .comment-item .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .blog-page.single-blog .comment-item .com-text h5 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 8px;
+    }
+    
+    .blog-page.single-blog .comment-item .com-text .date {
+        font-size: 13px;
+        color: #6c757d;
+        margin-bottom: 12px;
+        display: block;
+    }
+    
+    .blog-page.single-blog .comment-item .com-text p {
+        font-size: 15px;
+        line-height: 1.7;
+        color: #495057;
+        margin: 0;
+    }
+    
+    .blog-page.single-blog .comment-form {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-top: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+    
+    .blog-page.single-blog .comment-form h4 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid var(--colorPrimary);
+    }
+    
+    /* Responsive */
+    @media (max-width: 991px) {
+        .blog-page.single-blog .sidebar {
+            position: static;
+            margin-top: 40px;
+        }
+        
+        .blog-page.single-blog .blog-text {
+            padding: 30px !important;
+        }
+        
+        .blog-page.single-blog .blog-author {
+            padding: 15px 20px;
+            gap: 15px;
+        }
+        
+        .blog-page.single-blog .blog-author span {
+            font-size: 14px;
+            padding: 6px 12px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .blog-page.single-blog .blog-text {
+            padding: 25px !important;
+        }
+        
+        .blog-page.single-blog .blog-text h1 {
+            font-size: 26px;
+        }
+        
+        .blog-page.single-blog .blog-text h2 {
+            font-size: 22px;
+        }
+        
+        .blog-page.single-blog .blog-text h3 {
+            font-size: 20px;
+        }
+        
+        .blog-page.single-blog .blog-author {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+</style>
+@endpush
+
 @push('js')
     @if ($setting?->comment_type == 0)
         <script async defer crossorigin="anonymous"

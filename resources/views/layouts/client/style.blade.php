@@ -396,12 +396,19 @@
         padding: 8px 12px;
         border-radius: 6px;
         white-space: nowrap;
+        flex-direction: row-reverse;
+        direction: rtl;
     }
 
     .header-contact-item i {
         color: var(--colorPrimary);
         font-size: 16px;
         min-width: 18px;
+        order: 2;
+    }
+
+    .header-contact-item span {
+        order: 1;
     }
 
     .header-contact-item:hover {
