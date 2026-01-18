@@ -77,11 +77,12 @@
             <div class="row justify-content-between">
                 <div class="col-xxl-3 col-lg-3">
                     <div class="footer-item">
-                        <p class="title">{{ __('About Us') }}</p>
+                        <p class="title">{{ __('عن أمان لو') }}</p>
                         <div class="textwidget pe-0">
-                            <p>{{ $contactInfo?->about }}</p>
-                            <a aria-label="{{ __('Details') }}" class="sm_fbtn"
-                                href="{{ url('about-us') }}">{{ __('Details') }} →</a>
+                            <p style="font-size: 14px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);">
+                                {{ __('أمان لو – Aman Law') }}<br>
+                                {{ __('منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تقديم استشارات قانونية وتمثيل قضائي في القضايا المتعلقة بسوريا للعملاء في جميع أنحاء العالم، عبر محامين مختصين وبآلية عمل شفافة وموثوقة.') }}
+                            </p>
                             <ul class="icon">
                                 @foreach (getSocialLinks() as $social)
                                     <li><a target="_blank" aria-label="{{ $social?->link }}" href="{{ $social?->link }}"><i class="{{ $social?->icon }}"></i></a>
@@ -93,51 +94,66 @@
                 </div>
                 <div class="col-xxl-2 col-lg-2 col-md-6">
                     <div class="footer-item">
-                        <p class="title">{{ __('Important Link') }}</p>
-                        @if ($footerFirstMenu = footerFirstMenu())
-                            <ul>
-                                @foreach ($footerFirstMenu as $menu)
-                                    <li><a @if ($menu['open_new_tab']) target="_blank" @endif
-                                            href="{{ $menu['link'] == '#' || empty($menu['link']) ? 'javascript:;' : url($menu['link']) }}">{{ $menu['label'] }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        <p class="title">{{ __('روابط سريعة') }}</p>
+                        <ul>
+                            <li><a href="{{ url('/') }}">{{ __('الرئيسية') }}</a></li>
+                            <li><a href="{{ url('about-us') }}">{{ __('من نحن') }}</a></li>
+                            <li><a href="{{ url('service') }}">{{ __('الخدمات القانونية') }}</a></li>
+                            <li><a href="{{ route('website.book.consultation.appointment') }}">{{ __('حجز استشارة') }}</a></li>
+                            <li><a href="{{ route('website.contact-us') }}">{{ __('تواصل معنا') }}</a></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-xxl-2 col-lg-2 col-md-6">
                     <div class="footer-item">
-                        <p class="title">{{ __('Account') }}</p>
-                        @if ($footerSecondMenu = footerSecondMenu())
-                            <ul>
-                                @foreach ($footerSecondMenu as $menu)
-                                    <li><a @if ($menu['open_new_tab']) target="_blank" @endif
-                                            href="{{ $menu['link'] == '#' || empty($menu['link']) ? 'javascript:;' : url($menu['link']) }}">{{ $menu['label'] }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        <p class="title">{{ __('الخدمات القانونية') }}</p>
+                        <ul>
+                            <li><a href="javascript:;">{{ __('القضايا المدنية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('القضايا العقارية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('القضايا التجارية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('قضايا الأحوال الشخصية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('القضايا الجزائية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('صياغة العقود والاستشارات القانونية') }}</a></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-xxl-3 col-lg-4">
                     <div class="footer-item">
-                        <p class="title">{{ __('Recent Post') }}</p>
-                        @foreach (footerLatestNews() as $item)
-                            <div class="footer-recent-item">
-                                <div class="footer-recent-photo">
-                                    <a aria-label="{{ $item?->title }}"
-                                        href="{{ route('website.blog.details', $item?->slug) }}"><img
-                                            src="{{ url($item?->thumbnail_image) }}" alt="{{ $item?->title }}"
-                                            loading="lazy"></a>
-                                </div>
-                                <div class="footer-recent-text">
-                                    <a aria-label="{{ $item?->title }}"
-                                        href="{{ route('website.blog.details', $item?->slug) }}">{{ $item?->title }}</a>
-                                    <div class="footer-post-date">{{ formattedDate($item?->created_at) }}</div>
-                                </div>
-                            </div>
-                        @endforeach
-
+                        <p class="title">{{ __('التواصل') }}</p>
+                        <div style="font-size: 14px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);">
+                            @if ($contactInfo?->top_bar_phone)
+                                @php
+                                    $whatsappNumber = $contactInfo->top_bar_phone;
+                                    $whatsappNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
+                                    if (!str_starts_with($whatsappNumber, '+')) {
+                                        $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
+                                    }
+                                @endphp
+                                <p style="margin-bottom: 15px;">
+                                    <strong>{{ __('التواصل عبر واتساب:') }}</strong><br>
+                                    <a href="https://wa.me/{{ $whatsappNumber }}" target="_blank" style="color: #D4A574; text-decoration: none;">{{ $contactInfo->top_bar_phone }}</a>
+                                </p>
+                            @endif
+                            @if ($contactInfo?->top_bar_email)
+                                <p style="margin-bottom: 15px;">
+                                    <strong>{{ __('البريد الإلكتروني:') }}</strong><br>
+                                    <a href="mailto:{{ $contactInfo->top_bar_email }}" style="color: #D4A574; text-decoration: none;">{{ $contactInfo->top_bar_email }}</a>
+                                </p>
+                            @endif
+                            <p style="margin-bottom: 0;">
+                                <strong>{{ __('الاستشارات:') }}</strong><br>
+                                {{ __('استشارات قانونية عن بُعد عبر واتساب، مكالمات صوتية أو فيديو.') }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-2 col-lg-2 col-md-6">
+                    <div class="footer-item">
+                        <p class="title">{{ __('معلومات قانونية') }}</p>
+                        <ul>
+                            <li><a href="{{ route('website.privacy-policy') }}">{{ __('سياسة الخصوصية') }}</a></li>
+                            <li><a href="{{ route('website.terms-conditions') }}">{{ __('الشروط والأحكام') }}</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -147,9 +163,11 @@
         <div class="container">
             <div class="copyright-text text-center">
                 @if(getSessionLanguage() == 'ar')
-                    <p>حقوق الطبع والنشر © 2026، أمان لو. جميع الحقوق محفوظة.</p>
+                    <p>© {{ __('جميع الحقوق محفوظة – أمان لو Aman Law') }}</p>
+                    <p style="margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">{{ __('منصّة قانونية مُدارة من سويسرا') }}</p>
                 @else
                     <p>Copyright © 2026, Aman Law. All rights reserved.</p>
+                    <p style="margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">{{ __('Legal platform managed from Switzerland') }}</p>
                 @endif
             </div>
         </div>

@@ -7,6 +7,80 @@
 @endsection
 @section('client-content')
 
+    <!--Hero Section Start-->
+    <section class="hero-section pt_100 pb_100" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%); position: relative; overflow: hidden;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 wow fadeInLeft">
+                    <div class="hero-content">
+                        <h1 class="hero-title" style="font-size: 48px; font-weight: 800; color: #ffffff; margin-bottom: 25px; line-height: 1.3;">
+                            {{ __('ملتقى المحامين السوريين-السويسريين') }}<br>
+                            <span style="color: #D4A574;">{{ __('Aman Law – أمان لو') }}</span>
+                        </h1>
+                        <p class="hero-description" style="font-size: 18px; color: rgba(255, 255, 255, 0.9); line-height: 1.8; margin-bottom: 30px;">
+                            {{ __('منصّة قانونية مُدارة من سويسرا، تضم محامين مختصين من سوريا، لتقديم استشارات قانونية وتمثيل قضائي في القضايا المتعلقة بسوريا للعملاء في جميع أنحاء العالم.') }}
+                        </p>
+                        <p class="hero-description" style="font-size: 16px; color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 30px;">
+                            {{ __('نقدّم خدمات قانونية متكاملة تشمل القضايا المدنية، العقارية، التجارية، قضايا الأحوال الشخصية، القضايا الجزائية، وصياغة العقود ومتابعة الدعاوى أمام المحاكم السورية.') }}
+                        </p>
+                        <p class="hero-description" style="font-size: 16px; color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 40px;">
+                            {{ __('تتم الاستشارات القانونية عبر التواصل على واتساب أو من خلال تعبئة نموذج الطلب، مع إمكانية حجز موعد استشارة عبر مكالمة صوتية أو مكالمة فيديو حسب رغبة العميل.') }}
+                        </p>
+                        <a href="{{ route('website.book.consultation.appointment') }}" class="hero-cta-btn" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);">
+                            {{ __('تواصل معنا وحجز استشارة قانونية') }}
+                            <i class="fas fa-arrow-left ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInRight">
+                    <div class="hero-image text-center">
+                        <div style="background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; backdrop-filter: blur(10px);">
+                            <i class="fas fa-gavel" style="font-size: 120px; color: #D4A574; margin-bottom: 20px;"></i>
+                            <h3 style="color: #ffffff; font-size: 24px; font-weight: 600;">{{ __('خدمات قانونية موثوقة') }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Hero Section End-->
+
+    <!--Quick Points Section Start-->
+    <section class="quick-points-section pt_80 pb_80" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="quick-point-card" style="background: #ffffff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%;">
+                        <div class="quick-point-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
+                            <i class="fas fa-users" style="font-size: 36px; color: #ffffff;"></i>
+                        </div>
+                        <h3 class="quick-point-title" style="font-size: 22px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('محامون مختصون') }}</h3>
+                        <p class="quick-point-text" style="font-size: 16px; color: #666; line-height: 1.7;">{{ __('شبكة من المحامين ذوي خبرة داخل سوريا، كلٌّ حسب اختصاصه القانوني.') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="quick-point-card" style="background: #ffffff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%;">
+                        <div class="quick-point-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
+                            <i class="fas fa-globe" style="font-size: 36px; color: #ffffff;"></i>
+                        </div>
+                        <h3 class="quick-point-title" style="font-size: 22px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('استشارة عن بُعد') }}</h3>
+                        <p class="quick-point-text" style="font-size: 16px; color: #666; line-height: 1.7;">{{ __('إمكانية الحصول على استشارة قانونية من أي مكان في العالم.') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="quick-point-card" style="background: #ffffff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%;">
+                        <div class="quick-point-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
+                            <i class="fas fa-eye" style="font-size: 36px; color: #ffffff;"></i>
+                        </div>
+                        <h3 class="quick-point-title" style="font-size: 22px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('وضوح وشفافية') }}</h3>
+                        <p class="quick-point-text" style="font-size: 16px; color: #666; line-height: 1.7;">{{ __('آلية عمل واضحة وتواصل مباشر مع العميل في جميع مراحل القضية.') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Quick Points Section End-->
+
     <!--Why Us Start-->
     @if (1 == $home_sections?->feature_status)
         <section class="why-us-area pt_30">
@@ -102,9 +176,8 @@
                 <div class="row">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                         <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->service_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->service_second_heading) }}</h2>
-                            <p>{{ $home_sections?->service_description }}</p>
+                            <h2 class="title"><span>{{ __('الخدمات') }}</span> {{ __('القانونية') }}</h2>
+                            <p>{{ __('نقدّم خدمات قانونية متنوّعة متعلّقة بالقضايا داخل سوريا، موجّهة للأفراد والشركات في الداخل والخارج.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -510,60 +583,209 @@
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                     <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('How') }}</span> {{ __('It Works') }}</h2>
-                        <p>{{ __('Getting legal help has never been easier. Follow these simple steps to get started.') }}</p>
+                        <h2 class="title"><span>{{ __('كيف') }}</span> {{ __('نعمل') }}</h2>
+                        <p>{{ __('نعتمد آلية عمل بسيطة وواضحة لضمان فهم الطلب وتقديم الخدمة القانونية المناسبة.') }}</p>
                     </div>
                 </div>
             </div>
             <div class="row mt_50">
-                <div class="col-lg-4 col-md-6 mt_30">
+                <div class="col-lg-3 col-md-6 mt_30">
                     <div class="enhanced-how-works-card">
                         <div class="enhanced-step-number">1</div>
                         <div class="enhanced-step-icon-wrapper enhanced-icon-1">
-                            <i class="fas fa-calendar-alt enhanced-step-icon"></i>
+                            <i class="fab fa-whatsapp enhanced-step-icon"></i>
                         </div>
                         <div class="enhanced-step-content">
-                            <h3 class="enhanced-step-title">{{ __('Choose date, lawyer and time') }}</h3>
-                            <p class="enhanced-step-description">{{ __('Start by choosing a date for your appointment. Then choose the lawyer you want to speak to and the time that suits you best.') }}</p>
+                            <h3 class="enhanced-step-title">{{ __('التواصل عبر واتساب أو تعبئة نموذج طلب الاستشارة') }}</h3>
+                            <p class="enhanced-step-description">{{ __('ابدأ بالتواصل معنا عبر واتساب أو من خلال تعبئة نموذج طلب الاستشارة المتاح على الموقع.') }}</p>
                         </div>
                         <div class="enhanced-step-decoration"></div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mt_30">
+                <div class="col-lg-3 col-md-6 mt_30">
                     <div class="enhanced-how-works-card">
                         <div class="enhanced-step-number">2</div>
                         <div class="enhanced-step-icon-wrapper enhanced-icon-2">
-                            <i class="fas fa-credit-card enhanced-step-icon"></i>
+                            <i class="fas fa-search enhanced-step-icon"></i>
                         </div>
                         <div class="enhanced-step-content">
-                            <h3 class="enhanced-step-title">{{ __('Easy and secure payments') }}</h3>
-                            <p class="enhanced-step-description">{{ __('When you\'ve chosen a date and time for your appointment, you\'ll be directed to a secure page for payments. Choose to pay with card or Klarna.') }}</p>
+                            <h3 class="enhanced-step-title">{{ __('دراسة الحالة من قبل الفريق القانوني') }}</h3>
+                            <p class="enhanced-step-description">{{ __('يقوم فريقنا القانوني بدراسة حالتك بعناية وتحديد المحامي المختص المناسب.') }}</p>
                         </div>
                         <div class="enhanced-step-decoration"></div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 mt_30">
+                <div class="col-lg-3 col-md-6 mt_30">
                     <div class="enhanced-how-works-card">
                         <div class="enhanced-step-number">3</div>
                         <div class="enhanced-step-icon-wrapper enhanced-icon-3">
-                            <i class="fas fa-envelope enhanced-step-icon"></i>
+                            <i class="fas fa-comments enhanced-step-icon"></i>
                         </div>
                         <div class="enhanced-step-content">
-                            <h3 class="enhanced-step-title">{{ __('Link to meeting in email') }}</h3>
-                            <p class="enhanced-step-description">{{ __('After payment, you\'ll get a confirmation sent to your email, with a Google Meet-link. When it\'s time for your appointment, simply click on the link to start your meeting.') }}</p>
+                            <h3 class="enhanced-step-title">{{ __('تقديم الاستشارة القانونية') }}</h3>
+                            <p class="enhanced-step-description">{{ __('نقدّم الاستشارة القانونية عبر النص، المكالمة الصوتية أو مكالمة الفيديو حسب رغبتك.') }}</p>
                         </div>
                         <div class="enhanced-step-decoration"></div>
                     </div>
                 </div>
-            </div>
-            <div class="row mt_40">
-                <div class="col-12 text-center">
-                    <a href="javascript:;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointment_modal">{{ __('Book Your Appointment Now') }}</a>
+                <div class="col-lg-3 col-md-6 mt_30">
+                    <div class="enhanced-how-works-card">
+                        <div class="enhanced-step-number">4</div>
+                        <div class="enhanced-step-icon-wrapper enhanced-icon-3">
+                            <i class="fas fa-gavel enhanced-step-icon"></i>
+                        </div>
+                        <div class="enhanced-step-content">
+                            <h3 class="enhanced-step-title">{{ __('متابعة القضية أو التمثيل القانوني') }}</h3>
+                            <p class="enhanced-step-description">{{ __('عند الطلب، نقوم بمتابعة القضية أو التمثيل القانوني أمام المحاكم السورية.') }}</p>
+                        </div>
+                        <div class="enhanced-step-decoration"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <!--How It Works Section End-->
+
+    <!--About Us Section Start-->
+    <section class="about-us-section pt_100 pb_100" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                    <div class="main-headline text-center">
+                        <h2 class="title"><span>{{ __('من') }}</span> {{ __('نحن') }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_50">
+                <div class="col-lg-10 m-auto">
+                    <div class="about-us-content text-center" style="background: #ffffff; padding: 50px 40px; border-radius: 20px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);">
+                        <p style="font-size: 18px; color: #333; line-height: 1.9; margin-bottom: 0;">
+                            {{ __('أمان لو – Aman Law هي منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تسهيل وصول العملاء في الخارج إلى خدمات قانونية موثوقة داخل سوريا، عبر محامين مختصين وبآلية عمل منظّمة وشفافة.') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--About Us Section End-->
+
+    <!--Why Aman Law Section Start-->
+    <section class="why-aman-law-section pt_100 pb_100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                    <div class="main-headline text-center">
+                        <h2 class="title"><span>{{ __('لماذا') }}</span> {{ __('أمان لو') }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_50">
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-flag" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('إدارة قانونية من سويسرا') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-user-tie" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('محامون مختصون داخل سوريا') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-users" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('خدمة مخصّصة للعملاء في الخارج') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-video" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('استشارات عن بُعد (صوتية أو فيديو)') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-eye" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('وضوح في الإجراءات والمتابعة') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-shield-alt" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('التزام بالمهنية والسرّية') }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Why Aman Law Section End-->
+
+    <!--Book Consultation Section Start-->
+    <section class="book-consultation-section pt_100 pb_100" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 m-auto">
+                    <div class="book-consultation-content text-center" style="background: rgba(255, 255, 255, 0.1); padding: 60px 40px; border-radius: 20px; backdrop-filter: blur(10px);">
+                        <h2 class="title mb_30" style="color: #ffffff; font-size: 36px; font-weight: 700; margin-bottom: 25px;">{{ __('حجز استشارة قانونية') }}</h2>
+                        <p style="font-size: 18px; color: rgba(255, 255, 255, 0.9); line-height: 1.8; margin-bottom: 40px;">
+                            {{ __('للحصول على استشارة قانونية، يمكنكم التواصل معنا عبر واتساب أو تعبئة نموذج طلب الاستشارة لتوضيح تفاصيل القضية، مع إمكانية حجز موعد مكالمة صوتية أو فيديو مع محامٍ مختص.') }}
+                        </p>
+                        <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-primary btn-lg" style="padding: 16px 40px; font-size: 18px; font-weight: 700; border-radius: 50px;">
+                            {{ __('احجز استشارتك الآن') }}
+                            <i class="fas fa-arrow-left ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Book Consultation Section End-->
+
+    <!--Contact Us Section Start-->
+    <section class="contact-us-section pt_100 pb_100" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                    <div class="main-headline text-center">
+                        <h2 class="title"><span>{{ __('تواصل') }}</span> {{ __('معنا') }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_50">
+                <div class="col-lg-8 m-auto">
+                    <div class="contact-us-content text-center" style="background: #ffffff; padding: 50px 40px; border-radius: 20px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);">
+                        <p style="font-size: 18px; color: #333; line-height: 1.9; margin-bottom: 30px;">
+                            {{ __('نحن جاهزون للإجابة على استفساراتكم القانونية ومساعدتكم في متابعة قضاياكم داخل سوريا.') }}
+                        </p>
+                        <p style="font-size: 16px; color: #666; line-height: 1.8; margin-bottom: 0;">
+                            {{ __('يرجى التواصل معنا عبر واتساب أو من خلال نموذج التواصل المتاح على الموقع.') }}
+                        </p>
+                        <div class="mt_40">
+                            @if ($contactInfo?->top_bar_phone)
+                                @php
+                                    $whatsappNumber = $contactInfo->top_bar_phone;
+                                    $whatsappNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
+                                    if (!str_starts_with($whatsappNumber, '+')) {
+                                        $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
+                                    }
+                                @endphp
+                                <a href="https://wa.me/{{ $whatsappNumber }}" target="_blank" class="btn btn-success btn-lg me-3" style="padding: 14px 35px; font-size: 18px; font-weight: 600; border-radius: 50px;">
+                                    <i class="fab fa-whatsapp me-2"></i>
+                                    {{ __('تواصل عبر واتساب') }}
+                                </a>
+                            @endif
+                            <a href="{{ route('website.contact-us') }}" class="btn btn-primary btn-lg" style="padding: 14px 35px; font-size: 18px; font-weight: 600; border-radius: 50px;">
+                                <i class="fas fa-envelope me-2"></i>
+                                {{ __('نموذج التواصل') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Contact Us Section End-->
 
     <!--Fixed Price Guarantee Section Start-->
     <section class="fixed-price-area pt_100 pb_100 bg_ecf1f8">

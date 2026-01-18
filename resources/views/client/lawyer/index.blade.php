@@ -102,6 +102,25 @@
     </div>
     <!--Banner End-->
 
+    <!--Lawyers Page Description Start-->
+    <div class="lawyers-page-description pt_50 pb_30" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="description-content text-center" style="background: #ffffff; padding: 40px 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);">
+                        <p style="font-size: 18px; color: #333; line-height: 1.9; margin-bottom: 20px;">
+                            {{ __('منصّة قانونية مُدارة من سويسرا، تضم محامين مختصين داخل سوريا، لتقديم استشارات قانونية وتمثيل قضائي في القضايا المتعلقة بسوريا للعملاء في جميع أنحاء العالم.') }}
+                        </p>
+                        <p style="font-size: 16px; color: #666; line-height: 1.8; margin-bottom: 0;">
+                            {{ __('تتم الاستشارات عبر واتساب أو نموذج الطلب، مع إمكانية حجز مكالمة صوتية أو فيديو.') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Lawyers Page Description End-->
+
     <div class="lawyer-search">
         <div class="container">
             <div class="row">

@@ -70,27 +70,27 @@
                 <div class="navbar-right d-flex align-items-center">
                     <ul class="navbar-nav d-none d-lg-flex align-items-center navbar-actions-list">
                         {{-- Notifications Dropdown --}}
-                        <li class="dropdown dropdown-list-toggle notification-dropdown">
-                            <a href="javascript:;" data-bs-toggle="dropdown" class="nav-link nav-link-lg notification-icon position-relative">
-                                <i class="fas fa-bell"></i>
-                                <span class="notification-badge" id="notification-count" style="display: none;">0</span>
+                        <li class="dropdown aman-notification-wrapper">
+                            <a href="javascript:;" data-bs-toggle="dropdown" class="aman-notification-btn" aria-label="{{ __('Notifications') }}">
+                                <i class="fas fa-bell aman-notification-icon"></i>
+                                <span class="aman-notification-badge" id="notification-count" style="display: none;">0</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right notification-dropdown-menu">
-                                <div class="dropdown-header d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0">{{ __('Notifications') }}</h6>
-                                    <a href="javascript:;" class="text-primary small mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
+                            <div class="dropdown-menu dropdown-menu-end aman-notification-dropdown">
+                                <div class="aman-notification-header">
+                                    <h6 class="aman-notification-title">{{ __('Notifications') }}</h6>
+                                    <a href="javascript:;" class="aman-notification-mark-all mark-all-read">{{ __('Mark all as read') }}</a>
                                 </div>
-                                <div class="dropdown-divider"></div>
-                                <div id="notifications-list">
-                                    <div class="text-center p-3">
+                                <div class="aman-notification-divider"></div>
+                                <div class="aman-notification-body" id="notifications-list">
+                                    <div class="aman-notification-loading">
                                         <div class="spinner-border spinner-border-sm text-primary" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="dropdown-footer text-center">
-                                    <a href="{{ route('admin.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
+                                <div class="aman-notification-divider"></div>
+                                <div class="aman-notification-footer">
+                                    <a href="{{ route('admin.notifications.index') }}" class="aman-notification-view-all">{{ __('View all notifications') }}</a>
                                 </div>
                             </div>
                         </li>
@@ -329,12 +329,12 @@
                             updateNotificationCount(response.unread_count || 0);
                             renderNotifications(response.notifications || []);
                         } else {
-                            $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                            $('#notifications-list').html('<div class="aman-notification-empty">{{ __("No notifications") }}</div>');
                         }
                     },
                     error: function(xhr, status, error) {
                         console.error('Notification fetch error:', error);
-                        $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        $('#notifications-list').html('<div class="aman-notification-empty">{{ __("Failed to load notifications") }}</div>');
                         updateNotificationCount(0);
                     }
                 });
@@ -352,7 +352,7 @@
             function renderNotifications(notifications) {
                 const list = $('#notifications-list');
                 if (!notifications || notifications.length === 0) {
-                    list.html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                    list.html('<div class="aman-notification-empty">{{ __("No notifications") }}</div>');
                     return;
                 }
 
@@ -360,23 +360,22 @@
                 notifications.forEach(function(notification) {
                     try {
                         const isRead = notification.read_at !== null && notification.read_at !== '';
-                        const readClass = isRead ? '' : 'bg-light';
+                        const readClass = isRead ? 'aman-notification-read' : 'aman-notification-unread';
                         const notificationData = notification.data || {};
                         const icon = getNotificationIcon(notificationData.type || '');
                         html += `
-                            <a href="${notificationData.url || '#'}" class="dropdown-item notification-item ${readClass}" data-id="${notification.id || ''}">
-                                <div class="d-flex align-items-start">
-                                    <div class="notification-icon-wrapper me-2">
+                            <a href="${notificationData.url || '#'}" class="aman-notification-item ${readClass}" data-id="${notification.id || ''}">
+                                <div class="aman-notification-item-content">
+                                    <div class="aman-notification-item-icon">
                                         <i class="${icon}"></i>
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold small">${notificationData.title || '{{ __("Notification") }}'}</div>
-                                        <div class="text-muted small" style="font-size: 0.85rem;">${notificationData.message || ''}</div>
-                                        <div class="text-muted" style="font-size: 0.75rem; margin-top: 4px;">${formatTime(notification.created_at)}</div>
+                                    <div class="aman-notification-item-text">
+                                        <div class="aman-notification-item-title">${notificationData.title || '{{ __("Notification") }}'}</div>
+                                        <div class="aman-notification-item-message">${notificationData.message || ''}</div>
+                                        <div class="aman-notification-item-time">${formatTime(notification.created_at)}</div>
                                     </div>
                                 </div>
                             </a>
-                            <div class="dropdown-divider"></div>
                         `;
                     } catch (e) {
                         console.error('Error rendering notification:', e, notification);
@@ -385,9 +384,9 @@
                 list.html(html);
 
                 // Mark as read on click
-                $('.notification-item').on('click', function(e) {
+                $('.aman-notification-item').on('click', function(e) {
                     const notificationId = $(this).data('id');
-                    if (!$(this).hasClass('bg-light')) return; // Already read
+                    if ($(this).hasClass('aman-notification-read')) return; // Already read
                     
                     $.ajax({
                         url: '{{ route("admin.notifications.mark-read", ":id") }}'.replace(':id', notificationId),
@@ -618,5 +617,376 @@
     </script>
 
 </body>
+
+@push('css')
+<style>
+/* ============================================
+   Admin Notification System - New Design
+   نظام الإشعارات في لوحة الأدمن - تصميم جديد
+   ============================================ */
+
+/* Notification Wrapper */
+.aman-notification-wrapper {
+    position: relative !important;
+    z-index: 1050 !important;
+}
+
+/* Notification Button */
+.aman-notification-btn {
+    width: 44px !important;
+    height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    border-radius: 10px !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    position: relative !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    cursor: pointer !important;
+    z-index: 1051 !important;
+}
+
+.aman-notification-btn:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.aman-notification-btn:active {
+    transform: translateY(0) !important;
+}
+
+.aman-notification-btn:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Notification Icon */
+.aman-notification-icon {
+    font-size: 20px !important;
+    color: #fff !important;
+    line-height: 1 !important;
+    display: block !important;
+}
+
+/* Notification Badge */
+.aman-notification-badge {
+    position: absolute !important;
+    top: -6px !important;
+    right: -6px !important;
+    background: linear-gradient(135deg, #ff4757 0%, #ff6b7a 100%) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    padding: 3px 7px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    min-width: 20px !important;
+    height: 20px !important;
+    line-height: 14px !important;
+    text-align: center !important;
+    border: 2px solid #6777ef !important;
+    z-index: 1052 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4) !important;
+    animation: pulse-badge 2s infinite !important;
+}
+
+@keyframes pulse-badge {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* RTL Support for Badge */
+[dir="rtl"] .aman-notification-badge {
+    right: auto !important;
+    left: -6px !important;
+}
+
+/* Notification Dropdown */
+.aman-notification-dropdown {
+    width: 380px !important;
+    max-height: 500px !important;
+    overflow: hidden !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-top: 12px !important;
+    padding: 0 !important;
+    background: #fff !important;
+    z-index: 1053 !important;
+    position: absolute !important;
+    right: 0 !important;
+    left: auto !important;
+}
+
+[dir="rtl"] .aman-notification-dropdown {
+    right: auto !important;
+    left: 0 !important;
+}
+
+/* Notification Header */
+.aman-notification-header {
+    padding: 18px 20px !important;
+    background: linear-gradient(135deg, #6777ef 0%, #764ba2 100%) !important;
+    border-radius: 16px 16px 0 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.aman-notification-title {
+    margin: 0 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.aman-notification-mark-all {
+    font-size: 12px !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+}
+
+.aman-notification-mark-all:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+}
+
+/* Notification Divider */
+.aman-notification-divider {
+    height: 1px !important;
+    background: #e9ecef !important;
+    margin: 0 !important;
+}
+
+/* Notification Body */
+.aman-notification-body {
+    max-height: 400px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 0 !important;
+}
+
+/* Custom Scrollbar */
+.aman-notification-body::-webkit-scrollbar {
+    width: 6px !important;
+}
+
+.aman-notification-body::-webkit-scrollbar-track {
+    background: #f1f1f1 !important;
+}
+
+.aman-notification-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1 !important;
+    border-radius: 3px !important;
+}
+
+.aman-notification-body::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8 !important;
+}
+
+/* Notification Loading */
+.aman-notification-loading {
+    padding: 40px 20px !important;
+    text-align: center !important;
+}
+
+/* Notification Empty */
+.aman-notification-empty {
+    padding: 40px 20px !important;
+    text-align: center !important;
+    color: #6c757d !important;
+    font-size: 14px !important;
+}
+
+/* Notification Item */
+.aman-notification-item {
+    display: block !important;
+    padding: 16px 20px !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+}
+
+.aman-notification-item:last-child {
+    border-bottom: none !important;
+}
+
+.aman-notification-item:hover {
+    background: #f8f9fa !important;
+    text-decoration: none !important;
+}
+
+.aman-notification-unread {
+    background: #f0f7ff !important;
+    border-left: 4px solid #6777ef !important;
+}
+
+[dir="rtl"] .aman-notification-unread {
+    border-left: none !important;
+    border-right: 4px solid #6777ef !important;
+}
+
+.aman-notification-read {
+    background: #fff !important;
+}
+
+/* Notification Item Content */
+.aman-notification-item-content {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+}
+
+/* Notification Item Icon */
+.aman-notification-item-icon {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+}
+
+.aman-notification-item-icon i {
+    font-size: 18px !important;
+    color: #6777ef !important;
+}
+
+.aman-notification-unread .aman-notification-item-icon {
+    background: linear-gradient(135deg, #e7f3ff 0%, #d0e7ff 100%) !important;
+}
+
+.aman-notification-unread .aman-notification-item-icon i {
+    color: #6777ef !important;
+}
+
+/* Notification Item Text */
+.aman-notification-item-text {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.aman-notification-item-title {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #2c3e50 !important;
+    margin-bottom: 4px !important;
+    line-height: 1.4 !important;
+}
+
+.aman-notification-unread .aman-notification-item-title {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+}
+
+.aman-notification-item-message {
+    font-size: 13px !important;
+    color: #6c757d !important;
+    line-height: 1.5 !important;
+    margin-bottom: 6px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+
+.aman-notification-item-time {
+    font-size: 11px !important;
+    color: #adb5bd !important;
+    font-weight: 500 !important;
+}
+
+/* Notification Footer */
+.aman-notification-footer {
+    padding: 12px 20px !important;
+    text-align: center !important;
+    background: #f8f9fa !important;
+    border-radius: 0 0 16px 16px !important;
+}
+
+.aman-notification-view-all {
+    font-size: 13px !important;
+    color: #6777ef !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+    padding: 4px 0 !important;
+}
+
+.aman-notification-view-all:hover {
+    color: #5568d3 !important;
+    text-decoration: underline !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 991.98px) {
+    .aman-notification-dropdown {
+        width: 320px !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+    
+    .aman-notification-btn {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .aman-notification-icon {
+        font-size: 18px !important;
+    }
+    
+    .aman-notification-badge {
+        font-size: 10px !important;
+        min-width: 18px !important;
+        height: 18px !important;
+        padding: 2px 6px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .aman-notification-dropdown {
+        width: 300px !important;
+        right: -10px !important;
+    }
+    
+    [dir="rtl"] .aman-notification-dropdown {
+        left: -10px !important;
+        right: auto !important;
+    }
+}
+
+/* Ensure dropdown is above all elements */
+.dropdown-menu.aman-notification-dropdown {
+    z-index: 9999 !important;
+}
+
+/* Fix for Bootstrap dropdown positioning */
+.aman-notification-wrapper.show .aman-notification-dropdown {
+    display: block !important;
+}
+</style>
+@endpush
 
 </html>
