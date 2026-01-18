@@ -978,7 +978,7 @@ class HomeController extends Controller {
         // Static pages
         $staticPages = [
             ['url' => route('home'), 'priority' => '1.0', 'changefreq' => 'daily'],
-            ['url' => route('website.about-us'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['url' => url('/about-us'), 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['url' => route('website.contact-us'), 'priority' => '0.8', 'changefreq' => 'monthly'],
             ['url' => route('website.services'), 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['url' => route('website.departments'), 'priority' => '0.9', 'changefreq' => 'weekly'],
