@@ -70,27 +70,27 @@
                 <div class="navbar-right d-flex align-items-center">
                     <ul class="navbar-nav d-none d-lg-flex align-items-center navbar-actions-list">
                         {{-- Notifications Dropdown --}}
-                        <li class="dropdown aman-notification-wrapper">
-                            <a href="javascript:;" data-bs-toggle="dropdown" class="aman-notification-btn" aria-label="{{ __('Notifications') }}">
-                                <i class="fas fa-bell aman-notification-icon"></i>
-                                <span class="aman-notification-badge" id="notification-count" style="display: none;">0</span>
+                        <li class="dropdown admin-alert-wrapper">
+                            <a href="javascript:;" data-bs-toggle="dropdown" class="admin-alert-button" aria-label="{{ __('Notifications') }}">
+                                <i class="fas fa-bell admin-alert-icon"></i>
+                                <span class="admin-alert-counter" id="notification-count" style="display: none;">0</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end aman-notification-dropdown">
-                                <div class="aman-notification-header">
-                                    <h6 class="aman-notification-title">{{ __('Notifications') }}</h6>
-                                    <a href="javascript:;" class="aman-notification-mark-all mark-all-read">{{ __('Mark all as read') }}</a>
+                            <div class="dropdown-menu dropdown-menu-end admin-alert-panel">
+                                <div class="admin-alert-top">
+                                    <h6 class="admin-alert-heading">{{ __('Notifications') }}</h6>
+                                    <a href="javascript:;" class="admin-alert-mark-all mark-all-read">{{ __('Mark all as read') }}</a>
                                 </div>
-                                <div class="aman-notification-divider"></div>
-                                <div class="aman-notification-body" id="notifications-list">
-                                    <div class="aman-notification-loading">
+                                <div class="admin-alert-separator"></div>
+                                <div class="admin-alert-content" id="notifications-list">
+                                    <div class="admin-alert-spinner">
                                         <div class="spinner-border spinner-border-sm text-primary" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="aman-notification-divider"></div>
-                                <div class="aman-notification-footer">
-                                    <a href="{{ route('admin.notifications.index') }}" class="aman-notification-view-all">{{ __('View all notifications') }}</a>
+                                <div class="admin-alert-separator"></div>
+                                <div class="admin-alert-bottom">
+                                    <a href="{{ route('admin.notifications.index') }}" class="admin-alert-link">{{ __('View all notifications') }}</a>
                                 </div>
                             </div>
                         </li>
@@ -329,12 +329,12 @@
                             updateNotificationCount(response.unread_count || 0);
                             renderNotifications(response.notifications || []);
                         } else {
-                            $('#notifications-list').html('<div class="aman-notification-empty">{{ __("No notifications") }}</div>');
+                            $('#notifications-list').html('<div class="admin-alert-no-data">{{ __("No notifications") }}</div>');
                         }
                     },
                     error: function(xhr, status, error) {
                         console.error('Notification fetch error:', error);
-                        $('#notifications-list').html('<div class="aman-notification-empty">{{ __("Failed to load notifications") }}</div>');
+                        $('#notifications-list').html('<div class="admin-alert-no-data">{{ __("Failed to load notifications") }}</div>');
                         updateNotificationCount(0);
                     }
                 });
@@ -352,7 +352,7 @@
             function renderNotifications(notifications) {
                 const list = $('#notifications-list');
                 if (!notifications || notifications.length === 0) {
-                    list.html('<div class="aman-notification-empty">{{ __("No notifications") }}</div>');
+                    list.html('<div class="admin-alert-no-data">{{ __("No notifications") }}</div>');
                     return;
                 }
 
@@ -360,19 +360,19 @@
                 notifications.forEach(function(notification) {
                     try {
                         const isRead = notification.read_at !== null && notification.read_at !== '';
-                        const readClass = isRead ? 'aman-notification-read' : 'aman-notification-unread';
+                        const readClass = isRead ? 'admin-alert-read' : 'admin-alert-new';
                         const notificationData = notification.data || {};
                         const icon = getNotificationIcon(notificationData.type || '');
                         html += `
-                            <a href="${notificationData.url || '#'}" class="aman-notification-item ${readClass}" data-id="${notification.id || ''}">
-                                <div class="aman-notification-item-content">
-                                    <div class="aman-notification-item-icon">
+                            <a href="${notificationData.url || '#'}" class="admin-alert-entry ${readClass}" data-id="${notification.id || ''}">
+                                <div class="admin-alert-entry-box">
+                                    <div class="admin-alert-entry-icon-box">
                                         <i class="${icon}"></i>
                                     </div>
-                                    <div class="aman-notification-item-text">
-                                        <div class="aman-notification-item-title">${notificationData.title || '{{ __("Notification") }}'}</div>
-                                        <div class="aman-notification-item-message">${notificationData.message || ''}</div>
-                                        <div class="aman-notification-item-time">${formatTime(notification.created_at)}</div>
+                                    <div class="admin-alert-entry-text-box">
+                                        <div class="admin-alert-entry-heading">${notificationData.title || '{{ __("Notification") }}'}</div>
+                                        <div class="admin-alert-entry-text">${notificationData.message || ''}</div>
+                                        <div class="admin-alert-entry-date">${formatTime(notification.created_at)}</div>
                                     </div>
                                 </div>
                             </a>
@@ -384,9 +384,9 @@
                 list.html(html);
 
                 // Mark as read on click
-                $('.aman-notification-item').on('click', function(e) {
+                $('.admin-alert-entry').on('click', function(e) {
                     const notificationId = $(this).data('id');
-                    if ($(this).hasClass('aman-notification-read')) return; // Already read
+                    if ($(this).hasClass('admin-alert-read')) return; // Already read
                     
                     $.ajax({
                         url: '{{ route("admin.notifications.mark-read", ":id") }}'.replace(':id', notificationId),

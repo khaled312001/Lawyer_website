@@ -152,7 +152,7 @@
                         <p class="title">{{ __('معلومات قانونية') }}</p>
                         <ul>
                             <li><a href="{{ route('website.privacy-policy') }}">{{ __('سياسة الخصوصية') }}</a></li>
-                            <li><a href="{{ route('website.terms-conditions') }}">{{ __('الشروط والأحكام') }}</a></li>
+                            <li><a href="{{ route('website.termsCondition') }}">{{ __('الشروط والأحكام') }}</a></li>
                         </ul>
                     </div>
                 </div>
