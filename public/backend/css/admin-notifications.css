@@ -82,8 +82,9 @@
 
 /* Alert Panel (Dropdown) */
 .admin-alert-panel {
-    width: 480px !important;
-    max-height: 700px !important;
+    width: 500px !important;
+    min-width: 500px !important;
+    max-height: 750px !important;
     overflow: hidden !important;
     border-radius: 18px !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25) !important;
@@ -95,11 +96,13 @@
     position: absolute !important;
     right: 0 !important;
     left: auto !important;
+    transform: translateX(0) !important;
 }
 
 [dir="rtl"] .admin-alert-panel {
     right: auto !important;
     left: 0 !important;
+    transform: translateX(0) !important;
 }
 
 /* Alert Top Section */
@@ -147,29 +150,45 @@
 
 /* Alert Content */
 .admin-alert-content {
-    max-height: 550px !important;
+    max-height: 600px !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     padding: 0 !important;
     background: #FFFFFF !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-/* Custom Scrollbar */
+/* Professional Custom Scrollbar */
 .admin-alert-content::-webkit-scrollbar {
-    width: 8px !important;
+    width: 10px !important;
 }
 
 .admin-alert-content::-webkit-scrollbar-track {
-    background: #F3F4F6 !important;
+    background: #F1F3F5 !important;
+    border-radius: 10px !important;
+    margin: 8px 0 !important;
 }
 
 .admin-alert-content::-webkit-scrollbar-thumb {
-    background: #D1D5DB !important;
-    border-radius: 4px !important;
+    background: linear-gradient(180deg, #6777EF 0%, #5A67D8 100%) !important;
+    border-radius: 10px !important;
+    border: 2px solid #F1F3F5 !important;
+    min-height: 30px !important;
 }
 
 .admin-alert-content::-webkit-scrollbar-thumb:hover {
-    background: #9CA3AF !important;
+    background: linear-gradient(180deg, #5568D3 0%, #4C51BF 100%) !important;
+}
+
+.admin-alert-content::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(180deg, #4C51BF 0%, #434190 100%) !important;
+}
+
+/* Firefox Scrollbar */
+.admin-alert-content {
+    scrollbar-width: thin !important;
+    scrollbar-color: #6777EF #F1F3F5 !important;
 }
 
 /* Alert Spinner */
@@ -196,6 +215,9 @@
     border-bottom: 1px solid #F3F4F6 !important;
     transition: all 0.2s ease !important;
     position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 .admin-alert-entry:last-child {
@@ -228,6 +250,9 @@
     display: flex !important;
     align-items: flex-start !important;
     gap: 14px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 /* Alert Entry Icon Box */
@@ -260,6 +285,9 @@
 .admin-alert-entry-text-box {
     flex: 1 !important;
     min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
 }
 
 .admin-alert-entry-heading {
@@ -268,6 +296,9 @@
     color: #000000 !important;
     margin-bottom: 8px !important;
     line-height: 1.5 !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    width: 100% !important;
 }
 
 .admin-alert-new .admin-alert-entry-heading {
@@ -281,10 +312,14 @@
     line-height: 1.7 !important;
     margin-bottom: 10px !important;
     display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
+    -webkit-line-clamp: 3 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     font-weight: 500 !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    width: 100% !important;
+    text-overflow: ellipsis !important;
 }
 
 .admin-alert-entry-date {
@@ -320,8 +355,15 @@
 /* Mobile Responsive */
 @media (max-width: 991.98px) {
     .admin-alert-panel {
-        width: 360px !important;
-        max-width: calc(100vw - 20px) !important;
+        width: 400px !important;
+        min-width: 400px !important;
+        max-width: calc(100vw - 30px) !important;
+        right: 0 !important;
+    }
+    
+    [dir="rtl"] .admin-alert-panel {
+        left: 0 !important;
+        right: auto !important;
     }
     
     .admin-alert-button {
@@ -339,31 +381,103 @@
         height: 20px !important;
         padding: 3px 7px !important;
     }
+    
+    .admin-alert-entry {
+        padding: 18px 22px !important;
+    }
 }
 
 @media (max-width: 768px) {
     .admin-alert-panel {
-        width: 340px !important;
-        right: -15px !important;
+        width: 380px !important;
+        min-width: 380px !important;
+        max-width: calc(100vw - 20px) !important;
+        right: 0 !important;
     }
     
     [dir="rtl"] .admin-alert-panel {
-        left: -15px !important;
+        left: 0 !important;
         right: auto !important;
+    }
+    
+    .admin-alert-entry {
+        padding: 16px 20px !important;
+    }
+    
+    .admin-alert-entry-heading {
+        font-size: 15px !important;
+    }
+    
+    .admin-alert-entry-text {
+        font-size: 14px !important;
     }
 }
 
 /* Ensure dropdown is above all elements */
 .dropdown-menu.admin-alert-panel {
     z-index: 10001 !important;
+    display: block !important;
 }
 
 /* Fix for Bootstrap dropdown positioning */
-.admin-alert-wrapper.show .admin-alert-panel {
+.admin-alert-wrapper.show .admin-alert-panel,
+.dropdown.show .admin-alert-panel {
     display: block !important;
 }
 
 /* Override any conflicting styles */
 .admin-alert-wrapper * {
     box-sizing: border-box !important;
+}
+
+/* Ensure panel stays on right side */
+.admin-alert-panel.dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
+    transform: translateX(0) !important;
+}
+
+[dir="rtl"] .admin-alert-panel.dropdown-menu-end {
+    right: auto !important;
+    left: 0 !important;
+    transform: translateX(0) !important;
+}
+
+/* Prevent text overflow */
+.admin-alert-entry * {
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Smooth animations */
+.admin-alert-panel {
+    animation: slideDown 0.3s ease-out !important;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Better spacing and layout */
+.admin-alert-top {
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+}
+
+.admin-alert-heading {
+    white-space: nowrap !important;
+    overflow: visible !important;
+}
+
+.admin-alert-mark-all {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
 }
