@@ -774,24 +774,24 @@
 <style>
     /* Enhanced Book Appointment Button Design */
     .appointment-btn {
-        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%) !important;
         color: #ffffff !important;
         border: none !important;
-        border-radius: 50px !important;
-        padding: 12px 28px !important;
-        font-weight: 700 !important;
-        font-size: 15px !important;
+        border-radius: 35px !important;
+        padding: 10px 22px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
         text-decoration: none !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 10px !important;
+        gap: 8px !important;
         position: relative !important;
         overflow: hidden !important;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
         text-transform: none !important;
-        letter-spacing: 0.3px !important;
+        letter-spacing: 0.2px !important;
         white-space: nowrap !important;
     }
     
@@ -820,8 +820,8 @@
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.6s ease;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.5s ease;
     }
     
     .appointment-btn:hover::before {
@@ -846,9 +846,9 @@
     
     /* Hover Effects */
     .appointment-btn:hover {
-        transform: translateY(-3px) scale(1.02) !important;
-        box-shadow: 0 8px 25px rgba(220, 38, 38, 0.5) !important;
-        background: linear-gradient(135deg, #E0B584 0%, #EF4444 100%) !important;
+        transform: translateY(-2px) scale(1.03) !important;
+        box-shadow: 0 5px 20px rgba(184, 134, 11, 0.5) !important;
+        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%) !important;
     }
     
     .appointment-btn:active {
@@ -861,15 +861,14 @@
     
     /* Icon Animation */
     .appointment-btn i {
-        font-size: 18px !important;
+        font-size: 16px !important;
         transition: all 0.3s ease !important;
         position: relative;
         z-index: 1;
     }
     
     .appointment-btn:hover i {
-        transform: rotate(15deg) scale(1.1) !important;
-        animation: pulse 1.5s ease-in-out infinite !important;
+        transform: scale(1.2) rotate(5deg) !important;
     }
     
     .mobile-appointment-btn i {
@@ -895,7 +894,7 @@
     .appointment-btn span {
         position: relative;
         z-index: 1;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
     }
     
     .mobile-appointment-btn .mobile-menu-text {
@@ -942,27 +941,30 @@
     }
     
     .appointment-btn {
-        min-width: 200px !important;
+        min-width: auto !important;
     }
     
     /* Responsive */
     @media (max-width: 991px) {
         .appointment-btn {
-            min-width: auto !important;
-            padding: 10px 20px !important;
-            font-size: 14px !important;
+            padding: 9px 18px !important;
+            font-size: 13px !important;
         }
         
         .appointment-btn i {
-            font-size: 16px !important;
+            font-size: 15px !important;
         }
     }
     
     @media (max-width: 768px) {
         .appointment-btn {
-            padding: 10px 18px !important;
-            font-size: 13px !important;
-            gap: 8px !important;
+            padding: 8px 16px !important;
+            font-size: 12px !important;
+            gap: 6px !important;
+        }
+        
+        .appointment-btn i {
+            font-size: 14px !important;
         }
     }
     
