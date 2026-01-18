@@ -35,33 +35,16 @@
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="hero-image text-center">
                         <div style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); min-height: 400px; background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%); display: flex; align-items: center; justify-content: center;">
-                            @php
-                                $heroImage = null;
-                                $imagePaths = [
-                                    'uploads/website-images/hero-aman-law.png',
-                                    'uploads/website-images/app_banner.webp',
-                                    'uploads/website-images/overview-banner.webp',
-                                    'client/img/mobile-app-illustration.png'
-                                ];
-                                foreach ($imagePaths as $path) {
-                                    if (file_exists(public_path($path))) {
-                                        $heroImage = asset($path);
-                                        break;
-                                    }
-                                }
-                            @endphp
-                            @if($heroImage)
-                                <img src="{{ $heroImage }}" 
-                                     alt="{{ __('Aman Law - أمان لو') }}" 
-                                     style="width: 100%; height: auto; display: block; border-radius: 20px;"
-                                     loading="lazy">
-                            @else
-                                <div style="text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.9);">
-                                    <i class="fas fa-balance-scale" style="font-size: 120px; margin-bottom: 20px; opacity: 0.3;"></i>
-                                    <h3 style="font-size: 28px; font-weight: 700; margin-bottom: 10px;">{{ __('Aman Law') }}</h3>
-                                    <p style="font-size: 16px; opacity: 0.8;">{{ __('أمان لو') }}</p>
-                                </div>
-                            @endif
+                            <img src="{{ asset('uploads/website-images/hero-aman-law.png') }}" 
+                                 alt="{{ __('Aman Law - أمان لو') }}" 
+                                 style="width: 100%; height: auto; display: block; border-radius: 20px; max-width: 100%; object-fit: contain;"
+                                 loading="lazy"
+                                 onerror="this.onerror=null; this.src='{{ asset('uploads/website-images/app_banner.webp') }}'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';};">
+                            <div style="display: none; text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.9); width: 100%; height: 100%; align-items: center; justify-content: center; flex-direction: column; position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+                                <i class="fas fa-balance-scale" style="font-size: 120px; margin-bottom: 20px; opacity: 0.3;"></i>
+                                <h3 style="font-size: 28px; font-weight: 700; margin-bottom: 10px; color: #ffffff;">{{ __('Aman Law') }}</h3>
+                                <p style="font-size: 16px; opacity: 0.9; color: #ffffff;">{{ __('أمان لو') }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
