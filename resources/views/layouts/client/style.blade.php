@@ -13325,6 +13325,8 @@
         overflow: hidden;
         height: 100%;
         border: 2px solid transparent;
+        display: flex;
+        flex-direction: column;
     }
     
     .enhanced-how-works-card::before {
@@ -13484,6 +13486,7 @@
     .enhanced-step-content {
         text-align: center;
         padding-top: 10px;
+        width: 100%;
     }
     
     .enhanced-step-title {
@@ -13534,6 +13537,139 @@
     
     [dir="ltr"] .enhanced-step-content {
         text-align: center;
+    }
+    
+    /* Desktop/Laptop Optimizations - تحسينات سطح المكتب */
+    @media (min-width: 992px) {
+        .how-it-works-area .container {
+            max-width: 1200px;
+        }
+        
+        .how-it-works-area .row:last-child {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        
+        .how-it-works-area .row:last-child .col-lg-3 {
+            display: flex;
+            flex-direction: column;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-bottom: 0;
+        }
+        
+        .enhanced-how-works-card {
+            display: flex;
+            flex-direction: column;
+            padding: 45px 35px;
+            min-height: 420px;
+            justify-content: flex-start;
+            width: 100%;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 110px;
+            height: 110px;
+            margin: 25px auto 30px;
+            flex-shrink: 0;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 48px;
+        }
+        
+        .enhanced-step-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .enhanced-step-title {
+            font-size: 23px;
+            margin-bottom: 18px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .enhanced-step-description {
+            font-size: 16px;
+            line-height: 1.9;
+            flex: 1;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .enhanced-step-number {
+            width: 70px;
+            height: 70px;
+            font-size: 32px;
+            top: -25px;
+        }
+        
+        [dir="rtl"] .enhanced-step-number {
+            left: 35px;
+            right: auto;
+        }
+        
+        [dir="rtl"] .enhanced-step-content {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .enhanced-step-title {
+            text-align: right;
+            justify-content: flex-end;
+        }
+        
+        [dir="rtl"] .enhanced-step-description {
+            text-align: right;
+        }
+        
+        /* Ensure equal card heights */
+        .how-it-works-area .row:last-child .col-lg-3 {
+            height: 100%;
+        }
+    }
+    
+    /* Large Desktop Optimizations */
+    @media (min-width: 1200px) {
+        .how-it-works-area .container {
+            max-width: 1320px;
+        }
+        
+        .enhanced-how-works-card {
+            padding: 50px 40px;
+            min-height: 450px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 30px auto 35px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 52px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 24px;
+            min-height: 75px;
+        }
+        
+        .enhanced-step-description {
+            font-size: 17px;
+        }
     }
     
     /* Responsive Design */
