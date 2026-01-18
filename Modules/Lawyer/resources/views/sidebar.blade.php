@@ -6,6 +6,7 @@
         </a>
 
         <ul class="dropdown-menu">
+            {{-- إدارة الأقسام --}}
             @if (checkAdminHasPermission('department.view'))
                 <li
                     class="{{ isRoute(['admin.department.*', 'admin.department.gallery', 'admin.department.videos', 'admin.faq.by.department'], 'active') }}">
@@ -22,6 +23,8 @@
                     </a>
                 </li>
             @endif
+            
+            {{-- إدارة المواقع --}}
             @if (checkAdminHasPermission('location.view'))
                 <li class="{{ isRoute('admin.location.index', 'active') }}">
                     <a class="nav-link" href="{{ route('admin.location.index', ['code' => getSessionLanguage()]) }}">
@@ -30,6 +33,8 @@
                     </a>
                 </li>
             @endif
+            
+            {{-- إدارة المحامين --}}
             @if (checkAdminHasPermission('lawyer.view'))
                 <li class="{{ isRoute('admin.lawyer.*', 'active') }}">
                     <a class="nav-link" href="{{ route('admin.lawyer.index') }}">
@@ -38,6 +43,8 @@
                     </a>
                 </li>
             @endif
+            
+            {{-- إدارة الإجازات --}}
             @if (checkAdminHasPermission('leave.management'))
                 <li class="{{ isRoute('admin.leave.*', 'active') }}">
                     <a class="nav-link" href="{{ route('admin.leave.index') }}">

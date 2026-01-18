@@ -607,7 +607,7 @@
     
     .footer-address ul li {
         display: flex !important;
-        flex-direction: row-reverse !important;
+        flex-direction: row !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 20px !important;
@@ -620,7 +620,7 @@
     }
     
     [dir="rtl"] .footer-address ul li {
-        flex-direction: row-reverse !important;
+        flex-direction: row !important;
     }
     
     /* Icons on Right for RTL, Left for LTR */
@@ -644,12 +644,14 @@
         flex-shrink: 0;
     }
     
+    /* LTR: Icon on right (order 2) */
     [dir="ltr"] .footer-address ul li i {
-        order: 2;
+        order: 2 !important;
     }
     
+    /* RTL: Icon on right (order 1) - because in RTL, order 1 appears on the right */
     [dir="rtl"] .footer-address ul li i {
-        order: 1;
+        order: 1 !important;
     }
     
     .footer-address ul li:hover i {
@@ -665,17 +667,16 @@
         flex-direction: column !important;
         flex: 1 !important;
         text-align: center;
-        direction: rtl;
     }
     
     [dir="ltr"] .footer-address ul li > div {
-        order: 1;
+        order: 1 !important;
         direction: ltr;
         text-align: center;
     }
     
     [dir="rtl"] .footer-address ul li > div {
-        order: 2;
+        order: 2 !important;
         direction: rtl;
         text-align: center;
     }

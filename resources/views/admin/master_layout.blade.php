@@ -272,19 +272,46 @@
                 handleSidebar();
             });
             
-            // Toggle sidebar only on mobile
-            $('[data-toggle="sidebar"]').on('click', function(e) {
+            // Toggle sidebar only on mobile - Enhanced with better event handling
+            $(document).on('click', '[data-toggle="sidebar"]', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
+                
                 // Only allow toggle on mobile
                 if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('sidebar-gone')) {
+                    if ($('body').hasClass('sidebar-gone') || !$('body').hasClass('sidebar-show')) {
                         $('body').removeClass('sidebar-gone');
                         $('body').addClass('sidebar-show');
+                        // Prevent body scroll when sidebar is open
+                        $('body').css('overflow', 'hidden');
                     } else {
                         $('body').removeClass('sidebar-show');
                         $('body').addClass('sidebar-gone');
+                        // Allow body scroll when sidebar is closed
+                        $('body').css('overflow', 'auto');
                     }
                 }
+            });
+            
+            // Close sidebar when clicking on backdrop (mobile only)
+            $(document).on('click', function(e) {
+                if ($(window).width() <= 1024) {
+                    if ($('body').hasClass('sidebar-show')) {
+                        // Check if click is outside sidebar and not on toggle button
+                        if (!$(e.target).closest('.main-sidebar').length && 
+                            !$(e.target).closest('[data-toggle="sidebar"]').length &&
+                            !$(e.target).is('[data-toggle="sidebar"]')) {
+                            $('body').removeClass('sidebar-show');
+                            $('body').addClass('sidebar-gone');
+                            $('body').css('overflow', 'auto');
+                        }
+                    }
+                }
+            });
+            
+            // Prevent sidebar click from closing sidebar
+            $('.main-sidebar').on('click', function(e) {
+                e.stopPropagation();
             });
         });
     </script>
@@ -489,41 +516,6 @@
                 }
             });
             
-            // Close sidebar when clicking backdrop on mobile
-            // Close sidebar when clicking outside on mobile only
-            $(document).on('click', function(e) {
-                if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('sidebar-show')) {
-                        // Check if click is outside sidebar and not on toggle button
-                        if (!$(e.target).closest('.main-sidebar').length && 
-                            !$(e.target).closest('[data-toggle="sidebar"]').length &&
-                            !$(e.target).is('[data-toggle="sidebar"]')) {
-                            $('body').removeClass('sidebar-show');
-                            $('body').addClass('sidebar-gone');
-                        }
-                    }
-                }
-            });
-            
-            // Prevent body scroll when sidebar is open on mobile
-            $('[data-toggle="sidebar"]').on('click', function() {
-                if ($(window).width() <= 1024) {
-                    setTimeout(function() {
-                        if ($('body').hasClass('sidebar-show')) {
-                            $('body').css('overflow', 'hidden');
-                        } else {
-                            $('body').css('overflow', 'auto');
-                        }
-                    }, 100);
-                }
-            });
-            
-            // Ensure sidebar is open on desktop when window is resized
-            $(window).on('resize', function() {
-                if ($(window).width() > 1024) {
-                    $('body').removeClass('sidebar-gone sidebar-show');
-                }
-            });
         });
         
         // Fix dropdown menus position on mobile

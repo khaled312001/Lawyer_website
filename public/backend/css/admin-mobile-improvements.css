@@ -19,10 +19,15 @@
         transition: left 0.3s ease !important;
         overflow-y: auto !important;
         display: block !important;
+        visibility: visible !important;
     }
     
     body.sidebar-show .main-sidebar {
         left: 0 !important;
+    }
+    
+    body:not(.sidebar-show) .main-sidebar {
+        left: -100% !important;
     }
     
     /* Sidebar backdrop */
@@ -37,6 +42,11 @@
         z-index: 9998 !important;
         display: block !important;
         animation: fadeIn 0.3s ease;
+        visibility: visible !important;
+    }
+    
+    body:not(.sidebar-show)::before {
+        display: none !important;
     }
     
     @keyframes fadeIn {
@@ -142,7 +152,8 @@
         z-index: 1000 !important;
     }
     
-    .navbar-left a[data-toggle="sidebar"] {
+    .navbar-left a[data-toggle="sidebar"],
+    .navbar-left .sidebar-toggle-btn {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -155,6 +166,9 @@
         border: 1px solid rgba(255, 255, 255, 0.3) !important;
         transition: all 0.3s ease !important;
         text-decoration: none !important;
+        cursor: pointer !important;
+        z-index: 10001 !important;
+        position: relative !important;
     }
     
     .navbar-left a[data-toggle="sidebar"]:hover {
