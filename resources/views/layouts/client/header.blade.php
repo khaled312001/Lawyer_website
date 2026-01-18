@@ -501,19 +501,6 @@
                                 <style>
                                     .enhanced-hover-btn:hover, 
                                     .enhanced-hover-btn:focus {
-                                        background: #fff !important;
-                                        color: #DC2626 !important;
-                                        box-shadow: 0 6px 22px rgba(212, 165, 116, 0.16);
-                                        text-decoration: none;
-                                    }
-                                    .enhanced-hover-btn:hover i,
-                                    .enhanced-hover-btn:focus i {
-                                        color: #DC2626 !important;
-                                    }
-                                </style>
-                            </li>
-                                    .enhanced-hover-btn:hover, 
-                                    .enhanced-hover-btn:focus {
                                         background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
                                         color: #222 !important;
                                         box-shadow: 0 6px 22px rgba(212, 165, 116, 0.16);
