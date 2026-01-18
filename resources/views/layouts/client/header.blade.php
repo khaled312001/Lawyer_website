@@ -248,7 +248,7 @@
     <!--Preloader Start-->
     @if ($setting->preloader == 1)
         <div id="preloader" class="preloader">
-            <div class="status" style="background-image: url({{ url($setting->preloader_image) }})"></div>
+            <div class="status" style="background-image: url('{{ url($setting->preloader_image) }}')"></div>
         </div>
     @endif
     <!--Preloader End-->
@@ -920,88 +920,20 @@
         width: 100% !important;
     }
     
-    .mobile-appointment-btn-new::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-        transition: left 0.5s ease;
-    }
-    
-    .mobile-appointment-btn-new:hover::before {
-        left: 100%;
-    }
-    
-    body.client-frontend .mobile-appointment-item-new .mobile-appointment-btn-new:hover,
-    body.client-frontend .mobile-menu-list-item .mobile-appointment-btn-new:hover,
-    body.client-frontend a.mobile-appointment-btn-new:hover,
-    .mobile-appointment-item-new .mobile-appointment-btn-new:hover,
-    .mobile-menu-list-item .mobile-appointment-btn-new:hover,
-    a.mobile-appointment-btn-new:hover {
-        background: #D4A574 !important;
-        background-color: #D4A574 !important;
-        background-image: none !important;
-        box-shadow: 0 6px 24px rgba(200, 155, 108, 0.6), 0 3px 12px rgba(0, 0, 0, 0.2) !important;
-        transform: translateY(-3px) scale(1.05) !important;
-    }
-    
-    .mobile-appointment-btn-new:active {
-        transform: translateY(-1px) scale(1.02) !important;
-    }
-    
-    .mobile-appointment-btn-new:active {
-        transform: translateY(-1px) scale(0.97) !important;
-    }
-    
-    .mobile-appointment-btn-new i {
-        font-size: 18px !important;
-        transition: all 0.3s ease !important;
-        position: relative;
-        z-index: 1;
-        color: #fff !important;
-    }
-    
-    .mobile-appointment-btn-new:hover i {
-        transform: scale(1.2) rotate(5deg) !important;
-        color: #fff !important;
-    }
-    
-    .mobile-appointment-text {
-        position: relative;
-        z-index: 1;
-        font-weight: 700 !important;
-        color: #fff !important;
-        font-size: 15px !important;
-    }
-    
-    .mobile-appointment-item-new {
-        margin: 0 !important;
-        padding: 0 !important;
-        border: none !important;
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        list-style: none !important;
-        width: 100% !important;
-    }
-    
     /* جعل الزر بارز أكثر في الموبايل */
     @media (max-width: 768px) {
-        .mobile-appointment-btn-new {
+        .book-appointment-btn-mobile {
             padding: 16px 28px !important;
             font-size: 16px !important;
             margin: 20px auto !important;
             box-shadow: 0 5px 20px rgba(200, 155, 108, 0.6), 0 3px 10px rgba(0, 0, 0, 0.2) !important;
         }
         
-        .mobile-appointment-btn-new i {
+        .book-appointment-btn-mobile i {
             font-size: 20px !important;
         }
         
-        .mobile-appointment-text {
+        .book-appointment-text {
             font-size: 16px !important;
         }
     }
