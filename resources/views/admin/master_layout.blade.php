@@ -443,11 +443,26 @@
                 });
             });
 
+            // Ensure notification dropdown is closed on page load
+            $('.admin-alert-wrapper').removeClass('show');
+            $('.admin-alert-panel').removeClass('show');
+            
             // Load notifications on page load
             loadNotifications();
 
             // Refresh notifications every 30 seconds
             setInterval(loadNotifications, 30000);
+            
+            // Prevent auto-opening - close dropdown if opened without click
+            $(document).ready(function() {
+                // Close dropdown if it's open on page load
+                setTimeout(function() {
+                    if ($('.admin-alert-wrapper').hasClass('show') && !$('.admin-alert-button').is(':focus')) {
+                        $('.admin-alert-wrapper').removeClass('show');
+                        $('.admin-alert-panel').removeClass('show');
+                    }
+                }, 100);
+            });
         });
 
         // Unread Messages Count functionality

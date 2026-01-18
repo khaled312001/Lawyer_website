@@ -81,94 +81,6 @@
     </section>
     <!--Quick Points Section End-->
 
-    <!--Why Us Start-->
-    @if (1 == $home_sections?->feature_status)
-        <section class="why-us-area pt_30">
-            <div class="container">
-                <div class="row">
-                    @foreach ($features->take($home_sections?->feature_how_many) as $feature)
-                        <div class="col-lg-4 choose-col">
-                            <div class="choose-item flex" style="background-image: url({{ url($feature->image) }})">
-                                <div class="choose-icon">
-                                    <i class="{{ $feature->icon }}"></i>
-                                </div>
-                                <div class="choose-text">
-                                    <h2 class="title">{{ $feature->title }}</h2>
-                                    <p>
-                                        {{ $feature->description }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-
-                </div>
-            </div>
-        </section>
-        <!--why Us End-->
-    @endif
-
-    @if (1 == $home_sections?->work_status)
-        <!--Feature Start-->
-        <section class="about-area">
-            <div class="container">
-                <div class="row ov_hd">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->work_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->work_second_heading) }}</h2>
-                            <p>{{ $home_sections?->work_description }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row ov_hd">
-                    <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                        <div class="about-skey mt_65">
-                            <div class="about-img">
-                                <img src="{{ $work?->image ? url($work?->image) : '' }}"
-                                    alt="{{ $home_sections?->work_first_heading . ' ' . $home_sections?->work_second_heading }}"
-                                    loading="lazy">
-                                <div class="video-section video-section-home">
-                                    <a aria-label="{{ $home_sections?->work_first_heading . ' ' . $home_sections?->work_second_heading }}"
-                                        class="video-button mgVideo" href="{{ $work?->video }}"><span></span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
-                        <div class="feature-section-text mt_50">
-                            <h2>{{ $work?->title }}</h2>
-                            <div class="feature-accordion" id="accordion">
-                                @foreach ($workFaqs?->take($home_sections?->work_how_many) as $faqIndex => $faq)
-                                    <div class="faq-item card">
-                                        <div class="faq-header" id="heading1-{{ $faq->id }}">
-                                            <button class="faq-button {{ $faqIndex != 0 ? 'collapsed' : '' }}"
-                                                data-bs-toggle="collapse" data-bs-target="#collapse1-{{ $faq->id }}"
-                                                aria-expanded="true"
-                                                aria-controls="collapse1-{{ $faq->id }}">{{ $faq->question }}</button>
-                                        </div>
-
-                                        <div id="collapse1-{{ $faq->id }}"
-                                            class="collapse {{ $faqIndex == 0 ? 'show' : '' }}"
-                                            aria-labelledby="heading1-{{ $faq->id }}" data-bs-parent="#accordion">
-                                            <div class="faq-body">
-                                                {!! $faq->answer !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Feature End-->
-    @endif
-
-
     @if (1 == $home_sections?->service_status)
         <!--Service Start-->
         <section class="service-area bg-area">
@@ -228,354 +140,6 @@
         </section>
         <!--Service End-->
     @endif
-
-    @if (1 == $home_sections?->department_status)
-        <!--Department Start-->
-        <section class="case-study-home-page case-study-area">
-            <div class="container">
-                <div class="row mb_25">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown" data-wow-delay="0.1s">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->department_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->department_second_heading) }}</h2>
-                            <p>{{ $home_sections?->department_description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    @foreach ($departments->take($home_sections?->department_how_many) as $department)
-                        <div class="col-lg-4 col-md-6 mt_15">
-                            <div class="case-item">
-                                <div class="case-box">
-                                    <div class="case-image">
-                                        <img src="{{ asset($department?->thumbnail_image ?? 'client/images/default-image.jpg') }}"
-                                            alt="{{ $department?->name }}" 
-                                            loading="lazy"
-                                            onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;">
-                                        <div class="overlay"><a aria-label="{{ __('See Details') }}"
-                                                href="{{ route('website.department.details', $department?->slug) }}"
-                                                class="btn-case">{{ __('See Details') }}</a>
-                                        </div>
-                                    </div>
-                                    <div class="case-content">
-                                        <h3 class="title"><a aria-label="{{ $department?->name }}"
-                                                href="{{ route('website.department.details', $department?->slug) }}">{{ $department?->name }}</a>
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="row mb_60">
-                    <div class="col-md-12">
-                        <div class="home-button">
-                            <a aria-label="{{ __('All Department') }}"
-                                href="{{ url('department') }}">{{ __('All Department') }}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endif
-
-
-    @if (1 == $home_sections?->client_status)
-        <!--Testimonial Start-->
-        <section class="testimonial-area-modern {{ $home_sections?->department_status == 0 ? 'mt_50' : '' }}">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->client_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->client_second_heading) }}</h2>
-                            <p>{{ $home_sections?->client_description }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonials-grid-wrapper">
-                    <div class="testimonials-grid-container">
-                        @foreach ($testimonials->take($home_sections?->client_how_many) as $client)
-                            <div class="testimonial-card-new">
-                                <div class="testimonial-card-inner">
-                                    <!-- Quote Icon -->
-                                 
-                                    
-                                    <!-- Content -->
-                                    <div class="testimonial-content-new">
-                                        <p class="testimonial-text-new">{{ $client?->comment }}</p>
-                                    </div>
-                                    
-                                    <!-- Rating -->
-                                    <div class="testimonial-rating-new">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    
-                                    <!-- Author -->
-                                    <div class="testimonial-author-new">
-                                        <div class="author-image-wrapper-new">
-                                            <img src="{{ !empty($client?->image) ? url($client?->image) : asset('uploads/website-images/default-avatar.png') }}"
-                                                alt="{{ $client?->name }}" loading="lazy" class="author-image-new">
-                                            <div class="author-image-border-new"></div>
-                                        </div>
-                                        <div class="author-info-new">
-                                            <h4 class="author-name-new">{{ $client?->name }}</h4>
-                                            <p class="author-designation-new">{{ $client?->designation }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Testimonial End-->
-    @endif
-
-
-    @if (1 == $home_sections?->lawyer_status)
-        <!--Lawyer Area Start-->
-        <section class="lawyer-area-modern">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->lawyer_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->lawyer_second_heading) }}</h2>
-                            <p>{{ $home_sections?->lawyer_description }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lawyer-swiper-wrapper">
-                    <div class="swiper lawyer-swiper-modern">
-                        <div class="swiper-wrapper">
-                            @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $lawyer)
-                                <div class="swiper-slide">
-                                    <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
-                                        <div class="lawyer-card-image-mobile">
-                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
-                                                @php
-                                                    $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
-                                                @endphp
-                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
-                                            </a>
-                                        </div>
-                                        <div class="lawyer-card-content-mobile">
-                                            <h3 class="lawyer-card-name-mobile">
-                                                <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
-                                                    {{ ucfirst($lawyer?->name) }}
-                                                </a>
-                                            </h3>
-                                            <div class="lawyer-card-meta-mobile">
-                                                @php
-                                                    $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
-                                                        ? $lawyer->departments->first() 
-                                                        : ($lawyer->department ?? null);
-                                                @endphp
-                                                @if($displayDept && $displayDept->name)
-                                                <div class="lawyer-meta-item-mobile">
-                                                    <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
-                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
-                                                </div>
-                                                @endif
-                                                @if($lawyer->location)
-                                                <div class="lawyer-meta-item-mobile">
-                                                    <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
-                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
-                                                </div>
-                                                @endif
-                                                @if($lawyer->designations)
-                                                <div class="lawyer-meta-item-mobile">
-                                                    <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
-                                                    <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
-                                                </div>
-                                                @endif
-                                            </div>
-                                            <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
-                                                <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
-                                                <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <!-- Navigation -->
-                        <div class="swiper-button-next lawyer-next"></div>
-                        <div class="swiper-button-prev lawyer-prev"></div>
-                        <!-- Pagination -->
-                        <div class="swiper-pagination lawyer-pagination"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Lawyer Area End-->
-    @endif
-
-
-    @if (1 == $home_sections?->blog_status)
-        <!--Blog-Area Start-->
-        <section class="blog-area-modern">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->blog_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->blog_second_heading) }}</h2>
-                            <p>{{ $home_sections?->blog_description }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="blog-swiper-wrapper">
-                    <div class="swiper blog-swiper-modern">
-                        <div class="swiper-wrapper">
-                            @php
-                                $allBlogs = collect();
-                                if ($feature_blog) {
-                                    $allBlogs->push($feature_blog);
-                                }
-                                foreach ($blogs->take($home_sections?->blog_how_many) as $blog) {
-                                    if (!$feature_blog || $blog->id != $feature_blog->id) {
-                                        $allBlogs->push($blog);
-                                    }
-                                }
-                            @endphp
-                            @foreach ($allBlogs->take($home_sections?->blog_how_many) as $blog)
-                                <div class="swiper-slide">
-                                    <div class="blog-card-modern">
-                                        <div class="blog-image-wrapper">
-                                            <a aria-label="{{ $blog?->title }}"
-                                                href="{{ route('website.blog.details', $blog?->slug) }}" class="blog-image-link">
-                                                <img src="{{ $blog?->image ? url($blog?->image) : ($blog?->thumbnail_image ? url($blog?->thumbnail_image) : asset('client/img/shape-2.webp')) }}"
-                                                    alt="{{ $blog?->title }}" loading="lazy" class="blog-image">
-                                                <div class="blog-image-overlay">
-                                                    <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
-                                                </div>
-                                            </a>
-                                            <div class="blog-date-badge">
-                                                <span class="blog-day">{{ date('d', strtotime($blog?->created_at)) }}</span>
-                                                <span class="blog-month">{{ date('M', strtotime($blog?->created_at)) }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="blog-content">
-                                            <div class="blog-meta">
-                                                <span class="blog-author-meta">
-                                                    <i class="fas fa-user"></i>
-                                                    <span>Admin</span>
-                                                </span>
-                                                <span class="blog-category-meta">
-                                                    <i class="fas fa-folder"></i>
-                                                    <span>{{ $blog?->category?->title ?? __('Blog') }}</span>
-                                                </span>
-                                            </div>
-                                            <h3 class="blog-title">
-                                                <a aria-label="{{ $blog?->title }}"
-                                                    href="{{ route('website.blog.details', $blog?->slug) }}">
-                                                    {{ $blog?->title }}
-                                                </a>
-                                            </h3>
-                                            <p class="blog-excerpt">{{ $blog?->sort_description }}</p>
-                                            <a class="blog-read-more" aria-label="{{ __('Read More') }}"
-                                                href="{{ route('website.blog.details', $blog?->slug) }}">
-                                                <span>{{ __('Read More') }}</span>
-                                                <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <!-- Navigation -->
-                        <div class="swiper-button-next blog-next"></div>
-                        <div class="swiper-button-prev blog-prev"></div>
-                        <!-- Pagination -->
-                        <div class="swiper-pagination blog-pagination"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Blog-Area End-->
-    @endif
-
-    <!--Mobile App Section Start-->
-    <section class="mobile-app-area pt_100 pb_100 bg_ecf1f8">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 wow fadeInLeft">
-                    <div class="mobile-app-image text-center">
-                        <img src="{{ asset('client/img/mobile-app-illustration.png') }}" alt="{{ __('Online Platform') }}" class="img-fluid mobile-app-illustration" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="app-mockup-placeholder" style="display: none;">
-                            <div class="phone-mockup">
-                                <div class="phone-screen">
-                                    <div class="screen-content">
-                                        <i class="fas fa-laptop"></i>
-                                        <h3>{{ __('Online Platform') }}</h3>
-                                        <p>{{ __('Access from Anywhere') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInRight">
-                    <div class="mobile-app-content">
-                        <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
-                        <p class="mb_30">{{ __('With your account on our website, you always have access to our legal experts. Plus, you can easily track your case, see when we need more information, and get a clear overview of how far along the process is.') }}</p>
-                        
-                        <div class="case-steps-wrapper mb_40">
-                            <div class="case-step-item">
-                                <div class="case-step-icon-wrapper">
-                                    <i class="fas fa-user-plus case-step-icon"></i>
-                                </div>
-                                <div class="case-step-content">
-                                    <h4 class="case-step-title">{{ __('1. Create your account') }}</h4>
-                                    <p class="case-step-description">{{ __('Easily create an account using your email. Access all our legal services and manage your cases from anywhere.') }}</p>
-                                </div>
-                            </div>
-                            <div class="case-step-item">
-                                <div class="case-step-icon-wrapper">
-                                    <i class="fas fa-chart-line case-step-icon"></i>
-                                </div>
-                                <div class="case-step-content">
-                                    <h4 class="case-step-title">{{ __('2. Track your case status') }}</h4>
-                                    <p class="case-step-description">{{ __('Stay updated on any required information and get a clear view of your case\'s progress through your dashboard.') }}</p>
-                                </div>
-                            </div>
-                            <div class="case-step-item">
-                                <div class="case-step-icon-wrapper">
-                                    <i class="fas fa-calendar-check case-step-icon"></i>
-                                </div>
-                                <div class="case-step-content">
-                                    <h4 class="case-step-title">{{ __('3. Book consultations') }}</h4>
-                                    <p class="case-step-description">{{ __('Need legal help? Schedule an appointment with our expert lawyers directly through the website, available throughout the week.') }}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="app-download-buttons">
-                            <a href="{{ route('register') }}" class="app-download-btn" aria-label="Create Account">
-                                <span class="btn-text">{{ __('Create Account') }}</span>
-                                <i class="fas fa-user-plus"></i>
-                            </a>
-                            <a href="{{ route('website.lawyers') }}" class="app-download-btn" aria-label="Find a Lawyer">
-                                <span class="btn-text">{{ __('Find a Lawyer') }}</span>
-                                <i class="fas fa-search"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Mobile App Section End-->
 
     <!--How It Works Section Start-->
     <section class="how-it-works-area pt_100 pb_100">
@@ -721,6 +285,187 @@
     </section>
     <!--Why Aman Law Section End-->
 
+    @if (1 == $home_sections?->department_status)
+        <!--Department Start-->
+        <section class="case-study-home-page case-study-area">
+            <div class="container">
+                <div class="row mb_25">
+                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown" data-wow-delay="0.1s">
+                        <div class="main-headline">
+                            <h2 class="title"><span>{{ ucfirst($home_sections?->department_first_heading) }}</span>
+                                {{ ucfirst($home_sections?->department_second_heading) }}</h2>
+                            <p>{{ $home_sections?->department_description }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach ($departments->take($home_sections?->department_how_many) as $department)
+                        <div class="col-lg-4 col-md-6 mt_15">
+                            <div class="case-item">
+                                <div class="case-box">
+                                    <div class="case-image">
+                                        <img src="{{ asset($department?->thumbnail_image ?? 'client/images/default-image.jpg') }}"
+                                            alt="{{ $department?->name }}" 
+                                            loading="lazy"
+                                            onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;">
+                                        <div class="overlay"><a aria-label="{{ __('See Details') }}"
+                                                href="{{ route('website.department.details', $department?->slug) }}"
+                                                class="btn-case">{{ __('See Details') }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="case-content">
+                                        <h3 class="title"><a aria-label="{{ $department?->name }}"
+                                                href="{{ route('website.department.details', $department?->slug) }}">{{ $department?->name }}</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="row mb_60">
+                    <div class="col-md-12">
+                        <div class="home-button">
+                            <a aria-label="{{ __('All Department') }}"
+                                href="{{ url('department') }}">{{ __('All Department') }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Department End-->
+    @endif
+
+    @if (1 == $home_sections?->lawyer_status)
+        <!--Lawyer Area Start-->
+        <section class="lawyer-area-modern">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                        <div class="main-headline">
+                            <h2 class="title"><span>{{ ucfirst($home_sections?->lawyer_first_heading) }}</span>
+                                {{ ucfirst($home_sections?->lawyer_second_heading) }}</h2>
+                            <p>{{ $home_sections?->lawyer_description }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lawyer-swiper-wrapper">
+                    <div class="swiper lawyer-swiper-modern">
+                        <div class="swiper-wrapper">
+                            @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $lawyer)
+                                <div class="swiper-slide">
+                                    <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
+                                        <div class="lawyer-card-image-mobile">
+                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                                                @php
+                                                    $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                                                @endphp
+                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
+                                            </a>
+                                        </div>
+                                        <div class="lawyer-card-content-mobile">
+                                            <h3 class="lawyer-card-name-mobile">
+                                                <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                                                    {{ ucfirst($lawyer?->name) }}
+                                                </a>
+                                            </h3>
+                                            <div class="lawyer-card-meta-mobile">
+                                                @php
+                                                    $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                        ? $lawyer->departments->first() 
+                                                        : ($lawyer->department ?? null);
+                                                @endphp
+                                                @if($displayDept && $displayDept->name)
+                                                <div class="lawyer-meta-item-mobile">
+                                                    <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
+                                                </div>
+                                                @endif
+                                                @if($lawyer->location)
+                                                <div class="lawyer-meta-item-mobile">
+                                                    <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
+                                                </div>
+                                                @endif
+                                                @if($lawyer->designations)
+                                                <div class="lawyer-meta-item-mobile">
+                                                    <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
+                                                </div>
+                                                @endif
+                                            </div>
+                                            <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
+                                                <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
+                                                <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <!-- Navigation -->
+                        <div class="swiper-button-next lawyer-next"></div>
+                        <div class="swiper-button-prev lawyer-prev"></div>
+                        <!-- Pagination -->
+                        <div class="swiper-pagination lawyer-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Lawyer Area End-->
+    @endif
+
+    @if (1 == $home_sections?->client_status)
+        <!--Testimonial Start-->
+        <section class="testimonial-area-modern">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                        <div class="main-headline">
+                            <h2 class="title"><span>{{ ucfirst($home_sections?->client_first_heading) }}</span>
+                                {{ ucfirst($home_sections?->client_second_heading) }}</h2>
+                            <p>{{ $home_sections?->client_description }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonials-grid-wrapper">
+                    <div class="testimonials-grid-container">
+                        @foreach ($testimonials->take($home_sections?->client_how_many) as $client)
+                            <div class="testimonial-card-new">
+                                <div class="testimonial-card-inner">
+                                    <div class="testimonial-content-new">
+                                        <p class="testimonial-text-new">{{ $client?->comment }}</p>
+                                    </div>
+                                    <div class="testimonial-rating-new">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="testimonial-author-new">
+                                        <div class="author-image-wrapper-new">
+                                            <img src="{{ !empty($client?->image) ? url($client?->image) : asset('uploads/website-images/default-avatar.png') }}"
+                                                alt="{{ $client?->name }}" loading="lazy" class="author-image-new">
+                                            <div class="author-image-border-new"></div>
+                                        </div>
+                                        <div class="author-info-new">
+                                            <h4 class="author-name-new">{{ $client?->name }}</h4>
+                                            <p class="author-designation-new">{{ $client?->designation }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Testimonial End-->
+    @endif
+
     <!--Book Consultation Section Start-->
     <section class="book-consultation-section pt_100 pb_100" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);">
         <div class="container">
@@ -787,79 +532,90 @@
     </section>
     <!--Contact Us Section End-->
 
-    <!--Fixed Price Guarantee Section Start-->
-    <section class="fixed-price-area pt_100 pb_100 bg_ecf1f8">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 wow fadeInLeft">
-                    <div class="fixed-price-image text-center">
-                        <img src="{{ asset('client/img/fixed-price-guarantee.jpg') }}" alt="{{ __('Fixed Price Guarantee') }}" class="img-fluid" style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+    @if (1 == $home_sections?->blog_status)
+        <!--Blog-Area Start-->
+        <section class="blog-area-modern">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                        <div class="main-headline">
+                            <h2 class="title"><span>{{ ucfirst($home_sections?->blog_first_heading) }}</span>
+                                {{ ucfirst($home_sections?->blog_second_heading) }}</h2>
+                            <p>{{ $home_sections?->blog_description }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 wow fadeInRight">
-                    <div class="fixed-price-content">
-                        <h2 class="title mb_30">{{ __('Fixed Price Guarantee') }}</h2>
-                        <p class="mb_30">{{ __("When you work with us, you will always receive a price estimate in advance. We work with fixed and transparent prices, so you don't have to worry about any unexpected or hidden fees. You will know exactly what you will pay before starting any legal service.") }}</p>
-                        
-                        <div class="price-benefits aman-price-cards-wrapper-rtl">
-                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('No Hidden Fees') }}</strong>
-                                    <p>{{ __('All costs are clearly stated upfront. No surprises, no additional charges after service completion.') }}</p>
-                                </span>
-                                <i class="fas fa-shield-alt aman-benefit-icon-new-rtl"></i>
-                            </div>
-                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('Transparent Pricing') }}</strong>
-                                    <p>{{ __('Complete transparency in all our pricing. You see exactly what you pay for each service.') }}</p>
-                                </span>
-                                <i class="fas fa-eye aman-benefit-icon-new-rtl"></i>
-                            </div>
-                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('Price Agreed Upfront') }}</strong>
-                                    <p>{{ __('The price is agreed upon before starting any work. No price changes during the service.') }}</p>
-                                </span>
-                                <i class="fas fa-handshake aman-benefit-icon-new-rtl"></i>
-                            </div>
-                            <div class="benefit-item aman-benefit-card-new-rtl">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('Flexible Payment Plans') }}</strong>
-                                    <p>{{ __('We offer flexible payment options that suit your budget. Pay in installments if needed.') }}</p>
-                                </span>
-                                <i class="fas fa-credit-card aman-benefit-icon-new-rtl"></i>
-                            </div>
-                        </div>
 
-                        <div class="mt_40">
-                            <a href="{{ route('website.contact-us') }}" class="btn btn-primary">{{ __('Get a Quote') }}</a>
+                <div class="blog-swiper-wrapper">
+                    <div class="swiper blog-swiper-modern">
+                        <div class="swiper-wrapper">
+                            @php
+                                $allBlogs = collect();
+                                if ($feature_blog) {
+                                    $allBlogs->push($feature_blog);
+                                }
+                                foreach ($blogs->take($home_sections?->blog_how_many) as $blog) {
+                                    if (!$feature_blog || $blog->id != $feature_blog->id) {
+                                        $allBlogs->push($blog);
+                                    }
+                                }
+                            @endphp
+                            @foreach ($allBlogs->take($home_sections?->blog_how_many) as $blog)
+                                <div class="swiper-slide">
+                                    <div class="blog-card-modern">
+                                        <div class="blog-image-wrapper">
+                                            <a aria-label="{{ $blog?->title }}"
+                                                href="{{ route('website.blog.details', $blog?->slug) }}" class="blog-image-link">
+                                                <img src="{{ $blog?->image ? url($blog?->image) : ($blog?->thumbnail_image ? url($blog?->thumbnail_image) : asset('client/img/shape-2.webp')) }}"
+                                                    alt="{{ $blog?->title }}" loading="lazy" class="blog-image">
+                                                <div class="blog-image-overlay">
+                                                    <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
+                                                </div>
+                                            </a>
+                                            <div class="blog-date-badge">
+                                                <span class="blog-day">{{ date('d', strtotime($blog?->created_at)) }}</span>
+                                                <span class="blog-month">{{ date('M', strtotime($blog?->created_at)) }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="blog-content">
+                                            <div class="blog-meta">
+                                                <span class="blog-author-meta">
+                                                    <i class="fas fa-user"></i>
+                                                    <span>Admin</span>
+                                                </span>
+                                                <span class="blog-category-meta">
+                                                    <i class="fas fa-folder"></i>
+                                                    <span>{{ $blog?->category?->title ?? __('Blog') }}</span>
+                                                </span>
+                                            </div>
+                                            <h3 class="blog-title">
+                                                <a aria-label="{{ $blog?->title }}"
+                                                    href="{{ route('website.blog.details', $blog?->slug) }}">
+                                                    {{ $blog?->title }}
+                                                </a>
+                                            </h3>
+                                            <p class="blog-excerpt">{{ $blog?->sort_description }}</p>
+                                            <a class="blog-read-more" aria-label="{{ __('Read More') }}"
+                                                href="{{ route('website.blog.details', $blog?->slug) }}">
+                                                <span>{{ __('Read More') }}</span>
+                                                <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
+                        <!-- Navigation -->
+                        <div class="swiper-button-next blog-next"></div>
+                        <div class="swiper-button-prev blog-prev"></div>
+                        <!-- Pagination -->
+                        <div class="swiper-pagination blog-pagination"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!--Fixed Price Guarantee Section End-->
-
-    <!--Legal Aid Check Section Start-->
-    <section class="legal-aid-check-home pt_100 pb_100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 m-auto">
-                    <div class="legal-aid-check-box text-center">
-                        <div class="check-icon mb_30">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <h2 class="title mb_30">{{ __('Are you eligible for legal aid or legal protection insurance?') }}</h2>
-                        <p class="mb_40">{{ __('If you need a lawyer for legal assistance, you may be eligible to have part of the cost covered through legal protection insurance or government-funded legal aid. This means you could receive financial support to cover a portion of your lawyer\'s fees—provided you meet certain criteria.') }}</p>
-                        <a href="{{ route('website.legal.aid.check') }}" class="btn btn-primary btn-lg">{{ __('Find out now') }}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Legal Aid Check Section End-->
+        </section>
+        <!--Blog-Area End-->
+    @endif
 
 @push('css')
 <style>

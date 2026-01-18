@@ -80,7 +80,7 @@
     left: -8px !important;
 }
 
-/* Alert Panel (Dropdown) */
+/* Alert Panel (Dropdown) - HIDDEN BY DEFAULT */
 .admin-alert-panel {
     width: 500px !important;
     min-width: 500px !important;
@@ -97,6 +97,10 @@
     right: 0 !important;
     left: auto !important;
     transform: translateX(0) !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 [dir="rtl"] .admin-alert-panel {
@@ -413,16 +417,40 @@
     }
 }
 
-/* Ensure dropdown is above all elements */
-.dropdown-menu.admin-alert-panel {
+/* Ensure dropdown is above all elements - HIDE BY DEFAULT */
+.dropdown-menu.admin-alert-panel,
+.admin-alert-panel.dropdown-menu,
+.admin-alert-wrapper .admin-alert-panel,
+.admin-alert-wrapper .dropdown-menu.admin-alert-panel {
     z-index: 10001 !important;
-    display: block !important;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
 
-/* Fix for Bootstrap dropdown positioning */
+/* Only show when parent dropdown has 'show' class (Bootstrap behavior) */
 .admin-alert-wrapper.show .admin-alert-panel,
-.dropdown.show .admin-alert-panel {
+.admin-alert-wrapper.show .dropdown-menu.admin-alert-panel,
+.dropdown.show .admin-alert-panel,
+.dropdown.show .dropdown-menu.admin-alert-panel,
+.admin-alert-wrapper .dropdown-menu.show.admin-alert-panel,
+.dropdown-menu.show.admin-alert-panel,
+.admin-alert-wrapper.show .admin-alert-panel.show,
+.dropdown.show .admin-alert-panel.show {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Hide by default - Override any other rules */
+.admin-alert-wrapper:not(.show) .admin-alert-panel,
+.admin-alert-wrapper:not(.show) .dropdown-menu.admin-alert-panel,
+.dropdown:not(.show) .admin-alert-panel,
+.dropdown:not(.show) .dropdown-menu.admin-alert-panel {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
 
 /* Override any conflicting styles */
