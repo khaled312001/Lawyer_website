@@ -93,6 +93,7 @@
     @if (1 == $home_sections?->service_status)
         <!--Service Start-->
         <section class="service-area bg-area">
+            <!-- HTML Content -->
             <div class="container">
                 <div class="row">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
@@ -256,7 +257,12 @@
                 <div class="col-lg-4 col-md-6 mt_30">
                     <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
                         <i class="fas fa-flag" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
-                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('إدارة قانونية من سويسرا') }}</h4>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">
+                            @php
+                                $title = __('إدارة قانونية من سويسرا');
+                            @endphp
+                            {{ $title }}
+                        </h4>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 mt_30">
@@ -366,11 +372,14 @@
                                 <div class="swiper-slide">
                                     <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
                                         <div class="lawyer-card-image-mobile">
-                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
-                                                @php
-                                                    $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
-                                                @endphp
-                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" data-fallback="{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}">
+                                            @php
+                                                $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                                                $lawyerName = $lawyer?->name ?? '';
+                                                $lawyerSlug = $lawyer?->slug ?? '';
+                                                $fallbackImage = url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                                            @endphp
+                                            <a href="{{ route('website.lawyer.details', $lawyerSlug) }}" aria-label="{{ $lawyerName }}">
+                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyerName }}" loading="lazy" data-fallback="{{ $fallbackImage }}">
                                             </a>
                                         </div>
                                         <div class="lawyer-card-content-mobile">
@@ -693,46 +702,7 @@
         text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
     }
 
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    /* Animated Legal Icons */
-
-
-        25% {
-            transform: translate(20px, -20px) rotate(5deg) scale(1.08);
-            opacity: 0.3;
-        }
-        50% {
-            transform: translate(-15px, 15px) rotate(-5deg) scale(0.92);
-            opacity: 0.27;
-        }
-        75% {
-            transform: translate(15px, 20px) rotate(3deg) scale(1.05);
-            opacity: 0.32;
-        }
-    }
-
-
-
+    @media (max-width: 480px) {
         /* Center all icons in a vertical column */
         .legal-stat-card {
             padding: 18px 15px;
@@ -804,14 +774,6 @@
     @media (max-width: 480px) {
     }
 
-    
-    @media (max-width: 768px) {
-        body.client-frontend 
-
-        body.client-frontend 
-
-        body.client-frontend 
-    }
 
     /* Testimonial Modern Styles */
     .testimonial-area-modern {
@@ -2171,7 +2133,6 @@
         [dir="rtl"] .lawyer-view-profile {
             padding: 10px 16px;
         }
-    }
 
         [dir="rtl"] .lawyer-rating {
             justify-content: flex-end;
