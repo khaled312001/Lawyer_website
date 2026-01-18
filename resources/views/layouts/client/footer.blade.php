@@ -289,11 +289,31 @@
         // Header Scroll Animation - إخفاء/إظهار الهيدر عند السكرول
         let amanLastScrollTop = 0;
         let amanScrollTimer = null;
-        const amanWelcomeBanner = document.querySelector('.aman-welcome-banner-rtl, .top-alert-banner');
-        const amanTopBar = document.querySelector('.aman-top-bar-rtl, .top-header-bar');
-        const amanMainNav = document.querySelector('.aman-main-nav-rtl, .main-navbar');
+        let amanWelcomeBanner = null;
+        let amanTopBar = null;
+        let amanMainNav = null;
         const amanBody = document.body;
         const isMobile = window.innerWidth <= 768;
+        
+        // Initialize DOM elements safely
+        function initAmanElements() {
+            if (!amanWelcomeBanner) {
+                amanWelcomeBanner = document.querySelector('.aman-welcome-banner-rtl, .top-alert-banner');
+            }
+            if (!amanTopBar) {
+                amanTopBar = document.querySelector('.aman-top-bar-rtl, .top-header-bar');
+            }
+            if (!amanMainNav) {
+                amanMainNav = document.querySelector('.aman-main-nav-rtl, .main-navbar');
+            }
+        }
+        
+        // Initialize on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAmanElements);
+        } else {
+            initAmanElements();
+        }
 
         window.addEventListener('scroll', function() {
             clearTimeout(amanScrollTimer);
