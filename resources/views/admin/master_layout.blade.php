@@ -443,26 +443,33 @@
                 });
             });
 
-            // Ensure notification dropdown is closed on page load
-            $('.admin-alert-wrapper').removeClass('show');
-            $('.admin-alert-panel').removeClass('show');
+            // Ensure notification dropdown is closed on page load (only if not clicked)
+            $(document).ready(function() {
+                // Close dropdown if it's open on page load without user interaction
+                setTimeout(function() {
+                    var $wrapper = $('.admin-alert-wrapper');
+                    if ($wrapper.hasClass('show')) {
+                        // Check if user actually clicked (by checking if button was focused/clicked recently)
+                        var wasClicked = sessionStorage.getItem('notificationClicked') === 'true';
+                        if (!wasClicked) {
+                            $wrapper.removeClass('show');
+                            $('.admin-alert-panel').removeClass('show');
+                        }
+                        sessionStorage.removeItem('notificationClicked');
+                    }
+                }, 50);
+            });
+            
+            // Track when notification button is clicked
+            $('.admin-alert-button').on('click', function() {
+                sessionStorage.setItem('notificationClicked', 'true');
+            });
             
             // Load notifications on page load
             loadNotifications();
 
             // Refresh notifications every 30 seconds
             setInterval(loadNotifications, 30000);
-            
-            // Prevent auto-opening - close dropdown if opened without click
-            $(document).ready(function() {
-                // Close dropdown if it's open on page load
-                setTimeout(function() {
-                    if ($('.admin-alert-wrapper').hasClass('show') && !$('.admin-alert-button').is(':focus')) {
-                        $('.admin-alert-wrapper').removeClass('show');
-                        $('.admin-alert-panel').removeClass('show');
-                    }
-                }, 100);
-            });
         });
 
         // Unread Messages Count functionality

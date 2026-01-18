@@ -34,9 +34,12 @@
                 </div>
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="hero-image text-center">
-                        <div style="background: rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; backdrop-filter: blur(10px);">
-                            <i class="fas fa-gavel" style="font-size: 120px; color: #D4A574; margin-bottom: 20px;"></i>
-                            <h3 style="color: #ffffff; font-size: 24px; font-weight: 600;">{{ __('خدمات قانونية موثوقة') }}</h3>
+                        <div style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);">
+                            <img src="{{ asset('uploads/website-images/hero-aman-law.png') }}" 
+                                 alt="{{ __('Aman Law - أمان لو') }}" 
+                                 style="width: 100%; height: auto; display: block; border-radius: 20px;"
+                                 onerror="this.onerror=null; this.src='{{ asset('client/img/hero-aman-law.png') }}';"
+                                 loading="lazy">
                         </div>
                     </div>
                 </div>

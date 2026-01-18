@@ -31,8 +31,13 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
-    <meta property="profile:first_name" content="{{ explode(' ', $lawyer->name)[0] ?? $lawyer->name }}">
-    <meta property="profile:last_name" content="{{ count(explode(' ', $lawyer->name)) > 1 ? end(explode(' ', $lawyer->name)) : '' }}">
+    @php
+        $nameParts = explode(' ', $lawyer->name);
+        $firstName = $nameParts[0] ?? $lawyer->name;
+        $lastName = count($nameParts) > 1 ? end($nameParts) : '';
+    @endphp
+    <meta property="profile:first_name" content="{{ $firstName }}">
+    <meta property="profile:last_name" content="{{ $lastName }}">
 @endsection
 
 @section('twitter_meta')

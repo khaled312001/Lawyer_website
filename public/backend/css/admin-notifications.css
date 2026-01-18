@@ -97,10 +97,6 @@
     right: 0 !important;
     left: auto !important;
     transform: translateX(0) !important;
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
 }
 
 [dir="rtl"] .admin-alert-panel {
@@ -421,22 +417,22 @@
 .dropdown-menu.admin-alert-panel,
 .admin-alert-panel.dropdown-menu,
 .admin-alert-wrapper .admin-alert-panel,
-.admin-alert-wrapper .dropdown-menu.admin-alert-panel {
+.admin-alert-wrapper .dropdown-menu.admin-alert-panel,
+li.dropdown.admin-alert-wrapper .admin-alert-panel,
+li.dropdown.admin-alert-wrapper .dropdown-menu.admin-alert-panel {
     z-index: 10001 !important;
     display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
 }
 
-/* Only show when parent dropdown has 'show' class (Bootstrap behavior) */
+/* Only show when parent dropdown has 'show' class (Bootstrap 5 behavior) */
+li.dropdown.admin-alert-wrapper.show .admin-alert-panel,
+li.dropdown.admin-alert-wrapper.show .dropdown-menu.admin-alert-panel,
 .admin-alert-wrapper.show .admin-alert-panel,
 .admin-alert-wrapper.show .dropdown-menu.admin-alert-panel,
 .dropdown.show .admin-alert-panel,
 .dropdown.show .dropdown-menu.admin-alert-panel,
 .admin-alert-wrapper .dropdown-menu.show.admin-alert-panel,
-.dropdown-menu.show.admin-alert-panel,
-.admin-alert-wrapper.show .admin-alert-panel.show,
-.dropdown.show .admin-alert-panel.show {
+.dropdown-menu.show.admin-alert-panel {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -444,13 +440,13 @@
 }
 
 /* Hide by default - Override any other rules */
+li.dropdown.admin-alert-wrapper:not(.show) .admin-alert-panel,
+li.dropdown.admin-alert-wrapper:not(.show) .dropdown-menu.admin-alert-panel,
 .admin-alert-wrapper:not(.show) .admin-alert-panel,
 .admin-alert-wrapper:not(.show) .dropdown-menu.admin-alert-panel,
 .dropdown:not(.show) .admin-alert-panel,
 .dropdown:not(.show) .dropdown-menu.admin-alert-panel {
     display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
 }
 
 /* Override any conflicting styles */
