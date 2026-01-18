@@ -33,7 +33,7 @@ class EmailSettingController extends Controller {
             'mail_host.required'         => __('Mail host is required'),
             'mail_sender_email.required' => __('Email is required'),
             'mail_username.required'     => __('Smtp username is required'),
-            'mail_password.unique'       => __('Smtp password is required'),
+            'mail_password.required'     => __('Smtp password is required'),
             'mail_port.required'         => __('Mail port is required'),
             'mail_port.numeric'          => __('Mail port must be a number'),
             'mail_encryption.required'   => __('Mail encryption is required'),
@@ -124,7 +124,13 @@ class EmailSettingController extends Controller {
     public function test_mail_credentials() {
         checkAdminHasPermissionAndThrowException('setting.view');
         try {
-            $this->sendMail('example@gmail.com', 'Test Email', 'This is a test email');
+            // Clear cache to ensure latest settings are used
+            Cache::forget('setting');
+            
+            // Get admin email for testing
+            $adminEmail = auth()->guard('admin')->user()->email ?? 'info@amanlaw.ch';
+            
+            $this->sendMail($adminEmail, 'Test Email - SMTP Configuration', 'This is a test email to verify SMTP configuration is working correctly.');
             $notification = __('Mail Sent Successfully');
             $notification = ['message' => $notification, 'alert-type' => 'success'];
 

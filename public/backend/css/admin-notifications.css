@@ -94,14 +94,14 @@
     background: #FFFFFF !important;
     z-index: 10001 !important;
     position: absolute !important;
-    right: 0 !important;
+    right: -20px !important;
     left: auto !important;
     transform: translateX(0) !important;
 }
 
 [dir="rtl"] .admin-alert-panel {
     right: auto !important;
-    left: 0 !important;
+    left: -20px !important;
     transform: translateX(0) !important;
 }
 
@@ -358,11 +358,11 @@
         width: 400px !important;
         min-width: 400px !important;
         max-width: calc(100vw - 30px) !important;
-        right: 0 !important;
+        right: -20px !important;
     }
     
     [dir="rtl"] .admin-alert-panel {
-        left: 0 !important;
+        left: -20px !important;
         right: auto !important;
     }
     
@@ -392,11 +392,11 @@
         width: 380px !important;
         min-width: 380px !important;
         max-width: calc(100vw - 20px) !important;
-        right: 0 !important;
+        right: -20px !important;
     }
     
     [dir="rtl"] .admin-alert-panel {
-        left: 0 !important;
+        left: -20px !important;
         right: auto !important;
     }
     
@@ -456,14 +456,14 @@ li.dropdown.admin-alert-wrapper:not(.show) .dropdown-menu.admin-alert-panel,
 
 /* Ensure panel stays on right side */
 .admin-alert-panel.dropdown-menu-end {
-    right: 0 !important;
+    right: -20px !important;
     left: auto !important;
     transform: translateX(0) !important;
 }
 
 [dir="rtl"] .admin-alert-panel.dropdown-menu-end {
     right: auto !important;
-    left: 0 !important;
+    left: -20px !important;
     transform: translateX(0) !important;
 }
 
