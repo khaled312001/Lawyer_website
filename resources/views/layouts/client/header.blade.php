@@ -773,8 +773,7 @@
 @push('css')
 <style>
     /* Enhanced Book Appointment Button Design */
-    .appointment-btn,
-    .mobile-appointment-btn {
+    .appointment-btn {
         background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
         color: #ffffff !important;
         border: none !important;
@@ -796,9 +795,25 @@
         white-space: nowrap !important;
     }
     
+    /* Mobile Appointment Button - Smaller and More Elegant */
+    .mobile-appointment-btn {
+        color: #ffffff !important;
+        border: none !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        text-transform: none !important;
+        letter-spacing: 0.2px !important;
+        white-space: nowrap !important;
+        font-weight: 600 !important;
+    }
+    
     /* Animated Background Gradient */
-    .appointment-btn::before,
-    .mobile-appointment-btn::before {
+    .appointment-btn::before {
         content: '';
         position: absolute;
         top: 0;
@@ -809,37 +824,62 @@
         transition: left 0.6s ease;
     }
     
-    .appointment-btn:hover::before,
+    .appointment-btn:hover::before {
+        left: 100%;
+    }
+    
+    /* Mobile Button Shine Effect */
+    .mobile-appointment-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.5s ease;
+    }
+    
     .mobile-appointment-btn:hover::before {
         left: 100%;
     }
     
     /* Hover Effects */
-    .appointment-btn:hover,
-    .mobile-appointment-btn:hover {
+    .appointment-btn:hover {
         transform: translateY(-3px) scale(1.02) !important;
         box-shadow: 0 8px 25px rgba(220, 38, 38, 0.5) !important;
         background: linear-gradient(135deg, #E0B584 0%, #EF4444 100%) !important;
     }
     
-    .appointment-btn:active,
-    .mobile-appointment-btn:active {
+    .appointment-btn:active {
         transform: translateY(-1px) scale(0.98) !important;
     }
     
+    .mobile-appointment-btn:active {
+        transform: translateY(-1px) scale(0.97) !important;
+    }
+    
     /* Icon Animation */
-    .appointment-btn i,
-    .mobile-appointment-btn i {
+    .appointment-btn i {
         font-size: 18px !important;
         transition: all 0.3s ease !important;
         position: relative;
         z-index: 1;
     }
     
-    .appointment-btn:hover i,
-    .mobile-appointment-btn:hover i {
+    .appointment-btn:hover i {
         transform: rotate(15deg) scale(1.1) !important;
         animation: pulse 1.5s ease-in-out infinite !important;
+    }
+    
+    .mobile-appointment-btn i {
+        transition: all 0.3s ease !important;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .mobile-appointment-btn:hover i {
+        transform: scale(1.15) !important;
     }
     
     @keyframes pulse {
@@ -852,25 +892,48 @@
     }
     
     /* Text Styling */
-    .appointment-btn span,
-    .mobile-appointment-btn .mobile-menu-text {
+    .appointment-btn span {
         position: relative;
         z-index: 1;
         font-weight: 700 !important;
     }
     
+    .mobile-appointment-btn .mobile-menu-text {
+        position: relative;
+        z-index: 1;
+        font-weight: 600 !important;
+    }
+    
     /* Mobile Menu Button Specific */
     .mobile-appointment-btn {
-        width: 100% !important;
-        margin: 10px 15px !important;
-        border-radius: 50px !important;
-        padding: 14px 28px !important;
+        width: auto !important;
+        max-width: 90% !important;
+        margin: 8px auto !important;
+        border-radius: 30px !important;
+        padding: 10px 20px !important;
+        font-size: 13px !important;
+        gap: 8px !important;
+        align-self: center !important;
+        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%) !important;
+        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
+    }
+    
+    .mobile-appointment-btn i {
+        font-size: 14px !important;
+    }
+    
+    .mobile-appointment-btn:hover {
+        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%) !important;
+        box-shadow: 0 5px 18px rgba(184, 134, 11, 0.45) !important;
+        transform: translateY(-2px) scale(1.03) !important;
     }
     
     .mobile-appointment-item {
         margin: 0 !important;
         padding: 0 !important;
         border: none !important;
+        display: flex !important;
+        justify-content: center !important;
     }
     
     /* Desktop Navbar Button */
