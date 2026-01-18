@@ -1,15 +1,120 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $department?->seo_title ?? $department?->name . ' - ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $department?->seo_description ?? Str::limit(strip_tags($department?->description ?? ''), 155) ?: $department?->name;
+    $seoImage = $department?->thumbnail_image ? asset($department->thumbnail_image) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+    $departmentUrl = route('website.department.details', $department->slug);
+@endphp
+
 @section('title')
-    <title>{{ $department?->seo_title ?? $department?->name }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description" content="{{ $department?->seo_description }}">
-    <meta property="og:title" content="{{ $department?->seo_title }}" />
-    <meta property="og:description" content="{{ $department?->seo_description }}" />
-    <meta property="og:image" content="{{ asset($department?->thumbnail_image) }}" />
-    <meta property="og:URL" content="{{ url()->current() }}" />
-    <meta property="og:type" content="website" />
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $department?->name }}, {{ __('legal department, law practice, تخصص قانوني, قسم قانوني') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "{{ $department->name }}",
+        "description": "{{ Str::limit(strip_tags($department->description ?? ''), 200) }}",
+        "url": "{{ $departmentUrl }}",
+        @if($department->thumbnail_image)
+        "image": "{{ asset($department->thumbnail_image) }}",
+        @endif
+        "provider": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            "url": "{{ url('/') }}"
+        },
+        "serviceType": "Legal Services",
+        "areaServed": {
+            "@type": "Country",
+            "name": "Syria"
+        }
+    }
+    </script>
+    
+    @if($lawyers && $lawyers->count() > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            @foreach($lawyers->take(10) as $index => $lawyer)
+            {
+                "@type": "ListItem",
+                "position": {{ $index + 1 }},
+                "item": {
+                    "@type": "Person",
+                    "name": "{{ $lawyer->name }}",
+                    "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
+                    "url": "{{ route('website.lawyer.details', $lawyer->slug) }}"
+                }
+            }@if(!$loop->last),@endif
+            @endforeach
+        ]
+    }
+    </script>
+    @endif
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Departments') }}",
+                "item": "{{ route('website.departments') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $department->name }}",
+                "item": "{{ $currentUrl }}"
+            }
+        ]
+    }
+    </script>
+@endsection
+
 @section('client-content')
 
     <!--Banner Start-->

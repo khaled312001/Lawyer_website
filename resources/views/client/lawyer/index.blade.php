@@ -1,11 +1,86 @@
 @extends('layouts.client.layout')
+@php
+    $seoData = seoSetting()->where('page_name', 'Lawyers')->first();
+    $seoTitle = $seoData?->seo_title ?? __('Lawyers') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $seoData?->seo_description ?? __('Browse our team of experienced lawyers and legal professionals');
+    $seoImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+    $currentUrl = url()->current();
+@endphp
+
 @section('title')
-    <title>{{ seoSetting()->where('page_name', 'Lawyers')->first()?->seo_title ?? 'Lawyers | LawMent' }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description"
-        content="{{ seoSetting()->where('page_name', 'Lawyers')->first()?->seo_description ?? 'Lawyers | LawMent' }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ __('lawyers, attorneys, legal professionals, محامون, محامين, محامي') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "{{ __('Lawyers') }}",
+        "description": "{{ $seoDescription }}",
+        "url": "{{ $currentUrl }}"
+    }
+    </script>
+    
+    @if($lawyers && $lawyers->count() > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            @foreach($lawyers->take(20) as $index => $lawyer)
+            {
+                "@type": "ListItem",
+                "position": {{ $index + 1 }},
+                "item": {
+                    "@type": "Person",
+                    "name": "{{ $lawyer->name }}",
+                    "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
+                    "url": "{{ route('website.lawyer.details', $lawyer->slug) }}",
+                    @if($lawyer->image)
+                    "image": "{{ asset($lawyer->image) }}",
+                    @endif
+                    "worksFor": {
+                        "@type": "LegalService",
+                        "name": "{{ $setting->app_name ?? 'LawMent' }}"
+                    }
+                }
+            }@if(!$loop->last),@endif
+            @endforeach
+        ]
+    }
+    </script>
+    @endif
+@endsection
+
 @section('client-content')
 
     <!--Banner Start-->
@@ -116,20 +191,6 @@
                                         </div>
                                         @endif
                                     </div>
-                                    @if($lawyer->total_ratings > 0)
-                                    <div class="lawyer-card-rating-mobile">
-                                        <span class="lawyer-rating-text-mobile">
-                                            <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
-                                            ({{ $lawyer->total_ratings }})
-                                        </span>
-                                        <div class="lawyer-rating-stars-mobile">{!! displayStars($lawyer->average_rating) !!}</div>
-                                    </div>
-                                    @else
-                                    <div class="lawyer-card-rating-mobile">
-                                        <span class="lawyer-rating-text-mobile no-rating">{{ __('No ratings') }}</span>
-                                        <div class="lawyer-rating-stars-mobile">{!! displayStars(0) !!}</div>
-                                    </div>
-                                    @endif
                                     <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
                                         <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
                                         <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>

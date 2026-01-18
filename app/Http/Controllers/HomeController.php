@@ -23,6 +23,7 @@ use Modules\HomeSection\app\Models\SectionControl;
 use Modules\HomeSection\app\Models\WorkSectionFaq;
 use Modules\PageBuilder\app\Models\CustomizeablePage;
 use Modules\GlobalSetting\app\Models\CustomPagination;
+use Modules\RealEstate\app\Models\RealEstate as ModuleRealEstate;
 
 class HomeController extends Controller {
     public function index() {
@@ -968,5 +969,153 @@ class HomeController extends Controller {
         ];
 
         return $arabicNames[$code] ?? $englishName;
+    }
+
+    public function sitemap() {
+        $baseUrl = url('/');
+        $languages = allLanguages()?->where('status', 1) ?? collect();
+        
+        // Static pages
+        $staticPages = [
+            ['url' => route('home'), 'priority' => '1.0', 'changefreq' => 'daily'],
+            ['url' => route('website.about-us'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['url' => route('website.contact-us'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['url' => route('website.services'), 'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['url' => route('website.departments'), 'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['url' => route('website.lawyers'), 'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['url' => route('website.blogs'), 'priority' => '0.8', 'changefreq' => 'daily'],
+            ['url' => route('website.real-estate'), 'priority' => '0.8', 'changefreq' => 'daily'],
+            ['url' => route('website.testimonial'), 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['url' => route('website.faq'), 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['url' => route('website.privacy-policy'), 'priority' => '0.5', 'changefreq' => 'yearly'],
+            ['url' => route('website.termsCondition'), 'priority' => '0.5', 'changefreq' => 'yearly'],
+        ];
+
+        // Get all active services
+        $services = Service::select('slug', 'updated_at')
+            ->active()
+            ->get()
+            ->map(function ($service) {
+                return [
+                    'url' => route('website.service.details', $service->slug),
+                    'priority' => '0.7',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $service->updated_at?->toAtomString()
+                ];
+            });
+
+        // Get all active departments
+        $departments = Department::select('slug', 'updated_at')
+            ->active()
+            ->get()
+            ->map(function ($department) {
+                return [
+                    'url' => route('website.department.details', $department->slug),
+                    'priority' => '0.8',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $department->updated_at?->toAtomString()
+                ];
+            });
+
+        // Get all active lawyers
+        $lawyers = Lawyer::select('slug', 'updated_at')
+            ->active()
+            ->verify()
+            ->get()
+            ->map(function ($lawyer) {
+                return [
+                    'url' => route('website.lawyer.details', $lawyer->slug),
+                    'priority' => '0.8',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $lawyer->updated_at?->toAtomString()
+                ];
+            });
+
+        // Get all active blogs
+        $blogs = Blog::select('slug', 'updated_at', 'created_at')
+            ->active()
+            ->get()
+            ->map(function ($blog) {
+                return [
+                    'url' => route('website.blog.details', $blog->slug),
+                    'priority' => '0.7',
+                    'changefreq' => 'weekly',
+                    'lastmod' => $blog->updated_at?->toAtomString() ?? $blog->created_at?->toAtomString()
+                ];
+            });
+
+        // Get all active real estate properties
+        $realEstates = ModuleRealEstate::select('slug', 'updated_at', 'created_at')
+            ->active()
+            ->get()
+            ->map(function ($property) {
+                return [
+                    'url' => route('website.real-estate.show', $property->slug),
+                    'priority' => '0.7',
+                    'changefreq' => 'weekly',
+                    'lastmod' => $property->updated_at?->toAtomString() ?? $property->created_at?->toAtomString()
+                ];
+            });
+
+        // Get custom pages
+        $customPages = CustomizeablePage::select('slug', 'updated_at')
+            ->where('status', true)
+            ->get()
+            ->map(function ($page) {
+                return [
+                    'url' => route('website.page', $page->slug),
+                    'priority' => '0.6',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $page->updated_at?->toAtomString()
+                ];
+            });
+
+        // Combine all URLs
+        $urls = collect($staticPages)
+            ->merge($services)
+            ->merge($departments)
+            ->merge($lawyers)
+            ->merge($blogs)
+            ->merge($realEstates)
+            ->merge($customPages);
+
+        // Generate XML
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"' . "\n";
+        $xml .= '        xmlns:xhtml="http://www.w3.org/1999/xhtml">' . "\n";
+
+        foreach ($urls as $urlData) {
+            $xml .= '  <url>' . "\n";
+            $xml .= '    <loc>' . htmlspecialchars($urlData['url']) . '</loc>' . "\n";
+            
+            if (isset($urlData['lastmod'])) {
+                $xml .= '    <lastmod>' . htmlspecialchars($urlData['lastmod']) . '</lastmod>' . "\n";
+            } else {
+                $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+            }
+            
+            $xml .= '    <changefreq>' . htmlspecialchars($urlData['changefreq']) . '</changefreq>' . "\n";
+            $xml .= '    <priority>' . htmlspecialchars($urlData['priority']) . '</priority>' . "\n";
+            
+            // Add alternate language links if multiple languages exist
+            if ($languages->count() > 1) {
+                foreach ($languages as $lang) {
+                    $langUrl = $urlData['url'];
+                    // Add language prefix if needed (adjust based on your URL structure)
+                    if (strpos($langUrl, '/ar/') === false && strpos($langUrl, '/en/') === false) {
+                        // If your site uses language prefixes, uncomment and adjust:
+                        // $langUrl = rtrim($baseUrl, '/') . '/' . $lang->code . str_replace($baseUrl, '', $urlData['url']);
+                    }
+                    $xml .= '    <xhtml:link rel="alternate" hreflang="' . htmlspecialchars($lang->code) . '" href="' . htmlspecialchars($langUrl) . '" />' . "\n";
+                }
+            }
+            
+            $xml .= '  </url>' . "\n";
+        }
+
+        $xml .= '</urlset>';
+
+        return response($xml, 200)
+            ->header('Content-Type', 'application/xml; charset=utf-8');
     }
 }

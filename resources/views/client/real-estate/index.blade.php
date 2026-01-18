@@ -1,11 +1,106 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = __('Real Estate Properties') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = __('Find your perfect property - apartments, villas, offices, and more for sale and rent');
+    $seoImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+    $currentUrl = url()->current();
+@endphp
 
 @section('title')
-    <title>{{ __('Real Estate Properties') }} - {{ $setting?->app_name }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
 
 @section('meta')
-    <meta name="description" content="{{ __('Find your perfect property - apartments, villas, offices, and more for sale and rent') }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ __('real estate, properties, apartments, villas, offices, عقارات, شقق, فيلات') }}">
+    <meta name="robots" content="index, follow">
+    <meta name="geo.region" content="SY">
+@endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "{{ __('Real Estate Properties') }}",
+        "description": "{{ $seoDescription }}",
+        "url": "{{ $currentUrl }}"
+    }
+    </script>
+    
+    @if($properties && $properties->count() > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            @foreach($properties->take(20) as $index => $property)
+            {
+                "@type": "ListItem",
+                "position": {{ $index + 1 }},
+                "item": {
+                    "@type": "Product",
+                    "name": "{{ $property->title }}",
+                    "description": "{{ Str::limit(strip_tags($property->description ?? ''), 150) }}",
+                    "url": "{{ route('website.real-estate.show', $property->slug) }}",
+                    @if($property->main_image_url)
+                    "image": "{{ $property->main_image_url }}",
+                    @endif
+                    "offers": {
+                        "@type": "Offer",
+                        "price": "{{ $property->price ?? 0 }}",
+                        "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}"
+                    }
+                }
+            }@if(!$loop->last),@endif
+            @endforeach
+        ]
+    }
+    </script>
+    @endif
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Real Estate Properties') }}",
+                "item": "{{ $currentUrl }}"
+            }
+        ]
+    }
+    </script>
 @endsection
 
 @section('client-content')

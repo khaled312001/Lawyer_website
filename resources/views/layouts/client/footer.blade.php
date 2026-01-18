@@ -1,39 +1,3 @@
-@if (subscriberContent())
-    <!--Subscribe Start-->
-    <div class="subscribe-area"
-        style="background-image: url({{ subscriberContent()?->image ? url(subscriberContent()?->image) : '' }})">
-        <div class="container">
-            <div class="row ov_hd">
-                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                    <div class="main-headline white">
-                        <h2 class="title">{{ ucwords(subscriberContent()?->title) }}</h2>
-                        <p>{{ subscriberContent()?->description }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row ov_hd">
-                <div class="col-md-12 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="subscribe-form">
-                        <form method="POST" action="{{ route('newsletter-request') }}" class="subscribe-form-wrapper">
-                            @csrf
-                            <div class="subscribe-input-wrapper">
-                                <i class="fas fa-envelope subscribe-icon"></i>
-                                <input type="email" required name="email" placeholder="{{ __('Email') }}" class="subscribe-input">
-                            </div>
-                            <button type="submit" class="btn-sub">
-                                <span>{{ __('Subscribe') }}</span>
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Subscribe Start-->
-@endif
-
-
 <!--Footer Start-->
 <div class="main-footer">
     <div class="top-footer">

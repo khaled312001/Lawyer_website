@@ -12,6 +12,10 @@
 
     @php
         $appName = $setting->app_name;
+        $currentUrl = url()->current();
+        $currentLang = app()->getLocale();
+        $siteUrl = url('/');
+        
         try {
             $routeName = str(Route::currentRouteName())
                 ->replace('_', ' - ')
@@ -23,14 +27,129 @@
             $routeName = '';
         }
         $SeoTitle = $routeName . ' || ' . $appName;
+        
+        // Get default SEO data
+        $defaultSeo = seoSetting()->where('page_name', 'Home')->first();
+        $defaultTitle = $defaultSeo?->seo_title ?? $appName;
+        $defaultDescription = $defaultSeo?->seo_description ?? $appName;
+        $defaultImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+        
+        // Get all languages for hreflang
+        $languages = allLanguages()?->where('status', 1) ?? collect();
     @endphp
 
     <!-- Title -->
     @yield('title')
-    @yield('meta')
+    
+    <!-- Default Meta Tags -->
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        <meta name="description" content="{{ $defaultDescription }}">
+        <meta name="keywords" content="{{ __('lawyer, legal services, consultation, law firm, محامي, خدمات قانونية, استشارة قانونية') }}">
+        <meta name="author" content="{{ $appName }}">
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+        <meta name="googlebot" content="index, follow">
+        <meta name="language" content="{{ $currentLang }}">
+        <meta name="revisit-after" content="7 days">
+    @endif
+    
+    <!-- Canonical URL -->
+    @hasSection('canonical')
+        @yield('canonical')
+    @else
+        <link rel="canonical" href="{{ $currentUrl }}">
+    @endif
+    
+    <!-- Open Graph Meta Tags -->
+    @hasSection('og_meta')
+        @yield('og_meta')
+    @else
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ $currentUrl }}">
+        <meta property="og:title" content="{{ $defaultTitle }}">
+        <meta property="og:description" content="{{ $defaultDescription }}">
+        <meta property="og:image" content="{{ $defaultImage }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:site_name" content="{{ $appName }}">
+        <meta property="og:locale" content="{{ $currentLang == 'ar' ? 'ar_SY' : 'en_US' }}">
+    @endif
+    
+    <!-- Twitter Card Meta Tags -->
+    @hasSection('twitter_meta')
+        @yield('twitter_meta')
+    @else
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="{{ $currentUrl }}">
+        <meta name="twitter:title" content="{{ $defaultTitle }}">
+        <meta name="twitter:description" content="{{ $defaultDescription }}">
+        <meta name="twitter:image" content="{{ $defaultImage }}">
+    @endif
+    
+    <!-- Language Alternates (hreflang) -->
+    @if($languages->count() > 1)
+        @foreach($languages as $lang)
+            @php
+                $langUrl = $currentUrl;
+                // Replace language in URL if needed
+                if (strpos($langUrl, '/ar/') !== false || strpos($langUrl, '/en/') !== false) {
+                    $langUrl = preg_replace('/\/(ar|en)\//', '/' . $lang->code . '/', $langUrl);
+                } else {
+                    // Add language prefix if not exists
+                    $langUrl = rtrim($siteUrl, '/') . '/' . $lang->code . str_replace($siteUrl, '', $currentUrl);
+                }
+            @endphp
+            <link rel="alternate" hreflang="{{ $lang->code }}" href="{{ $langUrl }}">
+        @endforeach
+        <link rel="alternate" hreflang="x-default" href="{{ $currentUrl }}">
+    @endif
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#ffffff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="{{ $appName }}">
+    
+    <!-- Structured Data (JSON-LD) - Organization -->
+    @hasSection('structured_data')
+        @yield('structured_data')
+    @else
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LegalService",
+            "name": "{{ $appName }}",
+            "description": "{{ $defaultDescription }}",
+            "url": "{{ $siteUrl }}",
+            "logo": "{{ $defaultImage }}",
+            @if($contactInfo?->top_bar_phone)
+            "telephone": "{{ $contactInfo->top_bar_phone }}",
+            @endif
+            @if($contactInfo?->top_bar_email)
+            "email": "{{ $contactInfo->top_bar_email }}",
+            @endif
+            @if($contactInfo?->address)
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ $contactInfo->address }}"
+            },
+            @endif
+            "sameAs": [
+                @if($socialLinks = getSocialLinks())
+                    @foreach($socialLinks as $index => $social)
+                        "{{ $social->link }}"@if(!$loop->last),@endif
+                    @endforeach
+                @endif
+            ]
+        }
+        </script>
+    @endif
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset($setting->favicon) ?? '' }}">
+    <link rel="apple-touch-icon" href="{{ asset($setting->favicon) ?? '' }}">
 
     @include('layouts.client.style')
     @stack('css')

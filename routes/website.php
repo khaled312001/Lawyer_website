@@ -6,6 +6,9 @@ use App\Http\Controllers\Client\AppointmentController;
 use App\Http\Controllers\Client\BlogController;
 use Illuminate\Support\Facades\Route;
 
+// Sitemap route (should be accessible without maintenance mode)
+Route::get('sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
+
 Route::middleware(['translation', 'maintenance.mode'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('home', fn() => to_route('home'));

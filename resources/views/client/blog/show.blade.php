@@ -1,15 +1,140 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $blog?->seo_title ?? $blog?->title . ' - ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $blog?->seo_description ?? Str::limit(strip_tags($blog?->description ?? $blog?->sort_description ?? ''), 155) ?: $blog?->title;
+    $seoImage = $blog?->image ? asset($blog->image) : ($blog?->thumbnail_image ? asset($blog->thumbnail_image) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png')));
+    $currentUrl = url()->current();
+    $blogUrl = route('website.blog.details', $blog->slug);
+    $publishedDate = $blog->created_at ? $blog->created_at->toIso8601String() : now()->toIso8601String();
+    $modifiedDate = $blog->updated_at ? $blog->updated_at->toIso8601String() : $publishedDate;
+@endphp
+
 @section('title')
-    <title>{{ @$blog?->seo_title ?? $blog?->title }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description" content="{{ @$blog?->seo_description }}">
-    <meta property="og:title" content="{{ @$blog?->seo_title }}" />
-    <meta property="og:description" content="{{ @$blog?->seo_description }}" />
-    <meta property="og:image" content="{{ asset($blog?->image) }}" />
-    <meta property="og:URL" content="{{ url()->current() }}" />
-    <meta property="og:type" content="website" />
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $blog?->title }}, {{ __('legal blog, law article, legal news, مدونة قانونية, مقال قانوني') }}">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="{{ $blog?->admin?->name ?? $setting->app_name ?? 'LawMent' }}">
+    <meta name="article:published_time" content="{{ $publishedDate }}">
+    <meta name="article:modified_time" content="{{ $modifiedDate }}">
+    @if($blog?->category)
+    <meta name="article:section" content="{{ $blog->category->name ?? '' }}">
+    @endif
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+    <meta property="article:published_time" content="{{ $publishedDate }}">
+    <meta property="article:modified_time" content="{{ $modifiedDate }}">
+    @if($blog?->admin)
+    <meta property="article:author" content="{{ $blog->admin->name }}">
+    @endif
+    @if($blog?->category)
+    <meta property="article:section" content="{{ $blog->category->name ?? '' }}">
+    @endif
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+    @if($blog?->admin)
+    <meta name="twitter:creator" content="{{ $blog->admin->name }}">
+    @endif
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{ $blog->title }}",
+        "description": "{{ Str::limit(strip_tags($blog->description ?? $blog->sort_description ?? ''), 200) }}",
+        "image": "{{ $seoImage }}",
+        "datePublished": "{{ $publishedDate }}",
+        "dateModified": "{{ $modifiedDate }}",
+        "author": {
+            "@type": "Person",
+            "name": "{{ $blog->admin->name ?? $setting->app_name ?? 'LawMent' }}"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{ $setting->logo ? asset($setting->logo) : asset('client/img/logo.png') }}"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{ $currentUrl }}"
+        },
+        @if($blog->category)
+        "articleSection": "{{ $blog->category->name ?? '' }}",
+        @endif
+        "url": "{{ $blogUrl }}"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Blogs') }}",
+                "item": "{{ route('website.blogs') }}"
+            },
+            @if($blog->category)
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $blog->category->name ?? '' }}",
+                "item": "{{ route('website.blog.category', $blog->category->slug ?? '') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "{{ $blog->title }}",
+                "item": "{{ $currentUrl }}"
+            }
+            @else
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $blog->title }}",
+                "item": "{{ $currentUrl }}"
+            }
+            @endif
+        ]
+    }
+    </script>
+@endsection
+
 @section('client-content')
 
 

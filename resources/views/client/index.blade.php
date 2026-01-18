@@ -23,65 +23,6 @@
                 </div>
             @endif
         </div>
-        
-        <div class="legal-hero-section">
-            <div class="legal-hero-overlay"></div>
-            <!-- Animated Legal Icons -->
-            <div class="legal-hero-animated-icons" style="overflow: hidden;">
-                <i class="fas fa-gavel legal-icon-1"></i>
-                <i class="fas fa-balance-scale legal-icon-2"></i>
-                <i class="fas fa-book legal-icon-3"></i>
-                <i class="fas fa-landmark legal-icon-4"></i>
-                <i class="fas fa-file-alt legal-icon-5"></i>
-                <i class="fas fa-handshake legal-icon-6"></i>
-            </div>
-            <div class="d-flex align-items-center h_100_p">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col-lg-12">
-                            <div class="legal-hero-content legal-hero-content-right">
-                                <div class="legal-hero-badge legal-hero-badge-right">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span>{{ __('Trusted Legal Services') }}</span>
-                                </div>
-                                <h1 class="legal-hero-title legal-hero-title-right">
-                                    {{ __('Professional Legal') }} 
-                                    <span class="legal-highlight">{{ __('Consultation') }}</span>
-                                    {{ __('at Your Fingertips') }}
-                                </h1>
-                                <p class="legal-hero-description legal-hero-description-right">
-                                    {{ __('Get expert legal advice from experienced lawyers. Book your consultation online and receive professional guidance for all your legal matters. Fast, secure, and reliable legal services.') }}
-                                </p>
-                                <div class="legal-hero-features legal-hero-features-right">
-                                    <div class="legal-hero-feature-item legal-hero-feature-item-right">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Expert Lawyers') }}</span>
-                                    </div>
-                                    <div class="legal-hero-feature-item legal-hero-feature-item-right">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Online Consultation') }}</span>
-                                    </div>
-                                    <div class="legal-hero-feature-item legal-hero-feature-item-right">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Fixed Prices') }}</span>
-                                    </div>
-                                </div>
-                                <div class="legal-hero-buttons legal-hero-buttons-right">
-                                    <a href="{{ route('website.book.consultation.appointment') }}" class="legal-hero-btn-primary legal-hero-btn-primary-right">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <span>{{ __('Book Consultation Now') }}</span>
-                                    </a>
-                                    <a href="{{ route('website.services') }}" class="legal-hero-btn-secondary legal-hero-btn-secondary-right">
-                                        <i class="fas fa-info-circle"></i>
-                                        <span>{{ __('Our Services') }}</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <!--Slider End-->
 
@@ -840,541 +781,10 @@
         z-index: 1;
         pointer-events: none;
     }
-
-    /* Legal Hero Section Styles - Enhanced Design */
-    .legal-hero-section {
-        position: relative;
-        min-height: 650px;
-        display: flex;
-        align-items: center;
-        z-index: 2;
-        padding: 80px 0;
-        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
-    }
-
-    .legal-hero-section .container-fluid {
-        padding-left: 40px;
-        padding-right: 40px;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .legal-hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: 
-            radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.25) 0%, transparent 45%),
-            radial-gradient(circle at 85% 75%, rgba(244, 208, 63, 0.2) 0%, transparent 45%),
-            radial-gradient(ellipse at 50% 100%, rgba(200, 180, 126, 0.15) 0%, transparent 65%),
-            linear-gradient(180deg, transparent 0%, rgba(20, 25, 35, 0.25) 100%);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .legal-hero-content {
-        position: relative;
-        z-index: 3;
-        color: #ffffff;
-        padding: 50px 0;
-        max-width: 900px;
-        margin: 0 auto 0 0;
-        text-align: right;
-        direction: rtl;
-    }
-    
-    /* Force right alignment for all languages */
-    .legal-hero-content-right {
-        text-align: right !important;
-        direction: rtl !important;
-        margin: 0 auto 0 0 !important;
-    }
-    
-    [dir="ltr"] .legal-hero-content-right,
-    html:not([dir="rtl"]) .legal-hero-content-right {
-        text-align: right !important;
-        direction: rtl !important;
-        margin: 0 auto 0 0 !important;
-    }
-    
-    .legal-hero-stats {
-        position: relative;
-        z-index: 3;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 20px 0;
-    }
-
-    .legal-hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(107, 93, 71, 0.2);
-        backdrop-filter: blur(10px);
-        padding: 8px 20px;
-        border-radius: 50px;
-        border: 1px solid rgba(107, 93, 71, 0.3);
-        margin-bottom: 25px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #ffffff;
-        animation: legalFadeInDown 0.8s ease;
-    }
-
-    .legal-hero-badge i {
-        color: #f4d03f;
-        flex-shrink: 0;
-        font-size: 16px;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    [dir="rtl"] .legal-hero-badge {
-        flex-direction: row-reverse;
-    }
-    
-    /* Force right alignment for badge */
-    .legal-hero-badge-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-        margin-right: 0 !important;
-        margin-left: auto !important;
-    }
-    
-    [dir="ltr"] .legal-hero-badge-right,
-    html:not([dir="rtl"]) .legal-hero-badge-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-        margin-right: 0 !important;
-        margin-left: auto !important;
-    }
-
-    .legal-hero-title {
-        font-size: 56px;
-        font-weight: 900;
-        line-height: 1.15;
-        margin-bottom: 25px;
-        color: #ffffff;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        animation: legalFadeInUp 0.8s ease 0.2s both;
-        letter-spacing: -0.5px;
-    }
-    
-    /* Force right alignment for title */
-    .legal-hero-title-right {
-        text-align: right !important;
-        direction: rtl !important;
-    }
-    
-    [dir="ltr"] .legal-hero-title-right,
-    html:not([dir="rtl"]) .legal-hero-title-right {
-        text-align: right !important;
-        direction: rtl !important;
-    }
-
-    .legal-hero-title .legal-highlight {
-        background: linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #f4d03f 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        position: relative;
-        background-size: 200% auto;
-        animation: shimmer 3s linear infinite;
-        filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.5));
-    }
-
     @keyframes shimmer {
         0% { background-position: 0% center; }
         100% { background-position: 200% center; }
     }
-
-    .legal-hero-description {
-        font-size: 20px;
-        line-height: 1.85;
-        color: rgba(255, 255, 255, 0.95);
-        margin-bottom: 35px;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        animation: legalFadeInUp 0.8s ease 0.4s both;
-        font-weight: 400;
-    }
-    
-    /* Force right alignment for description */
-    .legal-hero-description-right {
-        text-align: right !important;
-        direction: rtl !important;
-    }
-    
-    [dir="ltr"] .legal-hero-description-right,
-    html:not([dir="rtl"]) .legal-hero-description-right {
-        text-align: right !important;
-        direction: rtl !important;
-    }
-
-    .legal-hero-features {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 25px;
-        margin-bottom: 40px;
-        justify-content: flex-end;
-        animation: legalFadeInUp 0.8s ease 0.6s both;
-    }
-    
-    /* Override any conflicting styles for features container */
-    .legal-hero-content .legal-hero-features,
-    .legal-hero-content-right .legal-hero-features,
-    .legal-hero-content-right .legal-hero-features-right {
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-    }
-    
-    /* Force right alignment for features */
-    .legal-hero-features-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        padding-right: 0 !important;
-        padding-left: 0 !important;
-        display: flex !important;
-        flex-wrap: wrap !important;
-        direction: rtl !important;
-    }
-    
-    [dir="ltr"] .legal-hero-features-right,
-    html:not([dir="rtl"]) .legal-hero-features-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        padding-right: 0 !important;
-        padding-left: 0 !important;
-        display: flex !important;
-        flex-wrap: wrap !important;
-        direction: rtl !important;
-    }
-
-    .legal-hero-feature-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: rgba(255, 255, 255, 0.98);
-        font-size: 17px;
-        font-weight: 600;
-        padding: 8px 16px;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(10px);
-        border-radius: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        transition: all 0.3s ease;
-    }
-    
-    /* Override any conflicting styles for feature items */
-    .legal-hero-features-right .legal-hero-feature-item,
-    .legal-hero-features-right .legal-hero-feature-item-right {
-        margin-left: auto !important;
-        margin-right: 0 !important;
-    }
-
-    .legal-hero-feature-item:hover {
-        background: rgba(255, 255, 255, 0.12);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-    }
-
-    .legal-hero-feature-item i {
-        color: #f4d03f;
-        font-size: 20px;
-        flex-shrink: 0;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    [dir="rtl"] .legal-hero-feature-item {
-        flex-direction: row-reverse;
-    }
-    
-    /* Force right alignment for feature item */
-    .legal-hero-feature-item-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-        text-align: right !important;
-        direction: rtl !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    
-    [dir="ltr"] .legal-hero-feature-item-right,
-    html:not([dir="rtl"]) .legal-hero-feature-item-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-        text-align: right !important;
-        direction: rtl !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    
-    .legal-hero-feature-item-right i {
-        order: 2 !important;
-        margin-left: 12px !important;
-        margin-right: 0 !important;
-        flex-shrink: 0 !important;
-    }
-    
-    .legal-hero-feature-item-right span {
-        order: 1 !important;
-        text-align: right !important;
-        direction: rtl !important;
-    }
-
-    .legal-hero-buttons {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        animation: legalFadeInUp 0.8s ease 0.8s both;
-    }
-    
-    /* Force right alignment for buttons */
-    .legal-hero-buttons-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        direction: rtl !important;
-    }
-    
-    [dir="ltr"] .legal-hero-buttons-right,
-    html:not([dir="rtl"]) .legal-hero-buttons-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-        direction: rtl !important;
-    }
-
-    .legal-hero-btn-primary {
-        padding: 18px 40px;
-        font-size: 19px;
-        font-weight: 800;
-        border-radius: 50px;
-        background: linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #f4d03f 100%);
-        background-size: 200% auto;
-        color: #1a1a2e;
-        border: none;
-        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5), 0 4px 15px rgba(0, 0, 0, 0.2);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 8px;
-        text-decoration: none;
-        position: relative;
-        overflow: hidden;
-        direction: rtl;
-        text-align: right;
-    }
-    
-    /* LTR Support */
-    [dir="ltr"] .legal-hero-btn-primary {
-        direction: ltr;
-        text-align: left;
-        justify-content: flex-start;
-    }
-    
-    /* Force right alignment for primary button */
-    .legal-hero-btn-primary-right {
-        direction: rtl !important;
-        text-align: right !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    
-    [dir="ltr"] .legal-hero-btn-primary-right,
-    html:not([dir="rtl"]) .legal-hero-btn-primary-right {
-        direction: rtl !important;
-        text-align: right !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    
-    .legal-hero-btn-primary-right i {
-        order: 2 !important;
-        margin-left: 8px !important;
-        margin-right: 0 !important;
-        flex-shrink: 0 !important;
-    }
-    
-    .legal-hero-btn-primary-right span {
-        order: 1 !important;
-        text-align: right !important;
-        direction: rtl !important;
-    }
-
-    .legal-hero-btn-primary::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s ease;
-    }
-
-    .legal-hero-btn-primary:hover::before {
-        left: 100%;
-    }
-
-    .legal-hero-btn-primary i,
-    .legal-hero-btn-secondary i {
-        flex-shrink: 0;
-        font-size: 20px;
-        transition: transform 0.3s ease;
-        order: 2;
-    }
-    
-    [dir="ltr"] .legal-hero-btn-primary i,
-    [dir="ltr"] .legal-hero-btn-secondary i {
-        order: 1;
-    }
-
-    .legal-hero-btn-primary span,
-    .legal-hero-btn-secondary span {
-        order: 1;
-        flex: 1;
-        text-align: right;
-    }
-    
-    [dir="ltr"] .legal-hero-btn-primary span,
-    [dir="ltr"] .legal-hero-btn-secondary span {
-        order: 2;
-        text-align: left;
-    }
-
-    .legal-hero-btn-primary:hover i,
-    .legal-hero-btn-secondary:hover i {
-        transform: scale(1.15) rotate(5deg);
-    }
-
-    [dir="rtl"] .legal-hero-btn-primary,
-    [dir="rtl"] .legal-hero-btn-secondary {
-        flex-direction: row;
-        justify-content: flex-end;
-    }
-
-    .legal-hero-btn-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
-        background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
-        color: #1a1a2e;
-    }
-
-    .legal-hero-btn-secondary {
-        padding: 18px 40px;
-        font-size: 19px;
-        font-weight: 700;
-        border-radius: 50px;
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(15px);
-        color: #ffffff;
-        border: 2px solid rgba(255, 255, 255, 0.35);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: inline-flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 8px;
-        text-decoration: none;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-        direction: rtl;
-        text-align: right;
-    }
-    
-    /* LTR Support */
-    [dir="ltr"] .legal-hero-btn-secondary {
-        direction: ltr;
-        text-align: left;
-        justify-content: flex-start;
-    }
-    
-    /* Force right alignment for secondary button */
-    .legal-hero-btn-secondary-right {
-        direction: rtl !important;
-        text-align: right !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    
-    [dir="ltr"] .legal-hero-btn-secondary-right,
-    html:not([dir="rtl"]) .legal-hero-btn-secondary-right {
-        direction: rtl !important;
-        text-align: right !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    
-    .legal-hero-btn-secondary-right i {
-        order: 2 !important;
-        margin-left: 8px !important;
-        margin-right: 0 !important;
-        flex-shrink: 0 !important;
-    }
-    
-    .legal-hero-btn-secondary-right span {
-        order: 1 !important;
-        text-align: right !important;
-        direction: rtl !important;
-    }
-
-    .legal-hero-btn-secondary::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-        transition: left 0.5s ease;
-    }
-
-    .legal-hero-btn-secondary:hover::before {
-        left: 100%;
-    }
-
-    .legal-hero-btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(212, 175, 55, 0.6);
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
-        color: #ffffff;
-    }
-
-    .legal-hero-btn-secondary:active {
-        transform: translateY(-2px) scale(0.98);
-    }
-
     .legal-stat-card {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%);
         backdrop-filter: blur(20px);
@@ -1382,7 +792,7 @@
         padding: 30px;
         border: 1.5px solid rgba(255, 255, 255, 0.25);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: legalFadeInRight 0.8s ease both;
+        animation: fadeInRight 0.8s ease both;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
@@ -1436,34 +846,21 @@
         text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
     }
 
-    /* Legal Hero Animations */
-    @keyframes legalFadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
+
         to {
             opacity: 1;
             transform: translateY(0);
         }
     }
 
-    @keyframes legalFadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
+    
         to {
             opacity: 1;
             transform: translateY(0);
         }
     }
 
-    @keyframes legalFadeInRight {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
+    
         to {
             opacity: 1;
             transform: translateX(0);
@@ -1471,74 +868,8 @@
     }
 
     /* Animated Legal Icons */
-    .legal-hero-animated-icons {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 2;
-        pointer-events: none;
-        overflow: hidden;
-    }
 
-    .legal-hero-animated-icons i {
-        position: absolute;
-        font-size: 85px;
-        color: rgba(244, 208, 63, 0.25);
-        animation: legalIconFloat 18s infinite ease-in-out;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 0.25 !important;
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-        transition: opacity 0.3s ease;
-    }
 
-    .legal-hero-animated-icons i:hover {
-        opacity: 0.35 !important;
-    }
-
-    .legal-icon-1 {
-        top: 10%;
-        left: 5%;
-        animation-delay: 0s;
-    }
-
-    .legal-icon-2 {
-        top: 20%;
-        right: 8%;
-        animation-delay: 2s;
-    }
-
-    .legal-icon-3 {
-        top: 50%;
-        left: 3%;
-        animation-delay: 4s;
-    }
-
-    .legal-icon-4 {
-        bottom: 20%;
-        right: 5%;
-        animation-delay: 6s;
-    }
-
-    .legal-icon-5 {
-        top: 30%;
-        left: 50%;
-        animation-delay: 8s;
-    }
-
-    .legal-icon-6 {
-        bottom: 10%;
-        left: 15%;
-        animation-delay: 10s;
-    }
-
-    @keyframes legalIconFloat {
-        0%, 100% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
-            opacity: 0.25;
-        }
         25% {
             transform: translate(20px, -20px) rotate(5deg) scale(1.08);
             opacity: 0.3;
@@ -1585,44 +916,8 @@
         visibility: visible !important;
     }
 
-    /* Legal Hero Responsive Design */
+    
     @media (max-width: 991px) {
-        .legal-hero-animated-icons i {
-            font-size: 60px;
-        }
-        .legal-hero-section .container-fluid {
-            padding-left: 30px;
-            padding-right: 30px;
-        }
-
-        [dir="rtl"] .legal-hero-section .col-lg-5 {
-            padding-right: 50px !important;
-            padding-left: 0 !important;
-            margin-left: 0 !important;
-        }
-
-        [dir="rtl"] .legal-hero-section .col-lg-7 {
-            padding-left: 50px !important;
-            padding-right: 15px !important;
-        }
-
-        [dir="ltr"] .legal-hero-section .col-lg-5,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
-            padding-right: 50px;
-            padding-left: 0;
-            margin-left: 0;
-        }
-
-        [dir="ltr"] .legal-hero-section .col-lg-7,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
-            padding-left: 50px;
-            padding-right: 15px;
-        }
-
-        .legal-hero-stats {
-            margin-top: 40px;
-        }
-        
         #main-slider {
             min-height: 500px;
         }
@@ -1632,218 +927,9 @@
         #main-slider {
             min-height: 550px;
         }
-        
-        .legal-hero-section {
-            min-height: 550px;
-            padding: 30px 0;
-        }
 
-        .legal-hero-animated-icons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            right: auto;
-            bottom: auto;
-        }
-
-        .legal-hero-animated-icons i {
-            font-size: 45px;
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            bottom: auto !important;
-            transform: none !important;
-            margin: 0;
-        }
 
         /* Center all icons in a vertical column */
-        .legal-icon-1,
-        .legal-icon-2,
-        .legal-icon-3,
-        .legal-icon-4,
-        .legal-icon-5,
-        .legal-icon-6 {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            bottom: auto !important;
-            transform: none !important;
-        }
-
-        .legal-hero-content {
-            padding: 30px 0;
-            text-align: right;
-            direction: rtl;
-        }
-        
-        /* Force right alignment on mobile */
-        .legal-hero-content-right {
-            text-align: right !important;
-            direction: rtl !important;
-            margin: 0 auto 0 0 !important;
-        }
-        
-        .legal-hero-badge-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-            margin-right: 0 !important;
-            margin-left: auto !important;
-        }
-        
-        .legal-hero-title-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        .legal-hero-description-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        .legal-hero-features-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-            width: 100% !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            direction: rtl !important;
-        }
-
-        .legal-hero-feature-item-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            align-self: flex-end !important;
-        }
-        
-        .legal-hero-buttons-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-            width: 100% !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            direction: rtl !important;
-        }
-
-        .legal-hero-btn-primary-right,
-        .legal-hero-btn-secondary-right {
-            direction: rtl !important;
-            text-align: right !important;
-            justify-content: flex-end !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            align-self: flex-end !important;
-        }
-
-        .legal-hero-title {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .legal-hero-description {
-            font-size: 17px;
-            margin-bottom: 30px;
-        }
-
-        .legal-hero-features {
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .legal-hero-feature-item {
-            font-size: 15px;
-            padding: 6px 14px;
-        }
-
-        .legal-hero-buttons {
-            gap: 15px;
-        }
-
-        .legal-hero-btn-primary,
-        .legal-hero-btn-secondary {
-            padding: 16px 32px;
-            font-size: 17px;
-        }
-
-        .legal-hero-badge {
-            font-size: 13px;
-            padding: 6px 16px;
-            margin-bottom: 20px;
-        }
-
-        .legal-hero-title {
-            font-size: 28px;
-            line-height: 1.3;
-            margin-bottom: 15px;
-        }
-
-        .legal-hero-description {
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 25px;
-            padding: 0 10px;
-        }
-
-        .legal-hero-features {
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
-            justify-content: flex-end;
-            align-items: flex-end;
-        }
-
-        .legal-hero-feature-item {
-            font-size: 14px;
-            justify-content: flex-end;
-        }
-
-        .legal-hero-buttons {
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            justify-content: flex-end;
-            align-items: flex-end;
-        }
-
-        .legal-hero-btn-primary,
-        .legal-hero-btn-secondary {
-            width: 100%;
-            max-width: 300px;
-            margin: 0;
-            justify-content: flex-end;
-            padding: 14px 25px;
-            font-size: 15px;
-            direction: rtl;
-            text-align: right;
-        }
-        
-        [dir="ltr"] .legal-hero-buttons {
-            align-items: flex-start;
-        }
-        
-        [dir="ltr"] .legal-hero-btn-primary,
-        [dir="ltr"] .legal-hero-btn-secondary {
-            justify-content: flex-start;
-            direction: ltr;
-            text-align: left;
-        }
-
-        .legal-hero-stats {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 15px 0;
-            margin-top: 30px;
-        }
-
         .legal-stat-card {
             padding: 18px 15px;
         }
@@ -1874,173 +960,8 @@
             min-height: 500px;
         }
 
-        .legal-hero-section {
-            min-height: 500px;
-            padding: 25px 0;
-        }
-
-        .legal-hero-animated-icons {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            right: auto;
-            bottom: auto;
-        }
-
-        .legal-hero-animated-icons i {
-            font-size: 35px;
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            bottom: auto !important;
-            transform: none !important;
-            margin: 0;
-        }
 
         /* Center all icons in a vertical column */
-        .legal-icon-1,
-        .legal-icon-2,
-        .legal-icon-3,
-        .legal-icon-4,
-        .legal-icon-5,
-        .legal-icon-6 {
-            position: relative !important;
-            top: auto !important;
-            left: auto !important;
-            right: auto !important;
-            bottom: auto !important;
-            transform: none !important;
-        }
-
-        .legal-hero-content {
-            padding: 15px 0;
-            text-align: right;
-            direction: rtl;
-            margin: 0 auto 0 0;
-        }
-        
-        /* Force right alignment on small screens */
-        .legal-hero-content-right {
-            text-align: right !important;
-            direction: rtl !important;
-            margin: 0 auto 0 0 !important;
-        }
-        
-        .legal-hero-badge-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-            margin-right: 0 !important;
-            margin-left: auto !important;
-        }
-        
-        .legal-hero-title-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        .legal-hero-description-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        .legal-hero-features-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-            width: 100% !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            direction: rtl !important;
-        }
-
-        .legal-hero-feature-item-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            align-self: flex-end !important;
-        }
-        
-        .legal-hero-buttons-right {
-            justify-content: flex-end !important;
-            align-items: flex-end !important;
-            width: 100% !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            direction: rtl !important;
-        }
-
-        .legal-hero-btn-primary-right,
-        .legal-hero-btn-secondary-right {
-            direction: rtl !important;
-            text-align: right !important;
-            justify-content: flex-end !important;
-            margin-left: auto !important;
-            margin-right: 0 !important;
-            align-self: flex-end !important;
-        }
-
-        .legal-hero-badge {
-            font-size: 11px;
-            padding: 5px 14px;
-            margin-bottom: 15px;
-        }
-
-        .legal-hero-badge i {
-            font-size: 12px;
-        }
-
-        .legal-hero-title {
-            font-size: 24px;
-            line-height: 1.25;
-            margin-bottom: 12px;
-        }
-
-        .legal-hero-description {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            padding: 0 5px;
-        }
-
-        .legal-hero-features {
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .legal-hero-feature-item {
-            font-size: 13px;
-        }
-
-        .legal-hero-feature-item i {
-            font-size: 14px;
-        }
-
-        .legal-hero-btn-primary,
-        .legal-hero-btn-secondary {
-            padding: 12px 20px;
-            font-size: 14px;
-            max-width: 100%;
-        }
-
-        .legal-hero-btn-primary i,
-        .legal-hero-btn-secondary i {
-            font-size: 14px;
-        }
-
-        .legal-hero-stats {
-            grid-template-columns: 1fr;
-            gap: 10px;
-            padding: 10px 0;
-            margin-top: 25px;
-        }
-
         .legal-stat-card {
             padding: 15px;
         }
@@ -2063,383 +984,32 @@
             font-size: 11px;
         }
     }
-
-    /* Legal Hero RTL Support */
-    [dir="rtl"] .legal-hero-content {
-        text-align: right;
-    }
-
-    [dir="rtl"] .legal-hero-badge {
-        direction: rtl;
-    }
-
-    [dir="rtl"] .legal-hero-badge i {
-        margin-left: 8px;
-        margin-right: 0;
-    }
-
-    [dir="rtl"] .legal-hero-title {
-        text-align: right;
-        direction: rtl;
-    }
-
-    [dir="rtl"] .legal-hero-description {
-        text-align: right;
-        direction: rtl;
-    }
-
-    [dir="rtl"] .legal-hero-buttons {
-        flex-direction: row;
-        justify-content: flex-end;
-    }
-
-    [dir="rtl"] .legal-hero-features {
-        flex-direction: row;
-        justify-content: flex-end;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item {
-        flex-direction: row-reverse;
-        justify-content: flex-end;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item i {
-        order: 2;
-        margin-left: 10px;
-        margin-right: 0;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item span {
-        order: 1;
-    }
-    
-    /* Force right alignment for new classes in RTL */
-    [dir="rtl"] .legal-hero-content-right {
-        text-align: right !important;
-        direction: rtl !important;
-    }
-    
-    [dir="rtl"] .legal-hero-badge-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-    }
-    
-    [dir="rtl"] .legal-hero-title-right {
-        text-align: right !important;
-        direction: rtl !important;
-    }
-    
-    [dir="rtl"] .legal-hero-description-right {
-        text-align: right !important;
-        direction: rtl !important;
-    }
-    
-    [dir="rtl"] .legal-hero-features-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        direction: rtl !important;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    
-    [dir="rtl"] .legal-hero-buttons-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        direction: rtl !important;
-    }
-
-    [dir="rtl"] .legal-hero-btn-primary-right,
-    [dir="rtl"] .legal-hero-btn-secondary-right {
-        direction: rtl !important;
-        text-align: right !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-
     /* RTL: نفس الترتيب البصري - الإحصائيات على اليسار والمحتوى على اليمين */
-    [dir="rtl"] .legal-hero-section .row.align-items-center {
-        flex-direction: row;
-        display: flex;
-        direction: ltr; /* إجبار الترتيب من اليسار لليمين */
-    }
-
-    [dir="rtl"] .legal-hero-section .col-lg-5 {
-        order: 1 !important;
-        padding-right: 80px !important;
-        padding-left: 0 !important;
-        margin-left: 0 !important;
-    }
-
-    [dir="rtl"] .legal-hero-section .col-lg-7 {
-        order: 2 !important;
-        padding-left: 80px !important;
-        padding-right: 20px !important;
-    }
-
-    [dir="rtl"] .legal-hero-stats {
-        direction: rtl;
-    }
-
     [dir="rtl"] .legal-stat-content {
         text-align: right;
     }
 
     /* LTR: الإحصائيات على اليسار والمحتوى على اليمين */
-    [dir="ltr"] .legal-hero-section .row.align-items-center,
-    html:not([dir="rtl"]) .legal-hero-section .row.align-items-center {
-        flex-direction: row;
-        display: flex;
-    }
-
-    [dir="ltr"] .legal-hero-section .col-lg-5,
-    html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
-        order: 1;
-        padding-right: 80px;
-        padding-left: 0;
-        margin-left: 0;
-    }
-
-    [dir="ltr"] .legal-hero-section .col-lg-7,
-    html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
-        order: 2;
-        padding-left: 80px;
-        padding-right: 20px;
-    }
-
     /* RTL Mobile Support */
     @media (max-width: 768px) {
-        .legal-hero-section .container-fluid {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
+        
 
         /* Mobile ordering: content first, then stats */
-        .legal-hero-section .col-lg-5 {
-            order: 2 !important;
-        }
-
-        .legal-hero-section .col-lg-7 {
-            order: 1 !important;
-        }
-
-        [dir="rtl"] .legal-hero-section .col-lg-5,
-        [dir="rtl"] .legal-hero-section .col-lg-7 {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-        }
-
-        [dir="ltr"] .legal-hero-section .col-lg-5,
-        [dir="ltr"] .legal-hero-section .col-lg-7,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-5,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-        }
-
-        [dir="rtl"] .legal-hero-content {
-            text-align: right;
-        }
-
-        [dir="rtl"] .legal-hero-title {
-            text-align: right;
-        }
-
-        [dir="rtl"] .legal-hero-description {
-            text-align: right;
-        }
-
-        [dir="rtl"] .legal-hero-features {
-            align-items: flex-end;
-            justify-content: flex-end;
-        }
-
-        [dir="rtl"] .legal-hero-feature-item {
-            justify-content: flex-end;
-        }
-
-        [dir="rtl"] .legal-hero-buttons {
-            justify-content: flex-end;
-            align-items: flex-end;
-        }
-        
-        /* Force right alignment for new classes on mobile RTL */
-        [dir="rtl"] .legal-hero-content-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        [dir="rtl"] .legal-hero-badge-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-        }
-        
-        [dir="rtl"] .legal-hero-title-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        [dir="rtl"] .legal-hero-description-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-    [dir="rtl"] .legal-hero-features-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        direction: rtl !important;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-        
-    [dir="rtl"] .legal-hero-buttons-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        direction: rtl !important;
-    }
-
-    [dir="rtl"] .legal-hero-btn-primary-right,
-    [dir="rtl"] .legal-hero-btn-secondary-right {
-        direction: rtl !important;
-        text-align: right !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-
         [dir="rtl"] .legal-stat-content {
             text-align: center;
         }
     }
 
     @media (max-width: 480px) {
-        [dir="rtl"] .legal-hero-content {
-            text-align: right;
-        }
-
-        [dir="rtl"] .legal-hero-title {
-            text-align: right;
-        }
-
-        [dir="rtl"] .legal-hero-description {
-            text-align: right;
-        }
-        
-        [dir="rtl"] .legal-hero-features {
-            align-items: flex-end;
-            justify-content: flex-end;
-        }
-        
-        [dir="rtl"] .legal-hero-feature-item {
-            justify-content: flex-end;
-        }
-        
-        [dir="rtl"] .legal-hero-buttons {
-            justify-content: flex-end;
-            align-items: flex-end;
-        }
-        
-        /* Force right alignment for new classes on small screens RTL */
-        [dir="rtl"] .legal-hero-content-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        [dir="rtl"] .legal-hero-badge-right {
-            flex-direction: row-reverse !important;
-            justify-content: flex-end !important;
-        }
-        
-        [dir="rtl"] .legal-hero-title-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-        [dir="rtl"] .legal-hero-description-right {
-            text-align: right !important;
-            direction: rtl !important;
-        }
-        
-    [dir="rtl"] .legal-hero-features-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        direction: rtl !important;
     }
 
-    [dir="rtl"] .legal-hero-feature-item-right {
-        flex-direction: row-reverse !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-        
-    [dir="rtl"] .legal-hero-buttons-right {
-        justify-content: flex-end !important;
-        align-items: flex-end !important;
-        width: 100% !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        direction: rtl !important;
-    }
-
-    [dir="rtl"] .legal-hero-btn-primary-right,
-    [dir="rtl"] .legal-hero-btn-secondary-right {
-        direction: rtl !important;
-        text-align: right !important;
-        justify-content: flex-end !important;
-        margin-left: auto !important;
-        margin-right: 0 !important;
-        align-self: flex-end !important;
-    }
-    }
-
-    /* Mobile Hero Section Column Ordering - Applied after all other media queries */
+    
     @media (max-width: 768px) {
-        body.client-frontend .legal-hero-section .row.align-items-center {
-            flex-direction: column !important;
-            display: flex !important;
-        }
+        body.client-frontend 
 
-        body.client-frontend .legal-hero-section .col-lg-7 {
-            order: -1 !important;
-            width: 100% !important;
-            margin-bottom: 30px !important;
-        }
+        body.client-frontend 
 
-        body.client-frontend .legal-hero-section .col-lg-5 {
-            order: 1 !important;
-            width: 100% !important;
-        }
+        body.client-frontend 
     }
 
     /* Testimonial Modern Styles */
@@ -3195,8 +1765,6 @@
             font-size: 14px;
         }
     }
-
-    /* RTL Support */
     [dir="rtl"] .blog-date-badge {
         left: auto;
         right: 20px;
@@ -3593,8 +2161,6 @@
             gap: 10px;
         }
     }
-
-    /* RTL Support */
     [dir="rtl"] .lawyer-prev {
         left: auto;
         right: -30px;
@@ -3604,8 +2170,6 @@
         right: auto;
         left: -30px;
     }
-
-    /* RTL Support for Lawyer Card Meta Elements - Everything aligned to the right */
     [dir="rtl"] .lawyer-meta {
         justify-content: flex-end;
         align-items: flex-end;
@@ -3661,8 +2225,6 @@
         margin-left: 10px;
         margin-right: 0;
     }
-
-    /* RTL Support for Lawyer Rating - Text on right, stars on left */
     [dir="rtl"] .lawyer-rating {
         flex-direction: row-reverse;
         justify-content: flex-end;
@@ -3684,8 +2246,6 @@
         margin-left: 0;
         margin-right: 0;
     }
-
-    /* RTL Support for View Profile - Enhanced button design */
     [dir="rtl"] .lawyer-view-profile {
         flex-direction: row-reverse;
         justify-content: flex-end;
@@ -4201,8 +2761,6 @@
             min-height: 52px;
         }
     }
-
-    /* RTL Support */
     [dir="rtl"] .service-link {
         flex-direction: row-reverse;
     }
@@ -4673,8 +3231,6 @@
             transform: translateY(-15px);
         }
     }
-
-    /* RTL Support - Swap columns order */
     [dir="rtl"] .mobile-app-area .row {
         flex-direction: row-reverse;
     }
@@ -5742,56 +4298,6 @@
 /* ============================================
    FINAL OVERRIDE - Force Features to Right
    ============================================ */
-.legal-hero-features-right,
-.legal-hero-content-right .legal-hero-features,
-.legal-hero-content-right .legal-hero-features-right {
-    justify-content: flex-end !important;
-    align-items: flex-end !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    direction: rtl !important;
-    text-align: right !important;
-}
-
-.legal-hero-feature-item-right,
-.legal-hero-features-right .legal-hero-feature-item,
-.legal-hero-features-right .legal-hero-feature-item-right {
-    flex-direction: row-reverse !important;
-    justify-content: flex-end !important;
-    text-align: right !important;
-    direction: rtl !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    align-self: flex-end !important;
-}
-
-[dir="ltr"] .legal-hero-features-right,
-[dir="ltr"] .legal-hero-content-right .legal-hero-features,
-html:not([dir="rtl"]) .legal-hero-features-right,
-html:not([dir="rtl"]) .legal-hero-content-right .legal-hero-features {
-    justify-content: flex-end !important;
-    align-items: flex-end !important;
-    width: 100% !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    direction: rtl !important;
-}
-
-[dir="ltr"] .legal-hero-feature-item-right,
-[dir="ltr"] .legal-hero-features-right .legal-hero-feature-item,
-html:not([dir="rtl"]) .legal-hero-feature-item-right,
-html:not([dir="rtl"]) .legal-hero-features-right .legal-hero-feature-item {
-    flex-direction: row-reverse !important;
-    justify-content: flex-end !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    direction: rtl !important;
-}
-
 @media (max-width: 480px) {
     /* Small mobile optimizations */
     .why-us-area,
@@ -5885,77 +4391,6 @@ html:not([dir="rtl"]) .legal-hero-features-right .legal-hero-feature-item {
 /* ============================================
    FINAL OVERRIDE - Force Buttons to Right
    ============================================ */
-.legal-hero-buttons-right,
-.legal-hero-content-right .legal-hero-buttons,
-.legal-hero-content-right .legal-hero-buttons-right {
-    justify-content: flex-end !important;
-    align-items: flex-end !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    direction: rtl !important;
-    text-align: right !important;
-}
-
-.legal-hero-btn-primary-right,
-.legal-hero-btn-secondary-right,
-.legal-hero-buttons-right .legal-hero-btn-primary,
-.legal-hero-buttons-right .legal-hero-btn-secondary,
-.legal-hero-buttons-right .legal-hero-btn-primary-right,
-.legal-hero-buttons-right .legal-hero-btn-secondary-right {
-    direction: rtl !important;
-    text-align: right !important;
-    justify-content: flex-end !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    align-self: flex-end !important;
-}
-
-.legal-hero-btn-primary-right i,
-.legal-hero-btn-secondary-right i,
-.legal-hero-buttons-right .legal-hero-btn-primary i,
-.legal-hero-buttons-right .legal-hero-btn-secondary i {
-    order: 2 !important;
-    margin-left: 8px !important;
-    margin-right: 0 !important;
-    flex-shrink: 0 !important;
-}
-
-.legal-hero-btn-primary-right span,
-.legal-hero-btn-secondary-right span,
-.legal-hero-buttons-right .legal-hero-btn-primary span,
-.legal-hero-buttons-right .legal-hero-btn-secondary span {
-    order: 1 !important;
-    text-align: right !important;
-    direction: rtl !important;
-}
-
-[dir="ltr"] .legal-hero-buttons-right,
-[dir="ltr"] .legal-hero-content-right .legal-hero-buttons,
-html:not([dir="rtl"]) .legal-hero-buttons-right,
-html:not([dir="rtl"]) .legal-hero-content-right .legal-hero-buttons {
-    justify-content: flex-end !important;
-    align-items: flex-end !important;
-    width: 100% !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-    direction: rtl !important;
-}
-
-[dir="ltr"] .legal-hero-btn-primary-right,
-[dir="ltr"] .legal-hero-btn-secondary-right,
-html:not([dir="rtl"]) .legal-hero-btn-primary-right,
-html:not([dir="rtl"]) .legal-hero-btn-secondary-right {
-    direction: rtl !important;
-    text-align: right !important;
-    justify-content: flex-end !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
-}
-
 /* RTL Mobile Support */
 @media (max-width: 991px) {
     [dir="rtl"] .main-headline {

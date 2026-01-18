@@ -173,15 +173,10 @@
                                                     data-department="{{ $deptName }}"
                                                     data-specialty="{{ $lawyer->designations ?? '' }}"
                                                     data-slug="{{ $lawyer->slug ?? '' }}"
-                                                    data-rating="{{ $lawyer->average_rating ?? 0 }}"
-                                                    data-rating-count="{{ $lawyer->total_ratings ?? 0 }}"
                                                     {{ old('lawyer_id') == $lawyer->id ? 'selected' : '' }}>
                                                 {{ $lawyer->name }} - {{ $deptName }}
                                                 @if($lawyer->designations)
                                                     ({{ $lawyer->designations }})
-                                                @endif
-                                                @if($lawyer->average_rating > 0)
-                                                    ({{ $lawyer->average_rating }} ⭐)
                                                 @endif
                                             </option>
                                         @endforeach
@@ -193,18 +188,6 @@
                                         <div class="lawyer-details">
                                             <div class="lawyer-name">{{ __('Select a lawyer to see details') }}</div>
                                             <div class="lawyer-specialty">{{ __('Choose from the list above') }}</div>
-                                            <div class="lawyer-rating" id="lawyer-rating-display" style="display: none;">
-                                                <div class="rating-stars">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                                <div class="rating-text">
-                                                    <span id="rating-score">0.0</span> (<span id="rating-count">0</span> {{ __('reviews') }})
-                                                </div>
-                                            </div>
                                             <div class="lawyer-profile-link" id="lawyer-profile-link" style="display: none;">
                                                 <a href="#" id="lawyer-profile-url" class="btn btn-sm btn-outline-primary" target="_blank">
                                                     <i class="fas fa-user me-1"></i>{{ __('View Profile') }}
@@ -480,15 +463,12 @@
                 const department = selectedOption.data('department') || '';
                 const specialty = selectedOption.data('specialty') || '';
                 const lawyerSlug = selectedOption.data('slug') || '';
-                const rating = parseFloat(selectedOption.data('rating')) || 0;
-                const ratingCount = parseInt(selectedOption.data('rating-count')) || 0;
 
                 // Update lawyer info display
                 lawyerInfo.find('.lawyer-name').text(lawyerName);
                 lawyerInfo.find('.lawyer-specialty').text(department + (specialty ? ` (${specialty})` : ''));
 
-                // Show rating display and update with lawyer data
-                const ratingDisplay = $('#lawyer-rating-display');
+                // Update profile link
                 const profileLink = $('#lawyer-profile-link');
                 const profileUrl = $('#lawyer-profile-url');
 
@@ -499,14 +479,6 @@
                     profileLink.show();
                 } else {
                     profileLink.hide();
-                }
-
-                // Update rating display
-                if (rating > 0) {
-                    updateLawyerRating(rating, ratingCount);
-                    ratingDisplay.show();
-                } else {
-                    ratingDisplay.hide();
                 }
 
                 // Show and animate the info display
@@ -522,34 +494,12 @@
                 // Reset to default state
                 lawyerInfo.find('.lawyer-name').text('{{ __("Select a lawyer to see details") }}');
                 lawyerInfo.find('.lawyer-specialty').text('{{ __("Choose from the list above") }}');
-                $('#lawyer-rating-display').hide();
                 $('#lawyer-profile-link').hide();
                 lawyerInfo.removeClass('show');
             }
         });
 
 
-
-        // Update lawyer rating display
-        function updateLawyerRating(averageRating, totalRatings) {
-            $('#rating-score').text(averageRating);
-
-            // Update star rating display
-            const stars = $('#lawyer-rating-display .rating-stars i');
-            const rating = parseFloat(averageRating);
-
-            stars.each(function(index) {
-                if (index < Math.floor(rating)) {
-                    $(this).removeClass('far').addClass('fas');
-                } else if (index === Math.floor(rating) && rating % 1 >= 0.5) {
-                    $(this).removeClass('far').addClass('fas fa-star-half-alt');
-                } else {
-                    $(this).removeClass('fas fa-star-half-alt').addClass('far');
-                }
-            });
-
-            $('#rating-count').text(totalRatings);
-        }
 
         // Load lawyer availability
         function loadLawyerAvailability(lawyerId, date) {

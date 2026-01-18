@@ -1,15 +1,129 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $lawyer?->seo_title ?? $lawyer?->name . ' - ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $lawyer?->seo_description ?? Str::limit(strip_tags($lawyer?->about ?? ''), 155) ?: ($lawyer?->name . ' - ' . ($lawyer?->designations ?? 'Lawyer'));
+    $seoImage = $lawyer?->image ? asset($lawyer->image) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+    $lawyerUrl = route('website.lawyer.details', $lawyer->slug);
+@endphp
+
 @section('title')
-    <title>{{ $lawyer?->seo_title ?? $lawyer?->name }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description" content="{{ $lawyer?->seo_description }}">
-    <meta property="og:title" content="{{ $lawyer?->seo_title }}" />
-    <meta property="og:description" content="{{ $lawyer?->seo_description }}" />
-    <meta property="og:image" content="{{ asset($lawyer?->image) }}" />
-    <meta property="og:URL" content="{{ url()->current() }}" />
-    <meta property="og:type" content="website" />
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $lawyer?->name }}, {{ $lawyer?->designations ?? 'Lawyer' }}, {{ __('lawyer, attorney, legal professional, محامي') }}">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="{{ $lawyer?->name }}">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+    <meta property="profile:first_name" content="{{ explode(' ', $lawyer->name)[0] ?? $lawyer->name }}">
+    <meta property="profile:last_name" content="{{ count(explode(' ', $lawyer->name)) > 1 ? end(explode(' ', $lawyer->name)) : '' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "{{ $lawyer->name }}",
+        "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
+        "url": "{{ $lawyerUrl }}",
+        @if($lawyer->image)
+        "image": "{{ asset($lawyer->image) }}",
+        @endif
+        "description": "{{ $seoDescription }}",
+        "worksFor": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            "url": "{{ url('/') }}"
+        },
+        @if($lawyer->years_of_experience)
+        "knowsAbout": "Legal Services",
+        @endif
+        @if($lawyer->department)
+        "memberOf": {
+            "@type": "Organization",
+            "name": "{{ $lawyer->department->name ?? '' }}"
+        },
+        @endif
+        "sameAs": [
+            @if($lawyer->socialMedia && $lawyer->socialMedia->count() > 0)
+                @foreach($lawyer->socialMedia as $index => $social)
+                    "{{ $social->link }}"@if(!$loop->last),@endif
+                @endforeach
+            @endif
+        ]
+    }
+    </script>
+    
+    @if($lawyer->average_rating)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AggregateRating",
+        "itemReviewed": {
+            "@type": "Person",
+            "name": "{{ $lawyer->name }}"
+        },
+        "ratingValue": "{{ number_format($lawyer->average_rating, 1) }}",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "{{ $lawyer->total_ratings ?? 0 }}"
+    }
+    </script>
+    @endif
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Lawyers') }}",
+                "item": "{{ route('website.lawyers') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $lawyer->name }}",
+                "item": "{{ $currentUrl }}"
+            }
+        ]
+    }
+    </script>
+@endsection
+
 @section('client-content')
     <!--Banner Start-->
     <div class="banner-area flex"
@@ -50,20 +164,6 @@
                         <h4>{{ $lawyer?->name }} </h4>
                         <span><b>{{ $lawyer?->department?->name }} ({{ $lawyer?->designations }})</b></span>
                         <p class="mt-0"><b>{{ __('Years of experience') }}: {{ $lawyer?->years_of_experience }}</b></p>
-                        @if($lawyer->total_ratings > 0)
-                        <div class="mt-2 mb-2">
-                            {!! displayStars($lawyer->average_rating) !!}
-                            <span class="ms-2" style="color: #666; font-size: 14px;">
-                                <strong>{{ number_format($lawyer->average_rating, 1) }}</strong> 
-                                ({{ $lawyer->total_ratings }} {{ $lawyer->total_ratings == 1 ? __('rating') : __('ratings') }})
-                            </span>
-                        </div>
-                        @else
-                        <div class="mt-2 mb-2">
-                            {!! displayStars(0) !!}
-                            <span class="ms-2" style="color: #666; font-size: 14px;">{{ __('No ratings yet') }}</span>
-                        </div>
-                        @endif
                         {{-- تم حذف الرسوم - سيتم تحديدها بعد استشارة الحالة --}}
 
                         {!! $lawyer?->about !!}

@@ -1,12 +1,73 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $customPage?->title . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = Str::limit(strip_tags($customPage?->description ?? $customPage?->title ?? ''), 155) ?: $customPage?->title;
+    $seoImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+    $currentUrl = url()->current();
+@endphp
+
 @section('title')
-@section('title')
-    <title>{{ $customPage?->title . ' | '. $setting?->app_name }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description"
-        content="{{ $customPage?->title }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $customPage?->title }}, {{ $setting->app_name ?? 'LawMent' }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "{{ $customPage->title }}",
+        "description": "{{ Str::limit(strip_tags($customPage->description ?? ''), 200) }}",
+        "url": "{{ $currentUrl }}"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ $customPage->title }}",
+                "item": "{{ $currentUrl }}"
+            }
+        ]
+    }
+    </script>
+@endsection
+
 @section('client-content')
 
 <!--Banner Start-->

@@ -1,11 +1,94 @@
 @extends('layouts.client.layout')
+@php
+    $seoData = seoSetting()->where('page_name', 'Contact')->first();
+    $seoTitle = $seoData?->seo_title ?? __('Contact Us') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $seoData?->seo_description ?? __('Get in touch with us for legal consultation and services');
+    $seoImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+    $currentUrl = url()->current();
+@endphp
+
 @section('title')
-    <title>{{ seoSetting()->where('page_name', 'Contact')->first()->seo_title ?? 'Contact | LawMent' }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description"
-        content="{{ seoSetting()->where('page_name', 'Contact')->first()->seo_description ?? 'Contact | LawMent' }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ __('contact, contact us, legal consultation, get in touch, اتصل بنا, استشارة قانونية') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "{{ __('Contact Us') }}",
+        "description": "{{ $seoDescription }}",
+        "url": "{{ $currentUrl }}",
+        "mainEntity": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            @if($contactInfo?->top_bar_phone)
+            "telephone": "{{ $contactInfo->top_bar_phone }}",
+            @endif
+            @if($contactInfo?->top_bar_email)
+            "email": "{{ $contactInfo->top_bar_email }}",
+            @endif
+            @if($contactInfo?->address)
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ $contactInfo->address }}"
+            }
+            @endif
+        }
+    }
+    </script>
+    
+    @if($contactInfo)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "{{ $setting->app_name ?? 'LawMent' }}",
+        "description": "{{ $seoDescription }}",
+        "url": "{{ url('/') }}",
+        "telephone": "{{ $contactInfo->top_bar_phone ?? '' }}",
+        "email": "{{ $contactInfo->top_bar_email ?? '' }}",
+        @if($contactInfo->address)
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{ $contactInfo->address }}"
+        },
+        @endif
+        "priceRange": "$$",
+        "image": "{{ $seoImage }}"
+    }
+    </script>
+    @endif
+@endsection
+
 @section('client-content')
     <!--Banner Start-->
     <div class="banner-area flex"

@@ -1,11 +1,108 @@
 @extends('layouts.client.layout')
+@php
+    $seoData = seoSetting()->where('page_name', 'About')->first();
+    $seoTitle = $seoData?->seo_title ?? __('About Us') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $seoData?->seo_description ?? __('Learn more about our law firm and legal services');
+    $seoImage = $about?->about_image ? asset($about->about_image) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+@endphp
+
 @section('title')
-    <title>{{ seoSetting()->where('page_name', 'About')->first()->seo_title ?? 'About | LawMent' }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description"
-        content="{{ seoSetting()->where('page_name', 'About')->first()->seo_description ?? 'About | LawMent' }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ __('about us, law firm, legal services, our story, من نحن, مكتب محاماة, خدمات قانونية') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "{{ __('About Us') }}",
+        "description": "{{ $seoDescription }}",
+        "url": "{{ $currentUrl }}",
+        "mainEntity": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            "description": "{{ $seoDescription }}",
+            @if($totalLawyers)
+            "numberOfEmployees": {
+                "@type": "QuantitativeValue",
+                "value": {{ $totalLawyers }},
+                "unitText": "Lawyers"
+            },
+            @endif
+            @if($contactInfo?->top_bar_phone)
+            "telephone": "{{ $contactInfo->top_bar_phone }}",
+            @endif
+            @if($contactInfo?->top_bar_email)
+            "email": "{{ $contactInfo->top_bar_email }}",
+            @endif
+            @if($contactInfo?->address)
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ $contactInfo->address }}"
+            }
+            @endif
+        }
+    }
+    </script>
+    
+    @if($about && $about->about_description)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "{{ $setting->app_name ?? 'LawMent' }}",
+        "description": "{{ Str::limit(strip_tags($about->about_description), 200) }}",
+        "url": "{{ url('/') }}",
+        "logo": "{{ $setting->logo ? asset($setting->logo) : asset('client/img/logo.png') }}",
+        @if($totalLawyers)
+        "numberOfEmployees": {{ $totalLawyers }},
+        @endif
+        @if($contactInfo?->top_bar_phone)
+        "telephone": "{{ $contactInfo->top_bar_phone }}",
+        @endif
+        @if($contactInfo?->top_bar_email)
+        "email": "{{ $contactInfo->top_bar_email }}",
+        @endif
+        @if($contactInfo?->address)
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{ $contactInfo->address }}"
+        }
+        @endif
+    }
+    </script>
+    @endif
+@endsection
+
 @section('client-content')
     <!--Banner Start-->
     <div class="banner-area flex"

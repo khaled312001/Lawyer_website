@@ -1,19 +1,112 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $property->seo_title ?? $property->title . ' - ' . __('Real Estate') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $property->seo_description ?? Str::limit(strip_tags($property->description ?? ''), 155) ?: $property->title;
+    $seoImage = $property->main_image_url ?? ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+    $propertyUrl = route('website.real-estate.show', $property->slug);
+@endphp
 
 @section('title')
-    <title>{{ $property->seo_title ?? $property->title . ' - ' . __('Real Estate') }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
 
 @section('meta')
-    <meta name="description" content="{{ $property->seo_description ?? Str::limit($property->description, 155) }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $property->title }}, {{ $property->property_type ?? '' }}, {{ __('real estate, property, عقار, عقارات') }}">
     @if($property->seo_keywords)
-        <meta name="keywords" content="{{ implode(', ', $property->seo_keywords) }}">
+        <meta name="keywords" content="{{ implode(', ', $property->seo_keywords) }}, {{ $property->title }}">
     @endif
-    <meta property="og:title" content="{{ $property->title }}">
-    <meta property="og:description" content="{{ Str::limit($property->description, 155) }}">
-    <meta property="og:image" content="{{ $property->main_image_url }}">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <meta name="geo.region" content="SY">
+    @if($property->city)
+    <meta name="geo.placename" content="{{ $property->city }}">
+    @endif
+@endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+    <meta property="product:price:amount" content="{{ $property->price ?? '' }}">
+    <meta property="product:price:currency" content="{{ getSessionCurrency() ?? 'USD' }}">
+    <meta property="product:availability" content="in stock">
+    <meta property="product:condition" content="new">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "{{ $property->title }}",
+        "description": "{{ Str::limit(strip_tags($property->description ?? ''), 200) }}",
+        "image": "{{ $seoImage }}",
+        "url": "{{ $propertyUrl }}",
+        "offers": {
+            "@type": "Offer",
+            "price": "{{ $property->price ?? 0 }}",
+            "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}",
+            "availability": "https://schema.org/InStock",
+            "url": "{{ $propertyUrl }}"
+        },
+        @if($property->address)
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{ $property->address }}",
+            @if($property->city)
+            "addressLocality": "{{ $property->city }}",
+            @endif
+            "addressCountry": "SY"
+        },
+        @endif
+        "category": "{{ $property->property_type ?? 'Real Estate' }}"
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Real Estate') }}",
+                "item": "{{ route('website.real-estate') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $property->title }}",
+                "item": "{{ $currentUrl }}"
+            }
+        ]
+    }
+    </script>
 @endsection
 
 @section('client-content')

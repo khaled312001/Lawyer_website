@@ -1,15 +1,119 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $service?->seo_title ?? $service?->title . ' - ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $service?->seo_description ?? Str::limit(strip_tags($service?->description ?? $service?->sort_description ?? ''), 155) ?: $service?->title;
+    $seoImage = $service?->icon ? asset($service->icon) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+    $serviceUrl = route('website.service.details', $service->slug);
+@endphp
+
 @section('title')
-    <title>{{ $service?->seo_title ?? $service?->title  }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description" content="{{ $service?->seo_description }}">
-    <meta property="og:title" content="{{ $service?->seo_title }}" />
-    <meta property="og:description" content="{{ $service?->seo_description }}" />
-    <meta property="og:image" content="{{ asset($service?->icon) }}" />
-    <meta property="og:URL" content="{{ url()->current() }}" />
-    <meta property="og:type" content="website" />
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $service?->title }}, {{ __('legal service, consultation, خدمة قانونية, استشارة') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="service">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+    <meta property="service:name" content="{{ $service->title }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "{{ $service->title }}",
+        "description": "{{ Str::limit(strip_tags($service->description ?? $service->sort_description ?? ''), 200) }}",
+        "url": "{{ $serviceUrl }}",
+        @if($service->icon)
+        "image": "{{ asset($service->icon) }}",
+        @endif
+        "provider": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            "url": "{{ url('/') }}"
+        },
+        "serviceType": "Legal Consultation",
+        "areaServed": {
+            "@type": "Country",
+            "name": "Syria"
+        }
+    }
+    </script>
+    
+    @if($service->service_faq && $service->service_faq->count() > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            @foreach($service->service_faq as $faq)
+            {
+                "@type": "Question",
+                "name": "{{ $faq->question }}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{ strip_tags($faq->answer) }}"
+                }
+            }@if(!$loop->last),@endif
+            @endforeach
+        ]
+    }
+    </script>
+    @endif
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Services') }}",
+                "item": "{{ route('website.services') }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $service->title }}",
+                "item": "{{ $currentUrl }}"
+            }
+        ]
+    }
+    </script>
+@endsection
+
 @section('client-content')
 
     <!--Banner Start-->
