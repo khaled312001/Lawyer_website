@@ -977,8 +977,8 @@
         position: fixed;
         top: 0 !important;
         right: -100%;
-        width: 320px;
-        max-width: 85vw;
+        width: 280px;
+        max-width: 75vw;
         height: 100%;
         background: #fff;
         box-shadow: -2px 0 15px rgba(0,0,0,0.2);
@@ -2641,8 +2641,8 @@
 
         /* Side Menu - Enhanced Design */
         .side-menu-content {
-            width: 320px;
-            max-width: 85vw;
+            width: 280px;
+            max-width: 75vw;
         }
 
         .side-menu-header {

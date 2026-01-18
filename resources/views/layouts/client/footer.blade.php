@@ -7,11 +7,11 @@
                     <div class="footer-address footer-address-first">
                         <ul>
                             <li>
-                                <i class="far fa-envelope"></i>
                                 <div>
                                     <p class="title">{{ __('Email Address') }} </p>
                                     <p>{!! nl2br(e($contactInfo?->email)) !!}</p>
                                 </div>
+                                <i class="far fa-envelope"></i>
                             </li>
                         </ul>
                     </div>
@@ -20,7 +20,6 @@
                     <div class="footer-address">
                         <ul>
                             <li>
-                                <i class="fas fa-phone"></i>
                                 <div>
                                     <p class="title">{{ __('Phone') }}</p>
                                     <p>
@@ -52,6 +51,7 @@
                                         @endphp
                                     </p>
                                 </div>
+                                <i class="fas fa-phone"></i>
                             </li>
                         </ul>
                     </div>
@@ -60,11 +60,11 @@
                     <div class="footer-address">
                         <ul>
                             <li>
-                                <i class="fas fa-map-marker-alt"></i>
                                 <div>
                                     <p class="title">{{ __('Address') }}</p>
                                     <p>{!! nl2br(e($contactInfo?->address)) !!}</p>
                                 </div>
+                                <i class="fas fa-map-marker-alt"></i>
                             </li>
                         </ul>
                     </div>
@@ -562,6 +562,199 @@
         }
     });
 </script>
+
+@push('css')
+<style>
+    /* Enhanced Top Footer Design with Icons on Right */
+    .top-footer {
+        background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);
+        position: relative;
+        padding: 40px 0 !important;
+    }
+    
+    .top-footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #DC2626 0%, #EF4444 50%, #F97316 100%);
+        z-index: 1;
+    }
+    
+    .footer-address {
+        text-align: center;
+        padding: 25px 20px !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-address:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .footer-address-first {
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    
+    .footer-address ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .footer-address ul li {
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 20px !important;
+        padding: 0 !important;
+        position: relative;
+    }
+    
+    [dir="ltr"] .footer-address ul li {
+        flex-direction: row !important;
+    }
+    
+    [dir="rtl"] .footer-address ul li {
+        flex-direction: row-reverse !important;
+    }
+    
+    /* Icons on Right for RTL, Left for LTR */
+    .footer-address ul li i {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        font-size: 32px !important;
+        line-height: 1 !important;
+        color: #D4A574 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        background: rgba(212, 165, 116, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
+    }
+    
+    [dir="ltr"] .footer-address ul li i {
+        order: 2;
+    }
+    
+    [dir="rtl"] .footer-address ul li i {
+        order: 1;
+    }
+    
+    .footer-address ul li:hover i {
+        background: rgba(212, 165, 116, 0.2);
+        transform: scale(1.1) rotate(5deg);
+        color: #E0B584 !important;
+        box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+    }
+    
+    /* Text Content */
+    .footer-address ul li > div {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+        text-align: center;
+        direction: rtl;
+    }
+    
+    [dir="ltr"] .footer-address ul li > div {
+        order: 1;
+        direction: ltr;
+        text-align: center;
+    }
+    
+    [dir="rtl"] .footer-address ul li > div {
+        order: 2;
+        direction: rtl;
+        text-align: center;
+    }
+    
+    .footer-address ul li .title {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #D4A574 !important;
+        margin-bottom: 8px !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .footer-address ul li p {
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        color: #E5E7EB !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
+        word-break: break-word;
+    }
+    
+    /* Remove old separators */
+    .footer-address ul li::before {
+        display: none !important;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 991px) {
+        .footer-address {
+            border-right: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 30px 20px !important;
+        }
+        
+        .footer-address:last-child {
+            border-bottom: none !important;
+        }
+        
+        .footer-address-first {
+            border-left: none !important;
+        }
+        
+        .footer-address ul li {
+            flex-direction: column !important;
+            gap: 15px !important;
+        }
+        
+        .footer-address ul li i {
+            order: 1 !important;
+        }
+        
+        .footer-address ul li > div {
+            order: 2 !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .top-footer {
+            padding: 30px 0 !important;
+        }
+        
+        .footer-address ul li i {
+            font-size: 28px !important;
+            width: 45px !important;
+            height: 45px !important;
+            min-width: 45px !important;
+        }
+        
+        .footer-address ul li .title {
+            font-size: 14px !important;
+        }
+        
+        .footer-address ul li p {
+            font-size: 14px !important;
+        }
+    }
+</style>
+@endpush
 
 </body>
 

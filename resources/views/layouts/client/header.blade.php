@@ -769,3 +769,181 @@
             <span class="whatsapp-tooltip">{{ __('Chat with us') }}</span>
         </a>
     @endif
+
+@push('css')
+<style>
+    /* Enhanced Book Appointment Button Design */
+    .appointment-btn,
+    .mobile-appointment-btn {
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 50px !important;
+        padding: 12px 28px !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4) !important;
+        text-transform: none !important;
+        letter-spacing: 0.3px !important;
+        white-space: nowrap !important;
+    }
+    
+    /* Animated Background Gradient */
+    .appointment-btn::before,
+    .mobile-appointment-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.6s ease;
+    }
+    
+    .appointment-btn:hover::before,
+    .mobile-appointment-btn:hover::before {
+        left: 100%;
+    }
+    
+    /* Hover Effects */
+    .appointment-btn:hover,
+    .mobile-appointment-btn:hover {
+        transform: translateY(-3px) scale(1.02) !important;
+        box-shadow: 0 8px 25px rgba(220, 38, 38, 0.5) !important;
+        background: linear-gradient(135deg, #E0B584 0%, #EF4444 100%) !important;
+    }
+    
+    .appointment-btn:active,
+    .mobile-appointment-btn:active {
+        transform: translateY(-1px) scale(0.98) !important;
+    }
+    
+    /* Icon Animation */
+    .appointment-btn i,
+    .mobile-appointment-btn i {
+        font-size: 18px !important;
+        transition: all 0.3s ease !important;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .appointment-btn:hover i,
+    .mobile-appointment-btn:hover i {
+        transform: rotate(15deg) scale(1.1) !important;
+        animation: pulse 1.5s ease-in-out infinite !important;
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: rotate(15deg) scale(1.1);
+        }
+        50% {
+            transform: rotate(15deg) scale(1.2);
+        }
+    }
+    
+    /* Text Styling */
+    .appointment-btn span,
+    .mobile-appointment-btn .mobile-menu-text {
+        position: relative;
+        z-index: 1;
+        font-weight: 700 !important;
+    }
+    
+    /* Mobile Menu Button Specific */
+    .mobile-appointment-btn {
+        width: 100% !important;
+        margin: 10px 15px !important;
+        border-radius: 50px !important;
+        padding: 14px 28px !important;
+    }
+    
+    .mobile-appointment-item {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+    }
+    
+    /* Desktop Navbar Button */
+    .appointment-btn-wrapper {
+        margin-left: 15px !important;
+    }
+    
+    .appointment-btn {
+        min-width: 200px !important;
+    }
+    
+    /* Responsive */
+    @media (max-width: 991px) {
+        .appointment-btn {
+            min-width: auto !important;
+            padding: 10px 20px !important;
+            font-size: 14px !important;
+        }
+        
+        .appointment-btn i {
+            font-size: 16px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .appointment-btn {
+            padding: 10px 18px !important;
+            font-size: 13px !important;
+            gap: 8px !important;
+        }
+    }
+    
+    /* Side Menu Mobile - Smaller Width */
+    @media (max-width: 991px) {
+        .side-menu-content {
+            width: 280px !important;
+            max-width: 75vw !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .side-menu-content {
+            width: 260px !important;
+            max-width: 70vw !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .side-menu-content {
+            width: 240px !important;
+            max-width: 65vw !important;
+        }
+    }
+    
+    /* Mobile Menu Items - Compact Design */
+    .mobile-menu-list-item {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .mobile-menu-item {
+        width: 100% !important;
+        padding: 12px 18px !important;
+        font-size: 14px !important;
+    }
+    
+    .mobile-menu-text {
+        font-size: 14px !important;
+    }
+    
+    .mobile-menu-icon {
+        font-size: 16px !important;
+    }
+</style>
+@endpush
