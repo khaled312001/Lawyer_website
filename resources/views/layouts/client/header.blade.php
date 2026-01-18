@@ -477,7 +477,7 @@
                             @endforeach
                             <li class="nav-item appointment-btn-wrapper">
                                 <a href="{{ route('website.book.consultation.appointment') }}" 
-                                   class="nav-link book-appointment-btn-desktop"
+                                   class="nav-link book-appointment-btn-desktop enhanced-hover-btn"
                                    style="
                                         display: flex;
                                         align-items: center;
@@ -489,11 +489,28 @@
                                         border-radius: 30px;
                                         box-shadow: 0 4px 18px rgba(220,38,38,0.12);
                                         padding: 10px 28px;
-                                        transition: background 0.3s, box-shadow 0.3s;
+                                        transition: 
+                                            background 0.3s,
+                                            box-shadow 0.3s,
+                                            color 0.3s;
+                                        text-decoration: none;
                                     ">
                                     <i class="fas fa-calendar-check" style="font-size: 21px;"></i>
                                     <span style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
+                                <style>
+                                    .enhanced-hover-btn:hover, 
+                                    .enhanced-hover-btn:focus {
+                                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
+                                        color: #222 !important;
+                                        box-shadow: 0 6px 22px rgba(212, 165, 116, 0.16);
+                                        text-decoration: none;
+                                    }
+                                    .enhanced-hover-btn:hover i,
+                                    .enhanced-hover-btn:focus i {
+                                        color: #222 !important;
+                                    }
+                                </style>
                             </li>
                         @else
                             <li class="nav-item">
