@@ -621,370 +621,372 @@
 @push('css')
 <style>
 /* ============================================
-   Admin Notification System - New Design
-   نظام الإشعارات في لوحة الأدمن - تصميم جديد
+   Admin Alert System - Complete Redesign
+   نظام التنبيهات في لوحة الأدمن - إعادة تصميم كاملة
    ============================================ */
 
-/* Notification Wrapper */
-.aman-notification-wrapper {
+/* Alert Wrapper */
+.admin-alert-wrapper {
     position: relative !important;
-    z-index: 1050 !important;
+    z-index: 9998 !important;
 }
 
-/* Notification Button */
-.aman-notification-btn {
-    width: 44px !important;
-    height: 44px !important;
+/* Alert Button */
+.admin-alert-button {
+    width: 46px !important;
+    height: 46px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    border-radius: 10px !important;
-    color: #fff !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    border-radius: 12px !important;
+    color: #FFFFFF !important;
     text-decoration: none !important;
     position: relative !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.3s ease !important;
     cursor: pointer !important;
-    z-index: 1051 !important;
+    z-index: 9999 !important;
 }
 
-.aman-notification-btn:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
-    border-color: rgba(255, 255, 255, 0.4) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+.admin-alert-button:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
-.aman-notification-btn:active {
-    transform: translateY(0) !important;
+.admin-alert-button:active {
+    transform: translateY(0) scale(1) !important;
 }
 
-.aman-notification-btn:focus {
+.admin-alert-button:focus {
     outline: none !important;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.4) !important;
 }
 
-/* Notification Icon */
-.aman-notification-icon {
-    font-size: 20px !important;
-    color: #fff !important;
+/* Alert Icon */
+.admin-alert-icon {
+    font-size: 22px !important;
+    color: #FFFFFF !important;
     line-height: 1 !important;
     display: block !important;
 }
 
-/* Notification Badge */
-.aman-notification-badge {
+/* Alert Counter Badge */
+.admin-alert-counter {
     position: absolute !important;
-    top: -6px !important;
-    right: -6px !important;
-    background: linear-gradient(135deg, #ff4757 0%, #ff6b7a 100%) !important;
-    color: #fff !important;
-    border-radius: 12px !important;
-    padding: 3px 7px !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    min-width: 20px !important;
-    height: 20px !important;
+    top: -8px !important;
+    right: -8px !important;
+    background: #FF3B30 !important;
+    color: #FFFFFF !important;
+    border-radius: 14px !important;
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    min-width: 22px !important;
+    height: 22px !important;
     line-height: 14px !important;
     text-align: center !important;
-    border: 2px solid #6777ef !important;
-    z-index: 1052 !important;
+    border: 3px solid #6777EF !important;
+    z-index: 10000 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4) !important;
-    animation: pulse-badge 2s infinite !important;
+    box-shadow: 0 3px 10px rgba(255, 59, 48, 0.5) !important;
 }
 
-@keyframes pulse-badge {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-}
-
-/* RTL Support for Badge */
-[dir="rtl"] .aman-notification-badge {
+/* RTL Support for Counter */
+[dir="rtl"] .admin-alert-counter {
     right: auto !important;
-    left: -6px !important;
+    left: -8px !important;
 }
 
-/* Notification Dropdown */
-.aman-notification-dropdown {
-    width: 380px !important;
-    max-height: 500px !important;
+/* Alert Panel (Dropdown) */
+.admin-alert-panel {
+    width: 400px !important;
+    max-height: 550px !important;
     overflow: hidden !important;
-    border-radius: 16px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    margin-top: 12px !important;
+    border-radius: 18px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25) !important;
+    border: 2px solid #E5E7EB !important;
+    margin-top: 15px !important;
     padding: 0 !important;
-    background: #fff !important;
-    z-index: 1053 !important;
+    background: #FFFFFF !important;
+    z-index: 10001 !important;
     position: absolute !important;
     right: 0 !important;
     left: auto !important;
 }
 
-[dir="rtl"] .aman-notification-dropdown {
+[dir="rtl"] .admin-alert-panel {
     right: auto !important;
     left: 0 !important;
 }
 
-/* Notification Header */
-.aman-notification-header {
-    padding: 18px 20px !important;
-    background: linear-gradient(135deg, #6777ef 0%, #764ba2 100%) !important;
-    border-radius: 16px 16px 0 0 !important;
+/* Alert Top Section */
+.admin-alert-top {
+    padding: 20px 24px !important;
+    background: linear-gradient(135deg, #6777EF 0%, #5A67D8 100%) !important;
+    border-radius: 18px 18px 0 0 !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
 }
 
-.aman-notification-title {
+.admin-alert-heading {
     margin: 0 !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    color: #fff !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 1px !important;
 }
 
-.aman-notification-mark-all {
-    font-size: 12px !important;
-    color: rgba(255, 255, 255, 0.9) !important;
+.admin-alert-mark-all {
+    font-size: 13px !important;
+    color: #FFFFFF !important;
     text-decoration: none !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     transition: all 0.2s ease !important;
-    padding: 4px 8px !important;
-    border-radius: 6px !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
 }
 
-.aman-notification-mark-all:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    color: #fff !important;
+.admin-alert-mark-all:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: #FFFFFF !important;
+    transform: scale(1.05) !important;
 }
 
-/* Notification Divider */
-.aman-notification-divider {
-    height: 1px !important;
-    background: #e9ecef !important;
+/* Alert Separator */
+.admin-alert-separator {
+    height: 2px !important;
+    background: #E5E7EB !important;
     margin: 0 !important;
 }
 
-/* Notification Body */
-.aman-notification-body {
-    max-height: 400px !important;
+/* Alert Content */
+.admin-alert-content {
+    max-height: 420px !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     padding: 0 !important;
+    background: #FFFFFF !important;
 }
 
 /* Custom Scrollbar */
-.aman-notification-body::-webkit-scrollbar {
-    width: 6px !important;
+.admin-alert-content::-webkit-scrollbar {
+    width: 8px !important;
 }
 
-.aman-notification-body::-webkit-scrollbar-track {
-    background: #f1f1f1 !important;
+.admin-alert-content::-webkit-scrollbar-track {
+    background: #F3F4F6 !important;
 }
 
-.aman-notification-body::-webkit-scrollbar-thumb {
-    background: #c1c1c1 !important;
-    border-radius: 3px !important;
+.admin-alert-content::-webkit-scrollbar-thumb {
+    background: #D1D5DB !important;
+    border-radius: 4px !important;
 }
 
-.aman-notification-body::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8 !important;
+.admin-alert-content::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF !important;
 }
 
-/* Notification Loading */
-.aman-notification-loading {
-    padding: 40px 20px !important;
+/* Alert Spinner */
+.admin-alert-spinner {
+    padding: 50px 20px !important;
     text-align: center !important;
 }
 
-/* Notification Empty */
-.aman-notification-empty {
-    padding: 40px 20px !important;
+/* Alert No Data */
+.admin-alert-no-data {
+    padding: 50px 20px !important;
     text-align: center !important;
-    color: #6c757d !important;
-    font-size: 14px !important;
+    color: #6B7280 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
 }
 
-/* Notification Item */
-.aman-notification-item {
+/* Alert Entry (Notification Item) */
+.admin-alert-entry {
     display: block !important;
-    padding: 16px 20px !important;
+    padding: 18px 24px !important;
     text-decoration: none !important;
     color: inherit !important;
-    border-bottom: 1px solid #f0f0f0 !important;
+    border-bottom: 1px solid #F3F4F6 !important;
     transition: all 0.2s ease !important;
     position: relative !important;
 }
 
-.aman-notification-item:last-child {
+.admin-alert-entry:last-child {
     border-bottom: none !important;
 }
 
-.aman-notification-item:hover {
-    background: #f8f9fa !important;
+.admin-alert-entry:hover {
+    background: #F9FAFB !important;
     text-decoration: none !important;
 }
 
-.aman-notification-unread {
-    background: #f0f7ff !important;
-    border-left: 4px solid #6777ef !important;
+/* New (Unread) Notification */
+.admin-alert-new {
+    background: #EFF6FF !important;
+    border-left: 5px solid #3B82F6 !important;
 }
 
-[dir="rtl"] .aman-notification-unread {
+[dir="rtl"] .admin-alert-new {
     border-left: none !important;
-    border-right: 4px solid #6777ef !important;
+    border-right: 5px solid #3B82F6 !important;
 }
 
-.aman-notification-read {
-    background: #fff !important;
+/* Read Notification */
+.admin-alert-read {
+    background: #FFFFFF !important;
 }
 
-/* Notification Item Content */
-.aman-notification-item-content {
+/* Alert Entry Box */
+.admin-alert-entry-box {
     display: flex !important;
     align-items: flex-start !important;
-    gap: 12px !important;
+    gap: 14px !important;
 }
 
-/* Notification Item Icon */
-.aman-notification-item-icon {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
+/* Alert Entry Icon Box */
+.admin-alert-entry-icon-box {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-    border-radius: 10px !important;
+    background: #F3F4F6 !important;
+    border-radius: 12px !important;
     flex-shrink: 0 !important;
 }
 
-.aman-notification-item-icon i {
-    font-size: 18px !important;
-    color: #6777ef !important;
+.admin-alert-entry-icon-box i {
+    font-size: 20px !important;
+    color: #6777EF !important;
 }
 
-.aman-notification-unread .aman-notification-item-icon {
-    background: linear-gradient(135deg, #e7f3ff 0%, #d0e7ff 100%) !important;
+.admin-alert-new .admin-alert-entry-icon-box {
+    background: #DBEAFE !important;
 }
 
-.aman-notification-unread .aman-notification-item-icon i {
-    color: #6777ef !important;
+.admin-alert-new .admin-alert-entry-icon-box i {
+    color: #3B82F6 !important;
 }
 
-/* Notification Item Text */
-.aman-notification-item-text {
+/* Alert Entry Text Box */
+.admin-alert-entry-text-box {
     flex: 1 !important;
     min-width: 0 !important;
 }
 
-.aman-notification-item-title {
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    color: #2c3e50 !important;
-    margin-bottom: 4px !important;
+.admin-alert-entry-heading {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    margin-bottom: 6px !important;
     line-height: 1.4 !important;
 }
 
-.aman-notification-unread .aman-notification-item-title {
-    color: #1a1a1a !important;
-    font-weight: 700 !important;
+.admin-alert-new .admin-alert-entry-heading {
+    color: #1F2937 !important;
+    font-weight: 800 !important;
 }
 
-.aman-notification-item-message {
-    font-size: 13px !important;
-    color: #6c757d !important;
-    line-height: 1.5 !important;
-    margin-bottom: 6px !important;
+.admin-alert-entry-text {
+    font-size: 14px !important;
+    color: #4B5563 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 8px !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
 }
 
-.aman-notification-item-time {
-    font-size: 11px !important;
-    color: #adb5bd !important;
-    font-weight: 500 !important;
-}
-
-/* Notification Footer */
-.aman-notification-footer {
-    padding: 12px 20px !important;
-    text-align: center !important;
-    background: #f8f9fa !important;
-    border-radius: 0 0 16px 16px !important;
-}
-
-.aman-notification-view-all {
-    font-size: 13px !important;
-    color: #6777ef !important;
-    text-decoration: none !important;
+.admin-alert-entry-date {
+    font-size: 12px !important;
+    color: #9CA3AF !important;
     font-weight: 600 !important;
+}
+
+/* Alert Bottom */
+.admin-alert-bottom {
+    padding: 16px 24px !important;
+    text-align: center !important;
+    background: #F9FAFB !important;
+    border-radius: 0 0 18px 18px !important;
+}
+
+.admin-alert-link {
+    font-size: 14px !important;
+    color: #6777EF !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
     transition: all 0.2s ease !important;
     display: inline-block !important;
-    padding: 4px 0 !important;
+    padding: 6px 0 !important;
 }
 
-.aman-notification-view-all:hover {
-    color: #5568d3 !important;
+.admin-alert-link:hover {
+    color: #5568D3 !important;
     text-decoration: underline !important;
+    transform: scale(1.05) !important;
 }
 
 /* Mobile Responsive */
 @media (max-width: 991.98px) {
-    .aman-notification-dropdown {
-        width: 320px !important;
+    .admin-alert-panel {
+        width: 340px !important;
         max-width: calc(100vw - 20px) !important;
     }
     
-    .aman-notification-btn {
-        width: 40px !important;
-        height: 40px !important;
+    .admin-alert-button {
+        width: 42px !important;
+        height: 42px !important;
     }
     
-    .aman-notification-icon {
-        font-size: 18px !important;
+    .admin-alert-icon {
+        font-size: 20px !important;
     }
     
-    .aman-notification-badge {
-        font-size: 10px !important;
-        min-width: 18px !important;
-        height: 18px !important;
-        padding: 2px 6px !important;
+    .admin-alert-counter {
+        font-size: 11px !important;
+        min-width: 20px !important;
+        height: 20px !important;
+        padding: 3px 7px !important;
     }
 }
 
 @media (max-width: 768px) {
-    .aman-notification-dropdown {
-        width: 300px !important;
-        right: -10px !important;
+    .admin-alert-panel {
+        width: 320px !important;
+        right: -15px !important;
     }
     
-    [dir="rtl"] .aman-notification-dropdown {
-        left: -10px !important;
+    [dir="rtl"] .admin-alert-panel {
+        left: -15px !important;
         right: auto !important;
     }
 }
 
 /* Ensure dropdown is above all elements */
-.dropdown-menu.aman-notification-dropdown {
-    z-index: 9999 !important;
+.dropdown-menu.admin-alert-panel {
+    z-index: 10001 !important;
 }
 
 /* Fix for Bootstrap dropdown positioning */
-.aman-notification-wrapper.show .aman-notification-dropdown {
+.admin-alert-wrapper.show .admin-alert-panel {
     display: block !important;
+}
+
+/* Override any conflicting styles */
+.admin-alert-wrapper * {
+    box-sizing: border-box !important;
 }
 </style>
 @endpush
