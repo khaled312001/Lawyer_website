@@ -476,9 +476,23 @@
                                 </li>
                             @endforeach
                             <li class="nav-item appointment-btn-wrapper">
-                                <a href="{{ route('website.book.consultation.appointment') }}" class="nav-link book-appointment-btn-desktop">
-                                    <i class="fas fa-calendar-check"></i>
-                                    <span>{{ __('Book Consultation Appointment') }}</span>
+                                <a href="{{ route('website.book.consultation.appointment') }}" 
+                                   class="nav-link book-appointment-btn-desktop"
+                                   style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 10px;
+                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%);
+                                        color: #fff !important;
+                                        font-weight: 700;
+                                        font-size: 17px;
+                                        border-radius: 30px;
+                                        box-shadow: 0 4px 18px rgba(220,38,38,0.12);
+                                        padding: 10px 28px;
+                                        transition: background 0.3s, box-shadow 0.3s;
+                                    ">
+                                    <i class="fas fa-calendar-check" style="font-size: 21px;"></i>
+                                    <span style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                             </li>
                         @else
