@@ -12743,28 +12743,51 @@
 
     /* زر الموعد */
     .mobile-appointment-btn {
-        background: var(--colorPrimary) !important;
+        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%) !important;
         color: #fff !important;
-        border-radius: 8px !important;
-        margin: 10px 20px !important;
+        border-radius: 30px !important;
+        margin: 8px auto !important;
+        padding: 10px 20px !important;
         font-weight: 600 !important;
+        font-size: 13px !important;
+        width: auto !important;
+        max-width: 90% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
     .mobile-appointment-btn:hover {
-        background: var(--colorSecondary) !important;
+        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%) !important;
         color: #fff !important;
+        transform: translateY(-2px) scale(1.03) !important;
+        box-shadow: 0 5px 18px rgba(184, 134, 11, 0.45) !important;
     }
 
     .mobile-appointment-btn .mobile-menu-text {
         color: #fff !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
     }
 
     .mobile-appointment-btn .mobile-menu-icon {
         color: #fff !important;
+        font-size: 14px !important;
     }
 
     .mobile-appointment-btn:hover .mobile-menu-icon {
         color: #fff !important;
+        transform: scale(1.15) !important;
+    }
+    
+    .mobile-appointment-item {
+        display: flex !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* القوائم الفرعية */
