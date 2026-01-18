@@ -13772,6 +13772,202 @@
     }
 
     /* ===================================================================
+       CONTACT US SECTION - تحسينات قسم تواصل معنا
+       =================================================================== */
+    
+    .contact-us-section {
+        position: relative;
+    }
+    
+    .contact-us-content {
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .contact-us-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12) !important;
+    }
+    
+    /* Desktop/Laptop Optimizations - تحسينات سطح المكتب */
+    @media (min-width: 992px) {
+        .contact-us-section .container {
+            max-width: 1200px;
+        }
+        
+        .contact-us-section .row:last-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .contact-us-section .col-lg-8 {
+            max-width: 900px;
+        }
+        
+        .contact-us-content {
+            padding: 60px 50px !important;
+            border-radius: 25px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 20px !important;
+            line-height: 2 !important;
+            margin-bottom: 25px !important;
+            color: #2c3e50 !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 17px !important;
+            line-height: 1.9 !important;
+            margin-bottom: 40px !important;
+            color: #555 !important;
+        }
+        
+        .contact-us-content .mt_40,
+        .contact-us-content .contact-buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-us-content .btn {
+            padding: 16px 40px !important;
+            font-size: 19px !important;
+            font-weight: 600 !important;
+            border-radius: 50px !important;
+            transition: all 0.3s ease;
+            min-width: 220px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-us-content .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-us-content .btn-success {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+            border: none !important;
+        }
+        
+        .contact-us-content .btn-success:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #25D366 100%) !important;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+        
+        .contact-us-content .btn-primary {
+            background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+            border: none !important;
+        }
+        
+        .contact-us-content .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
+        }
+        
+        [dir="rtl"] .contact-us-content {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .contact-us-content p {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .contact-us-content .mt_40 {
+            flex-direction: row-reverse;
+        }
+    }
+    
+    /* Large Desktop Optimizations */
+    @media (min-width: 1200px) {
+        .contact-us-section .container {
+            max-width: 1320px;
+        }
+        
+        .contact-us-section .col-lg-8 {
+            max-width: 1000px;
+        }
+        
+        .contact-us-content {
+            padding: 70px 60px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 22px !important;
+            margin-bottom: 30px !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 18px !important;
+            margin-bottom: 45px !important;
+        }
+        
+        .contact-us-content .btn {
+            padding: 18px 45px !important;
+            font-size: 20px !important;
+            min-width: 240px;
+        }
+    }
+    
+    /* Tablet Responsive */
+    @media (max-width: 991px) {
+        .contact-us-content {
+            padding: 45px 35px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 17px !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 15px !important;
+        }
+        
+        .contact-us-content .btn {
+            padding: 13px 30px !important;
+            font-size: 17px !important;
+        }
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .contact-us-content {
+            padding: 35px 25px !important;
+            border-radius: 15px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 16px !important;
+            line-height: 1.8 !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 14px !important;
+            line-height: 1.7 !important;
+            margin-bottom: 30px !important;
+        }
+        
+        .contact-us-content .mt_40,
+        .contact-us-content .contact-buttons-wrapper {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .contact-us-content .btn {
+            padding: 12px 25px !important;
+            font-size: 16px !important;
+            width: 100%;
+            max-width: 280px;
+            min-width: auto;
+        }
+    }
+
+    /* ===================================================================
        HOME BUTTON - حذف margin من أسفل قسم home-button ser-btn
        =================================================================== */
 

@@ -524,7 +524,7 @@
                         <p style="font-size: 16px; color: #666; line-height: 1.8; margin-bottom: 0;">
                             {{ __('يرجى التواصل معنا عبر واتساب أو من خلال نموذج التواصل المتاح على الموقع.') }}
                         </p>
-                        <div class="mt_40">
+                        <div class="mt_40 contact-buttons-wrapper">
                             @if ($contactInfo?->top_bar_phone)
                                 @php
                                     $whatsappNumber = $contactInfo->top_bar_phone;
