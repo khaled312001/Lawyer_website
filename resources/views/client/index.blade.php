@@ -40,7 +40,7 @@
                                  style="width: 100%; height: auto; display: block; border-radius: 20px; max-width: 100%; object-fit: contain;"
                                  loading="lazy"
                                  data-fallback="{{ asset('uploads/website-images/app_banner.webp') }}"
-                                 onerror="var img = this; img.onerror = null; var fallback = img.getAttribute('data-fallback'); if (fallback) { img.src = fallback; img.onerror = function(){ img.style.display='none'; if(img.nextElementSibling) img.nextElementSibling.style.display='flex'; }; }">
+                                 data-hide-on-error="true">
                             <div style="display: none; text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.9); width: 100%; height: 100%; align-items: center; justify-content: center; flex-direction: column; position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
                                 <i class="fas fa-balance-scale" style="font-size: 120px; margin-bottom: 20px; opacity: 0.3;"></i>
                                 <h3 style="font-size: 28px; font-weight: 700; margin-bottom: 10px; color: #ffffff;">{{ __('Aman Law') }}</h3>
@@ -316,8 +316,7 @@
                                         <img src="{{ asset($department?->thumbnail_image ?? 'client/images/default-image.jpg') }}"
                                             alt="{{ $department?->name }}" 
                                             loading="lazy"
-                                            data-fallback="{{ asset('client/images/default-image.jpg') }}"
-                                            onerror="var img = this; var fallback = img.getAttribute('data-fallback'); if (fallback) { img.src = fallback; } img.onerror = null;">
+                                            data-fallback="{{ asset('client/images/default-image.jpg') }}">
                                         <div class="overlay"><a aria-label="{{ __('See Details') }}"
                                                 href="{{ route('website.department.details', $department?->slug) }}"
                                                 class="btn-case">{{ __('See Details') }}</a>
@@ -371,7 +370,7 @@
                                                 @php
                                                     $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
                                                 @endphp
-                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" data-fallback="{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}" onerror="var img = this; img.onerror = null; var fallback = img.getAttribute('data-fallback'); if (fallback) { img.src = fallback; }">
+                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" data-fallback="{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}">
                                             </a>
                                         </div>
                                         <div class="lawyer-card-content-mobile">
@@ -3192,6 +3191,26 @@
 
         statNumbers.forEach(stat => {
             observer.observe(stat);
+        });
+
+        // Handle image fallbacks
+        document.querySelectorAll('img[data-fallback]').forEach(function(img) {
+            img.addEventListener('error', function() {
+                var fallback = this.getAttribute('data-fallback');
+                if (fallback) {
+                    this.onerror = null;
+                    this.src = fallback;
+                    // Handle hide on error for hero image
+                    if (this.getAttribute('data-hide-on-error') === 'true') {
+                        this.addEventListener('error', function() {
+                            this.style.display = 'none';
+                            if (this.nextElementSibling) {
+                                this.nextElementSibling.style.display = 'flex';
+                            }
+                        }, { once: true });
+                    }
+                }
+            }, { once: true });
         });
 
 
