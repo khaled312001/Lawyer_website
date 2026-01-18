@@ -662,10 +662,28 @@
                                     @endif
                                 </li>
                             @endforeach
-                            <li class="mobile-menu-list-item book-appointment-item-mobile">
-                                <a href="{{ route('website.book.consultation.appointment') }}" class="book-appointment-btn-mobile">
-                                    <span class="book-appointment-text">{{ __('Book Consultation Appointment') }}</span>
-                                    <i class="fas fa-calendar-check"></i>
+                            <li class="mobile-menu-list-item book-appointment-item-mobile" style="margin: 18px 0 0 0;">
+                                <a href="{{ route('website.book.consultation.appointment') }}"
+                                    class="book-appointment-btn-mobile"
+                                    style="
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        padding: 13px 22px;
+                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%);
+                                        border-radius: 30px;
+                                        color: #fff;
+                                        font-weight: 700;
+                                        font-size: 17px;
+                                        box-shadow: 0 4px 18px rgba(220,38,38,0.09);
+                                        transition: background 0.3s, box-shadow 0.3s;
+                                        text-align: center;
+                                        gap: 12px;
+                                        border: none;
+                                        text-decoration: none;
+                                    ">
+                                    <i class="fas fa-calendar-check" style="font-size: 21px;"></i>
+                                    <span class="book-appointment-text" style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                             </li>
                         </ul>
