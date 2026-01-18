@@ -7,26 +7,6 @@
 @endsection
 @section('client-content')
 
-    <!--Slider Start-->
-    <div class="slider" id="main-slider">
-        <div class="banner_slider_area">
-            <div class="banner_slider_overlay"></div>
-            @if($sliders->count() > 0)
-                <div class="row banner_slider">
-                    @foreach ($sliders as $item)
-                        <div class="col-12">
-                            <div class="banner_slider_item">
-                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-    </div>
-    <!--Slider End-->
-
-
     <!--Why Us Start-->
     @if (1 == $home_sections?->feature_status)
         <section class="why-us-area pt_30">
@@ -710,77 +690,6 @@
 
 @push('css')
 <style>
-    /* Slider Background Styles */
-    #main-slider {
-        position: relative;
-        min-height: 600px;
-        overflow: hidden;
-    }
-
-    .banner_slider_area {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-    }
-
-    .banner_slider_area .banner_slider {
-        height: 100% !important;
-        width: 100%;
-    }
-
-    .banner_slider_area .banner_slider .slick-list,
-    .banner_slider_area .banner_slider .slick-track {
-        height: 100% !important;
-    }
-
-    .banner_slider_area .banner_slider .slick-slide {
-        height: 100% !important;
-    }
-
-    .banner_slider_area .banner_slider .slick-slide > div {
-        height: 100% !important;
-    }
-
-    .banner_slider_area .banner_slider_item {
-        height: 100% !important;
-        position: relative;
-        display: block !important;
-    }
-
-    .banner_slider_area .banner_slider_item img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        object-position: center !important;
-        display: block !important;
-    }
-
-    .banner_slider_overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: 
-            linear-gradient(135deg, 
-                rgba(20, 25, 35, 0.92) 0%, 
-                rgba(30, 40, 55, 0.88) 25%, 
-                rgba(40, 50, 65, 0.85) 50%, 
-                rgba(35, 45, 60, 0.88) 75%, 
-                rgba(20, 25, 35, 0.92) 100%
-            ),
-            radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.18) 0%, transparent 55%),
-            radial-gradient(circle at 80% 70%, rgba(244, 208, 63, 0.15) 0%, transparent 55%),
-            radial-gradient(ellipse at 50% 50%, rgba(200, 180, 126, 0.12) 0%, transparent 70%);
-        z-index: 1;
-        pointer-events: none;
-    }
     @keyframes shimmer {
         0% { background-position: 0% center; }
         100% { background-position: 200% center; }
@@ -884,49 +793,6 @@
         }
     }
 
-    /* Ensure slider works as background */
-    #main-slider .banner_slider_area {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    #main-slider .banner_slider {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-list,
-    #main-slider .banner_slider .slick-track {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-slide {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-slide > div {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-slide img {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    
-    @media (max-width: 991px) {
-        #main-slider {
-            min-height: 500px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        #main-slider {
-            min-height: 550px;
-        }
 
 
         /* Center all icons in a vertical column */
@@ -956,9 +822,6 @@
     }
 
     @media (max-width: 480px) {
-        #main-slider {
-            min-height: 500px;
-        }
 
 
         /* Center all icons in a vertical column */
@@ -3390,33 +3253,6 @@
             observer.observe(stat);
         });
 
-        // Initialize banner slider if it exists and Slick is available
-        if (typeof jQuery !== 'undefined' && jQuery('.banner_slider').length) {
-            setTimeout(function() {
-                if (typeof jQuery.fn.slick !== 'undefined') {
-                    var bannerSlider = jQuery('.banner_slider');
-                    if (!bannerSlider.hasClass('slick-initialized')) {
-                        bannerSlider.slick({
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            autoplay: true,
-                            autoplaySpeed: 4000,
-                            speed: 800,
-                            fade: true,
-                            cssEase: 'linear',
-                            dots: true,
-                            arrows: false,
-                            pauseOnHover: true,
-                            pauseOnFocus: true,
-                            infinite: true,
-                            adaptiveHeight: false,
-                            swipe: true,
-                            touchMove: true
-                        });
-                    }
-                }
-            }, 200);
-        }
 
         if (typeof Swiper !== 'undefined') {
             // New Testimonials Grid - No swiper needed, just ensure equal heights
