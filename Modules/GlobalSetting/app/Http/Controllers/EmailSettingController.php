@@ -45,9 +45,20 @@ class EmailSettingController extends Controller {
         Setting::where('key', 'mail_username')->update(['value' => $request->mail_username]);
         Setting::where('key', 'mail_password')->update(['value' => $request->mail_password]);
         Setting::where('key', 'mail_port')->update(['value' => $request->mail_port]);
-        Setting::where('key', 'mail_encryption')->update(['value' => $request->mail_encryption]);
+        // Ensure encryption is lowercase
+        Setting::where('key', 'mail_encryption')->update(['value' => strtolower($request->mail_encryption)]);
 
+        // Clear cache to ensure new settings are loaded
         Cache::forget('setting');
+        
+        // Also clear config cache if it exists
+        if (function_exists('artisan')) {
+            try {
+                \Artisan::call('config:clear');
+            } catch (\Exception $e) {
+                // Ignore if command doesn't exist
+            }
+        }
 
         $notification = __('Updated successfully');
         $notification = ['message' => $notification, 'alert-type' => 'success'];
@@ -127,8 +138,41 @@ class EmailSettingController extends Controller {
             // Clear cache to ensure latest settings are used
             Cache::forget('setting');
             
+            // Reload settings from database
+            $setting = Cache::rememberForever('setting', function () {
+                $setting_info = \Modules\GlobalSetting\app\Models\Setting::get();
+                $setting = [];
+                foreach ($setting_info as $setting_item) {
+                    $setting[$setting_item->key] = $setting_item->value;
+                }
+                return (object) $setting;
+            });
+            
+            // Verify required settings exist
+            if (empty($setting->mail_host) || empty($setting->mail_port) || empty($setting->mail_username) || empty($setting->mail_password)) {
+                $notification = ['message' => __('Please fill all SMTP settings before testing.'), 'alert-type' => 'error'];
+                return redirect()->back()->with($notification);
+            }
+            
+            // Apply mail configuration immediately
+            $mailConfig = [
+                'transport'  => 'smtp',
+                'host'       => $setting->mail_host,
+                'port'       => (int) $setting->mail_port,
+                'encryption' => strtolower($setting->mail_encryption ?? 'ssl'),
+                'username'   => $setting->mail_username,
+                'password'   => $setting->mail_password,
+                'timeout'    => 60,
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ];
+            
+            config(['mail.mailers.smtp' => $mailConfig]);
+            config(['mail.from.address' => $setting->mail_sender_email ?? 'info@amanlaw.ch']);
+            config(['mail.from.name' => $setting->mail_sender_name ?? 'Aman Law']);
+            
             // Get admin email for testing
-            $adminEmail = auth()->guard('admin')->user()->email ?? 'info@amanlaw.ch';
+            $adminEmail = auth()->guard('admin')->user()->email ?? $setting->mail_sender_email ?? 'info@amanlaw.ch';
             
             $this->sendMail($adminEmail, 'Test Email - SMTP Configuration', 'This is a test email to verify SMTP configuration is working correctly.');
             $notification = __('Mail Sent Successfully');
