@@ -776,13 +776,10 @@
        NEW APPOINTMENT BUTTON - DESKTOP
        ============================================ */
     .appointment-btn-new {
-        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%),
-                    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
-        background-size: cover, 40px 40px !important;
-        background-position: center, center !important;
+        background: #C89B6C !important;
         color: #ffffff !important;
         border: none !important;
-        border-radius: 35px !important;
+        border-radius: 8px !important;
         padding: 10px 22px !important;
         font-weight: 600 !important;
         font-size: 14px !important;
@@ -794,7 +791,7 @@
         position: relative !important;
         overflow: hidden !important;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
+        box-shadow: 0 3px 12px rgba(200, 155, 108, 0.35) !important;
         text-transform: none !important;
         letter-spacing: 0.2px !important;
         white-space: nowrap !important;
@@ -818,11 +815,8 @@
     
     .appointment-btn-new:hover {
         transform: translateY(-2px) scale(1.03) !important;
-        box-shadow: 0 5px 20px rgba(184, 134, 11, 0.5) !important;
-        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%),
-                    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
-        background-size: cover, 40px 40px !important;
-        background-position: center, center !important;
+        box-shadow: 0 5px 20px rgba(200, 155, 108, 0.5) !important;
+        background: #D4A574 !important;
     }
     
     .appointment-btn-new:active {
@@ -873,31 +867,29 @@
        NEW APPOINTMENT BUTTON - MOBILE
        ============================================ */
     .mobile-appointment-btn-new {
-        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%),
-                    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
-        background-size: cover, 40px 40px !important;
-        background-position: center, center !important;
+        background: #C89B6C !important;
         color: #ffffff !important;
         border: none !important;
-        border-radius: 30px !important;
-        padding: 10px 20px !important;
-        font-weight: 600 !important;
-        font-size: 13px !important;
+        border-radius: 8px !important;
+        padding: 14px 24px !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
         text-decoration: none !important;
-        display: inline-flex !important;
+        display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 8px !important;
+        gap: 10px !important;
         position: relative !important;
         overflow: hidden !important;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
+        box-shadow: 0 4px 16px rgba(200, 155, 108, 0.5), 0 2px 8px rgba(0, 0, 0, 0.15) !important;
         text-transform: none !important;
-        letter-spacing: 0.2px !important;
+        letter-spacing: 0.3px !important;
         white-space: nowrap !important;
-        width: auto !important;
-        max-width: 90% !important;
-        margin: 8px auto !important;
+        width: calc(100% - 30px) !important;
+        max-width: 95% !important;
+        margin: 15px auto !important;
+        z-index: 10 !important;
     }
     
     .mobile-appointment-btn-new::before {
@@ -916,12 +908,13 @@
     }
     
     .mobile-appointment-btn-new:hover {
-        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%),
-                    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
-        background-size: cover, 40px 40px !important;
-        background-position: center, center !important;
-        box-shadow: 0 5px 18px rgba(184, 134, 11, 0.45) !important;
-        transform: translateY(-2px) scale(1.03) !important;
+        background: #D4A574 !important;
+        box-shadow: 0 6px 24px rgba(200, 155, 108, 0.6), 0 3px 12px rgba(0, 0, 0, 0.2) !important;
+        transform: translateY(-3px) scale(1.05) !important;
+    }
+    
+    .mobile-appointment-btn-new:active {
+        transform: translateY(-1px) scale(1.02) !important;
     }
     
     .mobile-appointment-btn-new:active {
@@ -929,7 +922,7 @@
     }
     
     .mobile-appointment-btn-new i {
-        font-size: 14px !important;
+        font-size: 18px !important;
         transition: all 0.3s ease !important;
         position: relative;
         z-index: 1;
@@ -937,16 +930,16 @@
     }
     
     .mobile-appointment-btn-new:hover i {
-        transform: scale(1.15) !important;
+        transform: scale(1.2) rotate(5deg) !important;
         color: #fff !important;
     }
     
     .mobile-appointment-text {
         position: relative;
         z-index: 1;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         color: #fff !important;
-        font-size: 13px !important;
+        font-size: 15px !important;
     }
     
     .mobile-appointment-item-new {
@@ -955,7 +948,27 @@
         border: none !important;
         display: flex !important;
         justify-content: center !important;
+        align-items: center !important;
         list-style: none !important;
+        width: 100% !important;
+    }
+    
+    /* جعل الزر بارز أكثر في الموبايل */
+    @media (max-width: 768px) {
+        .mobile-appointment-btn-new {
+            padding: 16px 28px !important;
+            font-size: 16px !important;
+            margin: 20px auto !important;
+            box-shadow: 0 5px 20px rgba(200, 155, 108, 0.6), 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .mobile-appointment-btn-new i {
+            font-size: 20px !important;
+        }
+        
+        .mobile-appointment-text {
+            font-size: 16px !important;
+        }
     }
     
     /* Enhanced Book Appointment Button Design */
