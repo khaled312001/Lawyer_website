@@ -171,10 +171,17 @@ class EmailSettingController extends Controller {
             config(['mail.from.address' => $setting->mail_sender_email ?? 'info@amanlaw.ch']);
             config(['mail.from.name' => $setting->mail_sender_name ?? 'Aman Law']);
             
-            // Get admin email for testing
-            $adminEmail = auth()->guard('admin')->user()->email ?? $setting->mail_sender_email ?? 'info@amanlaw.ch';
+            // Use sender email for testing (most reliable)
+            $testEmail = $setting->mail_sender_email ?? 'info@amanlaw.ch';
             
-            $this->sendMail($adminEmail, 'Test Email - SMTP Configuration', 'This is a test email to verify SMTP configuration is working correctly.');
+            // Validate email address
+            if (empty($testEmail) || !filter_var($testEmail, FILTER_VALIDATE_EMAIL)) {
+                $notification = ['message' => __('Please set a valid sender email address in email configuration.'), 'alert-type' => 'error'];
+                return redirect()->back()->with($notification);
+            }
+            
+            // Send test email to the sender email address
+            $this->sendMail($testEmail, 'Test Email - SMTP Configuration', 'This is a test email to verify SMTP configuration is working correctly. If you receive this email, your SMTP settings are configured properly.');
             $notification = __('Mail Sent Successfully');
             $notification = ['message' => $notification, 'alert-type' => 'success'];
 
