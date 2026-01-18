@@ -71,11 +71,11 @@
                     <ul class="navbar-nav d-none d-lg-flex align-items-center navbar-actions-list">
                         {{-- Notifications Dropdown --}}
                         <li class="dropdown admin-alert-wrapper">
-                            <a href="javascript:;" data-bs-toggle="dropdown" class="admin-alert-button" aria-label="{{ __('Notifications') }}">
+                            <a href="javascript:;" data-bs-toggle="dropdown" id="admin-notification-toggle" class="admin-alert-button" aria-label="{{ __('Notifications') }}" aria-expanded="false">
                                 <i class="fas fa-bell admin-alert-icon"></i>
                                 <span class="admin-alert-counter" id="notification-count" style="display: none;">0</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end admin-alert-panel">
+                            <div class="dropdown-menu dropdown-menu-end admin-alert-panel" id="admin-notification-dropdown">
                                 <div class="admin-alert-top">
                                     <h6 class="admin-alert-heading">{{ __('Notifications') }}</h6>
                                     <a href="javascript:;" class="admin-alert-mark-all mark-all-read">{{ __('Mark all as read') }}</a>
@@ -313,6 +313,63 @@
             $('.main-sidebar').on('click', function(e) {
                 e.stopPropagation();
             });
+        });
+    </script>
+    
+    <script>
+        // Initialize Bootstrap dropdowns for notifications
+        $(document).ready(function() {
+            const notificationButton = document.getElementById('admin-notification-toggle');
+            const notificationDropdown = document.getElementById('admin-notification-dropdown');
+            const notificationWrapper = document.querySelector('.admin-alert-wrapper');
+            
+            if (notificationButton && notificationDropdown) {
+                // Initialize Bootstrap dropdown if available
+                if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+                    try {
+                        const dropdownInstance = new bootstrap.Dropdown(notificationButton);
+                    } catch (e) {
+                        console.log('Bootstrap dropdown initialization failed, using manual toggle');
+                    }
+                }
+                
+                // Manual toggle fallback
+                notificationButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isShown = notificationWrapper && notificationWrapper.classList.contains('show');
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown.show').forEach(function(dropdown) {
+                        if (dropdown !== notificationWrapper) {
+                            dropdown.classList.remove('show');
+                            const menu = dropdown.querySelector('.dropdown-menu');
+                            if (menu) menu.classList.remove('show');
+                        }
+                    });
+                    
+                    // Toggle current dropdown - MUST add 'show' to parent wrapper, not just menu
+                    if (isShown) {
+                        if (notificationWrapper) notificationWrapper.classList.remove('show');
+                        notificationDropdown.classList.remove('show');
+                        notificationButton.setAttribute('aria-expanded', 'false');
+                    } else {
+                        if (notificationWrapper) notificationWrapper.classList.add('show');
+                        notificationDropdown.classList.add('show');
+                        notificationButton.setAttribute('aria-expanded', 'true');
+                    }
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (notificationWrapper && !notificationWrapper.contains(e.target)) {
+                        notificationWrapper.classList.remove('show');
+                        notificationDropdown.classList.remove('show');
+                        notificationButton.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
         });
     </script>
     
