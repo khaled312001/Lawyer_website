@@ -775,8 +775,15 @@
     /* ============================================
        NEW APPOINTMENT BUTTON - DESKTOP
        ============================================ */
-    .appointment-btn-new {
+    body.client-frontend .appointment-btn-wrapper .appointment-btn-new,
+    body.client-frontend .nav-link.appointment-btn-new,
+    body.client-frontend a.appointment-btn-new,
+    .appointment-btn-wrapper .appointment-btn-new,
+    .nav-link.appointment-btn-new,
+    a.appointment-btn-new {
         background: #C89B6C !important;
+        background-color: #C89B6C !important;
+        background-image: none !important;
         color: #ffffff !important;
         border: none !important;
         border-radius: 8px !important;
@@ -813,10 +820,17 @@
         left: 100%;
     }
     
-    .appointment-btn-new:hover {
+    body.client-frontend .appointment-btn-wrapper .appointment-btn-new:hover,
+    body.client-frontend .nav-link.appointment-btn-new:hover,
+    body.client-frontend a.appointment-btn-new:hover,
+    .appointment-btn-wrapper .appointment-btn-new:hover,
+    .nav-link.appointment-btn-new:hover,
+    a.appointment-btn-new:hover {
         transform: translateY(-2px) scale(1.03) !important;
         box-shadow: 0 5px 20px rgba(200, 155, 108, 0.5) !important;
         background: #D4A574 !important;
+        background-color: #D4A574 !important;
+        background-image: none !important;
     }
     
     .appointment-btn-new:active {
@@ -866,8 +880,15 @@
     /* ============================================
        NEW APPOINTMENT BUTTON - MOBILE
        ============================================ */
-    .mobile-appointment-btn-new {
+    body.client-frontend .mobile-appointment-item-new .mobile-appointment-btn-new,
+    body.client-frontend .mobile-menu-list-item .mobile-appointment-btn-new,
+    body.client-frontend a.mobile-appointment-btn-new,
+    .mobile-appointment-item-new .mobile-appointment-btn-new,
+    .mobile-menu-list-item .mobile-appointment-btn-new,
+    a.mobile-appointment-btn-new {
         background: #C89B6C !important;
+        background-color: #C89B6C !important;
+        background-image: none !important;
         color: #ffffff !important;
         border: none !important;
         border-radius: 8px !important;
@@ -907,8 +928,15 @@
         left: 100%;
     }
     
-    .mobile-appointment-btn-new:hover {
+    body.client-frontend .mobile-appointment-item-new .mobile-appointment-btn-new:hover,
+    body.client-frontend .mobile-menu-list-item .mobile-appointment-btn-new:hover,
+    body.client-frontend a.mobile-appointment-btn-new:hover,
+    .mobile-appointment-item-new .mobile-appointment-btn-new:hover,
+    .mobile-menu-list-item .mobile-appointment-btn-new:hover,
+    a.mobile-appointment-btn-new:hover {
         background: #D4A574 !important;
+        background-color: #D4A574 !important;
+        background-image: none !important;
         box-shadow: 0 6px 24px rgba(200, 155, 108, 0.6), 0 3px 12px rgba(0, 0, 0, 0.2) !important;
         transform: translateY(-3px) scale(1.05) !important;
     }
