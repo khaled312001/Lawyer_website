@@ -92,7 +92,41 @@
                     checkAdminHasPermission('testimonial.view'))
                 <li class="menu-header">{{ __('Manage Contents') }}</li>
 
-                @if (Module::isEnabled('Lawyer') && (checkAdminHasPermission('lawyer.view') || checkAdminHasPermission('leave.management') || checkAdminHasPermission('location.view') || checkAdminHasPermission('department.view')))
+                {{-- إدارة الأقسام --}}
+                @if (checkAdminHasPermission('department.view'))
+                    <li class="nav-item dropdown {{ isRoute(['admin.department.*', 'admin.department.gallery', 'admin.department.videos', 'admin.faq.by.department'], 'active') }}">
+                        <a href="javascript:void()" class="nav-link has-dropdown">
+                            <i class="fas fa-building"></i>
+                            <span>{{ __('Department') }}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="{{ isRoute(['admin.department.*', 'admin.department.gallery', 'admin.department.videos', 'admin.faq.by.department'], 'active') }}">
+                                <a class="nav-link" href="{{ route('admin.department.index') }}">
+                                    <i class="fas fa-building"></i>
+                                    <span>{{ __('Department') }}</span>
+                                </a>
+                            </li>
+                            <li class="{{ isRoute('admin.department.homepage-management', 'active') }}">
+                                <a class="nav-link" href="{{ route('admin.department.homepage-management') }}">
+                                    <i class="fas fa-home"></i>
+                                    <span>{{ __('Homepage Departments') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{-- إدارة المواقع --}}
+                @if (checkAdminHasPermission('location.view'))
+                    <li class="{{ isRoute('admin.location.index', 'active') }}">
+                        <a class="nav-link" href="{{ route('admin.location.index', ['code' => getSessionLanguage()]) }}">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ __('Location') }}</span>
+                        </a>
+                    </li>
+                @endif
+
+                @if (Module::isEnabled('Lawyer') && (checkAdminHasPermission('lawyer.view') || checkAdminHasPermission('leave.management')))
                     @include('lawyer::sidebar')
                 @endif
 

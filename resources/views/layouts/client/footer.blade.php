@@ -619,11 +619,12 @@
         flex-direction: row !important;
     }
     
+    /* RTL: Use row-reverse to put icon on right side */
     [dir="rtl"] .footer-address ul li {
-        flex-direction: row !important;
+        flex-direction: row-reverse !important;
     }
     
-    /* Icons on Right for RTL, Left for LTR */
+    /* Icons */
     .footer-address ul li i {
         position: relative !important;
         left: auto !important;
@@ -644,16 +645,6 @@
         flex-shrink: 0;
     }
     
-    /* LTR: Icon on right (order 2) */
-    [dir="ltr"] .footer-address ul li i {
-        order: 2 !important;
-    }
-    
-    /* RTL: Icon on right (order 1) - because in RTL, order 1 appears on the right */
-    [dir="rtl"] .footer-address ul li i {
-        order: 1 !important;
-    }
-    
     .footer-address ul li:hover i {
         background: rgba(212, 165, 116, 0.2);
         transform: scale(1.1) rotate(5deg);
@@ -670,13 +661,11 @@
     }
     
     [dir="ltr"] .footer-address ul li > div {
-        order: 1 !important;
         direction: ltr;
         text-align: center;
     }
     
     [dir="rtl"] .footer-address ul li > div {
-        order: 2 !important;
         direction: rtl;
         text-align: center;
     }

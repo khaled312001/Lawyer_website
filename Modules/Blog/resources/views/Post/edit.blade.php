@@ -115,28 +115,9 @@
                                                 value="{{ $blog?->getTranslation($code)?->seo_description }}"
                                                 maxlength="2000" />
                                         </div>
-                                        @if ($code == $languages->first()->code)
-                                            <div class="form-group col-md-12">
-                                                <x-admin.form-image-preview recommended="730X410" name="blog_image" :image="$blog->image" required="0" />
-                                            </div>
-                                        @else
-                                            <div class="form-group col-md-12">
-                                                <label>{{ __('Blog Image') }}</label>
-                                                <div class="alert alert-info">
-                                                    <i class="fas fa-info-circle me-2"></i>
-                                                    {{ __('To change the image, please switch to') }} <strong>{{ $languages->first()->name }}</strong> {{ __('language') }}.
-                                                </div>
-                                                @if($blog->image)
-                                                    <div class="mt-3">
-                                                        <img src="{{ asset($blog->image) }}" alt="{{ __('Blog Image') }}" class="img-thumbnail" style="max-width: 300px; height: auto;">
-                                                    </div>
-                                                @else
-                                                    <div class="mt-3 text-muted">
-                                                        <i class="fas fa-image me-2"></i>{{ __('No image uploaded') }}
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        @endif
+                                        <div class="form-group col-md-12">
+                                            <x-admin.form-image-preview recommended="730X410" name="blog_image" :image="$blog->image" required="0" />
+                                        </div>
 
                                     </div>
                                     <div class="row">
@@ -173,19 +154,19 @@
 @endsection
 
 @push('js')
+    <script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
+    <script>
+        $.uploadPreview({
+            input_field: "#image-upload",
+            preview_box: "#image-preview",
+            label_field: "#image-label",
+            label_default: "{{ __('Choose Image') }}",
+            label_selected: "{{ __('Change Image') }}",
+            no_label: false,
+            success_callback: null
+        });
+    </script>
     @if ($code == $languages->first()->code)
-        <script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
-        <script>
-            $.uploadPreview({
-                input_field: "#image-upload",
-                preview_box: "#image-preview",
-                label_field: "#image-label",
-                label_default: "{{ __('Choose Image') }}",
-                label_selected: "{{ __('Change Image') }}",
-                no_label: false,
-                success_callback: null
-            });
-        </script>
         <script>
             (function($) {
                 "use strict";
