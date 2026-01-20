@@ -188,7 +188,7 @@
                             <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl lawyer-card-animated">
                                 <div class="lawyer-card-image-mobile lawyer-card-border-animated">
                                     <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
-                                        <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
+                                        <img src="{{ image_url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
                                             alt="{{ $lawyer?->name }}" loading="lazy">
                                     </a>
                                 </div>

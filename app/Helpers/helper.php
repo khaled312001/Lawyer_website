@@ -711,3 +711,46 @@ if (!function_exists('setting')) {
         return Cache::get('setting');
     }
 }
+
+/**
+ * Get image URL from remote server or local asset
+ * 
+ * @param string|null $path The image path (e.g., 'uploads/lawyers/image.jpg')
+ * @param string|null $default Default image path if provided path is empty
+ * @return string Full URL to the image
+ */
+if (!function_exists('image_url')) {
+    function image_url(?string $path, ?string $default = null): string
+    {
+        // If path is empty, use default or return empty string
+        if (empty($path)) {
+            if ($default) {
+                return image_url($default);
+            }
+            return '';
+        }
+
+        // If path is already a full URL, return it as is
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        // Get remote uploads URL from environment
+        $remoteUploadsUrl = env('UPLOADS_URL');
+        
+        // If remote URL is configured, use it
+        if ($remoteUploadsUrl) {
+            // Remove trailing slash from remote URL
+            $remoteUploadsUrl = rtrim($remoteUploadsUrl, '/');
+            
+            // Remove leading slash from path if exists
+            $path = ltrim($path, '/');
+            
+            // Combine remote URL with path
+            return $remoteUploadsUrl . '/' . $path;
+        }
+
+        // Fallback to local asset
+        return asset($path);
+    }
+}

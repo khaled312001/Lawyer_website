@@ -72,7 +72,7 @@
                             <div class="lawyer-info">
                                 @if($lawyer->image)
                                     <div class="lawyer-avatar mb-3">
-                                        <img src="{{ asset($lawyer->image) }}" alt="{{ $lawyer->name }}" class="lawyer-img">
+                                        <img src="{{ image_url($lawyer->image) }}" alt="{{ $lawyer->name }}" class="lawyer-img">
                                     </div>
                                 @endif
                                 <h3 class="lawyer-name">{{ $lawyer->name }}</h3>

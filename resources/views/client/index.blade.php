@@ -399,10 +399,10 @@
                                                 $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
                                                 $lawyerName = $lawyer?->name ?? '';
                                                 $lawyerSlug = $lawyer?->slug ?? '';
-                                                $fallbackImage = url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                                                $fallbackImage = image_url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
                                             @endphp
                                             <a href="{{ route('website.lawyer.details', $lawyerSlug) }}" aria-label="{{ $lawyerName }}">
-                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyerName }}" loading="lazy" data-fallback="{{ $fallbackImage }}">
+                                                <img src="{{ image_url($lawyerImage) }}" alt="{{ $lawyerName }}" loading="lazy" data-fallback="{{ $fallbackImage }}">
                                             </a>
                                         </div>
                                         <div class="lawyer-card-content-mobile">
@@ -570,7 +570,7 @@
                                     </div>
                                     <div class="testimonial-author-new">
                                         <div class="author-image-wrapper-new">
-                                            <img src="{{ !empty($client?->image) ? url($client?->image) : asset('uploads/website-images/default-avatar.png') }}"
+                                            <img src="{{ !empty($client?->image) ? image_url($client->image) : image_url('uploads/website-images/default-avatar.png') }}"
                                                 alt="{{ $client?->name }}" loading="lazy" class="author-image-new">
                                             <div class="author-image-border-new"></div>
                                         </div>

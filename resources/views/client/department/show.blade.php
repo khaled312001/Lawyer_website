@@ -334,7 +334,7 @@
                                 <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="team-item-link" aria-label="{{ $lawyer?->name }}">
                                     <div class="team-item">
                                         <div class="team-photo">
-                                            <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
+                                            <img src="{{ image_url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
                                                 alt="{{ $lawyer?->name }}" loading="lazy">
                                             <div class="team-overlay">
                                                 <div class="view-profile-btn">

@@ -159,9 +159,9 @@
                         @php
                             $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
                         @endphp
-                        <img src="{{ url($lawyerImage) }}"
+                        <img src="{{ image_url($lawyerImage) }}"
                             alt="{{ $lawyer?->name }}" loading="lazy"
-                            onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
+                            onerror="this.onerror=null; this.src='{{ image_url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
                     </div>
                 </div>
                 <div class="col-lg-8">
