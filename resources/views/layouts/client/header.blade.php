@@ -482,36 +482,40 @@
                                         display: flex;
                                         align-items: center;
                                         gap: 10px;
-                                        background: linear-gradient(135deg, #2D3748 0%, #38B2AC 100%);
-                                        color: #2D3748 !important;
+                                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
+                                        color: #ffffff !important;
                                         font-weight: 700;
                                         font-size: 17px;
                                         border-radius: 30px;
-                                        box-shadow: 0 4px 18px rgba(56,178,172,0.12);
+                                        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4);
                                         padding: 10px 28px;
                                         transition: 
-                                            background 0.3s,
-                                            box-shadow 0.3s,
-                                            color 0.3s;
+                                            all 0.3s ease,
+                                            transform 0.3s ease,
+                                            box-shadow 0.3s ease;
                                         text-decoration: none;
+                                        position: relative;
+                                        overflow: hidden;
                                     ">
-                                    <i class="fas fa-calendar-check" style="font-size: 21px;"></i>
+                                    <i class="fas fa-calendar-check" style="font-size: 21px; color: #ffffff; transition: transform 0.3s ease;"></i>
                                     <span style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                                 <style>
                                     .reverse-hover-btn, .reverse-hover-btn i {
-                                        transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+                                        transition: all 0.3s ease, transform 0.3s ease;
                                     }
                                     .reverse-hover-btn:hover, 
                                     .reverse-hover-btn:focus {
-                                        background: linear-gradient(135deg, #fff 0%, #E6FFFA 100%) !important;
-                                        color: #38B2AC !important;
-                                        box-shadow: 0 6px 22px rgba(45, 55, 72, 0.18);
+                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+                                        color: #ffffff !important;
+                                        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+                                        transform: translateY(-2px) scale(1.02);
                                         text-decoration: none;
                                     }
                                     .reverse-hover-btn:hover i,
                                     .reverse-hover-btn:focus i {
-                                        color: #38B2AC !important;
+                                        color: #ffffff !important;
+                                        transform: scale(1.15) rotate(-5deg);
                                     }
                                 </style>
                             </li>
@@ -704,36 +708,40 @@
                                         align-items: center;
                                         justify-content: center;
                                         padding: 13px 22px;
-                                        background: linear-gradient(135deg, #2D3748 0%, #38B2AC 100%);
+                                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
                                         border-radius: 30px;
-                                        color: #2D3748;
+                                        color: #ffffff;
                                         font-weight: 700;
                                         font-size: 17px;
-                                        box-shadow: 0 4px 18px rgba(56,178,172,0.12);
-                                        transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+                                        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4);
+                                        transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
                                         text-align: center;
                                         gap: 12px;
                                         border: none;
                                         text-decoration: none;
+                                        position: relative;
+                                        overflow: hidden;
                                     ">
-                                    <i class="fas fa-calendar-check" style="font-size: 21px; color: #2D3748;"></i>
+                                    <i class="fas fa-calendar-check" style="font-size: 21px; color: #ffffff; transition: transform 0.3s ease;"></i>
                                     <span class="book-appointment-text" style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                                 <style>
                                     .custom-mobile-appointment-btn,
                                     .custom-mobile-appointment-btn i {
-                                        transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+                                        transition: all 0.3s ease, transform 0.3s ease;
                                     }
                                     .custom-mobile-appointment-btn:hover,
                                     .custom-mobile-appointment-btn:focus {
-                                        background: linear-gradient(135deg, #fff 0%, #E6FFFA 100%) !important;
-                                        color: #38B2AC !important;
-                                        box-shadow: 0 6px 22px rgba(45, 55, 72, 0.18);
+                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+                                        color: #ffffff !important;
+                                        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+                                        transform: translateY(-2px) scale(1.02);
                                         text-decoration: none;
                                     }
                                     .custom-mobile-appointment-btn:hover i,
                                     .custom-mobile-appointment-btn:focus i {
-                                        color: #38B2AC !important;
+                                        color: #ffffff !important;
+                                        transform: scale(1.15) rotate(-5deg);
                                     }
                                 </style>
                             </li>
@@ -884,24 +892,23 @@
     body.client-frontend a.book-appointment-btn-desktop,
     body.client-frontend .nav-link.book-appointment-btn-desktop,
     body.client-frontend .appointment-btn-wrapper .book-appointment-btn-desktop {
-        background: #C89B6C !important;
-        background-color: #C89B6C !important;
-        background-image: none !important;
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
         color: #ffffff !important;
         border: none !important;
-        border-radius: 8px !important;
-        padding: 10px 22px !important;
-        font-weight: 600 !important;
-        font-size: 14px !important;
+        border-radius: 30px !important;
+        padding: 10px 28px !important;
+        font-weight: 700 !important;
+        font-size: 17px !important;
         text-decoration: none !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 8px !important;
+        gap: 10px !important;
         position: relative !important;
         overflow: hidden !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 3px 12px rgba(200, 155, 108, 0.35) !important;
+        transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
+        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4) !important;
         text-transform: none !important;
         letter-spacing: 0.2px !important;
         white-space: nowrap !important;
@@ -912,17 +919,21 @@
     a.book-appointment-btn-desktop:hover,
     .nav-link.book-appointment-btn-desktop:hover,
     body.client-frontend .book-appointment-btn-desktop:hover {
-        background: #B91C1C !important;
-        background-color: #B91C1C !important;
-        background-image: none !important;
+        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+        background-image: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
         color: #ffffff !important;
-        transform: translateY(-2px) scale(1.03) !important;
-        box-shadow: 0 5px 20px rgba(185, 28, 28, 0.5) !important;
+        transform: translateY(-2px) scale(1.02) !important;
+        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
     }
     
     .book-appointment-btn-desktop i {
-        font-size: 16px !important;
+        font-size: 21px !important;
         color: #ffffff !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .book-appointment-btn-desktop:hover i {
+        transform: scale(1.15) rotate(-5deg) !important;
     }
     
     .book-appointment-btn-desktop span {
@@ -963,24 +974,23 @@
     body.client-frontend .book-appointment-btn-mobile,
     body.client-frontend a.book-appointment-btn-mobile,
     body.client-frontend .book-appointment-item-mobile .book-appointment-btn-mobile {
-        background: #C89B6C !important;
-        background-color: #C89B6C !important;
-        background-image: none !important;
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
         color: #ffffff !important;
         border: none !important;
-        border-radius: 8px !important;
-        padding: 14px 24px !important;
+        border-radius: 30px !important;
+        padding: 13px 22px !important;
         font-weight: 700 !important;
-        font-size: 15px !important;
+        font-size: 17px !important;
         text-decoration: none !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 10px !important;
+        gap: 12px !important;
         position: relative !important;
         overflow: hidden !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 4px 16px rgba(200, 155, 108, 0.5), 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+        transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
+        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4) !important;
         text-transform: none !important;
         letter-spacing: 0.3px !important;
         white-space: nowrap !important;
@@ -993,17 +1003,21 @@
     .book-appointment-btn-mobile:hover,
     a.book-appointment-btn-mobile:hover,
     body.client-frontend .book-appointment-btn-mobile:hover {
-        background: #B91C1C !important;
-        background-color: #B91C1C !important;
-        background-image: none !important;
+        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+        background-image: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
         color: #ffffff !important;
-        box-shadow: 0 6px 24px rgba(185, 28, 28, 0.6), 0 3px 12px rgba(0, 0, 0, 0.2) !important;
-        transform: translateY(-3px) scale(1.05) !important;
+        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+        transform: translateY(-2px) scale(1.02) !important;
     }
     
     .book-appointment-btn-mobile i {
-        font-size: 18px !important;
+        font-size: 21px !important;
         color: #ffffff !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .book-appointment-btn-mobile:hover i {
+        transform: scale(1.15) rotate(-5deg) !important;
     }
     
     .book-appointment-text {
@@ -1029,7 +1043,7 @@
             padding: 16px 28px !important;
             font-size: 16px !important;
             margin: 20px auto !important;
-            box-shadow: 0 5px 20px rgba(200, 155, 108, 0.6), 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+            box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4) !important;
         }
         
         .book-appointment-btn-mobile i {

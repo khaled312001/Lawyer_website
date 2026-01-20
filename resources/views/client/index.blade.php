@@ -28,18 +28,18 @@
                         </p>
                         <a href="{{ route('website.book.consultation.appointment') }}" 
                            class="hero-cta-btn animated-cta-btn" 
-                           style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s, box-shadow 0.2s, color 0.2s; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;"
+                           style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;"
                            tabindex="0"
                         >
                             <span style="position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 8px;">
                                 {{ __('تواصل معنا وحجز استشارة قانونية') }}
-                                <i class="fas fa-arrow-left ms-2 cta-arrow"></i>
+                                <i class="fas fa-arrow-left ms-2 cta-arrow" style="transition: transform 0.3s ease;"></i>
                             </span>
                         </a>
                         <style>
                             .animated-cta-btn {
                                 animation: ctaPopIn 0.9s cubic-bezier(.23,1.15,.30,.89);
-                                box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4), 0 2px 8px rgba(220,38,38,0.14);
+                                box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4), 0 2px 8px rgba(220,38,38,0.14);
                                 outline: none;
                             }
                             @keyframes ctaPopIn {
@@ -54,10 +54,10 @@
                             }
                             .animated-cta-btn:hover,
                             .animated-cta-btn:focus {
-                                background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%);
-                                color: #fff;
-                                box-shadow: 0 8px 28px rgba(220,38,38,0.15), 0 2px 8px rgba(212,165,116,0.14);
-                                transform: translateY(-2px) scale(1.045);
+                                background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+                                color: #ffffff !important;
+                                box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+                                transform: translateY(-3px) scale(1.05) !important;
                                 text-decoration: none;
                             }
                             .animated-cta-btn .cta-arrow {
@@ -66,7 +66,7 @@
                             }
                             .animated-cta-btn:hover .cta-arrow,
                             .animated-cta-btn:focus .cta-arrow {
-                                transform: translateX(-8px) scale(1.16) rotate(-8deg);
+                                transform: translateX(-8px) scale(1.2) rotate(-8deg);
                             }
                         </style>
                     </div>
@@ -391,7 +391,7 @@
                 <div class="lawyer-swiper-wrapper">
                     <div class="swiper lawyer-swiper-modern">
                         <div class="swiper-wrapper">
-                            @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $index => $lawyer)
+                            @foreach ($lawyers as $index => $lawyer)
                                 <div class="swiper-slide">
                                     <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl lawyer-card-animated" style="animation-delay: {{ 0.12 * $index }}s;">
                                         <div class="lawyer-card-image-mobile lawyer-card-border-animated" style="animation-delay: {{ 0.16 * $index }}s;">
@@ -591,47 +591,90 @@
 
 
     <!--Contact Us Section Start-->
-    <section class="contact-us-section" style="background: #f8f9fa;">
+    <section class="contact-us-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 80px 0;">
         <div class="container">
-            <div class="row">
-                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                    <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('تواصل') }}</span> {{ __('معنا') }}</h2>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+                    <div class="text-center mb-5 wow fadeInDown">
+                        <div class="main-headline">
+                            <h2 class="title" style="font-size: 2.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 15px;">
+                                <span style="color: #007bff;">{{ __('تواصل') }}</span> {{ __('معنا') }}
+                            </h2>
+                            <div style="width: 80px; height: 4px; background: linear-gradient(90deg, #007bff, #0056b3); margin: 20px auto; border-radius: 2px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt_50">
-                <div class="col-lg-8 m-auto">
-                    <div class="contact-us-content text-center" style="background: #ffffff; padding: 50px 40px; border-radius: 20px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);">
-                        <p style="font-size: 18px; color: #333; line-height: 1.9; margin-bottom: 30px;">
-                            {{ __('نحن جاهزون للإجابة على استفساراتكم القانونية ومساعدتكم في متابعة قضاياكم داخل سوريا.') }}
-                        </p>
-                        <p style="font-size: 16px; color: #666; line-height: 1.8; margin-bottom: 0;">
-                            {{ __('يرجى التواصل معنا عبر واتساب أو من خلال نموذج التواصل المتاح على الموقع.') }}
-                        </p>
-                        <div class="mt_40 contact-buttons-wrapper">
-                            @if ($contactInfo?->top_bar_phone)
-                                @php
-                                    $whatsappNumber = $contactInfo->top_bar_phone;
-                                    $whatsappNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
-                                    if (!str_starts_with($whatsappNumber, '+')) {
-                                        $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
-                                    }
-                                @endphp
-                                <a href="https://wa.me/{{ $whatsappNumber }}" target="_blank" class="btn btn-success btn-lg me-3" style="padding: 14px 35px; font-size: 18px; font-weight: 600; border-radius: 50px;">
-                                    <i class="fab fa-whatsapp me-2"></i>
-                                    {{ __('تواصل عبر واتساب') }}
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+                    <div class="contact-us-content text-center" style="background: #ffffff; padding: 60px 50px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;">
+                        <!-- Decorative background elements -->
+                        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 86, 179, 0.05)); border-radius: 50%; z-index: 0;"></div>
+                        <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(40, 167, 69, 0.05), rgba(25, 135, 84, 0.05)); border-radius: 50%; z-index: 0;"></div>
+                        
+                        <div style="position: relative; z-index: 1;">
+                            <div style="margin-bottom: 35px;">
+                                <i class="fas fa-handshake" style="font-size: 3rem; color: #007bff; margin-bottom: 20px; display: block;"></i>
+                            </div>
+                            <p style="font-size: 20px; color: #2c3e50; line-height: 1.9; margin-bottom: 25px; font-weight: 500;">
+                                {{ __('نحن جاهزون للإجابة على استفساراتكم القانونية ومساعدتكم في متابعة قضاياكم داخل سوريا.') }}
+                            </p>
+                            <p style="font-size: 17px; color: #6c757d; line-height: 1.8; margin-bottom: 40px;">
+                                {{ __('يرجى التواصل معنا عبر واتساب أو من خلال نموذج التواصل المتاح على الموقع.') }}
+                            </p>
+                            <div class="contact-buttons-wrapper d-flex flex-column flex-md-row justify-content-center align-items-center gap-3" style="margin-top: 40px;">
+                                @if ($contactInfo?->top_bar_phone)
+                                    @php
+                                        $whatsappNumber = $contactInfo->top_bar_phone;
+                                        $whatsappNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
+                                        if (!str_starts_with($whatsappNumber, '+')) {
+                                            $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
+                                        }
+                                    @endphp
+                                    <a href="https://wa.me/{{ $whatsappNumber }}" target="_blank" 
+                                       class="btn btn-lg contact-btn-whatsapp" 
+                                       style="padding: 16px 40px; font-size: 18px; font-weight: 600; border-radius: 50px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border: none; color: #ffffff; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3); transition: all 0.3s ease; min-width: 220px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+                                        <i class="fab fa-whatsapp" style="font-size: 24px;"></i>
+                                        <span>{{ __('تواصل عبر واتساب') }}</span>
+                                    </a>
+                                @endif
+                                <a href="{{ route('website.contact-us') }}" 
+                                   class="btn btn-lg contact-btn-form" 
+                                   style="padding: 16px 40px; font-size: 18px; font-weight: 600; border-radius: 50px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); border: none; color: #ffffff; box-shadow: 0 5px 20px rgba(0, 123, 255, 0.3); transition: all 0.3s ease; min-width: 220px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+                                    <i class="fas fa-envelope" style="font-size: 20px;"></i>
+                                    <span>{{ __('نموذج التواصل') }}</span>
                                 </a>
-                            @endif
-                            <a href="{{ route('website.contact-us') }}" class="btn btn-primary btn-lg" style="padding: 14px 35px; font-size: 18px; font-weight: 600; border-radius: 50px;">
-                                <i class="fas fa-envelope me-2"></i>
-                                {{ __('نموذج التواصل') }}
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <style>
+            .contact-btn-whatsapp:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4) !important;
+                background: linear-gradient(135deg, #128C7E 0%, #25D366 100%) !important;
+            }
+            .contact-btn-form:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4) !important;
+                background: linear-gradient(135deg, #0056b3 0%, #007bff 100%) !important;
+            }
+            @media (max-width: 768px) {
+                .contact-us-content {
+                    padding: 40px 30px !important;
+                }
+                .contact-buttons-wrapper {
+                    flex-direction: column !important;
+                }
+                .contact-btn-whatsapp,
+                .contact-btn-form {
+                    width: 100%;
+                    max-width: 280px;
+                }
+            }
+        </style>
     </section>
     <!--Contact Us Section End-->
 
@@ -3080,7 +3123,7 @@
         }
     }
 
-    /* Remove all spacing between sections */
+    /* Add spacing between sections */
     section,
     .hero-section,
     .quick-points-section,
@@ -3098,15 +3141,18 @@
     .legal-aid-check-home,
     .case-study-area,
     .case-study-home-page {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
     }
 
-    /* Remove spacing between adjacent sections */
+    /* Add spacing between adjacent sections */
     section + section {
         margin-top: 0 !important;
+        padding-top: 50px !important;
+    }
+    
+    /* Hero section should not have top padding */
+    .hero-section {
         padding-top: 0 !important;
     }
 
@@ -4033,7 +4079,7 @@
         max-width: 100%;
     }
 
-    /* Section improvements - Remove all spacing */
+    /* Section improvements - Add spacing */
     .why-us-area,
     .about-area,
     .service-area,
@@ -4050,8 +4096,13 @@
     .why-aman-law-section,
     .book-consultation-section,
     .contact-us-section {
-        padding: 0 !important;
-        margin: 0 !important;
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+    
+    /* Hero section should not have top padding */
+    .hero-section {
+        padding-top: 0 !important;
     }
 
     /* Main headline improvements - Center all section titles and descriptions */
@@ -4455,8 +4506,8 @@
 }
 
 /* ============================================
-   FINAL OVERRIDE - Remove ALL spacing between sections
-   إزالة جميع المسافات بين الأقسام
+   Add spacing between sections
+   إضافة مسافات بين الأقسام
    ============================================ */
 section,
 .hero-section,
@@ -4477,15 +4528,18 @@ section,
 .case-study-home-page,
 .about-area,
 .why-us-area {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
 }
 
-/* Remove spacing between adjacent sections */
+/* Add spacing between adjacent sections */
 section + section {
     margin-top: 0 !important;
+    padding-top: 50px !important;
+}
+
+/* Hero section should not have top padding */
+.hero-section {
     padding-top: 0 !important;
 }
 
@@ -4506,7 +4560,7 @@ section + section {
     margin-bottom: 0 !important;
 }
 
-/* Mobile and tablet - ensure no spacing */
+/* Mobile and tablet - add smaller spacing */
 @media (max-width: 991px) {
     section,
     .hero-section,
@@ -4523,10 +4577,16 @@ section + section {
     .mobile-app-area,
     .fixed-price-area,
     .legal-aid-check-home {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+    }
+    
+    .hero-section {
         padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
+    }
+    
+    section + section {
+        padding-top: 40px !important;
     }
 }
 
@@ -4546,10 +4606,16 @@ section + section {
     .mobile-app-area,
     .fixed-price-area,
     .legal-aid-check-home {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+    
+    .hero-section {
         padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
+    }
+    
+    section + section {
+        padding-top: 30px !important;
     }
 }
 
@@ -4569,10 +4635,16 @@ section + section {
     .mobile-app-area,
     .fixed-price-area,
     .legal-aid-check-home {
+        padding-top: 25px !important;
+        padding-bottom: 25px !important;
+    }
+    
+    .hero-section {
         padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
+    }
+    
+    section + section {
+        padding-top: 25px !important;
     }
 
     /* ============================================

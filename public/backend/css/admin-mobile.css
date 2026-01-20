@@ -11,6 +11,7 @@ html, body {
 
 * {
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 img, video, iframe, embed, object {
@@ -19,6 +20,12 @@ img, video, iframe, embed, object {
 }
 
 .container, .container-fluid, .row {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* Ensure all pages are responsive */
+.main-wrapper {
   overflow-x: hidden !important;
   max-width: 100% !important;
 }

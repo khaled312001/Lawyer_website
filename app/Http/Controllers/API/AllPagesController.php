@@ -100,8 +100,7 @@ class AllPagesController extends Controller {
                 $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
                 $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
                 return $lawyer;
-            })
-            ->take($home_sections?->lawyer_how_many);
+            });
 
         $feature_blog = Blog::select('id', 'slug', 'image', 'created_at')->with(['translations' => function ($q) use ($code) {
             $q->where('lang_code', $code)->select('blog_id', 'title', 'sort_description');

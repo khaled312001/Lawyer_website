@@ -27,15 +27,116 @@
     }
     
     /* Dashboard Sidebar - Mobile */
-    .dashboard-widget {
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    .client-dashboard-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 280px !important;
+        max-width: 85vw !important;
+        height: 100vh !important;
+        z-index: 9999 !important;
+        background: #fff !important;
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
+        transition: left 0.3s ease !important;
+        overflow-y: auto !important;
+        margin-bottom: 0 !important;
+        border-radius: 0 !important;
+    }
+    
+    /* Show sidebar when active */
+    body.client-sidebar-show .client-dashboard-sidebar {
+        left: 0 !important;
+    }
+    
+    /* Sidebar backdrop */
+    .client-sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    body.client-sidebar-show .client-sidebar-backdrop {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Sidebar toggle button */
+    .client-sidebar-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: var(--colorPrimary, #6b5d47);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
         margin-bottom: 20px;
-        overflow: hidden;
-        position: sticky;
-        top: 20px;
-        z-index: 100;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .client-sidebar-toggle:hover {
+        background: #5a4d3a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .client-sidebar-toggle i {
+        font-size: 18px;
+    }
+    
+    /* Close button */
+    .client-dashboard-sidebar .sidebar-close-btn {
+        display: flex !important;
+        position: absolute !important;
+        top: 15px !important;
+        right: 15px !important;
+        width: 35px !important;
+        height: 35px !important;
+        background: rgba(0, 0, 0, 0.1) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        color: #333 !important;
+        font-size: 18px !important;
+        cursor: pointer !important;
+        z-index: 10000 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .client-dashboard-sidebar .sidebar-close-btn:hover {
+        background: rgba(0, 0, 0, 0.2) !important;
+        transform: scale(1.1) !important;
+    }
+    
+    /* Hide close button on desktop */
+    @media (min-width: 992px) {
+        .client-sidebar-toggle,
+        .client-sidebar-backdrop,
+        .client-dashboard-sidebar .sidebar-close-btn {
+            display: none !important;
+        }
+        
+        .client-dashboard-sidebar {
+            position: relative !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: auto !important;
+            border-radius: 12px !important;
+            margin-bottom: 20px !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+        }
     }
     
     .dashboard-account-info {
@@ -680,6 +781,14 @@
 
 /* Common Mobile Improvements */
 @media (max-width: 768px) {
+    /* Ensure all containers are responsive */
+    .container, .container-fluid {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+    
     /* Section Headers */
     .section-header {
         flex-direction: column;
@@ -699,6 +808,30 @@
     
     .banner-text h1 {
         font-size: 24px;
+    }
+    
+    /* Ensure all images are responsive */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Ensure all tables are scrollable */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+        overflow-x: auto;
+        width: 100%;
+    }
+    
+    /* Form improvements */
+    .form-row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+    
+    .form-row > [class*="col-"] {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
     }
     
     /* Empty States */

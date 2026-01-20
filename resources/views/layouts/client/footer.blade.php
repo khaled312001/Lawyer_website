@@ -79,7 +79,7 @@
                     <div class="footer-item">
                         <p class="title">{{ __('عن أمان لو') }}</p>
                         <div class="textwidget pe-0">
-                            <p style="font-size: 14px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);">
+                            <p style="font-size: 13px; line-height: 1.7; color: rgba(255, 255, 255, 0.85); margin-bottom: 12px;">
                                 {{ __('أمان لو – Aman Law') }}<br>
                                 {{ __('منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تقديم استشارات قانونية وتمثيل قضائي في القضايا المتعلقة بسوريا للعملاء في جميع أنحاء العالم، عبر محامين مختصين وبآلية عمل شفافة وموثوقة.') }}
                             </p>
@@ -120,7 +120,7 @@
                 <div class="col-xxl-3 col-lg-4">
                     <div class="footer-item">
                         <p class="title">{{ __('التواصل') }}</p>
-                        <div style="font-size: 14px; line-height: 1.8; color: rgba(255, 255, 255, 0.85);">
+                        <div style="font-size: 13px; line-height: 1.7; color: rgba(255, 255, 255, 0.85);">
                             @if ($contactInfo?->top_bar_phone)
                                 @php
                                     $whatsappNumber = $contactInfo->top_bar_phone;
@@ -129,13 +129,13 @@
                                         $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
                                     }
                                 @endphp
-                                <p style="margin-bottom: 15px;">
+                                <p style="margin-bottom: 10px;">
                                     <strong>{{ __('التواصل عبر واتساب:') }}</strong><br>
                                     <a href="https://wa.me/{{ $whatsappNumber }}" target="_blank" style="color: #D4A574; text-decoration: none;">{{ $contactInfo->top_bar_phone }}</a>
                                 </p>
                             @endif
                             @if ($contactInfo?->top_bar_email)
-                                <p style="margin-bottom: 15px;">
+                                <p style="margin-bottom: 10px;">
                                     <strong>{{ __('البريد الإلكتروني:') }}</strong><br>
                                     <a href="mailto:{{ $contactInfo->top_bar_email }}" style="color: #D4A574; text-decoration: none;">{{ $contactInfo->top_bar_email }}</a>
                                 </p>
@@ -163,11 +163,11 @@
         <div class="container">
             <div class="copyright-text text-center">
                 @if(getSessionLanguage() == 'ar')
-                    <p>© {{ __('جميع الحقوق محفوظة – أمان لو Aman Law') }}</p>
-                    <p style="margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">{{ __('منصّة قانونية مُدارة من سويسرا') }}</p>
+                    <p style="margin-bottom: 5px;">© {{ __('جميع الحقوق محفوظة – أمان لو Aman Law') }}</p>
+                    <p style="margin-top: 0; font-size: 12px; color: rgba(255, 255, 255, 0.7);">{{ __('منصّة قانونية مُدارة من سويسرا') }}</p>
                 @else
-                    <p>Copyright © 2026, Aman Law. All rights reserved.</p>
-                    <p style="margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, 0.7);">{{ __('Legal platform managed from Switzerland') }}</p>
+                    <p style="margin-bottom: 5px;">Copyright © 2026, Aman Law. All rights reserved.</p>
+                    <p style="margin-top: 0; font-size: 12px; color: rgba(255, 255, 255, 0.7);">{{ __('Legal platform managed from Switzerland') }}</p>
                 @endif
             </div>
         </div>
@@ -599,6 +599,55 @@
             overlay.addEventListener('click', toggleMobileMenu);
         }
     });
+    
+    // Client Dashboard Sidebar Toggle
+    function toggleClientSidebar() {
+        const body = document.body;
+        if (body.classList.contains('client-sidebar-show')) {
+            body.classList.remove('client-sidebar-show');
+            body.style.overflow = 'auto';
+        } else {
+            body.classList.add('client-sidebar-show');
+            body.style.overflow = 'hidden';
+        }
+    }
+    
+    // Add toggle button and backdrop to all client dashboard pages
+    document.addEventListener('DOMContentLoaded', function() {
+        const dashboardArea = document.querySelector('.dashboard-area');
+        if (dashboardArea && !document.querySelector('.client-sidebar-toggle')) {
+            const container = dashboardArea.querySelector('.container');
+            if (container) {
+                // Add toggle button
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'client-sidebar-toggle d-lg-none';
+                toggleBtn.setAttribute('onclick', 'toggleClientSidebar()');
+                toggleBtn.setAttribute('aria-label', 'Toggle Sidebar');
+                toggleBtn.innerHTML = '<i class="fas fa-bars"></i><span>{{ __("Menu") }}</span>';
+                container.insertBefore(toggleBtn, container.firstChild);
+                
+                // Add backdrop
+                const backdrop = document.createElement('div');
+                backdrop.className = 'client-sidebar-backdrop d-lg-none';
+                backdrop.setAttribute('onclick', 'toggleClientSidebar()');
+                container.insertBefore(backdrop, container.firstChild);
+            }
+        }
+        
+        // Close sidebar when clicking backdrop
+        const backdrop = document.querySelector('.client-sidebar-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', toggleClientSidebar);
+        }
+        
+        // Close sidebar on window resize if desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 992) {
+                document.body.classList.remove('client-sidebar-show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
 </script>
 
 @push('css')
@@ -607,7 +656,7 @@
     .top-footer {
         background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);
         position: relative;
-        padding: 40px 0 !important;
+        padding: 25px 0 !important;
     }
     
     .top-footer::before {
@@ -623,7 +672,7 @@
     
     .footer-address {
         text-align: center;
-        padding: 25px 20px !important;
+        padding: 15px 20px !important;
         border-right: 1px solid rgba(255, 255, 255, 0.15);
         height: 100%;
         transition: all 0.3s ease;
@@ -763,7 +812,7 @@
     
     @media (max-width: 768px) {
         .top-footer {
-            padding: 30px 0 !important;
+            padding: 20px 0 !important;
         }
         
         .footer-address ul li i {
@@ -779,6 +828,115 @@
         
         .footer-address ul li p {
             font-size: 14px !important;
+        }
+    }
+    
+    /* Reduce Footer Area Height - تقليل ارتفاع منطقة الفوتر */
+    .footer-area {
+        padding-top: 35px !important;
+        padding-bottom: 40px !important;
+    }
+    
+    /* Reduce textwidget padding */
+    .textwidget {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+    
+    .footer-item {
+        margin-top: 15px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .footer-item .title {
+        font-size: 18px !important;
+        margin-bottom: 20px !important;
+        padding-bottom: 10px !important;
+    }
+    
+    .footer-item p {
+        font-size: 13px !important;
+        line-height: 1.7 !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .footer-item ul {
+        margin-top: 0 !important;
+    }
+    
+    .footer-item ul li {
+        padding-bottom: 4px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .footer-item ul li a {
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+    }
+    
+    .footer-item .icon {
+        margin-top: 15px !important;
+        gap: 8px !important;
+    }
+    
+    .footer-item .icon li a {
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
+        font-size: 14px !important;
+    }
+    
+    /* Reduce Copyright Section Height - تقليل ارتفاع قسم حقوق النشر */
+    .footer-copyrignt {
+        padding-top: 15px !important;
+        padding-bottom: 12px !important;
+    }
+    
+    .copyright-text p {
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .copyright-text p:last-child {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Responsive adjustments for footer area */
+    @media (max-width: 991px) {
+        .footer-area {
+            padding-top: 30px !important;
+            padding-bottom: 35px !important;
+        }
+        
+        .footer-item {
+            margin-bottom: 25px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .footer-area {
+            padding-top: 25px !important;
+            padding-bottom: 30px !important;
+        }
+        
+        .footer-item .title {
+            font-size: 16px !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .footer-item p,
+        .footer-item ul li a {
+            font-size: 12px !important;
+        }
+        
+        .footer-copyrignt {
+            padding-top: 12px !important;
+            padding-bottom: 10px !important;
+        }
+        
+        .copyright-text p {
+            font-size: 12px !important;
         }
     }
 </style>
