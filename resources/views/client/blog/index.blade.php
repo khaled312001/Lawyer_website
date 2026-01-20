@@ -137,10 +137,6 @@
                             <div class="blog-image">
                                 <a aria-label="{{ $blog?->title }}" href="{{ route('website.blog.details', $blog?->slug) }}"><img src="{{ url($blog?->thumbnail_image) }}" alt="{{ $blog?->title }}" loading="lazy"></a>
                             </div>
-                            <div class="blog-author">
-                                <span><i class="fas fa-user"></i> Admin</span>
-                                <span><i class="far fa-calendar-alt"></i> {{ formattedDate($blog?->created_at) }}</span>
-                            </div>
                             <div class="blog-text">
                                 <h3 class="title"><a aria-label="{{ $blog?->title }}" href="{{ route('website.blog.details', $blog?->slug) }}">{{ Str::limit($blog?->title,40,'...') }}</a>
                                 </h3>
@@ -224,39 +220,6 @@
         transform: scale(1.1);
     }
     
-    .blog-page .blog-author {
-        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
-        padding: 15px 25px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 25px;
-        flex-wrap: wrap;
-        border-left: 4px solid var(--colorBlack);
-        border-right: 4px solid var(--colorBlack);
-    }
-    
-    .blog-page .blog-author span {
-        font-size: 14px;
-        font-weight: 500;
-        color: #ffffff;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 0;
-        transition: transform 0.2s ease;
-    }
-    
-    .blog-page .blog-item:hover .blog-author span {
-        transform: scale(1.05);
-    }
-    
-    .blog-page .blog-author span i {
-        font-size: 16px;
-        color: #ffffff;
-        margin: 0;
-    }
-    
     .blog-page .blog-text {
         padding: 25px !important;
         flex-grow: 1;
@@ -306,10 +269,12 @@
         text-decoration: none;
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 8px;
         transition: all 0.3s ease;
         margin-top: auto;
         padding: 8px 0;
+        width: 100%;
     }
     
     .blog-page .blog-item .sm_btn:hover {

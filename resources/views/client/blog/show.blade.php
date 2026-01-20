@@ -176,87 +176,6 @@
                             {!! $blog?->description !!}
                         </div>
                     </div>
-                    @if ($setting?->comment_type == 0)
-                        <div class="comment-list mt_30">
-                            <h4>{{ __('Comments') }}</h4>
-                        </div>
-                        <div class="fb-comments" data-href="{{ Request::url() }}" data-width="" data-numposts="10"></div>
-                    @else
-                        <div class="comment-list mt_30">
-                            @if ($blog?->comments->count() != 0)
-                                <h4>{{ __('Comments') }} <span class="c-number">({{ $blog?->comments->count() }})</span>
-                                </h4>
-                            @endif
-
-                            <ul>
-                                @foreach ($blog?->comments as $comment)
-                                    <li>
-                                        <div class="comment-item">
-                                            <div class="thumb">
-                                                @php
-                                                    $gravatar_link =
-                                                        'http://www.gravatar.com/avatar/' .
-                                                        md5($comment?->email) .
-                                                        '?s=32';
-                                                    header('content-type: image/jpeg');
-                                                @endphp
-                                                <img src="{{ $gravatar_link }}" alt="{{ $comment?->name }}" loading="lazy">
-                                            </div>
-                                            <div class="com-text">
-                                                <h5>{{ ucwords($comment?->name) }}</h5>
-                                                <span class="date"><i
-                                                        class="fas fa-calendar"></i> {{ formattedDateTime($comment?->created_at) }}</span>
-                                                <p>
-                                                    {{ $comment?->comment }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @endforeach
-
-                            </ul>
-                        </div>
-                        <div class="comment-form mt_30">
-                            <h4>{{ __('Submit A Comment') }}</h4>
-                            <form method="POST" action="{{ route('website.comment.store', $blog?->slug) }}">
-                                @csrf
-                                <div class="form-row row">
-                                    @auth('web')
-                                        <div class="form-group col-12">
-                                            <input type="hidden" class="form-control" name="name" value="{{ userAuth()->name }}">
-                                            <input type="hidden" class="form-control" name="email" value="{{ userAuth()->email }}">
-                                            <input type="hidden" class="form-control" name="phone" value="{{ userAuth()?->details?->phone }}">
-                                        </div>
-                                    @else
-                                        <div class="form-group col-12">
-                                            <input type="text" class="form-control" name="name"
-                                                value="{{ old('name') }}" placeholder="{{ __('Name') }}">
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <input type="email" class="form-control" name="email"
-                                                value="{{ old('email') }}" placeholder="{{ __('Email') }}">
-                                        </div>
-                                        <div class="form-group col-12">
-                                            <input type="text" class="form-control" name="phone"
-                                                value="{{ old('phone') }}" placeholder="{{ __('Phone') }}">
-                                        </div>
-                                    @endauth
-                                    <div class="form-group col-12">
-                                        <textarea class="form-control" name="comment" placeholder="{{ __('Comment') }}">{{ old('comment') }}</textarea>
-                                    </div>
-                                    @if ($setting->recaptcha_status == 'active')
-                                        <div class="form-group col-12">
-                                            <div class="g-recaptcha" data-sitekey="{{ $setting->recaptcha_site_key }}">
-                                            </div>
-                                        </div>
-                                    @endif
-                                    <div class="form-group col-md-12">
-                                        <button type="submit" class="btn">{{ __('Submit') }}</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    @endif
 
                 </div>
                 <div class="col-lg-4">
@@ -297,9 +216,6 @@
             </div>
         </div>
     </div>
-    @if ($setting?->comment_type == 0)
-        <div id="fb-root"></div>
-    @endif
 @endsection
 
 @push('css')
@@ -547,90 +463,6 @@
         color: #6c757d;
     }
     
-    /* Comments section */
-    .blog-page.single-blog .comment-list {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 30px;
-        margin-top: 40px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    }
-    
-    .blog-page.single-blog .comment-list h4 {
-        font-size: 24px;
-        font-weight: 700;
-        color: #2c3e50;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 3px solid var(--colorPrimary);
-    }
-    
-    .blog-page.single-blog .comment-item {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 25px;
-        padding-bottom: 25px;
-        border-bottom: 1px solid #e9ecef;
-    }
-    
-    .blog-page.single-blog .comment-item:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-    
-    .blog-page.single-blog .comment-item .thumb {
-        flex-shrink: 0;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        overflow: hidden;
-    }
-    
-    .blog-page.single-blog .comment-item .thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .blog-page.single-blog .comment-item .com-text h5 {
-        font-size: 18px;
-        font-weight: 700;
-        color: #2c3e50;
-        margin-bottom: 8px;
-    }
-    
-    .blog-page.single-blog .comment-item .com-text .date {
-        font-size: 13px;
-        color: #6c757d;
-        margin-bottom: 12px;
-        display: block;
-    }
-    
-    .blog-page.single-blog .comment-item .com-text p {
-        font-size: 15px;
-        line-height: 1.7;
-        color: #495057;
-        margin: 0;
-    }
-    
-    .blog-page.single-blog .comment-form {
-        background: #ffffff;
-        border-radius: 12px;
-        padding: 30px;
-        margin-top: 30px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    }
-    
-    .blog-page.single-blog .comment-form h4 {
-        font-size: 24px;
-        font-weight: 700;
-        color: #2c3e50;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 3px solid var(--colorPrimary);
-    }
-    
     /* Responsive */
     @media (max-width: 991px) {
         .blog-page.single-blog .sidebar {
@@ -678,11 +510,3 @@
 </style>
 @endpush
 
-@push('js')
-    @if ($setting?->comment_type == 0)
-        <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v11.0&appId={{ $setting?->facebook_comment_script }}&autoLogAppEvents=1"
-            nonce="MoLwqHe5"></script>
-    @endif
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-@endpush

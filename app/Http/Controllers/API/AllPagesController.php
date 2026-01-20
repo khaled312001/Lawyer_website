@@ -53,10 +53,6 @@ class AllPagesController extends Controller {
             $q->where('lang_code', $code)->select('counter_id', 'title');
         }])->active()->latest()->get();
 
-        $departments = Department::select('id', 'slug', 'thumbnail_image')->with(['translations' => function ($q) use ($code) {
-            $q->where('lang_code', $code)->select('department_id', 'name');
-        }])->active()->homepage()->latest()->take($home_sections?->department_how_many)->get();
-
         $testimonials = Testimonial::select('id', 'image')->with(['translations' => function ($q) use ($code) {
             $q->where('lang_code', $code)->select('testimonial_id', 'name', 'designation', 'comment');
         }])->homepage()->active()->latest()->take($home_sections?->client_how_many)->get();
@@ -140,13 +136,6 @@ class AllPagesController extends Controller {
                 'data'           => $services,
             ],
             'overviews'    => $overviews,
-            'departments'  => [
-                'show'           => $home_sections?->department_status,
-                'first_heading'  => $home_sections?->translations[0]?->department_first_heading,
-                'second_heading' => $home_sections?->translations[0]?->department_second_heading,
-                'description'    => $home_sections?->translations[0]?->department_description,
-                'data'           => $departments,
-            ],
             'testimonials' => [
                 'show'           => $home_sections?->client_status,
                 'first_heading'  => $home_sections?->translations[0]?->client_first_heading,

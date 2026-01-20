@@ -9,7 +9,7 @@
                             <li>
                                 <div>
                                     <p class="title">{{ __('Email Address') }} </p>
-                                    <p>{!! nl2br(e($contactInfo?->email)) !!}</p>
+                                    <p>{!! nl2br(e($contactInfo?->top_bar_email ?? $contactInfo?->email)) !!}</p>
                                 </div>
                                 <i class="far fa-envelope"></i>
                             </li>

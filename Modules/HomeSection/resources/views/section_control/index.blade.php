@@ -64,7 +64,6 @@
                                     @endif
                                     @include('homesection::section_control.sections.work')
                                     @include('homesection::section_control.sections.service')
-                                    @include('homesection::section_control.sections.department')
                                     @include('homesection::section_control.sections.client')
                                     @include('homesection::section_control.sections.lawyer')
                                     @include('homesection::section_control.sections.blog')

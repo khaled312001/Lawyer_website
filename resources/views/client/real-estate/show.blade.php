@@ -2728,9 +2728,36 @@
     transition: opacity 0.2s ease;
 }
 
-/* Close button removed - users can close by clicking outside or using ESC key */
+/* Close button */
 .lightbox-close {
-    display: none !important;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100000;
+    transition: all 0.3s ease;
+    font-weight: 300;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: rotate(90deg) scale(1.1);
+}
+
+.lightbox-close:active {
+    transform: rotate(90deg) scale(0.95);
 }
 
 /* Hide navigation arrows */
@@ -2755,11 +2782,13 @@
 
 @media (max-width: 768px) {
     .lightbox-close {
-        top: 10px;
-        right: 10px;
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+        background: rgba(255, 255, 255, 0.25);
+        border: 2px solid rgba(255, 255, 255, 0.4);
     }
 
     .lightbox-content img {
@@ -2934,7 +2963,7 @@ $(document).ready(function() {
         // Simple lightbox implementation
         const currentImg = images[currentImageIndex];
         const propertyTitle = @json($property->title);
-        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><img src="' + currentImg + '" alt="' + propertyTitle + '" class="lightbox-image"></div></div>';
+        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><button class="lightbox-close" onclick="closeFullscreenGallery()" aria-label="Close">&times;</button><img src="' + currentImg + '" alt="' + propertyTitle + '" class="lightbox-image"></div></div>';
         const lightbox = $(lightboxHtml);
         $('body').append(lightbox);
         
@@ -3014,22 +3043,39 @@ $(document).ready(function() {
         // Clean up event listeners when lightbox is closed
         lightbox.on('remove', function() {
             $(document).off('mousemove.lightbox mouseup.lightbox keydown.lightbox');
+            window.currentLightbox = null;
         });
         
         // Close on overlay click
         lightbox.on('click', function(e) {
             if (e.target === this) {
-                lightbox.remove();
+                closeFullscreenGallery();
             }
         });
+        
+        // Prevent closing when clicking on image or close button
+        lightbox.find('.lightbox-content').on('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        // Store lightbox reference globally for close function
+        window.currentLightbox = lightbox;
         
         // Close on ESC key
         $(document).on('keydown.lightbox', function(e) {
             if (e.key === 'Escape' || e.keyCode === 27) {
-                lightbox.remove();
-                $(document).off('keydown.lightbox');
+                closeFullscreenGallery();
             }
         });
+    };
+    
+    // Close fullscreen gallery function
+    window.closeFullscreenGallery = function() {
+        if (window.currentLightbox) {
+            window.currentLightbox.remove();
+            window.currentLightbox = null;
+            $(document).off('keydown.lightbox mousemove.lightbox mouseup.lightbox');
+        }
     };
 
 

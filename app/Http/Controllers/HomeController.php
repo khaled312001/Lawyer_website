@@ -79,27 +79,6 @@ class HomeController extends Controller {
                 $query->select('counter_id', 'title');
             },
         ])->active()->latest()->take(4)->get();
-        $departments = Department::select('id', 'slug', 'thumbnail_image')->with([
-            'translation' => function ($query) {
-                $query->select('department_id', 'name', 'description');
-            },
-            'images' => function ($query) {
-                $query->select('department_id');
-            },
-        ])->active()->latest()->homepage()
-        ->whereHas('translation', function ($query) {
-            $query->whereNotNull('description')
-                  ->where('description', '!=', '');
-        })
-        ->where(function ($query) {
-            $query->whereHas('images')
-                  ->orWhereHas('translation', function ($q) {
-                      $q->whereNotNull('description')
-                        ->where('description', '!=', '');
-                  });
-        })
-        ->where('slug', '!=', 'family-and-personal-status-law')
-        ->get();
         $testimonials = Testimonial::select('id', 'image')->with([
             'translation' => function ($query) {
                 $query->select('testimonial_id', 'name', 'designation', 'comment');
@@ -236,7 +215,7 @@ class HomeController extends Controller {
         ])->whereHas('category', function ($query) {
             $query->active();
         })->homepage()->active()->latest()->get();
-        return view('client.index', compact('locations', 'departmentsForSearch', 'lawyersForSearch', 'sliders', 'home_sections', 'features', 'work', 'workFaqs', 'services', 'overviews', 'departments', 'testimonials', 'lawyers', 'feature_blog', 'blogs'));
+        return view('client.index', compact('locations', 'departmentsForSearch', 'lawyersForSearch', 'sliders', 'home_sections', 'features', 'work', 'workFaqs', 'services', 'overviews', 'testimonials', 'lawyers', 'feature_blog', 'blogs'));
     }
     public function aboutUs(){
         $about=AboutUsPage::select('id', 'status','about_image','background_image','mission_image','mission_status','vision_image','vision_status')->with([

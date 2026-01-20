@@ -22,6 +22,9 @@
 @endphp
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
+        <button class="sidebar-close-btn d-lg-none" onclick="document.body.classList.remove('sidebar-show'); document.body.classList.add('sidebar-gone'); document.body.style.overflow = 'auto';" aria-label="Close Sidebar" title="{{ __('Close Menu') }}">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="sidebar-brand">
             <a href="{{ route('lawyer.dashboard') }}"><img class="w-75" src="{{ asset($setting->logo) ?? '' }}"
                     alt="{{ $setting->app_name ?? '' }}"></a>

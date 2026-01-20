@@ -227,7 +227,7 @@
                                 <i class="far fa-envelope"></i>
                             </span>
                             <div class="contact-text">
-                                <a aria-label="{{ $contactInfo?->email }}" href="mailto:{!! nl2br(e($contactInfo?->email)) !!}">{!! nl2br(e($contactInfo?->email)) !!}</a>
+                                <a aria-label="{{ $contactInfo?->top_bar_email ?? $contactInfo?->email }}" href="mailto:{{ $contactInfo?->top_bar_email ?? $contactInfo?->email }}">{{ $contactInfo?->top_bar_email ?? $contactInfo?->email }}</a>
                             </div>
                         </div>
                     </div>
@@ -249,12 +249,6 @@
         </div>
     </div>
     <!--Form End-->
-
-    <!--Google map start-->
-    <div class="map-area">
-        {!! $contactInfo?->map_embed_code !!}
-    </div>
-    <!--Google map end-->
 @endsection
 
 @push('css')
@@ -650,21 +644,6 @@ textarea.form-control {
     padding-left: 0;
 }
 
-/* Map Area */
-.map-area {
-    margin-top: 0;
-    border-radius: 0;
-    overflow: hidden;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-}
-
-.map-area iframe {
-    width: 100%;
-    height: 450px;
-    border: none;
-    display: block;
-}
-
 /* Invalid Feedback */
 .invalid-feedback {
     display: block;
@@ -751,10 +730,6 @@ textarea.form-control {
     .contact-text p,
     .contact-text a {
         font-size: 16px;
-    }
-
-    .map-area iframe {
-        height: 350px;
     }
 }
 

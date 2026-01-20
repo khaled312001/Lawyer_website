@@ -10303,7 +10303,6 @@
         }
     }
 
-    /* تقليل المسافة بين قسم خدماتنا القانونية وأقسامنا القانونية */
     .service-area {
         padding-bottom: 20px !important;
     }
@@ -12875,21 +12874,110 @@
     .aman-lawyer-card-mobile-rtl {
         background: #fff !important;
         border-radius: 16px !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12),
+                    0 3px 10px rgba(0,0,0,0.08),
+                    0 0 0 1px rgba(107, 93, 71, 0.1) !important;
         overflow: hidden !important;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         display: flex !important;
         flex-direction: column !important;
         height: 100% !important;
         direction: rtl !important;
-        border: 1px solid rgba(0,0,0,0.05) !important;
+        border: 1px solid rgba(107, 93, 71, 0.15) !important;
+        position: relative !important;
+        opacity: 0 !important;
+        transform: translateY(20px) scale(0.95) !important;
+        animation: lawyerCardFadeIn 0.6s ease-out forwards !important;
+    }
+
+    /* أنيميشن ظهور الكارد */
+    @keyframes lawyerCardFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Delay لكل كارد */
+    .lawyer-card-mobile:nth-child(1),
+    .aman-lawyer-card-mobile-rtl:nth-child(1) {
+        animation-delay: 0.1s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(2),
+    .aman-lawyer-card-mobile-rtl:nth-child(2) {
+        animation-delay: 0.2s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(3),
+    .aman-lawyer-card-mobile-rtl:nth-child(3) {
+        animation-delay: 0.3s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(4),
+    .aman-lawyer-card-mobile-rtl:nth-child(4) {
+        animation-delay: 0.4s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(n+5),
+    .aman-lawyer-card-mobile-rtl:nth-child(n+5) {
+        animation-delay: 0.5s !important;
+    }
+
+    /* تأثير Glow خفيف */
+    .lawyer-card-mobile::before,
+    .aman-lawyer-card-mobile-rtl::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.1), rgba(212, 165, 116, 0.1));
+        border-radius: 18px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: -1;
     }
 
     .lawyer-card-mobile:hover,
     .aman-lawyer-card-mobile-rtl:hover {
-        transform: translateY(-8px) !important;
-        box-shadow: 0 8px 30px rgba(107, 93, 71, 0.2) !important;
+        transform: translateY(-12px) scale(1.02) !important;
+        box-shadow: 0 15px 40px rgba(107, 93, 71, 0.25),
+                    0 8px 20px rgba(0,0,0,0.15),
+                    0 0 0 3px rgba(107, 93, 71, 0.2),
+                    0 0 30px rgba(212, 165, 116, 0.3) !important;
         border-color: var(--colorPrimary) !important;
+    }
+
+    .lawyer-card-mobile:hover::before,
+    .aman-lawyer-card-mobile-rtl:hover::before {
+        opacity: 1;
+    }
+
+    /* أنيميشن Pulse خفيف */
+    @keyframes lawyerCardPulse {
+        0%, 100% {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12),
+                        0 3px 10px rgba(0,0,0,0.08),
+                        0 0 0 1px rgba(107, 93, 71, 0.1);
+        }
+        50% {
+            box-shadow: 0 10px 30px rgba(107, 93, 71, 0.15),
+                        0 5px 15px rgba(0,0,0,0.1),
+                        0 0 0 2px rgba(107, 93, 71, 0.15);
+        }
+    }
+
+    /* تطبيق Pulse على الكاردات (اختياري - يمكن إزالته) */
+    .lawyer-card-mobile:not(:hover),
+    .aman-lawyer-card-mobile-rtl:not(:hover) {
+        animation: lawyerCardFadeIn 0.6s ease-out forwards,
+                   lawyerCardPulse 3s ease-in-out infinite 0.6s !important;
     }
 
     /* صورة المحامي */
@@ -12898,17 +12986,38 @@
         height: 200px !important;
         overflow: hidden !important;
         position: relative !important;
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.1), rgba(212, 165, 116, 0.1)) !important;
+    }
+
+    .lawyer-card-image-mobile::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .lawyer-card-mobile:hover .lawyer-card-image-mobile::after {
+        opacity: 1;
     }
 
     .lawyer-card-image-mobile img {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
-        transition: transform 0.3s ease !important;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    filter 0.3s ease !important;
+        filter: brightness(1) contrast(1) !important;
     }
 
     .lawyer-card-mobile:hover .lawyer-card-image-mobile img {
-        transform: scale(1.1) !important;
+        transform: scale(1.15) !important;
+        filter: brightness(1.05) contrast(1.1) !important;
     }
 
     /* محتوى الكارت */
@@ -12919,6 +13028,14 @@
         flex-direction: column !important;
         text-align: right !important;
         direction: rtl !important;
+        position: relative !important;
+        z-index: 1 !important;
+        background: #fff !important;
+        transition: background 0.3s ease !important;
+    }
+
+    .lawyer-card-mobile:hover .lawyer-card-content-mobile {
+        background: linear-gradient(to bottom, #fff 0%, rgba(255, 255, 255, 0.98) 100%) !important;
     }
 
     /* اسم المحامي */
@@ -13071,12 +13188,32 @@
         gap: 12px !important;
         margin-top: auto !important;
         box-shadow: 0 2px 8px rgba(107, 93, 71, 0.2) !important;
+        position: relative !important;
+        overflow: hidden !important;
     }
 
     .lawyer-card-button-mobile:hover {
         background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
-        transform: translateY(-3px) !important;
-        box-shadow: 0 6px 20px rgba(107, 93, 71, 0.35) !important;
+        transform: translateY(-3px) scale(1.05) !important;
+        box-shadow: 0 8px 25px rgba(107, 93, 71, 0.4),
+                    0 4px 15px rgba(212, 165, 116, 0.3) !important;
+    }
+
+    /* تأثير Shine على الزر */
+    .lawyer-card-button-mobile::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+        border-radius: 10px;
+    }
+
+    .lawyer-card-button-mobile:hover::before {
+        left: 100%;
     }
 
     .lawyer-button-icon-mobile {
@@ -13092,6 +13229,8 @@
         height: 24px !important;
         background: rgba(255, 255, 255, 0.2) !important;
         border-radius: 50% !important;
+        position: relative !important;
+        z-index: 2 !important;
     }
 
     .lawyer-card-button-mobile:hover .lawyer-button-icon-mobile {
@@ -13107,6 +13246,8 @@
         text-align: right !important;
         direction: rtl !important;
         letter-spacing: 0.3px !important;
+        position: relative !important;
+        z-index: 2 !important;
     }
 
     /* Responsive للموبايل */
@@ -13968,29 +14109,71 @@
     }
 
     /* ===================================================================
-       HOME BUTTON - حذف margin من أسفل قسم home-button ser-btn
+       HOME BUTTON - تحسين تصميم زر جميع الخدمات
        =================================================================== */
 
     .home-button.ser-btn {
+        margin-top: 30px !important;
         margin-bottom: 0 !important;
-        margin-top: 0 !important;
         padding-bottom: 0 !important;
+    }
+
+    .home-button.ser-btn a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        background: var(--colorPrimary);
+        color: var(--colorWhite);
+        border: 2px solid var(--colorPrimary);
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-button.ser-btn a:hover {
+        background: var(--colorSecondary) !important;
+        border-color: var(--colorSecondary) !important;
+        color: var(--colorWhite) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     /* حذف margin من row الذي يحتوي على home-button ser-btn */
     .service-area .row:last-of-type {
         margin-bottom: 0 !important;
+        margin-top: 20px !important;
     }
 
     /* حذف margin من service-area بعد home-button */
     .service-area {
         margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
+        padding-bottom: 40px !important;
     }
 
     .service-area + section {
         margin-top: 0 !important;
         padding-top: 0 !important;
+    }
+
+    /* تحسين التصميم على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .home-button.ser-btn {
+            margin-top: 25px !important;
+        }
+        
+        .home-button.ser-btn a {
+            padding: 12px 30px;
+            font-size: 16px;
+        }
+        
+        .service-area {
+            padding-bottom: 30px !important;
+        }
     }
 
     /* ===================================================================

@@ -155,9 +155,10 @@
                     @include('paymentwithdraw::admin.sidebar')
                 @endif
 
-                @if (Module::isEnabled('NewsLetter') && (checkAdminHasPermission('newsletter.view') || checkAdminHasPermission('newsletter.mail') || checkAdminHasPermission('newsletter.content.view')))
+                {{-- النشرة الإخبارية مخفية --}}
+                {{-- @if (Module::isEnabled('NewsLetter') && (checkAdminHasPermission('newsletter.view') || checkAdminHasPermission('newsletter.mail') || checkAdminHasPermission('newsletter.content.view')))
                     @include('newsletter::sidebar')
-                @endif
+                @endif --}}
             @endif
 
             {{-- إدارة الموقع --}}

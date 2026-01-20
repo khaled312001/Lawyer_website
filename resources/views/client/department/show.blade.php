@@ -264,8 +264,7 @@
                             <h2>{{ $contactInfo?->header }}</h2>
                             <p>{{ $contactInfo?->description }}</p>
                             <ul>
-                                <li><i class="fas fa-phone"></i> {!! nl2br(e($contactInfo?->email)) !!}</li>
-                                <li><i class="far fa-envelope"></i> 
+                                <li><i class="fas fa-phone"></i> 
                                     @php
                                         $phoneDisplay = $contactInfo?->phone ?? '';
                                         // Move + to end for Arabic language (RTL)
@@ -292,6 +291,7 @@
                                         }
                                     @endphp
                                 </li>
+                                <li><i class="far fa-envelope"></i> {{ $contactInfo?->top_bar_email ?? $contactInfo?->email }}</li>
                                 <li><i class="fas fa-map-marker-alt"></i>{!! nl2br(e($contactInfo?->address)) !!}</li>
                             </ul>
                         </div>

@@ -501,14 +501,14 @@
                                 <style>
                                     .enhanced-hover-btn:hover, 
                                     .enhanced-hover-btn:focus {
-                                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
-                                        color: #222 !important;
-                                        box-shadow: 0 6px 22px rgba(212, 165, 116, 0.16);
+                                        background: linear-gradient(135deg, #B91C1C 0%, #C89B6C 100%) !important;
+                                        color: #fff !important;
+                                        box-shadow: 0 6px 22px rgba(220, 38, 38, 0.25);
                                         text-decoration: none;
                                     }
                                     .enhanced-hover-btn:hover i,
                                     .enhanced-hover-btn:focus i {
-                                        color: #222 !important;
+                                        color: #fff !important;
                                     }
                                 </style>
                             </li>
@@ -892,11 +892,12 @@
     a.book-appointment-btn-desktop:hover,
     .nav-link.book-appointment-btn-desktop:hover,
     body.client-frontend .book-appointment-btn-desktop:hover {
-        background: #D4A574 !important;
-        background-color: #D4A574 !important;
+        background: #B91C1C !important;
+        background-color: #B91C1C !important;
         background-image: none !important;
+        color: #ffffff !important;
         transform: translateY(-2px) scale(1.03) !important;
-        box-shadow: 0 5px 20px rgba(200, 155, 108, 0.5) !important;
+        box-shadow: 0 5px 20px rgba(185, 28, 28, 0.5) !important;
     }
     
     .book-appointment-btn-desktop i {
@@ -972,10 +973,11 @@
     .book-appointment-btn-mobile:hover,
     a.book-appointment-btn-mobile:hover,
     body.client-frontend .book-appointment-btn-mobile:hover {
-        background: #D4A574 !important;
-        background-color: #D4A574 !important;
+        background: #B91C1C !important;
+        background-color: #B91C1C !important;
         background-image: none !important;
-        box-shadow: 0 6px 24px rgba(200, 155, 108, 0.6), 0 3px 12px rgba(0, 0, 0, 0.2) !important;
+        color: #ffffff !important;
+        box-shadow: 0 6px 24px rgba(185, 28, 28, 0.6), 0 3px 12px rgba(0, 0, 0, 0.2) !important;
         transform: translateY(-3px) scale(1.05) !important;
     }
     

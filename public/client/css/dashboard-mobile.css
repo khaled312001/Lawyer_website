@@ -559,13 +559,17 @@
         overflow-y: auto !important;
     }
     
+    /* Show sidebar when sidebar-show class is on body */
+    body.sidebar-show .lawyer_dashboard_layout .main-sidebar,
     .lawyer_dashboard_layout body.sidebar-show .main-sidebar,
-    body.sidebar-show .lawyer_dashboard_layout .main-sidebar {
+    body.sidebar-show .main-sidebar {
         left: 0 !important;
     }
     
-    .lawyer_dashboard_layout body.sidebar-show::before,
-    body.sidebar-show.lawyer_dashboard_layout::before {
+    /* Backdrop overlay */
+    body.sidebar-show .lawyer_dashboard_layout::before,
+    body.sidebar-show.lawyer_dashboard_layout::before,
+    .lawyer_dashboard_layout body.sidebar-show::before {
         content: '' !important;
         position: fixed !important;
         top: 0 !important;
@@ -620,6 +624,57 @@
     
     body.sidebar-show .lawyer_dashboard_layout .main-content {
         margin-left: 0 !important;
+    }
+    
+    /* Ensure sidebar is visible when open */
+    body.sidebar-show .lawyer_dashboard_layout .main-sidebar,
+    body.sidebar-show .main-sidebar {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Sidebar brand logo */
+    .lawyer_dashboard_layout .main-sidebar .sidebar-brand {
+        padding: 15px 20px !important;
+        border-bottom: 1px solid #e3e6f0 !important;
+    }
+    
+    /* Sidebar menu items */
+    .lawyer_dashboard_layout .main-sidebar .sidebar-menu {
+        padding: 10px 0 !important;
+    }
+    
+    /* Close button for mobile sidebar */
+    .lawyer_dashboard_layout .main-sidebar .sidebar-close-btn {
+        display: flex !important;
+        position: absolute !important;
+        top: 15px !important;
+        right: 15px !important;
+        width: 35px !important;
+        height: 35px !important;
+        background: rgba(0, 0, 0, 0.1) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        color: #333 !important;
+        font-size: 18px !important;
+        cursor: pointer !important;
+        z-index: 10000 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .lawyer_dashboard_layout .main-sidebar .sidebar-close-btn:hover {
+        background: rgba(0, 0, 0, 0.2) !important;
+        transform: scale(1.1) !important;
+    }
+    
+    /* Hide close button on desktop */
+    @media (min-width: 1025px) {
+        .lawyer_dashboard_layout .main-sidebar .sidebar-close-btn {
+            display: none !important;
+        }
     }
 }
 

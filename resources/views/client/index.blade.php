@@ -8,7 +8,7 @@
 @section('client-content')
 
     <!--Hero Section Start-->
-    <section class="hero-section pt_100 pb_100" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%); position: relative; overflow: hidden;">
+    <section class="hero-section" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%); position: relative; overflow: hidden;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 wow fadeInLeft">
@@ -26,9 +26,11 @@
                         <p class="hero-description" style="font-size: 16px; color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 40px;">
                             {{ __('تتم الاستشارات القانونية عبر التواصل على واتساب أو من خلال تعبئة نموذج الطلب، مع إمكانية حجز موعد استشارة عبر مكالمة صوتية أو مكالمة فيديو حسب رغبة العميل.') }}
                         </p>
-                        <a href="{{ route('website.book.consultation.appointment') }}" class="hero-cta-btn" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4);">
-                            {{ __('تواصل معنا وحجز استشارة قانونية') }}
-                            <i class="fas fa-arrow-left ms-2"></i>
+                        <a href="{{ route('website.book.consultation.appointment') }}" class="hero-cta-btn" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;">
+                            <span style="position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 8px;">
+                                {{ __('تواصل معنا وحجز استشارة قانونية') }}
+                                <i class="fas fa-arrow-left ms-2"></i>
+                            </span>
                         </a>
                     </div>
                 </div>
@@ -55,7 +57,7 @@
     <!--Hero Section End-->
 
     <!--Quick Points Section Start-->
-    <section class="quick-points-section pt_80 pb_80" style="background: #f8f9fa;">
+    <section class="quick-points-section" style="background: #f8f9fa;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6 mt_30">
@@ -137,8 +139,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
                         <div class="home-button ser-btn">
                             <a aria-label="{{ __('All Service') }}"
                                 href="{{ url('service') }}">{{ __('All Service') }}</a>
@@ -152,7 +154,7 @@
     @endif
 
     <!--How It Works Section Start-->
-    <section class="how-it-works-area pt_100 pb_100">
+    <section class="how-it-works-area">
         <div class="container">
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
@@ -221,7 +223,7 @@
     <!--How It Works Section End-->
 
     <!--About Us Section Start-->
-    <section class="about-us-section pt_100 pb_100" style="background: #f8f9fa;">
+    <section class="about-us-section" style="background: #f8f9fa;">
         <div class="container">
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
@@ -244,7 +246,7 @@
     <!--About Us Section End-->
 
     <!--Why Aman Law Section Start-->
-    <section class="why-aman-law-section pt_100 pb_100">
+    <section class="why-aman-law-section">
         <div class="container">
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
@@ -300,56 +302,6 @@
     </section>
     <!--Why Aman Law Section End-->
 
-    @if (1 == $home_sections?->department_status)
-        <!--Department Start-->
-        <section class="case-study-home-page case-study-area">
-            <div class="container">
-                <div class="row mb_25">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown" data-wow-delay="0.1s">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->department_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->department_second_heading) }}</h2>
-                            <p>{{ $home_sections?->department_description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    @foreach ($departments->take($home_sections?->department_how_many) as $department)
-                        <div class="col-lg-4 col-md-6 mt_15">
-                            <div class="case-item">
-                                <div class="case-box">
-                                    <div class="case-image">
-                                        <img src="{{ asset($department?->thumbnail_image ?? 'client/images/default-image.jpg') }}"
-                                            alt="{{ $department?->name }}" 
-                                            loading="lazy"
-                                            data-fallback="{{ asset('client/images/default-image.jpg') }}">
-                                        <div class="overlay"><a aria-label="{{ __('See Details') }}"
-                                                href="{{ route('website.department.details', $department?->slug) }}"
-                                                class="btn-case">{{ __('See Details') }}</a>
-                                        </div>
-                                    </div>
-                                    <div class="case-content">
-                                        <h3 class="title"><a aria-label="{{ $department?->name }}"
-                                                href="{{ route('website.department.details', $department?->slug) }}">{{ $department?->name }}</a>
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="row mb_60">
-                    <div class="col-md-12">
-                        <div class="home-button">
-                            <a aria-label="{{ __('All Department') }}"
-                                href="{{ url('department') }}">{{ __('All Department') }}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Department End-->
-    @endif
 
     @if (1 == $home_sections?->lawyer_status)
         <!--Lawyer Area Start-->
@@ -485,7 +437,7 @@
     @endif
 
     <!--Book Consultation Section Start-->
-    <section class="book-consultation-section pt_100 pb_100" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);">
+    <section class="book-consultation-section" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 m-auto">
@@ -506,7 +458,7 @@
     <!--Book Consultation Section End-->
 
     <!--Contact Us Section Start-->
-    <section class="contact-us-section pt_100 pb_100" style="background: #f8f9fa;">
+    <section class="contact-us-section" style="background: #f8f9fa;">
         <div class="container">
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
@@ -596,16 +548,6 @@
                                             </div>
                                         </div>
                                         <div class="blog-content">
-                                            <div class="blog-meta">
-                                                <span class="blog-author-meta">
-                                                    <i class="fas fa-user"></i>
-                                                    <span>Admin</span>
-                                                </span>
-                                                <span class="blog-category-meta">
-                                                    <i class="fas fa-folder"></i>
-                                                    <span>{{ $blog?->category?->title ?? __('Blog') }}</span>
-                                                </span>
-                                            </div>
                                             <h3 class="blog-title">
                                                 <a aria-label="{{ $blog?->title }}"
                                                     href="{{ route('website.blog.details', $blog?->slug) }}">
@@ -1297,29 +1239,7 @@
         flex-direction: column;
     }
 
-    .blog-meta {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 15px;
-        flex-wrap: wrap;
-    }
-
-    .blog-author-meta,
-    .blog-category-meta {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 14px;
-        color: #666;
-    }
-
-    .blog-author-meta i,
-    .blog-category-meta i {
-        color: var(--colorPrimary);
-        font-size: 14px;
-    }
-
-    .blog-title {
+.blog-title {
         margin: 0 0 15px 0;
         font-size: 22px;
         font-weight: 700;
@@ -1358,6 +1278,7 @@
     .blog-read-more {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
         color: var(--colorPrimary);
         font-weight: 600;
@@ -1366,6 +1287,7 @@
         transition: all 0.3s ease;
         margin-top: auto;
         padding: 12px 0;
+        width: 100%;
     }
 
     .blog-read-more i {
@@ -3025,83 +2947,49 @@
         }
     }
 
-    /* Reduce spacing for all sections */
-    .mobile-app-area,
-    .how-it-works-area,
-    .fixed-price-area,
-    .legal-aid-check-home {
-        padding-top: 50px !important;
-        padding-bottom: 50px !important;
-    }
-
-    /* Reduce spacing for service area and other sections */
+    /* Remove all spacing between sections */
+    section,
+    .hero-section,
+    .quick-points-section,
     .service-area,
-    .about-area,
-    .why-us-area,
-    .case-study-area {
-        padding-top: 0 !important;
-        padding-bottom: 40px !important;
-    }
-
-    /* Reduce spacing for department section */
+    .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
+    .fixed-price-area,
+    .legal-aid-check-home,
+    .case-study-area,
     .case-study-home-page {
         padding-top: 0 !important;
-        padding-bottom: 30px !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Remove spacing between adjacent sections */
+    section + section {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    /* Remove all padding classes */
+    .pt_100, .pb_100, .pt_80, .pb_80, .pt_70, .pb_70, .pt_50, .pb_50, .pt_40, .pb_40, .pt_30, .pb_30 {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Remove all margin classes */
+    .mt_200, .mt_100, .mt_80, .mt_70, .mt_65, .mt_50, .mt_40, .mt_30, .mt_25, .mt_20, .mt_15 {
         margin-top: 0 !important;
     }
 
-    @media (max-width: 768px) {
-        .case-study-home-page {
-            margin-top: 0 !important;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .case-study-home-page {
-            margin-top: 0 !important;
-        }
-    }
-
-    /* Reduce large margin top */
-    .mt_200 {
-        margin-top: 50px !important;
-    }
-
-    /* Mobile responsive - further reduce spacing */
-    @media (max-width: 768px) {
-        .mobile-app-area,
-        .how-it-works-area,
-        .fixed-price-area,
-        .legal-aid-check-home {
-            padding-top: 30px !important;
-            padding-bottom: 30px !important;
-        }
-
-        .service-area,
-        .about-area,
-        .why-us-area,
-        .case-study-area {
-            padding-top: 25px !important;
-            padding-bottom: 25px !important;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .mobile-app-area,
-        .how-it-works-area,
-        .fixed-price-area,
-        .legal-aid-check-home {
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
-        }
-
-        .service-area,
-        .about-area,
-        .why-us-area,
-        .case-study-area {
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
-        }
+    .mb_60, .mb_40, .mb_30, .mb_25, .mb_20, .mb_15 {
+        margin-bottom: 0 !important;
     }
 </style>
 @endpush
@@ -3784,7 +3672,7 @@
         max-width: 100%;
     }
 
-    /* Section improvements */
+    /* Section improvements - Remove all spacing */
     .why-us-area,
     .about-area,
     .service-area,
@@ -3794,8 +3682,15 @@
     .how-it-works-area,
     .mobile-app-area,
     .fixed-price-area,
-    .legal-aid-check-home {
-        padding: 40px 0 !important;
+    .legal-aid-check-home,
+    .hero-section,
+    .quick-points-section,
+    .about-us-section,
+    .why-aman-law-section,
+    .book-consultation-section,
+    .contact-us-section {
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     /* Main headline improvements - Center all section titles and descriptions */
@@ -4056,7 +3951,7 @@
    FINAL OVERRIDE - Force Features to Right
    ============================================ */
 @media (max-width: 480px) {
-    /* Small mobile optimizations */
+    /* Small mobile optimizations - Remove all spacing */
     .why-us-area,
     .about-area,
     .service-area,
@@ -4066,8 +3961,15 @@
     .how-it-works-area,
     .mobile-app-area,
     .fixed-price-area,
-    .legal-aid-check-home {
-        padding: 25px 0 !important;
+    .legal-aid-check-home,
+    .hero-section,
+    .quick-points-section,
+    .about-us-section,
+    .why-aman-law-section,
+    .book-consultation-section,
+    .contact-us-section {
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     .main-headline .title {
@@ -4188,6 +4090,256 @@
     [dir="rtl"] .fixed-price-content,
     [dir="rtl"] .legal-aid-check-content {
         text-align: center;
+    }
+}
+
+/* ============================================
+   FINAL OVERRIDE - Remove ALL spacing between sections
+   إزالة جميع المسافات بين الأقسام
+   ============================================ */
+section,
+.hero-section,
+.quick-points-section,
+.service-area,
+.how-it-works-area,
+.about-us-section,
+.why-aman-law-section,
+.lawyer-area-modern,
+.testimonial-area-modern,
+.book-consultation-section,
+.contact-us-section,
+.blog-area-modern,
+.mobile-app-area,
+.fixed-price-area,
+.legal-aid-check-home,
+.case-study-area,
+.case-study-home-page,
+.about-area,
+.why-us-area {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove spacing between adjacent sections */
+section + section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Override all padding and margin classes */
+.pt_100, .pb_100, .pt_80, .pb_80, .pt_70, .pb_70, 
+.pt_50, .pb_50, .pt_40, .pb_40, .pt_30, .pb_30,
+.pt_25, .pb_25, .pt_20, .pb_20, .pt_15, .pb_15 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.mt_200, .mt_100, .mt_80, .mt_70, .mt_65, .mt_50, 
+.mt_40, .mt_30, .mt_25, .mt_20, .mt_15 {
+    margin-top: 0 !important;
+}
+
+.mb_60, .mb_40, .mb_30, .mb_25, .mb_20, .mb_15 {
+    margin-bottom: 0 !important;
+}
+
+/* Mobile and tablet - ensure no spacing */
+@media (max-width: 991px) {
+    section,
+    .hero-section,
+    .quick-points-section,
+    .service-area,
+    .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
+    .fixed-price-area,
+    .legal-aid-check-home {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    section,
+    .hero-section,
+    .quick-points-section,
+    .service-area,
+    .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
+    .fixed-price-area,
+    .legal-aid-check-home {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    section,
+    .hero-section,
+    .quick-points-section,
+    .service-area,
+    .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
+    .fixed-price-area,
+    .legal-aid-check-home {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* ============================================
+       HERO CTA BUTTON ANIMATIONS
+       أنيميشن زر الحجز في قسم الهيرو
+       ============================================ */
+    .hero-cta-btn {
+        position: relative !important;
+        overflow: hidden !important;
+        cursor: pointer !important;
+        transform: translateY(0);
+        animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    /* Pulse and Glow Animation */
+    @keyframes pulse-glow {
+        0%, 100% {
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4),
+                        0 0 0 0 rgba(220, 38, 38, 0.7);
+        }
+        50% {
+            box-shadow: 0 6px 25px rgba(212, 165, 116, 0.6),
+                        0 0 0 10px rgba(220, 38, 38, 0);
+        }
+    }
+
+    /* Shimmer Effect */
+    .hero-cta-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+        );
+        transition: left 0.5s ease;
+        z-index: 1;
+    }
+
+    /* Hover Effects */
+    .hero-cta-btn:hover {
+        transform: translateY(-3px) scale(1.05) !important;
+        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+        box-shadow: 0 8px 30px rgba(220, 38, 38, 0.5),
+                    0 0 0 5px rgba(220, 38, 38, 0.2) !important;
+    }
+
+    .hero-cta-btn:hover::before {
+        left: 100%;
+    }
+
+    /* Active/Press Effect */
+    .hero-cta-btn:active {
+        transform: translateY(-1px) scale(1.02) !important;
+        box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4) !important;
+    }
+
+    /* Icon Animation */
+    .hero-cta-btn i {
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .hero-cta-btn:hover i {
+        transform: translateX(-5px) scale(1.2);
+    }
+
+    /* Bounce Animation on Load */
+    @keyframes bounce-in {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+        }
+        60% {
+            transform: translateY(-5px) scale(1.05);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .hero-cta-btn {
+        animation: bounce-in 0.8s ease-out, pulse-glow 2s ease-in-out 0.8s infinite;
+    }
+
+    /* Ripple Effect on Click */
+    .hero-cta-btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+        z-index: 0;
+    }
+
+    .hero-cta-btn:active::after {
+        width: 300px;
+        height: 300px;
+        transition: width 0.3s, height 0.3s;
+    }
+
+    /* Ensure text stays on top */
+    .hero-cta-btn span {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .hero-cta-btn {
+            padding: 14px 32px !important;
+            font-size: 16px !important;
+        }
+
+        .hero-cta-btn:hover {
+            transform: translateY(-2px) scale(1.03) !important;
+        }
     }
 }
 </style>
