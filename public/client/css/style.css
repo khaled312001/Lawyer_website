@@ -4820,7 +4820,7 @@ Footer
 .footer-address {
     width: 100%;
     float: left;
-    padding: 35px 40px;
+    padding: 15px 20px !important;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     height: 100%;
 }
@@ -4930,7 +4930,8 @@ Footer
 
 .footer-item {
     overflow: hidden;
-    margin-top: 30px;
+    margin-top: 15px !important;
+    margin-bottom: 20px !important;
 }
 
 .footer-item img {
@@ -4938,13 +4939,13 @@ Footer
 }
 
 .footer-item .title {
-    font-size: 20px;
+    font-size: 18px !important;
     font-weight: 600;
     color: var(--colorWhite);
     margin: 0;
     position: relative;
-    padding-bottom: 14px;
-    margin-bottom: 40px;
+    padding-bottom: 10px !important;
+    margin-bottom: 20px !important;
     border-bottom: 1px solid #848383;
 }
 
@@ -4958,8 +4959,8 @@ Footer
 .footer-item .icon {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 25px;
+    gap: 8px !important;
+    margin-top: 15px !important;
 }
 
 .footer-item .icon img {
@@ -4967,9 +4968,9 @@ Footer
 }
 
 .footer-item .icon li a {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
     text-align: center;
     background: var(--colorPrimary);
     color: var(--colorWhite);
@@ -5012,7 +5013,8 @@ Footer
 
 .footer-item li {
     display: block;
-    padding-bottom: 6px;
+    padding-bottom: 4px !important;
+    margin-bottom: 4px !important;
 }
 
 .footer-item li a {
@@ -5091,13 +5093,15 @@ Footer
 
 /*Footer-Copyright*/
 .footer-copyrignt {
-    padding-top: 25px;
-    padding-bottom: 20px;
+    padding-top: 15px !important;
+    padding-bottom: 12px !important;
 }
 
 .copyright-text p {
     color: #d4d4d4;
-    margin: 0;
+    margin: 0 0 5px 0 !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
 }
 
 .footer-social {

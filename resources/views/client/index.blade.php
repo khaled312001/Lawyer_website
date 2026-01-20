@@ -4697,7 +4697,8 @@ section + section {
     /* Hover Effects - تصميم حسب الصورة */
     .hero-cta-btn:hover {
         transform: translateY(-3px) scale(1.05) !important;
-        /* الخلفية تبقى كما هي - لا تغيير */
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important; /* الخلفية تبقى كما هي */
+        background-image: none !important;
         color: #ffffff !important; /* نص أبيض */
         box-shadow: 0 8px 30px rgba(255, 105, 135, 0.4),
                     0 0 0 3px rgba(255, 105, 135, 0.3),
