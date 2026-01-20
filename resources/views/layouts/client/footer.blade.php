@@ -75,7 +75,7 @@
     <div class="footer-area" style="background-image: url({{ url('client/img/shape-2.webp') }})">
         <div class="container">
             <div class="row justify-content-between">
-                <div class="col-xxl-3 col-lg-3">
+                <div class="col-xxl-3 col-lg-3 col-md-6">
                     <div class="footer-item">
                         <p class="title">{{ __('عن أمان لو') }}</p>
                         <div class="textwidget pe-0">
@@ -117,7 +117,16 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xxl-3 col-lg-4">
+                <div class="col-xxl-2 col-lg-2 col-md-6">
+                    <div class="footer-item">
+                        <p class="title">{{ __('معلومات قانونية') }}</p>
+                        <ul>
+                            <li><a href="{{ route('website.privacy-policy') }}">{{ __('سياسة الخصوصية') }}</a></li>
+                            <li><a href="{{ route('website.termsCondition') }}">{{ __('الشروط والأحكام') }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-lg-3 col-md-6">
                     <div class="footer-item">
                         <p class="title">{{ __('التواصل') }}</p>
                         <div style="font-size: 13px; line-height: 1.7; color: rgba(255, 255, 255, 0.85);">
@@ -145,15 +154,6 @@
                                 {{ __('استشارات قانونية عن بُعد عبر واتساب، مكالمات صوتية أو فيديو.') }}
                             </p>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xxl-2 col-lg-2 col-md-6">
-                    <div class="footer-item">
-                        <p class="title">{{ __('معلومات قانونية') }}</p>
-                        <ul>
-                            <li><a href="{{ route('website.privacy-policy') }}">{{ __('سياسة الخصوصية') }}</a></li>
-                            <li><a href="{{ route('website.termsCondition') }}">{{ __('الشروط والأحكام') }}</a></li>
-                        </ul>
                     </div>
                 </div>
             </div>
