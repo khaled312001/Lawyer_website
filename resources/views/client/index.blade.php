@@ -28,7 +28,7 @@
                         </p>
                         <a href="{{ route('website.book.consultation.appointment') }}" 
                            class="hero-cta-btn animated-cta-btn" 
-                           style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;"
+                           style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #2c3e50; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;"
                            tabindex="0"
                         >
                             <span style="position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 8px;">
@@ -4800,6 +4800,19 @@ section + section {
     .hero-cta-btn span {
         position: relative;
         z-index: 2;
+        color: #2c3e50 !important; /* لون نص داكن */
+    }
+    
+    /* لون النص في الحالة العادية */
+    .hero-cta-btn,
+    a.hero-cta-btn {
+        color: #2c3e50 !important; /* لون نص داكن */
+    }
+    
+    /* لون النص عند hover */
+    .hero-cta-btn:hover,
+    a.hero-cta-btn:hover {
+        color: #2c3e50 !important; /* لون نص داكن */
     }
 
     /* Mobile Responsive */
