@@ -582,6 +582,8 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         white-space: nowrap;
         position: relative;
+        background: transparent !important; /* إلغاء أي خلفية بيضاء */
+        background-color: transparent !important;
     }
 
     body.client-frontend .nav-link::before {
@@ -604,10 +606,11 @@
     }
 
     body.client-frontend .nav-link:hover {
-        background: linear-gradient(135deg, rgba(200, 180, 126, 0.12) 0%, rgba(200, 180, 126, 0.08) 100%) !important;
+        background: transparent !important; /* إلغاء الخلفية البيضاء */
+        background-color: transparent !important;
         color: var(--colorPrimary) !important;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(200, 180, 126, 0.2);
+        box-shadow: none !important; /* إلغاء الظل أيضاً */
     }
 
     body.client-frontend .nav-link:hover::before {
