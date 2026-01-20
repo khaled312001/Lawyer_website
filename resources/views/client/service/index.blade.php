@@ -327,11 +327,13 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             padding: 20px 0;
+            align-items: stretch;
         }
 
         .service-coloum {
             display: flex;
             height: 100%;
+            align-items: stretch;
         }
 
         /* New Modern Pagination Design - Completely Different Style */
@@ -743,6 +745,7 @@
             .service-coloum-area {
                 grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 25px;
+                align-items: stretch;
             }
 
             .service-item {
@@ -750,7 +753,7 @@
                 max-width: 100%;
                 margin: 0;
                 min-height: 380px;
-                height: auto;
+                height: 100%;
             }
             
             .service-coloum {
@@ -787,19 +790,25 @@
             }
 
             .service-coloum-area {
-                grid-template-columns: 1fr;
+                display: grid !important;
+                grid-template-columns: 1fr !important;
                 gap: 20px;
+                align-items: stretch;
             }
 
             .service-item {
                 padding: 35px 25px;
                 min-height: 350px;
-                height: auto;
+                height: 100%;
+                width: 100% !important;
+                margin: 0 !important;
             }
             
             .service-coloum {
-                display: flex;
+                display: flex !important;
                 height: 100%;
+                width: 100%;
+                margin: 0 !important;
             }
 
             .service-page-list {
@@ -866,15 +875,26 @@
         }
 
         @media (max-width: 480px) {
+            .service-coloum-area {
+                display: grid !important;
+                grid-template-columns: 1fr !important;
+                align-items: stretch;
+                gap: 20px;
+            }
+
             .service-item {
                 padding: 30px 20px;
                 min-height: 320px;
-                height: auto;
+                height: 100%;
+                width: 100% !important;
+                margin: 0 !important;
             }
             
             .service-coloum {
-                display: flex;
+                display: flex !important;
                 height: 100%;
+                width: 100%;
+                margin: 0 !important;
             }
 
             .service-page-list {
