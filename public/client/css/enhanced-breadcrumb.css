@@ -22,24 +22,12 @@
     background-color: transparent !important;
 }
 
-/* CRITICAL: Ensure background image from inline style attribute is ALWAYS visible */
-/* This rule ensures that any element with enhanced-breadcrumb class and style attribute containing background-image */
-/* will have the background image properly displayed */
-.page-title-area.enhanced-breadcrumb[style],
-.banner-area.enhanced-breadcrumb[style] {
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: scroll !important;
-}
-
-/* Additional specificity for elements with background-image in style */
+/* Ensure background image from inline style attribute is always visible */
+/* Inline styles have higher specificity, but we ensure background properties are set correctly */
 .page-title-area.enhanced-breadcrumb[style*="background-image"],
 .banner-area.enhanced-breadcrumb[style*="background-image"],
 .page-title-area.enhanced-breadcrumb[style*="background-image:url"],
-.banner-area.enhanced-breadcrumb[style*="background-image:url"],
-.page-title-area.enhanced-breadcrumb[style*="background-image: url"],
-.banner-area.enhanced-breadcrumb[style*="background-image: url"] {
+.banner-area.enhanced-breadcrumb[style*="background-image:url"] {
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
