@@ -114,11 +114,11 @@
                             <div class="service-coloum">
                                 <div class="service-item">
                                     <i class="{{ $service?->icon }}"></i>
-                                    <a href="#" class="service-link" data-slug="{{ $service?->slug }}">
+                                    <a href="{{ route('website.service.details', $service?->slug) }}" class="service-link">
                                         <h4 class="title">{{ $service?->title }}</h4>
                                     </a>
                                     <p>{{ $service?->sort_description }}</p>
-                                    <a aria-label="{{ __('Service Details') }}" href="#" class="service-link" data-slug="{{ $service?->slug }}">{{ __('Service Details') }}
+                                    <a aria-label="{{ __('Service Details') }}" href="{{ route('website.service.details', $service?->slug) }}" class="service-link">{{ __('Service Details') }}
                                         →</a>
                                 </div>
                             </div>
@@ -132,43 +132,6 @@
         </div>
     </div>
 
-    <!-- Service Details Modal -->
-    <div id="serviceModal" class="service-modal">
-        <div class="service-modal-content">
-            <div class="service-modal-header">
-                <span class="service-modal-close">&times;</span>
-                <h2 id="serviceModalTitle"></h2>
-            </div>
-            <div class="service-modal-body">
-                <div class="service-modal-icon">
-                    <i id="serviceModalIcon"></i>
-                </div>
-                <div class="service-modal-description">
-                    <p id="serviceModalDescription"></p>
-                </div>
-
-                <!-- Service Images Gallery -->
-                <div class="service-modal-gallery" id="serviceModalGallery" style="display: none;">
-                    <h3>{{ __('Gallery') }}</h3>
-                    <div class="gallery-images" id="serviceModalImages"></div>
-                </div>
-
-
-                <!-- Service FAQs -->
-                <div class="service-modal-faqs" id="serviceModalFaqs" style="display: none;">
-                    <h3>{{ __('Frequently Asked Questions') }}</h3>
-                    <div class="faq-list" id="serviceModalFaqList"></div>
-                </div>
-
-                <!-- Full Details Link -->
-                <div class="service-modal-footer">
-                    <a id="serviceFullDetailsLink" href="#" class="btn btn-primary" target="_blank">
-                        {{ __('View Full Details') }}
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     @push('css')
     <style>
@@ -222,7 +185,7 @@
         .service-item i {
             color: var(--colorPrimary);
             font-size: 56px;
-            margin-bottom: 25px;
+            margin: 0 auto 25px auto;
             transition: all 0.4s ease;
             display: flex;
             align-items: center;
@@ -233,6 +196,15 @@
             border-radius: 20px;
             position: relative;
             text-align: center;
+            flex-shrink: 0;
+        }
+
+        .service-item i::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
         }
 
         .service-item:hover i {
@@ -765,6 +737,7 @@
                 font-size: 48px;
                 width: 90px;
                 height: 90px;
+                margin: 0 auto 25px auto;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -836,6 +809,7 @@
                 font-size: 42px;
                 width: 80px;
                 height: 80px;
+                margin: 0 auto 25px auto;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -922,6 +896,7 @@
                 font-size: 36px;
                 width: 70px;
                 height: 70px;
+                margin: 0 auto 25px auto;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -952,128 +927,6 @@
     @endpush
 
     @push('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('serviceModal');
-            const modalTitle = document.getElementById('serviceModalTitle');
-            const modalIcon = document.getElementById('serviceModalIcon');
-            const modalDescription = document.getElementById('serviceModalDescription');
-            const modalGallery = document.getElementById('serviceModalGallery');
-            const modalImages = document.getElementById('serviceModalImages');
-            const modalFaqs = document.getElementById('serviceModalFaqs');
-            const modalFaqList = document.getElementById('serviceModalFaqList');
-            const fullDetailsLink = document.getElementById('serviceFullDetailsLink');
-            const closeBtn = document.querySelector('.service-modal-close');
-
-            // Service links click handler
-            document.querySelectorAll('.service-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const slug = this.getAttribute('data-slug');
-                    loadServiceDetails(slug);
-                });
-            });
-
-            // Close modal handlers
-            closeBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-
-            // ESC key handler
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.style.display === 'block') {
-                    closeModal();
-                }
-            });
-
-            function loadServiceDetails(slug) {
-                fetch(`/api/service-details/${slug}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.error) {
-                            alert('Service not found');
-                            return;
-                        }
-
-                        const service = data.service;
-
-                        // Update modal content
-                        modalTitle.textContent = service.title;
-                        modalIcon.className = service.icon;
-                        modalDescription.textContent = service.description || service.sort_description;
-
-                        // Update full details link
-                        fullDetailsLink.href = `/service-details/${slug}`;
-
-                        // Handle gallery
-                        if (service.images && service.images.length > 0) {
-                            modalImages.innerHTML = '';
-                            service.images.forEach(image => {
-                                const img = document.createElement('img');
-                                img.src = `/${image.large_image}`;
-                                img.alt = service.title;
-                                modalImages.appendChild(img);
-                            });
-                            modalGallery.style.display = 'block';
-                        } else {
-                            modalGallery.style.display = 'none';
-                        }
-
-
-                        // Handle FAQs
-                        if (service.faqs && service.faqs.length > 0) {
-                            modalFaqList.innerHTML = '';
-                            service.faqs.forEach(faq => {
-                                const faqItem = document.createElement('div');
-                                faqItem.className = 'faq-item';
-
-                                faqItem.innerHTML = `
-                                    <button class="faq-question">
-                                        ${faq.question}
-                                        <span class="faq-toggle">+</span>
-                                    </button>
-                                    <div class="faq-answer">
-                                        ${faq.answer}
-                                    </div>
-                                `;
-
-                                // Add click handler for FAQ toggle
-                                const questionBtn = faqItem.querySelector('.faq-question');
-                                const answer = faqItem.querySelector('.faq-answer');
-                                const toggle = faqItem.querySelector('.faq-toggle');
-
-                                questionBtn.addEventListener('click', function() {
-                                    const isVisible = answer.style.display === 'block';
-                                    answer.style.display = isVisible ? 'none' : 'block';
-                                    toggle.textContent = isVisible ? '+' : '−';
-                                });
-
-                                modalFaqList.appendChild(faqItem);
-                            });
-                            modalFaqs.style.display = 'block';
-                        } else {
-                            modalFaqs.style.display = 'none';
-                        }
-
-                        // Show modal
-                        modal.style.display = 'block';
-                        document.body.style.overflow = 'hidden';
-                    })
-                    .catch(error => {
-                        console.error('Error loading service details:', error);
-                        alert('Error loading service details. Please try again.');
-                    });
-            }
-
-
-            function closeModal() {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-    </script>
+    {{-- JavaScript removed - links now open service details page directly --}}
     @endpush
 @endsection
