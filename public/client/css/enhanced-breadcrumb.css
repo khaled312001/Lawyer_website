@@ -19,6 +19,25 @@
     display: flex !important;
     align-items: center !important;
     color: #fff !important;
+    background-color: transparent !important;
+}
+
+/* Ensure background image from inline style attribute is always visible */
+/* Inline styles have higher specificity, but we ensure background properties are set correctly */
+.page-title-area.enhanced-breadcrumb[style*="background-image"],
+.banner-area.enhanced-breadcrumb[style*="background-image"],
+.page-title-area.enhanced-breadcrumb[style*="background-image:url"],
+.banner-area.enhanced-breadcrumb[style*="background-image:url"] {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
+}
+
+/* Prevent any background color from hiding the image */
+.page-title-area.enhanced-breadcrumb,
+.banner-area.enhanced-breadcrumb {
+    background-color: transparent !important;
 }
 
 /* Override default banner-area:before to prevent interference */
