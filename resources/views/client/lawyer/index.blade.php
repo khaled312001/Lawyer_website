@@ -66,7 +66,7 @@
                     "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
                     "url": "{{ route('website.lawyer.details', $lawyer->slug) }}",
                     @if($lawyer->image)
-                    "image": "{{ asset($lawyer->image) }}",
+                    "image": "{{ image_url($lawyer->image) }}",
                     @endif
                     "worksFor": {
                         "@type": "LegalService",

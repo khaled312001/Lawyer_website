@@ -2,7 +2,7 @@
 @php
     $seoTitle = $lawyer?->seo_title ?? $lawyer?->name . ' - ' . ($setting->app_name ?? 'LawMent');
     $seoDescription = $lawyer?->seo_description ?? Str::limit(strip_tags($lawyer?->about ?? ''), 155) ?: ($lawyer?->name . ' - ' . ($lawyer?->designations ?? 'Lawyer'));
-    $seoImage = $lawyer?->image ? asset($lawyer->image) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $seoImage = $lawyer?->image ? image_url($lawyer->image) : ($setting->logo ? image_url($setting->logo) : asset('client/img/logo.png'));
     $currentUrl = url()->current();
     $lawyerUrl = route('website.lawyer.details', $lawyer->slug);
 @endphp
@@ -57,7 +57,7 @@
         "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
         "url": "{{ $lawyerUrl }}",
         @if($lawyer->image)
-        "image": "{{ asset($lawyer->image) }}",
+        "image": "{{ image_url($lawyer->image) }}",
         @endif
         "description": "{{ $seoDescription }}",
         "worksFor": {
