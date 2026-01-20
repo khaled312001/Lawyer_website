@@ -189,9 +189,11 @@
             padding: 40px 30px;
             text-align: center;
             height: 100%;
+            min-height: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
         }
 
         .service-item::before {
@@ -329,6 +331,7 @@
 
         .service-coloum {
             display: flex;
+            height: 100%;
         }
 
         /* New Modern Pagination Design - Completely Different Style */
@@ -746,6 +749,13 @@
                 width: 100% !important;
                 max-width: 100%;
                 margin: 0;
+                min-height: 380px;
+                height: auto;
+            }
+            
+            .service-coloum {
+                display: flex;
+                height: 100%;
             }
 
             .service-item i {
@@ -783,6 +793,13 @@
 
             .service-item {
                 padding: 35px 25px;
+                min-height: 350px;
+                height: auto;
+            }
+            
+            .service-coloum {
+                display: flex;
+                height: 100%;
             }
 
             .service-page-list {
@@ -851,6 +868,13 @@
         @media (max-width: 480px) {
             .service-item {
                 padding: 30px 20px;
+                min-height: 320px;
+                height: auto;
+            }
+            
+            .service-coloum {
+                display: flex;
+                height: 100%;
             }
 
             .service-page-list {
