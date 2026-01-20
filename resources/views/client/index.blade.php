@@ -4671,14 +4671,14 @@ section + section {
         }
     }
 
-    /* Shimmer Effect */
+    /* Shimmer Effect - يظهر عند hover */
     .hero-cta-btn::before {
         content: '';
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
-        height: 100%;
+        height: calc(100% - 4px); /* ترك مساحة للشريط السفلي */
         background: linear-gradient(
             90deg,
             transparent,
@@ -4687,18 +4687,39 @@ section + section {
         );
         transition: left 0.5s ease;
         z-index: 1;
-    }
-
-    /* Hover Effects */
-    .hero-cta-btn:hover {
-        transform: translateY(-3px) scale(1.05) !important;
-        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
-        box-shadow: 0 8px 30px rgba(220, 38, 38, 0.5),
-                    0 0 0 5px rgba(220, 38, 38, 0.2) !important;
+        border-radius: 50px 50px 0 0;
     }
 
     .hero-cta-btn:hover::before {
         left: 100%;
+    }
+    
+    /* Hover Effects - تصميم حسب الصورة */
+    .hero-cta-btn:hover {
+        transform: translateY(-3px) scale(1.05) !important;
+        background: linear-gradient(to bottom, #FFF8E7 calc(100% - 4px), 
+                    linear-gradient(90deg, #D4A574 0%, #DC2626 100%) calc(100% - 4px)) !important; /* خلفية بيج فاتح مع شريط سفلي */
+        background: #FFF8E7 !important; /* خلفية بيج فاتح */
+        background-image: linear-gradient(to bottom, #FFF8E7 calc(100% - 4px), transparent calc(100% - 4px)),
+                          linear-gradient(90deg, #D4A574 0%, #DC2626 100%) !important;
+        background-size: 100% calc(100% - 4px), 100% 4px !important;
+        background-position: top, bottom !important;
+        background-repeat: no-repeat !important;
+        color: #ffffff !important; /* نص أبيض */
+        box-shadow: 0 8px 30px rgba(255, 105, 135, 0.4),
+                    0 0 0 3px rgba(255, 105, 135, 0.3),
+                    0 0 20px rgba(255, 105, 135, 0.2) !important; /* glow أحمر وردي */
+    }
+    
+    /* أيقونة ذهبية عند hover */
+    .hero-cta-btn:hover i {
+        color: #D4A574 !important; /* لون ذهبي للأيقونة */
+        transform: translateX(-5px) scale(1.2);
+    }
+    
+    /* النص يبقى أبيض عند hover */
+    .hero-cta-btn:hover span {
+        color: #ffffff !important;
     }
 
     /* Active/Press Effect */
