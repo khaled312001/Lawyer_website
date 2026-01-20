@@ -571,6 +571,128 @@
         font-weight: 600;
     }
     
+    /* ============================================
+       LAWYER CARD FRAME & ANIMATION
+       ============================================ */
+    
+    .team-page .lawyer-card-mobile,
+    .team-page .aman-lawyer-card-mobile-rtl {
+        position: relative;
+        overflow: visible;
+        animation: cardFadeIn 0.6s ease-out forwards;
+        opacity: 0;
+    }
+    
+    .team-page .lawyer-card-mobile:nth-child(1),
+    .team-page .aman-lawyer-card-mobile-rtl:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+    
+    .team-page .lawyer-card-mobile:nth-child(2),
+    .team-page .aman-lawyer-card-mobile-rtl:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .team-page .lawyer-card-mobile:nth-child(3),
+    .team-page .aman-lawyer-card-mobile-rtl:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+    
+    .team-page .lawyer-card-mobile:nth-child(4),
+    .team-page .aman-lawyer-card-mobile-rtl:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+    
+    .team-page .lawyer-card-mobile:nth-child(n+5),
+    .team-page .aman-lawyer-card-mobile-rtl:nth-child(n+5) {
+        animation-delay: 0.5s;
+    }
+    
+    @keyframes cardFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* إطار حول الكارد */
+    .team-page .lawyer-card-mobile::before,
+    .team-page .aman-lawyer-card-mobile-rtl::before {
+        content: '';
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        background: linear-gradient(135deg, var(--colorPrimary), var(--colorSecondary));
+        border-radius: 18px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .team-page .lawyer-card-mobile:hover::before,
+    .team-page .aman-lawyer-card-mobile-rtl:hover::before {
+        opacity: 0.3;
+    }
+    
+    /* إطار داخلي أنيق */
+    .team-page .lawyer-card-mobile::after,
+    .team-page .aman-lawyer-card-mobile-rtl::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid transparent;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--colorPrimary), var(--colorSecondary)) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .team-page .lawyer-card-mobile:hover::after,
+    .team-page .aman-lawyer-card-mobile-rtl:hover::after {
+        opacity: 0.6;
+    }
+    
+    /* تأثير hover بسيط */
+    .team-page .lawyer-card-mobile:hover,
+    .team-page .aman-lawyer-card-mobile-rtl:hover {
+        transform: translateY(-8px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    /* تأثير pulse خفيف */
+    @keyframes cardPulse {
+        0%, 100% {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        50% {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12), 0 0 0 3px rgba(107, 93, 71, 0.1);
+        }
+    }
+    
+    .team-page .lawyer-card-mobile:not(:hover),
+    .team-page .aman-lawyer-card-mobile-rtl:not(:hover) {
+        animation: cardFadeIn 0.6s ease-out forwards, cardPulse 3s ease-in-out infinite 0.6s;
+    }
+    
+    .team-page .lawyer-card-mobile:hover,
+    .team-page .aman-lawyer-card-mobile-rtl:hover {
+        animation: cardFadeIn 0.6s ease-out forwards;
+    }
+    
     @media (max-width: 768px) {
         .banner-area {
             padding: 60px 0;
@@ -582,6 +704,11 @@
         
         .banner-text ul li {
             font-size: 14px;
+        }
+        
+        .team-page .lawyer-card-mobile:hover,
+        .team-page .aman-lawyer-card-mobile-rtl:hover {
+            transform: translateY(-5px);
         }
     }
 </style>
