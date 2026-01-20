@@ -52,12 +52,6 @@
     background-color: transparent !important;
 }
 
-/* Override any conflicting styles from other CSS files */
-.page-title-area.enhanced-breadcrumb,
-.banner-area.enhanced-breadcrumb {
-    background-image: inherit !important;
-}
-
 /* Override default banner-area:before to prevent interference */
 .banner-area.enhanced-breadcrumb::before {
     display: none !important;
