@@ -54,7 +54,7 @@
                             }
                             .animated-cta-btn:hover,
                             .animated-cta-btn:focus {
-                                background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+                                background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important; /* الخلفية تبقى كما هي */
                                 color: #ffffff !important;
                                 box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
                                 transform: translateY(-3px) scale(1.05) !important;
@@ -4651,12 +4651,29 @@ section + section {
        HERO CTA BUTTON ANIMATIONS
        أنيميشن زر الحجز في قسم الهيرو
        ============================================ */
-    .hero-cta-btn {
+    /* تجاوز جميع القواعد العامة - يجب أن يكون في البداية */
+    .hero-cta-btn,
+    a.hero-cta-btn,
+    .hero-cta-btn.animated-cta-btn,
+    a.hero-cta-btn.animated-cta-btn {
         position: relative !important;
         overflow: hidden !important;
         cursor: pointer !important;
         transform: translateY(0);
         animation: pulse-glow 2s ease-in-out infinite;
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important; /* الخلفية الأساسية */
+    }
+    
+    /* منع تغيير الخلفية من أي CSS عام */
+    .hero-cta-btn:hover,
+    a.hero-cta-btn:hover,
+    .hero-cta-btn.animated-cta-btn:hover,
+    a.hero-cta-btn.animated-cta-btn:hover,
+    .animated-cta-btn.hero-cta-btn:hover,
+    a.animated-cta-btn.hero-cta-btn:hover {
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        background-color: transparent !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
     }
 
     /* Pulse and Glow Animation */
@@ -4695,10 +4712,17 @@ section + section {
     }
     
     /* Hover Effects - تصميم حسب الصورة */
-    .hero-cta-btn:hover {
+    /* تجاوز جميع القواعد العامة من unified-colors.css */
+    .hero-cta-btn:hover,
+    a.hero-cta-btn:hover,
+    .animated-cta-btn:hover,
+    a.animated-cta-btn:hover,
+    .hero-cta-btn.animated-cta-btn:hover,
+    a.hero-cta-btn.animated-cta-btn:hover {
         transform: translateY(-3px) scale(1.05) !important;
         background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important; /* الخلفية تبقى كما هي */
-        background-image: none !important;
+        background-color: transparent !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
         color: #ffffff !important; /* نص أبيض */
         box-shadow: 0 8px 30px rgba(255, 105, 135, 0.4),
                     0 0 0 3px rgba(255, 105, 135, 0.3),
