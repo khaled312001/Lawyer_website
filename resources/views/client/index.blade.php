@@ -171,7 +171,7 @@
                 <div class="row">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                         <div class="main-headline">
-                            <h2 class="title"><span>{{ __('الخدمات') }}</span> {{ __('القانونية') }}</h2>
+                            <h2 class="title">{{ __('الخدمات القانونية') }}</h2>
                             <p>{{ __('نقدّم خدمات قانونية متنوّعة متعلّقة بالقضايا داخل سوريا، موجّهة للأفراد والشركات في الداخل والخارج.') }}</p>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                     <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('كيف') }}</span> {{ __('نعمل') }}</h2>
+                        <h2 class="title">{{ __('كيف نعمل') }}</h2>
                         <p>{{ __('نعتمد آلية عمل بسيطة وواضحة لضمان فهم الطلب وتقديم الخدمة القانونية المناسبة.') }}</p>
                     </div>
                 </div>
@@ -299,7 +299,7 @@
             <div class="row">
                 <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                     <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('من') }}</span> {{ __('نحن') }}</h2>
+                        <h2 class="title">{{ __('من نحن') }}</h2>
                     </div>
                 </div>
             </div>
@@ -607,7 +607,7 @@
                     <div class="text-center mb-5 wow fadeInDown">
                         <div class="main-headline">
                             <h2 class="title" style="font-size: 2.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 15px;">
-                                <span style="color: #007bff;">{{ __('تواصل') }}</span> {{ __('معنا') }}
+                                {{ __('تواصل معنا') }}
                             </h2>
                             <div style="width: 80px; height: 4px; background: linear-gradient(90deg, #007bff, #0056b3); margin: 20px auto; border-radius: 2px;"></div>
                         </div>
