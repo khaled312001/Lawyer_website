@@ -83,22 +83,35 @@
 
 @section('client-content')
     <!--Banner Start-->
-    <div class="banner-area flex"
-        style="background-image:url({{ $setting?->breadcrumb_image ? url($setting?->breadcrumb_image) : '' }});">
+    <section class="banner-area enhanced-breadcrumb flex"
+        style="background-image:url({{ $setting?->breadcrumb_image ? url($setting?->breadcrumb_image) : asset('client/img/shape-2.webp') }});">
+        <div class="breadcrumb-overlay"></div>
+        <div class="breadcrumb-pattern"></div>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="banner-text">
-                        <h1>{{ __('Departments') }}</h1>
-                        <ul>
-                            <li><a aria-label="{{ __('Home') }}" href="{{ url('/') }}">{{ __('Home') }}</a></li>
-                            <li><span>{{ __('Departments') }}</span></li>
+                <div class="col-12">
+                    <div class="banner-text enhanced-title-content">
+                        <div class="title-wrapper">
+                            <span class="title-icon">
+                                <i class="fas fa-sitemap"></i>
+                            </span>
+                            <h1 class="title">{{ __('Departments') }}</h1>
+                        </div>
+                        <ul class="breadcrumb-nav">
+                            <li><a aria-label="{{ __('Home') }}" href="{{ url('/') }}"><i class="fas fa-home"></i> {{ __('Home') }}</a></li>
+                            <li class="separator"><i class="fas fa-chevron-left"></i></li>
+                            <li class="active"><span>{{ __('Departments') }}</span></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="breadcrumb-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </section>
     <!--Banner End-->
 
     <div class="case-study-home-page case-study-area pt_50">

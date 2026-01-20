@@ -26,27 +26,98 @@
                         <p class="hero-description" style="font-size: 16px; color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 40px;">
                             {{ __('تتم الاستشارات القانونية عبر التواصل على واتساب أو من خلال تعبئة نموذج الطلب، مع إمكانية حجز موعد استشارة عبر مكالمة صوتية أو مكالمة فيديو حسب رغبة العميل.') }}
                         </p>
-                        <a href="{{ route('website.book.consultation.appointment') }}" class="hero-cta-btn" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;">
+                        <a href="{{ route('website.book.consultation.appointment') }}" 
+                           class="hero-cta-btn animated-cta-btn" 
+                           style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #ffffff; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s, box-shadow 0.2s, color 0.2s; box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;"
+                           tabindex="0"
+                        >
                             <span style="position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 8px;">
                                 {{ __('تواصل معنا وحجز استشارة قانونية') }}
-                                <i class="fas fa-arrow-left ms-2"></i>
+                                <i class="fas fa-arrow-left ms-2 cta-arrow"></i>
                             </span>
                         </a>
+                        <style>
+                            .animated-cta-btn {
+                                animation: ctaPopIn 0.9s cubic-bezier(.23,1.15,.30,.89);
+                                box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4), 0 2px 8px rgba(220,38,38,0.14);
+                                outline: none;
+                            }
+                            @keyframes ctaPopIn {
+                                0% { 
+                                    opacity: 0; 
+                                    transform: scale(0.8) translateY(40px); 
+                                }
+                                100% { 
+                                    opacity: 1; 
+                                    transform: scale(1) translateY(0); 
+                                }
+                            }
+                            .animated-cta-btn:hover,
+                            .animated-cta-btn:focus {
+                                background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%);
+                                color: #fff;
+                                box-shadow: 0 8px 28px rgba(220,38,38,0.15), 0 2px 8px rgba(212,165,116,0.14);
+                                transform: translateY(-2px) scale(1.045);
+                                text-decoration: none;
+                            }
+                            .animated-cta-btn .cta-arrow {
+                                display: inline-block;
+                                transition: transform 0.35s cubic-bezier(.57,.03,.35,.98);
+                            }
+                            .animated-cta-btn:hover .cta-arrow,
+                            .animated-cta-btn:focus .cta-arrow {
+                                transform: translateX(-8px) scale(1.16) rotate(-8deg);
+                            }
+                        </style>
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInRight">
                     <div class="hero-image text-center">
-                        <div style="position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); min-height: 400px; background: linear-gradient(135deg, rgba(212, 165, 116, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%); display: flex; align-items: center; justify-content: center;">
-                            <img src="{{ asset('uploads/website-images/hero-aman-law.png') }}" 
-                                 alt="{{ __('Aman Law - أمان لو') }}" 
-                                 style="width: 100%; height: auto; display: block; border-radius: 20px; max-width: 100%; object-fit: contain;"
-                                 loading="lazy"
-                                 data-fallback="{{ asset('uploads/website-images/app_banner.webp') }}"
-                                 data-hide-on-error="true">
-                            <div style="display: none; text-align: center; padding: 40px; color: rgba(255, 255, 255, 0.9); width: 100%; height: 100%; align-items: center; justify-content: center; flex-direction: column; position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
-                                <i class="fas fa-balance-scale" style="font-size: 120px; margin-bottom: 20px; opacity: 0.3;"></i>
-                                <h3 style="font-size: 28px; font-weight: 700; margin-bottom: 10px; color: #ffffff;">{{ __('Aman Law') }}</h3>
-                                <p style="font-size: 16px; opacity: 0.9; color: #ffffff;">{{ __('أمان لو') }}</p>
+                        <div class="hero-icons-container" style="position: relative; border-radius: 20px; overflow: visible; min-height: 400px; background: transparent; display: flex; align-items: center; justify-content: center; padding: 40px;">
+                            <div class="law-icons-animation-wrapper" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                <!-- Main Center Icon -->
+                                <div class="law-icon-main" style="position: absolute; z-index: 10;">
+                                    <div class="icon-wrapper-main" style="width: 120px; height: 120px; background: linear-gradient(135deg, rgba(212, 165, 116, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 30px rgba(212, 165, 116, 0.3); animation: iconPulse 2s ease-in-out infinite;">
+                                        <i class="fas fa-balance-scale" style="font-size: 60px; color: #D4A574; animation: iconSwing 3s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <!-- Orbiting Icons -->
+                                <div class="law-icon-1" style="position: absolute; animation: orbitIcon 8s linear infinite;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(212, 165, 116, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(212, 165, 116, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-gavel" style="font-size: 35px; color: #D4A574; animation: iconRotate 4s linear infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-2" style="position: absolute; animation: orbitIcon 10s linear infinite reverse;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(220, 38, 38, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-book-law" style="font-size: 35px; color: #DC2626; animation: iconBounce 2s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-3" style="position: absolute; animation: orbitIcon 12s linear infinite;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(212, 165, 116, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(212, 165, 116, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-file-contract" style="font-size: 35px; color: #D4A574; animation: iconFloat 3s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-4" style="position: absolute; animation: orbitIcon 9s linear infinite reverse;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(220, 38, 38, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-landmark" style="font-size: 35px; color: #DC2626; animation: iconShake 2.5s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-5" style="position: absolute; animation: orbitIcon 11s linear infinite;">
+                                    <div class="icon-wrapper" style="width: 70px; height: 70px; background: rgba(212, 165, 116, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(212, 165, 116, 0.2); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-handshake" style="font-size: 30px; color: #D4A574; animation: iconPulse 2.5s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-6" style="position: absolute; animation: orbitIcon 13s linear infinite reverse;">
+                                    <div class="icon-wrapper" style="width: 70px; height: 70px; background: rgba(220, 38, 38, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-shield-alt" style="font-size: 30px; color: #DC2626; animation: iconRotate 5s linear infinite;"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -436,26 +507,6 @@
         <!--Testimonial End-->
     @endif
 
-    <!--Book Consultation Section Start-->
-    <section class="book-consultation-section" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 m-auto">
-                    <div class="book-consultation-content text-center" style="background: rgba(255, 255, 255, 0.1); padding: 60px 40px; border-radius: 20px; backdrop-filter: blur(10px);">
-                        <h2 class="title mb_30" style="color: #ffffff; font-size: 36px; font-weight: 700; margin-bottom: 25px;">{{ __('حجز استشارة قانونية') }}</h2>
-                        <p style="font-size: 18px; color: rgba(255, 255, 255, 0.9); line-height: 1.8; margin-bottom: 40px;">
-                            {{ __('للحصول على استشارة قانونية، يمكنكم التواصل معنا عبر واتساب أو تعبئة نموذج طلب الاستشارة لتوضيح تفاصيل القضية، مع إمكانية حجز موعد مكالمة صوتية أو فيديو مع محامٍ مختص.') }}
-                        </p>
-                        <a href="{{ route('website.book.consultation.appointment') }}" class="btn btn-primary btn-lg" style="padding: 16px 40px; font-size: 18px; font-weight: 700; border-radius: 50px;">
-                            {{ __('احجز استشارتك الآن') }}
-                            <i class="fas fa-arrow-left ms-2"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Book Consultation Section End-->
 
     <!--Contact Us Section Start-->
     <section class="contact-us-section" style="background: #f8f9fa;">
@@ -2990,6 +3041,234 @@
 
     .mb_60, .mb_40, .mb_30, .mb_25, .mb_20, .mb_15 {
         margin-bottom: 0 !important;
+    }
+
+    /* Law Icons Animation Styles */
+    .hero-icons-container {
+        min-height: 400px;
+        position: relative;
+    }
+
+    .law-icons-animation-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    /* Orbit Animation */
+    @keyframes orbitIcon {
+        0% {
+            transform: rotate(0deg) translateX(var(--orbit-radius, 150px)) rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg) translateX(var(--orbit-radius, 150px)) rotate(-360deg);
+        }
+    }
+
+    /* Icon Animations */
+    @keyframes iconPulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+    }
+
+    @keyframes iconSwing {
+        0%, 100% {
+            transform: rotate(-5deg);
+        }
+        50% {
+            transform: rotate(5deg);
+        }
+    }
+
+    @keyframes iconRotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes iconBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes iconFloat {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+        }
+        33% {
+            transform: translateY(-8px) rotate(5deg);
+        }
+        66% {
+            transform: translateY(-8px) rotate(-5deg);
+        }
+    }
+
+    @keyframes iconShake {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(-8deg);
+        }
+        75% {
+            transform: rotate(8deg);
+        }
+    }
+
+    /* Position Icons in Orbit - Using CSS Variables for Orbit Radius */
+    .law-icons-animation-wrapper {
+        --orbit-radius: 150px;
+    }
+
+    .law-icon-1 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+    }
+
+    .law-icon-2 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+        animation-delay: -2s;
+    }
+
+    .law-icon-3 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+        animation-delay: -4s;
+    }
+
+    .law-icon-4 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+        animation-delay: -1s;
+    }
+
+    .law-icon-5 {
+        top: 50%;
+        left: 50%;
+        margin-top: -35px;
+        margin-left: -35px;
+        transform-origin: 35px 35px;
+        animation-delay: -3s;
+    }
+
+    .law-icon-6 {
+        top: 50%;
+        left: 50%;
+        margin-top: -35px;
+        margin-left: -35px;
+        transform-origin: 35px 35px;
+        animation-delay: -5s;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 991px) {
+        .hero-icons-container {
+            min-height: 350px;
+        }
+
+        .icon-wrapper-main {
+            width: 100px !important;
+            height: 100px !important;
+        }
+
+        .icon-wrapper-main i {
+            font-size: 50px !important;
+        }
+
+        .icon-wrapper {
+            width: 65px !important;
+            height: 65px !important;
+        }
+
+        .icon-wrapper i {
+            font-size: 28px !important;
+        }
+
+        .law-icons-animation-wrapper {
+            --orbit-radius: 120px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-icons-container {
+            min-height: 300px;
+        }
+
+        .icon-wrapper-main {
+            width: 90px !important;
+            height: 90px !important;
+        }
+
+        .icon-wrapper-main i {
+            font-size: 45px !important;
+        }
+
+        .icon-wrapper {
+            width: 60px !important;
+            height: 60px !important;
+        }
+
+        .icon-wrapper i {
+            font-size: 25px !important;
+        }
+
+        .law-icons-animation-wrapper {
+            --orbit-radius: 100px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-icons-container {
+            min-height: 250px;
+        }
+
+        .icon-wrapper-main {
+            width: 80px !important;
+            height: 80px !important;
+        }
+
+        .icon-wrapper-main i {
+            font-size: 40px !important;
+        }
+
+        .icon-wrapper {
+            width: 50px !important;
+            height: 50px !important;
+        }
+
+        .icon-wrapper i {
+            font-size: 20px !important;
+        }
+
+        .law-icons-animation-wrapper {
+            --orbit-radius: 80px;
+        }
     }
 </style>
 @endpush

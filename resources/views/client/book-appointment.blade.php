@@ -8,19 +8,32 @@
 @section('client-content')
 
 <!--Page Title Start-->
-<section class="page-title-area" style="background-image: url({{ $setting?->breadcrumb_image ? url($setting->breadcrumb_image) : asset('client/img/shape-2.webp') }})">
+<section class="page-title-area enhanced-breadcrumb" style="background-image: url({{ $setting?->breadcrumb_image ? url($setting->breadcrumb_image) : asset('client/img/shape-2.webp') }})">
+    <div class="breadcrumb-overlay"></div>
+    <div class="breadcrumb-pattern"></div>
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="page-title-content">
-                    <h2 class="title">{{ __('Book an appointment today') }}</h2>
-                    <ul>
-                        <li><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
-                        <li>{{ __('Book Appointment') }}</li>
+                <div class="page-title-content enhanced-title-content">
+                    <div class="title-wrapper">
+                        <span class="title-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </span>
+                        <h2 class="title">{{ __('Book an appointment today') }}</h2>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{{ route('home') }}"><i class="fas fa-home"></i> {{ __('Home') }}</a></li>
+                        <li class="separator"><i class="fas fa-chevron-left"></i></li>
+                        <li class="active">{{ __('Book Appointment') }}</li>
                     </ul>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="breadcrumb-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
 </section>
 <!--Page Title End-->

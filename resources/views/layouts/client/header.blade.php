@@ -477,17 +477,17 @@
                             @endforeach
                             <li class="nav-item appointment-btn-wrapper">
                                 <a href="{{ route('website.book.consultation.appointment') }}" 
-                                   class="nav-link book-appointment-btn-desktop enhanced-hover-btn"
+                                   class="nav-link book-appointment-btn-desktop reverse-hover-btn"
                                    style="
                                         display: flex;
                                         align-items: center;
                                         gap: 10px;
-                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%);
-                                        color: #fff !important;
+                                        background: linear-gradient(135deg, #2D3748 0%, #38B2AC 100%);
+                                        color: #2D3748 !important;
                                         font-weight: 700;
                                         font-size: 17px;
                                         border-radius: 30px;
-                                        box-shadow: 0 4px 18px rgba(220,38,38,0.12);
+                                        box-shadow: 0 4px 18px rgba(56,178,172,0.12);
                                         padding: 10px 28px;
                                         transition: 
                                             background 0.3s,
@@ -499,16 +499,19 @@
                                     <span style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                                 <style>
-                                    .enhanced-hover-btn:hover, 
-                                    .enhanced-hover-btn:focus {
-                                        background: linear-gradient(135deg, #B91C1C 0%, #C89B6C 100%) !important;
-                                        color: #fff !important;
-                                        box-shadow: 0 6px 22px rgba(220, 38, 38, 0.25);
+                                    .reverse-hover-btn, .reverse-hover-btn i {
+                                        transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+                                    }
+                                    .reverse-hover-btn:hover, 
+                                    .reverse-hover-btn:focus {
+                                        background: linear-gradient(135deg, #fff 0%, #E6FFFA 100%) !important;
+                                        color: #38B2AC !important;
+                                        box-shadow: 0 6px 22px rgba(45, 55, 72, 0.18);
                                         text-decoration: none;
                                     }
-                                    .enhanced-hover-btn:hover i,
-                                    .enhanced-hover-btn:focus i {
-                                        color: #fff !important;
+                                    .reverse-hover-btn:hover i,
+                                    .reverse-hover-btn:focus i {
+                                        color: #38B2AC !important;
                                     }
                                 </style>
                             </li>
@@ -695,27 +698,44 @@
                             @endforeach
                             <li class="mobile-menu-list-item book-appointment-item-mobile" style="margin: 18px 0 0 0;">
                                 <a href="{{ route('website.book.consultation.appointment') }}"
-                                    class="book-appointment-btn-mobile"
-                                    style="
+                                   class="book-appointment-btn-mobile custom-mobile-appointment-btn"
+                                   style="
                                         display: flex;
                                         align-items: center;
                                         justify-content: center;
                                         padding: 13px 22px;
-                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%);
+                                        background: linear-gradient(135deg, #2D3748 0%, #38B2AC 100%);
                                         border-radius: 30px;
-                                        color: #fff;
+                                        color: #2D3748;
                                         font-weight: 700;
                                         font-size: 17px;
-                                        box-shadow: 0 4px 18px rgba(220,38,38,0.09);
-                                        transition: background 0.3s, box-shadow 0.3s;
+                                        box-shadow: 0 4px 18px rgba(56,178,172,0.12);
+                                        transition: background 0.3s, box-shadow 0.3s, color 0.3s;
                                         text-align: center;
                                         gap: 12px;
                                         border: none;
                                         text-decoration: none;
                                     ">
-                                    <i class="fas fa-calendar-check" style="font-size: 21px;"></i>
+                                    <i class="fas fa-calendar-check" style="font-size: 21px; color: #2D3748;"></i>
                                     <span class="book-appointment-text" style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
+                                <style>
+                                    .custom-mobile-appointment-btn,
+                                    .custom-mobile-appointment-btn i {
+                                        transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+                                    }
+                                    .custom-mobile-appointment-btn:hover,
+                                    .custom-mobile-appointment-btn:focus {
+                                        background: linear-gradient(135deg, #fff 0%, #E6FFFA 100%) !important;
+                                        color: #38B2AC !important;
+                                        box-shadow: 0 6px 22px rgba(45, 55, 72, 0.18);
+                                        text-decoration: none;
+                                    }
+                                    .custom-mobile-appointment-btn:hover i,
+                                    .custom-mobile-appointment-btn:focus i {
+                                        color: #38B2AC !important;
+                                    }
+                                </style>
                             </li>
                         </ul>
                     @else
