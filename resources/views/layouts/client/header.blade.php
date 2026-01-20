@@ -37,7 +37,9 @@
         $defaultSeo = seoSetting()->where('page_name', 'Home')->first();
         $defaultTitle = $defaultSeo?->seo_title ?? $appName;
         $defaultDescription = $defaultSeo?->seo_description ?? $appName;
-        $defaultImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+        // Get logo URL - ensure absolute URL for Google structured data
+        $logoPath = $setting->logo ? $setting->logo : 'client/img/logo.png';
+        $defaultImage = url($logoPath);
         
         // Get all languages for hreflang
         $languages = allLanguages()?->where('status', 1) ?? collect();
@@ -121,6 +123,41 @@
     @hasSection('structured_data')
         @yield('structured_data')
     @else
+        {{-- Organization Schema for Google Logo Display --}}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "{{ $appName }}",
+            "url": "{{ $siteUrl }}",
+            "logo": "{{ $defaultImage }}",
+            @if($contactInfo?->top_bar_phone)
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "{{ $contactInfo->top_bar_phone }}",
+                "contactType": "customer service"
+            },
+            @endif
+            @if($contactInfo?->top_bar_email)
+            "email": "{{ $contactInfo->top_bar_email }}",
+            @endif
+            @if($contactInfo?->address)
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ $contactInfo->address }}"
+            },
+            @endif
+            "sameAs": [
+                @if($socialLinks = getSocialLinks())
+                    @foreach($socialLinks as $index => $social)
+                        "{{ $social->link }}"@if(!$loop->last),@endif
+                    @endforeach
+                @endif
+            ]
+        }
+        </script>
+        
+        {{-- LegalService Schema (Additional) --}}
         <script type="application/ld+json">
         {
             "@context": "https://schema.org",
