@@ -483,7 +483,7 @@
                                         align-items: center;
                                         gap: 10px;
                                         background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
-                                        color: #ffffff !important;
+                                        color:rgb(0, 0, 0) !important;
                                         font-weight: 700;
                                         font-size: 17px;
                                         border-radius: 30px;
