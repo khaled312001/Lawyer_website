@@ -497,7 +497,7 @@
                                         position: relative;
                                         overflow: hidden;
                                     ">
-                                    <i class="fas fa-calendar-check" style="font-size: 21px; color: #ffffff; transition: transform 0.3s ease;"></i>
+                                    <i class="fas fa-calendar-check" style="font-size: 21px; color:rgb(0, 0, 0); transition: transform 0.3s ease;"></i>
                                     <span style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                                 <style>
@@ -722,7 +722,7 @@
                                         position: relative;
                                         overflow: hidden;
                                     ">
-                                    <i class="fas fa-calendar-check" style="font-size: 21px; color: #ffffff; transition: transform 0.3s ease;"></i>
+                                    <i class="fas fa-calendar-check" style="font-size: 21px; color:rgb(0, 0, 0); transition: transform 0.3s ease;"></i>
                                     <span class="book-appointment-text" style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
                                 <style>
