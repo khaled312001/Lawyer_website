@@ -553,35 +553,44 @@
                     </div>
                 </div>
 
-                <div class="testimonials-grid-wrapper">
-                    <div class="testimonials-grid-container">
-                        @foreach ($testimonials->take($home_sections?->client_how_many) as $client)
-                            <div class="testimonial-card-new">
-                                <div class="testimonial-card-inner">
-                                    <div class="testimonial-content-new">
-                                        <p class="testimonial-text-new">{{ $client?->comment }}</p>
-                                    </div>
-                                    <div class="testimonial-rating-new">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <div class="testimonial-author-new">
-                                        <div class="author-image-wrapper-new">
-                                            <img src="{{ !empty($client?->image) ? image_url($client->image) : image_url('uploads/website-images/default-avatar.png') }}"
-                                                alt="{{ $client?->name }}" loading="lazy" class="author-image-new">
-                                            <div class="author-image-border-new"></div>
-                                        </div>
-                                        <div class="author-info-new">
-                                            <h4 class="author-name-new">{{ $client?->name }}</h4>
-                                            <p class="author-designation-new">{{ $client?->designation }}</p>
+                <div class="testimonial-swiper-wrapper">
+                    <div class="swiper testimonial-swiper-modern">
+                        <div class="swiper-wrapper">
+                            @foreach ($testimonials->take($home_sections?->client_how_many) as $index => $client)
+                                <div class="swiper-slide">
+                                    <div class="testimonial-card-new testimonial-card-animated" style="animation-delay: {{ 0.12 * $index }}s;">
+                                        <div class="testimonial-card-inner">
+                                            <div class="testimonial-content-new">
+                                                <p class="testimonial-text-new">{{ $client?->comment }}</p>
+                                            </div>
+                                            <div class="testimonial-rating-new">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <div class="testimonial-author-new">
+                                                <div class="author-image-wrapper-new">
+                                                    <img src="{{ !empty($client?->image) ? image_url($client->image) : image_url('uploads/website-images/default-avatar.png') }}"
+                                                        alt="{{ $client?->name }}" loading="lazy" class="author-image-new">
+                                                    <div class="author-image-border-new"></div>
+                                                </div>
+                                                <div class="author-info-new">
+                                                    <h4 class="author-name-new">{{ $client?->name }}</h4>
+                                                    <p class="author-designation-new">{{ $client?->designation }}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
+                        <!-- Navigation -->
+                        <div class="swiper-button-next testimonial-next"></div>
+                        <div class="swiper-button-prev testimonial-prev"></div>
+                        <!-- Pagination -->
+                        <div class="swiper-pagination testimonial-pagination"></div>
                     </div>
                 </div>
             </div>
@@ -917,20 +926,30 @@
        NEW TESTIMONIALS DESIGN - Responsive & RTL
        ============================================ */
     
-    .testimonials-grid-wrapper {
-        padding: 40px 0 60px;
+    .testimonial-swiper-wrapper {
+        padding: 30px 0 40px;
         position: relative;
+        display: block !important;
+        visibility: visible !important;
     }
 
-    .testimonials-grid-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 30px;
-        direction: rtl !important;
+    .testimonial-swiper-modern {
+        padding: 20px 0 60px;
+        overflow: visible;
+        display: block !important;
+        visibility: visible !important;
     }
-
-    [dir="ltr"] .testimonials-grid-container {
-        direction: rtl !important;
+    
+    .testimonial-swiper-modern .swiper-wrapper {
+        display: flex !important;
+        visibility: visible !important;
+    }
+    
+    .testimonial-swiper-modern .swiper-slide {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
     }
 
     .testimonial-card-new {
@@ -944,6 +963,33 @@
         position: relative;
         direction: rtl !important;
         text-align: right !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    /* Animation for testimonial card appear/fade in */
+    .testimonial-card-animated {
+        animation: fadeUpTestimonialCard 0.7s cubic-bezier(.24,.93,.47,.99);
+        animation-fill-mode: both;
+    }
+    
+    @keyframes fadeUpTestimonialCard {
+        0% {
+            opacity: 0;
+            transform: translateY(40px) scale(.93) rotateZ(-2deg);
+            box-shadow: 0 2px 14px rgba(212,165,116,0.05);
+        }
+        70% {
+            opacity: 0.98;
+            transform: translateY(-4px) scale(1.03) rotateZ(1deg);
+            box-shadow: 0 8px 28px rgba(212,165,116,0.16);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateZ(0);
+            box-shadow: 0 8px 28px rgba(212,165,116,0.08);
+        }
     }
 
     [dir="ltr"] .testimonial-card-new {
@@ -981,6 +1027,8 @@
         gap: 20px;
         direction: rtl !important;
         text-align: right !important;
+        flex: 1 !important;
+        height: 100% !important;
     }
 
     [dir="ltr"] .testimonial-card-inner {
@@ -1180,22 +1228,105 @@
         text-align: right !important;
     }
 
+    /* Swiper Navigation for Testimonials */
+    .testimonial-next,
+    .testimonial-prev {
+        width: 45px;
+        height: 45px;
+        background: var(--colorPrimary);
+        border-radius: 50%;
+        color: #fff;
+        top: 20% !important;
+        margin-top: 0 !important;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(107, 93, 71, 0.3);
+    }
+
+    .testimonial-next::after,
+    .testimonial-prev::after {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .testimonial-next:hover,
+    .testimonial-prev:hover {
+        background: var(--colorSecondary);
+        transform: scale(1.15);
+        box-shadow: 0 8px 30px rgba(107, 93, 71, 0.4);
+    }
+
+    .testimonial-prev {
+        left: -22.5px;
+    }
+
+    .testimonial-next {
+        right: -22.5px;
+    }
+
+    /* Pagination */
+    .testimonial-pagination {
+        bottom: 10px !important;
+        position: absolute;
+    }
+
+    .testimonial-pagination .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+        background: var(--colorPrimary);
+        opacity: 0.3;
+        transition: all 0.3s ease;
+        margin: 0 5px;
+    }
+
+    .testimonial-pagination .swiper-pagination-bullet-active {
+        opacity: 1;
+        width: 35px;
+        border-radius: 6px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    }
+
     /* Responsive Design */
     @media (max-width: 1200px) {
-        .testimonials-grid-container {
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+        .testimonial-prev {
+            left: 10px;
+        }
+
+        .testimonial-next {
+            right: 10px;
         }
     }
 
     @media (max-width: 768px) {
-        .testimonials-grid-wrapper {
+        .testimonial-swiper-wrapper {
             padding: 30px 0 40px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
-
-        .testimonials-grid-container {
-            grid-template-columns: 1fr;
-            gap: 20px;
+        
+        .testimonial-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .testimonial-card-new {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
         }
 
         .testimonial-card-inner {
@@ -1231,9 +1362,60 @@
         }
     }
 
+    @media (max-width: 768px) {
+        .testimonial-next,
+        .testimonial-prev {
+            width: 40px;
+            height: 40px;
+            top: 15% !important;
+            margin-top: 0 !important;
+        }
+
+        .testimonial-next::after,
+        .testimonial-prev::after {
+            font-size: 16px;
+        }
+
+        .testimonial-prev {
+            left: 5px;
+        }
+
+        .testimonial-next {
+            right: 5px;
+        }
+    }
+
     @media (max-width: 480px) {
-        .testimonials-grid-wrapper {
+        .testimonial-swiper-wrapper {
             padding: 20px 0 30px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .testimonial-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .testimonial-card-new {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
         }
 
         .testimonial-card-inner {
@@ -1676,11 +1858,26 @@
     .lawyer-swiper-wrapper {
         padding: 30px 0 40px;
         position: relative;
+        display: block !important;
+        visibility: visible !important;
     }
 
     .lawyer-swiper-modern {
         padding: 20px 0 60px;
         overflow: visible;
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    .lawyer-swiper-modern .swiper-wrapper {
+        display: flex !important;
+        visibility: visible !important;
+    }
+    
+    .lawyer-swiper-modern .swiper-slide {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .lawyer-card-modern {
@@ -1971,6 +2168,38 @@
         .lawyer-area-modern {
             padding: 30px 0;
         }
+        
+        .lawyer-swiper-wrapper {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .lawyer-card-mobile,
+        .aman-lawyer-card-mobile-rtl {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
 
         .lawyer-image-wrapper {
             height: 280px;
@@ -2007,6 +2236,38 @@
     }
 
     @media (max-width: 480px) {
+        .lawyer-swiper-wrapper {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .lawyer-card-mobile,
+        .aman-lawyer-card-mobile-rtl {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+        
         .lawyer-image-wrapper {
             height: 240px;
         }
@@ -2032,6 +2293,40 @@
     [dir="rtl"] .lawyer-next {
         right: auto;
         left: -30px;
+    }
+    
+    [dir="rtl"] .testimonial-prev {
+        left: auto;
+        right: -30px;
+    }
+
+    [dir="rtl"] .testimonial-next {
+        right: auto;
+        left: -30px;
+    }
+    
+    @media (max-width: 1200px) {
+        [dir="rtl"] .testimonial-prev {
+            left: auto;
+            right: 10px;
+        }
+
+        [dir="rtl"] .testimonial-next {
+            right: auto;
+            left: 10px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        [dir="rtl"] .testimonial-prev {
+            left: auto;
+            right: 5px;
+        }
+
+        [dir="rtl"] .testimonial-next {
+            right: auto;
+            left: 5px;
+        }
     }
     [dir="rtl"] .lawyer-meta {
         justify-content: flex-end;
@@ -3471,44 +3766,7 @@
 
 
         if (typeof Swiper !== 'undefined') {
-            // New Testimonials Grid - No swiper needed, just ensure equal heights
-            function equalizeTestimonialCardsNew() {
-                const cards = document.querySelectorAll('.testimonial-card-new');
-                if (cards.length === 0) return;
-                
-                let maxHeight = 0;
-                cards.forEach(card => {
-                    card.style.height = 'auto';
-                });
-                
-                cards.forEach(card => {
-                    const height = card.offsetHeight;
-                    if (height > maxHeight) {
-                        maxHeight = height;
-                    }
-                });
-                
-                // Only set height if there's a significant difference
-                if (maxHeight > 0) {
-                    cards.forEach(card => {
-                        const cardHeight = card.offsetHeight;
-                        if (cardHeight < maxHeight * 0.9) {
-                            card.style.minHeight = maxHeight + 'px';
-                        }
-                    });
-                }
-            }
-
-            // Run on load and resize
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                    equalizeTestimonialCardsNew();
-                    window.addEventListener('resize', equalizeTestimonialCardsNew);
-                });
-            } else {
-                equalizeTestimonialCardsNew();
-                window.addEventListener('resize', equalizeTestimonialCardsNew);
-            }
+            // Testimonials now use Swiper, so no need for equal height function
 
             // Blog Swiper
             const blogSwiper = new Swiper('.blog-swiper-modern', {
@@ -3630,15 +3888,40 @@
                 },
                 // Animation on slide change
                 on: {
+                    init: function() {
+                        // Ensure all slides are visible on initialization, especially on mobile
+                        const slides = this.slides;
+                        slides.forEach((slide) => {
+                            const card = slide.querySelector('.lawyer-card-mobile, .aman-lawyer-card-mobile-rtl');
+                            if (card) {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0) scale(1)';
+                                card.style.visibility = 'visible';
+                            }
+                            slide.style.opacity = '1';
+                        });
+                    },
                     slideChange: function() {
                         const slides = this.slides;
+                        const isMobile = window.innerWidth <= 768;
                         slides.forEach((slide, index) => {
                             if (slide.classList.contains('swiper-slide-active')) {
-                                slide.style.opacity = '0';
-                                setTimeout(() => {
-                                    slide.style.transition = 'opacity 0.5s ease';
+                                if (!isMobile) {
+                                    slide.style.opacity = '0';
+                                    setTimeout(() => {
+                                        slide.style.transition = 'opacity 0.5s ease';
+                                        slide.style.opacity = '1';
+                                    }, 50);
+                                } else {
+                                    // On mobile, keep slides visible
                                     slide.style.opacity = '1';
-                                }, 50);
+                                    const card = slide.querySelector('.lawyer-card-mobile, .aman-lawyer-card-mobile-rtl');
+                                    if (card) {
+                                        card.style.opacity = '1';
+                                        card.style.transform = 'translateY(0) scale(1)';
+                                        card.style.visibility = 'visible';
+                                    }
+                                }
                             }
                         });
                     },
@@ -3727,6 +4010,103 @@
                 });
                 lawyerContainer.addEventListener('mouseleave', function() {
                     lawyerSwiper.autoplay.start();
+                });
+            }
+
+            // Testimonial Swiper
+            const testimonialSwiper = new Swiper('.testimonial-swiper-modern', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                speed: 800,
+                effect: 'slide',
+                grabCursor: true,
+                navigation: {
+                    nextEl: '.testimonial-next',
+                    prevEl: '.testimonial-prev',
+                },
+                pagination: {
+                    el: '.testimonial-pagination',
+                    clickable: true,
+                    dynamicBullets: true,
+                },
+                breakpoints: {
+                    480: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 25,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    992: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1200: {
+                        slidesPerView: 3,
+                        spaceBetween: 40,
+                    },
+                },
+                // Animation on slide change
+                on: {
+                    init: function() {
+                        // Ensure all slides are visible on initialization, especially on mobile
+                        const slides = this.slides;
+                        slides.forEach((slide) => {
+                            const card = slide.querySelector('.testimonial-card-new');
+                            if (card) {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0) scale(1)';
+                                card.style.visibility = 'visible';
+                            }
+                            slide.style.opacity = '1';
+                        });
+                    },
+                    slideChange: function() {
+                        const slides = this.slides;
+                        const isMobile = window.innerWidth <= 768;
+                        slides.forEach((slide, index) => {
+                            if (slide.classList.contains('swiper-slide-active')) {
+                                if (!isMobile) {
+                                    slide.style.opacity = '0';
+                                    setTimeout(() => {
+                                        slide.style.transition = 'opacity 0.5s ease';
+                                        slide.style.opacity = '1';
+                                    }, 50);
+                                } else {
+                                    // On mobile, keep slides visible
+                                    slide.style.opacity = '1';
+                                    const card = slide.querySelector('.testimonial-card-new');
+                                    if (card) {
+                                        card.style.opacity = '1';
+                                        card.style.transform = 'translateY(0) scale(1)';
+                                        card.style.visibility = 'visible';
+                                    }
+                                }
+                            }
+                        });
+                    },
+                },
+            });
+
+            // Pause autoplay on hover
+            const testimonialContainer = document.querySelector('.testimonial-swiper-modern');
+            if (testimonialContainer) {
+                testimonialContainer.addEventListener('mouseenter', function() {
+                    testimonialSwiper.autoplay.stop();
+                });
+                testimonialContainer.addEventListener('mouseleave', function() {
+                    testimonialSwiper.autoplay.start();
                 });
             }
         }

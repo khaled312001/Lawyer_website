@@ -689,6 +689,30 @@
         font-weight: 600;
     }
     
+    /* Ensure lawyer cards are always visible */
+    .team-page .lawyer-card-mobile,
+    .team-page .aman-lawyer-card-mobile-rtl {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
+        visibility: visible !important;
+        display: flex !important;
+        animation: none !important;
+    }
+    
+    .team-page .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        visibility: visible !important;
+    }
+    
+    .team-page .col-lg-3,
+    .team-page .col-md-4,
+    .team-page .col-sm-6 {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
     @media (max-width: 768px) {
         .banner-area {
             padding: 60px 0;
@@ -700,6 +724,56 @@
         
         .banner-text ul li {
             font-size: 14px;
+        }
+        
+        /* Ensure lawyer cards are visible on mobile */
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            visibility: visible !important;
+            display: flex !important;
+            animation: none !important;
+        }
+        
+        .team-page .row {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            visibility: visible !important;
+        }
+        
+        .team-page .col-lg-3,
+        .team-page .col-md-4,
+        .team-page .col-sm-6 {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        /* Ensure lawyer cards are visible on small mobile */
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            visibility: visible !important;
+            display: flex !important;
+            animation: none !important;
+        }
+        
+        .team-page .row {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            visibility: visible !important;
+        }
+        
+        .team-page .col-lg-3,
+        .team-page .col-md-4,
+        .team-page .col-sm-6 {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
     }
 </style>

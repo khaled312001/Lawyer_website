@@ -13269,6 +13269,10 @@
         .aman-lawyer-card-mobile-rtl {
             margin-bottom: 25px !important;
             border-radius: 14px !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            visibility: visible !important;
+            display: flex !important;
         }
 
         .lawyer-card-content-mobile {
@@ -13326,6 +13330,40 @@
             font-size: 16px !important;
             width: 22px !important;
             height: 22px !important;
+        }
+    }
+    
+    /* Responsive للموبايل الصغير */
+    @media (max-width: 480px) {
+        .lawyer-card-mobile,
+        .aman-lawyer-card-mobile-rtl {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            visibility: visible !important;
+            display: flex !important;
+        }
+        
+        .lawyer-swiper-wrapper {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
     }
 
