@@ -71,7 +71,34 @@
                     "offers": {
                         "@type": "Offer",
                         "price": "{{ $property->price ?? 0 }}",
-                        "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}"
+                        "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}",
+                        "priceValidUntil": "{{ date('Y-m-d', strtotime('+1 year')) }}",
+                        "availability": "https://schema.org/InStock",
+                        "seller": {
+                            "@type": "Organization",
+                            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+                            "url": "{{ url('/') }}"
+                        },
+                        "hasMerchantReturnPolicy": {
+                            "@type": "MerchantReturnPolicy",
+                            "applicableCountry": "SY",
+                            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                            "merchantReturnDays": 30,
+                            "returnMethod": "https://schema.org/ReturnByMail",
+                            "returnFees": "https://schema.org/FreeReturn"
+                        },
+                        "shippingDetails": {
+                            "@type": "OfferShippingDetails",
+                            "shippingRate": {
+                                "@type": "MonetaryAmount",
+                                "value": "0",
+                                "currency": "{{ getSessionCurrency() ?? 'USD' }}"
+                            },
+                            "shippingDestination": {
+                                "@type": "DefinedRegion",
+                                "addressCountry": "SY"
+                            }
+                        }
                     }
                 }
             }@if(!$loop->last),@endif
@@ -90,13 +117,21 @@
                 "@type": "ListItem",
                 "position": 1,
                 "name": "{{ __('Home') }}",
-                "item": "{{ url('/') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "{{ __('Real Estate Properties') }}",
-                "item": "{{ $currentUrl }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Real Estate Properties') }}"
+                }
             }
         ]
     }

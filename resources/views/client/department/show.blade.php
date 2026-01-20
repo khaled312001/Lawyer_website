@@ -96,19 +96,31 @@
                 "@type": "ListItem",
                 "position": 1,
                 "name": "{{ __('Home') }}",
-                "item": "{{ url('/') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "{{ __('Departments') }}",
-                "item": "{{ route('website.departments') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.departments') }}",
+                    "name": "{{ __('Departments') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "{{ $department->name }}",
-                "item": "{{ $currentUrl }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $department->name }}"
+                }
             }
         ]
     }

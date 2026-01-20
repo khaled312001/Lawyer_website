@@ -97,33 +97,53 @@
                 "@type": "ListItem",
                 "position": 1,
                 "name": "{{ __('Home') }}",
-                "item": "{{ url('/') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "{{ __('Blogs') }}",
-                "item": "{{ route('website.blogs') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.blogs') }}",
+                    "name": "{{ __('Blogs') }}"
+                }
             },
             @if($blog->category)
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "{{ $blog->category->name ?? '' }}",
-                "item": "{{ route('website.blog.category', $blog->category->slug ?? '') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.blog.category', $blog->category->slug ?? '') }}",
+                    "name": "{{ $blog->category->name ?? '' }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 4,
                 "name": "{{ $blog->title }}",
-                "item": "{{ $currentUrl }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $blog->title }}"
+                }
             }
             @else
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "{{ $blog->title }}",
-                "item": "{{ $currentUrl }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $blog->title }}"
+                }
             }
             @endif
         ]

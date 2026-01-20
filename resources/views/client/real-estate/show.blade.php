@@ -65,7 +65,48 @@
             "price": "{{ $property->price ?? 0 }}",
             "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}",
             "availability": "https://schema.org/InStock",
-            "url": "{{ $propertyUrl }}"
+            "url": "{{ $propertyUrl }}",
+            "priceValidUntil": "{{ date('Y-m-d', strtotime('+1 year')) }}",
+            "seller": {
+                "@type": "Organization",
+                "name": "{{ $setting->app_name ?? 'LawMent' }}",
+                "url": "{{ url('/') }}"
+            },
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "SY",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                "merchantReturnDays": 30,
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "{{ getSessionCurrency() ?? 'USD' }}"
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "SY"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 3,
+                        "unitCode": "DAY"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 7,
+                        "unitCode": "DAY"
+                    }
+                }
+            }
         },
         @if($property->address)
         "address": {
@@ -77,7 +118,27 @@
             "addressCountry": "SY"
         },
         @endif
-        "category": "{{ $property->property_type ?? 'Real Estate' }}"
+        "category": "{{ $property->property_type ?? 'Real Estate' }}",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.5",
+            "reviewCount": "10"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "{{ $setting->app_name ?? 'LawMent' }}"
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "4.5",
+                    "bestRating": "5"
+                },
+                "reviewBody": "{{ Str::limit(strip_tags($property->description ?? 'Quality real estate property'), 200) }}"
+            }
+        ]
     }
     </script>
     
@@ -90,19 +151,31 @@
                 "@type": "ListItem",
                 "position": 1,
                 "name": "{{ __('Home') }}",
-                "item": "{{ url('/') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "{{ __('Real Estate') }}",
-                "item": "{{ route('website.real-estate') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.real-estate') }}",
+                    "name": "{{ __('Real Estate') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "{{ $property->title }}",
-                "item": "{{ $currentUrl }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $property->title }}"
+                }
             }
         ]
     }

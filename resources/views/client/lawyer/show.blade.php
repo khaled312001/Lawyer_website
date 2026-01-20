@@ -110,19 +110,31 @@
                 "@type": "ListItem",
                 "position": 1,
                 "name": "{{ __('Home') }}",
-                "item": "{{ url('/') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "{{ __('Lawyers') }}",
-                "item": "{{ route('website.lawyers') }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.lawyers') }}",
+                    "name": "{{ __('Lawyers') }}"
+                }
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "{{ $lawyer->name }}",
-                "item": "{{ $currentUrl }}"
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $lawyer->name }}"
+                }
             }
         ]
     }
