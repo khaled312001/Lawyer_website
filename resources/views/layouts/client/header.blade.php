@@ -475,7 +475,7 @@
                                     @endif
                                 </li>
                             @endforeach
-                            <li class="nav-item appointment-btn-wrapper">
+                            <li class="nav-item appointment-btn-wrapper" style="background-color:#D4A574;">
                                 <a href="{{ route('website.book.consultation.appointment') }}" 
                                    class="nav-link book-appointment-btn-desktop reverse-hover-btn"
                                    style="
