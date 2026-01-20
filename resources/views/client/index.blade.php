@@ -391,10 +391,10 @@
                 <div class="lawyer-swiper-wrapper">
                     <div class="swiper lawyer-swiper-modern">
                         <div class="swiper-wrapper">
-                            @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $lawyer)
+                            @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $index => $lawyer)
                                 <div class="swiper-slide">
-                                    <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
-                                        <div class="lawyer-card-image-mobile">
+                                    <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl lawyer-card-animated" style="animation-delay: {{ 0.12 * $index }}s;">
+                                        <div class="lawyer-card-image-mobile lawyer-card-border-animated" style="animation-delay: {{ 0.16 * $index }}s;">
                                             @php
                                                 $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
                                                 $lawyerName = $lawyer?->name ?? '';
@@ -418,25 +418,25 @@
                                                         : ($lawyer->department ?? null);
                                                 @endphp
                                                 @if($displayDept && $displayDept->name)
-                                                <div class="lawyer-meta-item-mobile">
+                                                <div class="lawyer-meta-item-mobile lawyer-meta-animate">
                                                     <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
                                                     <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
                                                 </div>
                                                 @endif
                                                 @if($lawyer->location)
-                                                <div class="lawyer-meta-item-mobile">
+                                                <div class="lawyer-meta-item-mobile lawyer-meta-animate">
                                                     <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
                                                     <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
                                                 </div>
                                                 @endif
                                                 @if($lawyer->designations)
-                                                <div class="lawyer-meta-item-mobile">
+                                                <div class="lawyer-meta-item-mobile lawyer-meta-animate">
                                                     <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
                                                     <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
                                                 </div>
                                                 @endif
                                             </div>
-                                            <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
+                                            <a class="lawyer-card-button-mobile lawyer-btn-animated" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
                                                 <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
                                                 <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
                                             </a>
@@ -452,6 +452,88 @@
                         <div class="swiper-pagination lawyer-pagination"></div>
                     </div>
                 </div>
+                <style>
+                    /* Animation for card appear/fade in with up motion */
+                    .lawyer-card-animated {
+                        animation: fadeUpLawyerCard 0.7s cubic-bezier(.24,.93,.47,.99);
+                        animation-fill-mode: both;
+                    }
+                    @keyframes fadeUpLawyerCard {
+                        0% {
+                            opacity: 0;
+                            transform: translateY(40px) scale(.93) rotateZ(-2deg);
+                            box-shadow: 0 2px 14px rgba(212,165,116,0.05);
+                        }
+                        70% {
+                            opacity: 0.98;
+                            transform: translateY(-4px) scale(1.03) rotateZ(1deg);
+                            box-shadow: 0 8px 28px rgba(212,165,116,0.16);
+                        }
+                        100% {
+                            opacity: 1;
+                            transform: translateY(0) scale(1) rotateZ(0);
+                            box-shadow: 0 8px 28px rgba(212,165,116,0.08);
+                        }
+                    }
+
+                    /* Animation for border grow */
+                    .lawyer-card-border-animated {
+                        border-radius: 16px;
+                        box-shadow: 0 2px 8px rgba(212,165,116,0.10);
+                        border: 2.5px solid #D4A574;
+                        position: relative;
+                        overflow: hidden;
+                        animation: borderGrowAnim 0.85s cubic-bezier(.34,.51,.41,1.08);
+                        animation-fill-mode: both;
+                    }
+                    @keyframes borderGrowAnim {
+                        0% {
+                            box-shadow: 0 0px 0px rgba(212, 165, 116, 0.07);
+                            border-width: 0px;
+                            transform: scale(.85);
+                            opacity: 0;
+                        }
+                        60% {
+                            border-width: 3px;
+                            box-shadow: 0 4px 28px rgba(212,165,116,0.13);
+                            opacity: 0.9;
+                        }
+                        100% {
+                            border-width: 2.5px;
+                            box-shadow: 0 8px 34px rgba(212,165,116,0.10);
+                            transform: scale(1);
+                            opacity: 1;
+                        }
+                    }
+
+                    /* Animate meta info */
+                    .lawyer-meta-animate {
+                        animation: fadeInMetaLawyer 0.55s cubic-bezier(.55,1,.66,1.04);
+                        animation-fill-mode: both;
+                    }
+                    @keyframes fadeInMetaLawyer {
+                        0% {
+                            opacity: 0;
+                            transform: translateY(18px) scale(.96);
+                        }
+                        100% {
+                            opacity: 1;
+                            transform: translateY(0) scale(1);
+                        }
+                    }
+
+                    /* Button animation */
+                    .lawyer-btn-animated {
+                        transition: background 0.3s, color 0.3s, box-shadow 0.18s;
+                        animation: fadeInMetaLawyer 0.45s cubic-bezier(.45,1,.59,1.09) 0.15s backwards;
+                    }
+                    .lawyer-btn-animated:hover, .lawyer-btn-animated:focus {
+                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+                        color: #fff !important;
+                        box-shadow: 0 5px 17px rgba(212,165,116,0.11);
+                        text-decoration: none;
+                    }
+                </style>
             </div>
         </section>
         <!--Lawyer Area End-->

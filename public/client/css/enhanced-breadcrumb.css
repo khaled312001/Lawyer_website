@@ -8,15 +8,27 @@
    ============================================ */
 .page-title-area.enhanced-breadcrumb,
 .banner-area.enhanced-breadcrumb {
-    position: relative;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 140px 0 100px;
-    overflow: hidden;
-    min-height: 300px;
-    display: flex;
-    align-items: center;
+    position: relative !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
+    padding: 140px 0 100px !important;
+    overflow: hidden !important;
+    min-height: 300px !important;
+    display: flex !important;
+    align-items: center !important;
+    color: #fff !important;
+}
+
+/* Override default banner-area:before to prevent interference */
+.banner-area.enhanced-breadcrumb::before {
+    display: none !important;
+    content: none !important;
+    opacity: 0 !important;
+    background: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 .breadcrumb-overlay {
@@ -25,9 +37,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%);
+    background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.6) 100%);
     z-index: 1;
     transition: opacity 0.3s ease;
+    pointer-events: none;
 }
 
 .breadcrumb-pattern {

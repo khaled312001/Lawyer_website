@@ -185,8 +185,8 @@
                 @if ($lawyers->count() != 0)
                     @foreach ($lawyers as $lawyer)
                         <div class="col-lg-3 col-md-4 col-sm-6 mt_30">
-                            <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
-                                <div class="lawyer-card-image-mobile">
+                            <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl lawyer-card-animated">
+                                <div class="lawyer-card-image-mobile lawyer-card-border-animated">
                                     <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
                                         <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
                                             alt="{{ $lawyer?->name }}" loading="lazy">
@@ -205,31 +205,149 @@
                                                 : ($lawyer->department ?? null);
                                         @endphp
                                         @if($displayDept && $displayDept->name)
-                                        <div class="lawyer-meta-item-mobile">
+                                        <div class="lawyer-meta-item-mobile lawyer-meta-animate">
                                             <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
                                             <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
                                         </div>
                                         @endif
                                         @if($lawyer->location)
-                                        <div class="lawyer-meta-item-mobile">
+                                        <div class="lawyer-meta-item-mobile lawyer-meta-animate">
                                             <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
                                             <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
                                         </div>
                                         @endif
                                         @if($lawyer->designations)
-                                        <div class="lawyer-meta-item-mobile">
+                                        <div class="lawyer-meta-item-mobile lawyer-meta-animate">
                                             <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
                                             <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
                                         </div>
                                         @endif
                                     </div>
-                                    <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
+                                    <a class="lawyer-card-button-mobile lawyer-btn-animated" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
                                         <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
                                         <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
                                     </a>
                                 </div>
                             </div>
                         </div>
+                        <style>
+                            /* Animation for card appear/fade in with up motion */
+                            .lawyer-card-animated {
+                                animation: fadeUpLawyerCard 0.7s cubic-bezier(.24,.93,.47,.99);
+                                box-shadow: 0 8px 32px 0 rgba(212,165,116,0.07), 0 2px 8px rgba(220,38,38,0.07);
+                                transition: box-shadow 0.3s, transform 0.25s;
+                                border-radius: 18px;
+                            }
+                            .lawyer-card-animated:hover, .lawyer-card-animated:focus-within {
+                                box-shadow: 0 12px 38px 0 rgba(212,165,116,0.13), 0 4px 16px rgba(220,38,38,0.14);
+                                transform: translateY(-5px) scale(1.02);
+                            }
+                            @keyframes fadeUpLawyerCard {
+                                0% {
+                                    opacity: 0;
+                                    transform: translateY(40px) scale(0.97);
+                                }
+                                100% {
+                                    opacity: 1;
+                                    transform: translateY(0) scale(1);
+                                }
+                            }
+
+                            /* Border/outlines effect on card image wrapper */
+                            .lawyer-card-border-animated {
+                                position: relative;
+                                border-radius: 16px;
+                                overflow: hidden;
+                            }
+                            .lawyer-card-border-animated::after {
+                                /* Animated border using gradient and movement */
+                                content: "";
+                                position: absolute;
+                                inset: 0;
+                                border-radius: 16px;
+                                z-index: 1;
+                                pointer-events: none;
+                                border: 2px solid transparent;
+                                background: linear-gradient(115deg, #D4A574 10%, #38B2AC 60%, #DC2626 100%) border-box;
+                                mask:
+                                    linear-gradient(#fff 0 0) padding-box, 
+                                    linear-gradient(#fff 0 0);
+                                -webkit-mask:
+                                    linear-gradient(#fff 0 0) padding-box, 
+                                    linear-gradient(#fff 0 0);
+                                mask-composite: exclude;
+                                -webkit-mask-composite: xor;
+                                opacity: 0.5;
+                                animation: borderGlowLawyerCard 2.5s linear infinite;
+                                transition: opacity 0.23s;
+                            }
+                            .lawyer-card-animated:hover .lawyer-card-border-animated::after {
+                                opacity: 1;
+                                animation-duration: 1.2s;
+                            }
+                            @keyframes borderGlowLawyerCard {
+                                0% {
+                                    box-shadow: 0 0 0 0 #D4A57466;
+                                    border-color: #D4A574;
+                                }
+                                50% {
+                                    box-shadow: 0 0 16px 5px #38B2AC3A;
+                                    border-color: #38B2AC;
+                                }
+                                100% {
+                                    box-shadow: 0 0 0 0 #DC262673;
+                                    border-color: #DC2626;
+                                }
+                            }
+
+                            /* Pop-in effect for meta items */
+                            .lawyer-meta-animate {
+                                opacity: 0;
+                                transform: translateY(12px) scale(0.98);
+                                animation: metaCardIn 0.55s cubic-bezier(.23,1.05,.42,0.97) forwards;
+                            }
+                            .lawyer-meta-animate:nth-child(1) { animation-delay: .13s; }
+                            .lawyer-meta-animate:nth-child(2) { animation-delay: .24s; }
+                            .lawyer-meta-animate:nth-child(3) { animation-delay: .34s; }
+                            @keyframes metaCardIn {
+                                100% {
+                                    opacity: 1;
+                                    transform: translateY(0) scale(1);
+                                }
+                            }
+
+                            /* Animated button effect */
+                            .lawyer-btn-animated {
+                                position: relative;
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 6px;
+                                font-weight: 700;
+                                border-radius: 30px;
+                                background: linear-gradient(135deg, #2D3748 0%, #38B2AC 100%);
+                                color: #fff !important;
+                                text-decoration: none;
+                                padding: 10px 24px;
+                                box-shadow: 0 2px 8px rgba(45,55,72,0.08);
+                                transition: background 0.24s, color 0.2s, box-shadow 0.18s, transform 0.2s;
+                                overflow: hidden;
+                                z-index: 1;
+                            }
+                            .lawyer-btn-animated:hover, .lawyer-btn-animated:focus {
+                                background: linear-gradient(135deg, #fff 0%, #E6FFFA 100%);
+                                color: #38B2AC !important;
+                                box-shadow: 0 6px 22px rgba(45, 55, 72, 0.15);
+                                transform: scale(1.06) translateY(-2px);
+                                text-decoration: none;
+                            }
+                            .lawyer-btn-animated .lawyer-button-icon-mobile {
+                                transition: transform 0.25s cubic-bezier(.58,.36,.46,1.22);
+                            }
+                            .lawyer-btn-animated:hover .lawyer-button-icon-mobile, 
+                            .lawyer-btn-animated:focus .lawyer-button-icon-mobile {
+                                transform: translateX(-5px) scale(1.10) rotate(-7deg);
+                            }
+                        </style>
                     @endforeach
                 @else
                     <h3 class="text-danger text-center mt-5">{{ __('Lawyer Not Found') }}</h3>
