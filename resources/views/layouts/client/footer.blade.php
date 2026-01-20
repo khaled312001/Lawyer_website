@@ -892,10 +892,20 @@
         padding-bottom: 12px !important;
     }
     
+    .copyright-text {
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
     .copyright-text p {
         font-size: 13px !important;
         line-height: 1.6 !important;
         margin-bottom: 5px !important;
+        text-align: center !important;
+        width: 100% !important;
     }
     
     .copyright-text p:last-child {
