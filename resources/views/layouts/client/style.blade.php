@@ -6636,7 +6636,7 @@
         position: relative;
         width: 100%;
         overflow-x: hidden;
-        padding: 30px 0 !important;
+        padding: 25px 0 !important;
     }
 
     .footer-address {
@@ -6756,29 +6756,31 @@
         position: relative;
         width: 100%;
         overflow-x: hidden;
-        padding: 40px 0 !important;
+        padding-top: 35px !important;
+        padding-bottom: 40px !important;
     }
-
+    
     .footer-item {
-        margin-bottom: 30px !important;
+        margin-top: 15px !important;
+        margin-bottom: 20px !important;
         text-align: center !important;
     }
-
+    
     .footer-item .title {
-        font-size: 18px;
+        font-size: 18px !important;
         font-weight: 600;
         color: #fff;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
+        margin-bottom: 20px !important;
+        padding-bottom: 10px !important;
         border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         text-align: center !important;
     }
-
+    
     .footer-item p {
-        font-size: 14px;
+        font-size: 13px !important;
         color: rgba(255, 255, 255, 0.8);
-        line-height: 1.8;
-        margin-bottom: 15px;
+        line-height: 1.7 !important;
+        margin-bottom: 12px !important;
         text-align: center !important;
     }
 
@@ -6805,17 +6807,19 @@
     }
 
     .footer-item ul li {
-        margin-bottom: 12px;
+        margin-bottom: 4px !important;
+        padding-bottom: 4px !important;
         text-align: center !important;
     }
-
+    
     .footer-item ul li a {
         color: rgba(255, 255, 255, 0.8);
         text-decoration: none;
-        font-size: 14px;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
         transition: all 0.3s ease;
         display: inline-block;
-        padding: 5px 0;
+        padding: 3px 0 !important;
     }
 
     .footer-item ul li a:hover {
@@ -6828,26 +6832,27 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 15px;
-        margin-top: 20px;
+        gap: 8px !important;
+        margin-top: 15px !important;
         list-style: none;
         padding: 0;
     }
-
+    
     .footer-item .icon li {
         margin: 0;
     }
-
+    
     .footer-item .icon li a {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         color: #fff;
-        font-size: 18px;
+        font-size: 14px !important;
         transition: all 0.3s ease;
         text-decoration: none;
     }
@@ -6916,19 +6921,21 @@
 
     /* Footer Copyright */
     .footer-copyrignt {
-        padding: 20px 0 !important;
+        padding-top: 15px !important;
+        padding-bottom: 12px !important;
         text-align: center !important;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-
+    
     .copyright-text {
         text-align: center !important;
     }
-
+    
     .copyright-text p {
         color: rgba(255, 255, 255, 0.7);
-        font-size: 14px;
-        margin: 0;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+        margin: 0 0 5px 0 !important;
         text-align: center !important;
     }
 
@@ -6962,7 +6969,8 @@
         }
 
         .footer-area {
-            padding: 25px 0 !important;
+            padding-top: 25px !important;
+            padding-bottom: 30px !important;
         }
 
         /* Stack columns vertically */
@@ -7020,16 +7028,17 @@
         }
 
         .footer-item {
-            margin-bottom: 20px !important;
+            margin-top: 10px !important;
+            margin-bottom: 15px !important;
             text-align: center !important;
             padding: 15px !important;
             background: rgba(255, 255, 255, 0.03) !important;
             border-radius: 10px !important;
         }
-
+        
         .footer-item .title {
-            font-size: 16px;
-            margin-bottom: 12px !important;
+            font-size: 16px !important;
+            margin-bottom: 15px !important;
             text-align: center !important;
             padding-bottom: 8px !important;
         }

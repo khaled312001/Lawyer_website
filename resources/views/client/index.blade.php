@@ -4697,14 +4697,7 @@ section + section {
     /* Hover Effects - تصميم حسب الصورة */
     .hero-cta-btn:hover {
         transform: translateY(-3px) scale(1.05) !important;
-        background: linear-gradient(to bottom, #FFF8E7 calc(100% - 4px), 
-                    linear-gradient(90deg, #D4A574 0%, #DC2626 100%) calc(100% - 4px)) !important; /* خلفية بيج فاتح مع شريط سفلي */
-        background: #FFF8E7 !important; /* خلفية بيج فاتح */
-        background-image: linear-gradient(to bottom, #FFF8E7 calc(100% - 4px), transparent calc(100% - 4px)),
-                          linear-gradient(90deg, #D4A574 0%, #DC2626 100%) !important;
-        background-size: 100% calc(100% - 4px), 100% 4px !important;
-        background-position: top, bottom !important;
-        background-repeat: no-repeat !important;
+        /* الخلفية تبقى كما هي - لا تغيير */
         color: #ffffff !important; /* نص أبيض */
         box-shadow: 0 8px 30px rgba(255, 105, 135, 0.4),
                     0 0 0 3px rgba(255, 105, 135, 0.3),
