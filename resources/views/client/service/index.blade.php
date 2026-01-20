@@ -73,101 +73,97 @@
 @endsection
 
 @section('client-content')
-    <!-- Hero Section -->
-    <section class="legal-hero-section">
-        <div class="legal-hero-overlay"></div>
-        <div class="legal-container">
-            <div class="legal-hero-content">
-                <div class="legal-hero-badge">
-                    <i class="fas fa-gavel"></i>
-                    <span>{{ __('Our Services') }}</span>
-                </div>
-                <h1 class="legal-hero-title">{{ __('Comprehensive Legal Solutions') }}</h1>
-                <p class="legal-hero-subtitle">{{ __('Expert legal services tailored to your needs') }}</p>
-                <div class="legal-breadcrumb-nav">
-                    <a href="{{ url('/') }}" class="legal-breadcrumb-link">
-                        <i class="fas fa-home"></i>
-                        <span>{{ __('Home') }}</span>
-                    </a>
-                    <span class="legal-breadcrumb-separator">/</span>
-                    <span class="legal-breadcrumb-current">{{ __('Services') }}</span>
+    <!--Banner Start-->
+    <section class="banner-area enhanced-breadcrumb flex"
+        style="background-image:url({{ $setting?->breadcrumb_image ? url($setting?->breadcrumb_image) : asset('client/img/shape-2.webp') }});">
+        <div class="breadcrumb-overlay"></div>
+        <div class="breadcrumb-pattern"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner-text enhanced-title-content">
+                        <div class="title-wrapper">
+                            <span class="title-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </span>
+                            <h1 class="title">{{ __('Services') }}</h1>
+                        </div>
+                        <ul class="breadcrumb-nav">
+                            <li><a aria-label="{{ __('Home') }}" href="{{ url('/') }}"><i class="fas fa-home"></i> {{ __('Home') }}</a></li>
+                            <li class="separator"><i class="fas fa-chevron-left"></i></li>
+                            <li class="active"><span>{{ __('Services') }}</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="breadcrumb-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
     </section>
+    <!--Banner End-->
 
-    <!-- Services Grid Section -->
-    <section class="legal-services-main">
-        <div class="legal-container">
-            <div class="legal-services-header">
-                <h2 class="legal-section-title">{{ __('Our Legal Services') }}</h2>
-                <p class="legal-section-description">{{ __('We provide professional legal services across various domains') }}</p>
-            </div>
-
-            <div class="legal-services-grid">
-                @foreach ($services as $service)
-                    <div class="legal-service-card" data-service-slug="{{ $service->slug }}">
-                        <div class="legal-card-inner">
-                            <div class="legal-card-icon-wrapper">
-                                <div class="legal-icon-circle">
-                                    <i class="{{ $service->icon }}"></i>
+    <div class="service-area bg-area">
+        <div class="container">
+            <div class="row service-row">
+                <div class="col-md-12">
+                    <div class="service-coloum-area">
+                        @foreach ($services as $service)
+                            <div class="service-coloum">
+                                <div class="service-item">
+                                    <i class="{{ $service?->icon }}"></i>
+                                    <a href="#" class="service-link" data-slug="{{ $service?->slug }}">
+                                        <h4 class="title">{{ $service?->title }}</h4>
+                                    </a>
+                                    <p>{{ $service?->sort_description }}</p>
+                                    <a aria-label="{{ __('Service Details') }}" href="#" class="service-link" data-slug="{{ $service?->slug }}">{{ __('Service Details') }}
+                                        →</a>
                                 </div>
                             </div>
-                            <div class="legal-card-content">
-                                <h3 class="legal-card-title">{{ $service->title }}</h3>
-                                <p class="legal-card-text">{{ $service->sort_description }}</p>
-                            </div>
-                            <div class="legal-card-footer">
-                                <a href="{{ route('website.service.details', $service->slug) }}" class="legal-card-button">
-                                    <span>{{ __('Learn More') }}</span>
-                                    <i class="fas fa-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="legal-card-hover-effect"></div>
+                        @endforeach
                     </div>
-                @endforeach
-            </div>
-
-            @if ($services->hasPages())
-                <div class="legal-pagination-wrapper">
-                    {{ $services->links('client.paginator') }}
                 </div>
+            </div>
+            @if ($services->hasPages())
+                {{ $services->links('client.service.service-paginator') }}
             @endif
         </div>
-    </section>
+    </div>
 
-    <!-- Service Quick View Modal -->
-    <div id="legalServiceModal" class="legal-modal-overlay">
-        <div class="legal-modal-container">
-            <div class="legal-modal-header">
-                <button class="legal-modal-close" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
+    <!-- Service Details Modal -->
+    <div id="serviceModal" class="service-modal">
+        <div class="service-modal-content">
+            <div class="service-modal-header">
+                <span class="service-modal-close">&times;</span>
+                <h2 id="serviceModalTitle"></h2>
             </div>
-            <div class="legal-modal-body">
-                <div class="legal-modal-icon-section">
-                    <div class="legal-modal-icon-circle">
-                        <i id="legalModalIcon"></i>
-                    </div>
+            <div class="service-modal-body">
+                <div class="service-modal-icon">
+                    <i id="serviceModalIcon"></i>
                 </div>
-                <h2 id="legalModalTitle" class="legal-modal-title"></h2>
-                <div id="legalModalDescription" class="legal-modal-description"></div>
-                
-                <div id="legalModalGallery" class="legal-modal-gallery-section" style="display: none;">
-                    <h3 class="legal-modal-section-title">{{ __('Gallery') }}</h3>
-                    <div class="legal-gallery-grid" id="legalModalImages"></div>
+                <div class="service-modal-description">
+                    <p id="serviceModalDescription"></p>
                 </div>
 
-                <div id="legalModalFaqs" class="legal-modal-faq-section" style="display: none;">
-                    <h3 class="legal-modal-section-title">{{ __('Frequently Asked Questions') }}</h3>
-                    <div class="legal-faq-container" id="legalModalFaqList"></div>
+                <!-- Service Images Gallery -->
+                <div class="service-modal-gallery" id="serviceModalGallery" style="display: none;">
+                    <h3>{{ __('Gallery') }}</h3>
+                    <div class="gallery-images" id="serviceModalImages"></div>
                 </div>
 
-                <div class="legal-modal-actions">
-                    <a id="legalFullDetailsBtn" href="#" class="legal-action-button">
-                        <span>{{ __('View Full Details') }}</span>
-                        <i class="fas fa-external-link-alt"></i>
+
+                <!-- Service FAQs -->
+                <div class="service-modal-faqs" id="serviceModalFaqs" style="display: none;">
+                    <h3>{{ __('Frequently Asked Questions') }}</h3>
+                    <div class="faq-list" id="serviceModalFaqList"></div>
+                </div>
+
+                <!-- Full Details Link -->
+                <div class="service-modal-footer">
+                    <a id="serviceFullDetailsLink" href="#" class="btn btn-primary" target="_blank">
+                        {{ __('View Full Details') }}
                     </a>
                 </div>
             </div>
@@ -176,585 +172,735 @@
 
     @push('css')
     <style>
-        /* Hero Section */
-        .legal-hero-section {
-            position: relative;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            padding: 120px 0 80px;
-            overflow: hidden;
+        /* Enhanced Service Items Color Design */
+        .service-area {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 80px 0;
         }
 
-        .legal-hero-section::before {
+        .service-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #e9ecef;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            padding: 40px 30px;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .service-item::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-            opacity: 0.3;
+            height: 4px;
+            background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
 
-        .legal-hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 50%, rgba(107, 93, 71, 0.15) 0%, transparent 50%);
+        .service-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(107, 93, 71, 0.2);
+            border-color: var(--colorPrimary);
         }
 
-        .legal-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
+        .service-item:hover::before {
+            transform: scaleX(1);
         }
 
-        .legal-hero-content {
-            text-align: center;
-            color: #ffffff;
-        }
-
-        .legal-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 12px 24px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .legal-hero-badge i {
-            font-size: 18px;
-            color: var(--colorPrimary, #c8b47e);
-        }
-
-        .legal-hero-title {
+        .service-item i {
+            color: var(--colorPrimary);
             font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            background: linear-gradient(135deg, #ffffff 0%, #c8b47e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .legal-hero-subtitle {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        .legal-breadcrumb-nav {
+            margin-bottom: 25px;
+            transition: all 0.4s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            font-size: 16px;
+            background: linear-gradient(135deg, rgba(107, 93, 71, 0.1) 0%, rgba(90, 77, 58, 0.1) 100%);
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            position: relative;
+            text-align: center;
         }
 
-        .legal-breadcrumb-link {
-            color: rgba(255, 255, 255, 0.9);
+        .service-item:hover i {
+            color: var(--colorSecondary);
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(107, 93, 71, 0.3);
+        }
+
+        .service-item .title {
+            color: var(--colorBlack);
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+
+        .service-item .title a {
+            color: inherit;
             text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             transition: color 0.3s ease;
         }
 
-        .legal-breadcrumb-link:hover {
-            color: var(--colorPrimary, #c8b47e);
+        .service-item .title a:hover {
+            color: var(--colorPrimary);
         }
 
-        .legal-breadcrumb-separator {
-            color: rgba(255, 255, 255, 0.5);
+        .service-item:hover .title {
+            color: var(--colorPrimary);
         }
 
-        .legal-breadcrumb-current {
-            color: var(--colorPrimary, #c8b47e);
-            font-weight: 600;
-        }
-
-        /* Services Main Section */
-        .legal-services-main {
-            padding: 100px 0;
-            background: #f8f9fa;
-        }
-
-        .legal-services-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .legal-section-title {
-            font-size: 42px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 15px;
-        }
-
-        .legal-section-description {
-            font-size: 18px;
+        .service-item p {
             color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Services Grid */
-        .legal-services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .legal-service-card {
-            position: relative;
-            background: #ffffff;
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .legal-service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(26, 26, 46, 0.15);
-        }
-
-        .legal-card-inner {
-            padding: 40px 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .legal-card-icon-wrapper {
+            line-height: 1.8;
             margin-bottom: 25px;
+            font-size: 15px;
+            text-align: center;
+            flex-grow: 1;
         }
 
-        .legal-icon-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
-            display: flex;
+        .service-item a[aria-label] {
+            color: var(--colorPrimary);
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto;
-            transition: all 0.4s ease;
+            gap: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: rgba(200, 180, 126, 0.1);
+            margin-top: auto;
+            width: 100%;
         }
 
-        .legal-icon-circle i {
-            font-size: 36px;
-            color: var(--colorPrimary, #c8b47e);
-            transition: all 0.4s ease;
+        .service-item a[aria-label]:hover {
+            background: rgba(200, 180, 126, 0.2);
         }
 
-        .legal-service-card:hover .legal-icon-circle {
-            transform: scale(1.1) rotate(5deg);
-            background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, #b8a068 100%);
+        .service-item a[aria-label]::after {
+            content: '→';
+            transition: transform 0.3s ease;
+            display: inline-block;
         }
 
-        .legal-service-card:hover .legal-icon-circle i {
-            color: #ffffff;
-            transform: scale(1.1);
+        .service-item:hover a[aria-label] {
+            color: var(--colorSecondary);
+            transform: translateX(5px);
         }
 
-        .legal-card-content {
-            text-align: center;
-            margin-bottom: 25px;
+        .service-item:hover a[aria-label]::after {
+            transform: translateX(5px);
         }
 
-        .legal-card-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 15px;
-            line-height: 1.3;
+        .service-link {
+            text-decoration: none;
         }
 
-        .legal-card-text {
-            font-size: 15px;
-            color: #666;
-            line-height: 1.7;
+        .service-link:hover {
+            text-decoration: none;
+        }
+
+        /* Service Column Area */
+        .service-coloum-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .service-coloum {
+            display: flex;
+        }
+
+        /* New Modern Pagination Design - Completely Different Style */
+        .service-pagination-wrapper {
+            margin-top: 60px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .service-pagination-nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .service-page-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
             margin: 0;
         }
 
-        .legal-card-footer {
-            text-align: center;
+        .service-page-list li {
+            margin: 0;
         }
 
-        .legal-card-button {
+        /* Page Numbers - Circular Design with Border */
+        .service-page-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            color: #4A5568;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 17px;
+            border-radius: 50%;
+            border: 2px solid #E2E8F0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-page-number::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: -1;
+        }
+
+        .service-page-number:hover {
+            transform: scale(1.15) rotate(5deg);
+            border-color: #667EEA;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .service-page-number:hover::before {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Active Page - Diamond Shape Design */
+        .service-page-active-number {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 12px 28px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .legal-card-button:hover {
-            background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, #b8a068 100%);
-            transform: translateX(-5px);
-            box-shadow: 0 6px 20px rgba(200, 180, 126, 0.3);
-        }
-
-        .legal-card-button i {
-            transition: transform 0.3s ease;
-        }
-
-        .legal-card-button:hover i {
-            transform: translateX(-3px);
-        }
-
-        .legal-card-hover-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(200, 180, 126, 0.05) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .legal-service-card:hover .legal-card-hover-effect {
-            opacity: 1;
-        }
-
-        /* Pagination */
-        .legal-pagination-wrapper {
-            margin-top: 60px;
-            display: flex;
             justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            color: transparent;
+            font-weight: 700;
+            font-size: 18px;
+            border-radius: 12px;
+            transform: rotate(45deg);
+            position: relative;
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5);
+            transition: all 0.3s ease;
+            overflow: visible;
         }
 
-        /* Modal Styles */
-        .legal-modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(26, 26, 46, 0.9);
-            backdrop-filter: blur(5px);
-            z-index: 10000;
+        .service-page-active-number::after {
+            content: attr(data-page);
+            position: absolute;
+            transform: rotate(-45deg);
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            animation: legalFadeIn 0.3s ease;
-        }
-
-        .legal-modal-overlay.active {
-            display: flex;
-        }
-
-        .legal-modal-container {
-            background: #ffffff;
-            border-radius: 24px;
-            max-width: 700px;
             width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: legalSlideUp 0.4s ease;
+            height: 100%;
+        }
+
+        .service-page-item-wrapper {
             position: relative;
         }
 
-        .legal-modal-header {
-            position: sticky;
-            top: 0;
-            background: #ffffff;
-            padding: 20px 30px;
-            border-bottom: 1px solid #e9ecef;
-            display: flex;
-            justify-content: flex-end;
-            z-index: 10;
+        .service-page-item-wrapper .service-page-active-number {
+            animation: pulse-glow 2s ease-in-out infinite;
         }
 
-        .legal-modal-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #f8f9fa;
-            border: none;
+        @keyframes pulse-glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 5px rgba(245, 87, 108, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(245, 87, 108, 0.8));
+            }
+        }
+
+        /* Navigation Arrows - Pill Shape */
+        .service-nav-icon {
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%);
+            color: #1A202C;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(132, 250, 176, 0.3);
+        }
+
+        .service-nav-icon:hover {
+            transform: scale(1.1) translateX(-2px);
+            box-shadow: 0 6px 18px rgba(132, 250, 176, 0.5);
+            background: linear-gradient(135deg, #8FD3F4 0%, #84FAB0 100%);
+        }
+
+        .service-nav-item:last-child .service-nav-icon:hover {
+            transform: scale(1.1) translateX(2px);
+        }
+
+        /* Disabled Navigation */
+        .service-nav-disabled .service-nav-icon {
+            background: #F7FAFC;
+            color: #CBD5E0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .service-nav-disabled .service-nav-icon:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Separator Dots */
+        .service-page-separator {
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+        }
+
+        .service-separator-dots {
+            color: #A0AEC0;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+
+        /* Service Modal Styles */
+        .service-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        .service-modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border: none;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .service-modal-header {
+            background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .service-modal-header h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .service-modal-close {
+            color: #fff;
+            float: right;
+            font-size: 36px;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            color: #666;
+            position: absolute;
+            top: 15px;
+            right: 25px;
         }
 
-        .legal-modal-close:hover {
-            background: #e9ecef;
-            transform: rotate(90deg);
+        .service-modal-close:hover,
+        .service-modal-close:focus {
+            color: #ccc;
+            transform: scale(1.1);
         }
 
-        .legal-modal-body {
-            padding: 40px 30px;
+        .service-modal-body {
+            padding: 30px;
         }
 
-        .legal-modal-icon-section {
+        .service-modal-icon {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .service-modal-icon i {
+            color: var(--colorPrimary);
+            font-size: 64px;
+            background: linear-gradient(135deg, rgba(107, 93, 71, 0.1) 0%, rgba(90, 77, 58, 0.1) 100%);
+            width: 120px;
+            height: 120px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .service-modal-description {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        .legal-modal-icon-circle {
+        .service-modal-description p {
+            font-size: 18px;
+            line-height: 1.7;
+            color: #555;
+            margin: 0;
+        }
+
+        .service-modal-gallery,
+        .service-modal-videos,
+        .service-modal-faqs {
+            margin-bottom: 30px;
+        }
+
+        .service-modal-gallery h3,
+        .service-modal-videos h3,
+        .service-modal-faqs h3 {
+            color: var(--colorPrimary);
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .gallery-images {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-images img {
             width: 100px;
             height: 100px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .legal-modal-icon-circle i {
-            font-size: 48px;
-            color: var(--colorPrimary, #c8b47e);
-        }
-
-        .legal-modal-title {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a2e;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .legal-modal-description {
-            font-size: 17px;
-            color: #666;
-            line-height: 1.8;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .legal-modal-gallery-section,
-        .legal-modal-faq-section {
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 2px solid #e9ecef;
-        }
-
-        .legal-modal-section-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 20px;
-        }
-
-        .legal-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 15px;
-        }
-
-        .legal-gallery-grid img {
-            width: 100%;
-            height: 100px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 10px;
             border: 2px solid #e9ecef;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            transition: transform 0.3s ease;
         }
 
-        .legal-gallery-grid img:hover {
+        .gallery-images img:hover {
             transform: scale(1.05);
-            border-color: var(--colorPrimary, #c8b47e);
+            border-color: var(--colorPrimary);
         }
 
-        .legal-faq-container {
+        .video-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
-        .legal-faq-item {
+        .video-item {
             background: #f8f9fa;
-            border-radius: 12px;
-            overflow: hidden;
+            padding: 15px;
+            border-radius: 10px;
             border: 1px solid #e9ecef;
         }
 
-        .legal-faq-question {
+        .video-item iframe {
             width: 100%;
+            height: 200px;
+            border-radius: 8px;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .faq-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            overflow: hidden;
+        }
+
+        .faq-question {
             padding: 20px;
+            cursor: pointer;
             background: none;
             border: none;
+            width: 100%;
             text-align: left;
             font-size: 16px;
             font-weight: 600;
-            color: #1a1a2e;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s ease;
+            color: var(--colorPrimary);
+            transition: background-color 0.3s ease;
         }
 
-        .legal-faq-question:hover {
-            background: #e9ecef;
+        .faq-question:hover {
+            background-color: rgba(107, 93, 71, 0.05);
         }
 
-        .legal-faq-answer {
+        .faq-answer {
             padding: 0 20px 20px;
             color: #666;
-            line-height: 1.7;
+            line-height: 1.6;
             display: none;
         }
 
-        .legal-faq-item.active .legal-faq-answer {
-            display: block;
-        }
-
-        .legal-modal-actions {
-            margin-top: 40px;
+        .service-modal-footer {
             text-align: center;
-            padding-top: 30px;
-            border-top: 2px solid #e9ecef;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
         }
 
-        .legal-action-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 50px;
+        .service-modal-footer .btn {
+            background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
             transition: all 0.3s ease;
         }
 
-        .legal-action-button:hover {
-            background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, #b8a068 100%);
+        .service-modal-footer .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(200, 180, 126, 0.3);
+            box-shadow: 0 8px 20px rgba(107, 93, 71, 0.3);
         }
 
-        @keyframes legalFadeIn {
+        @keyframes modalFadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
 
-        @keyframes legalSlideUp {
+        @keyframes modalSlideIn {
             from {
-                transform: translateY(50px);
+                transform: translateY(-50px) scale(0.9);
                 opacity: 0;
             }
             to {
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
                 opacity: 1;
             }
         }
 
         /* Responsive Design */
         @media (max-width: 991px) {
-            .legal-hero-title {
-                font-size: 42px;
-            }
-
-            .legal-hero-subtitle {
-                font-size: 18px;
-            }
-
-            .legal-services-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            .service-coloum-area {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
                 gap: 25px;
             }
 
-            .legal-section-title {
-                font-size: 36px;
+            .service-item {
+                width: 100% !important;
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .service-item i {
+                font-size: 48px;
+                width: 90px;
+                height: 90px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .service-modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .service-modal-header {
+                padding: 20px;
+            }
+
+            .service-modal-body {
+                padding: 20px;
             }
         }
 
         @media (max-width: 768px) {
-            .legal-hero-section {
-                padding: 80px 0 60px;
-            }
-
-            .legal-hero-title {
-                font-size: 32px;
-            }
-
-            .legal-services-main {
+            .service-area {
                 padding: 60px 0;
             }
 
-            .legal-services-grid {
+            .service-coloum-area {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
 
-            .legal-section-title {
-                font-size: 28px;
+            .service-item {
+                padding: 35px 25px;
             }
 
-            .legal-card-inner {
-                padding: 30px 20px;
+            .service-page-list {
+                gap: 6px;
             }
 
-            .legal-modal-container {
-                max-width: 100%;
-                border-radius: 20px 20px 0 0;
+            .service-page-number,
+            .service-page-active-number {
+                width: 42px;
+                height: 42px;
+                font-size: 15px;
+            }
+
+            .service-page-active-number::after {
+                font-size: 15px;
+            }
+
+            .service-nav-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+            }
+
+            .service-item i {
+                font-size: 42px;
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .service-item .title {
+                font-size: 20px;
+            }
+
+            .service-modal-content {
+                width: 98%;
+                margin: 5% auto;
                 max-height: 95vh;
             }
 
-            .legal-modal-body {
-                padding: 30px 20px;
+            .service-modal-header h2 {
+                font-size: 24px;
             }
 
-            .legal-modal-title {
-                font-size: 24px;
+            .service-modal-icon i {
+                font-size: 48px;
+                width: 100px;
+                height: 100px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .gallery-images {
+                justify-content: center;
+            }
+
+            .gallery-images img {
+                width: 80px;
+                height: 80px;
             }
         }
 
         @media (max-width: 480px) {
-            .legal-hero-title {
-                font-size: 28px;
+            .service-item {
+                padding: 30px 20px;
             }
 
-            .legal-hero-badge {
-                font-size: 12px;
-                padding: 10px 20px;
+            .service-page-list {
+                gap: 5px;
             }
 
-            .legal-icon-circle {
+            .service-page-number,
+            .service-page-active-number {
+                width: 38px;
+                height: 38px;
+                font-size: 14px;
+            }
+
+            .service-page-active-number::after {
+                font-size: 14px;
+            }
+
+            .service-nav-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+
+            .service-item i {
+                font-size: 36px;
                 width: 70px;
                 height: 70px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
-            .legal-icon-circle i {
-                font-size: 30px;
+            .service-modal-body {
+                padding: 15px;
             }
 
-            .legal-card-title {
+            .service-modal-header h2 {
                 font-size: 20px;
+            }
+
+            .service-modal-icon i {
+                font-size: 40px;
+                width: 80px;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .service-modal-description p {
+                font-size: 16px;
             }
         }
     </style>
@@ -763,24 +909,23 @@
     @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('legalServiceModal');
-            const modalTitle = document.getElementById('legalModalTitle');
-            const modalIcon = document.getElementById('legalModalIcon');
-            const modalDescription = document.getElementById('legalModalDescription');
-            const modalGallery = document.getElementById('legalModalGallery');
-            const modalImages = document.getElementById('legalModalImages');
-            const modalFaqs = document.getElementById('legalModalFaqs');
-            const modalFaqList = document.getElementById('legalModalFaqList');
-            const fullDetailsBtn = document.getElementById('legalFullDetailsBtn');
-            const closeBtn = document.querySelector('.legal-modal-close');
+            const modal = document.getElementById('serviceModal');
+            const modalTitle = document.getElementById('serviceModalTitle');
+            const modalIcon = document.getElementById('serviceModalIcon');
+            const modalDescription = document.getElementById('serviceModalDescription');
+            const modalGallery = document.getElementById('serviceModalGallery');
+            const modalImages = document.getElementById('serviceModalImages');
+            const modalFaqs = document.getElementById('serviceModalFaqs');
+            const modalFaqList = document.getElementById('serviceModalFaqList');
+            const fullDetailsLink = document.getElementById('serviceFullDetailsLink');
+            const closeBtn = document.querySelector('.service-modal-close');
 
-            // Service card click handlers
-            document.querySelectorAll('.legal-service-card').forEach(card => {
-                card.addEventListener('click', function(e) {
-                    if (!e.target.closest('.legal-card-button')) {
-                        const slug = this.getAttribute('data-service-slug');
-                        loadServiceDetails(slug);
-                    }
+            // Service links click handler
+            document.querySelectorAll('.service-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const slug = this.getAttribute('data-slug');
+                    loadServiceDetails(slug);
                 });
             });
 
@@ -794,7 +939,7 @@
 
             // ESC key handler
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
                     closeModal();
                 }
             });
@@ -810,11 +955,13 @@
 
                         const service = data.service;
 
+                        // Update modal content
                         modalTitle.textContent = service.title;
                         modalIcon.className = service.icon;
                         modalDescription.textContent = service.description || service.sort_description;
 
-                        fullDetailsBtn.href = `/service-details/${slug}`;
+                        // Update full details link
+                        fullDetailsLink.href = `/service-details/${slug}`;
 
                         // Handle gallery
                         if (service.images && service.images.length > 0) {
@@ -830,27 +977,33 @@
                             modalGallery.style.display = 'none';
                         }
 
+
                         // Handle FAQs
                         if (service.faqs && service.faqs.length > 0) {
                             modalFaqList.innerHTML = '';
                             service.faqs.forEach(faq => {
                                 const faqItem = document.createElement('div');
-                                faqItem.className = 'legal-faq-item';
+                                faqItem.className = 'faq-item';
 
                                 faqItem.innerHTML = `
-                                    <button class="legal-faq-question">
-                                        <span>${faq.question}</span>
-                                        <i class="fas fa-chevron-down"></i>
+                                    <button class="faq-question">
+                                        ${faq.question}
+                                        <span class="faq-toggle">+</span>
                                     </button>
-                                    <div class="legal-faq-answer">${faq.answer}</div>
+                                    <div class="faq-answer">
+                                        ${faq.answer}
+                                    </div>
                                 `;
 
-                                const questionBtn = faqItem.querySelector('.legal-faq-question');
+                                // Add click handler for FAQ toggle
+                                const questionBtn = faqItem.querySelector('.faq-question');
+                                const answer = faqItem.querySelector('.faq-answer');
+                                const toggle = faqItem.querySelector('.faq-toggle');
+
                                 questionBtn.addEventListener('click', function() {
-                                    faqItem.classList.toggle('active');
-                                    const icon = this.querySelector('i');
-                                    icon.style.transform = faqItem.classList.contains('active') 
-                                        ? 'rotate(180deg)' : 'rotate(0deg)';
+                                    const isVisible = answer.style.display === 'block';
+                                    answer.style.display = isVisible ? 'none' : 'block';
+                                    toggle.textContent = isVisible ? '+' : '−';
                                 });
 
                                 modalFaqList.appendChild(faqItem);
@@ -860,7 +1013,8 @@
                             modalFaqs.style.display = 'none';
                         }
 
-                        modal.classList.add('active');
+                        // Show modal
+                        modal.style.display = 'block';
                         document.body.style.overflow = 'hidden';
                     })
                     .catch(error => {
@@ -869,8 +1023,9 @@
                     });
             }
 
+
             function closeModal() {
-                modal.classList.remove('active');
+                modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
         });
