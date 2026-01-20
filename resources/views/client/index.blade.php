@@ -4,6 +4,67 @@
 @endsection
 @section('meta')
     <meta name="description" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_description ?? 'LawMent' }}">
+    <meta name="keywords" content="محامي سوري, محامي سويسري, استشارة قانونية, خدمات قانونية, Aman Law, أمان لو, legal services Syria, legal consultation">
+@endsection
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_title ?? 'LawMent' }}">
+    <meta property="og:description" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_description ?? 'LawMent' }}">
+    <meta property="og:image" content="{{ asset($setting->logo ?? 'client/img/logo.png') }}">
+@endsection
+@section('structured_data')
+    {{-- WebPage Schema for Homepage --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "{{ seoSetting()->where('page_name', 'Home')->first()->seo_title ?? $setting->app_name }}",
+        "description": "{{ seoSetting()->where('page_name', 'Home')->first()->seo_description ?? $setting->app_name }}",
+        "url": "{{ url('/') }}",
+        "inLanguage": "{{ app()->getLocale() }}",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "{{ $setting->app_name }}",
+            "url": "{{ url('/') }}"
+        },
+        "about": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name }}"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            }]
+        }
+    }
+    </script>
+    
+    {{-- Service Schema for Legal Services --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Legal Services",
+        "provider": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name }}",
+            "url": "{{ url('/') }}"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": ["Syria", "Switzerland", "Worldwide"]
+        },
+        "availableChannel": {
+            "@type": "ServiceChannel",
+            "serviceType": "Online",
+            "availableLanguage": ["ar", "en"]
+        }
+    }
+    </script>
 @endsection
 @section('client-content')
 

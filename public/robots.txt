@@ -1,4 +1,20 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /lawyer/
+Disallow: /api/
+Disallow: /storage/
+Disallow: /vendor/
+Disallow: /*.json$
+Disallow: /*?*sort=*
+Disallow: /*?*page=*
 
+# Allow important pages
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# Crawl-delay for better server performance
+Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://amanlaw.ch/sitemap.xml

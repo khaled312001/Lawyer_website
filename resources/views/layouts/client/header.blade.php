@@ -11,9 +11,18 @@
 
 <head>
     <!-- Meta Tags -->
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- DNS Prefetch & Preconnect for Performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//www.google.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     @php
         $appName = $setting->app_name;
@@ -39,7 +48,12 @@
         $defaultDescription = $defaultSeo?->seo_description ?? $appName;
         // Get logo URL - ensure absolute URL for Google structured data
         $logoPath = $setting->logo ? $setting->logo : 'client/img/logo.png';
-        $defaultImage = url($logoPath);
+        // Ensure absolute URL for Google structured data
+        if (filter_var($logoPath, FILTER_VALIDATE_URL)) {
+            $defaultImage = $logoPath; // Already absolute URL
+        } else {
+            $defaultImage = url($logoPath); // Convert to absolute URL
+        }
         
         // Get all languages for hreflang
         $languages = allLanguages()?->where('status', 1) ?? collect();
@@ -52,20 +66,32 @@
     @hasSection('meta')
         @yield('meta')
     @else
-        <meta name="description" content="{{ $defaultDescription }}">
-        <meta name="keywords" content="{{ __('lawyer, legal services, consultation, law firm, محامي, خدمات قانونية, استشارة قانونية') }}">
+        <meta name="description" content="{{ Str::limit(strip_tags($defaultDescription), 160) }}">
+        <meta name="keywords" content="{{ __('lawyer, legal services, consultation, law firm, legal advice, محامي, خدمات قانونية, استشارة قانونية, محامي سوري, محامي سويسري, Aman Law, أمان لو') }}">
         <meta name="author" content="{{ $appName }}">
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-        <meta name="googlebot" content="index, follow">
+        <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+        <meta name="bingbot" content="index, follow">
         <meta name="language" content="{{ $currentLang }}">
-        <meta name="revisit-after" content="7 days">
+        <meta name="revisit-after" content="1 days">
+        <meta name="rating" content="general">
+        <meta name="distribution" content="global">
+        <meta name="coverage" content="worldwide">
+        <meta name="target" content="all">
+        <meta name="audience" content="all">
+        <meta name="geo.region" content="CH-SY">
+        <meta name="geo.placename" content="Switzerland, Syria">
     @endif
     
     <!-- Canonical URL -->
     @hasSection('canonical')
         @yield('canonical')
     @else
-        <link rel="canonical" href="{{ $currentUrl }}">
+        @php
+            // Remove query parameters and fragments from canonical URL for better SEO
+            $canonicalUrl = parse_url($currentUrl, PHP_URL_SCHEME) . '://' . parse_url($currentUrl, PHP_URL_HOST) . parse_url($currentUrl, PHP_URL_PATH);
+        @endphp
+        <link rel="canonical" href="{{ $canonicalUrl }}">
     @endif
     
     <!-- Open Graph Meta Tags -->
@@ -74,13 +100,20 @@
     @else
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ $currentUrl }}">
-        <meta property="og:title" content="{{ $defaultTitle }}">
-        <meta property="og:description" content="{{ $defaultDescription }}">
+        <meta property="og:title" content="{{ Str::limit($defaultTitle, 60) }}">
+        <meta property="og:description" content="{{ Str::limit(strip_tags($defaultDescription), 200) }}">
         <meta property="og:image" content="{{ $defaultImage }}">
+        <meta property="og:image:secure_url" content="{{ $defaultImage }}">
         <meta property="og:image:width" content="1200">
         <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="{{ $appName }}">
         <meta property="og:site_name" content="{{ $appName }}">
         <meta property="og:locale" content="{{ $currentLang == 'ar' ? 'ar_SY' : 'en_US' }}">
+        @if($languages->count() > 1)
+            @foreach($languages as $lang)
+                <meta property="og:locale:alternate" content="{{ $lang->code == 'ar' ? 'ar_SY' : 'en_US' }}">
+            @endforeach
+        @endif
     @endif
     
     <!-- Twitter Card Meta Tags -->
@@ -88,10 +121,13 @@
         @yield('twitter_meta')
     @else
         <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="{{ $appName }}">
+        <meta name="twitter:creator" content="{{ $appName }}">
         <meta name="twitter:url" content="{{ $currentUrl }}">
-        <meta name="twitter:title" content="{{ $defaultTitle }}">
-        <meta name="twitter:description" content="{{ $defaultDescription }}">
+        <meta name="twitter:title" content="{{ Str::limit($defaultTitle, 70) }}">
+        <meta name="twitter:description" content="{{ Str::limit(strip_tags($defaultDescription), 200) }}">
         <meta name="twitter:image" content="{{ $defaultImage }}">
+        <meta name="twitter:image:alt" content="{{ $appName }}">
     @endif
     
     <!-- Language Alternates (hreflang) -->
@@ -113,16 +149,40 @@
     @endif
     
     <!-- Additional Meta Tags -->
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#0b2c64">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="{{ $appName }}">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="format-detection" content="address=yes">
+    <meta name="msapplication-TileColor" content="#0b2c64">
+    <meta name="msapplication-config" content="/browserconfig.xml">
     
-    <!-- Structured Data (JSON-LD) - Organization -->
+    <!-- Structured Data (JSON-LD) -->
     @hasSection('structured_data')
         @yield('structured_data')
     @else
+        {{-- Website Schema for Better SEO --}}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "{{ $appName }}",
+            "url": "{{ $siteUrl }}",
+            "description": "{{ Str::limit(strip_tags($defaultDescription), 200) }}",
+            "inLanguage": "{{ $currentLang }}",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "{{ $siteUrl }}/search?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+            }
+        }
+        </script>
+        
         {{-- Organization Schema for Google Logo Display --}}
         <script type="application/ld+json">
         {
@@ -135,7 +195,8 @@
             "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": "{{ $contactInfo->top_bar_phone }}",
-                "contactType": "customer service"
+                "contactType": "customer service",
+                "availableLanguage": ["ar", "en"]
             },
             @endif
             @if($contactInfo?->top_bar_email)
@@ -163,7 +224,7 @@
             "@context": "https://schema.org",
             "@type": "LegalService",
             "name": "{{ $appName }}",
-            "description": "{{ $defaultDescription }}",
+            "description": "{{ Str::limit(strip_tags($defaultDescription), 200) }}",
             "url": "{{ $siteUrl }}",
             "logo": "{{ $defaultImage }}",
             @if($contactInfo?->top_bar_phone)
@@ -178,6 +239,10 @@
                 "streetAddress": "{{ $contactInfo->address }}"
             },
             @endif
+            "areaServed": {
+                "@type": "Country",
+                "name": ["Syria", "Switzerland", "Worldwide"]
+            },
             "sameAs": [
                 @if($socialLinks = getSocialLinks())
                     @foreach($socialLinks as $index => $social)
