@@ -1,58 +1,146 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $lawyer?->seo_title ?? $lawyer?->name . ' - ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $lawyer?->seo_description ?? Str::limit(strip_tags($lawyer?->about ?? ''), 155) ?: ($lawyer?->name . ' - ' . ($lawyer?->designations ?? 'Lawyer'));
+    $seoImage = $lawyer?->image ? image_url($lawyer->image) : ($setting->logo ? image_url($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+    $lawyerUrl = route('website.lawyer.details', $lawyer->slug);
+@endphp
+
 @section('title')
-    <title>{{ $lawyer?->seo_title ?? $lawyer?->name }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description" content="{{ $lawyer?->seo_description }}">
-    <meta property="og:title" content="{{ $lawyer?->seo_title }}" />
-    <meta property="og:description" content="{{ $lawyer?->seo_description }}" />
-    <meta property="og:image" content="{{ asset($lawyer?->image) }}" />
-    <meta property="og:URL" content="{{ url()->current() }}" />
-    <meta property="og:type" content="website" />
-    
-    @if($lawyer && $lawyer->total_ratings > 0)
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $lawyer?->name }}, {{ $lawyer?->designations ?? 'Lawyer' }}, {{ __('lawyer, attorney, legal professional, محامي') }}">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="{{ $lawyer?->name }}">
+@endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
     @php
-        $structuredData = [
-            '@context' => 'https://schema.org',
-            '@type' => 'Person',
-            'name' => $lawyer->name,
-            'jobTitle' => $lawyer->designations ?? 'Lawyer',
-            'description' => strip_tags($lawyer->seo_description ?? $lawyer->about ?? ''),
-            'image' => url($lawyer->image ?? ''),
-            'url' => url()->current(),
-            'aggregateRating' => [
-                '@type' => 'AggregateRating',
-                'ratingValue' => (string)$lawyer->average_rating,
-                'reviewCount' => (string)$lawyer->total_ratings,
-                'bestRating' => '5',
-                'worstRating' => '1',
-                'name' => $lawyer->name
-            ],
-            'review' => $lawyer->activeRatings->take(10)->map(function($rating) {
-                return [
-                    '@type' => 'Review',
-                    'author' => [
-                        '@type' => 'Person',
-                        'name' => $rating->user?->name ?? 'Anonymous'
-                    ],
-                    'datePublished' => $rating->created_at->format('Y-m-d'),
-                    'reviewBody' => $rating->comment ? strip_tags($rating->comment) : 'No comment provided',
-                    'reviewRating' => [
-                        '@type' => 'Rating',
-                        'ratingValue' => (string)$rating->rating,
-                        'bestRating' => '5',
-                        'worstRating' => '1'
-                    ],
-                    'name' => $rating->user?->name ?? 'Anonymous'
-                ];
-            })->values()->toArray()
-        ];
+        $nameParts = explode(' ', $lawyer->name);
+        $firstName = $nameParts[0] ?? $lawyer->name;
+        $lastName = count($nameParts) > 1 ? end($nameParts) : '';
     @endphp
+    <meta property="profile:first_name" content="{{ $firstName }}">
+    <meta property="profile:last_name" content="{{ $lastName }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
     <script type="application/ld+json">
-    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "{{ $lawyer->name }}",
+        "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
+        "url": "{{ $lawyerUrl }}",
+        @if($lawyer->image)
+        "image": "{{ image_url($lawyer->image) }}",
+        @endif
+        "description": "{{ $seoDescription }}",
+        "worksFor": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            "url": "{{ url('/') }}"
+        },
+        @if($lawyer->years_of_experience)
+        "knowsAbout": "Legal Services",
+        @endif
+        @if($lawyer->department)
+        "memberOf": {
+            "@type": "Organization",
+            "name": "{{ $lawyer->department->name ?? '' }}"
+        },
+        @endif
+        "sameAs": [
+            @if($lawyer->socialMedia && $lawyer->socialMedia->count() > 0)
+                @foreach($lawyer->socialMedia as $index => $social)
+                    "{{ $social->link }}"@if(!$loop->last),@endif
+                @endforeach
+            @endif
+        ]
+    }
+    </script>
+    
+    @if($lawyer->average_rating)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AggregateRating",
+        "itemReviewed": {
+            "@type": "Person",
+            "name": "{{ $lawyer->name }}"
+        },
+        "ratingValue": "{{ number_format($lawyer->average_rating, 1) }}",
+        "bestRating": "5",
+        "worstRating": "1",
+        "ratingCount": "{{ $lawyer->total_ratings ?? 0 }}"
+    }
     </script>
     @endif
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Lawyers') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.lawyers') }}",
+                    "name": "{{ __('Lawyers') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $lawyer->name }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $lawyer->name }}"
+                }
+            }
+        ]
+    }
+    </script>
 @endsection
+
 @section('client-content')
     <!--Banner Start-->
     <div class="banner-area flex"
@@ -80,8 +168,12 @@
             <div class="row align-items-center">
                 <div class="col-lg-4 col-md-6 col-sm-10">
                     <div class="team-detail-photo">
-                        <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
-                            alt="{{ $lawyer?->name }}" loading="lazy">
+                        @php
+                            $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                        @endphp
+                        <img src="{{ image_url($lawyerImage) }}"
+                            alt="{{ $lawyer?->name }}" loading="lazy"
+                            onerror="this.onerror=null; this.src='{{ image_url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
                     </div>
                 </div>
                 <div class="col-lg-8">
@@ -89,20 +181,6 @@
                         <h4>{{ $lawyer?->name }} </h4>
                         <span><b>{{ $lawyer?->department?->name }} ({{ $lawyer?->designations }})</b></span>
                         <p class="mt-0"><b>{{ __('Years of experience') }}: {{ $lawyer?->years_of_experience }}</b></p>
-                        @if($lawyer->total_ratings > 0)
-                        <div class="mt-2 mb-2">
-                            {!! displayStars($lawyer->average_rating) !!}
-                            <span class="ms-2" style="color: #666; font-size: 14px;">
-                                <strong>{{ number_format($lawyer->average_rating, 1) }}</strong> 
-                                ({{ $lawyer->total_ratings }} {{ $lawyer->total_ratings == 1 ? __('rating') : __('ratings') }})
-                            </span>
-                        </div>
-                        @else
-                        <div class="mt-2 mb-2">
-                            {!! displayStars(0) !!}
-                            <span class="ms-2" style="color: #666; font-size: 14px;">{{ __('No ratings yet') }}</span>
-                        </div>
-                        @endif
                         {{-- تم حذف الرسوم - سيتم تحديدها بعد استشارة الحالة --}}
 
                         {!! $lawyer?->about !!}
@@ -310,33 +388,19 @@
             text-align: left;
         }
         
-        /* تحسين الجداول - تصميم مخطط احترافي مع دعم RTL/LTR */
+        /* تحسين الجداول - تصميم مخطط احترافي مع ألوان واضحة ومريحة للعين */
         .info-content table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             margin: 35px 0;
-            background: #fff;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             border-radius: 12px;
             overflow: hidden;
-            border: 2px solid #e0e0e0;
+            border: 1px solid #e5e7eb;
             direction: inherit;
             position: relative;
-        }
-        
-        /* إطار خارجي للجدول */
-        .info-content table::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
-            border-radius: 12px;
-            z-index: -1;
-            opacity: 0.1;
         }
         
         /* دعم RTL/LTR للجداول */
@@ -350,13 +414,12 @@
             direction: ltr;
         }
         
-        /* رأس الجدول - تصميم مخطط احترافي */
+        /* رأس الجدول - ألوان واضحة ومريحة */
         .info-content table thead {
-            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%);
-            background-color: #6b5d47;
+            background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);
+            background-color: #0b2c64;
             color: #ffffff;
             position: relative;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
         }
         
         .info-content table thead::after {
@@ -365,36 +428,33 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.4) 100%);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            height: 3px;
+            background: linear-gradient(90deg, #D4A574 0%, #DC2626 100%);
         }
         
         .info-content table thead th {
-            padding: 22px 28px;
+            padding: 20px 28px;
             font-weight: 700;
-            font-size: 16px;
-            letter-spacing: 0.8px;
+            font-size: 15px;
+            letter-spacing: 0.5px;
             color: #ffffff !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
+            text-shadow: none;
+            background: transparent !important;
             border: none;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.25);
             position: relative;
             white-space: nowrap;
-            text-transform: uppercase;
-            font-size: 14px;
+            text-transform: none;
         }
         
         /* خط فاصل واضح بين الأعمدة في الرأس */
         .info-content table thead th:not(:first-child) {
-            border-left: 2px solid rgba(255, 255, 255, 0.25);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         [dir="rtl"] .info-content table thead th:not(:first-child),
         .info-content table[dir="rtl"] thead th:not(:first-child) {
             border-left: none;
-            border-right: 2px solid rgba(255, 255, 255, 0.25);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         /* محاذاة النص حسب الاتجاه */
@@ -413,18 +473,17 @@
         .info-content table thead th,
         .info-content table thead th[style*="color"] {
             color: #ffffff !important;
-            background: linear-gradient(135deg, #6b5d47 0%, #5a4d3a 100%) !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+            background: transparent !important;
         }
         
-        /* صفوف الجدول - تصميم مخطط منظم */
+        /* صفوف الجدول - ألوان واضحة ومريحة */
         .info-content table tbody {
-            background: #fff;
+            background: #ffffff;
         }
         
         .info-content table tbody tr {
-            border-bottom: 2px solid #e8e8e8;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid #e5e7eb;
+            transition: all 0.2s ease;
             background: #ffffff;
             position: relative;
         }
@@ -433,76 +492,56 @@
             border-bottom: none;
         }
         
+        /* صفوف زوجية - لون فاتح مريح */
         .info-content table tbody tr:nth-child(even) {
-            background: #f8f9fa;
+            background: #f9fafb;
         }
         
+        /* صفوف فردية - أبيض نقي */
         .info-content table tbody tr:nth-child(odd) {
             background: #ffffff;
         }
         
+        /* تأثير hover واضح ومريح */
         .info-content table tbody tr:hover {
-            background: #f5f3f0;
-            box-shadow: inset 0 0 0 2px rgba(107, 93, 71, 0.15), 0 4px 15px rgba(107, 93, 71, 0.15);
-            transform: translateY(-2px);
-            border-bottom-color: rgba(107, 93, 71, 0.3);
+            background: #f3f4f6 !important;
+            box-shadow: 0 2px 8px rgba(11, 44, 100, 0.1);
+            transform: translateY(0);
         }
         
-        /* خلايا الجدول - تصميم مخطط احترافي */
+        /* خلايا الجدول - تصميم واضح */
         .info-content table tbody td {
-            padding: 20px 28px;
-            color: #2c3e50;
+            padding: 18px 28px;
+            color: #374151;
             font-size: 15px;
-            line-height: 1.8;
+            line-height: 1.7;
             border: none;
             background: transparent;
             vertical-align: middle;
             position: relative;
-            border-top: 1px solid transparent;
         }
         
-        /* خط فاصل واضح بين الأعمدة - مخطط احترافي */
+        /* خط فاصل واضح بين الأعمدة */
         .info-content table tbody td:not(:first-child) {
-            border-left: 2px solid #d0d0d0;
+            border-left: 1px solid #e5e7eb;
             position: relative;
         }
         
         [dir="rtl"] .info-content table tbody td:not(:first-child),
         .info-content table[dir="rtl"] tbody td:not(:first-child) {
             border-left: none;
-            border-right: 2px solid #d0d0d0;
-        }
-        
-        /* خط فاصل داخلي رفيع */
-        .info-content table tbody td:not(:first-child)::before {
-            content: '';
-            position: absolute;
-            left: -1px;
-            top: 15%;
-            bottom: 15%;
-            width: 1px;
-            background: rgba(107, 93, 71, 0.1);
-        }
-        
-        [dir="rtl"] .info-content table tbody td:not(:first-child)::before,
-        .info-content table[dir="rtl"] tbody td:not(:first-child)::before {
-            left: auto;
-            right: -1px;
+            border-right: 1px solid #e5e7eb;
         }
         
         /* تحسين الخط الفاصل عند hover */
         .info-content table tbody tr:hover td:not(:first-child) {
-            border-left-color: rgba(107, 93, 71, 0.4);
+            border-left-color: #d1d5db;
         }
         
         [dir="rtl"] .info-content table tbody tr:hover td:not(:first-child),
         .info-content table[dir="rtl"] tbody tr:hover td:not(:first-child) {
             border-left-color: transparent;
-            border-right-color: rgba(107, 93, 71, 0.4);
-        }
-        
-        .info-content table tbody tr:hover td:not(:first-child)::before {
-            background: rgba(107, 93, 71, 0.25);
+            border-right-color: #d1d5db;
         }
         
         /* محاذاة النص في الخلايا حسب الاتجاه */
@@ -516,97 +555,50 @@
             text-align: left;
         }
         
-        /* العمود الأول - تصميم مخطط مميز */
+        /* العمود الأول - تصميم مميز وواضح */
         .info-content table tbody td:first-child {
-            font-weight: 700;
-            color: #1a252f;
+            font-weight: 600;
+            color: #0b2c64;
             min-width: 180px;
             width: 28%;
-            background: linear-gradient(to right, rgba(107, 93, 71, 0.03), transparent);
+            background: #f9fafb;
             position: relative;
-            border-right: 2px solid #e8e8e8;
+            border-right: 2px solid #e5e7eb;
         }
         
         [dir="rtl"] .info-content table tbody td:first-child {
-            background: linear-gradient(to left, rgba(107, 93, 71, 0.03), transparent);
+            background: #f9fafb;
             border-right: none;
-            border-left: 2px solid #e8e8e8;
+            border-left: 2px solid #e5e7eb;
         }
         
-        /* خط عمودي مميز للعمود الأول */
-        [dir="rtl"] .info-content table tbody td:first-child::before,
-        .info-content table[dir="rtl"] tbody td:first-child::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(to bottom, #6b5d47, rgba(107, 93, 71, 0.3));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        [dir="ltr"] .info-content table tbody td:first-child::before,
-        .info-content table[dir="ltr"] tbody td:first-child::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: linear-gradient(to bottom, #6b5d47, rgba(107, 93, 71, 0.3));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .info-content table tbody tr:hover td:first-child {
-            color: #6b5d47;
-            background: linear-gradient(to right, rgba(107, 93, 71, 0.08), transparent);
-        }
-        
-        [dir="rtl"] .info-content table tbody tr:hover td:first-child {
-            background: linear-gradient(to left, rgba(107, 93, 71, 0.08), transparent);
-        }
-        
-        .info-content table tbody tr:hover td:first-child::before {
-            opacity: 1;
-        }
-        
-        /* تحسين الألوان للصفوف الزوجية */
-        .info-content table tbody tr:nth-child(even) td {
-            background: transparent;
-        }
-        
+        /* تحسين العمود الأول في الصفوف الزوجية */
         .info-content table tbody tr:nth-child(even) td:first-child {
-            background: linear-gradient(to right, rgba(107, 93, 71, 0.02), transparent);
+            background: #f3f4f6;
         }
         
-        [dir="rtl"] .info-content table tbody tr:nth-child(even) td:first-child {
-            background: linear-gradient(to left, rgba(107, 93, 71, 0.02), transparent);
+        /* تأثير hover على العمود الأول */
+        .info-content table tbody tr:hover td:first-child {
+            color: #0b2c64;
+            background: #e5e7eb;
         }
         
         /* تحسين الخطوط والتباعد */
         .info-content table tbody td strong {
-            color: #1a252f;
+            color: #111827;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
         }
         
         .info-content table tbody td em {
-            color: #6b5d47;
+            color: #0b2c64;
             font-style: italic;
             font-weight: 500;
         }
         
-        /* خط فاصل بين الصفوف - مخطط واضح */
+        /* خط فاصل بين الصفوف - واضح ومريح */
         .info-content table tbody tr:not(:first-child) {
-            border-top: 2px solid #e8e8e8;
-        }
-        
-        /* خط فاصل رفيع إضافي بين الصفوف */
-        .info-content table tbody tr + tr td {
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid #e5e7eb;
         }
         
         /* تحسين الجدول على الشاشات الصغيرة */
@@ -1013,16 +1005,29 @@
             
             .info-content table tbody tr:hover {
                 transform: none;
-                box-shadow: 0 4px 15px rgba(107, 93, 71, 0.2);
-                border-color: rgba(107, 93, 71, 0.4);
+                box-shadow: 0 2px 8px rgba(11, 44, 100, 0.1);
+                background: #f3f4f6 !important;
             }
             
             .info-content table tbody tr:hover::before {
-                background: linear-gradient(90deg, #6b5d47 0%, #8b7a5f 100%);
+                background: linear-gradient(90deg, #0b2c64 0%, #1a3d7a 100%);
             }
             
             [dir="rtl"] .info-content table tbody tr:hover::before {
-                background: linear-gradient(270deg, #6b5d47 0%, #8b7a5f 100%);
+                background: linear-gradient(270deg, #0b2c64 0%, #1a3d7a 100%);
+            }
+            
+            .info-content table tbody td:first-child {
+                background: #f9fafb;
+            }
+            
+            .info-content table tbody tr:nth-child(even) td:first-child {
+                background: #f3f4f6;
+            }
+            
+            .info-content table tbody tr:hover td:first-child {
+                background: #e5e7eb;
+                color: #0b2c64;
             }
             
             .info-content h2 {

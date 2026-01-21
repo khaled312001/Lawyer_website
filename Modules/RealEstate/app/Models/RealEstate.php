@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Modules\RealEstate\app\Models\RealEstateTranslation;
 
 class RealEstate extends Model
 {
@@ -215,12 +216,65 @@ class RealEstate extends Model
 
     public function getTitleAttribute(): ?string
     {
-        return $this->translation?->title ?? 'Untitled Property';
+        // Try to get translation for current language
+        $translation = $this->translation;
+        
+        if ($translation && !empty($translation->title)) {
+            return $translation->title;
+        }
+        
+        // Fallback: try to get any available translation
+        // Check if translations relationship is loaded
+        if ($this->relationLoaded('translations')) {
+            $fallbackTranslation = $this->translations
+                ->whereNotNull('title')
+                ->where('title', '!=', '')
+                ->first();
+        } else {
+            // If not loaded, query it
+            $fallbackTranslation = $this->translations()
+                ->whereNotNull('title')
+                ->where('title', '!=', '')
+                ->first();
+        }
+        
+        if ($fallbackTranslation && !empty($fallbackTranslation->title)) {
+            return $fallbackTranslation->title;
+        }
+        
+        // Last resort: return null instead of 'Untitled Property'
+        return null;
     }
 
     public function getDescriptionAttribute(): ?string
     {
-        return $this->translation?->description ?? '';
+        // Try to get translation for current language
+        $translation = $this->translation;
+        
+        if ($translation && !empty($translation->description)) {
+            return $translation->description;
+        }
+        
+        // Fallback: try to get any available translation
+        // Check if translations relationship is loaded
+        if ($this->relationLoaded('translations')) {
+            $fallbackTranslation = $this->translations
+                ->whereNotNull('description')
+                ->where('description', '!=', '')
+                ->first();
+        } else {
+            // If not loaded, query it
+            $fallbackTranslation = $this->translations()
+                ->whereNotNull('description')
+                ->where('description', '!=', '')
+                ->first();
+        }
+        
+        if ($fallbackTranslation && !empty($fallbackTranslation->description)) {
+            return $fallbackTranslation->description;
+        }
+        
+        return '';
     }
 
     public function translation(): ?HasOne
@@ -267,21 +321,35 @@ class RealEstate extends Model
 
         static::deleting(function ($realEstate) {
             try {
-                if ($realEstate->images) {
-                    foreach ($realEstate->images as $image) {
-                        if ($image && !str($image)->contains('property-placeholder') && File::exists(public_path('storage/' . $image))) {
+                // Temporarily disable appends to avoid triggering accessors during deletion
+                $originalAppends = $realEstate->getAppends();
+                $realEstate->setAppends([]);
+                
+                // Get raw attribute values to avoid triggering accessors that might cause array to string conversion
+                $imagesRaw = $realEstate->getRawOriginal('images');
+                $featuredImageRaw = $realEstate->getRawOriginal('featured_image');
+                
+                // Decode JSON if needed, or use as-is if already an array
+                $images = is_string($imagesRaw) ? json_decode($imagesRaw, true) : $imagesRaw;
+                
+                if ($images && is_array($images)) {
+                    foreach ($images as $image) {
+                        if ($image && is_string($image) && !str($image)->contains('property-placeholder') && File::exists(public_path('storage/' . $image))) {
                             unlink(public_path('storage/' . $image));
                         }
                     }
                 }
-                if ($realEstate->featured_image && !str($realEstate->featured_image)->contains('property-placeholder') && File::exists(public_path('storage/' . $realEstate->featured_image))) {
-                    unlink(public_path('storage/' . $realEstate->featured_image));
+                if ($featuredImageRaw && is_string($featuredImageRaw) && !str($featuredImageRaw)->contains('property-placeholder') && File::exists(public_path('storage/' . $featuredImageRaw))) {
+                    unlink(public_path('storage/' . $featuredImageRaw));
                 }
-                if ($realEstate->translations) {
-                    $realEstate->translations()->delete();
-                }
+                
+                // Delete translations using the relationship query builder (avoid eager loading)
+                RealEstateTranslation::where('real_estate_id', $realEstate->id)->delete();
+                
+                // Restore appends (though model will be deleted anyway)
+                $realEstate->setAppends($originalAppends);
             } catch (\Exception $e) {
-                info($e);
+                info('Error deleting real estate: ' . $e->getMessage());
             }
         });
     }

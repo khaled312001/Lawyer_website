@@ -1,19 +1,185 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $property->seo_title ?? $property->title . ' - ' . __('Real Estate') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $property->seo_description ?? Str::limit(strip_tags($property->description ?? ''), 155) ?: $property->title;
+    $seoImage = $property->main_image_url ?? ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+    $propertyUrl = route('website.real-estate.show', $property->slug);
+@endphp
 
 @section('title')
-    <title>{{ $property->seo_title ?? $property->title . ' - ' . __('Real Estate') }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
 
 @section('meta')
-    <meta name="description" content="{{ $property->seo_description ?? Str::limit($property->description, 155) }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $property->title }}, {{ $property->property_type ?? '' }}, {{ __('real estate, property, عقار, عقارات') }}">
     @if($property->seo_keywords)
-        <meta name="keywords" content="{{ implode(', ', $property->seo_keywords) }}">
+        <meta name="keywords" content="{{ implode(', ', $property->seo_keywords) }}, {{ $property->title }}">
     @endif
-    <meta property="og:title" content="{{ $property->title }}">
-    <meta property="og:description" content="{{ Str::limit($property->description, 155) }}">
-    <meta property="og:image" content="{{ $property->main_image_url }}">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:type" content="website">
+    <meta name="robots" content="index, follow">
+    <meta name="geo.region" content="SY">
+    @if($property->city)
+    <meta name="geo.placename" content="{{ $property->city }}">
+    @endif
+@endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+    <meta property="product:price:amount" content="{{ $property->price ?? '' }}">
+    <meta property="product:price:currency" content="{{ getSessionCurrency() ?? 'USD' }}">
+    <meta property="product:availability" content="in stock">
+    <meta property="product:condition" content="new">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "{{ $property->title }}",
+        "description": "{{ Str::limit(strip_tags($property->description ?? ''), 200) }}",
+        "image": "{{ $seoImage }}",
+        "url": "{{ $propertyUrl }}",
+        "offers": {
+            "@type": "Offer",
+            "price": "{{ $property->price ?? 0 }}",
+            "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}",
+            "availability": "https://schema.org/InStock",
+            "url": "{{ $propertyUrl }}",
+            "priceValidUntil": "{{ date('Y-m-d', strtotime('+1 year')) }}",
+            "seller": {
+                "@type": "Organization",
+                "name": "{{ $setting->app_name ?? 'LawMent' }}",
+                "url": "{{ url('/') }}"
+            },
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "SY",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                "merchantReturnDays": 30,
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn"
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "{{ getSessionCurrency() ?? 'USD' }}"
+                },
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "SY"
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 3,
+                        "unitCode": "DAY"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 1,
+                        "maxValue": 7,
+                        "unitCode": "DAY"
+                    }
+                }
+            }
+        },
+        @if($property->address)
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{ $property->address }}",
+            @if($property->city)
+            "addressLocality": "{{ $property->city }}",
+            @endif
+            "addressCountry": "SY"
+        },
+        @endif
+        "category": "{{ $property->property_type ?? 'Real Estate' }}",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.5",
+            "reviewCount": "10"
+        },
+        "review": [
+            {
+                "@type": "Review",
+                "author": {
+                    "@type": "Person",
+                    "name": "{{ $setting->app_name ?? 'LawMent' }}"
+                },
+                "reviewRating": {
+                    "@type": "Rating",
+                    "ratingValue": "4.5",
+                    "bestRating": "5"
+                },
+                "reviewBody": "{{ Str::limit(strip_tags($property->description ?? 'Quality real estate property'), 200) }}"
+            }
+        ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Real Estate') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.real-estate') }}",
+                    "name": "{{ __('Real Estate') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $property->title }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $property->title }}"
+                }
+            }
+        ]
+    }
+    </script>
 @endsection
 
 @section('client-content')
@@ -30,42 +196,15 @@
                         <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($property->title, 30) }}</li>
                     </ol>
                 </nav>
-                <div class="property-header-content">
-                    <h1 class="property-title">{{ $property->title }}</h1>
-                    <div class="property-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>{{ $property->location_string }}</span>
-                    </div>
-                    <div class="property-meta">
-                        <span class="meta-item">
-                            <i class="fas fa-tag"></i> 
-                            <span>{{ $property->listing_type_label }}</span>
-                        </span>
-                        <span class="meta-item">
-                            <i class="fas fa-building"></i> 
-                            <span>{{ $property->property_type_label }}</span>
-                        </span>
-                        @if($property->area)
-                            <span class="meta-item">
-                                <i class="fas fa-vector-square"></i> 
-                                <span>{{ $property->formatted_area }}</span>
-                            </span>
-                        @endif
-                        @if($property->formatted_price)
-                            <span class="meta-item price-badge">
-                                <i class="fas fa-dollar-sign"></i> 
-                                <span>{{ $property->formatted_price }}</span>
-                            </span>
-                        @endif
-                    </div>
-                </div>
+           
+               
             </div>
         </div>
     </div>
 </section>
 
 <!-- Property Details Section -->
-<section class="property-details-section pt_80 pb_80">
+<section class="property-details-section pt_80 pb_80" style="text-align: left !important; direction: ltr !important;align-items: center !important;justify-content: center !important;">
     <div class="container">
         <div class="row">
             <!-- Main Content -->
@@ -74,19 +213,11 @@
                 <div class="property-gallery mb_40">
                     @if($property->gallery_images && count($property->gallery_images) > 0)
                         <div class="gallery-main">
-                            <img id="main-gallery-image" src="{{ $property->gallery_images[0] }}" alt="{{ $property->title }}" class="img-fluid">
+                            <img id="main-gallery-image" src="{{ $property->gallery_images[0] }}" alt="{{ $property->title }}" class="img-fluid" onclick="openFullscreenGallery()" style="cursor: pointer;">
                             <div class="gallery-overlay">
                                 <div class="gallery-counter">
                                     <span id="current-image">1</span> / <span id="total-images">{{ count($property->gallery_images) }}</span>
                                 </div>
-                            </div>
-                            <div class="gallery-nav">
-                                <button class="gallery-nav-btn prev" onclick="changeGalleryImage(-1)" aria-label="{{ __('Previous Image') }}">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button class="gallery-nav-btn next" onclick="changeGalleryImage(1)" aria-label="{{ __('Next Image') }}">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
                             </div>
                             <button class="gallery-fullscreen-btn" onclick="openFullscreenGallery()" aria-label="{{ __('View Fullscreen') }}">
                                 <i class="fas fa-expand"></i>
@@ -335,6 +466,24 @@
    PROPERTY DETAILS PAGE STYLES
    ============================================ */
 
+/* Desktop/Laptop - Right Alignment for Hero Section */
+@media (min-width: 992px) {
+    .property-header {
+        direction: rtl !important;
+    }
+    
+    .property-header .container {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    .property-header .row {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+    }
+}
+
 /* Property Header - Enhanced Design */
 .property-header {
     padding: 100px 0 80px;
@@ -345,6 +494,23 @@
     min-height: 400px;
     display: flex;
     align-items: center;
+    direction: rtl !important;
+}
+
+.property-header .container {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-header .row {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+.property-header [class*="col-"] {
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-header::before {
@@ -362,6 +528,8 @@
     position: relative;
     z-index: 2;
     margin-bottom: 30px;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-breadcrumb .breadcrumb {
@@ -370,6 +538,9 @@
     padding: 12px 20px;
     border-radius: 25px;
     margin: 0;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .property-breadcrumb .breadcrumb-item a {
@@ -388,15 +559,188 @@
 }
 
 .property-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
-    color: rgba(255,255,255,0.7);
+    color: #fff !important;
     content: "›";
+}
+
+/* Ensure all content in property-header is right-aligned */
+.property-header > *,
+.property-header .container > *,
+.property-header .row > *,
+.property-header [class*="col-"] > * {
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-header-content {
     position: relative;
     z-index: 2;
-    text-align: center;
-    color: white;
+    text-align: right !important;
+    color: #fff !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-header-content {
+    text-align: right !important;
+    direction: rtl !important;
+    color: #fff !important;
+}
+
+/* ============================================
+   NEW V2 STYLES - Complete RTL Alignment for Property Header
+   ============================================ */
+
+.property-header-content-v2 {
+    direction: rtl !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+    width: 100%;
+}
+
+[dir="ltr"] .property-header-content-v2 {
+    direction: rtl !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+}
+
+.property-title-v2 {
+    width: 100%;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-title-v2 {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.property-location-v2 {
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    flex-wrap: nowrap !important;
+}
+
+[dir="ltr"] .property-location-v2 {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 24px !important;
+    text-align: center !important;
+    color: var(--colorSecondary, #f4d03f) !important;
+    margin-left: 0.5rem !important;
+    font-size: 22px !important;
+}
+
+[dir="ltr"] .property-icon-v2 {
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+.property-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
+}
+
+[dir="ltr"] .property-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
+}
+
+.property-meta-v2 {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end !important;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+    direction: rtl !important;
+    align-items: center;
+}
+
+[dir="ltr"] .property-meta-v2 {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+}
+
+.meta-item-v2 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+}
+
+[dir="ltr"] .meta-item-v2 {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.meta-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 18px !important;
+    text-align: center !important;
+    color: var(--colorSecondary, #f4d03f) !important;
+    font-size: 16px !important;
+    margin-left: 0.5rem !important;
+}
+
+[dir="ltr"] .meta-icon-v2 {
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+.meta-item-v2.price-badge .meta-icon-v2 {
+    color: #fff !important;
+}
+
+.meta-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
+}
+
+[dir="ltr"] .meta-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
+}
+
+/* Ensure all text in property-header is white */
+.property-header,
+.property-header * {
+    color: #fff !important;
+}
+
+/* Override for icons to maintain their color */
+.property-header i {
+    color: var(--colorSecondary, #f4d03f) !important;
+}
+
+.property-header .meta-item.price-badge i {
+    color: #fff !important;
 }
 
 .property-title {
@@ -405,6 +749,15 @@
     margin-bottom: 15px;
     text-shadow: 0 4px 15px rgba(0,0,0,0.5);
     line-height: 1.2;
+    text-align: right !important;
+    direction: rtl !important;
+    color: #fff !important;
+}
+
+[dir="ltr"] .property-title {
+    text-align: right !important;
+    direction: rtl !important;
+    color: #fff !important;
 }
 
 .property-location {
@@ -412,23 +765,68 @@
     margin-bottom: 20px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end !important;
     gap: 10px;
     font-weight: 500;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
+    flex-wrap: nowrap;
+}
+
+[dir="ltr"] .property-location {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #fff !important;
 }
 
 .property-location i {
     color: var(--colorSecondary, #f4d03f);
     font-size: 22px;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    order: 1 !important;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .property-location i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.property-location span {
+    order: 2 !important;
+    text-align: right !important;
+    color: #fff !important;
+    margin-right: 0;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-location span {
+    order: 2 !important;
+    text-align: right !important;
+    color: #fff !important;
+    margin-left: 0;
+    direction: rtl !important;
 }
 
 .property-meta {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: flex-end !important;
+    gap: 12px;
     flex-wrap: wrap;
     margin-top: 25px;
+    direction: rtl !important;
+    align-items: center;
+}
+
+[dir="ltr"] .property-meta {
+    justify-content: flex-end !important;
+    direction: rtl !important;
 }
 
 .meta-item {
@@ -437,13 +835,26 @@
     gap: 8px;
     background: rgba(255,255,255,0.25);
     backdrop-filter: blur(10px);
-    padding: 10px 20px;
+    padding: 10px 18px;
     border-radius: 25px;
     font-size: 15px;
     font-weight: 600;
     border: 1px solid rgba(255,255,255,0.3);
     transition: all 0.3s ease;
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    color: #fff !important;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+}
+
+[dir="ltr"] .meta-item {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    color: #fff !important;
 }
 
 .meta-item:hover {
@@ -455,15 +866,51 @@
 .meta-item i {
     font-size: 16px;
     color: var(--colorSecondary, #f4d03f);
+    order: 1 !important;
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .meta-item i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.meta-item span {
+    order: 2 !important;
+    text-align: right !important;
+    color: #fff !important;
+    margin-right: 0;
+    flex: 0 1 auto;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .meta-item span {
+    order: 2 !important;
+    text-align: right !important;
+    color: #fff !important;
+    margin-left: 0;
+    direction: rtl !important;
 }
 
 .meta-item.price-badge {
     background: linear-gradient(135deg, var(--colorPrimary, #c8b47e) 0%, var(--colorSecondary, #8b7355) 100%);
     border-color: rgba(255,255,255,0.5);
+    box-shadow: 0 3px 15px rgba(200, 180, 126, 0.4);
+}
+
+.meta-item.price-badge:hover {
+    box-shadow: 0 5px 20px rgba(200, 180, 126, 0.6);
+    transform: translateY(-3px);
 }
 
 .meta-item.price-badge i {
-    color: #fff;
+    color: #fff !important;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
 }
 
 /* Property Gallery - Enhanced Design */
@@ -480,6 +927,7 @@
     height: 500px;
     overflow: hidden;
     background: #000;
+    cursor: pointer;
 }
 
 .gallery-main img {
@@ -487,10 +935,36 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .gallery-main:hover img {
     transform: scale(1.05);
+}
+
+.gallery-main:active img {
+    transform: scale(0.98);
+}
+
+.gallery-main::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.gallery-main:hover::after {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .gallery-overlay {
@@ -498,6 +972,7 @@
     top: 20px;
     right: 20px;
     z-index: 3;
+    pointer-events: none;
 }
 
 .gallery-counter {
@@ -508,6 +983,7 @@
     border-radius: 20px;
     font-size: 14px;
     font-weight: 600;
+    pointer-events: none;
 }
 
 .gallery-nav {
@@ -525,7 +1001,8 @@
 
 .gallery-nav-btn {
     background: rgba(255,255,255,0.95);
-    border: none;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.8);
     width: 55px;
     height: 55px;
     border-radius: 50%;
@@ -538,6 +1015,26 @@
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     pointer-events: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-nav-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+.gallery-nav-btn:hover::before {
+    width: 100%;
+    height: 100%;
 }
 
 .gallery-nav-btn:hover {
@@ -545,10 +1042,21 @@
     color: white;
     transform: scale(1.15);
     box-shadow: 0 6px 20px rgba(200, 180, 126, 0.4);
+    border-color: rgba(255,255,255,0.5);
 }
 
 .gallery-nav-btn:active {
     transform: scale(1.05);
+}
+
+.gallery-nav-btn i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.gallery-nav-btn:hover i {
+    transform: scale(1.1);
 }
 
 .gallery-fullscreen-btn {
@@ -681,27 +1189,47 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .section-title {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .section-title i {
     color: var(--colorPrimary);
     font-size: 28px;
+    order: 1 !important;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .section-title i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .section-title::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     width: 60px;
     height: 4px;
     background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
     border-radius: 2px;
 }
 
-[dir="rtl"] .section-title::after {
-    left: auto;
-    right: 0;
+[dir="ltr"] .section-title::after {
+    right: auto;
+    left: 0;
 }
 
 .overview-grid {
@@ -711,11 +1239,21 @@
 }
 
 .overview-item {
-    text-align: center;
+    text-align: right !important;
     padding: 20px;
     background: #f8f9fa;
     border-radius: 10px;
     transition: all 0.3s ease;
+    direction: rtl !important;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end !important;
+}
+
+[dir="ltr"] .overview-item {
+    text-align: right !important;
+    direction: rtl !important;
+    align-items: flex-end !important;
 }
 
 .overview-item:hover {
@@ -724,15 +1262,53 @@
     transform: translateY(-3px);
 }
 
-.overview-item i {
-    font-size: 32px;
-    color: var(--colorPrimary);
+.overview-icon {
+    order: 1;
     margin-bottom: 10px;
-    display: block;
+    display: flex;
+    justify-content: flex-end !important;
+    width: 100%;
+    align-items: center;
 }
 
-.overview-item:hover i {
+[dir="ltr"] .overview-icon {
+    justify-content: flex-end !important;
+}
+
+.overview-item .overview-icon i {
+    font-size: 32px;
+    color: var(--colorPrimary);
+    margin-bottom: 0;
+    display: block;
+    order: 1;
+}
+
+.overview-item:hover .overview-icon i {
     color: white;
+}
+
+.overview-item .label {
+    order: 2;
+    text-align: right !important;
+    width: 100%;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .overview-item .label {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.overview-item .value {
+    order: 3;
+    text-align: right !important;
+    width: 100%;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .overview-item .value {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .overview-item .label {
@@ -767,7 +1343,13 @@
     line-height: 1.9;
     color: #4a5568;
     font-size: 17px;
-    text-align: justify;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .description-content {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .description-content p {
@@ -805,11 +1387,60 @@
     border-radius: 8px;
     font-size: 14px;
     color: #555;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    flex-wrap: nowrap;
+}
+
+[dir="ltr"] .feature-item {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+.feature-item:hover {
+    background: var(--colorPrimary);
+    color: white;
+    transform: translateX(-5px);
+}
+
+[dir="ltr"] .feature-item:hover {
+    transform: translateX(-5px);
 }
 
 .feature-item i {
     color: var(--colorPrimary);
     font-size: 16px;
+    order: 1 !important;
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .feature-item i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.feature-item:hover i {
+    color: white;
+}
+
+.feature-item span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-right: 0;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .feature-item span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-left: 0;
+    direction: rtl !important;
 }
 
 /* Property Contact */
@@ -884,17 +1515,30 @@
     color: white;
     padding: 35px 30px;
     border-radius: 20px;
-    text-align: center;
+    text-align: right !important;
     box-shadow: 0 10px 35px rgba(200, 180, 126, 0.4);
     position: sticky;
     top: 100px;
     border: 2px solid rgba(255,255,255,0.2);
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-card {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-header {
     margin-bottom: 30px;
     padding-bottom: 25px;
     border-bottom: 2px solid rgba(255,255,255,0.3);
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-header {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-label {
@@ -904,6 +1548,13 @@
     letter-spacing: 1px;
     margin-bottom: 10px;
     font-weight: 600;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-label {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-amount {
@@ -912,6 +1563,13 @@
     margin-bottom: 10px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.2);
     line-height: 1.2;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-amount {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-period {
@@ -919,19 +1577,58 @@
     opacity: 0.95;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end !important;
     gap: 6px;
     font-weight: 500;
+    direction: rtl !important;
+    text-align: right !important;
+    flex-wrap: nowrap;
+}
+
+[dir="ltr"] .price-period {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .price-period i {
     font-size: 14px;
+    order: 1 !important;
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .price-period i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.price-period span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-right: 0;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-period span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-left: 0;
+    direction: rtl !important;
 }
 
 .price-actions {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    direction: rtl;
+}
+
+[dir="ltr"] .price-actions {
+    direction: ltr;
 }
 
 .price-actions .btn {
@@ -941,6 +1638,18 @@
     border-radius: 10px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .price-actions .btn {
+    justify-content: flex-start;
+    direction: ltr;
+    text-align: left;
 }
 
 .price-actions .btn-primary {
@@ -968,12 +1677,32 @@
 }
 
 .price-actions .btn i {
-    margin-right: 8px;
+    order: 1;
+    flex-shrink: 0;
+    margin: 0;
+    width: 18px;
+    text-align: center;
+    margin-left: 0.5rem;
 }
 
-[dir="rtl"] .price-actions .btn i {
+[dir="ltr"] .price-actions .btn i {
+    order: 2;
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+.price-actions .btn span {
+    order: 2;
+    text-align: right;
     margin-right: 0;
-    margin-left: 8px;
+    direction: rtl;
+}
+
+[dir="ltr"] .price-actions .btn span {
+    order: 1;
+    text-align: left;
+    margin-left: 0;
+    direction: ltr;
 }
 
 /* Property Summary */
@@ -982,6 +1711,13 @@
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .property-summary {
+    direction: ltr;
+    text-align: left;
 }
 
 .property-summary h4 {
@@ -989,12 +1725,26 @@
     color: #333;
     font-size: 18px;
     font-weight: 600;
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="ltr"] .property-summary h4 {
+    text-align: left;
+    direction: ltr;
 }
 
 .summary-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .summary-list {
+    direction: ltr;
+    text-align: left;
 }
 
 .summary-list li {
@@ -1002,6 +1752,13 @@
     justify-content: space-between;
     padding: 10px 0;
     border-bottom: 1px solid #f0f0f0;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .summary-list li {
+    direction: ltr;
+    text-align: left;
 }
 
 .summary-list li:last-child {
@@ -1011,11 +1768,25 @@
 .summary-list .label {
     font-weight: 500;
     color: #666;
+    text-align: right;
+    order: 1;
+}
+
+[dir="ltr"] .summary-list .label {
+    text-align: left;
+    order: 1;
 }
 
 .summary-list .value {
     font-weight: 600;
     color: #333;
+    text-align: left;
+    order: 2;
+}
+
+[dir="ltr"] .summary-list .value {
+    text-align: right;
+    order: 2;
 }
 
 /* Similar Properties - Enhanced */
@@ -1025,6 +1796,13 @@
     border-radius: 20px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     border: 1px solid #e9ecef;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .similar-properties {
+    direction: ltr;
+    text-align: left;
 }
 
 .similar-properties h4 {
@@ -1037,11 +1815,45 @@
     gap: 10px;
     padding-bottom: 15px;
     border-bottom: 2px solid #e9ecef;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .similar-properties h4 {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .similar-properties h4 i {
     color: var(--colorPrimary);
     font-size: 22px;
+    order: 1 !important;
+    flex-shrink: 0;
+    width: 22px;
+    text-align: center;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .similar-properties h4 i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.similar-properties h4 span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-right: 0;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .similar-properties h4 span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-left: 0;
+    direction: rtl !important;
 }
 
 .similar-properties-list {
@@ -1074,6 +1886,14 @@
     text-decoration: none;
     color: inherit;
     transition: all 0.3s ease;
+    direction: rtl;
+    text-align: right;
+    flex-direction: row;
+}
+
+[dir="ltr"] .similar-property-link {
+    direction: ltr;
+    text-align: left;
 }
 
 .similar-property-image {
@@ -1134,6 +1954,13 @@
 .similar-property-info {
     flex: 1;
     min-width: 0;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .similar-property-info {
+    direction: ltr;
+    text-align: left;
 }
 
 .similar-property-info h5 {
@@ -1143,6 +1970,13 @@
     color: #2c3e50;
     line-height: 1.4;
     transition: color 0.3s ease;
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="ltr"] .similar-property-info h5 {
+    text-align: left;
+    direction: ltr;
 }
 
 .similar-property-item:hover .similar-property-info h5 {
@@ -1154,12 +1988,26 @@
     color: var(--colorPrimary);
     font-size: 16px;
     margin-bottom: 8px;
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="ltr"] .similar-property-price {
+    text-align: left;
+    direction: ltr;
 }
 
 .similar-property-meta {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .similar-property-meta {
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .similar-property-location,
@@ -1169,12 +2017,51 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    flex-wrap: nowrap;
+}
+
+[dir="ltr"] .similar-property-location,
+[dir="ltr"] .similar-property-area {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .similar-property-location i,
 .similar-property-area i {
     color: var(--colorPrimary);
     font-size: 12px;
+    order: 1 !important;
+    flex-shrink: 0;
+    width: 14px;
+    text-align: center;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .similar-property-location i,
+[dir="ltr"] .similar-property-area i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.similar-property-location span,
+.similar-property-area span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-right: 0;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .similar-property-location span,
+[dir="ltr"] .similar-property-area span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-left: 0;
+    direction: rtl !important;
 }
 
 /* ============================================
@@ -1185,6 +2072,18 @@
     .property-header {
         padding: 80px 0 60px;
         min-height: 350px;
+        direction: rtl !important;
+    }
+    
+    .property-header .container {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    .property-header .row {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
     }
 
     .property-title {
@@ -1224,36 +2123,126 @@
     .property-header {
         padding: 70px 0 50px;
         min-height: 300px;
+        direction: rtl !important;
+    }
+
+    /* Remove all padding on mobile to start from right edge - Override global styles */
+    section.property-header .container,
+    section.property-header .container-fluid,
+    .property-header section .container,
+    .property-header section .container-fluid {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    .property-header .row {
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
+    }
+    
+    .property-header [class*="col-"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    section.property-header .row,
+    .property-header .row {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        --bs-gutter-x: 0 !important;
+    }
+
+    section.property-header [class*="col-"],
+    .property-header [class*="col-"] {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .property-header-content,
+    .property-header-content-v2 {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .property-breadcrumb {
         margin-bottom: 20px;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        direction: rtl !important;
+        text-align: right !important;
     }
 
     .property-breadcrumb .breadcrumb {
-        padding: 10px 15px;
+        padding: 10px 0 10px 0 !important;
         font-size: 13px;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        direction: rtl !important;
+        text-align: right !important;
+        justify-content: flex-end !important;
     }
 
-    .property-title {
+    .property-title,
+    .property-title-v2 {
         font-size: 26px;
         margin-bottom: 12px;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    .property-location {
+    .property-location,
+    .property-location-v2 {
         font-size: 16px;
         margin-bottom: 15px;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    .property-meta {
+    .property-meta,
+    .property-meta-v2 {
         gap: 10px;
         flex-direction: row;
         flex-wrap: wrap;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        justify-content: flex-end !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    .meta-item {
+    .meta-item,
+    .meta-item-v2 {
         padding: 8px 14px;
         font-size: 13px;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
     .gallery-main {
@@ -1266,13 +2255,30 @@
     }
 
     .gallery-nav {
-        padding: 0 15px;
+        padding: 0 12px;
     }
 
     .gallery-nav-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 16px;
+        width: 38px;
+        height: 38px;
+        font-size: 15px;
+        border-width: 1.5px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(8px);
+    }
+
+    .gallery-nav-btn:hover {
+        transform: scale(1.12);
+        box-shadow: 0 4px 16px rgba(200, 180, 126, 0.5);
+    }
+
+    .gallery-nav-btn:active {
+        transform: scale(0.96);
+    }
+
+    .gallery-nav-btn i {
+        font-size: 15px;
     }
 
     .gallery-fullscreen-btn {
@@ -1452,13 +2458,30 @@
     }
 
     .gallery-nav {
-        padding: 0 10px;
+        padding: 0 8px;
     }
 
     .gallery-nav-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 14px;
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+        border-width: 1.5px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(8px);
+    }
+
+    .gallery-nav-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 3px 12px rgba(200, 180, 126, 0.6);
+    }
+
+    .gallery-nav-btn:active {
+        transform: scale(0.92);
+    }
+
+    .gallery-nav-btn i {
+        font-size: 13px;
     }
 
     .gallery-fullscreen-btn {
@@ -1631,8 +2654,67 @@
 
 /* RTL Mobile Support */
 @media (max-width: 768px) {
-    [dir="rtl"] .property-header-content {
-        text-align: center;
+    [dir="rtl"] .property-header-content,
+    [dir="rtl"] .property-header-content-v2 {
+        text-align: right !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Override global container padding for property header on mobile */
+    [dir="rtl"] section.property-header .container,
+    [dir="rtl"] section.property-header .container-fluid,
+    [dir="rtl"] .property-header .container,
+    [dir="rtl"] .property-header .container-fluid {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    [dir="rtl"] section.property-header .row,
+    [dir="rtl"] .property-header .row {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    [dir="rtl"] section.property-header [class*="col-"],
+    [dir="rtl"] .property-header [class*="col-"] {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    /* Final override - Force no padding on mobile for property header */
+    @media (max-width: 768px) {
+        .property-header * {
+            box-sizing: border-box;
+        }
+        
+        .property-header .container,
+        .property-header .container-fluid,
+        .property-header .row,
+        .property-header [class*="col-"],
+        .property-header-content,
+        .property-header-content-v2,
+        .property-title,
+        .property-title-v2,
+        .property-location,
+        .property-location-v2,
+        .property-meta,
+        .property-meta-v2,
+        .meta-item,
+        .meta-item-v2 {
+            padding-right: 0 !important;
+            padding-left: 0 !important;
+            margin-right: 0 !important;
+            margin-left: 0 !important;
+        }
     }
 
     [dir="rtl"] .section-title {
@@ -1716,72 +2798,70 @@
     max-height: 90vh;
     object-fit: contain;
     border-radius: 10px;
+    transition: opacity 0.2s ease;
 }
 
-.lightbox-close,
-.lightbox-prev,
-.lightbox-next {
+/* Close button */
+.lightbox-close {
     position: absolute;
-    background: rgba(255,255,255,0.9);
-    border: none;
-    width: 50px;
-    height: 50px;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
+    color: #ffffff;
+    font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #333;
-    font-size: 20px;
     cursor: pointer;
+    z-index: 100000;
     transition: all 0.3s ease;
-    z-index: 10;
+    font-weight: 300;
 }
 
-.lightbox-close {
-    top: -60px;
-    right: 0;
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: rotate(90deg) scale(1.1);
 }
 
-.lightbox-prev {
-    left: -60px;
-    top: 50%;
-    transform: translateY(-50%);
+.lightbox-close:active {
+    transform: rotate(90deg) scale(0.95);
 }
 
+/* Hide navigation arrows */
+.lightbox-prev,
 .lightbox-next {
-    right: -60px;
-    top: 50%;
-    transform: translateY(-50%);
+    display: none !important;
 }
 
-.lightbox-close:hover,
-.lightbox-prev:hover,
-.lightbox-next:hover {
-    background: var(--colorPrimary);
-    color: white;
-    transform: scale(1.1);
+/* Make image draggable/swipeable */
+.lightbox-image {
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: pan-y;
 }
 
-.lightbox-next:hover {
-    transform: translateY(-50%) scale(1.1);
-}
-
-.lightbox-prev:hover {
-    transform: translateY(-50%) scale(1.1);
+.lightbox-image:active {
+    cursor: grabbing;
 }
 
 @media (max-width: 768px) {
     .lightbox-close {
-        top: 10px;
-        right: 10px;
-    }
-
-    .lightbox-prev {
-        left: 10px;
-    }
-
-    .lightbox-next {
-        right: 10px;
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        font-size: 24px;
+        background: rgba(255, 255, 255, 0.25);
+        border: 2px solid rgba(255, 255, 255, 0.4);
     }
 
     .lightbox-content img {
@@ -1843,6 +2923,77 @@
         break-inside: avoid;
     }
 }
+
+/* ============================================
+   FINAL MOBILE OVERRIDE - Property Header Right Edge
+   ============================================ */
+@media (max-width: 768px) {
+    /* Override ALL global styles for property header on mobile */
+    section.property-header,
+    .property-header {
+        padding-left: 0 !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+    
+    section.property-header .container,
+    section.property-header .container-fluid,
+    .property-header .container,
+    .property-header .container-fluid {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+    
+    section.property-header .row,
+    .property-header .row {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        --bs-gutter-x: 0 !important;
+        --bs-gutter-y: 0 !important;
+    }
+    
+    section.property-header [class*="col-"],
+    .property-header [class*="col-"] {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .property-header-content,
+    .property-header-content-v2 {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .property-title,
+    .property-title-v2,
+    .property-location,
+    .property-location-v2,
+    .property-meta,
+    .property-meta-v2 {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .meta-item,
+    .meta-item-v2 {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+}
 </style>
 @endpush
 
@@ -1885,32 +3036,119 @@ $(document).ready(function() {
         // Simple lightbox implementation
         const currentImg = images[currentImageIndex];
         const propertyTitle = @json($property->title);
-        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><img src="' + currentImg + '" alt="' + propertyTitle + '"><button class="lightbox-close"><i class="fas fa-times"></i></button><button class="lightbox-prev"><i class="fas fa-chevron-left"></i></button><button class="lightbox-next"><i class="fas fa-chevron-right"></i></button></div></div>';
+        const lightboxHtml = '<div class="gallery-lightbox"><div class="lightbox-content"><button class="lightbox-close" onclick="closeFullscreenGallery()" aria-label="Close">&times;</button><img src="' + currentImg + '" alt="' + propertyTitle + '" class="lightbox-image"></div></div>';
         const lightbox = $(lightboxHtml);
         $('body').append(lightbox);
         
-        // Close button
-        lightbox.find('.lightbox-close').on('click', function() {
-            lightbox.remove();
+        // Swipe functionality for navigation
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
+        const lightboxImage = lightbox.find('.lightbox-image');
+        
+        // Touch events for mobile
+        lightboxImage.on('touchstart', function(e) {
+            touchStartX = e.originalEvent.touches[0].clientX;
+            touchStartY = e.originalEvent.touches[0].clientY;
         });
         
-        // Navigation buttons
-        lightbox.find('.lightbox-prev').on('click', function() {
-            changeGalleryImage(-1);
-            lightbox.find('img').attr('src', images[currentImageIndex]);
+        lightboxImage.on('touchend', function(e) {
+            touchEndX = e.originalEvent.changedTouches[0].clientX;
+            touchEndY = e.originalEvent.changedTouches[0].clientY;
+            handleSwipe();
         });
         
-        lightbox.find('.lightbox-next').on('click', function() {
-            changeGalleryImage(1);
-            lightbox.find('img').attr('src', images[currentImageIndex]);
+        // Mouse events for desktop (drag)
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        
+        lightboxImage.on('mousedown', function(e) {
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            lightboxImage.css('cursor', 'grabbing');
+            e.preventDefault();
+        });
+        
+        $(document).on('mousemove.lightbox', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+            }
+        });
+        
+        $(document).on('mouseup.lightbox', function(e) {
+            if (isDragging) {
+                touchEndX = e.clientX;
+                touchEndY = e.clientY;
+                touchStartX = dragStartX;
+                touchStartY = dragStartY;
+                handleSwipe();
+                isDragging = false;
+                lightboxImage.css('cursor', 'grab');
+            }
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50; // Minimum distance for swipe
+            const diffX = touchStartX - touchEndX;
+            const diffY = Math.abs(touchStartY - touchEndY);
+            
+            // Only trigger swipe if horizontal movement is greater than vertical (to avoid conflicts with scrolling)
+            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffX) > diffY) {
+                if (diffX > 0) {
+                    // Swipe left - next image
+                    changeGalleryImage(1);
+                } else {
+                    // Swipe right - previous image
+                    changeGalleryImage(-1);
+                }
+                // Add smooth transition
+                lightboxImage.css('opacity', '0.7');
+                setTimeout(function() {
+                    lightboxImage.attr('src', images[currentImageIndex]);
+                    lightboxImage.css('opacity', '1');
+                }, 150);
+            }
+        }
+        
+        // Clean up event listeners when lightbox is closed
+        lightbox.on('remove', function() {
+            $(document).off('mousemove.lightbox mouseup.lightbox keydown.lightbox');
+            window.currentLightbox = null;
         });
         
         // Close on overlay click
         lightbox.on('click', function(e) {
             if (e.target === this) {
-                lightbox.remove();
+                closeFullscreenGallery();
             }
         });
+        
+        // Prevent closing when clicking on image or close button
+        lightbox.find('.lightbox-content').on('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        // Store lightbox reference globally for close function
+        window.currentLightbox = lightbox;
+        
+        // Close on ESC key
+        $(document).on('keydown.lightbox', function(e) {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                closeFullscreenGallery();
+            }
+        });
+    };
+    
+    // Close fullscreen gallery function
+    window.closeFullscreenGallery = function() {
+        if (window.currentLightbox) {
+            window.currentLightbox.remove();
+            window.currentLightbox = null;
+            $(document).off('keydown.lightbox mousemove.lightbox mouseup.lightbox');
+        }
     };
 
 

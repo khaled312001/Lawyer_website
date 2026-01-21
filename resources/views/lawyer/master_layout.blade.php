@@ -251,8 +251,51 @@
             setInterval(loadNotifications, 30000);
         });
 
-        // Close sidebar when clicking backdrop on mobile (Lawyer Dashboard)
+        // Lawyer Dashboard Sidebar Mobile Toggle - Enhanced
         $(document).ready(function() {
+            function handleSidebar() {
+                // On mobile (width <= 1024px), allow toggle
+                if ($(window).width() <= 1024) {
+                    // Mobile: Sidebar should be closed by default
+                    if (!$('body').hasClass('sidebar-show')) {
+                        $('body').addClass('sidebar-gone');
+                    }
+                } else {
+                    // Desktop: Always keep sidebar open
+                    $('body').removeClass('sidebar-gone sidebar-show');
+                }
+            }
+            
+            // Initial check
+            handleSidebar();
+            
+            // Check on window resize
+            $(window).on('resize', function() {
+                handleSidebar();
+            });
+            
+            // Toggle sidebar only on mobile - Enhanced with better event handling
+            $(document).on('click', '[data-toggle="sidebar"]', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Only allow toggle on mobile
+                if ($(window).width() <= 1024) {
+                    if ($('body').hasClass('sidebar-gone') || !$('body').hasClass('sidebar-show')) {
+                        $('body').removeClass('sidebar-gone');
+                        $('body').addClass('sidebar-show');
+                        // Prevent body scroll when sidebar is open
+                        $('body').css('overflow', 'hidden');
+                    } else {
+                        $('body').removeClass('sidebar-show');
+                        $('body').addClass('sidebar-gone');
+                        // Allow body scroll when sidebar is closed
+                        $('body').css('overflow', 'auto');
+                    }
+                }
+            });
+            
+            // Close sidebar when clicking backdrop on mobile (Lawyer Dashboard)
             $(document).on('click', function(e) {
                 if ($(window).width() <= 1024) {
                     if ($('body').hasClass('sidebar-show')) {
@@ -261,22 +304,16 @@
                             !$(e.target).closest('[data-toggle="sidebar"]').length &&
                             !$(e.target).is('[data-toggle="sidebar"]')) {
                             $('body').removeClass('sidebar-show');
+                            $('body').addClass('sidebar-gone');
+                            $('body').css('overflow', 'auto');
                         }
                     }
                 }
             });
             
-            // Prevent body scroll when sidebar is open on mobile
-            $('[data-toggle="sidebar"]').on('click', function() {
-                if ($(window).width() <= 1024) {
-                    setTimeout(function() {
-                        if ($('body').hasClass('sidebar-show')) {
-                            $('body').css('overflow', 'hidden');
-                        } else {
-                            $('body').css('overflow', 'auto');
-                        }
-                    }, 100);
-                }
+            // Prevent event bubbling when clicking inside sidebar
+            $('.main-sidebar').on('click', function(e) {
+                e.stopPropagation();
             });
         });
     </script>

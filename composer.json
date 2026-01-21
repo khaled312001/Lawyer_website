@@ -24,6 +24,7 @@
         "mews/purifier": "^3.4",
         "mollie/laravel-mollie": "^2.25",
         "nwidart/laravel-modules": "^10.0",
+        "phpoffice/phpword": "^1.3",
         "pusher/pusher-php-server": "^7.2",
         "razorpay/razorpay": "^2.8",
         "spatie/laravel-image-optimizer": "^1.8",

@@ -156,25 +156,27 @@
                             <!-- Lawyer Selection -->
                             <div class="mb-4">
                                 <label for="lawyer_id" class="form-label">
-                                    <i class="fas fa-user-tie me-2"></i>{{ __('Select Lawyer') }} <span class="text-danger">*</span>
+                                    <span>{{ __('Select Lawyer') }}</span>
+                                    <i class="fas fa-user-tie"></i>
                                 </label>
                                 <div class="lawyer-selection-wrapper">
-                                    <select name="lawyer_id" id="lawyer_id" class="form-select lawyer-select @error('lawyer_id') is-invalid @enderror" required>
+                                    <select name="lawyer_id" id="lawyer_id" class="form-select lawyer-select @error('lawyer_id') is-invalid @enderror">
                                         <option value="">{{ __('Choose a lawyer for your consultation') }}</option>
                                         @foreach($lawyers ?? [] as $lawyer)
+                                            @php
+                                                $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                    ? $lawyer->departments->first() 
+                                                    : ($lawyer->department ?? null);
+                                                $deptName = $displayDept && $displayDept->name ? $displayDept->name : __('Lawyer');
+                                            @endphp
                                             <option value="{{ $lawyer->id }}"
-                                                    data-department="{{ $lawyer->department->name ?? '' }}"
+                                                    data-department="{{ $deptName }}"
                                                     data-specialty="{{ $lawyer->designations ?? '' }}"
                                                     data-slug="{{ $lawyer->slug ?? '' }}"
-                                                    data-rating="{{ $lawyer->average_rating ?? 0 }}"
-                                                    data-rating-count="{{ $lawyer->total_ratings ?? 0 }}"
                                                     {{ old('lawyer_id') == $lawyer->id ? 'selected' : '' }}>
-                                                {{ $lawyer->name }} - {{ $lawyer->department->name ?? __('Lawyer') }}
+                                                {{ $lawyer->name }} - {{ $deptName }}
                                                 @if($lawyer->designations)
                                                     ({{ $lawyer->designations }})
-                                                @endif
-                                                @if($lawyer->average_rating > 0)
-                                                    ({{ $lawyer->average_rating }} ⭐)
                                                 @endif
                                             </option>
                                         @endforeach
@@ -186,18 +188,6 @@
                                         <div class="lawyer-details">
                                             <div class="lawyer-name">{{ __('Select a lawyer to see details') }}</div>
                                             <div class="lawyer-specialty">{{ __('Choose from the list above') }}</div>
-                                            <div class="lawyer-rating" id="lawyer-rating-display" style="display: none;">
-                                                <div class="rating-stars">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                                <div class="rating-text">
-                                                    <span id="rating-score">0.0</span> (<span id="rating-count">0</span> {{ __('reviews') }})
-                                                </div>
-                                            </div>
                                             <div class="lawyer-profile-link" id="lawyer-profile-link" style="display: none;">
                                                 <a href="#" id="lawyer-profile-url" class="btn btn-sm btn-outline-primary" target="_blank">
                                                     <i class="fas fa-user me-1"></i>{{ __('View Profile') }}
@@ -210,7 +200,7 @@
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                                 <small class="form-text text-muted">
-                                    <i class="fas fa-info-circle me-1"></i>{{ __('Select the lawyer you want to consult with') }}
+                                    <i class="fas fa-info-circle me-1"></i>{{ __('Select the lawyer you want to consult with (optional)') }}
                                 </small>
                             </div>
 
@@ -218,7 +208,8 @@
                             <div class="row mb-4">
                                 <div class="col-md-6 mb-3">
                                     <label for="appointment_date" class="form-label">
-                                        <i class="fas fa-calendar-alt me-2"></i>{{ __('Appointment Date') }} <span class="text-danger">*</span>
+                                        <span>{{ __('Appointment Date') }} <span class="text-danger">*</span></span>
+                                        <i class="fas fa-calendar-alt"></i>
                                     </label>
                                     <input type="date" name="appointment_date" id="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}" placeholder="{{ __('12-Jan-2026') }}">
                                     @error('appointment_date')
@@ -228,7 +219,8 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="appointment_time" class="form-label">
-                                        <i class="fas fa-clock me-2"></i>{{ __('Appointment Time') }} <span class="text-danger">*</span>
+                                        <span>{{ __('Appointment Time') }} <span class="text-danger">*</span></span>
+                                        <i class="fas fa-clock"></i>
                                     </label>
                                     <input type="time" name="appointment_time" id="appointment_time" class="form-control @error('appointment_time') is-invalid @enderror" required value="{{ old('appointment_time') }}">
                                     @error('appointment_time')
@@ -242,7 +234,8 @@
                             <!-- Case Type -->
                             <div class="mb-4">
                                 <label for="case_type" class="form-label">
-                                    <i class="fas fa-tag me-2"></i>{{ __('Case Type') }} <span class="text-danger">*</span>
+                                    <span>{{ __('Case Type') }} <span class="text-danger">*</span></span>
+                                    <i class="fas fa-tag"></i>
                                 </label>
                                 <input type="text" name="case_type" id="case_type" class="form-control @error('case_type') is-invalid @enderror" required value="{{ old('case_type', request('service') === 'real_estate' ? __('Real Estate Consultation') : '') }}" placeholder="{{ __('e.g., Criminal, Civil, Family, Commercial, Contract, etc.') }}">
                                 @error('case_type')
@@ -254,7 +247,8 @@
                             <!-- Case Details -->
                             <div class="mb-4">
                                 <label for="case_details" class="form-label">
-                                    <i class="fas fa-file-alt me-2"></i>{{ __('Case Details') }} <span class="text-danger">*</span>
+                                    <span>{{ __('Case Details') }} <span class="text-danger">*</span></span>
+                                    <i class="fas fa-file-alt"></i>
                                 </label>
                                 <textarea name="case_details" id="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="5" required placeholder="{{ request('service') === 'real_estate' ? __('Provide details about the property consultation you need...') : __('Provide detailed information about your case...') }}">{{ old('case_details', '') }}</textarea>
                                 @error('case_details')
@@ -283,22 +277,16 @@
                                         <label for="client_phone" class="form-label">{{ __('Phone Number') }} <span class="text-danger">*</span></label>
                                         <div class="input-group phone-input-group">
                                             <select name="country_code" id="country_code" class="form-select country-code-select @error('country_code') is-invalid @enderror" required>
-                                                <option value="+963" {{ (old('country_code') ?: '+963') == '+963' ? 'selected' : '' }}>🇸🇾 +963</option>
-                                                <option value="+1" {{ old('country_code') == '+1' ? 'selected' : '' }}>🇺🇸 +1</option>
-                                                <option value="+44" {{ old('country_code') == '+44' ? 'selected' : '' }}>🇬🇧 +44</option>
-                                                <option value="+49" {{ old('country_code') == '+49' ? 'selected' : '' }}>🇩🇪 +49</option>
-                                                <option value="+33" {{ old('country_code') == '+33' ? 'selected' : '' }}>🇫🇷 +33</option>
-                                                <option value="+966" {{ old('country_code') == '+966' ? 'selected' : '' }}>🇸🇦 +966</option>
-                                                <option value="+971" {{ old('country_code') == '+971' ? 'selected' : '' }}>🇦🇪 +971</option>
-                                                <option value="+20" {{ old('country_code') == '+20' ? 'selected' : '' }}>🇪🇬 +20</option>
-                                                <option value="+962" {{ old('country_code') == '+962' ? 'selected' : '' }}>🇯🇴 +962</option>
-                                                <option value="+961" {{ old('country_code') == '+961' ? 'selected' : '' }}>🇱🇧 +961</option>
-                                                <option value="+964" {{ old('country_code') == '+964' ? 'selected' : '' }}>🇮🇶 +964</option>
-                                                <option value="+965" {{ old('country_code') == '+965' ? 'selected' : '' }}>🇰🇼 +965</option>
-                                                <option value="+974" {{ old('country_code') == '+974' ? 'selected' : '' }}>🇶🇦 +974</option>
-                                                <option value="+973" {{ old('country_code') == '+973' ? 'selected' : '' }}>🇧🇭 +973</option>
-                                                <option value="+968" {{ old('country_code') == '+968' ? 'selected' : '' }}>🇴🇲 +968</option>
-                                                <option value="+970" {{ old('country_code') == '+970' ? 'selected' : '' }}>🇵🇸 +970</option>
+                                                <option value="">{{ __('Select Country Code') }}</option>
+                                                @foreach($countries ?? [] as $country)
+                                                    @php
+                                                        $currentLang = app()->getLocale();
+                                                        $countryName = $currentLang === 'ar' ? ($country->name_ar ?? $country->name) : $country->name;
+                                                    @endphp
+                                                    <option value="+{{ $country->phone }}" {{ (old('country_code') ?: '+963') == '+'.$country->phone ? 'selected' : '' }}>
+                                                        {{ $country->flag }} {{ $countryName }} (+{{ $country->phone }})
+                                                    </option>
+                                                @endforeach
                                             </select>
                                             <input type="tel" name="client_phone" id="client_phone" class="form-control @error('client_phone') is-invalid @enderror" required value="{{ old('client_phone', Auth::user()->details->phone ?? '') }}" placeholder="{{ __('Enter your phone number') }}">
                                         </div>
@@ -392,14 +380,8 @@
             let isValid = true;
             let firstErrorField = null;
 
-            // Validate lawyer selection
-            if (!lawyerId) {
-                isValid = false;
-                $('#lawyer_id').addClass('is-invalid').focus();
-                if (!firstErrorField) firstErrorField = $('#lawyer_id');
-            } else {
-                $('#lawyer_id').removeClass('is-invalid');
-            }
+            // Lawyer selection is optional - no validation needed
+            $('#lawyer_id').removeClass('is-invalid');
 
             // Validate appointment date
             if (!appointmentDate || appointmentDate < today) {
@@ -481,15 +463,12 @@
                 const department = selectedOption.data('department') || '';
                 const specialty = selectedOption.data('specialty') || '';
                 const lawyerSlug = selectedOption.data('slug') || '';
-                const rating = parseFloat(selectedOption.data('rating')) || 0;
-                const ratingCount = parseInt(selectedOption.data('rating-count')) || 0;
 
                 // Update lawyer info display
                 lawyerInfo.find('.lawyer-name').text(lawyerName);
                 lawyerInfo.find('.lawyer-specialty').text(department + (specialty ? ` (${specialty})` : ''));
 
-                // Show rating display and update with lawyer data
-                const ratingDisplay = $('#lawyer-rating-display');
+                // Update profile link
                 const profileLink = $('#lawyer-profile-link');
                 const profileUrl = $('#lawyer-profile-url');
 
@@ -500,14 +479,6 @@
                     profileLink.show();
                 } else {
                     profileLink.hide();
-                }
-
-                // Update rating display
-                if (rating > 0) {
-                    updateLawyerRating(rating, ratingCount);
-                    ratingDisplay.show();
-                } else {
-                    ratingDisplay.hide();
                 }
 
                 // Show and animate the info display
@@ -523,34 +494,12 @@
                 // Reset to default state
                 lawyerInfo.find('.lawyer-name').text('{{ __("Select a lawyer to see details") }}');
                 lawyerInfo.find('.lawyer-specialty').text('{{ __("Choose from the list above") }}');
-                $('#lawyer-rating-display').hide();
                 $('#lawyer-profile-link').hide();
                 lawyerInfo.removeClass('show');
             }
         });
 
 
-
-        // Update lawyer rating display
-        function updateLawyerRating(averageRating, totalRatings) {
-            $('#rating-score').text(averageRating);
-
-            // Update star rating display
-            const stars = $('#lawyer-rating-display .rating-stars i');
-            const rating = parseFloat(averageRating);
-
-            stars.each(function(index) {
-                if (index < Math.floor(rating)) {
-                    $(this).removeClass('far').addClass('fas');
-                } else if (index === Math.floor(rating) && rating % 1 >= 0.5) {
-                    $(this).removeClass('far').addClass('fas fa-star-half-alt');
-                } else {
-                    $(this).removeClass('fas fa-star-half-alt').addClass('far');
-                }
-            });
-
-            $('#rating-count').text(totalRatings);
-        }
 
         // Load lawyer availability
         function loadLawyerAvailability(lawyerId, date) {
@@ -626,6 +575,21 @@
             $(this).removeClass('is-invalid');
         });
 
+        // Initialize Select2 for country code dropdown
+        $('#country_code').select2({
+            placeholder: '{{ __("Select Country Code") }}',
+            allowClear: false,
+            width: '100%',
+            language: {
+                noResults: function() {
+                    return '{{ __("No countries found") }}';
+                },
+                searching: function() {
+                    return '{{ __("Searching...") }}';
+                }
+            }
+        });
+
         // Update phone field when country code changes
         $('#country_code').on('change', function() {
             $('#client_phone').trigger('input');
@@ -699,6 +663,10 @@
 
 .page-title-content ul li a:hover {
     color: #fff;
+}
+
+.page-title-content ul li span {
+    color: #fff !important;
 }
 
 .page-title-content ul li:not(:last-child)::after {
@@ -822,31 +790,73 @@
     opacity: 1;
 }
 
-/* Form Labels Enhancement */
+/* Form Labels Enhancement - Always align right */
 .form-label {
     font-weight: 600;
     color: #2c3e50;
     font-size: 15px;
     margin-bottom: 10px;
-    display: flex;
-    align-items: center;
+    display: flex !important;
+    align-items: center !important;
     gap: 8px;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+}
+
+/* Labels without icons - still align right */
+.form-label:not(:has(i)) {
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+    display: block !important;
+}
+
+.form-label:not(:has(i))::before {
+    content: '';
+    display: none;
 }
 
 [dir="rtl"] .form-label {
-    flex-direction: row-reverse;
-    text-align: right;
-    justify-content: flex-start;
+    flex-direction: row !important;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .form-label {
+    flex-direction: row !important;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
 }
 
 .form-label i {
     color: var(--colorPrimary);
     font-size: 16px;
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
+}
+
+[dir="rtl"] .form-label i,
+[dir="ltr"] .form-label i {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
 }
 
 .form-label .text-danger {
     color: #dc3545 !important;
     font-weight: 700;
+    order: 1 !important;
+}
+
+.form-label span:not(.text-danger):not(.text-primary) {
+    order: 1 !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Form Controls Enhancement */
@@ -1303,6 +1313,9 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
     .form-label {
         font-size: 14px;
+        text-align: right !important;
+        direction: rtl !important;
+        justify-content: flex-end !important;
     }
 
     .form-control,
@@ -1374,6 +1387,9 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     .form-label {
         font-size: 13px;
         margin-bottom: 8px;
+        text-align: right !important;
+        direction: rtl !important;
+        justify-content: flex-end !important;
     }
 
     .form-control,
@@ -1424,8 +1440,14 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     }
 
     .country-code-select {
-        width: 80px !important;
+        width: auto !important;
+        min-width: 180px !important;
         font-size: 13px !important;
+    }
+    
+    /* Ensure flag emojis display correctly on mobile */
+    .country-code-select option {
+        font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", sans-serif !important;
     }
 
     .phone-input-group {
@@ -1433,7 +1455,8 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     }
 
     .country-code-select {
-        width: 70px !important;
+        width: auto !important;
+        min-width: 180px !important;
         font-size: 12px !important;
         border-radius: 10px 10px 0 0 !important;
         border-bottom: none !important;
@@ -1667,15 +1690,27 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     direction: rtl !important;
 }
 
-/* Form Labels RTL */
-[dir="rtl"] .form-label {
-    flex-direction: row-reverse;
-    text-align: right;
+/* Form Labels RTL - Force right alignment */
+[dir="rtl"] .form-label,
+[dir="ltr"] .form-label {
+    flex-direction: row !important;
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
 }
 
-[dir="rtl"] .form-label i {
-    margin-left: 8px;
-    margin-right: 0;
+[dir="rtl"] .form-label i,
+[dir="ltr"] .form-label i {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
+}
+
+[dir="rtl"] .form-label span,
+[dir="ltr"] .form-label span {
+    order: 1 !important;
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 /* Form Controls RTL */
@@ -1933,16 +1968,24 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 .form-label small.text-muted {
     font-size: 11px;
     font-weight: 400;
-    margin-left: 6px;
+    margin-left: 0 !important;
+    margin-right: 6px !important;
     background: rgba(108, 117, 125, 0.1);
     padding: 2px 6px;
     border-radius: 10px;
     border: 1px solid rgba(108, 117, 125, 0.2);
+    text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
-[dir="rtl"] .form-label small.text-muted {
-    margin-left: 0;
-    margin-right: 6px;
+[dir="rtl"] .form-label small.text-muted,
+[dir="ltr"] .form-label small.text-muted {
+    margin-left: 0 !important;
+    margin-right: 6px !important;
+    text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
 /* ============================================
@@ -1955,14 +1998,29 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .country-code-select {
-    width: 90px !important;
+    width: auto !important;
+    min-width: 200px !important;
     flex-shrink: 0;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border-right: none !important;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%) !important;
-    font-weight: 600 !important;
     font-size: 14px !important;
+}
+
+/* Ensure flag emojis display correctly */
+.country-code-select option {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", sans-serif !important;
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+}
+
+.country-code-select option::before {
+    content: '';
+}
+
+/* Fix flag display in select2 dropdown */
+.select2-results__option {
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "EmojiOne Color", "Android Emoji", sans-serif !important;
 }
 
 .country-code-select:focus {
@@ -2439,11 +2497,41 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     gap: 8px;
     color: #666;
     font-size: 15px;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .property-location-info {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .property-location-info i {
     color: var(--colorPrimary);
     font-size: 16px;
+    order: 1 !important;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .property-location-info i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.property-location-info span {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-location-info span {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-info-grid {
@@ -2462,6 +2550,17 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     border: 1px solid #e9ecef;
     border-radius: 12px;
     transition: all 0.3s ease;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    flex-direction: row-reverse !important;
+}
+
+[dir="ltr"] .property-info-item {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    flex-direction: row-reverse !important;
 }
 
 .property-info-item:hover {
@@ -2486,11 +2585,13 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     color: #fff;
     font-size: 18px;
     flex-shrink: 0;
+    order: 2 !important;
 }
 
 .info-content {
     flex: 1;
     min-width: 0;
+    order: 1 !important;
 }
 
 .info-label {
@@ -2642,6 +2743,14 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
         flex-direction: column;
         text-align: center;
     }
+    
+    .property-info-item .info-icon {
+        order: 2 !important;
+    }
+    
+    .property-info-item .info-content {
+        order: 1 !important;
+    }
 
     .info-icon {
         width: 35px;
@@ -2746,7 +2855,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 }
 
 [dir="rtl"] .property-info-item {
-    flex-direction: row-reverse;
+    flex-direction: row-reverse !important;
     text-align: right;
 }
 
@@ -2831,16 +2940,25 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     direction: rtl !important;
 }
 
-[dir="rtl"] .form-label small {
+[dir="rtl"] .form-label small,
+[dir="ltr"] .form-label small {
     text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
-[dir="rtl"] .form-label small.text-muted {
+[dir="rtl"] .form-label small.text-muted,
+[dir="ltr"] .form-label small.text-muted {
     text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
-[dir="rtl"] .form-label small.text-primary {
+[dir="rtl"] .form-label small.text-primary,
+[dir="ltr"] .form-label small.text-primary {
     text-align: right !important;
+    direction: rtl !important;
+    order: 3 !important;
 }
 
 /* Invalid Feedback RTL */
@@ -3069,10 +3187,67 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
     text-align: right !important;
 }
 
-/* Force all labels and their text to align right */
-[dir="rtl"] .form-label,
-[dir="rtl"] .form-label * {
+/* Force all labels and their text to align right - Global override */
+.form-label,
+.form-label * {
     text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-label,
+[dir="rtl"] .form-label *,
+[dir="ltr"] .form-label,
+[dir="ltr"] .form-label * {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="rtl"] .form-label,
+[dir="ltr"] .form-label {
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+/* Labels without icons - still align right */
+.form-label:not(:has(i)) {
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
+}
+
+[dir="rtl"] .form-label i,
+[dir="ltr"] .form-label i {
+    order: 2 !important;
+    margin-left: 0 !important;
+    margin-right: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+[dir="rtl"] .form-label > span,
+[dir="ltr"] .form-label > span,
+.form-label > span {
+    order: 1 !important;
+    text-align: right !important;
+    direction: rtl !important;
+    flex: 1 !important;
+}
+
+[dir="rtl"] .form-label .text-danger,
+[dir="ltr"] .form-label .text-danger,
+.form-label .text-danger {
+    order: 1 !important;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+/* Labels with text directly (no span wrapper) */
+.form-label:not(:has(span)) {
+    text-align: right !important;
+    direction: rtl !important;
+    justify-content: flex-end !important;
 }
 
 /* Force all small text and helper text to align right */

@@ -66,7 +66,7 @@
                                         <div class="form-group col-md-12">
                                             <x-admin.form-input id="title" data-translate="true" name="title"
                                                 label="{{ __('Title') }}" placeholder="{{ __('Enter Title') }}"
-                                                value="{{ $blog->getTranslation($code)->title }}" required="true" />
+                                                value="{{ $blog?->getTranslation($code)?->title }}" required="true" />
                                         </div>
                                         @if ($code == $languages->first()->code)
                                             <div class="form-group col-md-8">
@@ -92,12 +92,12 @@
                                             <x-admin.form-textarea id="sort_description" name="sort_description"
                                                 label="{{ __('Short Description') }}"
                                                 placeholder="{{ __('Enter Short Description') }}"
-                                                value="{{ $blog->getTranslation($code)->sort_description }}"
+                                                value="{{ $blog?->getTranslation($code)?->sort_description }}"
                                                 maxlength="2000" required="true" />
                                         </div>
                                         <div class="form-group col-md-12">
                                             <x-admin.form-editor id="description" name="description"
-                                                label="{{ __('Description') }}" value="{!! $blog->getTranslation($code)->description !!}"
+                                                label="{{ __('Description') }}" value="{!! $blog?->getTranslation($code)?->description !!}"
                                                 required="true" />
                                         </div>
 
@@ -105,21 +105,19 @@
                                             <x-admin.form-input id="seo_title" name="seo_title"
                                                 label="{{ __('SEO Title') }}" placeholder="{{ __('Enter SEO Title') }}"
                                                 data-translate="true"
-                                                value="{{ $blog->getTranslation($code)->seo_title }}" />
+                                                value="{{ $blog?->getTranslation($code)?->seo_title }}" />
                                         </div>
 
                                         <div class="form-group col-md-12">
                                             <x-admin.form-textarea id="seo_description" name="seo_description"
                                                 label="{{ __('SEO Description') }}"
                                                 placeholder="{{ __('Enter SEO Description') }}" data-translate="true"
-                                                value="{{ $blog->getTranslation($code)->seo_description }}"
+                                                value="{{ $blog?->getTranslation($code)?->seo_description }}"
                                                 maxlength="2000" />
                                         </div>
-                                        @if ($code == $languages->first()->code)
-                                            <div class="form-group col-md-12">
-                                                <x-admin.form-image-preview recommended="730X410" name="blog_image" :image="$blog->image" required="0" />
-                                            </div>
-                                        @endif
+                                        <div class="form-group col-md-12">
+                                            <x-admin.form-image-preview recommended="730X410" name="blog_image" :image="$blog->image" required="0" />
+                                        </div>
 
                                     </div>
                                     <div class="row">
@@ -156,19 +154,19 @@
 @endsection
 
 @push('js')
+    <script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
+    <script>
+        $.uploadPreview({
+            input_field: "#image-upload",
+            preview_box: "#image-preview",
+            label_field: "#image-label",
+            label_default: "{{ __('Choose Image') }}",
+            label_selected: "{{ __('Change Image') }}",
+            no_label: false,
+            success_callback: null
+        });
+    </script>
     @if ($code == $languages->first()->code)
-        <script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
-        <script>
-            $.uploadPreview({
-                input_field: "#image-upload",
-                preview_box: "#image-preview",
-                label_field: "#image-label",
-                label_default: "{{ __('Choose Image') }}",
-                label_selected: "{{ __('Change Image') }}",
-                no_label: false,
-                success_callback: null
-            });
-        </script>
         <script>
             (function($) {
                 "use strict";

@@ -244,8 +244,15 @@
     font-size: 11px !important;
     font-weight: bold !important;
     min-width: 18px !important;
+    height: 18px !important;
+    line-height: 14px !important;
     text-align: center !important;
     border: 2px solid #6777ef !important;
+    z-index: 10 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 .admin-navbar-improved .notification-dropdown-menu {
@@ -256,6 +263,26 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
     border: none !important;
     margin-top: 10px !important;
+    z-index: 1050 !important;
+    position: absolute !important;
+}
+
+/* RTL Support for Notification Badge */
+[dir="rtl"] .admin-navbar-improved .notification-badge {
+    right: auto !important;
+    left: -5px !important;
+}
+
+/* Ensure notification icon is visible and clickable */
+.admin-navbar-improved .notification-dropdown {
+    position: relative !important;
+    z-index: 1000 !important;
+}
+
+.admin-navbar-improved .notification-icon i {
+    font-size: 18px !important;
+    display: block !important;
+    line-height: 1 !important;
 }
 
 /* Visit Site Link */

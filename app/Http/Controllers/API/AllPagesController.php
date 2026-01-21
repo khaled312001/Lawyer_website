@@ -53,19 +53,21 @@ class AllPagesController extends Controller {
             $q->where('lang_code', $code)->select('counter_id', 'title');
         }])->active()->latest()->get();
 
-        $departments = Department::select('id', 'slug', 'thumbnail_image')->with(['translations' => function ($q) use ($code) {
-            $q->where('lang_code', $code)->select('department_id', 'name');
-        }])->active()->homepage()->latest()->take($home_sections?->department_how_many)->get();
-
         $testimonials = Testimonial::select('id', 'image')->with(['translations' => function ($q) use ($code) {
             $q->where('lang_code', $code)->select('testimonial_id', 'name', 'designation', 'comment');
         }])->homepage()->active()->latest()->take($home_sections?->client_how_many)->get();
 
-        // Get only one lawyer per department (prefer highest rated)
-        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
+        // Get unique lawyers (avoid duplicates by ID)
+        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image', 'years_of_experience')
             ->with([
                 'translations'            => function ($query) use ($code) {
                     $query->where('lang_code', $code)->select('lawyer_id', 'designations');
+                },
+                'departments'              => function ($query) {
+                    $query->select('id');
+                },
+                'departments.translations' => function ($query) use ($code) {
+                    $query->where('lang_code', $code)->select('department_id', 'name');
                 },
                 'department'              => function ($query) {
                     $query->select('id');
@@ -91,15 +93,14 @@ class AllPagesController extends Controller {
             ->verify()
             ->latest()
             ->get()
-            ->groupBy('department_id')
-            ->map(function ($departmentLawyers) {
-                // For each department, return the lawyer with highest rating, or first one
-                return $departmentLawyers->sortByDesc(function ($lawyer) {
-                    return $lawyer->ratings->avg('rating') ?? 0;
-                })->first();
-            })
-            ->values()
-            ->take($home_sections?->lawyer_how_many);
+            ->unique('id') // Remove duplicates by ID
+            ->values() // Re-index array
+            ->map(function ($lawyer) {
+                // Calculate ratings for each lawyer
+                $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
+                $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
+                return $lawyer;
+            });
 
         $feature_blog = Blog::select('id', 'slug', 'image', 'created_at')->with(['translations' => function ($q) use ($code) {
             $q->where('lang_code', $code)->select('blog_id', 'title', 'sort_description');
@@ -134,13 +135,6 @@ class AllPagesController extends Controller {
                 'data'           => $services,
             ],
             'overviews'    => $overviews,
-            'departments'  => [
-                'show'           => $home_sections?->department_status,
-                'first_heading'  => $home_sections?->translations[0]?->department_first_heading,
-                'second_heading' => $home_sections?->translations[0]?->department_second_heading,
-                'description'    => $home_sections?->translations[0]?->department_description,
-                'data'           => $departments,
-            ],
             'testimonials' => [
                 'show'           => $home_sections?->client_status,
                 'first_heading'  => $home_sections?->translations[0]?->client_first_heading,
@@ -327,6 +321,12 @@ class AllPagesController extends Controller {
             'translations'            => function ($query) use ($code) {
                 $query->where('lang_code', $code)->select('lawyer_id', 'designations');
             },
+            'departments'              => function ($query) {
+                $query->select('id');
+            },
+            'departments.translations' => function ($query) use ($code) {
+                $query->where('lang_code', $code)->select('department_id', 'name');
+            },
             'department'              => function ($query) {
                 $query->select('id');
             },
@@ -363,6 +363,12 @@ class AllPagesController extends Controller {
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')->with([
             'translations'            => function ($query) use ($code) {
                 $query->where('lang_code', $code)->select('lawyer_id', 'designations');
+            },
+            'departments'              => function ($query) {
+                $query->select('id');
+            },
+            'departments.translations' => function ($query) use ($code) {
+                $query->where('lang_code', $code)->select('department_id', 'name');
             },
             'department'              => function ($query) {
                 $query->select('id');
@@ -407,6 +413,12 @@ class AllPagesController extends Controller {
         $lawyer = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'fee', 'image','years_of_experience')->with([
             'translations'            => function ($query) use ($code) {
                 $query->where('lang_code', $code)->select('lawyer_id', 'seo_title', 'seo_description', 'designations', 'about', 'address', 'educations', 'experience', 'qualifications',);
+            },
+            'departments'              => function ($query) {
+                $query->select('id');
+            },
+            'departments.translations' => function ($query) use ($code) {
+                $query->where('lang_code', $code)->select('department_id', 'name');
             },
             'department'              => function ($query) {
                 $query->select('id');

@@ -191,7 +191,7 @@
                         <p>{{ __('Are You sure want to test your mail Credentials?') }}</p>
                     </div>
                     <div class="modal-footer bg-whitesmoke br">
-                        <form action="{{ route('admin.test-mail-credentials') }}" action="" method="POST">
+                        <form action="{{ route('admin.test-mail-credentials') }}" method="POST">
                             @csrf
                             <x-admin.button variant="danger" data-bs-dismiss="modal" text="{{__('Close')}}"/>
                             <x-admin.button type="submit" text="{{__('Yes')}}"/>

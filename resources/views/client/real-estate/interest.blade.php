@@ -398,10 +398,36 @@
     gap: 4px;
     font-size: 13px;
     color: #666;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .detail-item {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .detail-item i {
     color: var(--colorPrimary);
+    order: 1 !important;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .detail-item i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.detail-item {
+    direction: rtl !important;
+}
+
+[dir="ltr"] .detail-item {
+    direction: rtl !important;
 }
 
 .property-price {

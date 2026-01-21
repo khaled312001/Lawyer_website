@@ -1,39 +1,3 @@
-@if (subscriberContent())
-    <!--Subscribe Start-->
-    <div class="subscribe-area"
-        style="background-image: url({{ subscriberContent()?->image ? url(subscriberContent()?->image) : '' }})">
-        <div class="container">
-            <div class="row ov_hd">
-                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                    <div class="main-headline white">
-                        <h2 class="title">{{ ucwords(subscriberContent()?->title) }}</h2>
-                        <p>{{ subscriberContent()?->description }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row ov_hd">
-                <div class="col-md-12 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="subscribe-form">
-                        <form method="POST" action="{{ route('newsletter-request') }}" class="subscribe-form-wrapper">
-                            @csrf
-                            <div class="subscribe-input-wrapper">
-                                <i class="fas fa-envelope subscribe-icon"></i>
-                                <input type="email" required name="email" placeholder="{{ __('Email') }}" class="subscribe-input">
-                            </div>
-                            <button type="submit" class="btn-sub">
-                                <span>{{ __('Subscribe') }}</span>
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Subscribe Start-->
-@endif
-
-
 <!--Footer Start-->
 <div class="main-footer">
     <div class="top-footer">
@@ -43,11 +7,11 @@
                     <div class="footer-address footer-address-first">
                         <ul>
                             <li>
-                                <i class="far fa-envelope"></i>
                                 <div>
                                     <p class="title">{{ __('Email Address') }} </p>
-                                    <p>{!! nl2br(e($contactInfo?->email)) !!}</p>
+                                    <p>{!! nl2br(e($contactInfo?->top_bar_email ?? $contactInfo?->email)) !!}</p>
                                 </div>
+                                <i class="far fa-envelope"></i>
                             </li>
                         </ul>
                     </div>
@@ -56,7 +20,6 @@
                     <div class="footer-address">
                         <ul>
                             <li>
-                                <i class="fas fa-phone"></i>
                                 <div>
                                     <p class="title">{{ __('Phone') }}</p>
                                     <p>
@@ -88,6 +51,7 @@
                                         @endphp
                                     </p>
                                 </div>
+                                <i class="fas fa-phone"></i>
                             </li>
                         </ul>
                     </div>
@@ -96,11 +60,11 @@
                     <div class="footer-address">
                         <ul>
                             <li>
-                                <i class="fas fa-map-marker-alt"></i>
                                 <div>
                                     <p class="title">{{ __('Address') }}</p>
                                     <p>{!! nl2br(e($contactInfo?->address)) !!}</p>
                                 </div>
+                                <i class="fas fa-map-marker-alt"></i>
                             </li>
                         </ul>
                     </div>
@@ -111,13 +75,14 @@
     <div class="footer-area" style="background-image: url({{ url('client/img/shape-2.webp') }})">
         <div class="container">
             <div class="row justify-content-between">
-                <div class="col-xxl-3 col-lg-3">
+                <div class="col-xxl-3 col-lg-3 col-md-6">
                     <div class="footer-item">
-                        <p class="title">{{ __('About Us') }}</p>
+                        <p class="title">{{ __('عن أمان لو') }}</p>
                         <div class="textwidget pe-0">
-                            <p>{{ $contactInfo?->about }}</p>
-                            <a aria-label="{{ __('Details') }}" class="sm_fbtn"
-                                href="{{ url('about-us') }}">{{ __('Details') }} →</a>
+                            <p style="font-size: 13px; line-height: 1.7; color: rgba(255, 255, 255, 0.85); margin-bottom: 12px;">
+                                {{ __('أمان لو – Aman Law') }}<br>
+                                {{ __('منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تقديم استشارات قانونية وتمثيل قضائي في القضايا المتعلقة بسوريا للعملاء في جميع أنحاء العالم، عبر محامين مختصين وبآلية عمل شفافة وموثوقة.') }}
+                            </p>
                             <ul class="icon">
                                 @foreach (getSocialLinks() as $social)
                                     <li><a target="_blank" aria-label="{{ $social?->link }}" href="{{ $social?->link }}"><i class="{{ $social?->icon }}"></i></a>
@@ -129,51 +94,66 @@
                 </div>
                 <div class="col-xxl-2 col-lg-2 col-md-6">
                     <div class="footer-item">
-                        <p class="title">{{ __('Important Link') }}</p>
-                        @if ($footerFirstMenu = footerFirstMenu())
-                            <ul>
-                                @foreach ($footerFirstMenu as $menu)
-                                    <li><a @if ($menu['open_new_tab']) target="_blank" @endif
-                                            href="{{ $menu['link'] == '#' || empty($menu['link']) ? 'javascript:;' : url($menu['link']) }}">{{ $menu['label'] }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        <p class="title">{{ __('روابط سريعة') }}</p>
+                        <ul>
+                            <li><a href="{{ url('/') }}">{{ __('الرئيسية') }}</a></li>
+                            <li><a href="{{ url('about-us') }}">{{ __('من نحن') }}</a></li>
+                            <li><a href="{{ url('service') }}">{{ __('الخدمات القانونية') }}</a></li>
+                            <li><a href="{{ route('website.book.consultation.appointment') }}">{{ __('حجز استشارة') }}</a></li>
+                            <li><a href="{{ route('website.contact-us') }}">{{ __('تواصل معنا') }}</a></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-xxl-2 col-lg-2 col-md-6">
                     <div class="footer-item">
-                        <p class="title">{{ __('Account') }}</p>
-                        @if ($footerSecondMenu = footerSecondMenu())
-                            <ul>
-                                @foreach ($footerSecondMenu as $menu)
-                                    <li><a @if ($menu['open_new_tab']) target="_blank" @endif
-                                            href="{{ $menu['link'] == '#' || empty($menu['link']) ? 'javascript:;' : url($menu['link']) }}">{{ $menu['label'] }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        <p class="title">{{ __('الخدمات القانونية') }}</p>
+                        <ul>
+                            <li><a href="javascript:;">{{ __('القضايا المدنية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('القضايا العقارية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('القضايا التجارية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('قضايا الأحوال الشخصية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('القضايا الجزائية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('صياغة العقود والاستشارات القانونية') }}</a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-xxl-3 col-lg-4">
+                <div class="col-xxl-2 col-lg-2 col-md-6">
                     <div class="footer-item">
-                        <p class="title">{{ __('Recent Post') }}</p>
-                        @foreach (footerLatestNews() as $item)
-                            <div class="footer-recent-item">
-                                <div class="footer-recent-photo">
-                                    <a aria-label="{{ $item?->title }}"
-                                        href="{{ route('website.blog.details', $item?->slug) }}"><img
-                                            src="{{ url($item?->thumbnail_image) }}" alt="{{ $item?->title }}"
-                                            loading="lazy"></a>
-                                </div>
-                                <div class="footer-recent-text">
-                                    <a aria-label="{{ $item?->title }}"
-                                        href="{{ route('website.blog.details', $item?->slug) }}">{{ $item?->title }}</a>
-                                    <div class="footer-post-date">{{ formattedDate($item?->created_at) }}</div>
-                                </div>
-                            </div>
-                        @endforeach
-
+                        <p class="title">{{ __('معلومات قانونية') }}</p>
+                        <ul>
+                            <li><a href="{{ route('website.privacy-policy') }}">{{ __('سياسة الخصوصية') }}</a></li>
+                            <li><a href="{{ route('website.termsCondition') }}">{{ __('الشروط والأحكام') }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xxl-3 col-lg-3 col-md-6">
+                    <div class="footer-item">
+                        <p class="title">{{ __('التواصل') }}</p>
+                        <div style="font-size: 13px; line-height: 1.7; color: rgba(255, 255, 255, 0.85);">
+                            @if ($contactInfo?->top_bar_phone)
+                                @php
+                                    $whatsappNumber = $contactInfo->top_bar_phone;
+                                    $whatsappNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
+                                    if (!str_starts_with($whatsappNumber, '+')) {
+                                        $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
+                                    }
+                                @endphp
+                                <p style="margin-bottom: 10px;">
+                                    <strong>{{ __('التواصل عبر واتساب:') }}</strong><br>
+                                    <a href="https://wa.me/{{ $whatsappNumber }}" target="_blank" style="color: #D4A574; text-decoration: none;">{{ $contactInfo->top_bar_phone }}</a>
+                                </p>
+                            @endif
+                            @if ($contactInfo?->top_bar_email)
+                                <p style="margin-bottom: 10px;">
+                                    <strong>{{ __('البريد الإلكتروني:') }}</strong><br>
+                                    <a href="mailto:{{ $contactInfo->top_bar_email }}" style="color: #D4A574; text-decoration: none;">{{ $contactInfo->top_bar_email }}</a>
+                                </p>
+                            @endif
+                            <p style="margin-bottom: 0;">
+                                <strong>{{ __('الاستشارات:') }}</strong><br>
+                                {{ __('استشارات قانونية عن بُعد عبر واتساب، مكالمات صوتية أو فيديو.') }}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,9 +163,11 @@
         <div class="container">
             <div class="copyright-text text-center">
                 @if(getSessionLanguage() == 'ar')
-                    <p>حقوق الطبع والنشر © 2026، أمان لو. جميع الحقوق محفوظة.</p>
+                    <p style="margin-bottom: 5px;">© {{ __('جميع الحقوق محفوظة – أمان لو Aman Law') }}</p>
+                    <p style="margin-top: 0; font-size: 12px; color: rgba(255, 255, 255, 0.7);">{{ __('منصّة قانونية مُدارة من سويسرا') }}</p>
                 @else
-                    <p>Copyright © 2026, Aman Law. All rights reserved.</p>
+                    <p style="margin-bottom: 5px;">Copyright © 2026, Aman Law. All rights reserved.</p>
+                    <p style="margin-top: 0; font-size: 12px; color: rgba(255, 255, 255, 0.7);">{{ __('Legal platform managed from Switzerland') }}</p>
                 @endif
             </div>
         </div>
@@ -203,7 +185,7 @@
 
 <script>
     @php
-        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
     @endphp
     var isRtl = "{{ $textDirection == 'rtl' }}"
     var rtlTrue = false;
@@ -307,11 +289,31 @@
         // Header Scroll Animation - إخفاء/إظهار الهيدر عند السكرول
         let amanLastScrollTop = 0;
         let amanScrollTimer = null;
-        const amanWelcomeBanner = document.querySelector('.aman-welcome-banner-rtl, .top-alert-banner');
-        const amanTopBar = document.querySelector('.aman-top-bar-rtl, .top-header-bar');
-        const amanMainNav = document.querySelector('.aman-main-nav-rtl, .main-navbar');
+        let amanWelcomeBanner = null;
+        let amanTopBar = null;
+        let amanMainNav = null;
         const amanBody = document.body;
         const isMobile = window.innerWidth <= 768;
+        
+        // Initialize DOM elements safely
+        function initAmanElements() {
+            if (!amanWelcomeBanner) {
+                amanWelcomeBanner = document.querySelector('.aman-welcome-banner-rtl, .top-alert-banner');
+            }
+            if (!amanTopBar) {
+                amanTopBar = document.querySelector('.aman-top-bar-rtl, .top-header-bar');
+            }
+            if (!amanMainNav) {
+                amanMainNav = document.querySelector('.aman-main-nav-rtl, .main-navbar');
+            }
+        }
+        
+        // Initialize on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAmanElements);
+        } else {
+            initAmanElements();
+        }
 
         window.addEventListener('scroll', function() {
             clearTimeout(amanScrollTimer);
@@ -597,7 +599,358 @@
             overlay.addEventListener('click', toggleMobileMenu);
         }
     });
+    
+    // Client Dashboard Sidebar Toggle
+    function toggleClientSidebar() {
+        const body = document.body;
+        if (body.classList.contains('client-sidebar-show')) {
+            body.classList.remove('client-sidebar-show');
+            body.style.overflow = 'auto';
+        } else {
+            body.classList.add('client-sidebar-show');
+            body.style.overflow = 'hidden';
+        }
+    }
+    
+    // Add toggle button and backdrop to all client dashboard pages
+    document.addEventListener('DOMContentLoaded', function() {
+        const dashboardArea = document.querySelector('.dashboard-area');
+        if (dashboardArea && !document.querySelector('.client-sidebar-toggle')) {
+            const container = dashboardArea.querySelector('.container');
+            if (container) {
+                // Add toggle button
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'client-sidebar-toggle d-lg-none';
+                toggleBtn.setAttribute('onclick', 'toggleClientSidebar()');
+                toggleBtn.setAttribute('aria-label', 'Toggle Sidebar');
+                toggleBtn.innerHTML = '<i class="fas fa-bars"></i><span>{{ __("Menu") }}</span>';
+                container.insertBefore(toggleBtn, container.firstChild);
+                
+                // Add backdrop
+                const backdrop = document.createElement('div');
+                backdrop.className = 'client-sidebar-backdrop d-lg-none';
+                backdrop.setAttribute('onclick', 'toggleClientSidebar()');
+                container.insertBefore(backdrop, container.firstChild);
+            }
+        }
+        
+        // Close sidebar when clicking backdrop
+        const backdrop = document.querySelector('.client-sidebar-backdrop');
+        if (backdrop) {
+            backdrop.addEventListener('click', toggleClientSidebar);
+        }
+        
+        // Close sidebar on window resize if desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 992) {
+                document.body.classList.remove('client-sidebar-show');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
 </script>
+
+@push('css')
+<style>
+    /* Enhanced Top Footer Design with Icons on Right */
+    .top-footer {
+        background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);
+        position: relative;
+        padding: 25px 0 !important;
+    }
+    
+    .top-footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #DC2626 0%, #EF4444 50%, #F97316 100%);
+        z-index: 1;
+    }
+    
+    .footer-address {
+        text-align: center;
+        padding: 15px 20px !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.15);
+        height: 100%;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-address:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .footer-address-first {
+        border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    
+    .footer-address ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .footer-address ul li {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 20px !important;
+        padding: 0 !important;
+        position: relative;
+    }
+    
+    [dir="ltr"] .footer-address ul li {
+        flex-direction: row !important;
+    }
+    
+    /* RTL: Use row-reverse to put icon on right side */
+    [dir="rtl"] .footer-address ul li {
+        flex-direction: row-reverse !important;
+    }
+    
+    /* Icons */
+    .footer-address ul li i {
+        position: relative !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        font-size: 32px !important;
+        line-height: 1 !important;
+        color: #D4A574 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        background: rgba(212, 165, 116, 0.1);
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
+    }
+    
+    .footer-address ul li:hover i {
+        background: rgba(212, 165, 116, 0.2);
+        transform: scale(1.1) rotate(5deg);
+        color: #E0B584 !important;
+        box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+    }
+    
+    /* Text Content */
+    .footer-address ul li > div {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 !important;
+        text-align: center;
+    }
+    
+    [dir="ltr"] .footer-address ul li > div {
+        direction: ltr;
+        text-align: center;
+    }
+    
+    [dir="rtl"] .footer-address ul li > div {
+        direction: rtl;
+        text-align: center;
+    }
+    
+    .footer-address ul li .title {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #D4A574 !important;
+        margin-bottom: 8px !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .footer-address ul li p {
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+        color: #E5E7EB !important;
+        font-weight: 500 !important;
+        margin: 0 !important;
+        word-break: break-word;
+    }
+    
+    /* Remove old separators */
+    .footer-address ul li::before {
+        display: none !important;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 991px) {
+        .footer-address {
+            border-right: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 30px 20px !important;
+        }
+        
+        .footer-address:last-child {
+            border-bottom: none !important;
+        }
+        
+        .footer-address-first {
+            border-left: none !important;
+        }
+        
+        .footer-address ul li {
+            flex-direction: column !important;
+            gap: 15px !important;
+        }
+        
+        .footer-address ul li i {
+            order: 1 !important;
+        }
+        
+        .footer-address ul li > div {
+            order: 2 !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .top-footer {
+            padding: 20px 0 !important;
+        }
+        
+        .footer-address ul li i {
+            font-size: 28px !important;
+            width: 45px !important;
+            height: 45px !important;
+            min-width: 45px !important;
+        }
+        
+        .footer-address ul li .title {
+            font-size: 14px !important;
+        }
+        
+        .footer-address ul li p {
+            font-size: 14px !important;
+        }
+    }
+    
+    /* Reduce Footer Area Height - تقليل ارتفاع منطقة الفوتر */
+    .footer-area {
+        padding-top: 35px !important;
+        padding-bottom: 40px !important;
+    }
+    
+    /* Reduce textwidget padding */
+    .textwidget {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+    
+    .footer-item {
+        margin-top: 15px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .footer-item .title {
+        font-size: 18px !important;
+        margin-bottom: 20px !important;
+        padding-bottom: 10px !important;
+    }
+    
+    .footer-item p {
+        font-size: 13px !important;
+        line-height: 1.7 !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .footer-item ul {
+        margin-top: 0 !important;
+    }
+    
+    .footer-item ul li {
+        padding-bottom: 4px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    .footer-item ul li a {
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+    }
+    
+    .footer-item .icon {
+        margin-top: 15px !important;
+        gap: 8px !important;
+    }
+    
+    .footer-item .icon li a {
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
+        font-size: 14px !important;
+    }
+    
+    /* Reduce Copyright Section Height - تقليل ارتفاع قسم حقوق النشر */
+    .footer-copyrignt {
+        padding-top: 15px !important;
+        padding-bottom: 12px !important;
+    }
+    
+    .copyright-text {
+        text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .copyright-text p {
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+        margin-bottom: 5px !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+    
+    .copyright-text p:last-child {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Responsive adjustments for footer area */
+    @media (max-width: 991px) {
+        .footer-area {
+            padding-top: 30px !important;
+            padding-bottom: 35px !important;
+        }
+        
+        .footer-item {
+            margin-bottom: 25px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .footer-area {
+            padding-top: 25px !important;
+            padding-bottom: 30px !important;
+        }
+        
+        .footer-item .title {
+            font-size: 16px !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .footer-item p,
+        .footer-item ul li a {
+            font-size: 12px !important;
+        }
+        
+        .footer-copyrignt {
+            padding-top: 12px !important;
+            padding-bottom: 10px !important;
+        }
+        
+        .copyright-text p {
+            font-size: 12px !important;
+        }
+    }
+</style>
+@endpush
 
 </body>
 

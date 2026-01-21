@@ -1,11 +1,76 @@
 @extends('layouts.client.layout')
+@php
+    $seoData = seoSetting()->where('page_name', 'Testimonial')->first();
+    $seoTitle = $seoData?->seo_title ?? __('Testimonials') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $seoData?->seo_description ?? __('Read client testimonials and reviews about our legal services');
+    $seoImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+    $currentUrl = url()->current();
+@endphp
+
 @section('title')
-    <title>{{ seoSetting()->where('page_name', 'Testimonial')->first()?->seo_title ?? 'Testimonial | LawMent' }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description"
-        content="{{ seoSetting()->where('page_name', 'Testimonial')->first()?->seo_description ?? 'Testimonial | LawMent' }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ __('testimonials, reviews, client reviews, legal services reviews, شهادات, آراء العملاء') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    @if($testimonials && $testimonials->count() > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            @foreach($testimonials as $index => $testimonial)
+            {
+                "@type": "ListItem",
+                "position": {{ $index + 1 }},
+                "item": {
+                    "@type": "Review",
+                    "author": {
+                        "@type": "Person",
+                        "name": "{{ $testimonial->name }}"
+                    },
+                    "reviewBody": "{{ strip_tags($testimonial->comment) }}",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": "5",
+                        "bestRating": "5"
+                    }
+                }
+            }@if(!$loop->last),@endif
+            @endforeach
+        ]
+    }
+    </script>
+    @endif
+@endsection
+
 @section('client-content')
     <!--Banner Start-->
     <div class="banner-area flex"

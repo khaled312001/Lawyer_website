@@ -1,4 +1,7 @@
-<div class="dashboard-widget">
+<div class="dashboard-widget client-dashboard-sidebar">
+    <button class="sidebar-close-btn d-lg-none" onclick="toggleClientSidebar()" aria-label="Close Sidebar" title="{{ __('Close Menu') }}">
+        <i class="fas fa-times"></i>
+    </button>
     <div class="dashboard-account-info">
             <img src="{{ !empty($user?->image) ? asset($user?->image) : asset($setting?->default_avatar)}}" alt="{{ $user?->name }}">
             <h3>{{ ucfirst($user?->name) }}</h3>

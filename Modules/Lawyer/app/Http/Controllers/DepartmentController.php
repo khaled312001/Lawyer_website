@@ -169,4 +169,91 @@ class DepartmentController extends Controller {
             'message' => $notification,
         ]);
     }
+
+    /**
+     * Manage departments for homepage
+     */
+    public function homepageManagement() {
+        checkAdminHasPermissionAndThrowException('department.view');
+        
+        // Get cached order if exists
+        $cachedOrder = cache()->get('departments_homepage_order', []);
+        
+        $departments = Department::with('translation')->get();
+        
+        // Sort by cached order if exists
+        if (!empty($cachedOrder)) {
+            $departments = $departments->sortBy(function($department) use ($cachedOrder) {
+                $index = array_search($department->id, $cachedOrder);
+                return $index !== false ? $index : 999;
+            })->values();
+        } else {
+            // Default sort: homepage first, then by id
+            $departments = $departments->sortBy([
+                ['show_homepage', 'desc'],
+                ['id', 'asc']
+            ])->values();
+        }
+        
+        $sectionControl = \Modules\HomeSection\app\Models\SectionControl::first();
+        
+        return view('lawyer::department.homepage-management', compact('departments', 'sectionControl'));
+    }
+
+    /**
+     * Update homepage status for department
+     */
+    public function updateHomepageStatus(Request $request, $id) {
+        checkAdminHasPermissionAndThrowException('department.update');
+        
+        $department = Department::findOrFail($id);
+        $department->show_homepage = $request->show_homepage ? 1 : 0;
+        $department->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => __('Updated successfully'),
+        ]);
+    }
+
+    /**
+     * Update department order for homepage
+     */
+    public function updateHomepageOrder(Request $request) {
+        checkAdminHasPermissionAndThrowException('department.update');
+        
+        $order = $request->input('order', []);
+        
+        // Store order in cache or session for now
+        // You can add homepage_order column to departments table later if needed
+        cache()->put('departments_homepage_order', $order, now()->addYears(1));
+        
+        return response()->json([
+            'success' => true,
+            'message' => __('Order updated successfully'),
+        ]);
+    }
+
+    /**
+     * Update number of departments to show on homepage
+     */
+    public function updateHomepageCount(Request $request) {
+        checkAdminHasPermissionAndThrowException('department.update');
+        
+        $sectionControl = \Modules\HomeSection\app\Models\SectionControl::first();
+        
+        if (!$sectionControl) {
+            $sectionControl = \Modules\HomeSection\app\Models\SectionControl::create([
+                'department_how_many' => $request->count ?? 6,
+            ]);
+        } else {
+            $sectionControl->department_how_many = $request->count ?? 6;
+            $sectionControl->save();
+        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => __('Updated successfully'),
+        ]);
+    }
 }

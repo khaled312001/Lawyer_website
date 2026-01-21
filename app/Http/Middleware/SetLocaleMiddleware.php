@@ -17,8 +17,15 @@ class SetLocaleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Get language from session or use default
-        $locale = Session::get('lang', config('app.locale', 'ar'));
+        // Get language from session or use default (Arabic)
+        $defaultLocale = config('app.locale', 'ar');
+        $locale = Session::get('lang', $defaultLocale);
+        
+        // If no language in session, set Arabic as default
+        if (!Session::has('lang')) {
+            $locale = $defaultLocale;
+            Session::put('lang', $locale);
+        }
         
         // Ensure JSON translations are loaded from root/lang directory
         $translator = app('translator');
@@ -32,7 +39,7 @@ class SetLocaleMiddleware
         if (Session::has('text_direction')) {
             $textDirection = Session::get('text_direction');
         } else {
-            // Auto-detect direction based on language code
+            // Auto-detect direction based on language code (default to RTL for Arabic)
             $rtlLanguageCodes = ["ar", "arc", "dv", "fa", "ha", "he", "khw", "ks", "ku", "ps", "ur", "yi"];
             $textDirection = in_array($locale, $rtlLanguageCodes) ? 'rtl' : 'ltr';
             Session::put('text_direction', $textDirection);

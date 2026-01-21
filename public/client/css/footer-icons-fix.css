@@ -25,14 +25,17 @@
     flex-direction: row !important;
     align-items: flex-start !important;
     gap: 15px !important;
+    direction: rtl;
 }
 
 [dir="ltr"] .footer-address ul li {
     flex-direction: row !important;
+    direction: ltr;
 }
 
 [dir="rtl"] .footer-address ul li {
     flex-direction: row-reverse !important;
+    direction: rtl;
 }
 
 .footer-address ul li i {
@@ -57,6 +60,21 @@
     display: flex !important;
     flex-direction: column !important;
     flex: 1 !important;
+    order: 2 !important;
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="ltr"] .footer-address ul li > div {
+    order: 2 !important;
+    direction: ltr;
+    text-align: left;
+}
+
+[dir="rtl"] .footer-address ul li > div {
+    order: 2 !important;
+    direction: rtl;
+    text-align: right;
 }
 
 /* Social Media Icons in Footer */
@@ -136,11 +154,14 @@
 
 /* Scroll Top Icon */
 .scroll-top i {
-    display: inline-block !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     visibility: visible !important;
     opacity: 1 !important;
     font-size: 24px !important;
     color: var(--colorWhite) !important;
+    line-height: 1 !important;
 }
 
 /* Ensure Font Awesome classes work */

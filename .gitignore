@@ -1,9 +1,6 @@
 /.phpunit.cache
 /node_modules
-/public/hot
-/public/storage
-/public/addons_files
-/public/uploads/custom-images
+
 /storage/*.key
 /vendor
 .env.backup
@@ -18,7 +15,6 @@ yarn-error.log
 /.idea
 /.vscode
 /vendor/srmklive/paypal/tests/Mocks/samples
-public/uploads/media/
 
 # Large files that shouldn't be in version control
 lawment-400.rar

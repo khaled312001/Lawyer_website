@@ -1,15 +1,132 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = $department?->seo_title ?? $department?->name . ' - ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $department?->seo_description ?? Str::limit(strip_tags($department?->description ?? ''), 155) ?: $department?->name;
+    $seoImage = $department?->thumbnail_image ? asset($department->thumbnail_image) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
+    $currentUrl = url()->current();
+    $departmentUrl = route('website.department.details', $department->slug);
+@endphp
+
 @section('title')
-    <title>{{ $department?->seo_title ?? $department?->name }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description" content="{{ $department?->seo_description }}">
-    <meta property="og:title" content="{{ $department?->seo_title }}" />
-    <meta property="og:description" content="{{ $department?->seo_description }}" />
-    <meta property="og:image" content="{{ asset($department?->thumbnail_image) }}" />
-    <meta property="og:URL" content="{{ url()->current() }}" />
-    <meta property="og:type" content="website" />
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ $department?->name }}, {{ __('legal department, law practice, تخصص قانوني, قسم قانوني') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ $currentUrl }}">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "{{ $department->name }}",
+        "description": "{{ Str::limit(strip_tags($department->description ?? ''), 200) }}",
+        "url": "{{ $departmentUrl }}",
+        @if($department->thumbnail_image)
+        "image": "{{ asset($department->thumbnail_image) }}",
+        @endif
+        "provider": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+            "url": "{{ url('/') }}"
+        },
+        "serviceType": "Legal Services",
+        "areaServed": {
+            "@type": "Country",
+            "name": "Syria"
+        }
+    }
+    </script>
+    
+    @if($lawyers && $lawyers->count() > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            @foreach($lawyers->take(10) as $index => $lawyer)
+            {
+                "@type": "ListItem",
+                "position": {{ $index + 1 }},
+                "item": {
+                    "@type": "Person",
+                    "name": "{{ $lawyer->name }}",
+                    "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
+                    "url": "{{ route('website.lawyer.details', $lawyer->slug) }}"
+                }
+            }@if(!$loop->last),@endif
+            @endforeach
+        ]
+    }
+    </script>
+    @endif
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Departments') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ route('website.departments') }}",
+                    "name": "{{ __('Departments') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ $department->name }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ $department->name }}"
+                }
+            }
+        ]
+    }
+    </script>
+@endsection
+
 @section('client-content')
 
     <!--Banner Start-->
@@ -159,8 +276,7 @@
                             <h2>{{ $contactInfo?->header }}</h2>
                             <p>{{ $contactInfo?->description }}</p>
                             <ul>
-                                <li><i class="fas fa-phone"></i> {!! nl2br(e($contactInfo?->email)) !!}</li>
-                                <li><i class="far fa-envelope"></i> 
+                                <li><i class="fas fa-phone"></i> 
                                     @php
                                         $phoneDisplay = $contactInfo?->phone ?? '';
                                         // Move + to end for Arabic language (RTL)
@@ -187,6 +303,7 @@
                                         }
                                     @endphp
                                 </li>
+                                <li><i class="far fa-envelope"></i> {{ $contactInfo?->top_bar_email ?? $contactInfo?->email }}</li>
                                 <li><i class="fas fa-map-marker-alt"></i>{!! nl2br(e($contactInfo?->address)) !!}</li>
                             </ul>
                         </div>
@@ -229,7 +346,7 @@
                                 <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="team-item-link" aria-label="{{ $lawyer?->name }}">
                                     <div class="team-item">
                                         <div class="team-photo">
-                                            <img src="{{ url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
+                                            <img src="{{ image_url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
                                                 alt="{{ $lawyer?->name }}" loading="lazy">
                                             <div class="team-overlay">
                                                 <div class="view-profile-btn">
@@ -240,7 +357,12 @@
                                         </div>
                                         <div class="team-text">
                                             <h4 class="team-name">{{ ucfirst($lawyer?->name) }}</h4>
-                                            <p><i class="fas fa-briefcase"></i> {{ ucfirst($lawyer?->department?->name) }}</p>
+                                            @php
+                                                $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                    ? $lawyer->departments->first() 
+                                                    : ($lawyer->department ?? null);
+                                            @endphp
+                                            <p><i class="fas fa-briefcase"></i> {{ $displayDept && $displayDept->name ? ucfirst($displayDept->name) : '' }}</p>
                                             <p><span><i class="fas fa-graduation-cap"></i> {{ $lawyer?->designations }}</span>
                                             </p>
                                             <p><span><b><i class="fas fa-street-view"></i>

@@ -33,7 +33,7 @@ class EmailSettingController extends Controller {
             'mail_host.required'         => __('Mail host is required'),
             'mail_sender_email.required' => __('Email is required'),
             'mail_username.required'     => __('Smtp username is required'),
-            'mail_password.unique'       => __('Smtp password is required'),
+            'mail_password.required'     => __('Smtp password is required'),
             'mail_port.required'         => __('Mail port is required'),
             'mail_port.numeric'          => __('Mail port must be a number'),
             'mail_encryption.required'   => __('Mail encryption is required'),
@@ -45,9 +45,20 @@ class EmailSettingController extends Controller {
         Setting::where('key', 'mail_username')->update(['value' => $request->mail_username]);
         Setting::where('key', 'mail_password')->update(['value' => $request->mail_password]);
         Setting::where('key', 'mail_port')->update(['value' => $request->mail_port]);
-        Setting::where('key', 'mail_encryption')->update(['value' => $request->mail_encryption]);
+        // Ensure encryption is lowercase
+        Setting::where('key', 'mail_encryption')->update(['value' => strtolower($request->mail_encryption)]);
 
+        // Clear cache to ensure new settings are loaded
         Cache::forget('setting');
+        
+        // Also clear config cache if it exists
+        if (function_exists('artisan')) {
+            try {
+                \Artisan::call('config:clear');
+            } catch (\Exception $e) {
+                // Ignore if command doesn't exist
+            }
+        }
 
         $notification = __('Updated successfully');
         $notification = ['message' => $notification, 'alert-type' => 'success'];
@@ -124,7 +135,53 @@ class EmailSettingController extends Controller {
     public function test_mail_credentials() {
         checkAdminHasPermissionAndThrowException('setting.view');
         try {
-            $this->sendMail('example@gmail.com', 'Test Email', 'This is a test email');
+            // Clear cache to ensure latest settings are used
+            Cache::forget('setting');
+            
+            // Reload settings from database
+            $setting = Cache::rememberForever('setting', function () {
+                $setting_info = \Modules\GlobalSetting\app\Models\Setting::get();
+                $setting = [];
+                foreach ($setting_info as $setting_item) {
+                    $setting[$setting_item->key] = $setting_item->value;
+                }
+                return (object) $setting;
+            });
+            
+            // Verify required settings exist
+            if (empty($setting->mail_host) || empty($setting->mail_port) || empty($setting->mail_username) || empty($setting->mail_password)) {
+                $notification = ['message' => __('Please fill all SMTP settings before testing.'), 'alert-type' => 'error'];
+                return redirect()->back()->with($notification);
+            }
+            
+            // Apply mail configuration immediately
+            $mailConfig = [
+                'transport'  => 'smtp',
+                'host'       => $setting->mail_host,
+                'port'       => (int) $setting->mail_port,
+                'encryption' => strtolower($setting->mail_encryption ?? 'ssl'),
+                'username'   => $setting->mail_username,
+                'password'   => $setting->mail_password,
+                'timeout'    => 60,
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ];
+            
+            config(['mail.mailers.smtp' => $mailConfig]);
+            config(['mail.from.address' => $setting->mail_sender_email ?? 'info@amanlaw.ch']);
+            config(['mail.from.name' => $setting->mail_sender_name ?? 'Aman Law']);
+            
+            // Use sender email for testing (most reliable)
+            $testEmail = $setting->mail_sender_email ?? 'info@amanlaw.ch';
+            
+            // Validate email address
+            if (empty($testEmail) || !filter_var($testEmail, FILTER_VALIDATE_EMAIL)) {
+                $notification = ['message' => __('Please set a valid sender email address in email configuration.'), 'alert-type' => 'error'];
+                return redirect()->back()->with($notification);
+            }
+            
+            // Send test email to the sender email address
+            $this->sendMail($testEmail, 'Test Email - SMTP Configuration', 'This is a test email to verify SMTP configuration is working correctly. If you receive this email, your SMTP settings are configured properly.');
             $notification = __('Mail Sent Successfully');
             $notification = ['message' => $notification, 'alert-type' => 'success'];
 

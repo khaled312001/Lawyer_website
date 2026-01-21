@@ -44,22 +44,48 @@ trait GlobalMailTrait {
      * @return \Illuminate\Http\RedirectResponse Redirects back with an error notification.
      */
     public function handleMailException(\Exception $e, bool $ajax = false) {
-        info($e->getMessage());
+        // Log full error details for debugging
+        Log::error('Mail Exception: ' . $e->getMessage());
+        Log::error('Mail Exception Trace: ' . $e->getTraceAsString());
+        
+        $errorMessage = $e->getMessage();
+        $message = __('An unexpected error occurred.');
+        
+        // More specific error messages
         if ($e instanceof \Symfony\Component\Mailer\Exception\TransportExceptionInterface) {
-            $message = __('Please check your mail server configuration.');
-        } elseif ($e instanceof \ErrorException) {
-            if (strpos($e->getMessage(), 'Trying to access array offset on value of type null') !== false) {
-                $message = __('Something went wrong contact with admin.');
+            // Check for specific SMTP errors
+            if (strpos($errorMessage, 'Connection') !== false || strpos($errorMessage, 'connection') !== false) {
+                $message = __('Cannot connect to SMTP server. Please check the host and port settings.');
+            } elseif (strpos($errorMessage, 'Authentication') !== false || strpos($errorMessage, 'authentication') !== false || strpos($errorMessage, '535') !== false) {
+                $message = __('SMTP authentication failed. Please check your username and password.');
+            } elseif (strpos($errorMessage, 'SSL') !== false || strpos($errorMessage, 'TLS') !== false) {
+                $message = __('SSL/TLS connection error. Please check encryption settings (SSL for port 465, TLS for port 587).');
             } else {
-                $message = __('An unexpected error occurred.');
+                $message = __('SMTP connection error: ') . $errorMessage;
             }
+        } elseif ($e instanceof \ErrorException) {
+            if (strpos($errorMessage, 'Trying to access array offset on value of type null') !== false) {
+                $message = __('Configuration error. Please check all email settings are filled correctly.');
+            } else {
+                $message = __('Configuration error: ') . $errorMessage;
+            }
+        } elseif (strpos($errorMessage, 'stream_socket_client') !== false || strpos($errorMessage, 'Connection refused') !== false) {
+            $message = __('Cannot connect to SMTP server. Please verify the host and port are correct.');
+        } elseif (strpos($errorMessage, 'password') !== false || strpos($errorMessage, 'authentication') !== false) {
+            $message = __('SMTP authentication failed. Please verify your username and password.');
         } else {
-            $message = __('Mail sending operation failed. Please try again.');
+            // Show more details in development mode
+            if (config('app.debug')) {
+                $message = __('Mail error: ') . $errorMessage;
+            } else {
+                $message = __('Mail sending failed. Please check your SMTP configuration.');
+            }
         }
+        
         $notification = ['message' => $message, 'alert-type' => 'error'];
 
         if($ajax){
-            return response()->json(['status' => 'error', 'message' => $message],500);
+            return response()->json(['status' => 'error', 'message' => $message, 'details' => config('app.debug') ? $errorMessage : ''],500);
         }else{
             return redirect()->back()->with($notification);
         }

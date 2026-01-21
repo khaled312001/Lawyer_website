@@ -4,77 +4,180 @@
 @endsection
 @section('meta')
     <meta name="description" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_description ?? 'LawMent' }}">
+    <meta name="keywords" content="محامي سوري, محامي سويسري, استشارة قانونية, خدمات قانونية, Aman Law, أمان لو, legal services Syria, legal consultation">
+@endsection
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_title ?? 'LawMent' }}">
+    <meta property="og:description" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_description ?? 'LawMent' }}">
+    <meta property="og:image" content="{{ asset($setting->logo ?? 'client/img/logo.png') }}">
+@endsection
+@section('structured_data')
+    {{-- WebPage Schema for Homepage --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "{{ seoSetting()->where('page_name', 'Home')->first()->seo_title ?? $setting->app_name }}",
+        "description": "{{ seoSetting()->where('page_name', 'Home')->first()->seo_description ?? $setting->app_name }}",
+        "url": "{{ url('/') }}",
+        "inLanguage": "{{ app()->getLocale() }}",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "{{ $setting->app_name }}",
+            "url": "{{ url('/') }}"
+        },
+        "about": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name }}"
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [{
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": "{{ url('/') }}"
+            }]
+        }
+    }
+    </script>
+    
+    {{-- Service Schema for Legal Services --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Legal Services",
+        "provider": {
+            "@type": "LegalService",
+            "name": "{{ $setting->app_name }}",
+            "url": "{{ url('/') }}"
+        },
+        "areaServed": {
+            "@type": "Country",
+            "name": ["Syria", "Switzerland", "Worldwide"]
+        },
+        "availableChannel": {
+            "@type": "ServiceChannel",
+            "serviceType": "Online",
+            "availableLanguage": ["ar", "en"]
+        }
+    }
+    </script>
 @endsection
 @section('client-content')
 
-    <!--Slider Start-->
-    <div class="slider" id="main-slider">
-        <div class="banner_slider_area">
-            <div class="banner_slider_overlay"></div>
-            @if($sliders->count() > 0)
-                <div class="row banner_slider">
-                    @foreach ($sliders as $item)
-                        <div class="col-12">
-                            <div class="banner_slider_item">
-                                <img src="{{ url($item->image) }}" alt="{{ $item->title }}" class="img-fluid w-100">
-                            </div>
-                        </div>
-                    @endforeach
+    <!--Hero Section Start-->
+    <section class="hero-section" style="background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%); position: relative; overflow: hidden;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 wow fadeInLeft">
+                    <div class="hero-content">
+                        <h1 class="hero-title" style="font-size: 48px; font-weight: 800; color: #ffffff; margin-bottom: 25px; line-height: 1.3;">
+                            {{ __('ملتقى المحامين السوريين-السويسريين') }}<br>
+                            <span style="color: #D4A574;">{{ __('Aman Law – أمان لو') }}</span>
+                        </h1>
+                        <p class="hero-description" style="font-size: 18px; color: rgba(255, 255, 255, 0.9); line-height: 1.8; margin-bottom: 30px;">
+                            {{ __('منصّة قانونية مُدارة من سويسرا، تضم محامين مختصين من سوريا، لتقديم استشارات قانونية وتمثيل قضائي في القضايا المتعلقة بسوريا للعملاء في جميع أنحاء العالم.') }}
+                        </p>
+                        <p class="hero-description" style="font-size: 16px; color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 30px;">
+                            {{ __('نقدّم خدمات قانونية متكاملة تشمل القضايا المدنية، العقارية، التجارية، قضايا الأحوال الشخصية، القضايا الجزائية، وصياغة العقود ومتابعة الدعاوى أمام المحاكم السورية.') }}
+                        </p>
+                        <p class="hero-description" style="font-size: 16px; color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 40px;">
+                            {{ __('تتم الاستشارات القانونية عبر التواصل على واتساب أو من خلال تعبئة نموذج الطلب، مع إمكانية حجز موعد استشارة عبر مكالمة صوتية أو مكالمة فيديو حسب رغبة العميل.') }}
+                        </p>
+                        <a href="{{ route('website.book.consultation.appointment') }}" 
+                           class="hero-cta-btn animated-cta-btn" 
+                           style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); color: #2c3e50; border-radius: 50px; font-weight: 700; font-size: 18px; text-decoration: none; transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4); position: relative; overflow: hidden; cursor: pointer;"
+                           tabindex="0"
+                        >
+                            <span style="position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 8px;">
+                                {{ __('تواصل معنا وحجز استشارة قانونية') }}
+                                <i class="fas fa-arrow-left ms-2 cta-arrow" style="transition: transform 0.3s ease;"></i>
+                            </span>
+                        </a>
+                        <style>
+                            .animated-cta-btn {
+                                animation: ctaPopIn 0.9s cubic-bezier(.23,1.15,.30,.89);
+                                box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4), 0 2px 8px rgba(220,38,38,0.14);
+                                outline: none;
+                            }
+                            @keyframes ctaPopIn {
+                                0% { 
+                                    opacity: 0; 
+                                    transform: scale(0.8) translateY(40px); 
+                                }
+                                100% { 
+                                    opacity: 1; 
+                                    transform: scale(1) translateY(0); 
+                                }
+                            }
+                            .animated-cta-btn:hover,
+                            .animated-cta-btn:focus {
+                                background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important; /* الخلفية تبقى كما هي */
+                                color: #ffffff !important;
+                                box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+                                transform: translateY(-3px) scale(1.05) !important;
+                                text-decoration: none;
+                            }
+                            .animated-cta-btn .cta-arrow {
+                                display: inline-block;
+                                transition: transform 0.35s cubic-bezier(.57,.03,.35,.98);
+                            }
+                            .animated-cta-btn:hover .cta-arrow,
+                            .animated-cta-btn:focus .cta-arrow {
+                                transform: translateX(-8px) scale(1.2) rotate(-8deg);
+                            }
+                        </style>
+                    </div>
                 </div>
-            @endif
-        </div>
-        
-        <div class="legal-hero-section">
-            <div class="legal-hero-overlay"></div>
-            <!-- Animated Legal Icons -->
-            <div class="legal-hero-animated-icons" style="overflow: hidden;">
-                <i class="fas fa-gavel legal-icon-1"></i>
-                <i class="fas fa-balance-scale legal-icon-2"></i>
-                <i class="fas fa-book legal-icon-3"></i>
-                <i class="fas fa-landmark legal-icon-4"></i>
-                <i class="fas fa-file-alt legal-icon-5"></i>
-                <i class="fas fa-handshake legal-icon-6"></i>
-            </div>
-            <div class="d-flex align-items-center h_100_p">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col-lg-12">
-                            <div class="legal-hero-content text-center">
-                                <div class="legal-hero-badge">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span>{{ __('Trusted Legal Services') }}</span>
-                                </div>
-                                <h1 class="legal-hero-title">
-                                    {{ __('Professional Legal') }} 
-                                    <span class="legal-highlight">{{ __('Consultation') }}</span>
-                                    {{ __('at Your Fingertips') }}
-                                </h1>
-                                <p class="legal-hero-description">
-                                    {{ __('Get expert legal advice from experienced lawyers. Book your consultation online and receive professional guidance for all your legal matters. Fast, secure, and reliable legal services.') }}
-                                </p>
-                                <div class="legal-hero-features">
-                                    <div class="legal-hero-feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Expert Lawyers') }}</span>
-                                    </div>
-                                    <div class="legal-hero-feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Online Consultation') }}</span>
-                                    </div>
-                                    <div class="legal-hero-feature-item">
-                                        <i class="fas fa-check-circle"></i>
-                                        <span>{{ __('Fixed Prices') }}</span>
+                <div class="col-lg-6 wow fadeInRight">
+                    <div class="hero-image text-center">
+                        <div class="hero-icons-container" style="position: relative; border-radius: 20px; overflow: visible; min-height: 400px; background: transparent; display: flex; align-items: center; justify-content: center; padding: 40px;">
+                            <div class="law-icons-animation-wrapper" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                                <!-- Main Center Icon -->
+                                <div class="law-icon-main" style="position: absolute; z-index: 10;">
+                                    <div class="icon-wrapper-main" style="width: 120px; height: 120px; background: linear-gradient(135deg, rgba(212, 165, 116, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 30px rgba(212, 165, 116, 0.3); animation: iconPulse 2s ease-in-out infinite;">
+                                        <i class="fas fa-balance-scale" style="font-size: 60px; color: #D4A574; animation: iconSwing 3s ease-in-out infinite;"></i>
                                     </div>
                                 </div>
-                                <div class="legal-hero-buttons">
-                                    <a href="{{ route('website.book.consultation.appointment') }}" class="legal-hero-btn-primary">
-                                        <i class="fas fa-calendar-check"></i>
-                                        <span>{{ __('Book Consultation Now') }}</span>
-                                    </a>
-                                    <a href="{{ route('website.services') }}" class="legal-hero-btn-secondary">
-                                        <i class="fas fa-info-circle"></i>
-                                        <span>{{ __('Our Services') }}</span>
-                                    </a>
+                                
+                                <!-- Orbiting Icons -->
+                                <div class="law-icon-1" style="position: absolute; animation: orbitIcon 8s linear infinite;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(212, 165, 116, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(212, 165, 116, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-gavel" style="font-size: 35px; color: #D4A574; animation: iconRotate 4s linear infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-2" style="position: absolute; animation: orbitIcon 10s linear infinite reverse;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(220, 38, 38, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-book-law" style="font-size: 35px; color: #DC2626; animation: iconBounce 2s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-3" style="position: absolute; animation: orbitIcon 12s linear infinite;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(212, 165, 116, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(212, 165, 116, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-file-contract" style="font-size: 35px; color: #D4A574; animation: iconFloat 3s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-4" style="position: absolute; animation: orbitIcon 9s linear infinite reverse;">
+                                    <div class="icon-wrapper" style="width: 80px; height: 80px; background: rgba(220, 38, 38, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-landmark" style="font-size: 35px; color: #DC2626; animation: iconShake 2.5s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-5" style="position: absolute; animation: orbitIcon 11s linear infinite;">
+                                    <div class="icon-wrapper" style="width: 70px; height: 70px; background: rgba(212, 165, 116, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(212, 165, 116, 0.2); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-handshake" style="font-size: 30px; color: #D4A574; animation: iconPulse 2.5s ease-in-out infinite;"></i>
+                                    </div>
+                                </div>
+                                
+                                <div class="law-icon-6" style="position: absolute; animation: orbitIcon 13s linear infinite reverse;">
+                                    <div class="icon-wrapper" style="width: 70px; height: 70px; background: rgba(220, 38, 38, 0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2); backdrop-filter: blur(10px);">
+                                        <i class="fas fa-shield-alt" style="font-size: 30px; color: #DC2626; animation: iconRotate 5s linear infinite;"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -82,108 +185,55 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--Slider End-->
+    </section>
+    <!--Hero Section End-->
 
-
-    <!--Why Us Start-->
-    @if (1 == $home_sections?->feature_status)
-        <section class="why-us-area pt_30">
-            <div class="container">
-                <div class="row">
-                    @foreach ($features->take($home_sections?->feature_how_many) as $feature)
-                        <div class="col-lg-4 choose-col">
-                            <div class="choose-item flex" style="background-image: url({{ url($feature->image) }})">
-                                <div class="choose-icon">
-                                    <i class="{{ $feature->icon }}"></i>
-                                </div>
-                                <div class="choose-text">
-                                    <h2 class="title">{{ $feature->title }}</h2>
-                                    <p>
-                                        {{ $feature->description }}
-                                    </p>
-                                </div>
-                            </div>
+    <!--Quick Points Section Start-->
+    <section class="quick-points-section" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="quick-point-card" style="background: #ffffff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%;">
+                        <div class="quick-point-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
+                            <i class="fas fa-users" style="font-size: 36px; color: #ffffff;"></i>
                         </div>
-                    @endforeach
-
+                        <h3 class="quick-point-title" style="font-size: 22px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('محامون مختصون') }}</h3>
+                        <p class="quick-point-text" style="font-size: 16px; color: #666; line-height: 1.7;">{{ __('شبكة من المحامين ذوي خبرة داخل سوريا، كلٌّ حسب اختصاصه القانوني.') }}</p>
+                    </div>
                 </div>
-            </div>
-        </section>
-        <!--why Us End-->
-    @endif
-
-    @if (1 == $home_sections?->work_status)
-        <!--Feature Start-->
-        <section class="about-area">
-            <div class="container">
-                <div class="row ov_hd">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->work_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->work_second_heading) }}</h2>
-                            <p>{{ $home_sections?->work_description }}</p>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="quick-point-card" style="background: #ffffff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%;">
+                        <div class="quick-point-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
+                            <i class="fas fa-globe" style="font-size: 36px; color: #ffffff;"></i>
                         </div>
+                        <h3 class="quick-point-title" style="font-size: 22px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('استشارة عن بُعد') }}</h3>
+                        <p class="quick-point-text" style="font-size: 16px; color: #666; line-height: 1.7;">{{ __('إمكانية الحصول على استشارة قانونية من أي مكان في العالم.') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="quick-point-card" style="background: #ffffff; padding: 40px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%;">
+                        <div class="quick-point-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px;">
+                            <i class="fas fa-eye" style="font-size: 36px; color: #ffffff;"></i>
+                        </div>
+                        <h3 class="quick-point-title" style="font-size: 22px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('وضوح وشفافية') }}</h3>
+                        <p class="quick-point-text" style="font-size: 16px; color: #666; line-height: 1.7;">{{ __('آلية عمل واضحة وتواصل مباشر مع العميل في جميع مراحل القضية.') }}</p>
                     </div>
                 </div>
             </div>
-            <div class="container">
-                <div class="row ov_hd">
-                    <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                        <div class="about-skey mt_65">
-                            <div class="about-img">
-                                <img src="{{ $work?->image ? url($work?->image) : '' }}"
-                                    alt="{{ $home_sections?->work_first_heading . ' ' . $home_sections?->work_second_heading }}"
-                                    loading="lazy">
-                                <div class="video-section video-section-home">
-                                    <a aria-label="{{ $home_sections?->work_first_heading . ' ' . $home_sections?->work_second_heading }}"
-                                        class="video-button mgVideo" href="{{ $work?->video }}"><span></span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
-                        <div class="feature-section-text mt_50">
-                            <h2>{{ $work?->title }}</h2>
-                            <div class="feature-accordion" id="accordion">
-                                @foreach ($workFaqs?->take($home_sections?->work_how_many) as $faqIndex => $faq)
-                                    <div class="faq-item card">
-                                        <div class="faq-header" id="heading1-{{ $faq->id }}">
-                                            <button class="faq-button {{ $faqIndex != 0 ? 'collapsed' : '' }}"
-                                                data-bs-toggle="collapse" data-bs-target="#collapse1-{{ $faq->id }}"
-                                                aria-expanded="true"
-                                                aria-controls="collapse1-{{ $faq->id }}">{{ $faq->question }}</button>
-                                        </div>
-
-                                        <div id="collapse1-{{ $faq->id }}"
-                                            class="collapse {{ $faqIndex == 0 ? 'show' : '' }}"
-                                            aria-labelledby="heading1-{{ $faq->id }}" data-bs-parent="#accordion">
-                                            <div class="faq-body">
-                                                {!! $faq->answer !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Feature End-->
-    @endif
-
+        </div>
+    </section>
+    <!--Quick Points Section End-->
 
     @if (1 == $home_sections?->service_status)
         <!--Service Start-->
         <section class="service-area bg-area">
+            <!-- HTML Content -->
             <div class="container">
                 <div class="row">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
                         <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->service_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->service_second_heading) }}</h2>
-                            <p>{{ $home_sections?->service_description }}</p>
+                            <h2 class="title">{{ __('الخدمات القانونية') }}</h2>
+                            <p>{{ __('نقدّم خدمات قانونية متنوّعة متعلّقة بالقضايا داخل سوريا، موجّهة للأفراد والشركات في الداخل والخارج.') }}</p>
                         </div>
                     </div>
                 </div>
@@ -221,8 +271,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
                         <div class="home-button ser-btn">
                             <a aria-label="{{ __('All Service') }}"
                                 href="{{ url('service') }}">{{ __('All Service') }}</a>
@@ -235,114 +285,154 @@
         <!--Service End-->
     @endif
 
-    @if (1 == $home_sections?->department_status)
-        <!--Department Start-->
-        <section class="case-study-home-page case-study-area">
-            <div class="container">
-                <div class="row mb_25">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown" data-wow-delay="0.1s">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->department_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->department_second_heading) }}</h2>
-                            <p>{{ $home_sections?->department_description }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    @foreach ($departments->take($home_sections?->department_how_many) as $department)
-                        <div class="col-lg-4 col-md-6 mt_15">
-                            <div class="case-item">
-                                <div class="case-box">
-                                    <div class="case-image">
-                                        <img src="{{ asset($department?->thumbnail_image ?? 'client/images/default-image.jpg') }}"
-                                            alt="{{ $department?->name }}" 
-                                            loading="lazy"
-                                            onerror="this.src='{{ asset('client/images/default-image.jpg') }}'; this.onerror=null;">
-                                        <div class="overlay"><a aria-label="{{ __('See Details') }}"
-                                                href="{{ route('website.department.details', $department?->slug) }}"
-                                                class="btn-case">{{ __('See Details') }}</a>
-                                        </div>
-                                    </div>
-                                    <div class="case-content">
-                                        <h3 class="title"><a aria-label="{{ $department?->name }}"
-                                                href="{{ route('website.department.details', $department?->slug) }}">{{ $department?->name }}</a>
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="row mb_60">
-                    <div class="col-md-12">
-                        <div class="home-button">
-                            <a aria-label="{{ __('All Department') }}"
-                                href="{{ url('department') }}">{{ __('All Department') }}</a>
-                        </div>
+    <!--How It Works Section Start-->
+    <section class="how-it-works-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                    <div class="main-headline text-center">
+                        <h2 class="title">{{ __('كيف نعمل') }}</h2>
+                        <p>{{ __('نعتمد آلية عمل بسيطة وواضحة لضمان فهم الطلب وتقديم الخدمة القانونية المناسبة.') }}</p>
                     </div>
                 </div>
             </div>
-        </section>
-    @endif
-
-
-    @if (1 == $home_sections?->client_status)
-        <!--Testimonial Start-->
-        <section class="testimonial-area-modern {{ $home_sections?->department_status == 0 ? 'mt_50' : '' }}">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                        <div class="main-headline">
-                            <h2 class="title"><span>{{ ucfirst($home_sections?->client_first_heading) }}</span>
-                                {{ ucfirst($home_sections?->client_second_heading) }}</h2>
-                            <p>{{ $home_sections?->client_description }}</p>
+            <div class="row mt_50">
+                <div class="col-lg-3 col-md-6 mt_30">
+                    <div class="enhanced-how-works-card">
+                        <div class="enhanced-step-number">1</div>
+                        <div class="enhanced-step-icon-wrapper enhanced-icon-1">
+                            <i class="fab fa-whatsapp enhanced-step-icon"></i>
                         </div>
+                        <div class="enhanced-step-content">
+                            <h3 class="enhanced-step-title">{{ __('التواصل عبر واتساب أو تعبئة نموذج طلب الاستشارة') }}</h3>
+                            <p class="enhanced-step-description">{{ __('ابدأ بالتواصل معنا عبر واتساب أو من خلال تعبئة نموذج طلب الاستشارة المتاح على الموقع.') }}</p>
+                        </div>
+                        <div class="enhanced-step-decoration"></div>
                     </div>
                 </div>
-
-                <div class="testimonial-swiper-wrapper">
-                    <div class="swiper testimonial-swiper-modern">
-                        <div class="swiper-wrapper">
-                            @foreach ($testimonials->take($home_sections?->client_how_many) as $client)
-                                <div class="swiper-slide">
-                                    <div class="testimonial-card-modern">
-                                     
-                                        <div class="testimonial-content">
-                                            <p class="testimonial-text">{{ $client?->comment }}</p>
-                                        </div>
-                                        <div class="testimonial-author">
-                                            <div class="author-image-wrapper">
-                                                <img src="{{ !empty($client?->image) ? url($client?->image) : asset('uploads/website-images/default-avatar.png') }}"
-                                                    alt="{{ $client?->name }}" loading="lazy" class="author-image">
-                                                <div class="author-image-border"></div>
-                                            </div>
-                                            <div class="author-info">
-                                                <h4 class="author-name">{{ $client?->name }}</h4>
-                                                <p class="author-designation">{{ $client?->designation }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="testimonial-rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+                <div class="col-lg-3 col-md-6 mt_30">
+                    <div class="enhanced-how-works-card">
+                        <div class="enhanced-step-number">2</div>
+                        <div class="enhanced-step-icon-wrapper enhanced-icon-2">
+                            <i class="fas fa-search enhanced-step-icon"></i>
                         </div>
-                        <!-- Navigation -->
-                        <div class="swiper-button-next testimonial-next"></div>
-                        <div class="swiper-button-prev testimonial-prev"></div>
-                        <!-- Pagination -->
-                        <div class="swiper-pagination testimonial-pagination"></div>
+                        <div class="enhanced-step-content">
+                            <h3 class="enhanced-step-title">{{ __('دراسة الحالة من قبل الفريق القانوني') }}</h3>
+                            <p class="enhanced-step-description">{{ __('يقوم فريقنا القانوني بدراسة حالتك بعناية وتحديد المحامي المختص المناسب.') }}</p>
+                        </div>
+                        <div class="enhanced-step-decoration"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mt_30">
+                    <div class="enhanced-how-works-card">
+                        <div class="enhanced-step-number">3</div>
+                        <div class="enhanced-step-icon-wrapper enhanced-icon-3">
+                            <i class="fas fa-comments enhanced-step-icon"></i>
+                        </div>
+                        <div class="enhanced-step-content">
+                            <h3 class="enhanced-step-title">{{ __('تقديم الاستشارة القانونية') }}</h3>
+                            <p class="enhanced-step-description">{{ __('نقدّم الاستشارة القانونية عبر النص، المكالمة الصوتية أو مكالمة الفيديو حسب رغبتك.') }}</p>
+                        </div>
+                        <div class="enhanced-step-decoration"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mt_30">
+                    <div class="enhanced-how-works-card">
+                        <div class="enhanced-step-number">4</div>
+                        <div class="enhanced-step-icon-wrapper enhanced-icon-3">
+                            <i class="fas fa-gavel enhanced-step-icon"></i>
+                        </div>
+                        <div class="enhanced-step-content">
+                            <h3 class="enhanced-step-title">{{ __('متابعة القضية أو التمثيل القانوني') }}</h3>
+                            <p class="enhanced-step-description">{{ __('عند الطلب، نقوم بمتابعة القضية أو التمثيل القانوني أمام المحاكم السورية.') }}</p>
+                        </div>
+                        <div class="enhanced-step-decoration"></div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!--Testimonial End-->
-    @endif
+        </div>
+    </section>
+    <!--How It Works Section End-->
+
+    <!--About Us Section Start-->
+    <section class="about-us-section" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                    <div class="main-headline text-center">
+                        <h2 class="title">{{ __('من نحن') }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_50">
+                <div class="col-lg-10 m-auto">
+                    <div class="about-us-content text-center" style="background: #ffffff; padding: 50px 40px; border-radius: 20px; box-shadow: 0 5px 30px rgba(0, 0, 0, 0.08);">
+                        <p style="font-size: 18px; color: #333; line-height: 1.9; margin-bottom: 0;">
+                            {{ __('أمان لو – Aman Law هي منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تسهيل وصول العملاء في الخارج إلى خدمات قانونية موثوقة داخل سوريا، عبر محامين مختصين وبآلية عمل منظّمة وشفافة.') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--About Us Section End-->
+
+    <!--Why Aman Law Section Start-->
+    <section class="why-aman-law-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                    <div class="main-headline text-center">
+                        <h2 class="title"><span>{{ __('لماذا') }}</span> {{ __('أمان لو') }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt_50">
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-flag" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">
+                            @php
+                                $title = __('إدارة قانونية من سويسرا');
+                            @endphp
+                            {{ $title }}
+                        </h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-user-tie" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('محامون مختصون داخل سوريا') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-users" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('خدمة مخصّصة للعملاء في الخارج') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-video" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('استشارات عن بُعد (صوتية أو فيديو)') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-eye" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('وضوح في الإجراءات والمتابعة') }}</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mt_30">
+                    <div class="why-aman-card" style="background: #ffffff; padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); transition: all 0.3s ease; height: 100%; border-top: 4px solid #D4A574;">
+                        <i class="fas fa-shield-alt" style="font-size: 40px; color: #D4A574; margin-bottom: 20px;"></i>
+                        <h4 style="font-size: 20px; font-weight: 700; color: #0b2c64; margin-bottom: 15px;">{{ __('التزام بالمهنية والسرّية') }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Why Aman Law Section End-->
 
 
     @if (1 == $home_sections?->lawyer_status)
@@ -362,66 +452,54 @@
                 <div class="lawyer-swiper-wrapper">
                     <div class="swiper lawyer-swiper-modern">
                         <div class="swiper-wrapper">
-                            @foreach ($lawyers->take($home_sections?->lawyer_how_many) as $lawyer)
+                            @foreach ($lawyers as $index => $lawyer)
                                 <div class="swiper-slide">
-                                    <div class="lawyer-card-modern">
-                                        <div class="lawyer-image-wrapper">
-                                            <a aria-label="{{ $lawyer?->name }}"
-                                                href="{{ route('website.lawyer.details', $lawyer?->slug) }}" class="lawyer-image-link">
-                                                @php
-                                                    $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
-                                                @endphp
-                                                <img src="{{ url($lawyerImage) }}" alt="{{ $lawyer?->name }}" loading="lazy" class="lawyer-image" onerror="this.onerror=null; this.src='{{ url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
-                                                <div class="lawyer-image-overlay">
-                                                    <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
-                                                </div>
+                                    <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl lawyer-card-animated" style="animation-delay: {{ 0.12 * $index }}s;">
+                                        <div class="lawyer-card-image-mobile lawyer-card-border-animated" style="animation-delay: {{ 0.16 * $index }}s;">
+                                            @php
+                                                $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                                                $lawyerName = $lawyer?->name ?? '';
+                                                $lawyerSlug = $lawyer?->slug ?? '';
+                                                $fallbackImage = image_url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
+                                            @endphp
+                                            <a href="{{ route('website.lawyer.details', $lawyerSlug) }}" aria-label="{{ $lawyerName }}">
+                                                <img src="{{ image_url($lawyerImage) }}" alt="{{ $lawyerName }}" loading="lazy" data-fallback="{{ $fallbackImage }}">
                                             </a>
                                         </div>
-                                        <div class="lawyer-content">
-                                            <h3 class="lawyer-name">
-                                                <a aria-label="{{ $lawyer?->name }}"
-                                                    href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
-                                                    {{ $lawyer?->name }}
+                                        <div class="lawyer-card-content-mobile">
+                                            <h3 class="lawyer-card-name-mobile">
+                                                <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                                                    {{ ucfirst($lawyer?->name) }}
                                                 </a>
                                             </h3>
-                                            <div class="lawyer-meta">
-                                                @if($lawyer->department)
-                                                <span class="lawyer-department-meta">
-                                                    <i class="fas fa-briefcase"></i>
-                                                    <span>{{ $lawyer->department->name }}</span>
-                                                </span>
+                                            <div class="lawyer-card-meta-mobile">
+                                                @php
+                                                    $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
+                                                        ? $lawyer->departments->first() 
+                                                        : ($lawyer->department ?? null);
+                                                @endphp
+                                                @if($displayDept && $displayDept->name)
+                                                <div class="lawyer-meta-item-mobile lawyer-meta-animate">
+                                                    <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
+                                                </div>
                                                 @endif
                                                 @if($lawyer->location)
-                                                <span class="lawyer-location-meta">
-                                                    <i class="fas fa-map-marker-alt"></i>
-                                                    <span>{{ ucfirst($lawyer->location->name) }}</span>
-                                                </span>
+                                                <div class="lawyer-meta-item-mobile lawyer-meta-animate">
+                                                    <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
+                                                </div>
+                                                @endif
+                                                @if($lawyer->designations)
+                                                <div class="lawyer-meta-item-mobile lawyer-meta-animate">
+                                                    <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
+                                                    <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
+                                                </div>
                                                 @endif
                                             </div>
-                                            @if($lawyer->designations)
-                                            <p class="lawyer-designations">
-                                                <i class="fas fa-graduation-cap"></i>
-                                                {{ $lawyer->designations }}
-                                            </p>
-                                            @endif
-                                            @if($lawyer->total_ratings > 0)
-                                            <div class="lawyer-rating">
-                                                {!! displayStars($lawyer->average_rating) !!}
-                                                <span class="rating-text">
-                                                    <strong>{{ number_format($lawyer->average_rating, 1) }}</strong>
-                                                    ({{ $lawyer->total_ratings }})
-                                                </span>
-                                            </div>
-                                            @else
-                                            <div class="lawyer-rating">
-                                                {!! displayStars(0) !!}
-                                                <span class="rating-text no-rating">{{ __('No ratings') }}</span>
-                                            </div>
-                                            @endif
-                                            <a class="lawyer-view-profile" aria-label="{{ __('View Profile') }}"
-                                                href="{{ route('website.lawyer.details', $lawyer?->slug) }}">
-                                                <span>{{ __('View Profile') }}</span>
-                                                <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
+                                            <a class="lawyer-card-button-mobile lawyer-btn-animated" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
+                                                <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
+                                                <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
                                             </a>
                                         </div>
                                     </div>
@@ -435,11 +513,240 @@
                         <div class="swiper-pagination lawyer-pagination"></div>
                     </div>
                 </div>
+                <style>
+                    /* Animation for card appear/fade in with up motion */
+                    .lawyer-card-animated {
+                        animation: fadeUpLawyerCard 0.7s cubic-bezier(.24,.93,.47,.99);
+                        animation-fill-mode: both;
+                    }
+                    @keyframes fadeUpLawyerCard {
+                        0% {
+                            opacity: 0;
+                            transform: translateY(40px) scale(.93) rotateZ(-2deg);
+                            box-shadow: 0 2px 14px rgba(212,165,116,0.05);
+                        }
+                        70% {
+                            opacity: 0.98;
+                            transform: translateY(-4px) scale(1.03) rotateZ(1deg);
+                            box-shadow: 0 8px 28px rgba(212,165,116,0.16);
+                        }
+                        100% {
+                            opacity: 1;
+                            transform: translateY(0) scale(1) rotateZ(0);
+                            box-shadow: 0 8px 28px rgba(212,165,116,0.08);
+                        }
+                    }
+
+                    /* Animation for border grow */
+                    .lawyer-card-border-animated {
+                        border-radius: 16px;
+                        box-shadow: 0 2px 8px rgba(212,165,116,0.10);
+                        border: 2.5px solid #D4A574;
+                        position: relative;
+                        overflow: hidden;
+                        animation: borderGrowAnim 0.85s cubic-bezier(.34,.51,.41,1.08);
+                        animation-fill-mode: both;
+                    }
+                    @keyframes borderGrowAnim {
+                        0% {
+                            box-shadow: 0 0px 0px rgba(212, 165, 116, 0.07);
+                            border-width: 0px;
+                            transform: scale(.85);
+                            opacity: 0;
+                        }
+                        60% {
+                            border-width: 3px;
+                            box-shadow: 0 4px 28px rgba(212,165,116,0.13);
+                            opacity: 0.9;
+                        }
+                        100% {
+                            border-width: 2.5px;
+                            box-shadow: 0 8px 34px rgba(212,165,116,0.10);
+                            transform: scale(1);
+                            opacity: 1;
+                        }
+                    }
+
+                    /* Animate meta info */
+                    .lawyer-meta-animate {
+                        animation: fadeInMetaLawyer 0.55s cubic-bezier(.55,1,.66,1.04);
+                        animation-fill-mode: both;
+                    }
+                    @keyframes fadeInMetaLawyer {
+                        0% {
+                            opacity: 0;
+                            transform: translateY(18px) scale(.96);
+                        }
+                        100% {
+                            opacity: 1;
+                            transform: translateY(0) scale(1);
+                        }
+                    }
+
+                    /* Button animation */
+                    .lawyer-btn-animated {
+                        transition: background 0.3s, color 0.3s, box-shadow 0.18s;
+                        animation: fadeInMetaLawyer 0.45s cubic-bezier(.45,1,.59,1.09) 0.15s backwards;
+                    }
+                    .lawyer-btn-animated:hover, .lawyer-btn-animated:focus {
+                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+                        color: #fff !important;
+                        box-shadow: 0 5px 17px rgba(212,165,116,0.11);
+                        text-decoration: none;
+                    }
+                </style>
             </div>
         </section>
         <!--Lawyer Area End-->
     @endif
 
+    @if (1 == $home_sections?->client_status)
+        <!--Testimonial Start-->
+        <section class="testimonial-area-modern">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
+                        <div class="main-headline">
+                            <h2 class="title"><span>{{ ucfirst($home_sections?->client_first_heading) }}</span>
+                                {{ ucfirst($home_sections?->client_second_heading) }}</h2>
+                            <p>{{ $home_sections?->client_description }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-swiper-wrapper">
+                    <div class="swiper testimonial-swiper-modern">
+                        <div class="swiper-wrapper">
+                            @foreach ($testimonials->take($home_sections?->client_how_many) as $index => $client)
+                                <div class="swiper-slide">
+                                    <div class="testimonial-card-new testimonial-card-animated" style="animation-delay: {{ 0.12 * $index }}s;">
+                                        <div class="testimonial-card-inner">
+                                            <div class="testimonial-content-new">
+                                                <p class="testimonial-text-new">{{ $client?->comment }}</p>
+                                            </div>
+                                            <div class="testimonial-rating-new">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <div class="testimonial-author-new">
+                                                <div class="author-image-wrapper-new">
+                                                    <img src="{{ !empty($client?->image) ? image_url($client->image) : image_url('uploads/website-images/default-avatar.png') }}"
+                                                        alt="{{ $client?->name }}" loading="lazy" class="author-image-new">
+                                                    <div class="author-image-border-new"></div>
+                                                </div>
+                                                <div class="author-info-new">
+                                                    <h4 class="author-name-new">{{ $client?->name }}</h4>
+                                                    <p class="author-designation-new">{{ $client?->designation }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <!-- Navigation -->
+                        <div class="swiper-button-next testimonial-next"></div>
+                        <div class="swiper-button-prev testimonial-prev"></div>
+                        <!-- Pagination -->
+                        <div class="swiper-pagination testimonial-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Testimonial End-->
+    @endif
+
+
+    <!--Contact Us Section Start-->
+    <section class="contact-us-section" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 80px 0;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+                    <div class="text-center mb-5 wow fadeInDown">
+                        <div class="main-headline">
+                            <h2 class="title" style="font-size: 2.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 15px;">
+                                {{ __('تواصل معنا') }}
+                            </h2>
+                            <div style="width: 80px; height: 4px; background: linear-gradient(90deg, #007bff, #0056b3); margin: 20px auto; border-radius: 2px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+                    <div class="contact-us-content text-center" style="background: #ffffff; padding: 60px 50px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;">
+                        <!-- Decorative background elements -->
+                        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: linear-gradient(135deg, rgba(0, 123, 255, 0.05), rgba(0, 86, 179, 0.05)); border-radius: 50%; z-index: 0;"></div>
+                        <div style="position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; background: linear-gradient(135deg, rgba(40, 167, 69, 0.05), rgba(25, 135, 84, 0.05)); border-radius: 50%; z-index: 0;"></div>
+                        
+                        <div style="position: relative; z-index: 1;">
+                            <div style="margin-bottom: 35px;">
+                                <i class="fas fa-handshake" style="font-size: 3rem; color: #007bff; margin-bottom: 20px; display: block;"></i>
+                            </div>
+                            <p style="font-size: 20px; color: #2c3e50; line-height: 1.9; margin-bottom: 25px; font-weight: 500;">
+                                {{ __('نحن جاهزون للإجابة على استفساراتكم القانونية ومساعدتكم في متابعة قضاياكم داخل سوريا.') }}
+                            </p>
+                            <p style="font-size: 17px; color: #6c757d; line-height: 1.8; margin-bottom: 40px;">
+                                {{ __('يرجى التواصل معنا عبر واتساب أو من خلال نموذج التواصل المتاح على الموقع.') }}
+                            </p>
+                            <div class="contact-buttons-wrapper d-flex flex-column flex-md-row justify-content-center align-items-center gap-3" style="margin-top: 40px;">
+                                @if ($contactInfo?->top_bar_phone)
+                                    @php
+                                        $whatsappNumber = $contactInfo->top_bar_phone;
+                                        $whatsappNumber = preg_replace('/[^0-9+]/', '', $whatsappNumber);
+                                        if (!str_starts_with($whatsappNumber, '+')) {
+                                            $whatsappNumber = '+963' . ltrim($whatsappNumber, '0');
+                                        }
+                                    @endphp
+                                    <a href="https://wa.me/{{ $whatsappNumber }}" target="_blank" 
+                                       class="btn btn-lg contact-btn-whatsapp" 
+                                       style="padding: 16px 40px; font-size: 18px; font-weight: 600; border-radius: 50px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); border: none; color: #ffffff; box-shadow: 0 5px 20px rgba(37, 211, 102, 0.3); transition: all 0.3s ease; min-width: 220px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+                                        <i class="fab fa-whatsapp" style="font-size: 24px;"></i>
+                                        <span>{{ __('تواصل عبر واتساب') }}</span>
+                                    </a>
+                                @endif
+                                <a href="{{ route('website.contact-us') }}" 
+                                   class="btn btn-lg contact-btn-form" 
+                                   style="padding: 16px 40px; font-size: 18px; font-weight: 600; border-radius: 50px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); border: none; color: #ffffff; box-shadow: 0 5px 20px rgba(0, 123, 255, 0.3); transition: all 0.3s ease; min-width: 220px; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+                                    <i class="fas fa-envelope" style="font-size: 20px;"></i>
+                                    <span>{{ __('نموذج التواصل') }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            .contact-btn-whatsapp:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4) !important;
+                background: linear-gradient(135deg, #128C7E 0%, #25D366 100%) !important;
+            }
+            .contact-btn-form:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4) !important;
+                background: linear-gradient(135deg, #0056b3 0%, #007bff 100%) !important;
+            }
+            @media (max-width: 768px) {
+                .contact-us-content {
+                    padding: 40px 30px !important;
+                }
+                .contact-buttons-wrapper {
+                    flex-direction: column !important;
+                }
+                .contact-btn-whatsapp,
+                .contact-btn-form {
+                    width: 100%;
+                    max-width: 280px;
+                }
+            }
+        </style>
+    </section>
+    <!--Contact Us Section End-->
 
     @if (1 == $home_sections?->blog_status)
         <!--Blog-Area Start-->
@@ -487,16 +794,6 @@
                                             </div>
                                         </div>
                                         <div class="blog-content">
-                                            <div class="blog-meta">
-                                                <span class="blog-author-meta">
-                                                    <i class="fas fa-user"></i>
-                                                    <span>{{ $blog?->admin?->name ?? __('Admin') }}</span>
-                                                </span>
-                                                <span class="blog-category-meta">
-                                                    <i class="fas fa-folder"></i>
-                                                    <span>{{ $blog?->category?->title ?? __('Blog') }}</span>
-                                                </span>
-                                            </div>
                                             <h3 class="blog-title">
                                                 <a aria-label="{{ $blog?->title }}"
                                                     href="{{ route('website.blog.details', $blog?->slug) }}">
@@ -526,546 +823,12 @@
         <!--Blog-Area End-->
     @endif
 
-    <!--Mobile App Section Start-->
-    <section class="mobile-app-area pt_100 pb_100 bg_ecf1f8">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 wow fadeInLeft">
-                    <div class="mobile-app-image text-center">
-                        <img src="{{ asset('client/img/mobile-app-illustration.png') }}" alt="{{ __('Online Platform') }}" class="img-fluid mobile-app-illustration" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="app-mockup-placeholder" style="display: none;">
-                            <div class="phone-mockup">
-                                <div class="phone-screen">
-                                    <div class="screen-content">
-                                        <i class="fas fa-laptop"></i>
-                                        <h3>{{ __('Online Platform') }}</h3>
-                                        <p>{{ __('Access from Anywhere') }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInRight">
-                    <div class="mobile-app-content">
-                        <h2 class="title mb_30"><span>{{ __('Stay on top') }}</span> {{ __('of your case') }}</h2>
-                        <p class="mb_30">{{ __('With your account on our website, you always have access to our legal experts. Plus, you can easily track your case, see when we need more information, and get a clear overview of how far along the process is.') }}</p>
-                        
-                        <div class="steps-wrapper aman-steps-wrapper-rtl mb_40">
-                            <div class="step-card aman-step-card-rtl mb_20">
-                                <span class="step-text aman-step-text-rtl">
-                                    <strong>{{ __('1. Create your account') }}</strong>
-                                    <p>{{ __('Easily create an account using your email. Access all our legal services and manage your cases from anywhere.') }}</p>
-                                </span>
-                                <i class="fas fa-user-circle step-icon aman-step-icon-rtl"></i>
-                            </div>
-                            <div class="step-card aman-step-card-rtl mb_20">
-                                <span class="step-text aman-step-text-rtl">
-                                    <strong>{{ __('2. Track your case status') }}</strong>
-                                    <p>{{ __('Stay updated on any required information and get a clear view of your case\'s progress through your dashboard.') }}</p>
-                                </span>
-                                <i class="fas fa-chart-line step-icon aman-step-icon-rtl"></i>
-                            </div>
-                            <div class="step-card aman-step-card-rtl">
-                                <span class="step-text aman-step-text-rtl">
-                                    <strong>{{ __('3. Book consultations') }}</strong>
-                                    <p>{{ __('Need legal help? Schedule an appointment with our expert lawyers directly through the website, available throughout the week.') }}</p>
-                                </span>
-                                <i class="fas fa-calendar-check step-icon aman-step-icon-rtl"></i>
-                            </div>
-                        </div>
-
-                        <div class="app-download-buttons">
-                            <a href="{{ route('register') }}" class="app-download-btn" aria-label="Create Account">
-                                <i class="fas fa-user-plus me-2"></i>
-                                <span class="btn-text">{{ __('Create Account') }}</span>
-                            </a>
-                            <a href="{{ route('website.lawyers') }}" class="app-download-btn" aria-label="Find a Lawyer">
-                                <i class="fas fa-search me-2"></i>
-                                <span class="btn-text">{{ __('Find a Lawyer') }}</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Mobile App Section End-->
-
-    <!--How It Works Section Start-->
-    <section class="how-it-works-area pt_100 pb_100">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
-                    <div class="main-headline text-center">
-                        <h2 class="title"><span>{{ __('How') }}</span> {{ __('It Works') }}</h2>
-                        <p>{{ __('Getting legal help has never been easier. Follow these simple steps to get started.') }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt_50">
-                <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item-mobile aman-how-works-card-rtl">
-                        <div class="how-works-content-mobile">
-                            <div class="how-works-number-mobile">1</div>
-                            <div class="how-works-text-mobile">
-                                <h3 class="how-works-title-mobile">{{ __('Choose date, lawyer and time') }}</h3>
-                                <p class="how-works-description-mobile">{{ __('Start by choosing a date for your appointment. Then choose the lawyer you want to speak to and the time that suits you best.') }}</p>
-                            </div>
-                            <i class="fas fa-calendar-alt how-works-icon-mobile"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item-mobile aman-how-works-card-rtl">
-                        <div class="how-works-content-mobile">
-                            <div class="how-works-number-mobile">2</div>
-                            <div class="how-works-text-mobile">
-                                <h3 class="how-works-title-mobile">{{ __('Easy and secure payments') }}</h3>
-                                <p class="how-works-description-mobile">{{ __('When you\'ve chosen a date and time for your appointment, you\'ll be directed to a secure page for payments. Choose to pay with card or Klarna.') }}</p>
-                            </div>
-                            <i class="fas fa-credit-card how-works-icon-mobile"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mt_30">
-                    <div class="how-it-works-item-mobile aman-how-works-card-rtl">
-                        <div class="how-works-content-mobile">
-                            <div class="how-works-number-mobile">3</div>
-                            <div class="how-works-text-mobile">
-                                <h3 class="how-works-title-mobile">{{ __('Link to meeting in email') }}</h3>
-                                <p class="how-works-description-mobile">{{ __('After payment, you\'ll get a confirmation sent to your email, with a Google Meet-link. When it\'s time for your appointment, simply click on the link to start your meeting.') }}</p>
-                            </div>
-                            <i class="fas fa-envelope how-works-icon-mobile"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt_40">
-                <div class="col-12 text-center">
-                    <a href="javascript:;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#appointment_modal">{{ __('Book Your Appointment Now') }}</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--How It Works Section End-->
-
-    <!--Fixed Price Guarantee Section Start-->
-    <section class="fixed-price-area pt_100 pb_100 bg_ecf1f8">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 wow fadeInLeft">
-                    <div class="fixed-price-image text-center">
-                        <img src="{{ asset('client/img/fixed-price-guarantee.jpg') }}" alt="{{ __('Fixed Price Guarantee') }}" class="img-fluid" style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
-                    </div>
-                </div>
-                <div class="col-lg-6 wow fadeInRight">
-                    <div class="fixed-price-content">
-                        <h2 class="title mb_30">{{ __('Fixed Price Guarantee') }}</h2>
-                        <p class="mb_30">{{ __("When you work with us, you will always receive a price estimate in advance. We work with fixed and transparent prices, so you don't have to worry about any unexpected or hidden fees. You will know exactly what you will pay before starting any legal service.") }}</p>
-                        
-                        <div class="price-benefits aman-price-cards-wrapper-rtl">
-                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('No Hidden Fees') }}</strong>
-                                    <p>{{ __('All costs are clearly stated upfront. No surprises, no additional charges after service completion.') }}</p>
-                                </span>
-                                <i class="fas fa-shield-alt aman-benefit-icon-new-rtl"></i>
-                            </div>
-                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('Transparent Pricing') }}</strong>
-                                    <p>{{ __('Complete transparency in all our pricing. You see exactly what you pay for each service.') }}</p>
-                                </span>
-                                <i class="fas fa-eye aman-benefit-icon-new-rtl"></i>
-                            </div>
-                            <div class="benefit-item aman-benefit-card-new-rtl mb_20">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('Price Agreed Upfront') }}</strong>
-                                    <p>{{ __('The price is agreed upon before starting any work. No price changes during the service.') }}</p>
-                                </span>
-                                <i class="fas fa-handshake aman-benefit-icon-new-rtl"></i>
-                            </div>
-                            <div class="benefit-item aman-benefit-card-new-rtl">
-                                <span class="aman-benefit-text-new-rtl">
-                                    <strong>{{ __('Flexible Payment Plans') }}</strong>
-                                    <p>{{ __('We offer flexible payment options that suit your budget. Pay in installments if needed.') }}</p>
-                                </span>
-                                <i class="fas fa-credit-card aman-benefit-icon-new-rtl"></i>
-                            </div>
-                        </div>
-
-                        <div class="mt_40">
-                            <a href="{{ route('website.contact-us') }}" class="btn btn-primary">{{ __('Get a Quote') }}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Fixed Price Guarantee Section End-->
-
-    <!--Legal Aid Check Section Start-->
-    <section class="legal-aid-check-home pt_100 pb_100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 m-auto">
-                    <div class="legal-aid-check-box text-center">
-                        <div class="check-icon mb_30">
-                            <i class="fas fa-question-circle"></i>
-                        </div>
-                        <h2 class="title mb_30">{{ __('Are you eligible for legal aid or legal protection insurance?') }}</h2>
-                        <p class="mb_40">{{ __('If you need a lawyer for legal assistance, you may be eligible to have part of the cost covered through legal protection insurance or government-funded legal aid. This means you could receive financial support to cover a portion of your lawyer\'s fees—provided you meet certain criteria.') }}</p>
-                        <a href="{{ route('website.legal.aid.check') }}" class="btn btn-primary btn-lg">{{ __('Find out now') }}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--Legal Aid Check Section End-->
-
 @push('css')
 <style>
-    /* Slider Background Styles */
-    #main-slider {
-        position: relative;
-        min-height: 600px;
-        overflow: hidden;
-    }
-
-    .banner_slider_area {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 0;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-    }
-
-    .banner_slider_area .banner_slider {
-        height: 100% !important;
-        width: 100%;
-    }
-
-    .banner_slider_area .banner_slider .slick-list,
-    .banner_slider_area .banner_slider .slick-track {
-        height: 100% !important;
-    }
-
-    .banner_slider_area .banner_slider .slick-slide {
-        height: 100% !important;
-    }
-
-    .banner_slider_area .banner_slider .slick-slide > div {
-        height: 100% !important;
-    }
-
-    .banner_slider_area .banner_slider_item {
-        height: 100% !important;
-        position: relative;
-        display: block !important;
-    }
-
-    .banner_slider_area .banner_slider_item img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        object-position: center !important;
-        display: block !important;
-    }
-
-    .banner_slider_overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: 
-            linear-gradient(135deg, 
-                rgba(20, 25, 35, 0.92) 0%, 
-                rgba(30, 40, 55, 0.88) 25%, 
-                rgba(40, 50, 65, 0.85) 50%, 
-                rgba(35, 45, 60, 0.88) 75%, 
-                rgba(20, 25, 35, 0.92) 100%
-            ),
-            radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.18) 0%, transparent 55%),
-            radial-gradient(circle at 80% 70%, rgba(244, 208, 63, 0.15) 0%, transparent 55%),
-            radial-gradient(ellipse at 50% 50%, rgba(200, 180, 126, 0.12) 0%, transparent 70%);
-        z-index: 1;
-        pointer-events: none;
-    }
-
-    /* Legal Hero Section Styles - Enhanced Design */
-    .legal-hero-section {
-        position: relative;
-        min-height: 650px;
-        display: flex;
-        align-items: center;
-        z-index: 2;
-        padding: 80px 0;
-        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
-    }
-
-    .legal-hero-section .container-fluid {
-        padding-left: 40px;
-        padding-right: 40px;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .legal-hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: 
-            radial-gradient(circle at 15% 25%, rgba(212, 175, 55, 0.25) 0%, transparent 45%),
-            radial-gradient(circle at 85% 75%, rgba(244, 208, 63, 0.2) 0%, transparent 45%),
-            radial-gradient(ellipse at 50% 100%, rgba(200, 180, 126, 0.15) 0%, transparent 65%),
-            linear-gradient(180deg, transparent 0%, rgba(20, 25, 35, 0.25) 100%);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .legal-hero-content {
-        position: relative;
-        z-index: 3;
-        color: #ffffff;
-        padding: 50px 0;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    
-    .legal-hero-stats {
-        position: relative;
-        z-index: 3;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 20px 0;
-    }
-
-    .legal-hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(107, 93, 71, 0.2);
-        backdrop-filter: blur(10px);
-        padding: 8px 20px;
-        border-radius: 50px;
-        border: 1px solid rgba(107, 93, 71, 0.3);
-        margin-bottom: 25px;
-        font-size: 14px;
-        font-weight: 600;
-        color: #ffffff;
-        animation: legalFadeInDown 0.8s ease;
-    }
-
-    .legal-hero-badge i {
-        color: #f4d03f;
-        flex-shrink: 0;
-        font-size: 16px;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    [dir="rtl"] .legal-hero-badge {
-        flex-direction: row-reverse;
-    }
-
-    .legal-hero-title {
-        font-size: 56px;
-        font-weight: 900;
-        line-height: 1.15;
-        margin-bottom: 25px;
-        color: #ffffff;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        animation: legalFadeInUp 0.8s ease 0.2s both;
-        letter-spacing: -0.5px;
-    }
-
-    .legal-hero-title .legal-highlight {
-        background: linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #f4d03f 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        position: relative;
-        background-size: 200% auto;
-        animation: shimmer 3s linear infinite;
-        filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.5));
-    }
-
     @keyframes shimmer {
         0% { background-position: 0% center; }
         100% { background-position: 200% center; }
     }
-
-    .legal-hero-description {
-        font-size: 20px;
-        line-height: 1.85;
-        color: rgba(255, 255, 255, 0.95);
-        margin-bottom: 35px;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        animation: legalFadeInUp 0.8s ease 0.4s both;
-        font-weight: 400;
-    }
-
-    .legal-hero-features {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 25px;
-        margin-bottom: 40px;
-        justify-content: center;
-        animation: legalFadeInUp 0.8s ease 0.6s both;
-    }
-
-    .legal-hero-feature-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: rgba(255, 255, 255, 0.98);
-        font-size: 17px;
-        font-weight: 600;
-        padding: 8px 16px;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(10px);
-        border-radius: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        transition: all 0.3s ease;
-    }
-
-    .legal-hero-feature-item:hover {
-        background: rgba(255, 255, 255, 0.12);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
-    }
-
-    .legal-hero-feature-item i {
-        color: #f4d03f;
-        font-size: 20px;
-        flex-shrink: 0;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    [dir="rtl"] .legal-hero-feature-item {
-        flex-direction: row-reverse;
-    }
-
-    .legal-hero-buttons {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-        animation: legalFadeInUp 0.8s ease 0.8s both;
-    }
-
-    .legal-hero-btn-primary {
-        padding: 18px 40px;
-        font-size: 19px;
-        font-weight: 800;
-        border-radius: 50px;
-        background: linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #f4d03f 100%);
-        background-size: 200% auto;
-        color: #1a1a2e;
-        border: none;
-        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5), 0 4px 15px rgba(0, 0, 0, 0.2);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .legal-hero-btn-primary::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s ease;
-    }
-
-    .legal-hero-btn-primary:hover::before {
-        left: 100%;
-    }
-
-    .legal-hero-btn-primary i,
-    .legal-hero-btn-secondary i {
-        flex-shrink: 0;
-        font-size: 20px;
-        transition: transform 0.3s ease;
-    }
-
-    .legal-hero-btn-primary:hover i,
-    .legal-hero-btn-secondary:hover i {
-        transform: scale(1.15) rotate(5deg);
-    }
-
-    [dir="rtl"] .legal-hero-btn-primary,
-    [dir="rtl"] .legal-hero-btn-secondary {
-        flex-direction: row-reverse;
-    }
-
-    .legal-hero-btn-primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
-        background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
-        color: #1a1a2e;
-    }
-
-    .legal-hero-btn-secondary {
-        padding: 18px 40px;
-        font-size: 19px;
-        font-weight: 700;
-        border-radius: 50px;
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(15px);
-        color: #ffffff;
-        border: 2px solid rgba(255, 255, 255, 0.35);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .legal-hero-btn-secondary::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-        transition: left 0.5s ease;
-    }
-
-    .legal-hero-btn-secondary:hover::before {
-        left: 100%;
-    }
-
-    .legal-hero-btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(212, 175, 55, 0.6);
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 12px 35px rgba(212, 175, 55, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
-        color: #ffffff;
-    }
-
-    .legal-hero-btn-secondary:active {
-        transform: translateY(-2px) scale(0.98);
-    }
-
     .legal-stat-card {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.08) 100%);
         backdrop-filter: blur(20px);
@@ -1073,7 +836,7 @@
         padding: 30px;
         border: 1.5px solid rgba(255, 255, 255, 0.25);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        animation: legalFadeInRight 0.8s ease both;
+        animation: fadeInRight 0.8s ease both;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
 
@@ -1127,332 +890,8 @@
         text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
     }
 
-    /* Legal Hero Animations */
-    @keyframes legalFadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes legalFadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes legalFadeInRight {
-        from {
-            opacity: 0;
-            transform: translateX(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    /* Animated Legal Icons */
-    .legal-hero-animated-icons {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 2;
-        pointer-events: none;
-        overflow: hidden;
-    }
-
-    .legal-hero-animated-icons i {
-        position: absolute;
-        font-size: 85px;
-        color: rgba(244, 208, 63, 0.25);
-        animation: legalIconFloat 18s infinite ease-in-out;
-        display: block !important;
-        visibility: visible !important;
-        opacity: 0.25 !important;
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-        transition: opacity 0.3s ease;
-    }
-
-    .legal-hero-animated-icons i:hover {
-        opacity: 0.35 !important;
-    }
-
-    .legal-icon-1 {
-        top: 10%;
-        left: 5%;
-        animation-delay: 0s;
-    }
-
-    .legal-icon-2 {
-        top: 20%;
-        right: 8%;
-        animation-delay: 2s;
-    }
-
-    .legal-icon-3 {
-        top: 50%;
-        left: 3%;
-        animation-delay: 4s;
-    }
-
-    .legal-icon-4 {
-        bottom: 20%;
-        right: 5%;
-        animation-delay: 6s;
-    }
-
-    .legal-icon-5 {
-        top: 30%;
-        left: 50%;
-        animation-delay: 8s;
-    }
-
-    .legal-icon-6 {
-        bottom: 10%;
-        left: 15%;
-        animation-delay: 10s;
-    }
-
-    @keyframes legalIconFloat {
-        0%, 100% {
-            transform: translate(0, 0) rotate(0deg) scale(1);
-            opacity: 0.25;
-        }
-        25% {
-            transform: translate(20px, -20px) rotate(5deg) scale(1.08);
-            opacity: 0.3;
-        }
-        50% {
-            transform: translate(-15px, 15px) rotate(-5deg) scale(0.92);
-            opacity: 0.27;
-        }
-        75% {
-            transform: translate(15px, 20px) rotate(3deg) scale(1.05);
-            opacity: 0.32;
-        }
-    }
-
-    /* Ensure slider works as background */
-    #main-slider .banner_slider_area {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    #main-slider .banner_slider {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-list,
-    #main-slider .banner_slider .slick-track {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-slide {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-slide > div {
-        height: 100% !important;
-    }
-
-    #main-slider .banner_slider .slick-slide img {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-    }
-
-    /* Legal Hero Responsive Design */
-    @media (max-width: 991px) {
-        .legal-hero-animated-icons i {
-            font-size: 60px;
-        }
-        .legal-hero-section .container-fluid {
-            padding-left: 30px;
-            padding-right: 30px;
-        }
-
-        [dir="rtl"] .legal-hero-section .col-lg-5 {
-            padding-right: 50px !important;
-            padding-left: 0 !important;
-            margin-left: 0 !important;
-        }
-
-        [dir="rtl"] .legal-hero-section .col-lg-7 {
-            padding-left: 50px !important;
-            padding-right: 15px !important;
-        }
-
-        [dir="ltr"] .legal-hero-section .col-lg-5,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
-            padding-right: 50px;
-            padding-left: 0;
-            margin-left: 0;
-        }
-
-        [dir="ltr"] .legal-hero-section .col-lg-7,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
-            padding-left: 50px;
-            padding-right: 15px;
-        }
-
-        .legal-hero-stats {
-            margin-top: 40px;
-        }
-        
-        #main-slider {
-            min-height: 500px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        #main-slider {
-            min-height: 550px;
-        }
-        
-        .legal-hero-section {
-            min-height: 550px;
-            padding: 30px 0;
-        }
-
-        .legal-hero-animated-icons i {
-            font-size: 50px;
-        }
-
-        .legal-icon-1 {
-            top: 5%;
-            left: 2%;
-        }
-
-        .legal-icon-2 {
-            top: 15%;
-            right: 3%;
-        }
-
-        .legal-icon-3 {
-            top: 45%;
-            left: 1%;
-        }
-
-        .legal-icon-4 {
-            bottom: 15%;
-            right: 2%;
-        }
-
-        .legal-icon-5 {
-            top: 25%;
-            left: 45%;
-        }
-
-        .legal-icon-6 {
-            bottom: 5%;
-            left: 10%;
-        }
-
-        .legal-hero-content {
-            padding: 30px 0;
-            text-align: center;
-        }
-
-        .legal-hero-title {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .legal-hero-description {
-            font-size: 17px;
-            margin-bottom: 30px;
-        }
-
-        .legal-hero-features {
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .legal-hero-feature-item {
-            font-size: 15px;
-            padding: 6px 14px;
-        }
-
-        .legal-hero-buttons {
-            gap: 15px;
-        }
-
-        .legal-hero-btn-primary,
-        .legal-hero-btn-secondary {
-            padding: 16px 32px;
-            font-size: 17px;
-        }
-
-        .legal-hero-badge {
-            font-size: 13px;
-            padding: 6px 16px;
-            margin-bottom: 20px;
-        }
-
-        .legal-hero-title {
-            font-size: 28px;
-            line-height: 1.3;
-            margin-bottom: 15px;
-        }
-
-        .legal-hero-description {
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 25px;
-            padding: 0 10px;
-        }
-
-        .legal-hero-features {
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .legal-hero-feature-item {
-            font-size: 14px;
-            justify-content: center;
-        }
-
-        .legal-hero-buttons {
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-        }
-
-        .legal-hero-btn-primary,
-        .legal-hero-btn-secondary {
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-            justify-content: center;
-            padding: 14px 25px;
-            font-size: 15px;
-        }
-
-        .legal-hero-stats {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            padding: 15px 0;
-            margin-top: 30px;
-        }
-
+    @media (max-width: 480px) {
+        /* Center all icons in a vertical column */
         .legal-stat-card {
             padding: 18px 15px;
         }
@@ -1479,78 +918,9 @@
     }
 
     @media (max-width: 480px) {
-        #main-slider {
-            min-height: 500px;
-        }
 
-        .legal-hero-section {
-            min-height: 500px;
-            padding: 25px 0;
-        }
 
-        .legal-hero-animated-icons i {
-            font-size: 40px;
-        }
-
-        .legal-hero-content {
-            padding: 15px 0;
-        }
-
-        .legal-hero-badge {
-            font-size: 11px;
-            padding: 5px 14px;
-            margin-bottom: 15px;
-        }
-
-        .legal-hero-badge i {
-            font-size: 12px;
-        }
-
-        .legal-hero-title {
-            font-size: 24px;
-            line-height: 1.25;
-            margin-bottom: 12px;
-        }
-
-        .legal-hero-description {
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            padding: 0 5px;
-        }
-
-        .legal-hero-features {
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .legal-hero-feature-item {
-            font-size: 13px;
-        }
-
-        .legal-hero-feature-item i {
-            font-size: 14px;
-        }
-
-        .legal-hero-btn-primary,
-        .legal-hero-btn-secondary {
-            padding: 12px 20px;
-            font-size: 14px;
-            max-width: 100%;
-        }
-
-        .legal-hero-btn-primary i,
-        .legal-hero-btn-secondary i {
-            font-size: 14px;
-        }
-
-        .legal-hero-stats {
-            grid-template-columns: 1fr;
-            gap: 10px;
-            padding: 10px 0;
-            margin-top: 25px;
-        }
-
+        /* Center all icons in a vertical column */
         .legal-stat-card {
             padding: 15px;
         }
@@ -1573,197 +943,25 @@
             font-size: 11px;
         }
     }
-
-    /* Legal Hero RTL Support */
-    [dir="rtl"] .legal-hero-content {
-        text-align: right;
-    }
-
-    [dir="rtl"] .legal-hero-badge {
-        direction: rtl;
-    }
-
-    [dir="rtl"] .legal-hero-badge i {
-        margin-left: 8px;
-        margin-right: 0;
-    }
-
-    [dir="rtl"] .legal-hero-title {
-        text-align: right;
-        direction: rtl;
-    }
-
-    [dir="rtl"] .legal-hero-description {
-        text-align: right;
-        direction: rtl;
-    }
-
-    [dir="rtl"] .legal-hero-buttons {
-        flex-direction: row-reverse;
-        justify-content: flex-start;
-    }
-
-    [dir="rtl"] .legal-hero-features {
-        flex-direction: row-reverse;
-        justify-content: flex-start;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item {
-        flex-direction: row-reverse;
-        justify-content: flex-start;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item i {
-        order: 2;
-        margin-left: 10px;
-        margin-right: 0;
-    }
-
-    [dir="rtl"] .legal-hero-feature-item span {
-        order: 1;
-    }
-
     /* RTL: نفس الترتيب البصري - الإحصائيات على اليسار والمحتوى على اليمين */
-    [dir="rtl"] .legal-hero-section .row.align-items-center {
-        flex-direction: row;
-        display: flex;
-        direction: ltr; /* إجبار الترتيب من اليسار لليمين */
-    }
-
-    [dir="rtl"] .legal-hero-section .col-lg-5 {
-        order: 1 !important;
-        padding-right: 80px !important;
-        padding-left: 0 !important;
-        margin-left: 0 !important;
-    }
-
-    [dir="rtl"] .legal-hero-section .col-lg-7 {
-        order: 2 !important;
-        padding-left: 80px !important;
-        padding-right: 20px !important;
-    }
-
-    [dir="rtl"] .legal-hero-stats {
-        direction: rtl;
-    }
-
     [dir="rtl"] .legal-stat-content {
         text-align: right;
     }
 
     /* LTR: الإحصائيات على اليسار والمحتوى على اليمين */
-    [dir="ltr"] .legal-hero-section .row.align-items-center,
-    html:not([dir="rtl"]) .legal-hero-section .row.align-items-center {
-        flex-direction: row;
-        display: flex;
-    }
-
-    [dir="ltr"] .legal-hero-section .col-lg-5,
-    html:not([dir="rtl"]) .legal-hero-section .col-lg-5 {
-        order: 1;
-        padding-right: 80px;
-        padding-left: 0;
-        margin-left: 0;
-    }
-
-    [dir="ltr"] .legal-hero-section .col-lg-7,
-    html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
-        order: 2;
-        padding-left: 80px;
-        padding-right: 20px;
-    }
-
     /* RTL Mobile Support */
     @media (max-width: 768px) {
-        .legal-hero-section .container-fluid {
-            padding-left: 20px;
-            padding-right: 20px;
-        }
+        
 
         /* Mobile ordering: content first, then stats */
-        .legal-hero-section .col-lg-5 {
-            order: 2 !important;
-        }
-
-        .legal-hero-section .col-lg-7 {
-            order: 1 !important;
-        }
-
-        [dir="rtl"] .legal-hero-section .col-lg-5,
-        [dir="rtl"] .legal-hero-section .col-lg-7 {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-        }
-
-        [dir="ltr"] .legal-hero-section .col-lg-5,
-        [dir="ltr"] .legal-hero-section .col-lg-7,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-5,
-        html:not([dir="rtl"]) .legal-hero-section .col-lg-7 {
-            padding-left: 15px !important;
-            padding-right: 15px !important;
-        }
-
-        [dir="rtl"] .legal-hero-content {
-            text-align: center;
-        }
-
-        [dir="rtl"] .legal-hero-title {
-            text-align: center;
-        }
-
-        [dir="rtl"] .legal-hero-description {
-            text-align: center;
-        }
-
-        [dir="rtl"] .legal-hero-features {
-            align-items: center;
-        }
-
-        [dir="rtl"] .legal-hero-feature-item {
-            justify-content: center;
-        }
-
-        [dir="rtl"] .legal-hero-buttons {
-            justify-content: center;
-        }
-
         [dir="rtl"] .legal-stat-content {
             text-align: center;
         }
     }
 
     @media (max-width: 480px) {
-        [dir="rtl"] .legal-hero-content {
-            text-align: center;
-        }
-
-        [dir="rtl"] .legal-hero-title {
-            text-align: center;
-        }
-
-        [dir="rtl"] .legal-hero-description {
-            text-align: center;
-        }
     }
 
-    /* Mobile Hero Section Column Ordering - Applied after all other media queries */
-    @media (max-width: 768px) {
-        body.client-frontend .legal-hero-section .row.align-items-center {
-            flex-direction: column !important;
-            display: flex !important;
-        }
-
-        body.client-frontend .legal-hero-section .col-lg-7 {
-            order: -1 !important;
-            width: 100% !important;
-            margin-bottom: 30px !important;
-        }
-
-        body.client-frontend .legal-hero-section .col-lg-5 {
-            order: 1 !important;
-            width: 100% !important;
-        }
-    }
 
     /* Testimonial Modern Styles */
     .testimonial-area-modern {
@@ -1785,160 +983,251 @@
         pointer-events: none;
     }
 
+    /* ============================================
+       NEW TESTIMONIALS DESIGN - Responsive & RTL
+       ============================================ */
+    
     .testimonial-swiper-wrapper {
         padding: 30px 0 40px;
         position: relative;
+        display: block !important;
+        visibility: visible !important;
     }
 
     .testimonial-swiper-modern {
         padding: 20px 0 60px;
         overflow: visible;
+        display: block !important;
+        visibility: visible !important;
     }
-
-    /* Make all swiper slides equal height */
+    
     .testimonial-swiper-modern .swiper-wrapper {
-        display: flex;
-        align-items: stretch;
+        display: flex !important;
+        visibility: visible !important;
     }
-
+    
     .testimonial-swiper-modern .swiper-slide {
-        height: auto;
-        display: flex;
-        align-items: stretch;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
     }
 
-    .testimonial-card-modern {
+    .testimonial-card-new {
         background: #ffffff;
-        border-radius: 25px;
-        padding: 50px 40px;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
-        position: relative;
+        border-radius: 20px;
+        padding: 0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border: 2px solid transparent;
-        margin: 20px 10px;
-        height: 100%;
-        min-height: 450px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: stretch;
+        overflow: hidden;
+        position: relative;
+        direction: rtl !important;
+        text-align: right !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    
+    /* Animation for testimonial card appear/fade in */
+    .testimonial-card-animated {
+        animation: fadeUpTestimonialCard 0.7s cubic-bezier(.24,.93,.47,.99);
+        animation-fill-mode: both;
+    }
+    
+    @keyframes fadeUpTestimonialCard {
+        0% {
+            opacity: 0;
+            transform: translateY(40px) scale(.93) rotateZ(-2deg);
+            box-shadow: 0 2px 14px rgba(212,165,116,0.05);
+        }
+        70% {
+            opacity: 0.98;
+            transform: translateY(-4px) scale(1.03) rotateZ(1deg);
+            box-shadow: 0 8px 28px rgba(212,165,116,0.16);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotateZ(0);
+            box-shadow: 0 8px 28px rgba(212,165,116,0.08);
+        }
     }
 
-    .testimonial-card-modern::before {
+    [dir="ltr"] .testimonial-card-new {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .testimonial-card-new::before {
         content: '';
         position: absolute;
         top: 0;
-        left: 0;
         right: 0;
-        height: 5px;
+        left: 0;
+        height: 4px;
         background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
-        border-radius: 25px 25px 0 0;
         transform: scaleX(0);
         transition: transform 0.4s ease;
+        transform-origin: right;
     }
 
-    .testimonial-card-modern:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 25px 70px rgba(107, 93, 71, 0.2);
+    .testimonial-card-new:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 60px rgba(107, 93, 71, 0.15);
         border-color: var(--colorPrimary);
     }
 
-    .testimonial-card-modern:hover::before {
+    .testimonial-card-new:hover::before {
         transform: scaleX(1);
     }
 
-    .testimonial-quote-icon {
+    .testimonial-card-inner {
+        padding: 35px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        direction: rtl !important;
+        text-align: right !important;
+        flex: 1 !important;
+        height: 100% !important;
+    }
+
+    [dir="ltr"] .testimonial-card-inner {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .testimonial-quote-icon-new {
         position: absolute;
-        top: 30px;
-        right: 40px;
-        width: 70px;
-        height: 70px;
-        background: linear-gradient(135deg, rgba(107, 93, 71, 0.1) 0%, rgba(90, 77, 58, 0.1) 100%);
+        top: 25px;
+        right: 25px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.08) 0%, rgba(90, 77, 58, 0.08) 100%);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: all 0.4s ease;
+        z-index: 1;
     }
 
-    .testimonial-quote-icon i {
-        font-size: 32px;
+    [dir="ltr"] .testimonial-quote-icon-new {
+        right: 25px;
+        left: auto;
+    }
+
+    .testimonial-quote-icon-new i {
+        font-size: 28px;
         color: var(--colorPrimary);
         transition: all 0.4s ease;
     }
 
-    .testimonial-card-modern:hover .testimonial-quote-icon {
+    .testimonial-card-new:hover .testimonial-quote-icon-new {
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
         transform: rotate(15deg) scale(1.1);
     }
 
-    .testimonial-card-modern:hover .testimonial-quote-icon i {
+    .testimonial-card-new:hover .testimonial-quote-icon-new i {
         color: #ffffff;
     }
 
-    .testimonial-content {
-        margin-top: 30px;
-        margin-bottom: 40px;
+    .testimonial-content-new {
+        margin-top: 10px;
         flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
+        direction: rtl !important;
+        text-align: right !important;
     }
 
-    .testimonial-text {
-        font-size: 18px;
+    [dir="ltr"] .testimonial-content-new {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .testimonial-text-new {
+        font-size: 16px;
         line-height: 1.8;
         color: #4f5b6d;
         font-style: italic;
-        position: relative;
-        padding: 0 20px;
         margin: 0;
+        direction: rtl !important;
+        text-align: right !important;
+        padding-right: 0;
+        padding-left: 0;
     }
 
-    .testimonial-text::before {
-        content: '"';
-        position: absolute;
-        left: 0;
-        top: -10px;
-        font-size: 60px;
-        color: var(--colorPrimary);
-        opacity: 0.2;
-        font-family: Georgia, serif;
-        line-height: 1;
+    [dir="ltr"] .testimonial-text-new {
+        direction: rtl !important;
+        text-align: right !important;
     }
 
-    .testimonial-author {
+    .testimonial-rating-new {
         display: flex;
-        align-items: center;
-        gap: 20px;
-        margin-top: 30px;
-        padding-top: 30px;
-        border-top: 2px solid #f0f0f0;
-    }
-
-    .author-image-wrapper {
-        position: relative;
-        width: 80px;
-        height: 80px;
+        gap: 6px;
+        justify-content: flex-end !important;
+        direction: rtl !important;
         flex-shrink: 0;
     }
 
-    .author-image {
+    [dir="ltr"] .testimonial-rating-new {
+        justify-content: flex-end !important;
+        direction: rtl !important;
+    }
+
+    .testimonial-rating-new i {
+        color: #ffc107;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    .testimonial-card-new:hover .testimonial-rating-new i {
+        transform: scale(1.15);
+        color: #ff9800;
+    }
+
+    .testimonial-author-new {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-top: 20px;
+        border-top: 2px solid #f0f0f0;
+        direction: rtl !important;
+        justify-content: flex-end !important;
+    }
+
+    [dir="ltr"] .testimonial-author-new {
+        direction: rtl !important;
+        justify-content: flex-end !important;
+    }
+
+    .author-image-wrapper-new {
+        position: relative;
+        width: 70px;
+        height: 70px;
+        flex-shrink: 0;
+        order: 1 !important;
+    }
+
+    [dir="ltr"] .author-image-wrapper-new {
+        order: 1 !important;
+    }
+
+    .author-image-new {
         width: 100%;
         height: 100%;
         border-radius: 50%;
         object-fit: cover;
-        border: 4px solid #ffffff;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border: 3px solid #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: all 0.4s ease;
     }
 
-    .author-image-border {
+    .author-image-border-new {
         position: absolute;
-        top: -4px;
-        left: -4px;
-        right: -4px;
-        bottom: -4px;
+        top: -3px;
+        right: -3px;
+        left: -3px;
+        bottom: -3px;
         border-radius: 50%;
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
         opacity: 0;
@@ -1946,57 +1235,61 @@
         z-index: -1;
     }
 
-    .testimonial-card-modern:hover .author-image {
-        transform: scale(1.1);
+    .testimonial-card-new:hover .author-image-new {
+        transform: scale(1.08);
         border-color: var(--colorPrimary);
     }
 
-    .testimonial-card-modern:hover .author-image-border {
+    .testimonial-card-new:hover .author-image-border-new {
         opacity: 1;
     }
 
-    .author-info {
+    .author-info-new {
         flex-grow: 1;
+        order: 2 !important;
+        direction: rtl !important;
+        text-align: right !important;
     }
 
-    .author-name {
-        font-size: 20px;
+    [dir="ltr"] .author-info-new {
+        order: 2 !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .author-name-new {
+        font-size: 18px;
         font-weight: 700;
         color: var(--colorBlack);
         margin: 0 0 5px 0;
         transition: color 0.3s ease;
+        direction: rtl !important;
+        text-align: right !important;
     }
 
-    .testimonial-card-modern:hover .author-name {
+    [dir="ltr"] .author-name-new {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    .testimonial-card-new:hover .author-name-new {
         color: var(--colorPrimary);
     }
 
-    .author-designation {
-        font-size: 15px;
+    .author-designation-new {
+        font-size: 14px;
         color: #666;
         margin: 0;
+        direction: rtl !important;
+        text-align: right !important;
     }
 
-    .testimonial-rating {
-        display: flex;
-        gap: 5px;
-        margin-top: 20px;
-        justify-content: center;
-        flex-shrink: 0;
+    [dir="ltr"] .author-designation-new {
+        direction: rtl !important;
+        text-align: right !important;
     }
 
-    .testimonial-rating i {
-        color: #ffc107;
-        font-size: 18px;
-        transition: all 0.3s ease;
-    }
-
-    .testimonial-card-modern:hover .testimonial-rating i {
-        transform: scale(1.2);
-        color: #ff9800;
-    }
-
-    /* Swiper Navigation */
+    /* Swiper Navigation for Testimonials */
     .testimonial-next,
     .testimonial-prev {
         width: 45px;
@@ -2053,7 +1346,7 @@
         background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
     }
 
-    /* Responsive */
+    /* Responsive Design */
     @media (max-width: 1200px) {
         .testimonial-prev {
             left: 10px;
@@ -2062,70 +1355,75 @@
         .testimonial-next {
             right: 10px;
         }
+    }
 
-        .blog-prev {
-            left: 10px;
+    @media (max-width: 768px) {
+        .testimonial-swiper-wrapper {
+            padding: 30px 0 40px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .testimonial-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .testimonial-card-new {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
         }
 
-        .blog-next {
-            right: 10px;
+        .testimonial-card-inner {
+            padding: 30px 25px;
         }
 
-        .lawyer-prev {
-            left: 10px;
+        .testimonial-quote-icon-new {
+            width: 50px;
+            height: 50px;
+            top: 20px;
+            right: 20px;
         }
 
-        .lawyer-next {
-            right: 10px;
+        .testimonial-quote-icon-new i {
+            font-size: 24px;
         }
 
-        .service-swiper-prev {
-            left: 10px;
+        .testimonial-text-new {
+            font-size: 15px;
         }
 
-        .service-swiper-next {
-            right: 10px;
+        .author-image-wrapper-new {
+            width: 60px;
+            height: 60px;
+        }
+
+        .author-name-new {
+            font-size: 17px;
+        }
+
+        .author-designation-new {
+            font-size: 13px;
         }
     }
 
     @media (max-width: 768px) {
-        .testimonial-area-modern {
-            padding: 20px 0;
-        }
-
-        .testimonial-card-modern {
-            padding: 40px 30px;
-            margin: 15px 5px;
-            min-height: 380px;
-        }
-
-        .testimonial-text {
-            font-size: 16px;
-            padding: 0 15px;
-        }
-
-        .testimonial-quote-icon {
-            width: 60px;
-            height: 60px;
-            top: 20px;
-            right: 30px;
-        }
-
-        /* RTL Mobile: Quote icon position */
-        [dir="rtl"] .testimonial-quote-icon {
-            right: auto;
-            left: 30px;
-        }
-
-        .testimonial-quote-icon i {
-            font-size: 28px;
-        }
-
-        .author-image-wrapper {
-            width: 70px;
-            height: 70px;
-        }
-
         .testimonial-next,
         .testimonial-prev {
             width: 40px;
@@ -2146,121 +1444,77 @@
         .testimonial-next {
             right: 5px;
         }
-
-        /* RTL Mobile: Navigation buttons */
-        [dir="rtl"] .testimonial-prev {
-            left: auto;
-            right: 5px;
-        }
-
-        [dir="rtl"] .testimonial-next {
-            right: auto;
-            left: 5px;
-        }
     }
 
     @media (max-width: 480px) {
-        .testimonial-card-modern {
-            padding: 30px 20px;
-            min-height: 360px;
+        .testimonial-swiper-wrapper {
+            padding: 20px 0 30px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .testimonial-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .testimonial-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .testimonial-card-new {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
         }
 
-        .testimonial-text {
-            font-size: 15px;
+        .testimonial-card-inner {
+            padding: 25px 20px;
+            gap: 15px;
         }
 
-        .author-image-wrapper {
-            width: 60px;
-            height: 60px;
+        .testimonial-quote-icon-new {
+            width: 45px;
+            height: 45px;
+            top: 15px;
+            right: 15px;
         }
 
-        .author-name {
-            font-size: 18px;
+        .testimonial-quote-icon-new i {
+            font-size: 20px;
         }
 
-        .author-designation {
+        .testimonial-text-new {
             font-size: 14px;
+            line-height: 1.7;
         }
 
-        /* RTL Mobile: Author info alignment */
-        [dir="rtl"] .author-info {
-            text-align: right;
+        .author-image-wrapper-new {
+            width: 55px;
+            height: 55px;
         }
 
-        [dir="rtl"] .author-name {
-            text-align: right;
+        .author-name-new {
+            font-size: 16px;
         }
 
-        [dir="rtl"] .author-designation {
-            text-align: right;
-        }
-    }
-
-    /* RTL Support */
-    [dir="rtl"] .testimonial-quote-icon {
-        right: auto;
-        left: 40px;
-    }
-
-    /* RTL: Testimonial Author - Reverse layout for Arabic */
-    [dir="rtl"] .testimonial-author {
-        flex-direction: row-reverse;
-        text-align: right;
-    }
-
-    [dir="rtl"] .author-info {
-        text-align: right;
-    }
-
-    [dir="rtl"] .author-name {
-        text-align: right;
-        direction: rtl;
-    }
-
-    [dir="rtl"] .author-designation {
-        text-align: right;
-        direction: rtl;
-    }
-
-    /* RTL: Testimonial Text Alignment */
-    [dir="rtl"] .testimonial-text {
-        text-align: right;
-        direction: rtl;
-    }
-
-    [dir="rtl"] .testimonial-text::before {
-        left: auto;
-        right: 0;
-    }
-
-    /* RTL: Testimonial Content */
-    [dir="rtl"] .testimonial-content {
-        text-align: right;
-        direction: rtl;
-    }
-
-    /* RTL: Rating stars alignment */
-    [dir="rtl"] .testimonial-rating {
-        flex-direction: row-reverse;
-    }
-
-    [dir="rtl"] .testimonial-prev {
-        left: auto;
-        right: -30px;
-    }
-
-    [dir="rtl"] .testimonial-next {
-        right: auto;
-        left: -30px;
-    }
-
-    @media (max-width: 1200px) {
-        [dir="rtl"] .testimonial-prev {
-            right: 10px;
+        .author-designation-new {
+            font-size: 12px;
         }
 
-        [dir="rtl"] .testimonial-next {
-            left: 10px;
+        .testimonial-rating-new i {
+            font-size: 14px;
         }
     }
 
@@ -2404,29 +1658,7 @@
         flex-direction: column;
     }
 
-    .blog-meta {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 15px;
-        flex-wrap: wrap;
-    }
-
-    .blog-author-meta,
-    .blog-category-meta {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 14px;
-        color: #666;
-    }
-
-    .blog-author-meta i,
-    .blog-category-meta i {
-        color: var(--colorPrimary);
-        font-size: 14px;
-    }
-
-    .blog-title {
+.blog-title {
         margin: 0 0 15px 0;
         font-size: 22px;
         font-weight: 700;
@@ -2440,6 +1672,7 @@
         transition: color 0.3s ease;
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -2456,6 +1689,7 @@
         flex-grow: 1;
         display: -webkit-box;
         -webkit-line-clamp: 3;
+        line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -2463,6 +1697,7 @@
     .blog-read-more {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
         color: var(--colorPrimary);
         font-weight: 600;
@@ -2471,6 +1706,7 @@
         transition: all 0.3s ease;
         margin-top: auto;
         padding: 12px 0;
+        width: 100%;
     }
 
     .blog-read-more i {
@@ -2635,8 +1871,6 @@
             font-size: 14px;
         }
     }
-
-    /* RTL Support */
     [dir="rtl"] .blog-date-badge {
         left: auto;
         right: 20px;
@@ -2685,11 +1919,26 @@
     .lawyer-swiper-wrapper {
         padding: 30px 0 40px;
         position: relative;
+        display: block !important;
+        visibility: visible !important;
     }
 
     .lawyer-swiper-modern {
         padding: 20px 0 60px;
         overflow: visible;
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    .lawyer-swiper-modern .swiper-wrapper {
+        display: flex !important;
+        visibility: visible !important;
+    }
+    
+    .lawyer-swiper-modern .swiper-slide {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
 
     .lawyer-card-modern {
@@ -2980,6 +2229,38 @@
         .lawyer-area-modern {
             padding: 30px 0;
         }
+        
+        .lawyer-swiper-wrapper {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .lawyer-card-mobile,
+        .aman-lawyer-card-mobile-rtl {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
 
         .lawyer-image-wrapper {
             height: 280px;
@@ -3016,6 +2297,38 @@
     }
 
     @media (max-width: 480px) {
+        .lawyer-swiper-wrapper {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100% !important;
+        }
+        
+        .lawyer-card-mobile,
+        .aman-lawyer-card-mobile-rtl {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+        
         .lawyer-image-wrapper {
             height: 240px;
         }
@@ -3033,8 +2346,6 @@
             gap: 10px;
         }
     }
-
-    /* RTL Support */
     [dir="rtl"] .lawyer-prev {
         left: auto;
         right: -30px;
@@ -3044,8 +2355,40 @@
         right: auto;
         left: -30px;
     }
+    
+    [dir="rtl"] .testimonial-prev {
+        left: auto;
+        right: -30px;
+    }
 
-    /* RTL Support for Lawyer Card Meta Elements - Everything aligned to the right */
+    [dir="rtl"] .testimonial-next {
+        right: auto;
+        left: -30px;
+    }
+    
+    @media (max-width: 1200px) {
+        [dir="rtl"] .testimonial-prev {
+            left: auto;
+            right: 10px;
+        }
+
+        [dir="rtl"] .testimonial-next {
+            right: auto;
+            left: 10px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        [dir="rtl"] .testimonial-prev {
+            left: auto;
+            right: 5px;
+        }
+
+        [dir="rtl"] .testimonial-next {
+            right: auto;
+            left: 5px;
+        }
+    }
     [dir="rtl"] .lawyer-meta {
         justify-content: flex-end;
         align-items: flex-end;
@@ -3101,8 +2444,6 @@
         margin-left: 10px;
         margin-right: 0;
     }
-
-    /* RTL Support for Lawyer Rating - Text on right, stars on left */
     [dir="rtl"] .lawyer-rating {
         flex-direction: row-reverse;
         justify-content: flex-end;
@@ -3124,8 +2465,6 @@
         margin-left: 0;
         margin-right: 0;
     }
-
-    /* RTL Support for View Profile - Enhanced button design */
     [dir="rtl"] .lawyer-view-profile {
         flex-direction: row-reverse;
         justify-content: flex-end;
@@ -3248,7 +2587,6 @@
         [dir="rtl"] .lawyer-view-profile {
             padding: 10px 16px;
         }
-    }
 
         [dir="rtl"] .lawyer-rating {
             justify-content: flex-end;
@@ -3343,20 +2681,38 @@
     .service-icon-wrapper {
         margin-bottom: 25px;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        text-align: center;
     }
 
     .service-item i {
         color: var(--colorPrimary);
         font-size: 64px;
         transition: all 0.4s ease;
-        display: inline-block;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         background: linear-gradient(135deg, rgba(107, 93, 71, 0.1) 0%, rgba(90, 77, 58, 0.1) 100%);
         width: 110px;
         height: 110px;
-        line-height: 110px;
         border-radius: 25px;
         position: relative;
         z-index: 1;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 1 !important;
+    }
+    
+    .service-item i::before {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        line-height: 1;
     }
 
     .service-item:hover i {
@@ -3509,7 +2865,21 @@
             font-size: 56px;
             width: 100px;
             height: 100px;
-            line-height: 100px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1 !important;
+        }
+        
+        .service-item i::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
         }
 
         .service-item .title {
@@ -3533,7 +2903,21 @@
             font-size: 48px;
             width: 90px;
             height: 90px;
-            line-height: 90px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1 !important;
+        }
+        
+        .service-item i::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
         }
 
         .service-item .title {
@@ -3573,7 +2957,21 @@
             font-size: 42px;
             width: 80px;
             height: 80px;
-            line-height: 80px;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1 !important;
+        }
+        
+        .service-item i::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            line-height: 1;
         }
 
         .service-item .title {
@@ -3581,8 +2979,6 @@
             min-height: 52px;
         }
     }
-
-    /* RTL Support */
     [dir="rtl"] .service-link {
         flex-direction: row-reverse;
     }
@@ -4053,8 +3449,6 @@
             transform: translateY(-15px);
         }
     }
-
-    /* RTL Support - Swap columns order */
     [dir="rtl"] .mobile-app-area .row {
         flex-direction: row-reverse;
     }
@@ -4085,82 +3479,279 @@
         }
     }
 
-    /* Reduce spacing for all sections */
-    .mobile-app-area,
+    /* Add spacing between sections */
+    section,
+    .hero-section,
+    .quick-points-section,
+    .service-area,
     .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
     .fixed-price-area,
-    .legal-aid-check-home {
+    .legal-aid-check-home,
+    .case-study-area,
+    .case-study-home-page {
         padding-top: 50px !important;
         padding-bottom: 50px !important;
     }
 
-    /* Reduce spacing for service area and other sections */
-    .service-area,
-    .about-area,
-    .why-us-area,
-    .case-study-area {
+    /* Add spacing between adjacent sections */
+    section + section {
+        margin-top: 0 !important;
+        padding-top: 50px !important;
+    }
+    
+    /* Hero section should not have top padding */
+    .hero-section {
         padding-top: 0 !important;
-        padding-bottom: 40px !important;
     }
 
-    /* Reduce spacing for department section */
-    .case-study-home-page {
+    /* Remove all padding classes */
+    .pt_100, .pb_100, .pt_80, .pb_80, .pt_70, .pb_70, .pt_50, .pb_50, .pt_40, .pb_40, .pt_30, .pb_30 {
         padding-top: 0 !important;
-        padding-bottom: 30px !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Remove all margin classes */
+    .mt_200, .mt_100, .mt_80, .mt_70, .mt_65, .mt_50, .mt_40, .mt_30, .mt_25, .mt_20, .mt_15 {
         margin-top: 0 !important;
     }
 
+    .mb_60, .mb_40, .mb_30, .mb_25, .mb_20, .mb_15 {
+        margin-bottom: 0 !important;
+    }
+
+    /* Law Icons Animation Styles */
+    .hero-icons-container {
+        min-height: 400px;
+        position: relative;
+    }
+
+    .law-icons-animation-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    /* Orbit Animation */
+    @keyframes orbitIcon {
+        0% {
+            transform: rotate(0deg) translateX(var(--orbit-radius, 150px)) rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg) translateX(var(--orbit-radius, 150px)) rotate(-360deg);
+        }
+    }
+
+    /* Icon Animations */
+    @keyframes iconPulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+    }
+
+    @keyframes iconSwing {
+        0%, 100% {
+            transform: rotate(-5deg);
+        }
+        50% {
+            transform: rotate(5deg);
+        }
+    }
+
+    @keyframes iconRotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes iconBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    @keyframes iconFloat {
+        0%, 100% {
+            transform: translateY(0) rotate(0deg);
+        }
+        33% {
+            transform: translateY(-8px) rotate(5deg);
+        }
+        66% {
+            transform: translateY(-8px) rotate(-5deg);
+        }
+    }
+
+    @keyframes iconShake {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(-8deg);
+        }
+        75% {
+            transform: rotate(8deg);
+        }
+    }
+
+    /* Position Icons in Orbit - Using CSS Variables for Orbit Radius */
+    .law-icons-animation-wrapper {
+        --orbit-radius: 150px;
+    }
+
+    .law-icon-1 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+    }
+
+    .law-icon-2 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+        animation-delay: -2s;
+    }
+
+    .law-icon-3 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+        animation-delay: -4s;
+    }
+
+    .law-icon-4 {
+        top: 50%;
+        left: 50%;
+        margin-top: -40px;
+        margin-left: -40px;
+        transform-origin: 40px 40px;
+        animation-delay: -1s;
+    }
+
+    .law-icon-5 {
+        top: 50%;
+        left: 50%;
+        margin-top: -35px;
+        margin-left: -35px;
+        transform-origin: 35px 35px;
+        animation-delay: -3s;
+    }
+
+    .law-icon-6 {
+        top: 50%;
+        left: 50%;
+        margin-top: -35px;
+        margin-left: -35px;
+        transform-origin: 35px 35px;
+        animation-delay: -5s;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 991px) {
+        .hero-icons-container {
+            min-height: 350px;
+        }
+
+        .icon-wrapper-main {
+            width: 100px !important;
+            height: 100px !important;
+        }
+
+        .icon-wrapper-main i {
+            font-size: 50px !important;
+        }
+
+        .icon-wrapper {
+            width: 65px !important;
+            height: 65px !important;
+        }
+
+        .icon-wrapper i {
+            font-size: 28px !important;
+        }
+
+        .law-icons-animation-wrapper {
+            --orbit-radius: 120px;
+        }
+    }
+
     @media (max-width: 768px) {
-        .case-study-home-page {
-            margin-top: 0 !important;
+        .hero-icons-container {
+            min-height: 300px;
+        }
+
+        .icon-wrapper-main {
+            width: 90px !important;
+            height: 90px !important;
+        }
+
+        .icon-wrapper-main i {
+            font-size: 45px !important;
+        }
+
+        .icon-wrapper {
+            width: 60px !important;
+            height: 60px !important;
+        }
+
+        .icon-wrapper i {
+            font-size: 25px !important;
+        }
+
+        .law-icons-animation-wrapper {
+            --orbit-radius: 100px;
         }
     }
 
     @media (max-width: 480px) {
-        .case-study-home-page {
-            margin-top: 0 !important;
-        }
-    }
-
-    /* Reduce large margin top */
-    .mt_200 {
-        margin-top: 50px !important;
-    }
-
-    /* Mobile responsive - further reduce spacing */
-    @media (max-width: 768px) {
-        .mobile-app-area,
-        .how-it-works-area,
-        .fixed-price-area,
-        .legal-aid-check-home {
-            padding-top: 30px !important;
-            padding-bottom: 30px !important;
+        .hero-icons-container {
+            min-height: 250px;
         }
 
-        .service-area,
-        .about-area,
-        .why-us-area,
-        .case-study-area {
-            padding-top: 25px !important;
-            padding-bottom: 25px !important;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .mobile-app-area,
-        .how-it-works-area,
-        .fixed-price-area,
-        .legal-aid-check-home {
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
+        .icon-wrapper-main {
+            width: 80px !important;
+            height: 80px !important;
         }
 
-        .service-area,
-        .about-area,
-        .why-us-area,
-        .case-study-area {
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
+        .icon-wrapper-main i {
+            font-size: 40px !important;
+        }
+
+        .icon-wrapper {
+            width: 50px !important;
+            height: 50px !important;
+        }
+
+        .icon-wrapper i {
+            font-size: 20px !important;
+        }
+
+        .law-icons-animation-wrapper {
+            --orbit-radius: 80px;
         }
     }
 </style>
@@ -4214,163 +3805,29 @@
             observer.observe(stat);
         });
 
-        // Initialize banner slider if it exists and Slick is available
-        if (typeof jQuery !== 'undefined' && jQuery('.banner_slider').length) {
-            setTimeout(function() {
-                if (typeof jQuery.fn.slick !== 'undefined') {
-                    var bannerSlider = jQuery('.banner_slider');
-                    if (!bannerSlider.hasClass('slick-initialized')) {
-                        bannerSlider.slick({
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            autoplay: true,
-                            autoplaySpeed: 4000,
-                            speed: 800,
-                            fade: true,
-                            cssEase: 'linear',
-                            dots: true,
-                            arrows: false,
-                            pauseOnHover: true,
-                            pauseOnFocus: true,
-                            infinite: true,
-                            adaptiveHeight: false,
-                            swipe: true,
-                            touchMove: true
-                        });
+        // Handle image fallbacks
+        document.querySelectorAll('img[data-fallback]').forEach(function(img) {
+            img.addEventListener('error', function() {
+                var fallback = this.getAttribute('data-fallback');
+                if (fallback) {
+                    this.onerror = null;
+                    this.src = fallback;
+                    // Handle hide on error for hero image
+                    if (this.getAttribute('data-hide-on-error') === 'true') {
+                        this.addEventListener('error', function() {
+                            this.style.display = 'none';
+                            if (this.nextElementSibling) {
+                                this.nextElementSibling.style.display = 'flex';
+                            }
+                        }, { once: true });
                     }
                 }
-            }, 200);
-        }
+            }, { once: true });
+        });
+
 
         if (typeof Swiper !== 'undefined') {
-            // Equalize testimonial cards height
-            function equalizeTestimonialCards() {
-                const cards = document.querySelectorAll('.testimonial-card-modern');
-                if (cards.length === 0) return;
-                
-                // Reset heights
-                cards.forEach(card => {
-                    card.style.height = 'auto';
-                });
-                
-                // Find max height
-                let maxHeight = 0;
-                cards.forEach(card => {
-                    const height = card.offsetHeight;
-                    if (height > maxHeight) {
-                        maxHeight = height;
-                    }
-                });
-                
-                // Apply max height to all cards
-                cards.forEach(card => {
-                    card.style.height = maxHeight + 'px';
-                });
-            }
-            
-            // Equalize on load and resize
-            if (document.querySelector('.testimonial-card-modern')) {
-                equalizeTestimonialCards();
-                window.addEventListener('resize', equalizeTestimonialCards);
-                
-                // Also equalize after swiper initialization
-                setTimeout(equalizeTestimonialCards, 100);
-            }
-
-            // Testimonial Swiper
-            const testimonialSwiper = new Swiper('.testimonial-swiper-modern', {
-                slidesPerView: 1,
-                spaceBetween: 30,
-                loop: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                },
-                speed: 1000,
-                effect: 'slide',
-                grabCursor: true,
-                navigation: {
-                    nextEl: '.testimonial-next',
-                    prevEl: '.testimonial-prev',
-                },
-                pagination: {
-                    el: '.testimonial-pagination',
-                    clickable: true,
-                    dynamicBullets: true,
-                },
-                on: {
-                    init: function() {
-                        setTimeout(equalizeTestimonialCards, 200);
-                    },
-                    slideChange: function() {
-                        setTimeout(equalizeTestimonialCards, 200);
-                    },
-                    resize: function() {
-                        setTimeout(equalizeTestimonialCards, 200);
-                    }
-                },
-                on: {
-                    init: function() {
-                        setTimeout(equalizeTestimonialCards, 200);
-                    },
-                    slideChange: function() {
-                        setTimeout(equalizeTestimonialCards, 200);
-                    },
-                    resize: function() {
-                        setTimeout(equalizeTestimonialCards, 200);
-                    },
-                    breakpoint: function() {
-                        setTimeout(equalizeTestimonialCards, 200);
-                    }
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 1,
-                        spaceBetween: 30,
-                    },
-                    768: {
-                        slidesPerView: 1,
-                        spaceBetween: 40,
-                    },
-                    992: {
-                        slidesPerView: 2,
-                        spaceBetween: 40,
-                    },
-                    1200: {
-                        slidesPerView: 2,
-                        spaceBetween: 50,
-                    },
-                },
-                // Animation on slide change
-                on: {
-                    slideChange: function() {
-                        const slides = this.slides;
-                        slides.forEach((slide) => {
-                            if (slide.classList.contains('swiper-slide-active')) {
-                                slide.style.opacity = '0';
-                                slide.style.transform = 'scale(0.9)';
-                                setTimeout(() => {
-                                    slide.style.transition = 'all 0.6s ease';
-                                    slide.style.opacity = '1';
-                                    slide.style.transform = 'scale(1)';
-                                }, 50);
-                            }
-                        });
-                    },
-                },
-            });
-
-            // Pause autoplay on hover
-            const testimonialContainer = document.querySelector('.testimonial-swiper-modern');
-            if (testimonialContainer) {
-                testimonialContainer.addEventListener('mouseenter', function() {
-                    testimonialSwiper.autoplay.stop();
-                });
-                testimonialContainer.addEventListener('mouseleave', function() {
-                    testimonialSwiper.autoplay.start();
-                });
-            }
+            // Testimonials now use Swiper, so no need for equal height function
 
             // Blog Swiper
             const blogSwiper = new Swiper('.blog-swiper-modern', {
@@ -4492,15 +3949,40 @@
                 },
                 // Animation on slide change
                 on: {
+                    init: function() {
+                        // Ensure all slides are visible on initialization, especially on mobile
+                        const slides = this.slides;
+                        slides.forEach((slide) => {
+                            const card = slide.querySelector('.lawyer-card-mobile, .aman-lawyer-card-mobile-rtl');
+                            if (card) {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0) scale(1)';
+                                card.style.visibility = 'visible';
+                            }
+                            slide.style.opacity = '1';
+                        });
+                    },
                     slideChange: function() {
                         const slides = this.slides;
+                        const isMobile = window.innerWidth <= 768;
                         slides.forEach((slide, index) => {
                             if (slide.classList.contains('swiper-slide-active')) {
-                                slide.style.opacity = '0';
-                                setTimeout(() => {
-                                    slide.style.transition = 'opacity 0.5s ease';
+                                if (!isMobile) {
+                                    slide.style.opacity = '0';
+                                    setTimeout(() => {
+                                        slide.style.transition = 'opacity 0.5s ease';
+                                        slide.style.opacity = '1';
+                                    }, 50);
+                                } else {
+                                    // On mobile, keep slides visible
                                     slide.style.opacity = '1';
-                                }, 50);
+                                    const card = slide.querySelector('.lawyer-card-mobile, .aman-lawyer-card-mobile-rtl');
+                                    if (card) {
+                                        card.style.opacity = '1';
+                                        card.style.transform = 'translateY(0) scale(1)';
+                                        card.style.visibility = 'visible';
+                                    }
+                                }
                             }
                         });
                     },
@@ -4589,6 +4071,103 @@
                 });
                 lawyerContainer.addEventListener('mouseleave', function() {
                     lawyerSwiper.autoplay.start();
+                });
+            }
+
+            // Testimonial Swiper
+            const testimonialSwiper = new Swiper('.testimonial-swiper-modern', {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                },
+                speed: 800,
+                effect: 'slide',
+                grabCursor: true,
+                navigation: {
+                    nextEl: '.testimonial-next',
+                    prevEl: '.testimonial-prev',
+                },
+                pagination: {
+                    el: '.testimonial-pagination',
+                    clickable: true,
+                    dynamicBullets: true,
+                },
+                breakpoints: {
+                    480: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 25,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    992: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1200: {
+                        slidesPerView: 3,
+                        spaceBetween: 40,
+                    },
+                },
+                // Animation on slide change
+                on: {
+                    init: function() {
+                        // Ensure all slides are visible on initialization, especially on mobile
+                        const slides = this.slides;
+                        slides.forEach((slide) => {
+                            const card = slide.querySelector('.testimonial-card-new');
+                            if (card) {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0) scale(1)';
+                                card.style.visibility = 'visible';
+                            }
+                            slide.style.opacity = '1';
+                        });
+                    },
+                    slideChange: function() {
+                        const slides = this.slides;
+                        const isMobile = window.innerWidth <= 768;
+                        slides.forEach((slide, index) => {
+                            if (slide.classList.contains('swiper-slide-active')) {
+                                if (!isMobile) {
+                                    slide.style.opacity = '0';
+                                    setTimeout(() => {
+                                        slide.style.transition = 'opacity 0.5s ease';
+                                        slide.style.opacity = '1';
+                                    }, 50);
+                                } else {
+                                    // On mobile, keep slides visible
+                                    slide.style.opacity = '1';
+                                    const card = slide.querySelector('.testimonial-card-new');
+                                    if (card) {
+                                        card.style.opacity = '1';
+                                        card.style.transform = 'translateY(0) scale(1)';
+                                        card.style.visibility = 'visible';
+                                    }
+                                }
+                            }
+                        });
+                    },
+                },
+            });
+
+            // Pause autoplay on hover
+            const testimonialContainer = document.querySelector('.testimonial-swiper-modern');
+            if (testimonialContainer) {
+                testimonialContainer.addEventListener('mouseenter', function() {
+                    testimonialSwiper.autoplay.stop();
+                });
+                testimonialContainer.addEventListener('mouseleave', function() {
+                    testimonialSwiper.autoplay.start();
                 });
             }
         }
@@ -4941,7 +4520,7 @@
         max-width: 100%;
     }
 
-    /* Section improvements */
+    /* Section improvements - Add spacing */
     .why-us-area,
     .about-area,
     .service-area,
@@ -4951,25 +4530,44 @@
     .how-it-works-area,
     .mobile-app-area,
     .fixed-price-area,
-    .legal-aid-check-home {
-        padding: 40px 0 !important;
+    .legal-aid-check-home,
+    .hero-section,
+    .quick-points-section,
+    .about-us-section,
+    .why-aman-law-section,
+    .book-consultation-section,
+    .contact-us-section {
+        padding-top: 50px !important;
+        padding-bottom: 50px !important;
+    }
+    
+    /* Hero section should not have top padding */
+    .hero-section {
+        padding-top: 0 !important;
     }
 
-    /* Main headline improvements */
+    /* Main headline improvements - Center all section titles and descriptions */
     .main-headline {
-        text-align: center;
+        text-align: center !important;
         margin-bottom: 30px;
+        width: 100%;
+    }
+    
+    .main-headline * {
+        text-align: center !important;
     }
 
     .main-headline .title {
         font-size: 28px !important;
         line-height: 1.3;
         margin-bottom: 15px;
+        text-align: center !important;
     }
 
     .main-headline p {
         font-size: 15px;
         line-height: 1.7;
+        text-align: center !important;
     }
 
     /* Service items improvements */
@@ -5097,9 +4695,7 @@
     }
 
     /* Swiper improvements */
-    .swiper {
-        padding-bottom: 50px;
-    }
+  
 
     .swiper-pagination {
         bottom: 10px !important;
@@ -5138,10 +4734,12 @@
 
     .main-headline .title {
         font-size: 24px !important;
+        text-align: center !important;
     }
 
     .main-headline p {
         font-size: 14px;
+        text-align: center !important;
     }
 
     .service-item {
@@ -5202,8 +4800,11 @@
     }
 }
 
+/* ============================================
+   FINAL OVERRIDE - Force Features to Right
+   ============================================ */
 @media (max-width: 480px) {
-    /* Small mobile optimizations */
+    /* Small mobile optimizations - Remove all spacing */
     .why-us-area,
     .about-area,
     .service-area,
@@ -5213,16 +4814,25 @@
     .how-it-works-area,
     .mobile-app-area,
     .fixed-price-area,
-    .legal-aid-check-home {
-        padding: 25px 0 !important;
+    .legal-aid-check-home,
+    .hero-section,
+    .quick-points-section,
+    .about-us-section,
+    .why-aman-law-section,
+    .book-consultation-section,
+    .contact-us-section {
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     .main-headline .title {
         font-size: 22px !important;
+        text-align: center !important;
     }
 
     .main-headline p {
         font-size: 13px;
+        text-align: center !important;
     }
 
     .service-item {
@@ -5290,10 +4900,21 @@
     }
 }
 
+/* ============================================
+   FINAL OVERRIDE - Force Buttons to Right
+   ============================================ */
 /* RTL Mobile Support */
 @media (max-width: 991px) {
     [dir="rtl"] .main-headline {
-        text-align: center;
+        text-align: center !important;
+    }
+    
+    [dir="rtl"] .main-headline .title {
+        text-align: center !important;
+    }
+    
+    [dir="rtl"] .main-headline p {
+        text-align: center !important;
     }
 
     [dir="rtl"] .service-item,
@@ -5322,6 +4943,329 @@
     [dir="rtl"] .fixed-price-content,
     [dir="rtl"] .legal-aid-check-content {
         text-align: center;
+    }
+}
+
+/* ============================================
+   Add spacing between sections
+   إضافة مسافات بين الأقسام
+   ============================================ */
+section,
+.hero-section,
+.quick-points-section,
+.service-area,
+.how-it-works-area,
+.about-us-section,
+.why-aman-law-section,
+.lawyer-area-modern,
+.testimonial-area-modern,
+.book-consultation-section,
+.contact-us-section,
+.blog-area-modern,
+.mobile-app-area,
+.fixed-price-area,
+.legal-aid-check-home,
+.case-study-area,
+.case-study-home-page,
+.about-area,
+.why-us-area {
+    padding-top: 50px !important;
+    padding-bottom: 50px !important;
+}
+
+/* Add spacing between adjacent sections */
+section + section {
+    margin-top: 0 !important;
+    padding-top: 50px !important;
+}
+
+/* Hero section should not have top padding */
+.hero-section {
+    padding-top: 0 !important;
+}
+
+/* Override all padding and margin classes */
+.pt_100, .pb_100, .pt_80, .pb_80, .pt_70, .pb_70, 
+.pt_50, .pb_50, .pt_40, .pb_40, .pt_30, .pb_30,
+.pt_25, .pb_25, .pt_20, .pb_20, .pt_15, .pb_15 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.mt_200, .mt_100, .mt_80, .mt_70, .mt_65, .mt_50, 
+.mt_40, .mt_30, .mt_25, .mt_20, .mt_15 {
+    margin-top: 0 !important;
+}
+
+.mb_60, .mb_40, .mb_30, .mb_25, .mb_20, .mb_15 {
+    margin-bottom: 0 !important;
+}
+
+/* Mobile and tablet - add smaller spacing */
+@media (max-width: 991px) {
+    section,
+    .hero-section,
+    .quick-points-section,
+    .service-area,
+    .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
+    .fixed-price-area,
+    .legal-aid-check-home {
+        padding-top: 40px !important;
+        padding-bottom: 40px !important;
+    }
+    
+    .hero-section {
+        padding-top: 0 !important;
+    }
+    
+    section + section {
+        padding-top: 40px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    section,
+    .hero-section,
+    .quick-points-section,
+    .service-area,
+    .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
+    .fixed-price-area,
+    .legal-aid-check-home {
+        padding-top: 30px !important;
+        padding-bottom: 30px !important;
+    }
+    
+    .hero-section {
+        padding-top: 0 !important;
+    }
+    
+    section + section {
+        padding-top: 30px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    section,
+    .hero-section,
+    .quick-points-section,
+    .service-area,
+    .how-it-works-area,
+    .about-us-section,
+    .why-aman-law-section,
+    .lawyer-area-modern,
+    .testimonial-area-modern,
+    .book-consultation-section,
+    .contact-us-section,
+    .blog-area-modern,
+    .mobile-app-area,
+    .fixed-price-area,
+    .legal-aid-check-home {
+        padding-top: 25px !important;
+        padding-bottom: 25px !important;
+    }
+    
+    .hero-section {
+        padding-top: 0 !important;
+    }
+    
+    section + section {
+        padding-top: 25px !important;
+    }
+
+    /* ============================================
+       HERO CTA BUTTON ANIMATIONS
+       أنيميشن زر الحجز في قسم الهيرو
+       ============================================ */
+    /* تجاوز جميع القواعد العامة - يجب أن يكون في البداية */
+    .hero-cta-btn,
+    a.hero-cta-btn,
+    .hero-cta-btn.animated-cta-btn,
+    a.hero-cta-btn.animated-cta-btn {
+        position: relative !important;
+        overflow: hidden !important;
+        cursor: pointer !important;
+        transform: translateY(0);
+        animation: pulse-glow 2s ease-in-out infinite;
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important; /* الخلفية الأساسية */
+    }
+    
+    /* منع تغيير الخلفية من أي CSS عام */
+    .hero-cta-btn:hover,
+    a.hero-cta-btn:hover,
+    .hero-cta-btn.animated-cta-btn:hover,
+    a.hero-cta-btn.animated-cta-btn:hover,
+    .animated-cta-btn.hero-cta-btn:hover,
+    a.animated-cta-btn.hero-cta-btn:hover {
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        background-color: transparent !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+    }
+
+    /* Pulse and Glow Animation */
+    @keyframes pulse-glow {
+        0%, 100% {
+            box-shadow: 0 4px 15px rgba(212, 165, 116, 0.4),
+                        0 0 0 0 rgba(220, 38, 38, 0.7);
+        }
+        50% {
+            box-shadow: 0 6px 25px rgba(212, 165, 116, 0.6),
+                        0 0 0 10px rgba(220, 38, 38, 0);
+        }
+    }
+
+    /* Shimmer Effect - يظهر عند hover */
+    .hero-cta-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: calc(100% - 4px); /* ترك مساحة للشريط السفلي */
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent
+        );
+        transition: left 0.5s ease;
+        z-index: 1;
+        border-radius: 50px 50px 0 0;
+    }
+
+    .hero-cta-btn:hover::before {
+        left: 100%;
+    }
+    
+    /* Hover Effects - تصميم حسب الصورة */
+    /* تجاوز جميع القواعد العامة من unified-colors.css */
+    .hero-cta-btn:hover,
+    a.hero-cta-btn:hover,
+    .animated-cta-btn:hover,
+    a.animated-cta-btn:hover,
+    .hero-cta-btn.animated-cta-btn:hover,
+    a.hero-cta-btn.animated-cta-btn:hover {
+        transform: translateY(-3px) scale(1.05) !important;
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important; /* الخلفية تبقى كما هي */
+        background-color: transparent !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        color: #ffffff !important; /* نص أبيض */
+        box-shadow: 0 8px 30px rgba(255, 105, 135, 0.4),
+                    0 0 0 3px rgba(255, 105, 135, 0.3),
+                    0 0 20px rgba(255, 105, 135, 0.2) !important; /* glow أحمر وردي */
+    }
+    
+    /* أيقونة ذهبية عند hover */
+    .hero-cta-btn:hover i {
+        color: #D4A574 !important; /* لون ذهبي للأيقونة */
+        transform: translateX(-5px) scale(1.2);
+    }
+    
+    /* النص يبقى أبيض عند hover */
+    .hero-cta-btn:hover span {
+        color: #ffffff !important;
+    }
+
+    /* Active/Press Effect */
+    .hero-cta-btn:active {
+        transform: translateY(-1px) scale(1.02) !important;
+        box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4) !important;
+    }
+
+    /* Icon Animation */
+    .hero-cta-btn i {
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .hero-cta-btn:hover i {
+        transform: translateX(-5px) scale(1.2);
+    }
+
+    /* Bounce Animation on Load */
+    @keyframes bounce-in {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+        }
+        60% {
+            transform: translateY(-5px) scale(1.05);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .hero-cta-btn {
+        animation: bounce-in 0.8s ease-out, pulse-glow 2s ease-in-out 0.8s infinite;
+    }
+
+    /* Ripple Effect on Click */
+    .hero-cta-btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+        z-index: 0;
+    }
+
+    .hero-cta-btn:active::after {
+        width: 300px;
+        height: 300px;
+        transition: width 0.3s, height 0.3s;
+    }
+
+    /* Ensure text stays on top */
+    .hero-cta-btn span {
+        position: relative;
+        z-index: 2;
+        color: #2c3e50 !important; /* لون نص داكن */
+    }
+    
+    /* لون النص في الحالة العادية */
+    .hero-cta-btn,
+    a.hero-cta-btn {
+        color: #2c3e50 !important; /* لون نص داكن */
+    }
+    
+    /* لون النص عند hover */
+    .hero-cta-btn:hover,
+    a.hero-cta-btn:hover {
+        color: #2c3e50 !important; /* لون نص داكن */
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .hero-cta-btn {
+            padding: 14px 32px !important;
+            font-size: 16px !important;
+        }
+
+        .hero-cta-btn:hover {
+            transform: translateY(-2px) scale(1.03) !important;
+        }
     }
 }
 </style>

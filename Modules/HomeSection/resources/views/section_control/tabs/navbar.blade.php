@@ -13,10 +13,6 @@
         aria-selected="true">{{ __('Service Section') }}</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" id="department-tab" data-bs-toggle="tab" href="#department_tab" role="tab"
-        aria-controls="department" aria-selected="true">{{ __('Department Section') }}</a>
-</li>
-<li class="nav-item">
     <a class="nav-link" id="client-tab" data-bs-toggle="tab" href="#client_tab" role="tab" aria-controls="client"
         aria-selected="true">{{ __('Testimonial Section') }}</a>
 </li>

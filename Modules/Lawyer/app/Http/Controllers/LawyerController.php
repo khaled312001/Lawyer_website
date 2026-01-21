@@ -129,7 +129,7 @@ class LawyerController extends Controller {
         if (!Language::where('code', $code)->exists()) {
             abort(404);
         }
-        $lawyer = Lawyer::findOrFail($id);
+        $lawyer = Lawyer::with('departments.translation')->findOrFail($id);
         $departments = Department::with('translation')->get();
         $languages = allLanguages();
 
@@ -157,6 +157,11 @@ class LawyerController extends Controller {
         // Update departments
         if ($request->has('department_ids') && is_array($request->department_ids)) {
             $lawyer->departments()->sync($request->department_ids);
+            // Update department_id to the first selected department for backward compatibility
+            if (!empty($request->department_ids)) {
+                $lawyer->department_id = $request->department_ids[0];
+                $lawyer->save();
+            }
         }
 
         if ($password) {

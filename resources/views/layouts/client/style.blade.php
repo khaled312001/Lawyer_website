@@ -21,7 +21,7 @@
 
 <link rel="stylesheet" href="{{ asset('client/css/style.css') }}?v={{ $setting?->version }}">
 @php
-    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
 @endphp
 @if ($textDirection == 'rtl')
     <link rel="stylesheet" href="{{ asset('client/css/rtl.css') }}?v={{ $setting?->version }}">
@@ -35,6 +35,7 @@
 <link rel="stylesheet" href="{{ asset('client/css/footer-icons-fix.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/icon-colors-fix.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/dashboard-mobile.css') }}?v={{ $setting?->version }}">
+<link rel="stylesheet" href="{{ asset('client/css/enhanced-breadcrumb.css') }}?v={{ $setting?->version }}">
 
 
 <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
@@ -76,6 +77,195 @@
         --top-header-bar-height: 50px;
         --main-navbar-height: 70px;
         --total-navbar-height: 120px; /* top-header-bar + main-navbar */
+    }
+
+    /* ===================================================================
+       RTL DEFAULT - جعل الموقع عربي افتراضياً دائماً
+       =================================================================== */
+    
+    /* إجبار RTL على body و html */
+    body,
+    html {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع العناصر الأساسية */
+    * {
+        direction: inherit;
+    }
+
+    /* جميع الحاويات */
+    .container,
+    .container-fluid,
+    .row,
+    [class*="col-"] {
+        direction: rtl !important;
+    }
+
+    /* جميع العناوين */
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النصوص */
+    p, span, div, a, li, td, th {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع القوائم */
+    ul, ol, li {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النماذج */
+    input, textarea, select, .form-control, .form-select {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأزرار */
+    button, .btn, a.btn {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأقسام */
+    section, .section, [class*="section"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الكروت */
+    .card, [class*="card"], [class*="item"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع العناوين الرئيسية */
+    .title, .main-headline, .headline {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الجداول */
+    table, thead, tbody, tr, td, th {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Flexbox - محاذاة افتراضية لليمين */
+    [class*="flex"], 
+    .d-flex,
+    .flex {
+        direction: rtl !important;
+    }
+
+    /* Grid - محاذاة افتراضية لليمين */
+    [class*="grid"],
+    .grid {
+        direction: rtl !important;
+    }
+
+    /* إصلاح justify-content */
+    [class*="justify-content-start"] {
+        justify-content: flex-end !important;
+    }
+
+    [class*="justify-content-end"] {
+        justify-content: flex-start !important;
+    }
+
+    /* إصلاح text-align */
+    [class*="text-left"],
+    .text-left {
+        text-align: right !important;
+    }
+
+    [class*="text-right"],
+    .text-right {
+        text-align: right !important;
+    }
+
+    [class*="text-center"],
+    .text-center {
+        text-align: center !important;
+    }
+
+    /* إصلاح margin و padding */
+    .ms-auto {
+        margin-right: auto !important;
+        margin-left: 0 !important;
+    }
+
+    .me-auto {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+
+    .ms-1, .ms-2, .ms-3, .ms-4, .ms-5 {
+        margin-right: var(--bs-spacer) !important;
+        margin-left: 0 !important;
+    }
+
+    .me-1, .me-2, .me-3, .me-4, .me-5 {
+        margin-left: var(--bs-spacer) !important;
+        margin-right: 0 !important;
+    }
+
+    .ps-1, .ps-2, .ps-3, .ps-4, .ps-5 {
+        padding-right: var(--bs-spacer) !important;
+        padding-left: 0 !important;
+    }
+
+    .pe-1, .pe-2, .pe-3, .pe-4, .pe-5 {
+        padding-left: var(--bs-spacer) !important;
+        padding-right: 0 !important;
+    }
+
+    /* إصلاح float */
+    .float-left {
+        float: right !important;
+    }
+
+    .float-right {
+        float: left !important;
+    }
+
+    /* إصلاح border */
+    .border-left {
+        border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        border-left: none !important;
+    }
+
+    .border-right {
+        border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        border-right: none !important;
+    }
+
+    /* إصلاح rounded */
+    .rounded-start {
+        border-top-right-radius: var(--bs-border-radius) !important;
+        border-bottom-right-radius: var(--bs-border-radius) !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+
+    .rounded-end {
+        border-top-left-radius: var(--bs-border-radius) !important;
+        border-bottom-left-radius: var(--bs-border-radius) !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
     }
 
     /* ============================================
@@ -207,12 +397,19 @@
         padding: 8px 12px;
         border-radius: 6px;
         white-space: nowrap;
+        flex-direction: row-reverse;
+        direction: rtl;
     }
 
     .header-contact-item i {
         color: var(--colorPrimary);
         font-size: 16px;
         min-width: 18px;
+        order: 2;
+    }
+
+    .header-contact-item span {
+        order: 1;
     }
 
     .header-contact-item:hover {
@@ -385,6 +582,8 @@
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         white-space: nowrap;
         position: relative;
+        background: transparent !important; /* إلغاء أي خلفية بيضاء */
+        background-color: transparent !important;
     }
 
     body.client-frontend .nav-link::before {
@@ -407,10 +606,11 @@
     }
 
     body.client-frontend .nav-link:hover {
-        background: linear-gradient(135deg, rgba(200, 180, 126, 0.12) 0%, rgba(200, 180, 126, 0.08) 100%) !important;
+        background: transparent !important; /* إلغاء الخلفية البيضاء */
+        background-color: transparent !important;
         color: var(--colorPrimary) !important;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(200, 180, 126, 0.2);
+        box-shadow: none !important; /* إلغاء الظل أيضاً */
     }
 
     body.client-frontend .nav-link:hover::before {
@@ -629,10 +829,10 @@
     /* On mobile, adjust padding for smaller screens */
     @media (max-width: 768px) {
         body.client-frontend {
-            padding-top: var(--total-navbar-height) !important; /* Keep same padding on mobile */
+            padding-top: 70px !important; /* Only main navbar height since top-header-bar is hidden */
         }
         body.client-frontend .main-navbar {
-            top: var(--top-header-bar-height) !important; /* Keep main navbar below top header bar */
+            top: 0 !important; /* Start from top since top-header-bar is hidden on mobile */
         }
     }
 
@@ -781,8 +981,8 @@
         position: fixed;
         top: 0 !important;
         right: -100%;
-        width: 320px;
-        max-width: 85vw;
+        width: 280px;
+        max-width: 75vw;
         height: 100%;
         background: #fff;
         box-shadow: -2px 0 15px rgba(0,0,0,0.2);
@@ -1490,7 +1690,7 @@
 
     /* RTL Support */
     @php
-        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+        $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
     @endphp
     @if ($textDirection == 'rtl')
         .side-menu-content {
@@ -1530,6 +1730,23 @@
             bottom: 26px;
         }
     @endif
+    
+    /* Center icon inside scroll-top button */
+    .scroll-top {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+    }
+    
+    .scroll-top i {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 
     /* Mobile App Section - Stay on top of your case */
     .mobile-app-area {
@@ -1637,21 +1854,30 @@
     .app-download-btn {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        gap: 12px;
-        padding: 16px 32px;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 16px 24px;
         background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
         border-radius: 12px;
         text-decoration: none;
         font-weight: 600;
         font-size: 16px;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 4px 15px rgba(var(--colorPrimary-rgb, 200, 180, 126), 0.35);
         border: 2px solid transparent;
         min-width: 200px;
         position: relative;
         overflow: hidden;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    /* LTR Support */
+    [dir="ltr"] .app-download-btn {
+        direction: ltr;
+        text-align: left;
+        justify-content: flex-start;
     }
     
     .app-download-btn::before {
@@ -1684,6 +1910,12 @@
     .app-download-btn i {
         font-size: 18px;
         transition: transform 0.3s ease;
+        flex-shrink: 0;
+        order: 2;
+    }
+    
+    [dir="ltr"] .app-download-btn i {
+        order: 1;
     }
     
     .app-download-btn:hover i {
@@ -1693,6 +1925,14 @@
     .app-download-btn .btn-text {
         font-weight: 600;
         letter-spacing: 0.3px;
+        order: 1;
+        flex: 1;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .app-download-btn .btn-text {
+        order: 2;
+        text-align: left;
     }
 
     .app-download-btn img {
@@ -2405,8 +2645,8 @@
 
         /* Side Menu - Enhanced Design */
         .side-menu-content {
-            width: 320px;
-            max-width: 85vw;
+            width: 280px;
+            max-width: 75vw;
         }
 
         .side-menu-header {
@@ -2859,6 +3099,413 @@
         }
     }
 
+    /* ===================================================================
+       ENHANCED LAWYER CONTENT - تصميم محسّن لمعلومات المحامي
+       =================================================================== */
+    
+    .enhanced-lawyer-content {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .enhanced-lawyer-name {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+    
+    .enhanced-lawyer-name a {
+        color: #2c3e50;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .lawyer-card-modern:hover .enhanced-lawyer-name a {
+        color: var(--colorPrimary);
+    }
+    
+    /* Info Box Container */
+    .enhanced-lawyer-info-box {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .lawyer-card-modern:hover .enhanced-lawyer-info-box {
+        border-color: var(--colorPrimary);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Info Item */
+    .enhanced-lawyer-info-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        transition: all 0.3s ease;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    .enhanced-lawyer-info-item:not(:last-child) {
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 12px;
+    }
+    
+    .enhanced-lawyer-info-item:hover {
+        transform: translateX(-3px);
+    }
+    
+    [dir="rtl"] .enhanced-lawyer-info-item:hover {
+        transform: translateX(3px);
+    }
+    
+    /* Icon Wrapper - Always on the right */
+    .enhanced-info-icon-wrapper {
+        order: 1 !important;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+    
+    .enhanced-lawyer-info-item:hover .enhanced-info-icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+    
+    .enhanced-info-icon {
+        font-size: 16px;
+        color: #ffffff;
+        transition: all 0.3s ease;
+    }
+    
+    /* Rating Icon Wrapper - Special Style */
+    .enhanced-rating-icon-wrapper {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    }
+    
+    /* Info Text - Always on the left */
+    .enhanced-info-text {
+        order: 2 !important;
+        font-size: 15px;
+        color: #495057;
+        font-weight: 500;
+        line-height: 1.5;
+        flex: 1;
+        text-align: right;
+        direction: rtl;
+    }
+    
+    /* Rating Item - Special Layout */
+    .enhanced-rating-item {
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+        align-items: flex-start;
+    }
+    
+    .enhanced-rating-item .enhanced-info-icon-wrapper {
+        order: 1 !important;
+    }
+    
+    .enhanced-rating-content {
+        order: 2 !important;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-end;
+        text-align: right;
+        direction: rtl;
+    }
+    
+    .enhanced-rating-stars {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 2px;
+    }
+    
+    .enhanced-rating-stars i {
+        font-size: 14px;
+        color: #ffc107;
+    }
+    
+    .enhanced-rating-text {
+        font-size: 14px;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+        text-align: right;
+        direction: rtl;
+    }
+    
+    .enhanced-rating-text strong {
+        font-size: 16px;
+        color: #2c3e50;
+        font-weight: 700;
+    }
+    
+    .enhanced-rating-text .rating-count {
+        color: #6c757d;
+        font-size: 13px;
+    }
+    
+    .enhanced-rating-text.no-rating {
+        color: #999;
+        font-style: italic;
+    }
+    
+    /* View Profile Button */
+    .enhanced-lawyer-view-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-top: auto;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    .enhanced-lawyer-view-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        color: #ffffff;
+    }
+    
+    .enhanced-lawyer-view-btn .btn-icon {
+        order: 1 !important;
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+    }
+    
+    .enhanced-lawyer-view-btn:hover .btn-icon {
+        transform: translateX(-5px) scale(1.1);
+    }
+    
+    [dir="rtl"] .enhanced-lawyer-view-btn:hover .btn-icon {
+        transform: translateX(-5px) scale(1.1);
+    }
+    
+    .enhanced-lawyer-view-btn .btn-text {
+        order: 2 !important;
+        flex: 1;
+        text-align: right;
+        direction: rtl;
+        transition: transform 0.3s ease;
+    }
+    
+    .enhanced-lawyer-view-btn:hover .btn-text {
+        transform: translateX(3px);
+    }
+    
+    [dir="rtl"] .enhanced-lawyer-view-btn:hover .btn-text {
+        transform: translateX(3px);
+    }
+    
+    /* RTL Support */
+    [dir="rtl"] .enhanced-lawyer-content,
+    [dir="rtl"] .enhanced-lawyer-info-box {
+        direction: rtl;
+    }
+    
+    [dir="ltr"] .enhanced-lawyer-content,
+    [dir="ltr"] .enhanced-lawyer-info-box {
+        direction: ltr;
+    }
+    
+    /* Icons always on the right, text on the left - RTL layout */
+    [dir="rtl"] .enhanced-lawyer-info-item,
+    .enhanced-lawyer-info-item {
+        justify-content: space-between !important;
+        flex-direction: row !important;
+        direction: rtl !important;
+    }
+    
+    [dir="rtl"] .enhanced-info-icon-wrapper,
+    .enhanced-info-icon-wrapper {
+        order: 1 !important;
+    }
+    
+    [dir="rtl"] .enhanced-info-text,
+    .enhanced-info-text {
+        order: 2 !important;
+        text-align: right !important;
+        direction: rtl !important;
+    }
+    
+    .enhanced-rating-content {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+    
+    .enhanced-rating-text {
+        text-align: right !important;
+        direction: rtl !important;
+    }
+    
+    .enhanced-rating-stars {
+        justify-content: flex-end !important;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .enhanced-lawyer-content {
+            padding: 25px 20px;
+            gap: 18px;
+        }
+        
+        .enhanced-lawyer-name {
+            font-size: 22px;
+        }
+        
+        .enhanced-lawyer-info-box {
+            padding: 18px 20px !important;
+            gap: 10px;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+            /* Make it take full width of lawyer card - extend to edges */
+            margin-left: -20px !important;
+            margin-right: -20px !important;
+            width: calc(100% + 40px) !important;
+            border-radius: 0 !important;
+        }
+        
+        /* Ensure parent container doesn't restrict width */
+        .enhanced-lawyer-content {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        
+        .enhanced-info-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            min-height: 36px;
+        }
+        
+        .enhanced-info-icon {
+            font-size: 14px;
+        }
+        
+        .enhanced-info-text {
+            font-size: 14px;
+        }
+        
+        .enhanced-lawyer-view-btn {
+            padding: 12px 20px;
+            font-size: 15px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .enhanced-lawyer-content {
+            padding: 20px 15px;
+            gap: 15px;
+        }
+        
+        .enhanced-lawyer-name {
+            font-size: 20px;
+        }
+        
+        .enhanced-lawyer-info-box {
+            padding: 15px 20px !important;
+            gap: 8px;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+            /* Make it take full width of lawyer card - extend to edges */
+            margin-left: -15px !important;
+            margin-right: -15px !important;
+            width: calc(100% + 30px) !important;
+            border-radius: 0 !important;
+        }
+        
+        /* Ensure parent container doesn't restrict width */
+        .enhanced-lawyer-content {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        
+        .enhanced-lawyer-info-item {
+            gap: 10px;
+            padding: 8px 0;
+        }
+        
+        .enhanced-lawyer-info-item:not(:last-child) {
+            padding-bottom: 10px;
+        }
+        
+        .enhanced-info-icon-wrapper {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            min-height: 32px;
+            border-radius: 8px;
+        }
+        
+        .enhanced-info-icon {
+            font-size: 13px;
+        }
+        
+        .enhanced-info-text {
+            font-size: 13px;
+        }
+        
+        .enhanced-rating-text {
+            font-size: 13px;
+        }
+        
+        .enhanced-rating-text strong {
+            font-size: 15px;
+        }
+        
+        .enhanced-lawyer-view-btn {
+            padding: 11px 18px;
+            font-size: 14px;
+        }
+    }
+
     /* ============================================
        REGISTER PAGE - MODERN DESIGN IMPROVEMENTS
        ============================================ */
@@ -2939,7 +3586,51 @@
     }
 
     .banner-text ul li span {
-        color: rgba(255,255,255,0.7);
+        color: #fff !important;
+    }
+    
+    /* Ensure all breadcrumb text is light/white on dark backgrounds */
+    .banner-area .banner-text,
+    .banner-area .banner-text *,
+    .page-title-area .page-title-content,
+    .page-title-area .page-title-content *,
+    .banner-text ul li,
+    .banner-text ul li a,
+    .banner-text ul li span,
+    .page-title-content ul li,
+    .page-title-content ul li a,
+    .page-title-content ul li span {
+        color: #fff !important;
+    }
+    
+    .banner-text ul li a:hover,
+    .page-title-content ul li a:hover {
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    /* Dark overlay for better text visibility on dark images */
+    .banner-area::before,
+    .page-title-area::before {
+        background: rgba(0,0,0,0.5) !important;
+        z-index: 1;
+    }
+    
+    .banner-text,
+    .page-title-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    /* Ensure all text in breadcrumb areas is white */
+    .banner-area h1,
+    .banner-area h2,
+    .banner-area h3,
+    .page-title-area h1,
+    .page-title-area h2,
+    .page-title-area h3,
+    .page-title-content .title {
+        color: #fff !important;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5) !important;
     }
 
     /* ============================================
@@ -5948,7 +6639,7 @@
         position: relative;
         width: 100%;
         overflow-x: hidden;
-        padding: 30px 0 !important;
+        padding: 25px 0 !important;
     }
 
     .footer-address {
@@ -5995,14 +6686,33 @@
         width: 40px;
         height: 40px;
         min-width: 40px;
+        order: 1;
     }
     
     [dir="ltr"] .footer-address ul li i {
         margin-right: 0;
+        order: 1;
     }
     
     [dir="rtl"] .footer-address ul li i {
         margin-left: 0;
+        order: 1;
+    }
+    
+    .footer-address ul li > div {
+        order: 2;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    [dir="ltr"] .footer-address ul li > div {
+        direction: ltr;
+        text-align: left;
+    }
+    
+    [dir="rtl"] .footer-address ul li > div {
+        direction: rtl;
+        text-align: right;
     }
 
     .footer-address ul li .title {
@@ -6049,29 +6759,31 @@
         position: relative;
         width: 100%;
         overflow-x: hidden;
-        padding: 40px 0 !important;
+        padding-top: 35px !important;
+        padding-bottom: 40px !important;
     }
-
+    
     .footer-item {
-        margin-bottom: 30px !important;
+        margin-top: 15px !important;
+        margin-bottom: 20px !important;
         text-align: center !important;
     }
-
+    
     .footer-item .title {
-        font-size: 18px;
+        font-size: 18px !important;
         font-weight: 600;
         color: #fff;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
+        margin-bottom: 20px !important;
+        padding-bottom: 10px !important;
         border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         text-align: center !important;
     }
-
+    
     .footer-item p {
-        font-size: 14px;
+        font-size: 13px !important;
         color: rgba(255, 255, 255, 0.8);
-        line-height: 1.8;
-        margin-bottom: 15px;
+        line-height: 1.7 !important;
+        margin-bottom: 12px !important;
         text-align: center !important;
     }
 
@@ -6098,17 +6810,19 @@
     }
 
     .footer-item ul li {
-        margin-bottom: 12px;
+        margin-bottom: 4px !important;
+        padding-bottom: 4px !important;
         text-align: center !important;
     }
-
+    
     .footer-item ul li a {
         color: rgba(255, 255, 255, 0.8);
         text-decoration: none;
-        font-size: 14px;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
         transition: all 0.3s ease;
         display: inline-block;
-        padding: 5px 0;
+        padding: 3px 0 !important;
     }
 
     .footer-item ul li a:hover {
@@ -6121,26 +6835,27 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 15px;
-        margin-top: 20px;
+        gap: 8px !important;
+        margin-top: 15px !important;
         list-style: none;
         padding: 0;
     }
-
+    
     .footer-item .icon li {
         margin: 0;
     }
-
+    
     .footer-item .icon li a {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         color: #fff;
-        font-size: 18px;
+        font-size: 14px !important;
         transition: all 0.3s ease;
         text-decoration: none;
     }
@@ -6209,19 +6924,21 @@
 
     /* Footer Copyright */
     .footer-copyrignt {
-        padding: 20px 0 !important;
+        padding-top: 15px !important;
+        padding-bottom: 12px !important;
         text-align: center !important;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-
+    
     .copyright-text {
         text-align: center !important;
     }
-
+    
     .copyright-text p {
         color: rgba(255, 255, 255, 0.7);
-        font-size: 14px;
-        margin: 0;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+        margin: 0 0 5px 0 !important;
         text-align: center !important;
     }
 
@@ -6255,7 +6972,8 @@
         }
 
         .footer-area {
-            padding: 25px 0 !important;
+            padding-top: 25px !important;
+            padding-bottom: 30px !important;
         }
 
         /* Stack columns vertically */
@@ -6313,16 +7031,17 @@
         }
 
         .footer-item {
-            margin-bottom: 20px !important;
+            margin-top: 10px !important;
+            margin-bottom: 15px !important;
             text-align: center !important;
             padding: 15px !important;
             background: rgba(255, 255, 255, 0.03) !important;
             border-radius: 10px !important;
         }
-
+        
         .footer-item .title {
-            font-size: 16px;
-            margin-bottom: 12px !important;
+            font-size: 16px !important;
+            margin-bottom: 15px !important;
             text-align: center !important;
             padding-bottom: 8px !important;
         }
@@ -9597,7 +10316,6 @@
         }
     }
 
-    /* تقليل المسافة بين قسم خدماتنا القانونية وأقسامنا القانونية */
     .service-area {
         padding-bottom: 20px !important;
     }
@@ -10065,7 +10783,7 @@
     @media (max-width: 768px) {
         html[dir="rtl"] body.client-frontend,
         html[lang="ar"] body.client-frontend {
-            padding-top: 120px !important;
+            padding-top: 70px !important; /* Only main navbar height since top-header-bar is hidden on mobile */
         }
 
         html[dir="rtl"] .top-alert-banner,
@@ -10075,13 +10793,12 @@
 
         html[dir="rtl"] .top-header-bar,
         html[lang="ar"] .top-header-bar {
-            top: 50px !important;
-            height: 50px !important;
+            display: none !important; /* Hidden on mobile */
         }
 
         html[dir="rtl"] body.client-frontend .main-navbar,
         html[lang="ar"] body.client-frontend .main-navbar {
-            top: 50px !important;
+            top: 0 !important; /* Start from top since top-header-bar is hidden on mobile */
             height: 70px !important;
         }
     }
@@ -11690,6 +12407,209 @@
     }
 
     /* ===================================================================
+       CASE STEPS - تصميم جديد وبسيط للخطوات مع أيقونات واضحة
+       =================================================================== */
+    
+    .case-steps-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+    
+    .case-step-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 25px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid #f0f0f0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .case-step-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4px;
+        height: 100%;
+        background: linear-gradient(180deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .case-step-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        border-color: var(--colorPrimary);
+    }
+    
+    .case-step-item:hover::before {
+        opacity: 1;
+    }
+    
+    .case-step-icon-wrapper {
+        flex-shrink: 0;
+        width: 70px;
+        height: 70px;
+        min-width: 70px;
+        min-height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .case-step-icon-wrapper::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .case-step-item:hover .case-step-icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .case-step-item:hover .case-step-icon-wrapper::before {
+        opacity: 1;
+    }
+    
+    .case-step-icon {
+        font-size: 32px;
+        color: #ffffff;
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+    
+    .case-step-item:hover .case-step-icon {
+        transform: scale(1.1);
+    }
+    
+    .case-step-content {
+        flex: 1;
+        padding-top: 5px;
+    }
+    
+    .case-step-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0 0 10px 0;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+    
+    .case-step-item:hover .case-step-title {
+        color: var(--colorPrimary);
+    }
+    
+    .case-step-description {
+        font-size: 15px;
+        color: #6c757d;
+        line-height: 1.7;
+        margin: 0;
+    }
+    
+    /* RTL Support */
+    [dir="rtl"] .case-step-item {
+        direction: rtl;
+        text-align: right;
+    }
+    
+    [dir="rtl"] .case-step-content {
+        text-align: right;
+    }
+    
+    [dir="ltr"] .case-step-item {
+        direction: ltr;
+        text-align: left;
+    }
+    
+    [dir="ltr"] .case-step-content {
+        text-align: left;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .case-steps-wrapper {
+            gap: 20px;
+        }
+        
+        .case-step-item {
+            padding: 20px;
+            gap: 15px;
+        }
+        
+        .case-step-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            min-height: 60px;
+        }
+        
+        .case-step-icon {
+            font-size: 28px;
+        }
+        
+        .case-step-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        
+        .case-step-description {
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .case-step-item {
+            padding: 18px;
+            gap: 12px;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .case-step-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            min-height: 70px;
+        }
+        
+        .case-step-content {
+            text-align: center;
+            padding-top: 0;
+        }
+        
+        .case-step-title {
+            font-size: 17px;
+        }
+        
+        .case-step-description {
+            font-size: 13px;
+        }
+    }
+
+    /* ===================================================================
        MOBILE MENU - قائمة الموبايل الجديدة مع أيقونات على اليمين دائماً
        =================================================================== */
 
@@ -11709,6 +12629,27 @@
         margin: 0 !important;
     }
 
+    /* القائمة الرئيسية (Main Navigation) - أول ترتيب */
+    /* القسم الذي يحتوي على .mobile-menu-list يكون أولاً */
+    .mobile-menu-section:has(.mobile-menu-list),
+    .mobile-menu-section:nth-child(2) {
+        order: 1 !important;
+    }
+
+    /* Quick Actions - ثاني ترتيب (القسم الأول بدون mobile-menu-list) */
+    .mobile-menu-section:first-child:not(:has(.mobile-menu-list)),
+    .mobile-menu-section:first-child {
+        order: 2 !important;
+    }
+
+    /* Language & Currency - آخر ترتيب */
+    .mobile-menu-section:has(.mobile-menu-form),
+    .mobile-menu-section:has(.mobile-menu-select),
+    .mobile-menu-section:nth-child(3),
+    .mobile-menu-section:last-child:not(:has(.mobile-menu-list)) {
+        order: 3 !important;
+    }
+
     .mobile-menu-section:first-child {
         padding-top: 0 !important;
         margin-top: 0 !important;
@@ -11718,12 +12659,25 @@
         border-bottom: none !important;
     }
 
+    /* Fallback للمتصفحات التي لا تدعم :has() */
+    @supports not selector(:has(*)) {
+        .mobile-menu-section:nth-child(2) {
+            order: 1 !important;
+        }
+        .mobile-menu-section:nth-child(1) {
+            order: 2 !important;
+        }
+        .mobile-menu-section:nth-child(3) {
+            order: 3 !important;
+        }
+    }
+
     /* كل عنصر في القائمة */
     .mobile-menu-item {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         padding: 15px 20px !important;
         text-decoration: none !important;
         color: #333 !important;
@@ -11734,6 +12688,7 @@
         text-align: right !important;
         direction: rtl !important;
         position: relative !important;
+        gap: 10px !important;
     }
 
     .mobile-menu-item:hover {
@@ -11752,15 +12707,16 @@
         color: inherit !important;
     }
 
-    /* الأيقونة على اليمين دائماً */
+    /* الأيقونة على يسار النص مباشرة - قريبة من النص */
     .mobile-menu-icon {
         order: 2 !important;
         flex-shrink: 0 !important;
         font-size: 20px !important;
         color: var(--colorPrimary) !important;
         margin-right: 0 !important;
-        margin-left: 15px !important;
+        margin-left: 0 !important;
         width: 24px !important;
+        min-width: 24px !important;
         text-align: center !important;
     }
 
@@ -11799,28 +12755,51 @@
 
     /* زر الموعد */
     .mobile-appointment-btn {
-        background: var(--colorPrimary) !important;
+        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%) !important;
         color: #fff !important;
-        border-radius: 8px !important;
-        margin: 10px 20px !important;
+        border-radius: 30px !important;
+        margin: 8px auto !important;
+        padding: 10px 20px !important;
         font-weight: 600 !important;
+        font-size: 13px !important;
+        width: auto !important;
+        max-width: 90% !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
     .mobile-appointment-btn:hover {
-        background: var(--colorSecondary) !important;
+        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%) !important;
         color: #fff !important;
+        transform: translateY(-2px) scale(1.03) !important;
+        box-shadow: 0 5px 18px rgba(184, 134, 11, 0.45) !important;
     }
 
     .mobile-appointment-btn .mobile-menu-text {
         color: #fff !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
     }
 
     .mobile-appointment-btn .mobile-menu-icon {
         color: #fff !important;
+        font-size: 14px !important;
     }
 
     .mobile-appointment-btn:hover .mobile-menu-icon {
         color: #fff !important;
+        transform: scale(1.15) !important;
+    }
+    
+    .mobile-appointment-item {
+        display: flex !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* القوائم الفرعية */
@@ -11907,20 +12886,111 @@
     .lawyer-card-mobile,
     .aman-lawyer-card-mobile-rtl {
         background: #fff !important;
-        border-radius: 12px !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12),
+                    0 3px 10px rgba(0,0,0,0.08),
+                    0 0 0 1px rgba(107, 93, 71, 0.1) !important;
         overflow: hidden !important;
-        transition: all 0.3s ease !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         display: flex !important;
         flex-direction: column !important;
         height: 100% !important;
         direction: rtl !important;
+        border: 1px solid rgba(107, 93, 71, 0.15) !important;
+        position: relative !important;
+        opacity: 0 !important;
+        transform: translateY(20px) scale(0.95) !important;
+        animation: lawyerCardFadeIn 0.6s ease-out forwards !important;
+    }
+
+    /* أنيميشن ظهور الكارد */
+    @keyframes lawyerCardFadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Delay لكل كارد */
+    .lawyer-card-mobile:nth-child(1),
+    .aman-lawyer-card-mobile-rtl:nth-child(1) {
+        animation-delay: 0.1s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(2),
+    .aman-lawyer-card-mobile-rtl:nth-child(2) {
+        animation-delay: 0.2s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(3),
+    .aman-lawyer-card-mobile-rtl:nth-child(3) {
+        animation-delay: 0.3s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(4),
+    .aman-lawyer-card-mobile-rtl:nth-child(4) {
+        animation-delay: 0.4s !important;
+    }
+
+    .lawyer-card-mobile:nth-child(n+5),
+    .aman-lawyer-card-mobile-rtl:nth-child(n+5) {
+        animation-delay: 0.5s !important;
+    }
+
+    /* تأثير Glow خفيف */
+    .lawyer-card-mobile::before,
+    .aman-lawyer-card-mobile-rtl::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.1), rgba(212, 165, 116, 0.1));
+        border-radius: 18px;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: -1;
     }
 
     .lawyer-card-mobile:hover,
     .aman-lawyer-card-mobile-rtl:hover {
-        transform: translateY(-5px) !important;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.12) !important;
+        transform: translateY(-12px) scale(1.02) !important;
+        box-shadow: 0 15px 40px rgba(107, 93, 71, 0.25),
+                    0 8px 20px rgba(0,0,0,0.15),
+                    0 0 0 3px rgba(107, 93, 71, 0.2),
+                    0 0 30px rgba(212, 165, 116, 0.3) !important;
+        border-color: var(--colorPrimary) !important;
+    }
+
+    .lawyer-card-mobile:hover::before,
+    .aman-lawyer-card-mobile-rtl:hover::before {
+        opacity: 1;
+    }
+
+    /* أنيميشن Pulse خفيف */
+    @keyframes lawyerCardPulse {
+        0%, 100% {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12),
+                        0 3px 10px rgba(0,0,0,0.08),
+                        0 0 0 1px rgba(107, 93, 71, 0.1);
+        }
+        50% {
+            box-shadow: 0 10px 30px rgba(107, 93, 71, 0.15),
+                        0 5px 15px rgba(0,0,0,0.1),
+                        0 0 0 2px rgba(107, 93, 71, 0.15);
+        }
+    }
+
+    /* تطبيق Pulse على الكاردات (اختياري - يمكن إزالته) */
+    .lawyer-card-mobile:not(:hover),
+    .aman-lawyer-card-mobile-rtl:not(:hover) {
+        animation: lawyerCardFadeIn 0.6s ease-out forwards,
+                   lawyerCardPulse 3s ease-in-out infinite 0.6s !important;
     }
 
     /* صورة المحامي */
@@ -11929,56 +12999,90 @@
         height: 200px !important;
         overflow: hidden !important;
         position: relative !important;
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.1), rgba(212, 165, 116, 0.1)) !important;
+    }
+
+    .lawyer-card-image-mobile::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+    }
+
+    .lawyer-card-mobile:hover .lawyer-card-image-mobile::after {
+        opacity: 1;
     }
 
     .lawyer-card-image-mobile img {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
-        transition: transform 0.3s ease !important;
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    filter 0.3s ease !important;
+        filter: brightness(1) contrast(1) !important;
     }
 
     .lawyer-card-mobile:hover .lawyer-card-image-mobile img {
-        transform: scale(1.1) !important;
+        transform: scale(1.15) !important;
+        filter: brightness(1.05) contrast(1.1) !important;
     }
 
     /* محتوى الكارت */
     .lawyer-card-content-mobile {
-        padding: 20px !important;
+        padding: 24px !important;
         flex: 1 !important;
         display: flex !important;
         flex-direction: column !important;
         text-align: right !important;
         direction: rtl !important;
+        position: relative !important;
+        z-index: 1 !important;
+        background: #fff !important;
+        transition: background 0.3s ease !important;
+    }
+
+    .lawyer-card-mobile:hover .lawyer-card-content-mobile {
+        background: linear-gradient(to bottom, #fff 0%, rgba(255, 255, 255, 0.98) 100%) !important;
     }
 
     /* اسم المحامي */
     .lawyer-card-name-mobile {
-        margin: 0 0 15px 0 !important;
+        margin: 0 0 18px 0 !important;
         text-align: right !important;
         direction: rtl !important;
+        padding-bottom: 15px !important;
+        border-bottom: 2px solid rgba(107, 93, 71, 0.1) !important;
     }
 
     .lawyer-card-name-mobile a {
-        font-size: 20px !important;
-        font-weight: 600 !important;
-        color: #333 !important;
+        font-size: 22px !important;
+        font-weight: 700 !important;
+        color: #2c3e50 !important;
         text-decoration: none !important;
-        transition: color 0.3s ease !important;
+        transition: all 0.3s ease !important;
         text-align: right !important;
         direction: rtl !important;
+        line-height: 1.4 !important;
+        display: block !important;
     }
 
     .lawyer-card-name-mobile a:hover {
         color: var(--colorPrimary) !important;
+        transform: translateX(-3px) !important;
     }
 
     /* معلومات المحامي */
     .lawyer-card-meta-mobile {
-        margin-bottom: 15px !important;
+        margin-bottom: 18px !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 10px !important;
+        gap: 0 !important;
     }
 
     /* كل عنصر معلومات */
@@ -11986,36 +13090,55 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: space-between !important;
         text-align: right !important;
         direction: rtl !important;
-        gap: 10px !important;
-        margin-bottom: 8px !important;
+        gap: 12px !important;
+        margin-bottom: 10px !important;
+        padding: 8px 0 !important;
+        border-bottom: 1px solid rgba(0,0,0,0.05) !important;
     }
 
-    /* النص على اليمين */
-    .lawyer-meta-text-mobile {
-        order: 1 !important;
-        flex: 1 !important;
-        font-size: 14px !important;
-        color: #666 !important;
-        text-align: right !important;
-        direction: rtl !important;
-        line-height: 1.5 !important;
+    .lawyer-meta-item-mobile:last-child {
+        border-bottom: none !important;
     }
 
-    /* الأيقونة على اليمين */
+    /* الأيقونة على اليمين دائماً */
     .lawyer-meta-icon-mobile {
-        order: 2 !important;
+        order: 1 !important;
         flex-shrink: 0 !important;
-        font-size: 16px !important;
+        font-size: 18px !important;
         color: var(--colorPrimary) !important;
-        width: 20px !important;
-        min-width: 20px !important;
+        width: 24px !important;
+        min-width: 24px !important;
+        height: 24px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(107, 93, 71, 0.1) !important;
+        border-radius: 6px !important;
         text-align: center !important;
-        display: inline-block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .lawyer-meta-item-mobile:hover .lawyer-meta-icon-mobile {
+        background: var(--colorPrimary) !important;
+        color: #fff !important;
+        transform: scale(1.1) !important;
+    }
+
+    /* النص على اليسار */
+    .lawyer-meta-text-mobile {
+        order: 2 !important;
+        flex: 1 !important;
+        font-size: 14px !important;
+        color: #555 !important;
+        text-align: right !important;
+        direction: rtl !important;
+        line-height: 1.6 !important;
+        font-weight: 500 !important;
     }
 
     /* التقييم */
@@ -12023,36 +13146,42 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: flex-start !important;
-        margin-bottom: 15px !important;
+        justify-content: space-between !important;
+        margin-bottom: 18px !important;
+        padding: 12px !important;
+        background: rgba(107, 93, 71, 0.05) !important;
+        border-radius: 8px !important;
         text-align: right !important;
         direction: rtl !important;
-        gap: 10px !important;
+        gap: 12px !important;
+    }
+
+    .lawyer-rating-stars-mobile {
+        order: 1 !important;
+        flex-shrink: 0 !important;
+        text-align: right !important;
+        direction: rtl !important;
     }
 
     .lawyer-rating-text-mobile {
-        order: 1 !important;
+        order: 2 !important;
         flex: 1 !important;
-        font-size: 14px !important;
-        color: #666 !important;
+        font-size: 15px !important;
+        color: #555 !important;
         text-align: right !important;
         direction: rtl !important;
+        font-weight: 500 !important;
     }
 
     .lawyer-rating-text-mobile strong {
         color: #333 !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        font-size: 16px !important;
     }
 
     .lawyer-rating-text-mobile.no-rating {
         color: #999 !important;
-    }
-
-    .lawyer-rating-stars-mobile {
-        order: 2 !important;
-        flex-shrink: 0 !important;
-        text-align: right !important;
-        direction: rtl !important;
+        font-weight: 400 !important;
     }
 
     /* زر عرض الملف الشخصي */
@@ -12061,54 +13190,108 @@
         flex-direction: row !important;
         align-items: center !important;
         justify-content: space-between !important;
-        padding: 12px 20px !important;
-        background: var(--colorPrimary) !important;
+        padding: 14px 22px !important;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
         color: #fff !important;
         text-decoration: none !important;
-        border-radius: 8px !important;
+        border-radius: 10px !important;
         transition: all 0.3s ease !important;
         text-align: right !important;
         direction: rtl !important;
-        gap: 10px !important;
+        gap: 12px !important;
         margin-top: auto !important;
+        box-shadow: 0 2px 8px rgba(107, 93, 71, 0.2) !important;
+        position: relative !important;
+        overflow: hidden !important;
     }
 
     .lawyer-card-button-mobile:hover {
-        background: var(--colorSecondary) !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        background: linear-gradient(135deg, var(--colorSecondary) 0%, var(--colorPrimary) 100%) !important;
+        transform: translateY(-3px) scale(1.05) !important;
+        box-shadow: 0 8px 25px rgba(107, 93, 71, 0.4),
+                    0 4px 15px rgba(212, 165, 116, 0.3) !important;
+    }
+
+    /* تأثير Shine على الزر */
+    .lawyer-card-button-mobile::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+        border-radius: 10px;
+    }
+
+    .lawyer-card-button-mobile:hover::before {
+        left: 100%;
+    }
+
+    .lawyer-button-icon-mobile {
+        order: 1 !important;
+        flex-shrink: 0 !important;
+        font-size: 18px !important;
+        color: #fff !important;
+        transition: transform 0.3s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 24px !important;
+        height: 24px !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border-radius: 50% !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    .lawyer-card-button-mobile:hover .lawyer-button-icon-mobile {
+        transform: translateX(-5px) scale(1.1) !important;
     }
 
     .lawyer-button-text-mobile {
-        order: 1 !important;
+        order: 2 !important;
         flex: 1 !important;
-        font-size: 15px !important;
+        font-size: 16px !important;
         font-weight: 600 !important;
         color: #fff !important;
         text-align: right !important;
         direction: rtl !important;
-    }
-
-    .lawyer-button-icon-mobile {
-        order: 2 !important;
-        flex-shrink: 0 !important;
-        font-size: 16px !important;
-        color: #fff !important;
+        letter-spacing: 0.3px !important;
+        position: relative !important;
+        z-index: 2 !important;
     }
 
     /* Responsive للموبايل */
     @media (max-width: 768px) {
         .lawyer-card-mobile,
         .aman-lawyer-card-mobile-rtl {
-            margin-bottom: 20px !important;
+            margin-bottom: 25px !important;
+            border-radius: 14px !important;
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            visibility: visible !important;
+            display: flex !important;
         }
 
         .lawyer-card-content-mobile {
-            padding: 15px !important;
+            padding: 18px !important;
+        }
+
+        .lawyer-card-name-mobile {
+            margin-bottom: 15px !important;
+            padding-bottom: 12px !important;
         }
 
         .lawyer-card-name-mobile a {
-            font-size: 18px !important;
+            font-size: 19px !important;
+        }
+
+        .lawyer-meta-item-mobile {
+            gap: 10px !important;
+            margin-bottom: 8px !important;
+            padding: 6px 0 !important;
         }
 
         .lawyer-meta-text-mobile {
@@ -12116,16 +13299,71 @@
         }
 
         .lawyer-meta-icon-mobile {
+            font-size: 16px !important;
+            width: 22px !important;
+            min-width: 22px !important;
+            height: 22px !important;
+        }
+
+        .lawyer-card-rating-mobile {
+            padding: 10px !important;
+            margin-bottom: 15px !important;
+        }
+
+        .lawyer-rating-text-mobile {
             font-size: 14px !important;
-            width: 18px !important;
+        }
+
+        .lawyer-rating-text-mobile strong {
+            font-size: 15px !important;
         }
 
         .lawyer-card-button-mobile {
-            padding: 10px 15px !important;
+            padding: 12px 18px !important;
         }
 
         .lawyer-button-text-mobile {
-            font-size: 14px !important;
+            font-size: 15px !important;
+        }
+
+        .lawyer-button-icon-mobile {
+            font-size: 16px !important;
+            width: 22px !important;
+            height: 22px !important;
+        }
+    }
+    
+    /* Responsive للموبايل الصغير */
+    @media (max-width: 480px) {
+        .lawyer-card-mobile,
+        .aman-lawyer-card-mobile-rtl {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
+            visibility: visible !important;
+            display: flex !important;
+        }
+        
+        .lawyer-swiper-wrapper {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-wrapper {
+            display: flex !important;
+            visibility: visible !important;
+        }
+        
+        .lawyer-swiper-modern .swiper-slide {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
     }
 
@@ -12266,28 +13504,918 @@
     }
 
     /* ===================================================================
-       HOME BUTTON - حذف margin من أسفل قسم home-button ser-btn
+       ENHANCED HOW IT WORKS - تصميم محسّن لقسم كيف يعمل
+       =================================================================== */
+    
+    .enhanced-how-works-card {
+        position: relative;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        height: 100%;
+        border: 2px solid transparent;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .enhanced-how-works-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        border-color: var(--colorPrimary);
+    }
+    
+    .enhanced-how-works-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    /* Step Number */
+    .enhanced-step-number {
+        position: absolute;
+        top: -20px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+        color: #ffffff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 800;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+        border: 4px solid #ffffff;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-number {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Icon Wrapper */
+    .enhanced-step-icon-wrapper {
+        width: 100px;
+        height: 100px;
+        margin: 20px auto 30px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+    }
+    
+    .enhanced-icon-1 {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4) !important;
+    }
+    
+    .enhanced-icon-2 {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+        box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4) !important;
+    }
+    
+    .enhanced-icon-3 {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+        box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4) !important;
+    }
+    
+    /* تعزيز الألوان على اللابتوب */
+    @media (min-width: 769px) {
+        .enhanced-icon-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5) !important;
+        }
+        
+        .enhanced-icon-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+            box-shadow: 0 12px 35px rgba(245, 87, 108, 0.5) !important;
+        }
+        
+        .enhanced-icon-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+            box-shadow: 0 12px 35px rgba(79, 172, 254, 0.5) !important;
+        }
+        
+        .enhanced-icon-1:hover {
+            box-shadow: 0 18px 45px rgba(102, 126, 234, 0.6) !important;
+        }
+        
+        .enhanced-icon-2:hover {
+            box-shadow: 0 18px 45px rgba(245, 87, 108, 0.6) !important;
+        }
+        
+        .enhanced-icon-3:hover {
+            box-shadow: 0 18px 45px rgba(79, 172, 254, 0.6) !important;
+        }
+    }
+    
+    .enhanced-step-icon-wrapper::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-icon-wrapper {
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-icon-wrapper::before {
+        opacity: 1;
+    }
+    
+    .enhanced-icon-1:hover {
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+    }
+    
+    .enhanced-icon-2:hover {
+        box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+    }
+    
+    .enhanced-icon-3:hover {
+        box-shadow: 0 15px 40px rgba(79, 172, 254, 0.5);
+    }
+    
+    /* Icon */
+    .enhanced-step-icon {
+        font-size: 42px;
+        color: #ffffff;
+        position: relative;
+        z-index: 1;
+        transition: all 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-icon {
+        transform: scale(1.15);
+    }
+    
+    /* Content */
+    .enhanced-step-content {
+        text-align: center;
+        padding-top: 10px;
+        width: 100%;
+    }
+    
+    .enhanced-step-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 0 0 15px 0;
+        line-height: 1.4;
+        transition: color 0.3s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-title {
+        color: var(--colorPrimary);
+    }
+    
+    .enhanced-step-description {
+        font-size: 15px;
+        color: #6c757d;
+        line-height: 1.8;
+        margin: 0;
+    }
+    
+    /* Decoration */
+    .enhanced-step-decoration {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent 0%, var(--colorPrimary) 50%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    
+    .enhanced-how-works-card:hover .enhanced-step-decoration {
+        opacity: 1;
+    }
+    
+    /* RTL Support */
+    [dir="rtl"] .enhanced-step-number {
+        right: auto;
+        left: 30px;
+    }
+    
+    [dir="rtl"] .enhanced-step-content {
+        text-align: right;
+    }
+    
+    [dir="ltr"] .enhanced-step-content {
+        text-align: center;
+    }
+    
+    /* Desktop/Laptop Optimizations - تحسينات سطح المكتب */
+    @media (min-width: 992px) {
+        .how-it-works-area .container {
+            max-width: 1200px;
+        }
+        
+        .how-it-works-area .row:last-child {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: stretch;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+        
+        .how-it-works-area .row:last-child .col-lg-3 {
+            display: flex;
+            flex-direction: column;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-bottom: 0;
+        }
+        
+        .enhanced-how-works-card {
+            display: flex;
+            flex-direction: column;
+            padding: 45px 35px;
+            min-height: 420px;
+            justify-content: flex-start;
+            width: 100%;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 110px;
+            height: 110px;
+            margin: 25px auto 30px;
+            flex-shrink: 0;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 48px;
+        }
+        
+        .enhanced-step-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .enhanced-step-title {
+            font-size: 23px;
+            margin-bottom: 18px;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .enhanced-step-description {
+            font-size: 16px;
+            line-height: 1.9;
+            flex: 1;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .enhanced-step-number {
+            width: 70px;
+            height: 70px;
+            font-size: 32px;
+            top: -25px;
+        }
+        
+        [dir="rtl"] .enhanced-step-number {
+            left: 35px;
+            right: auto;
+        }
+        
+        [dir="rtl"] .enhanced-step-content {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .enhanced-step-title {
+            text-align: right;
+            justify-content: flex-end;
+        }
+        
+        [dir="rtl"] .enhanced-step-description {
+            text-align: right;
+        }
+        
+        /* Ensure equal card heights */
+        .how-it-works-area .row:last-child .col-lg-3 {
+            height: 100%;
+        }
+    }
+    
+    /* Large Desktop Optimizations */
+    @media (min-width: 1200px) {
+        .how-it-works-area .container {
+            max-width: 1320px;
+        }
+        
+        .enhanced-how-works-card {
+            padding: 50px 40px;
+            min-height: 450px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 30px auto 35px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 52px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 24px;
+            min-height: 75px;
+        }
+        
+        .enhanced-step-description {
+            font-size: 17px;
+        }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+        .enhanced-how-works-card {
+            padding: 35px 25px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 90px;
+            height: 90px;
+            margin: 15px auto 25px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 38px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 20px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .enhanced-how-works-card {
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .enhanced-step-number {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            top: -15px;
+            right: 20px;
+            border-width: 3px;
+        }
+        
+        [dir="rtl"] .enhanced-step-number {
+            right: auto;
+            left: 20px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 10px auto 20px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 32px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .enhanced-step-description {
+            font-size: 14px;
+            line-height: 1.7;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .enhanced-how-works-card {
+            padding: 25px 18px;
+        }
+        
+        .enhanced-step-number {
+            width: 45px;
+            height: 45px;
+            font-size: 22px;
+            top: -12px;
+            right: 15px;
+        }
+        
+        [dir="rtl"] .enhanced-step-number {
+            right: auto;
+            left: 15px;
+        }
+        
+        .enhanced-step-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            margin: 8px auto 18px;
+        }
+        
+        .enhanced-step-icon {
+            font-size: 28px;
+        }
+        
+        .enhanced-step-title {
+            font-size: 17px;
+        }
+        
+        .enhanced-step-description {
+            font-size: 13px;
+        }
+    }
+
+    /* ===================================================================
+       CONTACT US SECTION - تحسينات قسم تواصل معنا
+       =================================================================== */
+    
+    .contact-us-section {
+        position: relative;
+    }
+    
+    .contact-us-content {
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .contact-us-content:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12) !important;
+    }
+    
+    /* Desktop/Laptop Optimizations - تحسينات سطح المكتب */
+    @media (min-width: 992px) {
+        .contact-us-section .container {
+            max-width: 1200px;
+        }
+        
+        .contact-us-section .row:last-child {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .contact-us-section .col-lg-8 {
+            max-width: 900px;
+        }
+        
+        .contact-us-content {
+            padding: 60px 50px !important;
+            border-radius: 25px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 20px !important;
+            line-height: 2 !important;
+            margin-bottom: 25px !important;
+            color: #2c3e50 !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 17px !important;
+            line-height: 1.9 !important;
+            margin-bottom: 40px !important;
+            color: #555 !important;
+        }
+        
+        .contact-us-content .mt_40,
+        .contact-us-content .contact-buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-us-content .btn {
+            padding: 16px 40px !important;
+            font-size: 19px !important;
+            font-weight: 600 !important;
+            border-radius: 50px !important;
+            transition: all 0.3s ease;
+            min-width: 220px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-us-content .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-us-content .btn-success {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%) !important;
+            border: none !important;
+        }
+        
+        .contact-us-content .btn-success:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #25D366 100%) !important;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+        
+        .contact-us-content .btn-primary {
+            background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%) !important;
+            border: none !important;
+        }
+        
+        .contact-us-content .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
+        }
+        
+        [dir="rtl"] .contact-us-content {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .contact-us-content p {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .contact-us-content .mt_40 {
+            flex-direction: row-reverse;
+        }
+    }
+    
+    /* Large Desktop Optimizations */
+    @media (min-width: 1200px) {
+        .contact-us-section .container {
+            max-width: 1320px;
+        }
+        
+        .contact-us-section .col-lg-8 {
+            max-width: 1000px;
+        }
+        
+        .contact-us-content {
+            padding: 70px 60px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 22px !important;
+            margin-bottom: 30px !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 18px !important;
+            margin-bottom: 45px !important;
+        }
+        
+        .contact-us-content .btn {
+            padding: 18px 45px !important;
+            font-size: 20px !important;
+            min-width: 240px;
+        }
+    }
+    
+    /* Tablet Responsive */
+    @media (max-width: 991px) {
+        .contact-us-content {
+            padding: 45px 35px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 17px !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 15px !important;
+        }
+        
+        .contact-us-content .btn {
+            padding: 13px 30px !important;
+            font-size: 17px !important;
+        }
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .contact-us-content {
+            padding: 35px 25px !important;
+            border-radius: 15px !important;
+        }
+        
+        .contact-us-content p:first-of-type {
+            font-size: 16px !important;
+            line-height: 1.8 !important;
+            margin-bottom: 20px !important;
+        }
+        
+        .contact-us-content p:last-of-type {
+            font-size: 14px !important;
+            line-height: 1.7 !important;
+            margin-bottom: 30px !important;
+        }
+        
+        .contact-us-content .mt_40,
+        .contact-us-content .contact-buttons-wrapper {
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .contact-us-content .btn {
+            padding: 12px 25px !important;
+            font-size: 16px !important;
+            width: 100%;
+            max-width: 280px;
+            min-width: auto;
+        }
+    }
+
+    /* ===================================================================
+       HOME BUTTON - تحسين تصميم زر جميع الخدمات
        =================================================================== */
 
     .home-button.ser-btn {
+        margin-top: 30px !important;
         margin-bottom: 0 !important;
-        margin-top: 0 !important;
         padding-bottom: 0 !important;
+    }
+
+    .home-button.ser-btn a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        background: var(--colorPrimary);
+        color: var(--colorWhite);
+        border: 2px solid var(--colorPrimary);
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-button.ser-btn a:hover {
+        background: var(--colorSecondary) !important;
+        border-color: var(--colorSecondary) !important;
+        color: var(--colorWhite) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     /* حذف margin من row الذي يحتوي على home-button ser-btn */
     .service-area .row:last-of-type {
         margin-bottom: 0 !important;
+        margin-top: 20px !important;
     }
 
     /* حذف margin من service-area بعد home-button */
     .service-area {
         margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
+        padding-bottom: 40px !important;
     }
 
     .service-area + section {
         margin-top: 0 !important;
         padding-top: 0 !important;
+    }
+
+    /* تحسين التصميم على الشاشات الصغيرة */
+    @media (max-width: 768px) {
+        .home-button.ser-btn {
+            margin-top: 25px !important;
+        }
+        
+        .home-button.ser-btn a {
+            padding: 12px 30px;
+            font-size: 16px;
+        }
+        
+        .service-area {
+            padding-bottom: 30px !important;
+        }
+    }
+
+    /* ===================================================================
+       RTL DEFAULT - جعل الموقع عربي افتراضياً دائماً
+       =================================================================== */
+    
+    /* إجبار RTL على body و html */
+    body,
+    html {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الحاويات */
+    .container,
+    .container-fluid,
+    .row {
+        direction: rtl !important;
+    }
+
+    /* جميع العناوين */
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6,
+    .title, .main-headline, .headline {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النصوص */
+    p, span, div, a, li, td, th {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع القوائم */
+    ul, ol, li {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع النماذج */
+    input, textarea, select, .form-control, .form-select {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأزرار */
+    button, .btn, a.btn {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الأقسام */
+    section, .section, [class*="section"],
+    .service-area, .about-area, .blog-area,
+    .testimonial-area, .team-area, .how-it-works-area,
+    .mobile-app-area, .fixed-price-area {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* جميع الكروت */
+    .card, [class*="card"], [class*="item"],
+    .service-item, .choose-item, .blog-card,
+    .testimonial-item, .team-item {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Flexbox - محاذاة افتراضية لليمين */
+    [class*="flex"], 
+    .d-flex,
+    .flex {
+        direction: rtl !important;
+    }
+
+    /* إصلاح justify-content */
+    [class*="justify-content-start"] {
+        justify-content: flex-end !important;
+    }
+
+    /* إصلاح text-align */
+    [class*="text-left"],
+    .text-left {
+        text-align: right !important;
+    }
+
+    /* Bootstrap utilities - RTL */
+    .ms-auto {
+        margin-right: auto !important;
+        margin-left: 0 !important;
+    }
+
+    .me-auto {
+        margin-left: auto !important;
+        margin-right: 0 !important;
+    }
+
+    .float-left {
+        float: right !important;
+    }
+
+    .float-right {
+        float: left !important;
+    }
+
+    /* ============================================
+       FORCE ALL ELEMENTS TO RIGHT ALIGNMENT IN ALL LANGUAGES
+       إجبار جميع العناصر على المحاذاة اليمين في جميع اللغات
+       ============================================ */
+
+    /* Force all elements with icons to align right */
+    [class*="property-"],
+    [class*="meta-"],
+    [class*="detail-"],
+    [class*="info-"],
+    [class*="location"],
+    [class*="type"],
+    [class*="item"] {
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Force all elements with icons to have icons on right */
+    [class*="property-"] i,
+    [class*="meta-"] i,
+    [class*="detail-"] i,
+    [class*="info-"] i,
+    [class*="location"] i,
+    [class*="type"] i,
+    [class*="item"] i {
+        order: 1 !important;
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+    }
+
+    [dir="ltr"] [class*="property-"] i,
+    [dir="ltr"] [class*="meta-"] i,
+    [dir="ltr"] [class*="detail-"] i,
+    [dir="ltr"] [class*="info-"] i,
+    [dir="ltr"] [class*="location"] i,
+    [dir="ltr"] [class*="type"] i,
+    [dir="ltr"] [class*="item"] i {
+        order: 1 !important;
+        margin-left: 0.5rem !important;
+        margin-right: 0 !important;
+    }
+
+    /* Force all text after icons to align right */
+    [class*="property-"] span,
+    [class*="meta-"] span,
+    [class*="detail-"] span,
+    [class*="info-"] span,
+    [class*="location"] span,
+    [class*="type"] span,
+    [class*="item"] span {
+        order: 2 !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    [dir="ltr"] [class*="property-"] span,
+    [dir="ltr"] [class*="meta-"] span,
+    [dir="ltr"] [class*="detail-"] span,
+    [dir="ltr"] [class*="info-"] span,
+    [dir="ltr"] [class*="location"] span,
+    [dir="ltr"] [class*="type"] span,
+    [dir="ltr"] [class*="item"] span {
+        order: 2 !important;
+        direction: rtl !important;
+        text-align: right !important;
+    }
+
+    /* Force all flex containers to align right */
+    [class*="property-"],
+    [class*="meta-"],
+    [class*="detail-"],
+    [class*="info-"] {
+        justify-content: flex-end !important;
+    }
+
+    [dir="ltr"] [class*="property-"],
+    [dir="ltr"] [class*="meta-"],
+    [dir="ltr"] [class*="detail-"],
+    [dir="ltr"] [class*="info-"] {
+        justify-content: flex-end !important;
     }
 </style>

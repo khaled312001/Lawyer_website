@@ -64,11 +64,6 @@ class SectionControlController extends Controller {
             $this->validate($request, $rules, $messages);
             $this->sectionUpdatingService->updateSection(request: $request, section_control: $section_control);
         }
-        if ($request->tab == 'department_section') {
-            [$rules, $messages] = $this->sectionValidatingService->validateSection($request, 'department_how_many', 'department_status', 'department_first_heading', 'department_second_heading','department_description');
-            $this->validate($request, $rules, $messages);
-            $this->sectionUpdatingService->updateSection(request: $request, section_control: $section_control);
-        }
         if ($request->tab == 'client_section') {
             [$rules, $messages] = $this->sectionValidatingService->validateSection($request, 'client_how_many', 'client_status', 'client_first_heading', 'client_second_heading','client_description');
             $this->validate($request, $rules, $messages);

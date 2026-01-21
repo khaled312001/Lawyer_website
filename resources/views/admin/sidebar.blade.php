@@ -1,5 +1,8 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
+        <button class="sidebar-close-btn d-lg-none" onclick="document.body.classList.remove('sidebar-show'); document.body.classList.add('sidebar-gone'); document.body.style.overflow = 'auto';" aria-label="Close Sidebar" title="{{ __('Close Menu') }}">
+            <i class="fas fa-times"></i>
+        </button>
         <div class="sidebar-brand">
             <a href="{{ route('admin.dashboard') }}"><img class="w-75" src="{{ asset($setting->logo) ?? '' }}"
                     alt="{{ $setting->app_name ?? '' }}"></a>
@@ -92,7 +95,41 @@
                     checkAdminHasPermission('testimonial.view'))
                 <li class="menu-header">{{ __('Manage Contents') }}</li>
 
-                @if (Module::isEnabled('Lawyer') && (checkAdminHasPermission('lawyer.view') || checkAdminHasPermission('leave.management') || checkAdminHasPermission('location.view') || checkAdminHasPermission('department.view')))
+                {{-- إدارة الأقسام --}}
+                @if (checkAdminHasPermission('department.view'))
+                    <li class="nav-item dropdown {{ isRoute(['admin.department.*', 'admin.department.gallery', 'admin.department.videos', 'admin.faq.by.department'], 'active') }}">
+                        <a href="javascript:void()" class="nav-link has-dropdown">
+                            <i class="fas fa-building"></i>
+                            <span>{{ __('Department') }}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="{{ isRoute(['admin.department.*', 'admin.department.gallery', 'admin.department.videos', 'admin.faq.by.department'], 'active') }}">
+                                <a class="nav-link" href="{{ route('admin.department.index') }}">
+                                    <i class="fas fa-building"></i>
+                                    <span>{{ __('Department') }}</span>
+                                </a>
+                            </li>
+                            <li class="{{ isRoute('admin.department.homepage-management', 'active') }}">
+                                <a class="nav-link" href="{{ route('admin.department.homepage-management') }}">
+                                    <i class="fas fa-home"></i>
+                                    <span>{{ __('Homepage Departments') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{-- إدارة المواقع --}}
+                @if (checkAdminHasPermission('location.view'))
+                    <li class="{{ isRoute('admin.location.index', 'active') }}">
+                        <a class="nav-link" href="{{ route('admin.location.index', ['code' => getSessionLanguage()]) }}">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ __('Location') }}</span>
+                        </a>
+                    </li>
+                @endif
+
+                @if (Module::isEnabled('Lawyer') && (checkAdminHasPermission('lawyer.view') || checkAdminHasPermission('leave.management')))
                     @include('lawyer::sidebar')
                 @endif
 
@@ -121,9 +158,10 @@
                     @include('paymentwithdraw::admin.sidebar')
                 @endif
 
-                @if (Module::isEnabled('NewsLetter') && (checkAdminHasPermission('newsletter.view') || checkAdminHasPermission('newsletter.mail') || checkAdminHasPermission('newsletter.content.view')))
+                {{-- النشرة الإخبارية مخفية --}}
+                {{-- @if (Module::isEnabled('NewsLetter') && (checkAdminHasPermission('newsletter.view') || checkAdminHasPermission('newsletter.mail') || checkAdminHasPermission('newsletter.content.view')))
                     @include('newsletter::sidebar')
-                @endif
+                @endif --}}
             @endif
 
             {{-- إدارة الموقع --}}

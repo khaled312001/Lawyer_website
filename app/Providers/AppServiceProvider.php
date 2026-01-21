@@ -45,19 +45,23 @@ class AppServiceProvider extends ServiceProvider {
             });
 
             // Setup mail configuration
-            $mailConfig = [
-                'transport'  => 'smtp',
-                'host'       => $setting?->mail_host,
-                'port'       => $setting?->mail_port,
-                'encryption' => $setting?->mail_encryption,
-                'username'   => $setting?->mail_username,
-                'password'   => $setting?->mail_password,
-                'timeout'    => null,
-            ];
+            if (!empty($setting?->mail_host) && !empty($setting?->mail_port)) {
+                $mailConfig = [
+                    'transport'  => 'smtp',
+                    'host'       => $setting->mail_host,
+                    'port'       => (int) $setting->mail_port,
+                    'encryption' => strtolower($setting->mail_encryption ?? 'ssl'),
+                    'username'   => $setting->mail_username,
+                    'password'   => $setting->mail_password,
+                    'timeout'    => 60,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ];
 
-            config(['mail.mailers.smtp' => $mailConfig]);
-            config(['mail.from.address' => $setting?->mail_sender_email]);
-            config(['mail.from.name' => $setting?->mail_sender_name]);
+                config(['mail.mailers.smtp' => $mailConfig]);
+                config(['mail.from.address' => $setting->mail_sender_email ?? 'info@amanlaw.ch']);
+                config(['mail.from.name' => $setting->mail_sender_name ?? 'Aman Law']);
+            }
 
             // setup timezone globally
             config(['app.timezone' => $setting?->timezone]);

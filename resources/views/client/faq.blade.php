@@ -1,11 +1,71 @@
 @extends('layouts.client.layout')
+@php
+    $seoData = seoSetting()->where('page_name', 'FaQ')->first();
+    $seoTitle = $seoData?->seo_title ?? __('FAQ') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = $seoData?->seo_description ?? __('Frequently asked questions about our legal services');
+    $seoImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+    $currentUrl = url()->current();
+@endphp
+
 @section('title')
-    <title>{{ seoSetting()->where('page_name', 'FaQ')->first()?->seo_title ?? 'FaQ | LawMent' }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
+
 @section('meta')
-    <meta name="description"
-        content="{{ seoSetting()->where('page_name', 'FaQ')->first()?->seo_description ?? 'FaQ | LawMent' }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ __('FAQ, frequently asked questions, legal questions, أسئلة شائعة, استفسارات قانونية') }}">
+    <meta name="robots" content="index, follow">
 @endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            @if($faqCategories && $faqCategories->count() > 0)
+                @foreach($faqCategories as $category)
+                    @if($category->faq_list && $category->faq_list->count() > 0)
+                        @foreach($category->faq_list as $faq)
+                        {
+                            "@type": "Question",
+                            "name": "{{ $faq->question }}",
+                            "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "{{ strip_tags($faq->answer) }}"
+                            }
+                        }@if(!($loop->parent->last && $loop->last)),@endif
+                        @endforeach
+                    @endif
+                @endforeach
+            @endif
+        ]
+    }
+    </script>
+@endsection
+
 @section('client-content')
     <!--Banner Start-->
     <div class="banner-area flex"

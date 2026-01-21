@@ -85,6 +85,22 @@ class Lawyer extends Authenticatable {
         return $this?->translation?->seo_description;
     }
 
+    /**
+     * Get the display department name (from departments relationship first, then fallback to department)
+     */
+    public function getDisplayDepartmentNameAttribute(): ?string {
+        // First try to get from many-to-many departments relationship
+        if ($this->departments && $this->departments->isNotEmpty()) {
+            $firstDept = $this->departments->first();
+            return $firstDept->name ?? null;
+        }
+        // Fallback to singular department relationship
+        if ($this->department) {
+            return $this->department->name ?? null;
+        }
+        return null;
+    }
+
     public function departments() {
         return $this->belongsToMany(Department::class, 'department_lawyer');
     }

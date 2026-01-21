@@ -23,6 +23,7 @@ use Modules\HomeSection\app\Models\SectionControl;
 use Modules\HomeSection\app\Models\WorkSectionFaq;
 use Modules\PageBuilder\app\Models\CustomizeablePage;
 use Modules\GlobalSetting\app\Models\CustomPagination;
+use Modules\RealEstate\app\Models\RealEstate as ModuleRealEstate;
 
 class HomeController extends Controller {
     public function index() {
@@ -78,50 +79,38 @@ class HomeController extends Controller {
                 $query->select('counter_id', 'title');
             },
         ])->active()->latest()->take(4)->get();
-        $departments = Department::select('id', 'slug', 'thumbnail_image')->with([
-            'translation' => function ($query) {
-                $query->select('department_id', 'name', 'description');
-            },
-            'images' => function ($query) {
-                $query->select('department_id');
-            },
-        ])->active()->latest()->homepage()
-        ->whereHas('translation', function ($query) {
-            $query->whereNotNull('description')
-                  ->where('description', '!=', '');
-        })
-        ->where(function ($query) {
-            $query->whereHas('images')
-                  ->orWhereHas('translation', function ($q) {
-                      $q->whereNotNull('description')
-                        ->where('description', '!=', '');
-                  });
-        })
-        ->where('slug', '!=', 'family-and-personal-status-law')
-        ->get();
         $testimonials = Testimonial::select('id', 'image')->with([
             'translation' => function ($query) {
                 $query->select('testimonial_id', 'name', 'designation', 'comment');
             },
         ])->homepage()->latest()->active()->get();
 
-        // Get only one lawyer per department (prefer highest rated)
-        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')
+        // Get current language code
+        $currentLang = getSessionLanguage();
+        
+        // Get unique lawyers (avoid duplicates by ID)
+        $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image', 'years_of_experience')
             ->with([
-                'translation'            => function ($query) {
-                    $query->select('lawyer_id', 'designations');
+                'translations'            => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('lawyer_id', 'designations');
+                },
+                'departments'             => function ($query) {
+                    $query->select('departments.id');
+                },
+                'departments.translations' => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('department_id', 'name');
                 },
                 'department'             => function ($query) {
                     $query->select('id');
                 },
-                'department.translation' => function ($query) {
-                    $query->select('department_id', 'name');
+                'department.translations' => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('department_id', 'name');
                 },
                 'location'               => function ($query) {
                     $query->select('id');
                 },
-                'location.translation'   => function ($query) {
-                    $query->select('location_id', 'name');
+                'location.translations'   => function ($query) use ($currentLang) {
+                    $query->where('lang_code', $currentLang)->select('location_id', 'name');
                 },
                 'socialMedia'            => function ($query) {
                     $query->select('lawyer_id', 'link', 'icon')->active();
@@ -133,15 +122,78 @@ class HomeController extends Controller {
             ->homepage()
             ->active()
             ->verify()
+            ->latest()
             ->get()
-            ->groupBy('department_id')
-            ->map(function ($departmentLawyers) {
-                // For each department, return the lawyer with highest rating, or first one
-                return $departmentLawyers->sortByDesc(function ($lawyer) {
-                    return $lawyer->ratings->avg('rating') ?? 0;
-                })->first();
-            })
-            ->values();
+            ->unique('id') // Remove duplicates by ID
+            ->values() // Re-index array
+            ->map(function ($lawyer) use ($currentLang) {
+                // Get translation for current language
+                if ($lawyer->translations && $lawyer->translations->isNotEmpty()) {
+                    $translation = $lawyer->translations->firstWhere('lang_code', $currentLang);
+                    if ($translation) {
+                        $lawyer->designations = $translation->designations;
+                    } else {
+                        // Fallback to first available translation
+                        $fallbackTranslation = $lawyer->translations->first();
+                        $lawyer->designations = $fallbackTranslation ? $fallbackTranslation->designations : null;
+                    }
+                } else {
+                    $lawyer->designations = null;
+                }
+                
+                // Get department name - prefer departments (many-to-many) over department (singular)
+                $displayDepartment = null;
+                if ($lawyer->departments && $lawyer->departments->isNotEmpty()) {
+                    // Use first department from many-to-many relationship
+                    $displayDepartment = $lawyer->departments->first();
+                } elseif ($lawyer->department) {
+                    // Fallback to singular department relationship
+                    $displayDepartment = $lawyer->department;
+                }
+                
+                if ($displayDepartment && $displayDepartment->translations && $displayDepartment->translations->isNotEmpty()) {
+                    $deptTranslation = $displayDepartment->translations->firstWhere('lang_code', $currentLang);
+                    if ($deptTranslation) {
+                        $lawyer->department_display_name = $deptTranslation->name;
+                    } else {
+                        $fallbackDeptTranslation = $displayDepartment->translations->first();
+                        $lawyer->department_display_name = $fallbackDeptTranslation ? $fallbackDeptTranslation->name : null;
+                    }
+                } else {
+                    $lawyer->department_display_name = null;
+                }
+                
+                // Keep backward compatibility
+                if ($lawyer->department && $lawyer->department->translations && $lawyer->department->translations->isNotEmpty()) {
+                    $deptTranslation = $lawyer->department->translations->firstWhere('lang_code', $currentLang);
+                    if ($deptTranslation) {
+                        $lawyer->department->name = $deptTranslation->name;
+                    } else {
+                        $fallbackDeptTranslation = $lawyer->department->translations->first();
+                        $lawyer->department->name = $fallbackDeptTranslation ? $fallbackDeptTranslation->name : null;
+                    }
+                } elseif ($lawyer->department) {
+                    $lawyer->department->name = null;
+                }
+                
+                // Get location name
+                if ($lawyer->location && $lawyer->location->translations && $lawyer->location->translations->isNotEmpty()) {
+                    $locTranslation = $lawyer->location->translations->firstWhere('lang_code', $currentLang);
+                    if ($locTranslation) {
+                        $lawyer->location->name = $locTranslation->name;
+                    } else {
+                        $fallbackLocTranslation = $lawyer->location->translations->first();
+                        $lawyer->location->name = $fallbackLocTranslation ? $fallbackLocTranslation->name : null;
+                    }
+                } elseif ($lawyer->location) {
+                    $lawyer->location->name = null;
+                }
+                
+                // Calculate ratings for each lawyer
+                $lawyer->average_rating = $lawyer->getAverageRatingAttribute();
+                $lawyer->total_ratings = $lawyer->getTotalRatingsAttribute();
+                return $lawyer;
+            });
 
         $feature_blog = Blog::select('id','admin_id', 'slug', 'image', 'created_at')->with([
             'admin' => function ($query) {
@@ -163,7 +215,7 @@ class HomeController extends Controller {
         ])->whereHas('category', function ($query) {
             $query->active();
         })->homepage()->active()->latest()->get();
-        return view('client.index', compact('locations', 'departmentsForSearch', 'lawyersForSearch', 'sliders', 'home_sections', 'features', 'work', 'workFaqs', 'services', 'overviews', 'departments', 'testimonials', 'lawyers', 'feature_blog', 'blogs'));
+        return view('client.index', compact('locations', 'departmentsForSearch', 'lawyersForSearch', 'sliders', 'home_sections', 'features', 'work', 'workFaqs', 'services', 'overviews', 'testimonials', 'lawyers', 'feature_blog', 'blogs'));
     }
     public function aboutUs(){
         $about=AboutUsPage::select('id', 'status','about_image','background_image','mission_image','mission_status','vision_image','vision_status')->with([
@@ -458,6 +510,12 @@ class HomeController extends Controller {
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations');
             },
+            'departments'             => function ($query) {
+                $query->select('departments.id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },
@@ -499,6 +557,12 @@ class HomeController extends Controller {
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations');
             },
+            'departments'             => function ($query) {
+                $query->select('departments.id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },
@@ -533,6 +597,12 @@ class HomeController extends Controller {
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')->with([
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations');
+            },
+            'departments'             => function ($query) {
+                $query->select('departments.id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
             },
             'department'             => function ($query) {
                 $query->select('id');
@@ -585,6 +655,12 @@ class HomeController extends Controller {
         $lawyer = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'fee','years_of_experience', 'image')->with([
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'seo_title', 'seo_description', 'designations', 'about', 'address', 'educations', 'experience', 'qualifications');
+            },
+            'departments'             => function ($query) {
+                $query->select('departments.id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
             },
             'department'             => function ($query) {
                 $query->select('id');
@@ -687,6 +763,12 @@ class HomeController extends Controller {
             'translation'            => function ($query) {
                 $query->select('lawyer_id', 'designations', 'about');
             },
+            'departments'             => function ($query) {
+                $query->select('departments.id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },
@@ -721,6 +803,12 @@ class HomeController extends Controller {
         ])->active()->get();
 
         $lawyers = Lawyer::select('id', 'department_id', 'name', 'image', 'slug')->with([
+            'departments'             => function ($query) {
+                $query->select('departments.id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
             'department'             => function ($query) {
                 $query->select('id');
             },
@@ -747,6 +835,271 @@ class HomeController extends Controller {
                 ->first();
         }
 
-        return view('client.book-consultation-appointment', compact('departments', 'lawyers', 'property'));
+        // Get all countries with phone codes
+        $countries = \Modules\Language\app\Enums\AllCountriesDetailsEnum::getAll()
+            ->map(function ($country) {
+                return (object) [
+                    'name' => $country->name,
+                    'name_ar' => $this->getCountryNameArabic($country->name, $country->code),
+                    'code' => $country->code,
+                    'phone' => $country->phone,
+                    'flag' => $this->countryCodeToEmoji($country->code),
+                ];
+            })
+            ->sortBy(function ($country) {
+                // Sort by Arabic name for Arabic locale, English name for other locales
+                $currentLang = app()->getLocale();
+                return $currentLang === 'ar' ? $country->name_ar : $country->name;
+            })
+            ->values();
+
+        return view('client.book-consultation-appointment', compact('departments', 'lawyers', 'property', 'countries'));
+    }
+
+    /**
+     * Convert a country code (ISO 3166-1 alpha-2) to its flag emoji.
+     *
+     * @param string $code Two-letter country code
+     * @return string Flag emoji
+     */
+    private function countryCodeToEmoji(string $code): string
+    {
+        $code = strtoupper($code);
+        
+        if (!preg_match('/^[A-Z]{2}$/', $code)) {
+            return '';
+        }
+
+        $offset = 0x1F1E6; // Unicode code point for regional indicator 'A'
+        $first = mb_ord($code[0], 'UTF-8') - ord('A') + $offset;
+        $second = mb_ord($code[1], 'UTF-8') - ord('A') + $offset;
+
+        return mb_chr($first, 'UTF-8') . mb_chr($second, 'UTF-8');
+    }
+
+    /**
+     * Get Arabic name for country
+     *
+     * @param string $englishName
+     * @param string $code
+     * @return string
+     */
+    private function getCountryNameArabic(string $englishName, string $code): string
+    {
+        $arabicNames = [
+            'AF' => 'أفغانستان', 'AX' => 'جزر أولاند', 'AL' => 'ألبانيا', 'DZ' => 'الجزائر',
+            'AS' => 'ساموا الأمريكية', 'AD' => 'أندورا', 'AO' => 'أنغولا', 'AI' => 'أنغويلا',
+            'AQ' => 'أنتاركتيكا', 'AG' => 'أنتيغوا وباربودا', 'AR' => 'الأرجنتين', 'AM' => 'أرمينيا',
+            'AW' => 'أروبا', 'AU' => 'أستراليا', 'AT' => 'النمسا', 'AZ' => 'أذربيجان',
+            'BS' => 'البهاما', 'BH' => 'البحرين', 'BD' => 'بنغلاديش', 'BB' => 'بربادوس',
+            'BY' => 'بيلاروس', 'BE' => 'بلجيكا', 'BZ' => 'بليز', 'BJ' => 'بنين',
+            'BM' => 'برمودا', 'BT' => 'بوتان', 'BO' => 'بوليفيا', 'BQ' => 'بونير',
+            'BA' => 'البوسنة والهرسك', 'BW' => 'بوتسوانا', 'BV' => 'جزيرة بوفيه', 'BR' => 'البرازيل',
+            'IO' => 'إقليم المحيط الهندي البريطاني', 'BN' => 'بروناي', 'BG' => 'بلغاريا', 'BF' => 'بوركينا فاسو',
+            'BI' => 'بوروندي', 'KH' => 'كمبوديا', 'CM' => 'الكاميرون', 'CA' => 'كندا',
+            'CV' => 'الرأس الأخضر', 'KY' => 'جزر كايمان', 'CF' => 'جمهورية أفريقيا الوسطى', 'TD' => 'تشاد',
+            'CL' => 'تشيلي', 'CN' => 'الصين', 'CX' => 'جزيرة الكريسماس', 'CC' => 'جزر كوكوس',
+            'CO' => 'كولومبيا', 'KM' => 'جزر القمر', 'CG' => 'الكونغو', 'CD' => 'جمهورية الكونغو الديمقراطية',
+            'CK' => 'جزر كوك', 'CR' => 'كوستاريكا', 'CI' => 'ساحل العاج', 'HR' => 'كرواتيا',
+            'CU' => 'كوبا', 'CW' => 'كوراساو', 'CY' => 'قبرص', 'CZ' => 'جمهورية التشيك',
+            'DK' => 'الدنمارك', 'DJ' => 'جيبوتي', 'DM' => 'دومينيكا', 'DO' => 'جمهورية الدومينيكان',
+            'EC' => 'الإكوادور', 'EG' => 'مصر', 'SV' => 'السلفادور', 'GQ' => 'غينيا الاستوائية',
+            'ER' => 'إريتريا', 'EE' => 'إستونيا', 'ET' => 'إثيوبيا', 'FK' => 'جزر فوكلاند',
+            'FO' => 'جزر فارو', 'FJ' => 'فيجي', 'FI' => 'فنلندا', 'FR' => 'فرنسا',
+            'GF' => 'غويانا الفرنسية', 'PF' => 'بولينيزيا الفرنسية', 'TF' => 'الأراضي الفرنسية الجنوبية', 'GA' => 'الغابون',
+            'GM' => 'غامبيا', 'GE' => 'جورجيا', 'DE' => 'ألمانيا', 'GH' => 'غانا',
+            'GI' => 'جبل طارق', 'GR' => 'اليونان', 'GL' => 'جرينلاند', 'GD' => 'غرينادا',
+            'GP' => 'غوادلوب', 'GU' => 'غوام', 'GT' => 'غواتيمالا', 'GG' => 'غيرنزي',
+            'GN' => 'غينيا', 'GW' => 'غينيا بيساو', 'GY' => 'غيانا', 'HT' => 'هايتي',
+            'HM' => 'جزيرة هيرد وجزر ماكدونالد', 'VA' => 'الفاتيكان', 'HN' => 'هندوراس', 'HK' => 'هونغ كونغ',
+            'HU' => 'المجر', 'IS' => 'آيسلندا', 'IN' => 'الهند', 'ID' => 'إندونيسيا',
+            'IR' => 'إيران', 'IQ' => 'العراق', 'IE' => 'أيرلندا', 'IM' => 'جزيرة مان',
+            'IL' => 'إسرائيل', 'IT' => 'إيطاليا', 'JM' => 'جامايكا', 'JP' => 'اليابان',
+            'JE' => 'جيرسي', 'JO' => 'الأردن', 'KZ' => 'كازاخستان', 'KE' => 'كينيا',
+            'KI' => 'كيريباتي', 'KP' => 'كوريا الشمالية', 'KR' => 'كوريا الجنوبية', 'XK' => 'كوسوفو',
+            'KW' => 'الكويت', 'KG' => 'قيرغيزستان', 'LA' => 'لاوس', 'LV' => 'لاتفيا',
+            'LB' => 'لبنان', 'LS' => 'ليسوتو', 'LR' => 'ليبيريا', 'LY' => 'ليبيا',
+            'LI' => 'ليختنشتاين', 'LT' => 'ليتوانيا', 'LU' => 'لوكسمبورغ', 'MO' => 'ماكاو',
+            'MK' => 'مقدونيا', 'MG' => 'مدغشقر', 'MW' => 'مالاوي', 'MY' => 'ماليزيا',
+            'MV' => 'جزر المالديف', 'ML' => 'مالي', 'MT' => 'مالطا', 'MH' => 'جزر مارشال',
+            'MQ' => 'مارتينيك', 'MR' => 'موريتانيا', 'MU' => 'موريشيوس', 'YT' => 'مايوت',
+            'MX' => 'المكسيك', 'FM' => 'ميكرونيزيا', 'MD' => 'مولدوفا', 'MC' => 'موناكو',
+            'MN' => 'منغوليا', 'ME' => 'الجبل الأسود', 'MS' => 'مونتسيرات', 'MA' => 'المغرب',
+            'MZ' => 'موزمبيق', 'MM' => 'ميانمار', 'NA' => 'ناميبيا', 'NR' => 'ناورو',
+            'NP' => 'نيبال', 'NL' => 'هولندا', 'NC' => 'كاليدونيا الجديدة', 'NZ' => 'نيوزيلندا',
+            'NI' => 'نيكاراغوا', 'NE' => 'النيجر', 'NG' => 'نيجيريا', 'NU' => 'نيوي',
+            'NF' => 'جزيرة نورفولك', 'MP' => 'جزر ماريانا الشمالية', 'NO' => 'النرويج', 'OM' => 'عُمان',
+            'PK' => 'باكستان', 'PW' => 'بالاو', 'PS' => 'فلسطين', 'PA' => 'بنما',
+            'PG' => 'بابوا غينيا الجديدة', 'PY' => 'باراغواي', 'PE' => 'بيرو', 'PH' => 'الفلبين',
+            'PN' => 'جزر بيتكيرن', 'PL' => 'بولندا', 'PT' => 'البرتغال', 'PR' => 'بورتوريكو',
+            'QA' => 'قطر', 'RE' => 'ريونيون', 'RO' => 'رومانيا', 'RU' => 'روسيا',
+            'RW' => 'رواندا', 'BL' => 'سانت بارتيليمي', 'SH' => 'سانت هيلينا', 'KN' => 'سانت كيتس ونيفيس',
+            'LC' => 'سانت لوسيا', 'MF' => 'سانت مارتن', 'PM' => 'سانت بيير وميكلون', 'VC' => 'سانت فنسنت والغرينادين',
+            'WS' => 'ساموا', 'SM' => 'سان مارينو', 'ST' => 'ساو تومي وبرينسيب', 'SA' => 'المملكة العربية السعودية',
+            'SN' => 'السنغال', 'RS' => 'صربيا', 'SC' => 'سيشل', 'SL' => 'سيراليون',
+            'SG' => 'سنغافورة', 'SX' => 'سينت مارتن', 'SK' => 'سلوفاكيا', 'SI' => 'سلوفينيا',
+            'SB' => 'جزر سليمان', 'SO' => 'الصومال', 'ZA' => 'جنوب أفريقيا', 'GS' => 'جورجيا الجنوبية',
+            'SS' => 'جنوب السودان', 'ES' => 'إسبانيا', 'LK' => 'سريلانكا', 'SD' => 'السودان',
+            'SR' => 'سورينام', 'SJ' => 'سفالبارد ويان ماين', 'SZ' => 'إسواتيني', 'SE' => 'السويد',
+            'CH' => 'سويسرا', 'SY' => 'سوريا', 'TW' => 'تايوان', 'TJ' => 'طاجيكستان',
+            'TZ' => 'تنزانيا', 'TH' => 'تايلاند', 'TL' => 'تيمور الشرقية', 'TG' => 'توغو',
+            'TK' => 'توكيلاو', 'TO' => 'تونغا', 'TT' => 'ترينيداد وتوباغو', 'TN' => 'تونس',
+            'TR' => 'تركيا', 'TM' => 'تركمانستان', 'TC' => 'جزر تركس وكايكوس', 'TV' => 'توفالو',
+            'UG' => 'أوغندا', 'UA' => 'أوكرانيا', 'AE' => 'الإمارات العربية المتحدة', 'GB' => 'المملكة المتحدة',
+            'US' => 'الولايات المتحدة', 'UM' => 'جزر الولايات المتحدة الصغيرة النائية', 'UY' => 'أوروغواي', 'UZ' => 'أوزبكستان',
+            'VU' => 'فانواتو', 'VE' => 'فنزويلا', 'VN' => 'فيتنام', 'VG' => 'جزر العذراء البريطانية',
+            'VI' => 'جزر العذراء الأمريكية', 'WF' => 'واليس وفوتونا', 'EH' => 'الصحراء الغربية', 'YE' => 'اليمن',
+            'ZM' => 'زامبيا', 'ZW' => 'زيمبابوي',
+        ];
+
+        return $arabicNames[$code] ?? $englishName;
+    }
+
+    public function sitemap() {
+        $baseUrl = url('/');
+        $languages = allLanguages()?->where('status', 1) ?? collect();
+        
+        // Static pages
+        $staticPages = [
+            ['url' => route('home'), 'priority' => '1.0', 'changefreq' => 'daily'],
+            ['url' => url('/about-us'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['url' => route('website.contact-us'), 'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['url' => route('website.services'), 'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['url' => route('website.departments'), 'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['url' => route('website.lawyers'), 'priority' => '0.9', 'changefreq' => 'weekly'],
+            ['url' => route('website.blogs'), 'priority' => '0.8', 'changefreq' => 'daily'],
+            ['url' => route('website.real-estate'), 'priority' => '0.8', 'changefreq' => 'daily'],
+            ['url' => route('website.testimonial'), 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['url' => route('website.faq'), 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['url' => route('website.privacy-policy'), 'priority' => '0.5', 'changefreq' => 'yearly'],
+            ['url' => route('website.termsCondition'), 'priority' => '0.5', 'changefreq' => 'yearly'],
+        ];
+
+        // Get all active services
+        $services = Service::select('slug', 'updated_at')
+            ->active()
+            ->get()
+            ->map(function ($service) {
+                return [
+                    'url' => route('website.service.details', $service->slug),
+                    'priority' => '0.7',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $service->updated_at?->toAtomString()
+                ];
+            });
+
+        // Get all active departments
+        $departments = Department::select('slug', 'updated_at')
+            ->active()
+            ->get()
+            ->map(function ($department) {
+                return [
+                    'url' => route('website.department.details', $department->slug),
+                    'priority' => '0.8',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $department->updated_at?->toAtomString()
+                ];
+            });
+
+        // Get all active lawyers
+        $lawyers = Lawyer::select('slug', 'updated_at')
+            ->active()
+            ->verify()
+            ->get()
+            ->map(function ($lawyer) {
+                return [
+                    'url' => route('website.lawyer.details', $lawyer->slug),
+                    'priority' => '0.8',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $lawyer->updated_at?->toAtomString()
+                ];
+            });
+
+        // Get all active blogs
+        $blogs = Blog::select('slug', 'updated_at', 'created_at')
+            ->active()
+            ->get()
+            ->map(function ($blog) {
+                return [
+                    'url' => route('website.blog.details', $blog->slug),
+                    'priority' => '0.7',
+                    'changefreq' => 'weekly',
+                    'lastmod' => $blog->updated_at?->toAtomString() ?? $blog->created_at?->toAtomString()
+                ];
+            });
+
+        // Get all active real estate properties
+        $realEstates = ModuleRealEstate::select('slug', 'updated_at', 'created_at')
+            ->active()
+            ->get()
+            ->map(function ($property) {
+                return [
+                    'url' => route('website.real-estate.show', $property->slug),
+                    'priority' => '0.7',
+                    'changefreq' => 'weekly',
+                    'lastmod' => $property->updated_at?->toAtomString() ?? $property->created_at?->toAtomString()
+                ];
+            });
+
+        // Get custom pages
+        $customPages = CustomizeablePage::select('slug', 'updated_at')
+            ->where('status', true)
+            ->get()
+            ->map(function ($page) {
+                return [
+                    'url' => route('website.page', $page->slug),
+                    'priority' => '0.6',
+                    'changefreq' => 'monthly',
+                    'lastmod' => $page->updated_at?->toAtomString()
+                ];
+            });
+
+        // Combine all URLs
+        $urls = collect($staticPages)
+            ->merge($services)
+            ->merge($departments)
+            ->merge($lawyers)
+            ->merge($blogs)
+            ->merge($realEstates)
+            ->merge($customPages);
+
+        // Generate XML
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"' . "\n";
+        $xml .= '        xmlns:xhtml="http://www.w3.org/1999/xhtml">' . "\n";
+
+        foreach ($urls as $urlData) {
+            $xml .= '  <url>' . "\n";
+            $xml .= '    <loc>' . htmlspecialchars($urlData['url']) . '</loc>' . "\n";
+            
+            if (isset($urlData['lastmod'])) {
+                $xml .= '    <lastmod>' . htmlspecialchars($urlData['lastmod']) . '</lastmod>' . "\n";
+            } else {
+                $xml .= '    <lastmod>' . now()->toAtomString() . '</lastmod>' . "\n";
+            }
+            
+            $xml .= '    <changefreq>' . htmlspecialchars($urlData['changefreq']) . '</changefreq>' . "\n";
+            $xml .= '    <priority>' . htmlspecialchars($urlData['priority']) . '</priority>' . "\n";
+            
+            // Add alternate language links if multiple languages exist
+            if ($languages->count() > 1) {
+                foreach ($languages as $lang) {
+                    $langUrl = $urlData['url'];
+                    // Add language prefix if needed (adjust based on your URL structure)
+                    if (strpos($langUrl, '/ar/') === false && strpos($langUrl, '/en/') === false) {
+                        // If your site uses language prefixes, uncomment and adjust:
+                        // $langUrl = rtrim($baseUrl, '/') . '/' . $lang->code . str_replace($baseUrl, '', $urlData['url']);
+                    }
+                    $xml .= '    <xhtml:link rel="alternate" hreflang="' . htmlspecialchars($lang->code) . '" href="' . htmlspecialchars($langUrl) . '" />' . "\n";
+                }
+            }
+            
+            $xml .= '  </url>' . "\n";
+        }
+
+        $xml .= '</urlset>';
+
+        return response($xml, 200)
+            ->header('Content-Type', 'application/xml; charset=utf-8');
     }
 }

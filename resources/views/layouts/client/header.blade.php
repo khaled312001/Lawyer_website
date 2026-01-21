@@ -1,17 +1,35 @@
+@php
+/**
+ * @var \Gloudemans\Shoppingcart\Facades\Cart $cart
+ */
+@endphp
 <!DOCTYPE html>
 @php
-    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'ltr');
+    $textDirection = session()->get('text_direction', function_exists('getTextDirection') ? getTextDirection() : 'rtl');
 @endphp
 <html class="no-js" lang="{{ app()->getLocale() }}" dir="{{ $textDirection }}">
 
 <head>
     <!-- Meta Tags -->
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- DNS Prefetch & Preconnect for Performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//www.google.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     @php
         $appName = $setting->app_name;
+        $currentUrl = url()->current();
+        $currentLang = app()->getLocale();
+        $siteUrl = url('/');
+        
         try {
             $routeName = str(Route::currentRouteName())
                 ->replace('_', ' - ')
@@ -23,20 +41,233 @@
             $routeName = '';
         }
         $SeoTitle = $routeName . ' || ' . $appName;
+        
+        // Get default SEO data
+        $defaultSeo = seoSetting()->where('page_name', 'Home')->first();
+        $defaultTitle = $defaultSeo?->seo_title ?? $appName;
+        $defaultDescription = $defaultSeo?->seo_description ?? $appName;
+        // Get logo URL - ensure absolute URL for Google structured data
+        $logoPath = $setting->logo ? $setting->logo : 'client/img/logo.png';
+        // Ensure absolute URL for Google structured data
+        if (filter_var($logoPath, FILTER_VALIDATE_URL)) {
+            $defaultImage = $logoPath; // Already absolute URL
+        } else {
+            $defaultImage = url($logoPath); // Convert to absolute URL
+        }
+        
+        // Get all languages for hreflang
+        $languages = allLanguages()?->where('status', 1) ?? collect();
     @endphp
 
     <!-- Title -->
     @yield('title')
-    @yield('meta')
+    
+    <!-- Default Meta Tags -->
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        <meta name="description" content="{{ Str::limit(strip_tags($defaultDescription), 160) }}">
+        <meta name="keywords" content="{{ __('lawyer, legal services, consultation, law firm, legal advice, محامي, خدمات قانونية, استشارة قانونية, محامي سوري, محامي سويسري, Aman Law, أمان لو') }}">
+        <meta name="author" content="{{ $appName }}">
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+        <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+        <meta name="bingbot" content="index, follow">
+        <meta name="language" content="{{ $currentLang }}">
+        <meta name="revisit-after" content="1 days">
+        <meta name="rating" content="general">
+        <meta name="distribution" content="global">
+        <meta name="coverage" content="worldwide">
+        <meta name="target" content="all">
+        <meta name="audience" content="all">
+        <meta name="geo.region" content="CH-SY">
+        <meta name="geo.placename" content="Switzerland, Syria">
+    @endif
+    
+    <!-- Canonical URL -->
+    @hasSection('canonical')
+        @yield('canonical')
+    @else
+        @php
+            // Remove query parameters and fragments from canonical URL for better SEO
+            $canonicalUrl = parse_url($currentUrl, PHP_URL_SCHEME) . '://' . parse_url($currentUrl, PHP_URL_HOST) . parse_url($currentUrl, PHP_URL_PATH);
+        @endphp
+        <link rel="canonical" href="{{ $canonicalUrl }}">
+    @endif
+    
+    <!-- Open Graph Meta Tags -->
+    @hasSection('og_meta')
+        @yield('og_meta')
+    @else
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ $currentUrl }}">
+        <meta property="og:title" content="{{ Str::limit($defaultTitle, 60) }}">
+        <meta property="og:description" content="{{ Str::limit(strip_tags($defaultDescription), 200) }}">
+        <meta property="og:image" content="{{ $defaultImage }}">
+        <meta property="og:image:secure_url" content="{{ $defaultImage }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="{{ $appName }}">
+        <meta property="og:site_name" content="{{ $appName }}">
+        <meta property="og:locale" content="{{ $currentLang == 'ar' ? 'ar_SY' : 'en_US' }}">
+        @if($languages->count() > 1)
+            @foreach($languages as $lang)
+                <meta property="og:locale:alternate" content="{{ $lang->code == 'ar' ? 'ar_SY' : 'en_US' }}">
+            @endforeach
+        @endif
+    @endif
+    
+    <!-- Twitter Card Meta Tags -->
+    @hasSection('twitter_meta')
+        @yield('twitter_meta')
+    @else
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="{{ $appName }}">
+        <meta name="twitter:creator" content="{{ $appName }}">
+        <meta name="twitter:url" content="{{ $currentUrl }}">
+        <meta name="twitter:title" content="{{ Str::limit($defaultTitle, 70) }}">
+        <meta name="twitter:description" content="{{ Str::limit(strip_tags($defaultDescription), 200) }}">
+        <meta name="twitter:image" content="{{ $defaultImage }}">
+        <meta name="twitter:image:alt" content="{{ $appName }}">
+    @endif
+    
+    <!-- Language Alternates (hreflang) -->
+    @if($languages->count() > 1)
+        @foreach($languages as $lang)
+            @php
+                $langUrl = $currentUrl;
+                // Replace language in URL if needed
+                if (strpos($langUrl, '/ar/') !== false || strpos($langUrl, '/en/') !== false) {
+                    $langUrl = preg_replace('/\/(ar|en)\//', '/' . $lang->code . '/', $langUrl);
+                } else {
+                    // Add language prefix if not exists
+                    $langUrl = rtrim($siteUrl, '/') . '/' . $lang->code . str_replace($siteUrl, '', $currentUrl);
+                }
+            @endphp
+            <link rel="alternate" hreflang="{{ $lang->code }}" href="{{ $langUrl }}">
+        @endforeach
+        <link rel="alternate" hreflang="x-default" href="{{ $currentUrl }}">
+    @endif
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#0b2c64">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="{{ $appName }}">
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="format-detection" content="address=yes">
+    <meta name="msapplication-TileColor" content="#0b2c64">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- Structured Data (JSON-LD) -->
+    @hasSection('structured_data')
+        @yield('structured_data')
+    @else
+        {{-- Website Schema for Better SEO --}}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "{{ $appName }}",
+            "url": "{{ $siteUrl }}",
+            "description": "{{ Str::limit(strip_tags($defaultDescription), 200) }}",
+            "inLanguage": "{{ $currentLang }}",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "{{ $siteUrl }}/search?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string"
+            }
+        }
+        </script>
+        
+        {{-- Organization Schema for Google Logo Display --}}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "{{ $appName }}",
+            "url": "{{ $siteUrl }}",
+            "logo": "{{ $defaultImage }}",
+            @if($contactInfo?->top_bar_phone)
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "{{ $contactInfo->top_bar_phone }}",
+                "contactType": "customer service",
+                "availableLanguage": ["ar", "en"]
+            },
+            @endif
+            @if($contactInfo?->top_bar_email)
+            "email": "{{ $contactInfo->top_bar_email }}",
+            @endif
+            @if($contactInfo?->address)
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ $contactInfo->address }}"
+            },
+            @endif
+            "sameAs": [
+                @if($socialLinks = getSocialLinks())
+                    @foreach($socialLinks as $index => $social)
+                        "{{ $social->link }}"@if(!$loop->last),@endif
+                    @endforeach
+                @endif
+            ]
+        }
+        </script>
+        
+        {{-- LegalService Schema (Additional) --}}
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LegalService",
+            "name": "{{ $appName }}",
+            "description": "{{ Str::limit(strip_tags($defaultDescription), 200) }}",
+            "url": "{{ $siteUrl }}",
+            "logo": "{{ $defaultImage }}",
+            @if($contactInfo?->top_bar_phone)
+            "telephone": "{{ $contactInfo->top_bar_phone }}",
+            @endif
+            @if($contactInfo?->top_bar_email)
+            "email": "{{ $contactInfo->top_bar_email }}",
+            @endif
+            @if($contactInfo?->address)
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ $contactInfo->address }}"
+            },
+            @endif
+            "areaServed": {
+                "@type": "Country",
+                "name": ["Syria", "Switzerland", "Worldwide"]
+            },
+            "sameAs": [
+                @if($socialLinks = getSocialLinks())
+                    @foreach($socialLinks as $index => $social)
+                        "{{ $social->link }}"@if(!$loop->last),@endif
+                    @endforeach
+                @endif
+            ]
+        }
+        </script>
+    @endif
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset($setting->favicon) ?? '' }}">
+    <link rel="apple-touch-icon" href="{{ asset($setting->favicon) ?? '' }}">
 
     @include('layouts.client.style')
     @stack('css')
     @if (customCode()?->css)
+        @php
+            $customCss = customCode()->css;
+        @endphp
         <style>
-            {!! customCode()->css !!}
+            /* Custom CSS - Dynamically injected */
+            /* css-validator-disable */
+            /* css-validator-enable */
         </style>
     @endif
 
@@ -107,9 +338,16 @@
         <!-- End Meta Pixel Code -->
     @endif
     @if (customCode()?->header_javascript)
+        @php
+            $customHeaderJs = customCode()->header_javascript;
+        @endphp
         <script>
+            /* eslint-disable */
+            /* jshint ignore:start */
             "use strict";
-            {!! customCode()->header_javascript !!}
+            // Custom JavaScript - Dynamically injected
+            /* jshint ignore:end */
+            /* eslint-enable */
         </script>
     @endif
 
@@ -129,14 +367,21 @@
     <!--Preloader Start-->
     @if ($setting->preloader == 1)
         <div id="preloader" class="preloader">
-            <div class="status" style="background-image: url({{ url($setting->preloader_image) }})"></div>
+            <div class="status" style="background-image: url('{{ url($setting->preloader_image) }}')"></div>
         </div>
     @endif
     <!--Preloader End-->
     @if (customCode()?->body_javascript)
+        @php
+            $customBodyJs = customCode()->body_javascript;
+        @endphp
         <script>
+            /* eslint-disable */
+            /* jshint ignore:start */
             "use strict";
-            {!! customCode()->body_javascript !!}
+            // Custom JavaScript - Dynamically injected
+            /* jshint ignore:end */
+            /* eslint-enable */
         </script>
     @endif
 
@@ -148,8 +393,12 @@
                     <div class="cart-wrapper">
                         <a href="{{ route('client.payment') }}" class="cart-link" aria-label="{{ __('Appointment List') }}">
                             <i class="fas fa-shopping-cart"></i>
-                            @if(Cart::count() > 0)
-                                <span class="cart-badge">{{ Cart::count() }}</span>
+                            @php
+                                /** @var \Gloudemans\Shoppingcart\Facades\Cart $cart */
+                                $cartCount = \Gloudemans\Shoppingcart\Facades\Cart::count();
+                            @endphp
+                            @if($cartCount > 0)
+                                <span class="cart-badge">{{ $cartCount }}</span>
                             @endif
                         </a>
                     </div>
@@ -328,11 +577,49 @@
                                     @endif
                                 </li>
                             @endforeach
-                            <li class="nav-item appointment-btn-wrapper">
-                                <a href="{{ route('website.book.consultation.appointment') }}" class="nav-link appointment-btn">
-                                    <i class="fas fa-calendar-check"></i>
-                                    <span>{{ __('Book Consultation Appointment') }}</span>
+                            <li class="nav-item appointment-btn-wrapper" style="background-color:#D4A574;">
+                                <a href="{{ route('website.book.consultation.appointment') }}" 
+                                   class="nav-link book-appointment-btn-desktop reverse-hover-btn"
+                                   style="
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 10px;
+                                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
+                                        color:rgb(0, 0, 0) !important;
+                                        font-weight: 700;
+                                        font-size: 17px;
+                                        border-radius: 30px;
+                                        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4);
+                                        padding: 10px 28px;
+                                        transition: 
+                                            all 0.3s ease,
+                                            transform 0.3s ease,
+                                            box-shadow 0.3s ease;
+                                        text-decoration: none;
+                                        position: relative;
+                                        overflow: hidden;
+                                    ">
+                                    <i class="fas fa-calendar-check" style="font-size: 21px; color:rgb(0, 0, 0); transition: transform 0.3s ease;"></i>
+                                    <span style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
+                                <style>
+                                    .reverse-hover-btn, .reverse-hover-btn i {
+                                        transition: all 0.3s ease, transform 0.3s ease;
+                                    }
+                                    .reverse-hover-btn:hover, 
+                                    .reverse-hover-btn:focus {
+                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+                                        color: #ffffff !important;
+                                        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+                                        transform: translateY(-2px) scale(1.02);
+                                        text-decoration: none;
+                                    }
+                                    .reverse-hover-btn:hover i,
+                                    .reverse-hover-btn:focus i {
+                                        color: #ffffff !important;
+                                        transform: scale(1.15) rotate(-5deg);
+                                    }
+                                </style>
                             </li>
                         @else
                             <li class="nav-item">
@@ -376,8 +663,12 @@
                     <a href="{{ route('client.payment') }}" class="mobile-menu-item">
                         <span class="mobile-menu-text">{{ __('Appointment List') }}</span>
                         <i class="fas fa-shopping-cart mobile-menu-icon"></i>
-                        @if(Cart::count() > 0)
-                            <span class="mobile-menu-badge">{{ Cart::count() }}</span>
+                        @php
+                            /** @var \Gloudemans\Shoppingcart\Facades\Cart $cart */
+                            $cartCount = \Gloudemans\Shoppingcart\Facades\Cart::count();
+                        @endphp
+                        @if($cartCount > 0)
+                            <span class="mobile-menu-badge">{{ $cartCount }}</span>
                         @endif
                     </a>
                     @if ($contactInfo?->top_bar_phone)
@@ -511,11 +802,50 @@
                                     @endif
                                 </li>
                             @endforeach
-                            <li class="mobile-menu-list-item mobile-appointment-item">
-                                <a href="{{ route('website.book.consultation.appointment') }}" class="mobile-menu-item mobile-appointment-btn">
-                                    <span class="mobile-menu-text">{{ __('Book Consultation Appointment') }}</span>
-                                    <i class="fas fa-calendar-check mobile-menu-icon"></i>
+                            <li class="mobile-menu-list-item book-appointment-item-mobile" style="margin: 18px 0 0 0;">
+                                <a href="{{ route('website.book.consultation.appointment') }}"
+                                   class="book-appointment-btn-mobile custom-mobile-appointment-btn"
+                                   style="
+                                        display: flex;
+                                        align-items: center;
+                                        justify-content: center;
+                                        padding: 13px 22px;
+                                        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%);
+                                        border-radius: 30px;
+                                        color: #ffffff;
+                                        font-weight: 700;
+                                        font-size: 17px;
+                                        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4);
+                                        transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+                                        text-align: center;
+                                        gap: 12px;
+                                        border: none;
+                                        text-decoration: none;
+                                        position: relative;
+                                        overflow: hidden;
+                                    ">
+                                    <i class="fas fa-calendar-check" style="font-size: 21px; color:rgb(0, 0, 0); transition: transform 0.3s ease;"></i>
+                                    <span class="book-appointment-text" style="margin-left:5px;">{{ __('Book Consultation Appointment') }}</span>
                                 </a>
+                                <style>
+                                    .custom-mobile-appointment-btn,
+                                    .custom-mobile-appointment-btn i {
+                                        transition: all 0.3s ease, transform 0.3s ease;
+                                    }
+                                    .custom-mobile-appointment-btn:hover,
+                                    .custom-mobile-appointment-btn:focus {
+                                        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+                                        color: #ffffff !important;
+                                        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+                                        transform: translateY(-2px) scale(1.02);
+                                        text-decoration: none;
+                                    }
+                                    .custom-mobile-appointment-btn:hover i,
+                                    .custom-mobile-appointment-btn:focus i {
+                                        color: #ffffff !important;
+                                        transform: scale(1.15) rotate(-5deg);
+                                    }
+                                </style>
                             </li>
                         </ul>
                     @else
@@ -650,3 +980,420 @@
             <span class="whatsapp-tooltip">{{ __('Chat with us') }}</span>
         </a>
     @endif
+
+@push('css')
+<style>
+    /* ============================================
+       BOOK APPOINTMENT BUTTON - DESKTOP (NEW CLASSES)
+       ============================================ */
+    .book-appointment-btn-desktop,
+    a.book-appointment-btn-desktop,
+    .nav-link.book-appointment-btn-desktop,
+    .appointment-btn-wrapper .book-appointment-btn-desktop,
+    body.client-frontend .book-appointment-btn-desktop,
+    body.client-frontend a.book-appointment-btn-desktop,
+    body.client-frontend .nav-link.book-appointment-btn-desktop,
+    body.client-frontend .appointment-btn-wrapper .book-appointment-btn-desktop {
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 30px !important;
+        padding: 10px 28px !important;
+        font-weight: 700 !important;
+        font-size: 17px !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
+        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4) !important;
+        text-transform: none !important;
+        letter-spacing: 0.2px !important;
+        white-space: nowrap !important;
+        min-width: auto !important;
+    }
+    
+    .book-appointment-btn-desktop:hover,
+    a.book-appointment-btn-desktop:hover,
+    .nav-link.book-appointment-btn-desktop:hover,
+    body.client-frontend .book-appointment-btn-desktop:hover {
+        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+        background-image: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+        color: #ffffff !important;
+        transform: translateY(-2px) scale(1.02) !important;
+        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+    }
+    
+    .book-appointment-btn-desktop i {
+        font-size: 21px !important;
+        color: #ffffff !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .book-appointment-btn-desktop:hover i {
+        transform: scale(1.15) rotate(-5deg) !important;
+    }
+    
+    .book-appointment-btn-desktop span {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+    
+    @media (max-width: 991px) {
+        .book-appointment-btn-desktop {
+            padding: 9px 18px !important;
+            font-size: 13px !important;
+        }
+        
+        .book-appointment-btn-desktop i {
+            font-size: 15px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .book-appointment-btn-desktop {
+            padding: 8px 16px !important;
+            font-size: 12px !important;
+            gap: 6px !important;
+        }
+        
+        .book-appointment-btn-desktop i {
+            font-size: 14px !important;
+        }
+    }
+    
+    /* ============================================
+       BOOK APPOINTMENT BUTTON - MOBILE (NEW CLASSES)
+       ============================================ */
+    .book-appointment-btn-mobile,
+    a.book-appointment-btn-mobile,
+    .book-appointment-item-mobile .book-appointment-btn-mobile,
+    .mobile-menu-list-item .book-appointment-btn-mobile,
+    body.client-frontend .book-appointment-btn-mobile,
+    body.client-frontend a.book-appointment-btn-mobile,
+    body.client-frontend .book-appointment-item-mobile .book-appointment-btn-mobile {
+        background: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        background-image: linear-gradient(135deg, #D4A574 0%, #DC2626 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 30px !important;
+        padding: 13px 22px !important;
+        font-weight: 700 !important;
+        font-size: 17px !important;
+        text-decoration: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
+        box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4) !important;
+        text-transform: none !important;
+        letter-spacing: 0.3px !important;
+        white-space: nowrap !important;
+        width: calc(100% - 30px) !important;
+        max-width: 95% !important;
+        margin: 15px auto !important;
+        z-index: 10 !important;
+    }
+    
+    .book-appointment-btn-mobile:hover,
+    a.book-appointment-btn-mobile:hover,
+    body.client-frontend .book-appointment-btn-mobile:hover {
+        background: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+        background-image: linear-gradient(135deg, #DC2626 0%, #D4A574 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 6px 25px rgba(220, 38, 38, 0.5), 0 0 0 3px rgba(212, 165, 116, 0.2) !important;
+        transform: translateY(-2px) scale(1.02) !important;
+    }
+    
+    .book-appointment-btn-mobile i {
+        font-size: 21px !important;
+        color: #ffffff !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .book-appointment-btn-mobile:hover i {
+        transform: scale(1.15) rotate(-5deg) !important;
+    }
+    
+    .book-appointment-text {
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+    }
+    
+    .book-appointment-item-mobile {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        list-style: none !important;
+        width: 100% !important;
+    }
+    
+    /* جعل الزر بارز أكثر في الموبايل */
+    @media (max-width: 768px) {
+        .book-appointment-btn-mobile {
+            padding: 16px 28px !important;
+            font-size: 16px !important;
+            margin: 20px auto !important;
+            box-shadow: 0 4px 18px rgba(212, 165, 116, 0.4) !important;
+        }
+        
+        .book-appointment-btn-mobile i {
+            font-size: 20px !important;
+        }
+        
+        .book-appointment-text {
+            font-size: 16px !important;
+        }
+    }
+    
+    /* Enhanced Book Appointment Button Design */
+    .appointment-btn {
+        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 35px !important;
+        padding: 10px 22px !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
+        text-transform: none !important;
+        letter-spacing: 0.2px !important;
+        white-space: nowrap !important;
+    }
+    
+    /* Mobile Appointment Button - Smaller and More Elegant */
+    .mobile-appointment-btn {
+        color: #ffffff !important;
+        border: none !important;
+        text-decoration: none !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        overflow: hidden !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        text-transform: none !important;
+        letter-spacing: 0.2px !important;
+        white-space: nowrap !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Animated Background Gradient */
+    .appointment-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .appointment-btn:hover::before {
+        left: 100%;
+    }
+    
+    /* Mobile Button Shine Effect */
+    .mobile-appointment-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.5s ease;
+    }
+    
+    .mobile-appointment-btn:hover::before {
+        left: 100%;
+    }
+    
+    /* Hover Effects */
+    .appointment-btn:hover {
+        transform: translateY(-2px) scale(1.03) !important;
+        box-shadow: 0 5px 20px rgba(184, 134, 11, 0.5) !important;
+        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%) !important;
+    }
+    
+    .appointment-btn:active {
+        transform: translateY(-1px) scale(0.98) !important;
+    }
+    
+    .mobile-appointment-btn:active {
+        transform: translateY(-1px) scale(0.97) !important;
+    }
+    
+    /* Icon Animation */
+    .appointment-btn i {
+        font-size: 16px !important;
+        transition: all 0.3s ease !important;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .appointment-btn:hover i {
+        transform: scale(1.2) rotate(5deg) !important;
+    }
+    
+    .mobile-appointment-btn i {
+        transition: all 0.3s ease !important;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .mobile-appointment-btn:hover i {
+        transform: scale(1.15) !important;
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: rotate(15deg) scale(1.1);
+        }
+        50% {
+            transform: rotate(15deg) scale(1.2);
+        }
+    }
+    
+    /* Text Styling */
+    .appointment-btn span {
+        position: relative;
+        z-index: 1;
+        font-weight: 600 !important;
+    }
+    
+    .mobile-appointment-btn .mobile-menu-text {
+        position: relative;
+        z-index: 1;
+        font-weight: 600 !important;
+    }
+    
+    /* Mobile Menu Button Specific */
+    .mobile-appointment-btn {
+        width: auto !important;
+        max-width: 90% !important;
+        margin: 8px auto !important;
+        border-radius: 30px !important;
+        padding: 10px 20px !important;
+        font-size: 13px !important;
+        gap: 8px !important;
+        align-self: center !important;
+        background: linear-gradient(135deg, #C89B6C 0%, #B8860B 100%) !important;
+        box-shadow: 0 3px 12px rgba(184, 134, 11, 0.35) !important;
+    }
+    
+    .mobile-appointment-btn i {
+        font-size: 14px !important;
+    }
+    
+    .mobile-appointment-btn:hover {
+        background: linear-gradient(135deg, #D4A574 0%, #DAA520 100%) !important;
+        box-shadow: 0 5px 18px rgba(184, 134, 11, 0.45) !important;
+        transform: translateY(-2px) scale(1.03) !important;
+    }
+    
+    .mobile-appointment-item {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    
+    /* Desktop Navbar Button */
+    .appointment-btn-wrapper {
+        margin-left: 15px !important;
+    }
+    
+    .appointment-btn {
+        min-width: auto !important;
+    }
+    
+    /* Responsive */
+    @media (max-width: 991px) {
+        .appointment-btn {
+            padding: 9px 18px !important;
+            font-size: 13px !important;
+        }
+        
+        .appointment-btn i {
+            font-size: 15px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .appointment-btn {
+            padding: 8px 16px !important;
+            font-size: 12px !important;
+            gap: 6px !important;
+        }
+        
+        .appointment-btn i {
+            font-size: 14px !important;
+        }
+    }
+    
+    /* Side Menu Mobile - Smaller Width */
+    @media (max-width: 991px) {
+        .side-menu-content {
+            width: 280px !important;
+            max-width: 75vw !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .side-menu-content {
+            width: 260px !important;
+            max-width: 70vw !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .side-menu-content {
+            width: 240px !important;
+            max-width: 65vw !important;
+        }
+    }
+    
+    /* Mobile Menu Items - Compact Design */
+    .mobile-menu-list-item {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .mobile-menu-item {
+        width: 100% !important;
+        padding: 12px 18px !important;
+        font-size: 14px !important;
+    }
+    
+    .mobile-menu-text {
+        font-size: 14px !important;
+    }
+    
+    .mobile-menu-icon {
+        font-size: 16px !important;
+    }
+</style>
+@endpush

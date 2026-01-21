@@ -1,29 +1,172 @@
 @extends('layouts.client.layout')
+@php
+    $seoTitle = __('Real Estate Properties') . ' | ' . ($setting->app_name ?? 'LawMent');
+    $seoDescription = __('Find your perfect property - apartments, villas, offices, and more for sale and rent');
+    $seoImage = $setting->logo ? asset($setting->logo) : asset('client/img/logo.png');
+    $currentUrl = url()->current();
+@endphp
 
 @section('title')
-    <title>{{ __('Real Estate Properties') }} - {{ $setting?->app_name }}</title>
+    <title>{{ $seoTitle }}</title>
 @endsection
 
 @section('meta')
-    <meta name="description" content="{{ __('Find your perfect property - apartments, villas, offices, and more for sale and rent') }}">
+    <meta name="description" content="{{ $seoDescription }}">
+    <meta name="keywords" content="{{ __('real estate, properties, apartments, villas, offices, عقارات, شقق, فيلات') }}">
+    <meta name="robots" content="index, follow">
+    <meta name="geo.region" content="SY">
+@endsection
+
+@section('canonical')
+    <link rel="canonical" href="{{ $currentUrl }}">
+@endsection
+
+@section('og_meta')
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ $currentUrl }}">
+    <meta property="og:title" content="{{ $seoTitle }}">
+    <meta property="og:description" content="{{ $seoDescription }}">
+    <meta property="og:image" content="{{ $seoImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $setting->app_name ?? 'LawMent' }}">
+@endsection
+
+@section('twitter_meta')
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seoTitle }}">
+    <meta name="twitter:description" content="{{ $seoDescription }}">
+    <meta name="twitter:image" content="{{ $seoImage }}">
+@endsection
+
+@section('structured_data')
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "{{ __('Real Estate Properties') }}",
+        "description": "{{ $seoDescription }}",
+        "url": "{{ $currentUrl }}"
+    }
+    </script>
+    
+    @if($properties && $properties->count() > 0)
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [
+            @foreach($properties->take(20) as $index => $property)
+            {
+                "@type": "ListItem",
+                "position": {{ $index + 1 }},
+                "item": {
+                    "@type": "Product",
+                    "name": "{{ $property->title }}",
+                    "description": "{{ Str::limit(strip_tags($property->description ?? ''), 150) }}",
+                    "url": "{{ route('website.real-estate.show', $property->slug) }}",
+                    @if($property->main_image_url)
+                    "image": "{{ $property->main_image_url }}",
+                    @endif
+                    "offers": {
+                        "@type": "Offer",
+                        "price": "{{ $property->price ?? 0 }}",
+                        "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}",
+                        "priceValidUntil": "{{ date('Y-m-d', strtotime('+1 year')) }}",
+                        "availability": "https://schema.org/InStock",
+                        "seller": {
+                            "@type": "Organization",
+                            "name": "{{ $setting->app_name ?? 'LawMent' }}",
+                            "url": "{{ url('/') }}"
+                        },
+                        "hasMerchantReturnPolicy": {
+                            "@type": "MerchantReturnPolicy",
+                            "applicableCountry": "SY",
+                            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                            "merchantReturnDays": 30,
+                            "returnMethod": "https://schema.org/ReturnByMail",
+                            "returnFees": "https://schema.org/FreeReturn"
+                        },
+                        "shippingDetails": {
+                            "@type": "OfferShippingDetails",
+                            "shippingRate": {
+                                "@type": "MonetaryAmount",
+                                "value": "0",
+                                "currency": "{{ getSessionCurrency() ?? 'USD' }}"
+                            },
+                            "shippingDestination": {
+                                "@type": "DefinedRegion",
+                                "addressCountry": "SY"
+                            }
+                        }
+                    }
+                }
+            }@if(!$loop->last),@endif
+            @endforeach
+        ]
+    }
+    </script>
+    @endif
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Real Estate Properties') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Real Estate Properties') }}"
+                }
+            }
+        ]
+    }
+    </script>
 @endsection
 
 @section('client-content')
 
 <!--Page Title Start-->
-<section class="page-title-area" style="background-image: url({{ $setting?->breadcrumb_image ? url($setting->breadcrumb_image) : asset('client/img/shape-2.webp') }})">
+<section class="page-title-area enhanced-breadcrumb" style="background-image: url({{ $setting?->breadcrumb_image ? url($setting->breadcrumb_image) : asset('client/img/shape-2.webp') }})">
+    <div class="breadcrumb-overlay"></div>
+    <div class="breadcrumb-pattern"></div>
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="page-title-content">
-                    <h2 class="title">{{ __('Real Estate Properties') }}</h2>
-                    <ul>
-                        <li><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
-                        <li>{{ __('Real Estate Properties') }}</li>
+                <div class="page-title-content enhanced-title-content">
+                    <div class="title-wrapper">
+                        <span class="title-icon">
+                            <i class="fas fa-building"></i>
+                        </span>
+                        <h2 class="title">{{ __('Real Estate Properties') }}</h2>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{{ route('home') }}"><i class="fas fa-home"></i> {{ __('Home') }}</a></li>
+                        <li class="separator"><i class="fas fa-chevron-left"></i></li>
+                        <li class="active">{{ __('Real Estate Properties') }}</li>
                     </ul>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="breadcrumb-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
     </div>
 </section>
 <!--Page Title End-->
@@ -36,7 +179,7 @@
                 <div class="intro-content">
                     <div class="section-title-wrapper">
                         <span class="section-subtitle">{{ __('Real Estate Department') }}</span>
-                        <h2 class="section-title">{{ __('Your Trusted Partner in Real Estate') }}</h2>
+                        <h2 class="section-title">{{ __('شريكك الموثوق في العقارات') }}</h2>
                     </div>
                     <p class="intro-text">
                         {{ __('We provide comprehensive real estate services including property sales, rentals, legal consultations, and investment advice. Our experienced team helps you find the perfect property or sell your assets with confidence.') }}
@@ -82,7 +225,7 @@
                                 </div>
                                 <div class="placeholder-text">
                                     <h3>{{ __('Real Estate') }}</h3>
-                                    <p>{{ __('Your Trusted Partner') }}</p>
+                                    <p>{{ __('شريكك الموثوق في العقارات') }}</p>
                                 </div>
                                 <div class="placeholder-pattern"></div>
                             </div>
@@ -161,7 +304,7 @@
                                     <label class="filter-label d-none d-md-block">&nbsp;</label>
                                     <button type="submit" class="btn btn-primary w-100">
                                         <i class="fas fa-search d-md-none"></i>
-                                        <span class="d-none d-md-inline">{{ __('Search') }}</span>
+                                        <span class="d-none d-md-inline">بحث</span>
                                     </button>
                                 </div>
                             </div>
@@ -228,45 +371,52 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="property-content">
-                            <h4 class="property-title">
-                                <a href="{{ route('website.real-estate.show', $property->slug) }}">{{ Str::limit($property->title, 50) }}</a>
+                        <div class="property-content property-content-v2">
+                            <h4 class="property-title property-title-v2">
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}">{{ Str::limit($property->title ?? __('Property') . ' #' . $property->id, 50) }}</a>
                             </h4>
-                            <div class="property-meta">
-                                <span class="property-type">
-                                    <i class="fas fa-building"></i> {{ $property->property_type_label }}
+                            <div class="property-meta property-meta-v2">
+                                <span class="property-type property-type-v2">
+                                    <i class="fas fa-building property-icon-v2"></i>
+                                    <span class="property-text-v2">{{ $property->property_type_label }}</span>
                                 </span>
-                                <span class="property-location">
-                                    <i class="fas fa-map-marker-alt"></i> {{ $property->location_string }}
+                                <span class="property-location property-location-v2">
+                                    <i class="fas fa-map-marker-alt property-icon-v2"></i>
+                                    <span class="property-text-v2">{{ $property->location_string }}</span>
                                 </span>
                             </div>
-                            <div class="property-details">
+                            <div class="property-details property-details-v2">
                                 @if($property->bedrooms)
-                                    <span class="detail-item">
-                                        <i class="fas fa-bed"></i> {{ $property->bedrooms }} {{ __('Beds') }}
+                                    <span class="detail-item detail-item-v2">
+                                        <i class="fas fa-bed detail-icon-v2"></i>
+                                        <span class="detail-text-v2">{{ $property->bedrooms }} {{ __('Beds') }}</span>
                                     </span>
                                 @endif
                                 @if($property->bathrooms)
-                                    <span class="detail-item">
-                                        <i class="fas fa-bath"></i> {{ $property->bathrooms }} {{ __('Baths') }}
+                                    <span class="detail-item detail-item-v2">
+                                        <i class="fas fa-bath detail-icon-v2"></i>
+                                        <span class="detail-text-v2">{{ $property->bathrooms }} {{ __('Baths') }}</span>
                                     </span>
                                 @endif
-                                <span class="detail-item">
-                                    <i class="fas fa-expand-arrows-alt"></i> {{ $property->formatted_area }}
+                                <span class="detail-item detail-item-v2">
+                                    <i class="fas fa-expand-arrows-alt detail-icon-v2"></i>
+                                    <span class="detail-text-v2">{{ $property->formatted_area }}</span>
                                 </span>
                             </div>
-                            <div class="property-price">
-                                <strong class="price-amount">{{ $property->formatted_price }}</strong>
+                            <div class="property-price property-price-v2">
+                                <strong class="price-amount price-amount-v2">{{ $property->formatted_price }}</strong>
                                 @if($property->price_per_sqm)
-                                    <small class="price-per-sqm">({{ number_format($property->price_per_sqm) }} {{ $property->currency }}/m²)</small>
+                                    <small class="price-per-sqm price-per-sqm-v2">({{ number_format($property->price_per_sqm) }} {{ $property->currency }}/m²)</small>
                                 @endif
                             </div>
-                            <div class="property-actions">
-                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-info-circle"></i> {{ __('Details') }}
+                            <div class="property-actions property-actions-v2">
+                                <a href="{{ route('website.real-estate.show', $property->slug) }}" class="btn btn-outline-primary btn-sm property-btn-v2">
+                                    <i class="fas fa-info-circle property-btn-icon-v2"></i>
+                                    <span class="property-btn-text-v2">{{ __('Details') }}</span>
                                 </a>
-                                <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-calendar-alt"></i> {{ __('Consultation') }}
+                                <a href="{{ route('website.book.consultation.appointment') }}?service=real_estate&property={{ $property->id }}" class="btn btn-primary btn-sm property-btn-v2">
+                                    <i class="fas fa-calendar-alt property-btn-icon-v2"></i>
+                                    <span class="property-btn-text-v2">{{ __('Consultation') }}</span>
                                 </a>
                             </div>
                         </div>
@@ -308,6 +458,482 @@
 /* ============================================
    REAL ESTATE PAGE STYLES
    ============================================ */
+
+/* ============================================
+   ENHANCED BREADCRUMB SECTION - MODERN DESIGN
+   ============================================ */
+.page-title-area.enhanced-breadcrumb {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 140px 0 100px;
+    overflow: hidden;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.7) 100%);
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+
+.breadcrumb-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(200, 180, 126, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(200, 180, 126, 0.1) 0%, transparent 50%);
+    z-index: 2;
+    opacity: 0.6;
+}
+
+.breadcrumb-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.breadcrumb-shapes .shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(200, 180, 126, 0.1);
+    animation: float 6s ease-in-out infinite;
+}
+
+.breadcrumb-shapes .shape-1 {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    right: -50px;
+    animation-delay: 0s;
+}
+
+.breadcrumb-shapes .shape-2 {
+    width: 150px;
+    height: 150px;
+    bottom: -30px;
+    left: 10%;
+    animation-delay: 2s;
+}
+
+.breadcrumb-shapes .shape-3 {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    right: 20%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.6;
+    }
+}
+
+[dir="rtl"] .breadcrumb-shapes .shape-1 {
+    right: auto;
+    left: -50px;
+}
+
+[dir="rtl"] .breadcrumb-shapes .shape-2 {
+    left: auto;
+    right: 10%;
+}
+
+[dir="rtl"] .breadcrumb-shapes .shape-3 {
+    right: auto;
+    left: 20%;
+}
+
+.enhanced-title-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+[dir="rtl"] .title-wrapper {
+    flex-direction: row-reverse;
+}
+
+.title-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(200, 180, 126, 0.2) 0%, rgba(200, 180, 126, 0.1) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 2px solid rgba(200, 180, 126, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.title-icon:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 12px 40px rgba(200, 180, 126, 0.4);
+    border-color: rgba(200, 180, 126, 0.5);
+}
+
+.title-icon i {
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(200, 180, 126, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(200, 180, 126, 0);
+    }
+}
+
+.enhanced-title-content .title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #fff !important;
+    margin: 0;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+    line-height: 1.2;
+    position: relative;
+    display: inline-block;
+}
+
+.enhanced-title-content .title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-radius: 2px;
+    box-shadow: 0 2px 10px rgba(200, 180, 126, 0.5);
+}
+
+[dir="rtl"] .enhanced-title-content .title::after {
+    left: auto;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.breadcrumb-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    animation: slideInUp 1s ease-out 0.3s both;
+}
+
+[dir="rtl"] .breadcrumb-nav {
+    flex-direction: row-reverse;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.breadcrumb-nav li {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.breadcrumb-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.breadcrumb-nav li a:hover {
+    color: #fff;
+    background: rgba(200, 180, 126, 0.2);
+    border-color: rgba(200, 180, 126, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(200, 180, 126, 0.3);
+}
+
+.breadcrumb-nav li a i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.breadcrumb-nav li a:hover i {
+    transform: scale(1.2);
+}
+
+.breadcrumb-nav li.separator {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+}
+
+.breadcrumb-nav li.separator i {
+    font-size: 0.8rem;
+}
+
+[dir="rtl"] .breadcrumb-nav li.separator i {
+    transform: rotate(180deg);
+}
+
+.breadcrumb-nav li.active {
+    color: #fff;
+    font-weight: 700;
+    padding: 0.5rem 1.2rem;
+    background: linear-gradient(135deg, rgba(200, 180, 126, 0.3) 0%, rgba(200, 180, 126, 0.2) 100%);
+    border-radius: 25px;
+    border: 1px solid rgba(200, 180, 126, 0.4);
+    box-shadow: 0 4px 15px rgba(200, 180, 126, 0.2);
+    position: relative;
+}
+
+.breadcrumb-nav li.active::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%);
+    border-radius: 25px;
+    z-index: -1;
+    opacity: 0.3;
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.02);
+    }
+}
+
+/* Responsive Design for Enhanced Breadcrumb */
+@media (max-width: 992px) {
+    .page-title-area.enhanced-breadcrumb {
+        padding: 120px 0 80px;
+    }
+
+    .enhanced-title-content .title {
+        font-size: 2.8rem;
+    }
+
+    .title-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .title-icon i {
+        font-size: 2rem;
+    }
+
+    .breadcrumb-nav {
+        padding: 0.8rem 1.5rem;
+        gap: 0.6rem;
+    }
+
+    .breadcrumb-nav li {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-title-area.enhanced-breadcrumb {
+        padding: 100px 0 60px;
+        min-height: 250px;
+    }
+
+    .title-wrapper {
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .enhanced-title-content .title {
+        font-size: 2.2rem;
+    }
+
+    .enhanced-title-content .title::after {
+        width: 80px;
+        height: 3px;
+        bottom: -12px;
+    }
+
+    .title-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .title-icon i {
+        font-size: 1.8rem;
+    }
+
+    .breadcrumb-nav {
+        padding: 0.7rem 1.2rem;
+        gap: 0.5rem;
+        border-radius: 30px;
+    }
+
+    .breadcrumb-nav li {
+        font-size: 0.9rem;
+    }
+
+    .breadcrumb-nav li a {
+        padding: 0.4rem 0.8rem;
+    }
+
+    .breadcrumb-nav li.active {
+        padding: 0.4rem 1rem;
+    }
+
+    .breadcrumb-shapes .shape-1 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .breadcrumb-shapes .shape-2 {
+        width: 120px;
+        height: 120px;
+    }
+
+    .breadcrumb-shapes .shape-3 {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-title-area.enhanced-breadcrumb {
+        padding: 80px 0 50px;
+        min-height: 200px;
+    }
+
+    .title-wrapper {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .enhanced-title-content .title {
+        font-size: 1.8rem;
+    }
+
+    .title-icon {
+        width: 55px;
+        height: 55px;
+    }
+
+    .title-icon i {
+        font-size: 1.5rem;
+    }
+
+    .breadcrumb-nav {
+        padding: 0.6rem 1rem;
+        gap: 0.4rem;
+        flex-direction: column;
+        border-radius: 20px;
+    }
+
+    [dir="rtl"] .breadcrumb-nav {
+        flex-direction: column;
+    }
+
+    .breadcrumb-nav li.separator {
+        display: none;
+    }
+
+    .breadcrumb-nav li a {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.85rem;
+    }
+
+    .breadcrumb-nav li.active {
+        padding: 0.4rem 0.9rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .breadcrumb-shapes .shape,
+    .title-icon,
+    .breadcrumb-nav,
+    .enhanced-title-content {
+        animation: none !important;
+    }
+
+    .title-icon:hover {
+        transform: none;
+    }
+
+    .breadcrumb-nav li a:hover {
+        transform: none;
+    }
+}
 
 /* Introduction Section - Enhanced Design */
 .real-estate-intro {
@@ -891,11 +1517,19 @@
     padding: 0.75rem 1.5rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    color: white;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(200, 180, 126, 0.3);
+}
+
+/* Make search icon white in primary button */
+.btn-primary i,
+.btn-primary .fas,
+.btn-primary .fa-search {
+    color: #fff !important;
 }
 
 /* Results Count Section */
@@ -1030,6 +1664,272 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-content {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+/* ============================================
+   NEW V2 STYLES - Complete RTL Alignment
+   ============================================ */
+
+.property-content-v2 {
+    direction: rtl !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+}
+
+[dir="ltr"] .property-content-v2 {
+    direction: rtl !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+}
+
+.property-title-v2 {
+    width: 100%;
+    text-align: right !important;
+    direction: rtl !important;
+    margin-bottom: 1rem;
+}
+
+[dir="ltr"] .property-title-v2 {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.property-title-v2 a {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-title-v2 a {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-meta-v2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    align-items: flex-end;
+}
+
+[dir="ltr"] .property-meta-v2 {
+    align-items: flex-end !important;
+}
+
+.property-type-v2,
+.property-location-v2 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+[dir="ltr"] .property-type-v2,
+[dir="ltr"] .property-location-v2 {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 18px !important;
+    text-align: center !important;
+    color: var(--colorPrimary) !important;
+    margin-left: 0.5rem !important;
+    font-size: 0.95rem !important;
+}
+
+[dir="ltr"] .property-icon-v2 {
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+.property-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    flex: 1;
+}
+
+[dir="ltr"] .property-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-details-v2 {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-details-v2 {
+    justify-content: flex-start !important;
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+.detail-item-v2 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    flex-wrap: nowrap !important;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+[dir="ltr"] .detail-item-v2 {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.detail-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    width: 18px !important;
+    text-align: center !important;
+    color: var(--colorPrimary) !important;
+    font-size: 0.95rem !important;
+    margin-left: 0.5rem !important;
+}
+
+[dir="ltr"] .detail-icon-v2 {
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+.detail-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .detail-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-price-v2 {
+    width: 100%;
+    text-align: right !important;
+    direction: rtl !important;
+    margin-bottom: 1.5rem;
+}
+
+[dir="ltr"] .property-price-v2 {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.price-amount-v2 {
+    display: block;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-amount-v2 {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.price-per-sqm-v2 {
+    display: block;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-per-sqm-v2 {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.property-actions-v2 {
+    width: 100%;
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+[dir="ltr"] .property-actions-v2 {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+}
+
+.property-btn-v2 {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    gap: 0.5rem !important;
+    flex: 1;
+    min-width: 120px;
+}
+
+[dir="ltr"] .property-btn-v2 {
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.property-btn-icon-v2 {
+    order: 1 !important;
+    flex-shrink: 0 !important;
+    margin-left: 0.5rem !important;
+}
+
+[dir="ltr"] .property-btn-icon-v2 {
+    order: 1 !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0 !important;
+}
+
+.property-btn-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-btn-text-v2 {
+    order: 2 !important;
+    direction: rtl !important;
+    text-align: right !important;
 }
 
 .property-title {
@@ -1037,6 +1937,13 @@
     font-weight: 600;
     margin-bottom: 1rem;
     line-height: 1.4;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-title {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .property-title a {
@@ -1056,6 +1963,13 @@
     margin-bottom: 1rem;
     font-size: 0.9rem;
     color: #666;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-meta {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .property-type,
@@ -1063,38 +1977,132 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+    flex-wrap: nowrap;
+}
+
+[dir="ltr"] .property-type,
+[dir="ltr"] .property-location {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .property-type i,
 .property-location i {
     color: var(--colorPrimary);
-    width: 16px;
+    width: 18px;
+    flex-shrink: 0;
+    order: 1 !important;
+    text-align: center;
+    font-size: 0.95rem;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .property-type i,
+[dir="ltr"] .property-location i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+.property-type span,
+.property-location span {
+    order: 2 !important;
+    flex: 1;
+    text-align: right !important;
+    margin-right: 0;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-type span,
+[dir="ltr"] .property-location span {
+    order: 2 !important;
+    text-align: right !important;
+    margin-left: 0;
+    direction: rtl !important;
 }
 
 .property-details {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid #e9ecef;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+[dir="ltr"] .property-details {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
 }
 
 .detail-item {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.5rem;
     font-size: 0.9rem;
     color: #666;
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+    flex-wrap: nowrap;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.detail-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+.detail-item * {
+    direction: rtl !important;
+}
+
+[dir="ltr"] .detail-item {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .detail-item * {
+    direction: rtl !important;
 }
 
 .detail-item i {
     color: var(--colorPrimary);
-    width: 16px;
+    width: 18px;
+    flex-shrink: 0;
+    order: 1 !important;
+    text-align: center;
+    font-size: 0.95rem;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .detail-item i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .property-price {
     margin-bottom: 1.5rem;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-price {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-amount {
@@ -1102,6 +2110,13 @@
     font-weight: 700;
     color: var(--colorPrimary);
     display: block;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-amount {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .price-per-sqm {
@@ -1109,21 +2124,72 @@
     color: #999;
     display: block;
     margin-top: 0.25rem;
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+[dir="ltr"] .price-per-sqm {
+    text-align: right !important;
+    direction: rtl !important;
 }
 
 .property-actions {
     display: flex;
     gap: 0.75rem;
     margin-top: auto;
+    justify-content: flex-end !important;
+    direction: rtl !important;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+[dir="ltr"] .property-actions {
+    direction: rtl !important;
+    justify-content: flex-end !important;
 }
 
 .property-actions .btn {
     flex: 1;
+    min-width: 120px;
     padding: 0.6rem 1rem;
     font-size: 0.9rem;
     font-weight: 600;
     border-radius: 8px;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end !important;
+    gap: 8px;
+    direction: rtl !important;
+    text-align: right !important;
+    white-space: nowrap;
+}
+
+.property-actions .btn * {
+    direction: rtl !important;
+}
+
+[dir="ltr"] .property-actions .btn {
+    direction: rtl !important;
+    text-align: right !important;
+    justify-content: flex-end !important;
+}
+
+[dir="ltr"] .property-actions .btn * {
+    direction: rtl !important;
+}
+
+.property-actions .btn i {
+    order: 1 !important;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+[dir="ltr"] .property-actions .btn i {
+    order: 1 !important;
+    margin-left: 0.5rem;
+    margin-right: 0;
 }
 
 .property-actions .btn-outline-primary {

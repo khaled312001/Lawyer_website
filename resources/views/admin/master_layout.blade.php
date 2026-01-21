@@ -70,27 +70,27 @@
                 <div class="navbar-right d-flex align-items-center">
                     <ul class="navbar-nav d-none d-lg-flex align-items-center navbar-actions-list">
                         {{-- Notifications Dropdown --}}
-                        <li class="dropdown dropdown-list-toggle notification-dropdown">
-                            <a href="javascript:;" data-bs-toggle="dropdown" class="nav-link nav-link-lg notification-icon position-relative">
-                                <i class="fas fa-bell"></i>
-                                <span class="notification-badge" id="notification-count" style="display: none;">0</span>
+                        <li class="dropdown admin-alert-wrapper">
+                            <a href="javascript:;" data-bs-toggle="dropdown" id="admin-notification-toggle" class="admin-alert-button" aria-label="{{ __('Notifications') }}" aria-expanded="false">
+                                <i class="fas fa-bell admin-alert-icon"></i>
+                                <span class="admin-alert-counter" id="notification-count" style="display: none;">0</span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right notification-dropdown-menu">
-                                <div class="dropdown-header d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0">{{ __('Notifications') }}</h6>
-                                    <a href="javascript:;" class="text-primary small mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
+                            <div class="dropdown-menu dropdown-menu-end admin-alert-panel" id="admin-notification-dropdown">
+                                <div class="admin-alert-top">
+                                    <h6 class="admin-alert-heading">{{ __('Notifications') }}</h6>
+                                    <a href="javascript:;" class="admin-alert-mark-all mark-all-read">{{ __('Mark all as read') }}</a>
                                 </div>
-                                <div class="dropdown-divider"></div>
-                                <div id="notifications-list">
-                                    <div class="text-center p-3">
+                                <div class="admin-alert-separator"></div>
+                                <div class="admin-alert-content" id="notifications-list">
+                                    <div class="admin-alert-spinner">
                                         <div class="spinner-border spinner-border-sm text-primary" role="status">
                                             <span class="visually-hidden">Loading...</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="dropdown-footer text-center">
-                                    <a href="{{ route('admin.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
+                                <div class="admin-alert-separator"></div>
+                                <div class="admin-alert-bottom">
+                                    <a href="{{ route('admin.notifications.index') }}" class="admin-alert-link">{{ __('View all notifications') }}</a>
                                 </div>
                             </div>
                         </li>
@@ -272,20 +272,104 @@
                 handleSidebar();
             });
             
-            // Toggle sidebar only on mobile
-            $('[data-toggle="sidebar"]').on('click', function(e) {
+            // Toggle sidebar only on mobile - Enhanced with better event handling
+            $(document).on('click', '[data-toggle="sidebar"]', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
+                
                 // Only allow toggle on mobile
                 if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('sidebar-gone')) {
+                    if ($('body').hasClass('sidebar-gone') || !$('body').hasClass('sidebar-show')) {
                         $('body').removeClass('sidebar-gone');
                         $('body').addClass('sidebar-show');
+                        // Prevent body scroll when sidebar is open
+                        $('body').css('overflow', 'hidden');
                     } else {
                         $('body').removeClass('sidebar-show');
                         $('body').addClass('sidebar-gone');
+                        // Allow body scroll when sidebar is closed
+                        $('body').css('overflow', 'auto');
                     }
                 }
             });
+            
+            // Close sidebar when clicking on backdrop (mobile only)
+            $(document).on('click', function(e) {
+                if ($(window).width() <= 1024) {
+                    if ($('body').hasClass('sidebar-show')) {
+                        // Check if click is outside sidebar and not on toggle button
+                        if (!$(e.target).closest('.main-sidebar').length && 
+                            !$(e.target).closest('[data-toggle="sidebar"]').length &&
+                            !$(e.target).is('[data-toggle="sidebar"]')) {
+                            $('body').removeClass('sidebar-show');
+                            $('body').addClass('sidebar-gone');
+                            $('body').css('overflow', 'auto');
+                        }
+                    }
+                }
+            });
+            
+            // Prevent sidebar click from closing sidebar
+            $('.main-sidebar').on('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+    
+    <script>
+        // Initialize Bootstrap dropdowns for notifications
+        $(document).ready(function() {
+            const notificationButton = document.getElementById('admin-notification-toggle');
+            const notificationDropdown = document.getElementById('admin-notification-dropdown');
+            const notificationWrapper = document.querySelector('.admin-alert-wrapper');
+            
+            if (notificationButton && notificationDropdown) {
+                // Initialize Bootstrap dropdown if available
+                if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+                    try {
+                        const dropdownInstance = new bootstrap.Dropdown(notificationButton);
+                    } catch (e) {
+                        console.log('Bootstrap dropdown initialization failed, using manual toggle');
+                    }
+                }
+                
+                // Manual toggle fallback
+                notificationButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isShown = notificationWrapper && notificationWrapper.classList.contains('show');
+                    
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown.show').forEach(function(dropdown) {
+                        if (dropdown !== notificationWrapper) {
+                            dropdown.classList.remove('show');
+                            const menu = dropdown.querySelector('.dropdown-menu');
+                            if (menu) menu.classList.remove('show');
+                        }
+                    });
+                    
+                    // Toggle current dropdown - MUST add 'show' to parent wrapper, not just menu
+                    if (isShown) {
+                        if (notificationWrapper) notificationWrapper.classList.remove('show');
+                        notificationDropdown.classList.remove('show');
+                        notificationButton.setAttribute('aria-expanded', 'false');
+                    } else {
+                        if (notificationWrapper) notificationWrapper.classList.add('show');
+                        notificationDropdown.classList.add('show');
+                        notificationButton.setAttribute('aria-expanded', 'true');
+                    }
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (notificationWrapper && !notificationWrapper.contains(e.target)) {
+                        notificationWrapper.classList.remove('show');
+                        notificationDropdown.classList.remove('show');
+                        notificationButton.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
         });
     </script>
     
@@ -302,12 +386,12 @@
                             updateNotificationCount(response.unread_count || 0);
                             renderNotifications(response.notifications || []);
                         } else {
-                            $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                            $('#notifications-list').html('<div class="admin-alert-no-data">{{ __("No notifications") }}</div>');
                         }
                     },
                     error: function(xhr, status, error) {
                         console.error('Notification fetch error:', error);
-                        $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        $('#notifications-list').html('<div class="admin-alert-no-data">{{ __("Failed to load notifications") }}</div>');
                         updateNotificationCount(0);
                     }
                 });
@@ -325,7 +409,7 @@
             function renderNotifications(notifications) {
                 const list = $('#notifications-list');
                 if (!notifications || notifications.length === 0) {
-                    list.html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                    list.html('<div class="admin-alert-no-data">{{ __("No notifications") }}</div>');
                     return;
                 }
 
@@ -333,23 +417,22 @@
                 notifications.forEach(function(notification) {
                     try {
                         const isRead = notification.read_at !== null && notification.read_at !== '';
-                        const readClass = isRead ? '' : 'bg-light';
+                        const readClass = isRead ? 'admin-alert-read' : 'admin-alert-new';
                         const notificationData = notification.data || {};
                         const icon = getNotificationIcon(notificationData.type || '');
                         html += `
-                            <a href="${notificationData.url || '#'}" class="dropdown-item notification-item ${readClass}" data-id="${notification.id || ''}">
-                                <div class="d-flex align-items-start">
-                                    <div class="notification-icon-wrapper me-2">
+                            <a href="${notificationData.url || '#'}" class="admin-alert-entry ${readClass}" data-id="${notification.id || ''}">
+                                <div class="admin-alert-entry-box">
+                                    <div class="admin-alert-entry-icon-box">
                                         <i class="${icon}"></i>
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold small">${notificationData.title || '{{ __("Notification") }}'}</div>
-                                        <div class="text-muted small" style="font-size: 0.85rem;">${notificationData.message || ''}</div>
-                                        <div class="text-muted" style="font-size: 0.75rem; margin-top: 4px;">${formatTime(notification.created_at)}</div>
+                                    <div class="admin-alert-entry-text-box">
+                                        <div class="admin-alert-entry-heading">${notificationData.title || '{{ __("Notification") }}'}</div>
+                                        <div class="admin-alert-entry-text">${notificationData.message || ''}</div>
+                                        <div class="admin-alert-entry-date">${formatTime(notification.created_at)}</div>
                                     </div>
                                 </div>
                             </a>
-                            <div class="dropdown-divider"></div>
                         `;
                     } catch (e) {
                         console.error('Error rendering notification:', e, notification);
@@ -358,9 +441,9 @@
                 list.html(html);
 
                 // Mark as read on click
-                $('.notification-item').on('click', function(e) {
+                $('.admin-alert-entry').on('click', function(e) {
                     const notificationId = $(this).data('id');
-                    if (!$(this).hasClass('bg-light')) return; // Already read
+                    if ($(this).hasClass('admin-alert-read')) return; // Already read
                     
                     $.ajax({
                         url: '{{ route("admin.notifications.mark-read", ":id") }}'.replace(':id', notificationId),
@@ -417,6 +500,28 @@
                 });
             });
 
+            // Ensure notification dropdown is closed on page load (only if not clicked)
+            $(document).ready(function() {
+                // Close dropdown if it's open on page load without user interaction
+                setTimeout(function() {
+                    var $wrapper = $('.admin-alert-wrapper');
+                    if ($wrapper.hasClass('show')) {
+                        // Check if user actually clicked (by checking if button was focused/clicked recently)
+                        var wasClicked = sessionStorage.getItem('notificationClicked') === 'true';
+                        if (!wasClicked) {
+                            $wrapper.removeClass('show');
+                            $('.admin-alert-panel').removeClass('show');
+                        }
+                        sessionStorage.removeItem('notificationClicked');
+                    }
+                }, 50);
+            });
+            
+            // Track when notification button is clicked
+            $('.admin-alert-button').on('click', function() {
+                sessionStorage.setItem('notificationClicked', 'true');
+            });
+            
             // Load notifications on page load
             loadNotifications();
 
@@ -489,41 +594,6 @@
                 }
             });
             
-            // Close sidebar when clicking backdrop on mobile
-            // Close sidebar when clicking outside on mobile only
-            $(document).on('click', function(e) {
-                if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('sidebar-show')) {
-                        // Check if click is outside sidebar and not on toggle button
-                        if (!$(e.target).closest('.main-sidebar').length && 
-                            !$(e.target).closest('[data-toggle="sidebar"]').length &&
-                            !$(e.target).is('[data-toggle="sidebar"]')) {
-                            $('body').removeClass('sidebar-show');
-                            $('body').addClass('sidebar-gone');
-                        }
-                    }
-                }
-            });
-            
-            // Prevent body scroll when sidebar is open on mobile
-            $('[data-toggle="sidebar"]').on('click', function() {
-                if ($(window).width() <= 1024) {
-                    setTimeout(function() {
-                        if ($('body').hasClass('sidebar-show')) {
-                            $('body').css('overflow', 'hidden');
-                        } else {
-                            $('body').css('overflow', 'auto');
-                        }
-                    }, 100);
-                }
-            });
-            
-            // Ensure sidebar is open on desktop when window is resized
-            $(window).on('resize', function() {
-                if ($(window).width() > 1024) {
-                    $('body').removeClass('sidebar-gone sidebar-show');
-                }
-            });
         });
         
         // Fix dropdown menus position on mobile
@@ -626,5 +696,6 @@
     </script>
 
 </body>
+
 
 </html>
