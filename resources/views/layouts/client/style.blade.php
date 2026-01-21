@@ -13056,25 +13056,49 @@
         margin: 0 0 18px 0 !important;
         text-align: right !important;
         direction: rtl !important;
-        padding-bottom: 15px !important;
-        border-bottom: 2px solid rgba(107, 93, 71, 0.1) !important;
+        padding: 12px 16px !important;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 197, 253, 0.2) 100%) !important;
+        border-radius: 10px !important;
+        border: 1px solid rgba(59, 130, 246, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    .lawyer-card-name-mobile::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+        pointer-events: none;
     }
 
     .lawyer-card-name-mobile a {
         font-size: 22px !important;
         font-weight: 700 !important;
-        color: #2c3e50 !important;
+        color: #1e40af !important;
         text-decoration: none !important;
         transition: all 0.3s ease !important;
         text-align: right !important;
         direction: rtl !important;
         line-height: 1.4 !important;
         display: block !important;
+        position: relative !important;
+        z-index: 1 !important;
     }
 
     .lawyer-card-name-mobile a:hover {
-        color: var(--colorPrimary) !important;
+        color: #1e3a8a !important;
         transform: translateX(-3px) !important;
+    }
+
+    .lawyer-card-mobile:hover .lawyer-card-name-mobile {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 197, 253, 0.25) 100%) !important;
+        border-color: rgba(59, 130, 246, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
     }
 
     /* معلومات المحامي */
@@ -13095,12 +13119,21 @@
         direction: rtl !important;
         gap: 12px !important;
         margin-bottom: 10px !important;
-        padding: 8px 0 !important;
-        border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+        padding: 10px 14px !important;
+        background: rgba(255, 255, 255, 0.8) !important;
+        border-radius: 8px !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+        transition: all 0.3s ease !important;
     }
 
     .lawyer-meta-item-mobile:last-child {
         border-bottom: none !important;
+    }
+
+    .lawyer-meta-item-mobile:hover {
+        background: rgba(255, 255, 255, 1) !important;
+        border-color: rgba(107, 93, 71, 0.15) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
     }
 
     /* الأيقونة على اليمين دائماً */
@@ -13134,11 +13167,28 @@
         order: 2 !important;
         flex: 1 !important;
         font-size: 14px !important;
-        color: #555 !important;
+        color: #333 !important;
         text-align: right !important;
         direction: rtl !important;
         line-height: 1.6 !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
+    }
+
+    /* تحسين قسم القسم (Department) - أول عنصر */
+    .lawyer-meta-item-mobile:first-child {
+        background: linear-gradient(135deg, rgba(212, 165, 116, 0.12) 0%, rgba(200, 180, 126, 0.15) 100%) !important;
+        border: 1px solid rgba(212, 165, 116, 0.2) !important;
+        font-weight: 600 !important;
+    }
+
+    .lawyer-meta-item-mobile:first-child .lawyer-meta-text-mobile {
+        color: #2c3e50 !important;
+        font-weight: 600 !important;
+    }
+
+    .lawyer-meta-item-mobile:first-child:hover {
+        background: linear-gradient(135deg, rgba(212, 165, 116, 0.18) 0%, rgba(200, 180, 126, 0.22) 100%) !important;
+        border-color: rgba(212, 165, 116, 0.3) !important;
     }
 
     /* التقييم */
