@@ -127,6 +127,7 @@
         "review": [
             {
                 "@type": "Review",
+                "name": "{{ $property->title }}",
                 "author": {
                     "@type": "Person",
                     "name": "{{ $setting->app_name ?? 'LawMent' }}"

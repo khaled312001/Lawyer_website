@@ -52,6 +52,7 @@
                 "position": {{ $index + 1 }},
                 "item": {
                     "@type": "Review",
+                    "name": "{{ $setting->app_name ?? 'LawMent' }}",
                     "author": {
                         "@type": "Person",
                         "name": "{{ $testimonial->name }}"
