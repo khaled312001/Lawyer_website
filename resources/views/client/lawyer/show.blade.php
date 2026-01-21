@@ -9,6 +9,49 @@
     <meta property="og:image" content="{{ asset($lawyer?->image) }}" />
     <meta property="og:URL" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
+    
+    @if($lawyer && $lawyer->total_ratings > 0)
+    @php
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Person',
+            'name' => $lawyer->name,
+            'jobTitle' => $lawyer->designations ?? 'Lawyer',
+            'description' => strip_tags($lawyer->seo_description ?? $lawyer->about ?? ''),
+            'image' => url($lawyer->image ?? ''),
+            'url' => url()->current(),
+            'aggregateRating' => [
+                '@type' => 'AggregateRating',
+                'ratingValue' => (string)$lawyer->average_rating,
+                'reviewCount' => (string)$lawyer->total_ratings,
+                'bestRating' => '5',
+                'worstRating' => '1',
+                'name' => $lawyer->name
+            ],
+            'review' => $lawyer->activeRatings->take(10)->map(function($rating) {
+                return [
+                    '@type' => 'Review',
+                    'author' => [
+                        '@type' => 'Person',
+                        'name' => $rating->user?->name ?? 'Anonymous'
+                    ],
+                    'datePublished' => $rating->created_at->format('Y-m-d'),
+                    'reviewBody' => $rating->comment ? strip_tags($rating->comment) : 'No comment provided',
+                    'reviewRating' => [
+                        '@type' => 'Rating',
+                        'ratingValue' => (string)$rating->rating,
+                        'bestRating' => '5',
+                        'worstRating' => '1'
+                    ],
+                    'name' => $rating->user?->name ?? 'Anonymous'
+                ];
+            })->values()->toArray()
+        ];
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    @endif
 @endsection
 @section('client-content')
     <!--Banner Start-->
