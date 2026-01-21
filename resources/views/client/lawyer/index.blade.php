@@ -186,7 +186,7 @@
                     @foreach ($lawyers as $lawyer)
                         <div class="col-lg-4 col-md-4 col-sm-6 mt_30">
                             <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl" style="display: flex; flex-direction: column; height: 100%; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.12); background: #fff;">
-                                <div class="lawyer-card-image-mobile" style="width: 100%; height: 240px !important; min-height: 240px !important; max-height: 240px !important; overflow: hidden; position: relative; flex-shrink: 0; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                                <div class="lawyer-card-image-mobile" style="width: 100%; height: 480px !important; min-height: 480px !important; max-height: 480px !important; overflow: hidden; position: relative; flex-shrink: 0; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
                                     <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}" style="display: block; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
                                         <img src="{{ image_url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
                                             alt="{{ $lawyer?->name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
@@ -251,9 +251,9 @@
     
     /* إصلاح الصورة - أكبر لإظهار الصورة كاملة */
     .team-page .lawyer-card-image-mobile {
-        height: 240px !important;
-        min-height: 240px !important;
-        max-height: 240px !important;
+        height: 480px !important;
+        min-height: 480px !important;
+        max-height: 480px !important;
         background: #f5f5f5 !important;
         display: flex !important;
         align-items: center !important;
@@ -313,14 +313,14 @@
     @media (min-width: 992px) {
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
-            min-height: 580px !important;
-            max-height: 600px !important;
+            min-height: 820px !important;
+            max-height: 840px !important;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 240px !important;
-            min-height: 240px !important;
-            max-height: 240px !important;
+            height: 480px !important;
+            min-height: 480px !important;
+            max-height: 480px !important;
             background: #f5f5f5 !important;
         }
         
@@ -577,17 +577,17 @@
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
             height: 100%;
-            min-height: 580px;
-            max-height: 600px;
+            min-height: 820px;
+            max-height: 840px;
             width: 100%;
             display: flex;
             flex-direction: column;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 240px;
-            min-height: 240px;
-            max-height: 240px;
+            height: 480px;
+            min-height: 480px;
+            max-height: 480px;
             flex-shrink: 0;
             background: #f5f5f5;
             display: flex;
@@ -665,16 +665,16 @@
         
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
-            min-height: 600px;
-            max-height: 620px;
-            height: 600px;
+            min-height: 840px;
+            max-height: 860px;
+            height: 840px;
             width: 100%;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 240px;
-            min-height: 240px;
-            max-height: 240px;
+            height: 480px;
+            min-height: 480px;
+            max-height: 480px;
             background: #f5f5f5;
         }
         
