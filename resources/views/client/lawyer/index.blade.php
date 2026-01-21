@@ -184,7 +184,7 @@
             <div class="row">
                 @if ($lawyers->count() != 0)
                     @foreach ($lawyers as $lawyer)
-                        <div class="col-lg-3 col-md-4 col-sm-6 mt_30">
+                        <div class="col-lg-4 col-md-4 col-sm-6 mt_30">
                             <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
                                 <div class="lawyer-card-image-mobile">
                                     <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
@@ -360,23 +360,23 @@
         justify-content: center;
     }
     
-    .team-page .col-lg-3,
+    .team-page .col-lg-4,
     .team-page .col-md-4,
     .team-page .col-sm-6 {
         padding: 0 20px;
         margin-bottom: 40px;
     }
     
-    /* تحسين التخطيط للابتوب */
+    /* تحسين التخطيط للابتوب - 3 كروت في كل صف */
     @media (min-width: 992px) {
         .team-page .row {
             margin: 0 -20px;
             justify-content: flex-start;
         }
         
-        .team-page .col-lg-3 {
-            flex: 0 0 calc(25% - 40px);
-            max-width: calc(25% - 40px);
+        .team-page .col-lg-4 {
+            flex: 0 0 calc(33.333% - 40px);
+            max-width: calc(33.333% - 40px);
             padding: 0 20px;
             margin-bottom: 40px;
         }
@@ -409,15 +409,15 @@
         }
     }
     
-    /* تحسين للشاشات الكبيرة جداً */
+    /* تحسين للشاشات الكبيرة جداً - 3 كروت في كل صف */
     @media (min-width: 1400px) {
         .team-page .row {
             margin: 0 -25px;
         }
         
-        .team-page .col-lg-3 {
-            flex: 0 0 calc(25% - 50px);
-            max-width: calc(25% - 50px);
+        .team-page .col-lg-4 {
+            flex: 0 0 calc(33.333% - 50px);
+            max-width: calc(33.333% - 50px);
             padding: 0 25px;
             margin-bottom: 50px;
         }
