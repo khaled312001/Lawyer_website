@@ -40,73 +40,89 @@
 @endsection
 
 @section('structured_data')
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": "{{ __('Real Estate Properties') }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ $currentUrl }}"
-    }
-    </script>
-    
-    @if($properties && $properties->count() > 0)
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": [
-            @foreach($properties->take(20) as $index => $property)
-            {
-                "@type": "ListItem",
-                "position": {{ $index + 1 }},
-                "item": {
-                    "@type": "Product",
-                    "name": "{{ $property->title }}",
-                    "description": "{{ Str::limit(strip_tags($property->description ?? ''), 150) }}",
-                    "url": "{{ route('website.real-estate.show', $property->slug) }}",
-                    @if($property->main_image_url)
-                    "image": "{{ $property->main_image_url }}",
-                    @endif
-                    "offers": {
-                        "@type": "Offer",
-                        "price": "{{ $property->price ?? 0 }}",
-                        "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}",
-                        "priceValidUntil": "{{ date('Y-m-d', strtotime('+1 year')) }}",
-                        "availability": "https://schema.org/InStock",
-                        "seller": {
-                            "@type": "Organization",
-                            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-                            "url": "{{ url('/') }}"
-                        },
-                        "hasMerchantReturnPolicy": {
-                            "@type": "MerchantReturnPolicy",
-                            "applicableCountry": "SY",
-                            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                            "merchantReturnDays": 30,
-                            "returnMethod": "https://schema.org/ReturnByMail",
-                            "returnFees": "https://schema.org/FreeReturn"
-                        },
-                        "shippingDetails": {
-                            "@type": "OfferShippingDetails",
-                            "shippingRate": {
-                                "@type": "MonetaryAmount",
-                                "value": "0",
-                                "currency": "{{ getSessionCurrency() ?? 'USD' }}"
-                            },
-                            "shippingDestination": {
-                                "@type": "DefinedRegion",
-                                "addressCountry": "SY"
-                            }
-                        }
-                    }
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'CollectionPage',
+            'name' => __('Real Estate Properties') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Browse our real estate properties for sale and rent'),
+            'url' => $currentUrl
+        ];
+        
+        // Add property list if properties exist
+        if ($properties && $properties->count() > 0) {
+            $itemListElement = [];
+            foreach ($properties->take(20) as $index => $property) {
+                $propertyName = $property->title ?? 'Real Estate Property';
+                $propertyDesc = !empty($property->description) 
+                    ? Str::limit(strip_tags($property->description), 150) 
+                    : $propertyName;
+                
+                $propertyItem = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'item' => [
+                        '@type' => 'Product',
+                        'name' => $propertyName,
+                        'description' => $propertyDesc,
+                        'url' => route('website.real-estate.show', $property->slug),
+                        'offers' => [
+                            '@type' => 'Offer',
+                            'price' => (string)($property->price ?? 0),
+                            'priceCurrency' => getSessionCurrency() ?? 'USD',
+                            'priceValidUntil' => date('Y-m-d', strtotime('+1 year')),
+                            'availability' => 'https://schema.org/InStock',
+                            'seller' => [
+                                '@type' => 'Organization',
+                                'name' => $appName,
+                                'url' => url('/')
+                            ],
+                            'hasMerchantReturnPolicy' => [
+                                '@type' => 'MerchantReturnPolicy',
+                                'applicableCountry' => 'SY',
+                                'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                                'merchantReturnDays' => 30,
+                                'returnMethod' => 'https://schema.org/ReturnByMail',
+                                'returnFees' => 'https://schema.org/FreeReturn'
+                            ],
+                            'shippingDetails' => [
+                                '@type' => 'OfferShippingDetails',
+                                'shippingRate' => [
+                                    '@type' => 'MonetaryAmount',
+                                    'value' => '0',
+                                    'currency' => getSessionCurrency() ?? 'USD'
+                                ],
+                                'shippingDestination' => [
+                                    '@type' => 'DefinedRegion',
+                                    'addressCountry' => 'SY'
+                                ]
+                            ]
+                        ]
+                    ]
+                ];
+                
+                if (!empty($property->main_image_url)) {
+                    $propertyItem['item']['image'] = $property->main_image_url;
                 }
-            }@if(!$loop->last),@endif
-            @endforeach
-        ]
-    }
+                
+                $itemListElement[] = $propertyItem;
+            }
+            
+            if (!empty($itemListElement)) {
+                $structuredData['mainEntity'] = [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $itemListElement
+                ];
+            }
+        }
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
-    @endif
     
     <script type="application/ld+json">
     {

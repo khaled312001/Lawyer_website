@@ -40,27 +40,66 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $mainEntity = [];
+        
+        if ($faqCategories && $faqCategories->count() > 0) {
+            foreach ($faqCategories as $category) {
+                if ($category->faq_list && $category->faq_list->count() > 0) {
+                    foreach ($category->faq_list as $faq) {
+                        $question = $faq->question ?? '';
+                        $answer = !empty($faq->answer) ? strip_tags($faq->answer) : '';
+                        
+                        if (!empty($question) && !empty($answer)) {
+                            $mainEntity[] = [
+                                '@type' => 'Question',
+                                'name' => $question,
+                                'acceptedAnswer' => [
+                                    '@type' => 'Answer',
+                                    'text' => $answer
+                                ]
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        
+        $faqData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $mainEntity
+        ];
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($faqData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            @if($faqCategories && $faqCategories->count() > 0)
-                @foreach($faqCategories as $category)
-                    @if($category->faq_list && $category->faq_list->count() > 0)
-                        @foreach($category->faq_list as $faq)
-                        {
-                            "@type": "Question",
-                            "name": "{{ $faq->question }}",
-                            "acceptedAnswer": {
-                                "@type": "Answer",
-                                "text": "{{ strip_tags($faq->answer) }}"
-                            }
-                        }@if(!($loop->parent->last && $loop->last)),@endif
-                        @endforeach
-                    @endif
-                @endforeach
-            @endif
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('FAQ') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('FAQ') }}"
+                }
+            }
         ]
     }
     </script>

@@ -41,51 +41,67 @@
 @endsection
 
 @section('structured_data')
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": "{{ $department->name }}",
-        "description": "{{ Str::limit(strip_tags($department->description ?? ''), 200) }}",
-        "url": "{{ $departmentUrl }}",
-        @if($department->thumbnail_image)
-        "image": "{{ asset($department->thumbnail_image) }}",
-        @endif
-        "provider": {
-            "@type": "LegalService",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-            "url": "{{ url('/') }}"
-        },
-        "serviceType": "Legal Services",
-        "areaServed": {
-            "@type": "Country",
-            "name": "Syria"
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $deptName = $department->name ?? 'Legal Department';
+        $deptDesc = !empty($department->description) 
+            ? Str::limit(strip_tags($department->description), 200) 
+            : $deptName;
+        
+        $serviceData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Service',
+            'name' => $deptName,
+            'description' => $deptDesc,
+            'url' => $departmentUrl,
+            'provider' => [
+                '@type' => 'LegalService',
+                'name' => $appName,
+                'url' => url('/')
+            ],
+            'serviceType' => 'Legal Services',
+            'areaServed' => [
+                '@type' => 'Country',
+                'name' => 'Syria'
+            ]
+        ];
+        
+        if (!empty($department->thumbnail_image)) {
+            $serviceData['image'] = asset($department->thumbnail_image);
         }
-    }
-    </script>
-    
-    @if($lawyers && $lawyers->count() > 0)
+        
+        // Add lawyer list if lawyers exist
+        if ($lawyers && $lawyers->count() > 0) {
+            $itemListElement = [];
+            foreach ($lawyers->take(10) as $index => $lawyer) {
+                $lawyerName = $lawyer->name ?? 'Lawyer';
+                $itemListElement[] = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'item' => [
+                        '@type' => 'Person',
+                        'name' => $lawyerName,
+                        'jobTitle' => $lawyer->designations ?? 'Lawyer',
+                        'url' => route('website.lawyer.details', $lawyer->slug)
+                    ]
+                ];
+            }
+            
+            if (!empty($itemListElement)) {
+                $serviceData['hasOfferCatalog'] = [
+                    '@type' => 'OfferCatalog',
+                    'name' => 'Lawyers in ' . $deptName,
+                    'itemListElement' => $itemListElement
+                ];
+            }
+        }
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": [
-            @foreach($lawyers->take(10) as $index => $lawyer)
-            {
-                "@type": "ListItem",
-                "position": {{ $index + 1 }},
-                "item": {
-                    "@type": "Person",
-                    "name": "{{ $lawyer->name }}",
-                    "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
-                    "url": "{{ route('website.lawyer.details', $lawyer->slug) }}"
-                }
-            }@if(!$loop->last),@endif
-            @endforeach
-        ]
-    }
+    {!! json_encode($serviceData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
-    @endif
     
     <script type="application/ld+json">
     {

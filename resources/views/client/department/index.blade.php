@@ -40,45 +40,90 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'CollectionPage',
+            'name' => __('Departments') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Browse our legal departments and practice areas'),
+            'url' => $currentUrl
+        ];
+        
+        // Add department list if departments exist
+        if ($departments && $departments->count() > 0) {
+            $itemListElement = [];
+            foreach ($departments->take(20) as $index => $department) {
+                $deptName = $department->name ?? 'Legal Department';
+                $deptDesc = !empty($department->description) 
+                    ? Str::limit(strip_tags($department->description), 150) 
+                    : $deptName;
+                
+                $deptItem = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'item' => [
+                        '@type' => 'Service',
+                        'name' => $deptName,
+                        'description' => $deptDesc,
+                        'url' => route('website.department.details', $department->slug),
+                        'provider' => [
+                            '@type' => 'LegalService',
+                            'name' => $appName
+                        ]
+                    ]
+                ];
+                
+                if (!empty($department->thumbnail_image)) {
+                    $deptItem['item']['image'] = asset($department->thumbnail_image);
+                }
+                
+                $itemListElement[] = $deptItem;
+            }
+            
+            if (!empty($itemListElement)) {
+                $structuredData['mainEntity'] = [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $itemListElement
+                ];
+            }
+        }
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": "{{ __('Departments') }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ $currentUrl }}"
-    }
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
-    @if($departments && $departments->count() > 0)
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "ItemList",
+        "@type": "BreadcrumbList",
         "itemListElement": [
-            @foreach($departments->take(20) as $index => $department)
             {
                 "@type": "ListItem",
-                "position": {{ $index + 1 }},
+                "position": 1,
+                "name": "{{ __('Home') }}",
                 "item": {
-                    "@type": "Service",
-                    "name": "{{ $department->name }}",
-                    "description": "{{ Str::limit(strip_tags($department->description ?? ''), 150) }}",
-                    "url": "{{ route('website.department.details', $department->slug) }}",
-                    @if($department->thumbnail_image)
-                    "image": "{{ asset($department->thumbnail_image) }}",
-                    @endif
-                    "provider": {
-                        "@type": "LegalService",
-                        "name": "{{ $setting->app_name ?? 'LawMent' }}"
-                    }
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
                 }
-            }@if(!$loop->last),@endif
-            @endforeach
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Departments') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Departments') }}"
+                }
+            }
         ]
     }
     </script>
-    @endif
 @endsection
 
 @section('client-content')

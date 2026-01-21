@@ -13,22 +13,22 @@ Route::get('sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 Route::middleware(['translation', 'maintenance.mode'])->group(function () {
     // Redirect /en/real-estate/{slug} to /real-estate/{slug}
     Route::get('/en/real-estate/{slug}', function ($slug) {
-        return redirect()->route('website.real-estate.show', $slug, 301);
+        return redirect()->route('website.real-estate.show', $slug)->setStatusCode(301);
     });
     
     // Redirect /ar/real-estate/{slug} to /real-estate/{slug}
     Route::get('/ar/real-estate/{slug}', function ($slug) {
-        return redirect()->route('website.real-estate.show', $slug, 301);
+        return redirect()->route('website.real-estate.show', $slug)->setStatusCode(301);
     });
     
     // Redirect /en/blog-details/{slug} to /blog-details/{slug}
     Route::get('/en/blog-details/{slug}', function ($slug) {
-        return redirect()->route('website.blog.details', $slug, 301);
+        return redirect()->route('website.blog.details', $slug)->setStatusCode(301);
     });
     
     // Redirect /ar/blog-details/{slug} to /blog-details/{slug}
     Route::get('/ar/blog-details/{slug}', function ($slug) {
-        return redirect()->route('website.blog.details', $slug, 301);
+        return redirect()->route('website.blog.details', $slug)->setStatusCode(301);
     });
 });
 

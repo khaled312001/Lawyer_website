@@ -40,45 +40,86 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'CollectionPage',
+            'name' => __('Lawyers') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Browse our team of experienced lawyers and legal professionals'),
+            'url' => $currentUrl
+        ];
+        
+        // Add lawyer list if lawyers exist
+        if ($lawyers && $lawyers->count() > 0) {
+            $itemListElement = [];
+            foreach ($lawyers->take(20) as $index => $lawyer) {
+                $lawyerName = $lawyer->name ?? 'Lawyer';
+                $lawyerItem = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'item' => [
+                        '@type' => 'Person',
+                        'name' => $lawyerName,
+                        'jobTitle' => $lawyer->designations ?? 'Lawyer',
+                        'url' => route('website.lawyer.details', $lawyer->slug),
+                        'worksFor' => [
+                            '@type' => 'LegalService',
+                            'name' => $appName
+                        ]
+                    ]
+                ];
+                
+                if (!empty($lawyer->image)) {
+                    $lawyerItem['item']['image'] = image_url($lawyer->image);
+                }
+                
+                $itemListElement[] = $lawyerItem;
+            }
+            
+            if (!empty($itemListElement)) {
+                $structuredData['mainEntity'] = [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $itemListElement
+                ];
+            }
+        }
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": "{{ __('Lawyers') }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ $currentUrl }}"
-    }
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
-    @if($lawyers && $lawyers->count() > 0)
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "ItemList",
+        "@type": "BreadcrumbList",
         "itemListElement": [
-            @foreach($lawyers->take(20) as $index => $lawyer)
             {
                 "@type": "ListItem",
-                "position": {{ $index + 1 }},
+                "position": 1,
+                "name": "{{ __('Home') }}",
                 "item": {
-                    "@type": "Person",
-                    "name": "{{ $lawyer->name }}",
-                    "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
-                    "url": "{{ route('website.lawyer.details', $lawyer->slug) }}",
-                    @if($lawyer->image)
-                    "image": "{{ image_url($lawyer->image) }}",
-                    @endif
-                    "worksFor": {
-                        "@type": "LegalService",
-                        "name": "{{ $setting->app_name ?? 'LawMent' }}"
-                    }
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
                 }
-            }@if(!$loop->last),@endif
-            @endforeach
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Lawyers') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Lawyers') }}"
+                }
+            }
         ]
     }
     </script>
-    @endif
 @endsection
 
 @section('client-content')

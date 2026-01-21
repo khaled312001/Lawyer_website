@@ -42,47 +42,71 @@
 @endsection
 
 @section('structured_data')
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": "{{ $service->title }}",
-        "description": "{{ Str::limit(strip_tags($service->description ?? $service->sort_description ?? ''), 200) }}",
-        "url": "{{ $serviceUrl }}",
-        @if($service->icon)
-        "image": "{{ asset($service->icon) }}",
-        @endif
-        "provider": {
-            "@type": "LegalService",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-            "url": "{{ url('/') }}"
-        },
-        "serviceType": "Legal Consultation",
-        "areaServed": {
-            "@type": "Country",
-            "name": "Syria"
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $serviceName = $service->title ?? 'Legal Service';
+        $serviceDesc = !empty($service->description) 
+            ? Str::limit(strip_tags($service->description), 200) 
+            : (!empty($service->sort_description) 
+                ? Str::limit(strip_tags($service->sort_description), 200) 
+                : $serviceName);
+        
+        $serviceData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Service',
+            'name' => $serviceName,
+            'description' => $serviceDesc,
+            'url' => $serviceUrl,
+            'provider' => [
+                '@type' => 'LegalService',
+                'name' => $appName,
+                'url' => url('/')
+            ],
+            'serviceType' => 'Legal Consultation',
+            'areaServed' => [
+                '@type' => 'Country',
+                'name' => 'Syria'
+            ]
+        ];
+        
+        if (!empty($service->icon)) {
+            $serviceData['image'] = asset($service->icon);
         }
-    }
+        
+        // Add FAQ if exists
+        $faqMainEntity = [];
+        if ($service->service_faq && $service->service_faq->count() > 0) {
+            foreach ($service->service_faq as $faq) {
+                $question = $faq->question ?? '';
+                $answer = !empty($faq->answer) ? strip_tags($faq->answer) : '';
+                
+                if (!empty($question) && !empty($answer)) {
+                    $faqMainEntity[] = [
+                        '@type' => 'Question',
+                        'name' => $question,
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => $answer
+                        ]
+                    ];
+                }
+            }
+        }
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($serviceData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
-    @if($service->service_faq && $service->service_faq->count() > 0)
+    @if(!empty($faqMainEntity))
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            @foreach($service->service_faq as $faq)
-            {
-                "@type": "Question",
-                "name": "{{ $faq->question }}",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "{{ strip_tags($faq->answer) }}"
-                }
-            }@if(!$loop->last),@endif
-            @endforeach
-        ]
-    }
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => $faqMainEntity
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     @endif
     

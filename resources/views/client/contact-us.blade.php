@@ -40,53 +40,101 @@
 @endsection
 
 @section('structured_data')
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ContactPage",
-        "name": "{{ __('Contact Us') }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ $currentUrl }}",
-        "mainEntity": {
-            "@type": "LegalService",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-            @if($contactInfo?->top_bar_phone)
-            "telephone": "{{ $contactInfo->top_bar_phone }}",
-            @endif
-            @if($contactInfo?->top_bar_email)
-            "email": "{{ $contactInfo->top_bar_email }}",
-            @endif
-            @if($contactInfo?->address)
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "{{ $contactInfo->address }}"
-            }
-            @endif
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $contactPageData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'ContactPage',
+            'name' => __('Contact Us') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Get in touch with our legal team'),
+            'url' => $currentUrl,
+            'mainEntity' => [
+                '@type' => 'LegalService',
+                'name' => $appName
+            ]
+        ];
+        
+        if (!empty($contactInfo?->top_bar_phone)) {
+            $contactPageData['mainEntity']['telephone'] = $contactInfo->top_bar_phone;
         }
-    }
+        
+        if (!empty($contactInfo?->top_bar_email)) {
+            $contactPageData['mainEntity']['email'] = $contactInfo->top_bar_email;
+        }
+        
+        if (!empty($contactInfo?->address)) {
+            $contactPageData['mainEntity']['address'] = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $contactInfo->address
+            ];
+        }
+        
+        $localBusinessData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'LocalBusiness',
+            'name' => $appName,
+            'description' => $seoDescription ?? __('Get in touch with our legal team'),
+            'url' => url('/'),
+            'priceRange' => '$$',
+            'image' => $seoImage
+        ];
+        
+        if (!empty($contactInfo)) {
+            if (!empty($contactInfo->top_bar_phone)) {
+                $localBusinessData['telephone'] = $contactInfo->top_bar_phone;
+            }
+            
+            if (!empty($contactInfo->top_bar_email)) {
+                $localBusinessData['email'] = $contactInfo->top_bar_email;
+            }
+            
+            if (!empty($contactInfo->address)) {
+                $localBusinessData['address'] = [
+                    '@type' => 'PostalAddress',
+                    'streetAddress' => $contactInfo->address
+                ];
+            }
+        }
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($contactPageData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
-    @if($contactInfo)
+    <script type="application/ld+json">
+    {!! json_encode($localBusinessData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "{{ $setting->app_name ?? 'LawMent' }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ url('/') }}",
-        "telephone": "{{ $contactInfo->top_bar_phone ?? '' }}",
-        "email": "{{ $contactInfo->top_bar_email ?? '' }}",
-        @if($contactInfo->address)
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "{{ $contactInfo->address }}"
-        },
-        @endif
-        "priceRange": "$$",
-        "image": "{{ $seoImage }}"
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Contact Us') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Contact Us') }}"
+                }
+            }
+        ]
     }
     </script>
-    @endif
 @endsection
 
 @section('client-content')
