@@ -193,23 +193,25 @@
                                     </a>
                                 </div>
                                 <div class="lawyer-card-content-mobile">
-                                    <h3 class="lawyer-card-name-mobile">
-                                        <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
-                                            {{ ucfirst($lawyer?->name) }}
-                                        </a>
-                                    </h3>
-                                    <div class="lawyer-card-meta-mobile">
+                                    <div class="lawyer-card-name-section-mobile">
+                                        <h3 class="lawyer-card-name-mobile">
+                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                                                {{ ucfirst($lawyer?->name) }}
+                                            </a>
+                                        </h3>
                                         @php
                                             $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
                                                 ? $lawyer->departments->first() 
                                                 : ($lawyer->department ?? null);
                                         @endphp
                                         @if($displayDept && $displayDept->name)
-                                        <div class="lawyer-meta-item-mobile">
-                                            <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
-                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
+                                        <div class="lawyer-card-department-mobile">
+                                            <i class="fas fa-briefcase"></i>
+                                            <span>{{ ucfirst($displayDept->name) }}</span>
                                         </div>
                                         @endif
+                                    </div>
+                                    <div class="lawyer-card-meta-mobile">
                                         @if($lawyer->location)
                                         <div class="lawyer-meta-item-mobile">
                                             <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
@@ -353,6 +355,79 @@
         padding: 30px 0 70px;
     }
     
+    /* جزء الاسم والقسم مع خلفية واضحة */
+    .lawyer-card-name-section-mobile {
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.12) 0%, rgba(212, 165, 116, 0.15) 100%);
+        padding: 18px 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(107, 93, 71, 0.15);
+        box-shadow: 0 2px 8px rgba(107, 93, 71, 0.08);
+    }
+    
+    .lawyer-card-name-section-mobile .lawyer-card-name-mobile {
+        margin: 0 0 12px 0 !important;
+        padding-bottom: 0 !important;
+        border-bottom: none !important;
+    }
+    
+    .lawyer-card-name-section-mobile .lawyer-card-name-mobile a {
+        color: #2c3e50 !important;
+        font-size: 24px !important;
+        font-weight: 700 !important;
+    }
+    
+    .lawyer-card-department-mobile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    .lawyer-card-department-mobile i {
+        color: var(--colorPrimary);
+        font-size: 16px;
+        background: rgba(107, 93, 71, 0.15);
+        padding: 6px 8px;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+    
+    .lawyer-card-department-mobile span {
+        color: #555;
+        font-size: 15px;
+        font-weight: 600;
+        flex: 1;
+    }
+    
+    /* جزء التفاصيل أكبر */
+    .team-page .lawyer-card-meta-mobile {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding: 15px 0;
+    }
+    
+    .team-page .lawyer-meta-item-mobile {
+        padding: 12px 0;
+        margin-bottom: 8px;
+    }
+    
+    .team-page .lawyer-meta-text-mobile {
+        font-size: 15px !important;
+        font-weight: 500 !important;
+    }
+    
+    .team-page .lawyer-meta-icon-mobile {
+        font-size: 18px !important;
+        width: 28px !important;
+        min-width: 28px !important;
+        height: 28px !important;
+    }
+    
     /* استخدام CSS Grid للشبكة */
     .team-page .row {
         display: grid;
@@ -401,45 +476,57 @@
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
             height: 100%;
-            min-height: 580px;
-            max-height: 580px;
+            min-height: 520px;
+            max-height: 520px;
             width: 100%;
             display: flex;
             flex-direction: column;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 260px;
-            min-height: 260px;
-            max-height: 260px;
+            height: 200px;
+            min-height: 200px;
+            max-height: 200px;
             flex-shrink: 0;
         }
         
         .team-page .lawyer-card-content-mobile {
-            padding: 28px;
+            padding: 20px;
             flex: 1;
             display: flex;
             flex-direction: column;
             min-height: 0;
         }
         
-        .team-page .lawyer-card-name-mobile {
-            flex-shrink: 0;
+        .team-page .lawyer-card-name-section-mobile {
+            padding: 20px 22px;
+            margin-bottom: 22px;
         }
         
-        .team-page .lawyer-card-name-mobile a {
-            font-size: 24px;
+        .team-page .lawyer-card-name-section-mobile .lawyer-card-name-mobile a {
+            font-size: 26px !important;
             line-height: 1.3;
+        }
+        
+        .team-page .lawyer-card-department-mobile span {
+            font-size: 16px;
         }
         
         .team-page .lawyer-card-meta-mobile {
             flex: 1;
             min-height: 0;
-            overflow: hidden;
+            overflow: visible;
+            gap: 14px;
+            padding: 18px 0;
         }
         
         .team-page .lawyer-meta-text-mobile {
-            font-size: 15px;
+            font-size: 16px !important;
+        }
+        
+        .team-page .lawyer-meta-item-mobile {
+            padding: 14px 0;
+            margin-bottom: 10px;
         }
         
         .team-page .lawyer-card-button-mobile {
@@ -468,20 +555,20 @@
         
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
-            min-height: 600px;
-            max-height: 600px;
-            height: 600px;
+            min-height: 540px;
+            max-height: 540px;
+            height: 540px;
             width: 100%;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 280px;
-            min-height: 280px;
-            max-height: 280px;
+            height: 220px;
+            min-height: 220px;
+            max-height: 220px;
         }
         
         .team-page .lawyer-card-content-mobile {
-            padding: 32px;
+            padding: 24px;
         }
     }
     
@@ -936,6 +1023,39 @@
         .team-page .lawyer-card-mobile:hover,
         .team-page .aman-lawyer-card-mobile-rtl:hover {
             transform: translateY(-5px);
+        }
+        
+        /* تحسينات للشاشات الصغيرة */
+        .team-page .lawyer-card-image-mobile {
+            height: 160px !important;
+            min-height: 160px !important;
+            max-height: 160px !important;
+        }
+        
+        .team-page .lawyer-card-name-section-mobile {
+            padding: 16px 18px;
+            margin-bottom: 18px;
+        }
+        
+        .team-page .lawyer-card-name-section-mobile .lawyer-card-name-mobile a {
+            font-size: 20px !important;
+        }
+        
+        .team-page .lawyer-card-department-mobile span {
+            font-size: 14px;
+        }
+        
+        .team-page .lawyer-card-meta-mobile {
+            gap: 10px;
+            padding: 12px 0;
+        }
+        
+        .team-page .lawyer-meta-text-mobile {
+            font-size: 14px !important;
+        }
+        
+        .team-page .lawyer-meta-item-mobile {
+            padding: 10px 0;
         }
     }
 </style>
