@@ -185,17 +185,17 @@
                 @if ($lawyers->count() != 0)
                     @foreach ($lawyers as $lawyer)
                         <div class="col-lg-4 col-md-4 col-sm-6 mt_30">
-                            <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
-                                <div class="lawyer-card-image-mobile">
-                                    <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                            <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl" style="display: flex; flex-direction: column; height: 100%; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.12); background: #fff;">
+                                <div class="lawyer-card-image-mobile" style="width: 100%; height: 140px !important; min-height: 140px !important; max-height: 140px !important; overflow: hidden; position: relative; flex-shrink: 0;">
+                                    <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}" style="display: block; width: 100%; height: 100%;">
                                         <img src="{{ image_url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
-                                            alt="{{ $lawyer?->name }}" loading="lazy">
+                                            alt="{{ $lawyer?->name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
                                     </a>
                                 </div>
-                                <div class="lawyer-card-content-mobile">
-                                    <div class="lawyer-card-name-section-mobile">
-                                        <h3 class="lawyer-card-name-mobile">
-                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                                <div class="lawyer-card-content-mobile" style="padding: 18px; flex: 1; display: flex; flex-direction: column; text-align: right; direction: rtl; overflow: hidden;">
+                                    <div class="lawyer-card-name-section-mobile" style="background: linear-gradient(135deg, rgba(107, 93, 71, 0.12) 0%, rgba(212, 165, 116, 0.15) 100%); padding: 14px 16px; border-radius: 10px; margin-bottom: 16px; border: 1px solid rgba(107, 93, 71, 0.15); box-shadow: 0 2px 6px rgba(107, 93, 71, 0.08); flex-shrink: 0;">
+                                        <h3 class="lawyer-card-name-mobile" style="margin: 0 0 10px 0; padding: 0; border: none;">
+                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}" style="color: #2c3e50; font-size: 20px; font-weight: 700; text-decoration: none; display: block; line-height: 1.3; word-wrap: break-word; overflow-wrap: break-word;">
                                                 {{ ucfirst($lawyer?->name) }}
                                             </a>
                                         </h3>
@@ -205,29 +205,29 @@
                                                 : ($lawyer->department ?? null);
                                         @endphp
                                         @if($displayDept && $displayDept->name)
-                                        <div class="lawyer-card-department-mobile">
-                                            <i class="fas fa-briefcase"></i>
-                                            <span>{{ ucfirst($displayDept->name) }}</span>
+                                        <div class="lawyer-card-department-mobile" style="display: flex; align-items: center; gap: 8px; direction: rtl;">
+                                            <i class="fas fa-briefcase" style="color: var(--colorPrimary); font-size: 14px; background: rgba(107, 93, 71, 0.15); padding: 5px 7px; border-radius: 5px; flex-shrink: 0;"></i>
+                                            <span style="color: #555; font-size: 14px; font-weight: 600; word-wrap: break-word; overflow-wrap: break-word; flex: 1;">{{ ucfirst($displayDept->name) }}</span>
                                         </div>
                                         @endif
                                     </div>
-                                    <div class="lawyer-card-meta-mobile">
+                                    <div class="lawyer-card-meta-mobile" style="flex: 1; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; padding: 0; overflow: hidden; min-height: 0;">
                                         @if($lawyer->location)
-                                        <div class="lawyer-meta-item-mobile">
-                                            <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
-                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
+                                        <div class="lawyer-meta-item-mobile" style="display: flex; align-items: center; gap: 10px; direction: rtl; padding: 8px 0; flex-shrink: 0;">
+                                            <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile" style="order: 1; flex-shrink: 0; font-size: 16px; color: var(--colorPrimary); width: 24px; min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(107, 93, 71, 0.1); border-radius: 5px;"></i>
+                                            <span class="lawyer-meta-text-mobile" style="order: 2; flex: 1; font-size: 14px; color: #555; text-align: right; direction: rtl; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.5;">{{ ucfirst($lawyer->location->name) }}</span>
                                         </div>
                                         @endif
                                         @if($lawyer->designations)
-                                        <div class="lawyer-meta-item-mobile">
-                                            <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
-                                            <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
+                                        <div class="lawyer-meta-item-mobile" style="display: flex; align-items: center; gap: 10px; direction: rtl; padding: 8px 0; flex-shrink: 0;">
+                                            <i class="fas fa-graduation-cap lawyer-meta-icon-mobile" style="order: 1; flex-shrink: 0; font-size: 16px; color: var(--colorPrimary); width: 24px; min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(107, 93, 71, 0.1); border-radius: 5px;"></i>
+                                            <span class="lawyer-meta-text-mobile" style="order: 2; flex: 1; font-size: 14px; color: #555; text-align: right; direction: rtl; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.5;">{{ $lawyer->designations }}</span>
                                         </div>
                                         @endif
                                     </div>
-                                    <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
-                                        <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
-                                        <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
+                                    <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}" style="margin-top: auto; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 15px; direction: rtl; transition: all 0.3s ease;">
+                                        <i class="fas fa-arrow-left" style="order: 1; font-size: 16px;"></i>
+                                        <span style="order: 2;">{{ __('View Profile') }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -245,6 +245,92 @@
     <!--Lawyers List End-->
 
 <style>
+    /* ============================================
+       FIXED LAWYER CARD STYLES - INLINE OVERRIDES
+       ============================================ */
+    
+    /* إصلاح الصورة - أصغر */
+    .team-page .lawyer-card-image-mobile {
+        height: 140px !important;
+        min-height: 140px !important;
+        max-height: 140px !important;
+    }
+    
+    /* إصلاح جزء التفاصيل - منع خروج النص */
+    .team-page .lawyer-card-content-mobile {
+        overflow: hidden !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    .team-page .lawyer-card-meta-mobile {
+        overflow: hidden !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    .team-page .lawyer-meta-text-mobile {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        max-height: 2.8em !important;
+        line-height: 1.4 !important;
+    }
+    
+    .team-page .lawyer-card-name-mobile a {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+    }
+    
+    .team-page .lawyer-card-department-mobile span {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    /* إصلاح ارتفاع الكارت */
+    .team-page .lawyer-card-mobile,
+    .team-page .aman-lawyer-card-mobile-rtl {
+        min-height: auto !important;
+        max-height: none !important;
+        height: auto !important;
+    }
+    
+    @media (min-width: 992px) {
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            min-height: 480px !important;
+            max-height: 520px !important;
+        }
+        
+        .team-page .lawyer-card-image-mobile {
+            height: 140px !important;
+            min-height: 140px !important;
+            max-height: 140px !important;
+        }
+    }
+    
+    @media (max-width: 991px) {
+        .team-page .lawyer-card-image-mobile {
+            height: 130px !important;
+            min-height: 130px !important;
+            max-height: 130px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .team-page .lawyer-card-image-mobile {
+            height: 120px !important;
+            min-height: 120px !important;
+            max-height: 120px !important;
+        }
+    }
+    
     /* ============================================
        ENHANCED LAWYER SEARCH SECTION
        ============================================ */
