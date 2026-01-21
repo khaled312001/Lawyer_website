@@ -186,14 +186,14 @@
                     @foreach ($lawyers as $lawyer)
                         <div class="col-lg-4 col-md-4 col-sm-6 mt_30">
                             <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl" style="display: flex; flex-direction: column; height: 100%; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.12); background: #fff;">
-                                <div class="lawyer-card-image-mobile" style="width: 100%; height: 140px !important; min-height: 140px !important; max-height: 140px !important; overflow: hidden; position: relative; flex-shrink: 0;">
+                                <div class="lawyer-card-image-mobile" style="width: 100%; height: 200px !important; min-height: 200px !important; max-height: 200px !important; overflow: hidden; position: relative; flex-shrink: 0;">
                                     <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}" style="display: block; width: 100%; height: 100%;">
                                         <img src="{{ image_url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
                                             alt="{{ $lawyer?->name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
                                     </a>
                                 </div>
-                                <div class="lawyer-card-content-mobile" style="padding: 18px; flex: 1; display: flex; flex-direction: column; text-align: right; direction: rtl; overflow: hidden;">
-                                    <div class="lawyer-card-name-section-mobile" style="background: linear-gradient(135deg, rgba(107, 93, 71, 0.12) 0%, rgba(212, 165, 116, 0.15) 100%); padding: 14px 16px; border-radius: 10px; margin-bottom: 16px; border: 1px solid rgba(107, 93, 71, 0.15); box-shadow: 0 2px 6px rgba(107, 93, 71, 0.08); flex-shrink: 0;">
+                                <div class="lawyer-card-content-mobile" style="padding: 16px; flex: 1; display: flex; flex-direction: column; text-align: right; direction: rtl; overflow: hidden;">
+                                    <div class="lawyer-card-name-section-mobile" style="background: linear-gradient(135deg, rgba(107, 93, 71, 0.12) 0%, rgba(212, 165, 116, 0.15) 100%); padding: 12px 14px; border-radius: 10px; margin-bottom: 14px; border: 1px solid rgba(107, 93, 71, 0.15); box-shadow: 0 2px 6px rgba(107, 93, 71, 0.08); flex-shrink: 0;">
                                         <h3 class="lawyer-card-name-mobile" style="margin: 0 0 10px 0; padding: 0; border: none;">
                                             <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}" style="color: #2c3e50; font-size: 20px; font-weight: 700; text-decoration: none; display: block; line-height: 1.3; word-wrap: break-word; overflow-wrap: break-word;">
                                                 {{ ucfirst($lawyer?->name) }}
@@ -249,11 +249,11 @@
        FIXED LAWYER CARD STYLES - INLINE OVERRIDES
        ============================================ */
     
-    /* إصلاح الصورة - أصغر */
+    /* إصلاح الصورة - أكبر لإظهار الصورة كاملة */
     .team-page .lawyer-card-image-mobile {
-        height: 140px !important;
-        min-height: 140px !important;
-        max-height: 140px !important;
+        height: 200px !important;
+        min-height: 200px !important;
+        max-height: 200px !important;
     }
     
     /* إصلاح جزء التفاصيل - منع خروج النص */
@@ -304,30 +304,30 @@
     @media (min-width: 992px) {
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
-            min-height: 480px !important;
-            max-height: 520px !important;
+            min-height: 520px !important;
+            max-height: 560px !important;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 140px !important;
-            min-height: 140px !important;
-            max-height: 140px !important;
+            height: 200px !important;
+            min-height: 200px !important;
+            max-height: 200px !important;
         }
     }
     
     @media (max-width: 991px) {
         .team-page .lawyer-card-image-mobile {
-            height: 130px !important;
-            min-height: 130px !important;
-            max-height: 130px !important;
+            height: 180px !important;
+            min-height: 180px !important;
+            max-height: 180px !important;
         }
     }
     
     @media (max-width: 768px) {
         .team-page .lawyer-card-image-mobile {
-            height: 120px !important;
-            min-height: 120px !important;
-            max-height: 120px !important;
+            height: 160px !important;
+            min-height: 160px !important;
+            max-height: 160px !important;
         }
     }
     
@@ -514,11 +514,11 @@
         height: 28px !important;
     }
     
-    /* استخدام CSS Grid للشبكة */
+    /* استخدام CSS Grid للشبكة - تصغير المسافات */
     .team-page .row {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
+        gap: 18px;
         margin: 0;
         padding: 0;
     }
@@ -547,7 +547,7 @@
         .team-page .row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 18px;
             margin: 0;
             padding: 0;
         }
@@ -562,8 +562,8 @@
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
             height: 100%;
-            min-height: 520px;
-            max-height: 520px;
+            min-height: 560px;
+            max-height: 580px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -577,7 +577,7 @@
         }
         
         .team-page .lawyer-card-content-mobile {
-            padding: 20px;
+            padding: 16px;
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -627,7 +627,7 @@
         .team-page .row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            gap: 20px;
             margin: 0;
             padding: 0;
         }
@@ -641,9 +641,9 @@
         
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
-            min-height: 540px;
-            max-height: 540px;
-            height: 540px;
+            min-height: 580px;
+            max-height: 600px;
+            height: 580px;
             width: 100%;
         }
         
@@ -654,7 +654,7 @@
         }
         
         .team-page .lawyer-card-content-mobile {
-            padding: 24px;
+            padding: 18px;
         }
     }
     
@@ -705,7 +705,7 @@
         .team-page .row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 15px;
             margin: 0;
             padding: 0;
         }
@@ -743,7 +743,7 @@
         .team-page .row {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
             margin: 0;
             padding: 0;
         }
