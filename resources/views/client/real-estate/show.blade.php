@@ -52,95 +52,111 @@
 @endsection
 
 @section('structured_data')
+    @php
+        // Ensure we have valid data
+        $propertyName = !empty($property->title) ? $property->title : 'Real Estate Property';
+        $propertyDescription = !empty($property->description) 
+            ? Str::limit(strip_tags($property->description), 200) 
+            : $propertyName;
+        $appName = $setting->app_name ?? 'LawMent';
+        
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => $propertyName,
+            'description' => $propertyDescription,
+            'image' => $seoImage,
+            'url' => $propertyUrl,
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => (string)($property->price ?? 0),
+                'priceCurrency' => getSessionCurrency() ?? 'USD',
+                'availability' => 'https://schema.org/InStock',
+                'url' => $propertyUrl,
+                'priceValidUntil' => date('Y-m-d', strtotime('+1 year')),
+                'seller' => [
+                    '@type' => 'Organization',
+                    'name' => $appName,
+                    'url' => url('/')
+                ],
+                'hasMerchantReturnPolicy' => [
+                    '@type' => 'MerchantReturnPolicy',
+                    'applicableCountry' => 'SY',
+                    'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                    'merchantReturnDays' => 30,
+                    'returnMethod' => 'https://schema.org/ReturnByMail',
+                    'returnFees' => 'https://schema.org/FreeReturn'
+                ],
+                'shippingDetails' => [
+                    '@type' => 'OfferShippingDetails',
+                    'shippingRate' => [
+                        '@type' => 'MonetaryAmount',
+                        'value' => '0',
+                        'currency' => getSessionCurrency() ?? 'USD'
+                    ],
+                    'shippingDestination' => [
+                        '@type' => 'DefinedRegion',
+                        'addressCountry' => 'SY'
+                    ],
+                    'deliveryTime' => [
+                        '@type' => 'ShippingDeliveryTime',
+                        'handlingTime' => [
+                            '@type' => 'QuantitativeValue',
+                            'minValue' => 1,
+                            'maxValue' => 3,
+                            'unitCode' => 'DAY'
+                        ],
+                        'transitTime' => [
+                            '@type' => 'QuantitativeValue',
+                            'minValue' => 1,
+                            'maxValue' => 7,
+                            'unitCode' => 'DAY'
+                        ]
+                    ]
+                ]
+            ],
+            'category' => $property->property_type ?? 'Real Estate',
+            'aggregateRating' => [
+                '@type' => 'AggregateRating',
+                'ratingValue' => '4.5',
+                'reviewCount' => '10'
+            ],
+            'review' => [
+                [
+                    '@type' => 'Review',
+                    'name' => $propertyName,
+                    'itemReviewed' => [
+                        '@type' => 'Product',
+                        'name' => $propertyName
+                    ],
+                    'author' => [
+                        '@type' => 'Person',
+                        'name' => $appName
+                    ],
+                    'reviewRating' => [
+                        '@type' => 'Rating',
+                        'ratingValue' => '4.5',
+                        'bestRating' => '5'
+                    ],
+                    'reviewBody' => $propertyDescription
+                ]
+            ]
+        ];
+        
+        if (!empty($property->address)) {
+            $address = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $property->address,
+                'addressCountry' => 'SY'
+            ];
+            if (!empty($property->city)) {
+                $address['addressLocality'] = $property->city;
+            }
+            $structuredData['address'] = $address;
+        }
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": "{{ $property->title }}",
-        "description": "{{ Str::limit(strip_tags($property->description ?? ''), 200) }}",
-        "image": "{{ $seoImage }}",
-        "url": "{{ $propertyUrl }}",
-        "offers": {
-            "@type": "Offer",
-            "price": "{{ $property->price ?? 0 }}",
-            "priceCurrency": "{{ getSessionCurrency() ?? 'USD' }}",
-            "availability": "https://schema.org/InStock",
-            "url": "{{ $propertyUrl }}",
-            "priceValidUntil": "{{ date('Y-m-d', strtotime('+1 year')) }}",
-            "seller": {
-                "@type": "Organization",
-                "name": "{{ $setting->app_name ?? 'LawMent' }}",
-                "url": "{{ url('/') }}"
-            },
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "SY",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                "merchantReturnDays": 30,
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/FreeReturn"
-            },
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "{{ getSessionCurrency() ?? 'USD' }}"
-                },
-                "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "SY"
-                },
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 1,
-                        "maxValue": 3,
-                        "unitCode": "DAY"
-                    },
-                    "transitTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 1,
-                        "maxValue": 7,
-                        "unitCode": "DAY"
-                    }
-                }
-            }
-        },
-        @if($property->address)
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "{{ $property->address }}",
-            @if($property->city)
-            "addressLocality": "{{ $property->city }}",
-            @endif
-            "addressCountry": "SY"
-        },
-        @endif
-        "category": "{{ $property->property_type ?? 'Real Estate' }}",
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.5",
-            "reviewCount": "10"
-        },
-        "review": [
-            {
-                "@type": "Review",
-                "name": "{{ $property->title }}",
-                "author": {
-                    "@type": "Person",
-                    "name": "{{ $setting->app_name ?? 'LawMent' }}"
-                },
-                "reviewRating": {
-                    "@type": "Rating",
-                    "ratingValue": "4.5",
-                    "bestRating": "5"
-                },
-                "reviewBody": "{{ Str::limit(strip_tags($property->description ?? 'Quality real estate property'), 200) }}"
-            }
-        ]
-    }
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
     <script type="application/ld+json">
