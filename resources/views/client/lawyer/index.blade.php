@@ -353,51 +353,89 @@
         padding: 30px 0 70px;
     }
     
+    /* استخدام CSS Grid للشبكة */
     .team-page .row {
-        margin: 0 -20px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin: 0;
+        padding: 0;
     }
     
     .team-page .col-lg-4,
     .team-page .col-md-4,
     .team-page .col-sm-6 {
-        padding: 0 20px;
-        margin-bottom: 40px;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
     }
     
-    /* تحسين التخطيط للابتوب - 3 كروت في كل صف */
+    /* ضمان توحيد أحجام الكروت */
+    .team-page .lawyer-card-mobile,
+    .team-page .aman-lawyer-card-mobile-rtl {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* تحسين التخطيط للابتوب - 3 كروت في كل صف باستخدام Grid */
     @media (min-width: 992px) {
         .team-page .row {
-            margin: 0 -20px;
-            justify-content: flex-start;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 0;
+            padding: 0;
         }
         
         .team-page .col-lg-4 {
-            flex: 0 0 calc(33.333% - 40px);
-            max-width: calc(33.333% - 40px);
-            padding: 0 20px;
-            margin-bottom: 40px;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
         
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
-            margin-bottom: 0;
             height: 100%;
-            min-height: 520px;
+            min-height: 580px;
+            max-height: 580px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 240px;
+            height: 260px;
+            min-height: 260px;
+            max-height: 260px;
+            flex-shrink: 0;
         }
         
         .team-page .lawyer-card-content-mobile {
             padding: 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        .team-page .lawyer-card-name-mobile {
+            flex-shrink: 0;
         }
         
         .team-page .lawyer-card-name-mobile a {
             font-size: 24px;
+            line-height: 1.3;
+        }
+        
+        .team-page .lawyer-card-meta-mobile {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
         }
         
         .team-page .lawyer-meta-text-mobile {
@@ -406,29 +444,40 @@
         
         .team-page .lawyer-card-button-mobile {
             padding: 16px 24px;
+            flex-shrink: 0;
+            margin-top: auto;
         }
     }
     
     /* تحسين للشاشات الكبيرة جداً - 3 كروت في كل صف */
     @media (min-width: 1400px) {
         .team-page .row {
-            margin: 0 -25px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin: 0;
+            padding: 0;
         }
         
         .team-page .col-lg-4 {
-            flex: 0 0 calc(33.333% - 50px);
-            max-width: calc(33.333% - 50px);
-            padding: 0 25px;
-            margin-bottom: 50px;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
         
         .team-page .lawyer-card-mobile,
         .team-page .aman-lawyer-card-mobile-rtl {
-            min-height: 550px;
+            min-height: 600px;
+            max-height: 600px;
+            height: 600px;
+            width: 100%;
         }
         
         .team-page .lawyer-card-image-mobile {
-            height: 260px;
+            height: 280px;
+            min-height: 280px;
+            max-height: 280px;
         }
         
         .team-page .lawyer-card-content-mobile {
@@ -479,16 +528,20 @@
             justify-content: center;
         }
         
-        /* تحسين التخطيط للتابلت */
+        /* تحسين التخطيط للتابلت - 3 أعمدة */
         .team-page .row {
-            margin: 0 -15px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 0;
+            padding: 0;
         }
         
         .team-page .col-md-4 {
-            flex: 0 0 calc(33.333% - 30px);
-            max-width: calc(33.333% - 30px);
-            padding: 0 15px;
-            margin-bottom: 30px;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
     }
     
@@ -513,16 +566,40 @@
             font-size: 15px;
         }
         
-        /* تحسين التخطيط للموبايل */
+        /* تحسين التخطيط للموبايل - عمودان */
         .team-page .row {
-            margin: 0 -10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 0;
+            padding: 0;
         }
         
         .team-page .col-sm-6 {
-            flex: 0 0 calc(50% - 20px);
-            max-width: calc(50% - 20px);
-            padding: 0 10px;
-            margin-bottom: 25px;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+    }
+    
+    /* الموبايل الصغير - عمود واحد */
+    @media (max-width: 576px) {
+        .team-page .row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .team-page .col-sm-6,
+        .team-page .col-md-4,
+        .team-page .col-lg-4 {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
     }
     
@@ -795,10 +872,31 @@
         .team-page .lawyer-card-name-mobile {
             margin-bottom: 20px;
             padding-bottom: 18px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
         }
         
         .team-page .lawyer-card-meta-mobile {
             margin-bottom: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        /* ضمان أن جميع الكروت متساوية في الحجم */
+        .team-page .col-lg-4 {
+            display: flex;
+            align-items: stretch;
+        }
+        
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
         }
     }
     
