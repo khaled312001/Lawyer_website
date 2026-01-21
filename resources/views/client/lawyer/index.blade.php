@@ -354,13 +354,86 @@
     }
     
     .team-page .row {
-        margin: 0 -15px;
+        margin: 0 -20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     .team-page .col-lg-3,
     .team-page .col-md-4,
     .team-page .col-sm-6 {
-        padding: 0 15px;
+        padding: 0 20px;
+        margin-bottom: 40px;
+    }
+    
+    /* تحسين التخطيط للابتوب */
+    @media (min-width: 992px) {
+        .team-page .row {
+            margin: 0 -20px;
+            justify-content: flex-start;
+        }
+        
+        .team-page .col-lg-3 {
+            flex: 0 0 calc(25% - 40px);
+            max-width: calc(25% - 40px);
+            padding: 0 20px;
+            margin-bottom: 40px;
+        }
+        
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            margin-bottom: 0;
+            height: 100%;
+            min-height: 520px;
+        }
+        
+        .team-page .lawyer-card-image-mobile {
+            height: 240px;
+        }
+        
+        .team-page .lawyer-card-content-mobile {
+            padding: 28px;
+        }
+        
+        .team-page .lawyer-card-name-mobile a {
+            font-size: 24px;
+        }
+        
+        .team-page .lawyer-meta-text-mobile {
+            font-size: 15px;
+        }
+        
+        .team-page .lawyer-card-button-mobile {
+            padding: 16px 24px;
+        }
+    }
+    
+    /* تحسين للشاشات الكبيرة جداً */
+    @media (min-width: 1400px) {
+        .team-page .row {
+            margin: 0 -25px;
+        }
+        
+        .team-page .col-lg-3 {
+            flex: 0 0 calc(25% - 50px);
+            max-width: calc(25% - 50px);
+            padding: 0 25px;
+            margin-bottom: 50px;
+        }
+        
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            min-height: 550px;
+        }
+        
+        .team-page .lawyer-card-image-mobile {
+            height: 260px;
+        }
+        
+        .team-page .lawyer-card-content-mobile {
+            padding: 32px;
+        }
     }
     
     /* Empty State */
@@ -405,6 +478,18 @@
             width: 100%;
             justify-content: center;
         }
+        
+        /* تحسين التخطيط للتابلت */
+        .team-page .row {
+            margin: 0 -15px;
+        }
+        
+        .team-page .col-md-4 {
+            flex: 0 0 calc(33.333% - 30px);
+            max-width: calc(33.333% - 30px);
+            padding: 0 15px;
+            margin-bottom: 30px;
+        }
     }
     
     @media (max-width: 768px) {
@@ -426,6 +511,18 @@
         .s-button button {
             padding: 12px 25px;
             font-size: 15px;
+        }
+        
+        /* تحسين التخطيط للموبايل */
+        .team-page .row {
+            margin: 0 -10px;
+        }
+        
+        .team-page .col-sm-6 {
+            flex: 0 0 calc(50% - 20px);
+            max-width: calc(50% - 20px);
+            padding: 0 10px;
+            margin-bottom: 25px;
         }
     }
     
@@ -671,6 +768,38 @@
     .team-page .aman-lawyer-card-mobile-rtl:hover {
         transform: translateY(-8px);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    /* تحسينات إضافية للابتوب */
+    @media (min-width: 992px) {
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12),
+                        0 4px 12px rgba(0,0,0,0.08),
+                        0 0 0 1px rgba(107, 93, 71, 0.1);
+        }
+        
+        .team-page .lawyer-card-mobile:hover,
+        .team-page .aman-lawyer-card-mobile-rtl:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(107, 93, 71, 0.25),
+                        0 10px 25px rgba(0,0,0,0.15),
+                        0 0 0 3px rgba(107, 93, 71, 0.2);
+        }
+        
+        .team-page .lawyer-meta-item-mobile {
+            padding: 10px 0;
+            margin-bottom: 12px;
+        }
+        
+        .team-page .lawyer-card-name-mobile {
+            margin-bottom: 20px;
+            padding-bottom: 18px;
+        }
+        
+        .team-page .lawyer-card-meta-mobile {
+            margin-bottom: 20px;
+        }
     }
     
     /* تأثير pulse خفيف */
