@@ -348,12 +348,13 @@
     margin-top: 0 !important;
     z-index: 10000 !important;
     transform: translateY(0) !important;
+    min-width: 200px;
 }
 
-/* RTL Support */
+/* RTL Support - Align to right edge of button */
 [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
-    right: auto !important;
-    left: 0 !important;
+    right: 0 !important;
+    left: auto !important;
 }
 
 .lawyer-notification-menu {
@@ -464,10 +465,10 @@
         display: none !important;
     }
     
-    /* RTL Support for dropdown */
+    /* RTL Support for dropdown - keep right alignment */
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
-        right: auto !important;
-        left: 0 !important;
+        right: 0 !important;
+        left: auto !important;
     }
 }
 

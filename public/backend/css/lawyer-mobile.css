@@ -193,6 +193,7 @@
         left: auto !important;
         margin-top: 0 !important;
         transform: translateY(0) !important;
+        min-width: 200px;
     }
     
     /* Ensure dropdown is visible on mobile when show class is present */
@@ -212,10 +213,10 @@
         display: inline-block !important;
     }
     
-    /* RTL Support for dropdown */
+    /* RTL Support for dropdown - align to right edge */
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
-        right: auto !important;
-        left: 0 !important;
+        right: 0 !important;
+        left: auto !important;
     }
     
     /* Ensure header doesn't hide dropdown */
