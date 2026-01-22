@@ -10,7 +10,7 @@
             <div class="section-body">
                 <div class="row">
                         <!-- Today Appointment -->
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-info">
                                     <i class="fas fa-calendar-day"></i>
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <!-- New Appointment -->
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-primary">
                                     <i class="fas fa-calendar"></i>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <!-- Success Appointment -->
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-success">
                                     <i class="fas fa-calendar-check"></i>
@@ -59,7 +59,7 @@
                         </div>
 
                         <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-3">
                             <div class="card card-statistic-1">
                                 <div class="card-icon bg-success">
                                     <i class="fas fa-dollar-sign"></i>
@@ -81,13 +81,13 @@
                         <div class="col">
                             <div class="mb-4 shadow card">
                                 <!-- Card Header - Dropdown -->
-                                <div class="flex-row py-3 card-header d-flex align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary"> {{ __('Earnings In') }}
+                                <div class="flex-row py-3 card-header d-flex align-items-center justify-content-between flex-column flex-md-row">
+                                    <h6 class="m-0 font-weight-bold text-primary mb-3 mb-md-0"> {{ __('Earnings In') }}
                                         {{ request()->has('year') && request()->has('month') ? Carbon::createFromFormat('Y-m', request('year') . '-' . request('month'))->format('F, Y') : date('F, Y') }}
                                     </h6>
-                                    <div class="form-inline">
-                                        <form method="get" onchange="$(this).trigger('submit');">
-                                            <select name="year" id="year" class="form-control">
+                                    <div class="form-inline w-100 w-md-auto">
+                                        <form method="get" onchange="$(this).trigger('submit');" class="d-flex flex-column flex-md-row gap-2">
+                                            <select name="year" id="year" class="form-control form-select">
                                                 @php
                                                     $currentYear = Carbon::now()->year;
                                                     $currentMonth = Carbon::now()->month;
@@ -99,7 +99,7 @@
                                                         {{ $i }}</option>
                                                 @endfor
                                             </select>
-                                            <select name="month" id="month" class="form-control">
+                                            <select name="month" id="month" class="form-control form-select">
                                                 @php
                                                     for ($month = 1; $month <= 12; $month++) {
                                                         $monthNumber = str_pad($month, 2, '0', STR_PAD_LEFT);
@@ -136,7 +136,7 @@
                             </div>
                             <div class="p-0 card-body">
                                 <div class="table-responsive">
-                                    <table class="table mb-0 table-striped">
+                                    <table class="table mb-0 table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>{{ __('SN') }}</th>

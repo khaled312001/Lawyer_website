@@ -1,354 +1,829 @@
 /* ============================================
    Lawyer Dashboard Mobile Enhancements
+   تحسينات شاملة لصفحات داشبورد المحامي على الموبايل
    ============================================ */
 
-/* Mobile Sidebar Toggle Button - Enhanced */
+/* ============================================
+   Mobile Sidebar & Navigation
+   ============================================ */
 @media (max-width: 1024px) {
-    /* Make the toggle button more prominent on mobile */
-    .navbar .nav-link-lg[data-toggle="sidebar"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white !important;
-        border-radius: 12px;
-        padding: 12px 16px !important;
-        margin-right: 10px;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 45px;
-        min-height: 45px;
+    /* Lawyer Sidebar Mobile */
+    .lawyer-sidebar-wrapper {
+        position: fixed !important;
+        top: 70px !important;
+        left: -100% !important;
+        width: 280px !important;
+        max-width: 85vw !important;
+        height: calc(100vh - 70px) !important;
+        z-index: 9999 !important;
+        background: #fff !important;
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
     
-    .navbar .nav-link-lg[data-toggle="sidebar"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    body.lawyer-sidebar-open .lawyer-sidebar-wrapper {
+        left: 0 !important;
     }
     
-    .navbar .nav-link-lg[data-toggle="sidebar"]:active {
-        transform: translateY(0);
+    /* RTL Support */
+    [dir="rtl"] .lawyer-sidebar-wrapper {
+        left: auto !important;
+        right: -100% !important;
     }
     
-    .navbar .nav-link-lg[data-toggle="sidebar"] i {
-        font-size: 20px;
-        margin: 0;
-    }
-    
-    /* Sidebar Close Button Enhancement */
-    .sidebar-close-btn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        z-index: 1000;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        border: none;
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .sidebar-close-btn:hover {
-        transform: rotate(90deg) scale(1.1);
-        box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
-    }
-    
-    .sidebar-close-btn i {
-        font-size: 18px;
+    [dir="rtl"] body.lawyer-sidebar-open .lawyer-sidebar-wrapper {
+        left: auto !important;
+        right: 0 !important;
     }
     
     /* Sidebar Backdrop */
-    body.sidebar-show::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
-        z-index: 998;
-        animation: fadeIn 0.3s ease;
+    body.lawyer-sidebar-open::before {
+        content: '' !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        backdrop-filter: blur(4px) !important;
+        z-index: 9998 !important;
+        animation: fadeIn 0.3s ease !important;
     }
     
     @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-        to {
-            opacity: 1;
-        }
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
     
-    /* Sidebar Animation */
-    .main-sidebar {
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Sidebar Close Button */
+    .lawyer-sidebar-close {
+        display: flex !important;
+        position: absolute !important;
+        top: 15px !important;
+        right: 15px !important;
+        width: 40px !important;
+        height: 40px !important;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+        border: none !important;
+        border-radius: 50% !important;
+        color: white !important;
+        font-size: 18px !important;
+        cursor: pointer !important;
+        z-index: 10000 !important;
+        align-items: center !important;
+        justify-content: center !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3) !important;
     }
     
-    body.sidebar-gone .main-sidebar {
-        transform: translateX(-100%);
+    .lawyer-sidebar-close:hover {
+        transform: rotate(90deg) scale(1.1) !important;
+        box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4) !important;
     }
     
-    body.sidebar-show .main-sidebar {
-        transform: translateX(0);
-        z-index: 999;
-        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    /* Dashboard Cards - Better Mobile Layout */
-    .card-statistic-1 {
-        margin-bottom: 20px;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
-    }
-    
-    .card-statistic-1:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-    }
-    
-    .card-statistic-1 .card-icon {
-        width: 70px;
-        height: 70px;
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-    }
-    
-    .card-statistic-1 .card-header h4 {
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: #6c757d;
-    }
-    
-    .card-statistic-1 .card-body {
-        font-size: 24px;
-        font-weight: 700;
-        color: #2d3748;
-    }
-    
-    /* Notification Button Mobile */
-    .notification-btn {
-        border-radius: 12px;
-        padding: 10px 20px;
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
-        transition: all 0.3s ease;
-    }
-    
-    .notification-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
-    }
-    
-    /* Table Responsive Enhancement */
-    .table-responsive {
-        border-radius: 12px;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    .table-responsive table {
-        min-width: 100%;
-    }
-    
-    .table-responsive th,
-    .table-responsive td {
-        white-space: nowrap;
-        padding: 12px 8px;
-        font-size: 13px;
-    }
-    
-    /* Chart Container Mobile */
-    .chart-area {
-        position: relative;
-        height: 250px;
-        padding: 10px;
-    }
-    
-    /* Navbar Mobile Adjustments */
-    .main-navbar {
-        padding: 10px 15px !important;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    }
-    
-    .navbar-nav {
-        gap: 8px;
-    }
-    
-    /* Dropdown Menu Mobile */
-    .dropdown-menu {
-        border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        border: none;
-        padding: 8px;
-    }
-    
-    .dropdown-item {
-        border-radius: 8px;
-        padding: 10px 15px;
-        margin-bottom: 4px;
-        transition: all 0.2s ease;
-    }
-    
-    .dropdown-item:hover {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        transform: translateX(5px);
+    [dir="rtl"] .lawyer-sidebar-close {
+        right: auto !important;
+        left: 15px !important;
     }
     
     /* Sidebar Menu Items */
-    .sidebar-menu li a {
-        border-radius: 10px;
-        margin: 4px 8px;
-        padding: 12px 15px;
-        transition: all 0.3s ease;
+    .lawyer-sidebar-menu .lawyer-menu-link {
+        padding: 14px 20px !important;
+        font-size: 15px !important;
+        min-height: 50px !important;
+        border-radius: 10px !important;
+        margin: 4px 8px !important;
     }
     
-    .sidebar-menu li.active > a {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    .lawyer-sidebar-menu .lawyer-menu-item.lawyer-menu-active > .lawyer-menu-link {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
     }
     
-    /* Badge Improvements */
-    .badge {
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 600;
+    /* Lawyer Main Content */
+    .lawyer-main-content {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-top: 70px !important;
+        padding: 15px 10px !important;
+        width: 100% !important;
     }
     
-    /* Notification Badge on Bell Icon */
-    .notification-badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        color: white;
-        border-radius: 50%;
-        padding: 2px 6px;
-        font-size: 10px;
-        font-weight: 700;
-        min-width: 18px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 8px rgba(245, 87, 108, 0.4);
-        animation: pulse 2s infinite;
+    /* Lawyer Header Mobile */
+    .lawyer-topbar {
+        padding: 0 10px !important;
+        height: 70px !important;
     }
     
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.1);
-        }
+    .lawyer-menu-toggle {
+        width: 42px !important;
+        height: 42px !important;
+        min-width: 42px !important;
+        min-height: 42px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 10px !important;
+        transition: all 0.3s ease !important;
     }
     
-    /* Section Body Padding */
-    .section-body {
-        padding: 15px;
+    .lawyer-menu-toggle:hover {
+        background: rgba(255, 255, 255, 0.3) !important;
+        transform: scale(1.05) !important;
     }
     
-    /* Card Improvements */
-    .card {
-        border-radius: 15px;
-        border: none;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        margin-bottom: 20px;
+    .lawyer-menu-toggle i {
+        font-size: 20px !important;
     }
     
-    .card-header {
-        border-radius: 15px 15px 0 0;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        border-bottom: 2px solid #e9ecef;
-        padding: 15px 20px;
+    /* Header Navigation Links */
+    .lawyer-nav-link {
+        padding: 8px 12px !important;
+        font-size: 14px !important;
     }
     
-    .card-header h4 {
-        font-size: 16px;
-        font-weight: 700;
-        color: #2d3748;
-        margin: 0;
+    .lawyer-user-name {
+        display: none !important;
+    }
+    
+    .lawyer-user-avatar {
+        width: 32px !important;
+        height: 32px !important;
+    }
+    
+    /* Notification Menu Mobile */
+    .lawyer-notification-menu {
+        width: calc(100vw - 40px) !important;
+        max-width: 350px !important;
+        max-height: calc(100vh - 100px) !important;
+    }
+    
+    /* User Menu Mobile */
+    .lawyer-user-menu {
+        width: calc(100vw - 40px) !important;
+        max-width: 250px !important;
     }
 }
 
-/* Small Mobile Devices (< 576px) */
-@media (max-width: 575px) {
+/* ============================================
+   Dashboard Cards & Statistics
+   ============================================ */
+@media (max-width: 991px) {
+    /* Statistics Cards */
+    .card-statistic-1 {
+        margin-bottom: 15px !important;
+        border-radius: 15px !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+        transition: all 0.3s ease !important;
+        background: #fff !important;
+    }
+    
+    .card-statistic-1:active {
+        transform: scale(0.98) !important;
+    }
+    
     .card-statistic-1 .card-icon {
-        width: 60px;
-        height: 60px;
-        font-size: 24px;
+        width: 65px !important;
+        height: 65px !important;
+        border-radius: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 26px !important;
+        margin: 15px auto 10px !important;
+    }
+    
+    .card-statistic-1 .card-wrap {
+        padding: 15px !important;
+        text-align: center !important;
+    }
+    
+    .card-statistic-1 .card-header {
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
     }
     
     .card-statistic-1 .card-header h4 {
-        font-size: 12px;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: #6c757d !important;
+        margin-bottom: 8px !important;
+        line-height: 1.4 !important;
     }
     
     .card-statistic-1 .card-body {
-        font-size: 20px;
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        color: #2d3748 !important;
+        margin: 0 !important;
     }
     
-    .navbar .nav-link-lg[data-toggle="sidebar"] {
-        min-width: 40px;
-        min-height: 40px;
-        padding: 10px 12px !important;
+    /* Card Grid Layout */
+    .row .col-lg-3.col-md-6 {
+        margin-bottom: 15px !important;
+    }
+}
+
+/* ============================================
+   Tables & Data Display
+   ============================================ */
+@media (max-width: 768px) {
+    /* Table Container */
+    .table-responsive {
+        border-radius: 12px !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        border: 1px solid #e3e6f0 !important;
+        margin-bottom: 20px !important;
     }
     
-    .navbar .nav-link-lg[data-toggle="sidebar"] i {
-        font-size: 18px;
+    /* Table Styling */
+    .table {
+        font-size: 13px !important;
+        min-width: 600px !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .table thead {
+        background: #f8f9fa !important;
+    }
+    
+    .table th {
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        padding: 12px 8px !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+        color: #495057 !important;
+        border-bottom: 2px solid #dee2e6 !important;
+    }
+    
+    .table td {
+        padding: 12px 8px !important;
+        font-size: 12px !important;
+        vertical-align: middle !important;
+        text-align: center !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+    }
+    
+    .table tbody tr:hover {
+        background: #f8f9fa !important;
+    }
+    
+    /* Table Actions */
+    .table .btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .table .btn-sm {
+        padding: 5px 10px !important;
+        font-size: 11px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+    }
+    
+    /* Badges in Tables */
+    .table .badge {
+        padding: 4px 8px !important;
+        font-size: 11px !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+    }
+}
+
+/* ============================================
+   Forms & Inputs
+   ============================================ */
+@media (max-width: 768px) {
+    /* Form Cards */
+    .card {
+        border-radius: 15px !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .card-header {
+        padding: 15px 20px !important;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+        border-bottom: 2px solid #e9ecef !important;
+        border-radius: 15px 15px 0 0 !important;
+    }
+    
+    .card-header h4,
+    .card-header h6 {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #2d3748 !important;
+        margin: 0 !important;
+    }
+    
+    .card-body {
+        padding: 20px 15px !important;
+    }
+    
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 20px !important;
+    }
+    
+    .form-group label {
+        font-weight: 600 !important;
+        color: #333 !important;
+        margin-bottom: 8px !important;
+        font-size: 14px !important;
+        display: block !important;
+    }
+    
+    /* Form Controls */
+    .form-control,
+    .form-select {
+        border-radius: 8px !important;
+        border: 1px solid #ddd !important;
+        padding: 12px 15px !important;
+        font-size: 15px !important;
+        min-height: 44px !important;
+        transition: all 0.3s ease !important;
+        width: 100% !important;
+    }
+    
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        outline: none !important;
+    }
+    
+    /* Input Groups */
+    .input-group {
+        flex-wrap: wrap !important;
+        width: 100% !important;
+    }
+    
+    .input-group .form-control {
+        margin-bottom: 10px !important;
+        flex: 1 1 100% !important;
+    }
+    
+    .input-group .btn {
+        width: 100% !important;
+        margin-top: 0 !important;
+        min-height: 44px !important;
+    }
+    
+    /* Form Rows */
+    .form-row,
+    .row {
+        margin-left: -10px !important;
+        margin-right: -10px !important;
+    }
+    
+    .form-row > [class*="col-"],
+    .row > [class*="col-"] {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Select2 Mobile */
+    .select2-container {
+        width: 100% !important;
+    }
+    
+    .select2-container .select2-selection--single {
+        height: 44px !important;
+        border-radius: 8px !important;
+    }
+    
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        line-height: 44px !important;
+        padding-left: 15px !important;
+        padding-right: 30px !important;
+    }
+}
+
+/* ============================================
+   Buttons & Actions
+   ============================================ */
+@media (max-width: 768px) {
+    /* Buttons */
+    .btn {
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        min-height: 44px !important;
+        transition: all 0.3s ease !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+    }
+    
+    .btn-sm {
+        padding: 8px 16px !important;
+        font-size: 13px !important;
+        min-height: 36px !important;
+    }
+    
+    .btn:active {
+        transform: scale(0.98) !important;
+    }
+    
+    /* Button Groups */
+    .btn-group {
+        width: 100% !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .btn-group .btn {
+        flex: 1 1 auto !important;
+        margin: 2px !important;
+    }
+    
+    /* Back Button */
+    .back-button {
+        padding: 8px 16px !important;
+        font-size: 14px !important;
+        min-height: 40px !important;
+    }
+}
+
+/* ============================================
+   Charts & Graphs
+   ============================================ */
+@media (max-width: 768px) {
+    /* Chart Container */
+    .chart-area {
+        position: relative !important;
+        height: 250px !important;
+        padding: 10px !important;
+        overflow: hidden !important;
+    }
+    
+    /* Chart Card Header */
+    .card-header .flex-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 15px !important;
+    }
+    
+    .card-header .form-inline {
+        width: 100% !important;
+    }
+    
+    .card-header .form-inline select {
+        width: 100% !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* ============================================
+   Breadcrumbs & Page Headers
+   ============================================ */
+@media (max-width: 768px) {
+    /* Breadcrumb */
+    .breadcrumb {
+        padding: 10px 0 !important;
+        margin-bottom: 15px !important;
+        font-size: 13px !important;
+        flex-wrap: wrap !important;
+    }
+    
+    .breadcrumb-item {
+        padding: 0 5px !important;
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        padding-right: 5px !important;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        margin-bottom: 20px !important;
+        gap: 15px !important;
+    }
+    
+    .section-header h1 {
+        font-size: 22px !important;
+        margin-bottom: 0 !important;
+    }
+}
+
+/* ============================================
+   Modals & Popups
+   ============================================ */
+@media (max-width: 768px) {
+    /* Modal Dialog */
+    .modal-dialog {
+        margin: 10px !important;
+        max-width: calc(100% - 20px) !important;
+    }
+    
+    .modal-content {
+        border-radius: 12px !important;
+        border: none !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    .modal-header {
+        padding: 15px 20px !important;
+        border-bottom: 1px solid #e3e6f0 !important;
+        border-radius: 12px 12px 0 0 !important;
+    }
+    
+    .modal-header .modal-title {
+        font-size: 18px !important;
+        font-weight: 700 !important;
+    }
+    
+    .modal-body {
+        padding: 20px !important;
+        max-height: calc(100vh - 200px) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .modal-footer {
+        padding: 15px 20px !important;
+        border-top: 1px solid #e3e6f0 !important;
+        border-radius: 0 0 12px 12px !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }
+    
+    .modal-footer .btn {
+        flex: 1 1 auto !important;
+        min-width: 120px !important;
+    }
+}
+
+/* ============================================
+   Pagination
+   ============================================ */
+@media (max-width: 768px) {
+    .pagination {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        margin-top: 20px !important;
+        gap: 5px !important;
+    }
+    
+    .pagination .page-link {
+        padding: 8px 12px !important;
+        font-size: 14px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+        border-radius: 8px !important;
+        margin: 2px !important;
+    }
+    
+    .pagination .page-item.disabled .page-link {
+        opacity: 0.5 !important;
+    }
+}
+
+/* ============================================
+   Alerts & Messages
+   ============================================ */
+@media (max-width: 768px) {
+    .alert {
+        padding: 12px 15px !important;
+        font-size: 14px !important;
+        border-radius: 8px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .alert-dismissible .btn-close {
+        padding: 10px !important;
+        font-size: 16px !important;
+    }
+}
+
+/* ============================================
+   Empty States
+   ============================================ */
+@media (max-width: 768px) {
+    .empty-table,
+    .empty-state {
+        padding: 40px 20px !important;
+        text-align: center !important;
+    }
+    
+    .empty-table img,
+    .empty-state img {
+        max-width: 150px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .empty-table h4,
+    .empty-state h4 {
+        font-size: 18px !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .empty-table p,
+    .empty-state p {
+        font-size: 14px !important;
+        color: #6c757d !important;
+    }
+}
+
+/* ============================================
+   Small Mobile Devices (< 576px)
+   ============================================ */
+@media (max-width: 575px) {
+    /* Statistics Cards */
+    .card-statistic-1 .card-icon {
+        width: 55px !important;
+        height: 55px !important;
+        font-size: 22px !important;
+    }
+    
+    .card-statistic-1 .card-header h4 {
+        font-size: 11px !important;
+    }
+    
+    .card-statistic-1 .card-body {
+        font-size: 20px !important;
+    }
+    
+    /* Main Content */
+    .lawyer-main-content {
+        padding: 10px 8px !important;
     }
     
     .section-body {
-        padding: 10px;
+        padding: 10px 5px !important;
     }
     
+    /* Cards */
+    .card {
+        margin-bottom: 15px !important;
+        border-radius: 12px !important;
+    }
+    
+    .card-header {
+        padding: 12px 15px !important;
+    }
+    
+    .card-body {
+        padding: 15px 12px !important;
+    }
+    
+    /* Tables */
+    .table {
+        font-size: 11px !important;
+    }
+    
+    .table th,
+    .table td {
+        padding: 10px 6px !important;
+        font-size: 11px !important;
+    }
+    
+    /* Forms */
+    .form-control,
+    .form-select {
+        font-size: 14px !important;
+        padding: 10px 12px !important;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 10px 20px !important;
+        font-size: 13px !important;
+    }
+    
+    /* Chart */
     .chart-area {
-        height: 200px;
+        height: 200px !important;
+    }
+    
+    /* Header */
+    .lawyer-topbar {
+        padding: 0 8px !important;
+    }
+    
+    .lawyer-menu-toggle {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
+    }
+    
+    .lawyer-menu-toggle i {
+        font-size: 18px !important;
     }
 }
 
-/* Tablet Devices (576px - 1024px) */
+/* ============================================
+   Tablet Devices (576px - 1024px)
+   ============================================ */
 @media (min-width: 576px) and (max-width: 1024px) {
     .col-lg-3.col-md-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+    }
+    
+    .col-lg-4.col-md-6 {
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
     }
 }
 
-/* Desktop - Hide Close Button */
+/* ============================================
+   Desktop - Hide Mobile Elements
+   ============================================ */
 @media (min-width: 1025px) {
-    .sidebar-close-btn {
+    .lawyer-sidebar-close {
+        display: none !important;
+    }
+    
+    body.lawyer-sidebar-open::before {
         display: none !important;
     }
 }
 
-/* Smooth Scrolling */
+/* ============================================
+   Smooth Scrolling & Touch
+   ============================================ */
 * {
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch !important;
 }
 
 /* Prevent horizontal scroll on mobile */
 @media (max-width: 1024px) {
     body {
-        overflow-x: hidden;
+        overflow-x: hidden !important;
     }
     
-    .main-content {
-        padding-top: 80px;
+    html {
+        overflow-x: hidden !important;
+    }
+    
+    .main-content,
+    .lawyer-main-content {
+        overflow-x: hidden !important;
+    }
+}
+
+/* ============================================
+   Images & Media
+   ============================================ */
+@media (max-width: 768px) {
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    .table img {
+        max-width: 50px !important;
+        height: auto !important;
+    }
+}
+
+/* ============================================
+   Utility Classes for Mobile
+   ============================================ */
+@media (max-width: 768px) {
+    .d-mobile-none {
+        display: none !important;
+    }
+    
+    .d-mobile-block {
+        display: block !important;
+    }
+    
+    .d-mobile-flex {
+        display: flex !important;
+    }
+    
+    .text-mobile-center {
+        text-align: center !important;
+    }
+    
+    .w-mobile-100 {
+        width: 100% !important;
+    }
+    
+    .mb-mobile-3 {
+        margin-bottom: 1rem !important;
     }
 }

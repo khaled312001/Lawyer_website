@@ -77,7 +77,18 @@
     
     @media (max-width: 1024px) {
         .lawyer-main-content {
-            margin-left: 0;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding: 15px 10px !important;
+            width: 100% !important;
+        }
+        
+        .lawyer-main-content .main-content {
+            padding: 0 !important;
+        }
+        
+        .lawyer-main-content .section {
+            padding: 0 !important;
         }
     }
     
@@ -85,11 +96,18 @@
     .main-footer {
         margin-left: 260px;
         transition: margin-left 0.3s ease, margin-right 0.3s ease;
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-top: 1px solid #e3e6f0;
     }
     
     @media (max-width: 1024px) {
         .main-footer {
-            margin-left: 0;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding: 12px 15px !important;
+            text-align: center !important;
+            font-size: 13px !important;
         }
     }
     

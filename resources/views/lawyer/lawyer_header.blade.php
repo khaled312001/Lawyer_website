@@ -355,19 +355,74 @@
 /* Responsive */
 @media (max-width: 768px) {
     .lawyer-topbar {
-        padding: 0 10px;
+        padding: 0 10px !important;
+        height: 70px !important;
     }
     
     .lawyer-topbar-nav {
-        gap: 5px;
+        gap: 5px !important;
+    }
+    
+    .lawyer-nav-link {
+        padding: 8px 10px !important;
+        font-size: 14px !important;
     }
     
     .lawyer-nav-link span {
-        display: none;
+        display: none !important;
     }
     
     .lawyer-user-name {
         display: none !important;
+    }
+    
+    .lawyer-user-avatar {
+        width: 32px !important;
+        height: 32px !important;
+    }
+    
+    .lawyer-menu-toggle {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        min-height: 40px !important;
+    }
+    
+    .lawyer-notification-menu {
+        width: calc(100vw - 40px) !important;
+        max-width: 350px !important;
+        max-height: calc(100vh - 100px) !important;
+    }
+    
+    .lawyer-user-menu {
+        width: calc(100vw - 40px) !important;
+        max-width: 250px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .lawyer-topbar {
+        padding: 0 8px !important;
+    }
+    
+    .lawyer-menu-toggle {
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        min-height: 36px !important;
+    }
+    
+    .lawyer-menu-toggle i {
+        font-size: 16px !important;
+    }
+    
+    .lawyer-user-avatar {
+        width: 30px !important;
+        height: 30px !important;
+    }
+    
+    .lawyer-nav-link {
+        padding: 6px 8px !important;
     }
 }
 
