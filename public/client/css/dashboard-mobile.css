@@ -646,19 +646,36 @@
 
 /* Lawyer Sidebar Mobile - Enhanced Design */
 @media (max-width: 1024px) {
+    /* Force sidebar to be completely hidden when closed */
     .lawyer_dashboard_layout .main-sidebar {
         position: fixed !important;
         top: 0 !important;
         left: -100% !important;
+        transform: translateX(-100%) !important;
         width: 300px !important;
         max-width: 85vw !important;
         height: 100vh !important;
         z-index: 9999 !important;
         background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%) !important;
         box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15) !important;
-        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    /* When sidebar-gone class is on body, ensure it's completely hidden */
+    body.sidebar-gone .lawyer_dashboard_layout .main-sidebar,
+    .lawyer_dashboard_layout body.sidebar-gone .main-sidebar,
+    body.sidebar-gone .main-sidebar,
+    body:not(.sidebar-show) .lawyer_dashboard_layout .main-sidebar,
+    .lawyer_dashboard_layout body:not(.sidebar-show) .main-sidebar,
+    body:not(.sidebar-show) .main-sidebar {
+        left: -100% !important;
+        transform: translateX(-100%) !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
     }
     
     /* Show sidebar when sidebar-show class is on body */
@@ -666,6 +683,9 @@
     .lawyer_dashboard_layout body.sidebar-show .main-sidebar,
     body.sidebar-show .main-sidebar {
         left: 0 !important;
+        transform: translateX(0) !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     /* Enhanced Backdrop overlay with smooth animation */
@@ -767,10 +787,25 @@
         width: 100% !important;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
         background: #fff !important;
+        position: relative !important;
+        z-index: 10000 !important;
     }
     
-    /* Enhanced Toggle Button (Hamburger Menu) */
-    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"] {
+    /* Ensure navbar items are visible */
+    .lawyer_dashboard_layout .navbar .navbar-nav {
+        display: flex !important;
+        align-items: center !important;
+        flex-direction: row !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar .navbar-nav li {
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    /* Enhanced Toggle Button (Hamburger Menu) - Always Visible */
+    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"],
+    .lawyer_dashboard_layout .navbar .nav-link-lg[data-toggle="sidebar"] {
         width: 48px !important;
         height: 48px !important;
         display: flex !important;
@@ -786,6 +821,21 @@
         box-shadow: 0 4px 12px rgba(107, 93, 71, 0.25) !important;
         position: relative !important;
         overflow: hidden !important;
+        z-index: 10001 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        text-decoration: none !important;
+    }
+    
+    /* Ensure toggle button is always visible and clickable */
+    .lawyer_dashboard_layout .navbar li [data-toggle="sidebar"],
+    .lawyer_dashboard_layout .navbar .nav-link-lg[data-toggle="sidebar"] {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
     }
     
     .lawyer_dashboard_layout .navbar [data-toggle="sidebar"]::before {
@@ -853,6 +903,23 @@
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        left: 0 !important;
+        transform: translateX(0) !important;
+    }
+    
+    /* Extra safety: Hide sidebar completely when not showing */
+    .lawyer_dashboard_layout .main-sidebar:not(.sidebar-show) {
+        left: -100% !important;
+        transform: translateX(-100%) !important;
+    }
+    
+    /* Prevent any partial visibility */
+    body:not(.sidebar-show) .lawyer_dashboard_layout .main-sidebar {
+        pointer-events: none !important;
+    }
+    
+    body.sidebar-show .lawyer_dashboard_layout .main-sidebar {
+        pointer-events: auto !important;
     }
     
     /* Enhanced Sidebar brand logo */
@@ -1002,19 +1069,44 @@
 
 /* Lawyer Dashboard - Very Small Mobile Screens */
 @media (max-width: 480px) {
+    /* Ensure sidebar is completely hidden when closed */
     .lawyer_dashboard_layout .main-sidebar {
         width: 280px !important;
         max-width: 90vw !important;
+        left: -100% !important;
+        transform: translateX(-100%) !important;
+    }
+    
+    body:not(.sidebar-show) .lawyer_dashboard_layout .main-sidebar,
+    body.sidebar-gone .lawyer_dashboard_layout .main-sidebar {
+        left: -100% !important;
+        transform: translateX(-100%) !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    body.sidebar-show .lawyer_dashboard_layout .main-sidebar {
+        left: 0 !important;
+        transform: translateX(0) !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer_dashboard_layout .navbar {
         padding: 10px 12px !important;
+        z-index: 10000 !important;
     }
     
-    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"] {
+    /* Ensure toggle button is always visible */
+    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"],
+    .lawyer_dashboard_layout .navbar .nav-link-lg[data-toggle="sidebar"] {
         width: 44px !important;
         height: 44px !important;
         font-size: 18px !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        z-index: 10001 !important;
     }
     
     .lawyer_dashboard_layout .main-sidebar .sidebar-close-btn {
