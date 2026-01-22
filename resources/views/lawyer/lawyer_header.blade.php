@@ -318,6 +318,11 @@
     display: block !important;
 }
 
+/* Ensure dropdown is hidden by default */
+.lawyer-user-dropdown .dropdown-menu:not(.show) {
+    display: none !important;
+}
+
 .lawyer-user-menu .dropdown-item {
     padding: 10px 15px;
     display: flex;
@@ -436,11 +441,16 @@
         position: static !important;
     }
     
-    /* Ensure dropdown is visible on mobile */
+    /* Ensure dropdown is visible on mobile when show class is present */
     .lawyer-user-dropdown .dropdown-menu.show {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+    }
+    
+    /* Hide dropdown by default on mobile */
+    .lawyer-user-dropdown .dropdown-menu:not(.show) {
+        display: none !important;
     }
     
     /* RTL Support for dropdown */
@@ -495,20 +505,34 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Ensure all dropdowns are closed on page load
+    document.querySelectorAll('.lawyer-user-menu').forEach(menu => {
+        menu.classList.remove('show');
+    });
+    
     // Fix dropdown on mobile
     const userDropdownToggles = document.querySelectorAll('.lawyer-user-link[data-bs-toggle="dropdown"]');
     
     userDropdownToggles.forEach(toggle => {
         // Prevent default Bootstrap behavior on mobile and handle manually
-        if (window.innerWidth <= 768) {
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // Remove Bootstrap dropdown behavior
+            toggle.setAttribute('data-bs-toggle', '');
+            
             toggle.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 
                 const dropdown = this.nextElementSibling;
+                if (!dropdown || !dropdown.classList.contains('lawyer-user-menu')) {
+                    return;
+                }
+                
                 const isOpen = dropdown.classList.contains('show');
                 
-                // Close all other dropdowns
+                // Close all other dropdowns first
                 document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
                     menu.classList.remove('show');
                 });
@@ -534,14 +558,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             });
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.lawyer-user-dropdown')) {
-                    document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
-                        menu.classList.remove('show');
+        } else {
+            // On desktop, let Bootstrap handle it but ensure it closes properly
+            toggle.addEventListener('click', function(e) {
+                // Close other dropdowns when opening this one
+                setTimeout(function() {
+                    const allDropdowns = document.querySelectorAll('.lawyer-user-menu');
+                    allDropdowns.forEach(menu => {
+                        if (menu !== toggle.nextElementSibling && menu.classList.contains('show')) {
+                            menu.classList.remove('show');
+                        }
                     });
-                }
+                }, 100);
+            });
+        }
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.lawyer-user-dropdown')) {
+            document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
+                menu.classList.remove('show');
             });
         }
     });

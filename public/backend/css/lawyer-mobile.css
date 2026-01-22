@@ -184,18 +184,23 @@
         margin-top: 8px !important;
         z-index: 10000 !important;
         transform: none !important;
-        display: block !important;
+        display: none !important;
     }
     
     .lawyer-user-dropdown {
         position: static !important;
     }
     
-    /* Ensure dropdown is visible on mobile */
+    /* Ensure dropdown is visible on mobile when show class is present */
     .lawyer-user-dropdown .dropdown-menu.show {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+    }
+    
+    /* Hide dropdown by default */
+    .lawyer-user-dropdown .dropdown-menu:not(.show) {
+        display: none !important;
     }
     
     /* Fix for Bootstrap dropdown on mobile */
