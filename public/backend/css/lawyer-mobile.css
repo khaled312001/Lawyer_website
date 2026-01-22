@@ -1,0 +1,354 @@
+/* ============================================
+   Lawyer Dashboard Mobile Enhancements
+   ============================================ */
+
+/* Mobile Sidebar Toggle Button - Enhanced */
+@media (max-width: 1024px) {
+    /* Make the toggle button more prominent on mobile */
+    .navbar .nav-link-lg[data-toggle="sidebar"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white !important;
+        border-radius: 12px;
+        padding: 12px 16px !important;
+        margin-right: 10px;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 45px;
+        min-height: 45px;
+    }
+    
+    .navbar .nav-link-lg[data-toggle="sidebar"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .navbar .nav-link-lg[data-toggle="sidebar"]:active {
+        transform: translateY(0);
+    }
+    
+    .navbar .nav-link-lg[data-toggle="sidebar"] i {
+        font-size: 20px;
+        margin: 0;
+    }
+    
+    /* Sidebar Close Button Enhancement */
+    .sidebar-close-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 1000;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar-close-btn:hover {
+        transform: rotate(90deg) scale(1.1);
+        box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+    }
+    
+    .sidebar-close-btn i {
+        font-size: 18px;
+    }
+    
+    /* Sidebar Backdrop */
+    body.sidebar-show::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 998;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    /* Sidebar Animation */
+    .main-sidebar {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    body.sidebar-gone .main-sidebar {
+        transform: translateX(-100%);
+    }
+    
+    body.sidebar-show .main-sidebar {
+        transform: translateX(0);
+        z-index: 999;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Dashboard Cards - Better Mobile Layout */
+    .card-statistic-1 {
+        margin-bottom: 20px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+    
+    .card-statistic-1:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    }
+    
+    .card-statistic-1 .card-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+    }
+    
+    .card-statistic-1 .card-header h4 {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #6c757d;
+    }
+    
+    .card-statistic-1 .card-body {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2d3748;
+    }
+    
+    /* Notification Button Mobile */
+    .notification-btn {
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .notification-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+    }
+    
+    /* Table Responsive Enhancement */
+    .table-responsive {
+        border-radius: 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table-responsive table {
+        min-width: 100%;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        white-space: nowrap;
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+    
+    /* Chart Container Mobile */
+    .chart-area {
+        position: relative;
+        height: 250px;
+        padding: 10px;
+    }
+    
+    /* Navbar Mobile Adjustments */
+    .main-navbar {
+        padding: 10px 15px !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+    
+    .navbar-nav {
+        gap: 8px;
+    }
+    
+    /* Dropdown Menu Mobile */
+    .dropdown-menu {
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border: none;
+        padding: 8px;
+    }
+    
+    .dropdown-item {
+        border-radius: 8px;
+        padding: 10px 15px;
+        margin-bottom: 4px;
+        transition: all 0.2s ease;
+    }
+    
+    .dropdown-item:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        transform: translateX(5px);
+    }
+    
+    /* Sidebar Menu Items */
+    .sidebar-menu li a {
+        border-radius: 10px;
+        margin: 4px 8px;
+        padding: 12px 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .sidebar-menu li.active > a {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Badge Improvements */
+    .badge {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    
+    /* Notification Badge on Bell Icon */
+    .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 10px;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(245, 87, 108, 0.4);
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+    
+    /* Section Body Padding */
+    .section-body {
+        padding: 15px;
+    }
+    
+    /* Card Improvements */
+    .card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 20px;
+    }
+    
+    .card-header {
+        border-radius: 15px 15px 0 0;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-bottom: 2px solid #e9ecef;
+        padding: 15px 20px;
+    }
+    
+    .card-header h4 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #2d3748;
+        margin: 0;
+    }
+}
+
+/* Small Mobile Devices (< 576px) */
+@media (max-width: 575px) {
+    .card-statistic-1 .card-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+    
+    .card-statistic-1 .card-header h4 {
+        font-size: 12px;
+    }
+    
+    .card-statistic-1 .card-body {
+        font-size: 20px;
+    }
+    
+    .navbar .nav-link-lg[data-toggle="sidebar"] {
+        min-width: 40px;
+        min-height: 40px;
+        padding: 10px 12px !important;
+    }
+    
+    .navbar .nav-link-lg[data-toggle="sidebar"] i {
+        font-size: 18px;
+    }
+    
+    .section-body {
+        padding: 10px;
+    }
+    
+    .chart-area {
+        height: 200px;
+    }
+}
+
+/* Tablet Devices (576px - 1024px) */
+@media (min-width: 576px) and (max-width: 1024px) {
+    .col-lg-3.col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+/* Desktop - Hide Close Button */
+@media (min-width: 1025px) {
+    .sidebar-close-btn {
+        display: none !important;
+    }
+}
+
+/* Smooth Scrolling */
+* {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent horizontal scroll on mobile */
+@media (max-width: 1024px) {
+    body {
+        overflow-x: hidden;
+    }
+    
+    .main-content {
+        padding-top: 80px;
+    }
+}
