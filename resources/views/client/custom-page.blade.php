@@ -36,43 +36,53 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $pageTitle = $customPage->title ?? 'Page';
+        $pageDesc = !empty($customPage->description) 
+            ? Str::limit(strip_tags($customPage->description), 200) 
+            : $pageTitle;
+        
+        $webPageData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'WebPage',
+            'name' => $pageTitle,
+            'description' => $pageDesc,
+            'url' => $currentUrl
+        ];
+        
+        $breadcrumbData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => __('Home'),
+                    'item' => [
+                        '@type' => 'WebPage',
+                        '@id' => url('/'),
+                        'name' => __('Home')
+                    ]
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => $pageTitle,
+                    'item' => [
+                        '@type' => 'WebPage',
+                        '@id' => $currentUrl,
+                        'name' => $pageTitle
+                    ]
+                ]
+            ]
+        ];
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "{{ $customPage->title }}",
-        "description": "{{ Str::limit(strip_tags($customPage->description ?? ''), 200) }}",
-        "url": "{{ $currentUrl }}"
-    }
+    {!! json_encode($webPageData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "{{ __('Home') }}",
-                "item": {
-                    "@type": "WebPage",
-                    "@id": "{{ url('/') }}",
-                    "name": "{{ __('Home') }}"
-                }
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "{{ $customPage->title }}",
-                "item": {
-                    "@type": "WebPage",
-                    "@id": "{{ $currentUrl }}",
-                    "name": "{{ $customPage->title }}"
-                }
-            }
-        ]
-    }
+    {!! json_encode($breadcrumbData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
 @endsection
 

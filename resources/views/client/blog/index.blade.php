@@ -40,50 +40,69 @@
 @endsection
 
 @section('structured_data')
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Blog",
-        "name": "{{ __('Blogs') }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ $currentUrl }}",
-        "publisher": {
-            "@type": "Organization",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "{{ $seoImage }}"
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $blogData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Blog',
+            'name' => __('Blogs') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Read our latest legal articles and blog posts'),
+            'url' => $currentUrl,
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => $appName,
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => $seoImage
+                ]
+            ]
+        ];
+        
+        // Add blog list if blogs exist
+        if ($blogs && $blogs->count() > 0) {
+            $itemListElement = [];
+            foreach ($blogs->take(20) as $index => $blog) {
+                $blogTitle = $blog->title ?? 'Blog Post';
+                $blogDesc = !empty($blog->sort_description) 
+                    ? Str::limit(strip_tags($blog->sort_description), 150) 
+                    : $blogTitle;
+                
+                $blogItem = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'item' => [
+                        '@type' => 'BlogPosting',
+                        'headline' => $blogTitle,
+                        'description' => $blogDesc,
+                        'url' => route('website.blog.details', $blog->slug)
+                    ]
+                ];
+                
+                if (!empty($blog->thumbnail_image)) {
+                    $blogItem['item']['image'] = asset($blog->thumbnail_image);
+                }
+                
+                if (!empty($blog->created_at)) {
+                    $blogItem['item']['datePublished'] = $blog->created_at->toIso8601String();
+                }
+                
+                $itemListElement[] = $blogItem;
+            }
+            
+            if (!empty($itemListElement)) {
+                $blogData['blogPost'] = [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $itemListElement
+                ];
             }
         }
-    }
-    </script>
-    
-    @if($blogs && $blogs->count() > 0)
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "itemListElement": [
-            @foreach($blogs->take(20) as $index => $blog)
-            {
-                "@type": "ListItem",
-                "position": {{ $index + 1 }},
-                "item": {
-                    "@type": "BlogPosting",
-                    "headline": "{{ $blog->title }}",
-                    "description": "{{ Str::limit(strip_tags($blog->sort_description ?? ''), 150) }}",
-                    "url": "{{ route('website.blog.details', $blog->slug) }}",
-                    @if($blog->thumbnail_image)
-                    "image": "{{ asset($blog->thumbnail_image) }}",
-                    @endif
-                    "datePublished": "{{ $blog->created_at ? $blog->created_at->toIso8601String() : '' }}"
-                }
-            }@if(!$loop->last),@endif
-            @endforeach
-        ]
-    }
+    {!! json_encode($blogData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
-    @endif
     
     <script type="application/ld+json">
     {

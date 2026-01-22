@@ -674,6 +674,11 @@ class HomeController extends Controller {
             'socialMedia'            => function ($query) {
                 $query->select('lawyer_id', 'link', 'icon')->active();
             },
+            'activeRatings'          => function ($query) {
+                $query->select('id', 'lawyer_id', 'user_id', 'rating', 'comment', 'created_at')->with(['user' => function ($q) {
+                    $q->select('id', 'name');
+                }])->orderBy('created_at', 'desc')->limit(10);
+            },
         ])->verify()->active()->whereSlug($slug)->first();
         if (!$lawyer) {
             abort(404);

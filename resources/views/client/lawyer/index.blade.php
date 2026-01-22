@@ -40,45 +40,86 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'CollectionPage',
+            'name' => __('Lawyers') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Browse our team of experienced lawyers and legal professionals'),
+            'url' => $currentUrl
+        ];
+        
+        // Add lawyer list if lawyers exist
+        if ($lawyers && $lawyers->count() > 0) {
+            $itemListElement = [];
+            foreach ($lawyers->take(20) as $index => $lawyer) {
+                $lawyerName = $lawyer->name ?? 'Lawyer';
+                $lawyerItem = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'item' => [
+                        '@type' => 'Person',
+                        'name' => $lawyerName,
+                        'jobTitle' => $lawyer->designations ?? 'Lawyer',
+                        'url' => route('website.lawyer.details', $lawyer->slug),
+                        'worksFor' => [
+                            '@type' => 'LegalService',
+                            'name' => $appName
+                        ]
+                    ]
+                ];
+                
+                if (!empty($lawyer->image)) {
+                    $lawyerItem['item']['image'] = image_url($lawyer->image);
+                }
+                
+                $itemListElement[] = $lawyerItem;
+            }
+            
+            if (!empty($itemListElement)) {
+                $structuredData['mainEntity'] = [
+                    '@type' => 'ItemList',
+                    'itemListElement' => $itemListElement
+                ];
+            }
+        }
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": "{{ __('Lawyers') }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ $currentUrl }}"
-    }
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
-    @if($lawyers && $lawyers->count() > 0)
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "ItemList",
+        "@type": "BreadcrumbList",
         "itemListElement": [
-            @foreach($lawyers->take(20) as $index => $lawyer)
             {
                 "@type": "ListItem",
-                "position": {{ $index + 1 }},
+                "position": 1,
+                "name": "{{ __('Home') }}",
                 "item": {
-                    "@type": "Person",
-                    "name": "{{ $lawyer->name }}",
-                    "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
-                    "url": "{{ route('website.lawyer.details', $lawyer->slug) }}",
-                    @if($lawyer->image)
-                    "image": "{{ image_url($lawyer->image) }}",
-                    @endif
-                    "worksFor": {
-                        "@type": "LegalService",
-                        "name": "{{ $setting->app_name ?? 'LawMent' }}"
-                    }
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
                 }
-            }@if(!$loop->last),@endif
-            @endforeach
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Lawyers') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Lawyers') }}"
+                }
+            }
         ]
     }
     </script>
-    @endif
 @endsection
 
 @section('client-content')
@@ -184,48 +225,50 @@
             <div class="row">
                 @if ($lawyers->count() != 0)
                     @foreach ($lawyers as $lawyer)
-                        <div class="col-lg-3 col-md-4 col-sm-6 mt_30">
-                            <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl">
-                                <div class="lawyer-card-image-mobile">
-                                    <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
+                        <div class="col-lg-4 col-md-4 col-sm-6 mt_30">
+                            <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl" style="display: flex; flex-direction: column; height: 100%; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.12); background: #fff;">
+                                <div class="lawyer-card-image-mobile" style="width: 100%; height: 480px !important; min-height: 480px !important; max-height: 480px !important; overflow: hidden; position: relative; flex-shrink: 0; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                                    <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}" style="display: block; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
                                         <img src="{{ image_url($lawyer?->image ? $lawyer?->image : $setting?->default_avatar) }}"
-                                            alt="{{ $lawyer?->name }}" loading="lazy">
+                                            alt="{{ $lawyer?->name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: contain; object-position: center;">
                                     </a>
                                 </div>
-                                <div class="lawyer-card-content-mobile">
-                                    <h3 class="lawyer-card-name-mobile">
-                                        <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">
-                                            {{ ucfirst($lawyer?->name) }}
-                                        </a>
-                                    </h3>
-                                    <div class="lawyer-card-meta-mobile">
+                                <div class="lawyer-card-content-mobile" style="padding: 16px; flex: 1; display: flex; flex-direction: column; text-align: right; direction: rtl; overflow: hidden;">
+                                    <div class="lawyer-card-name-section-mobile" style="background: linear-gradient(135deg, rgba(107, 93, 71, 0.12) 0%, rgba(212, 165, 116, 0.15) 100%); padding: 12px 14px; border-radius: 10px; margin-bottom: 14px; border: 1px solid rgba(107, 93, 71, 0.15); box-shadow: 0 2px 6px rgba(107, 93, 71, 0.08); flex-shrink: 0;">
+                                        <h3 class="lawyer-card-name-mobile" style="margin: 0 0 10px 0; padding: 0; border: none;">
+                                            <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}" style="color: #2c3e50; font-size: 20px; font-weight: 700; text-decoration: none; display: block; line-height: 1.3; word-wrap: break-word; overflow-wrap: break-word;">
+                                                {{ ucfirst($lawyer?->name) }}
+                                            </a>
+                                        </h3>
                                         @php
                                             $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) 
                                                 ? $lawyer->departments->first() 
                                                 : ($lawyer->department ?? null);
                                         @endphp
                                         @if($displayDept && $displayDept->name)
-                                        <div class="lawyer-meta-item-mobile">
-                                            <i class="fas fa-briefcase lawyer-meta-icon-mobile"></i>
-                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($displayDept->name) }}</span>
-                                        </div>
-                                        @endif
-                                        @if($lawyer->location)
-                                        <div class="lawyer-meta-item-mobile">
-                                            <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile"></i>
-                                            <span class="lawyer-meta-text-mobile">{{ ucfirst($lawyer->location->name) }}</span>
-                                        </div>
-                                        @endif
-                                        @if($lawyer->designations)
-                                        <div class="lawyer-meta-item-mobile">
-                                            <i class="fas fa-graduation-cap lawyer-meta-icon-mobile"></i>
-                                            <span class="lawyer-meta-text-mobile">{{ $lawyer->designations }}</span>
+                                        <div class="lawyer-card-department-mobile" style="display: flex; align-items: center; gap: 8px; direction: rtl;">
+                                            <i class="fas fa-briefcase" style="color: var(--colorPrimary); font-size: 14px; background: rgba(107, 93, 71, 0.15); padding: 5px 7px; border-radius: 5px; flex-shrink: 0;"></i>
+                                            <span style="color: #555; font-size: 14px; font-weight: 600; word-wrap: break-word; overflow-wrap: break-word; flex: 1;">{{ ucfirst($displayDept->name) }}</span>
                                         </div>
                                         @endif
                                     </div>
-                                    <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
-                                        <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
-                                        <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
+                                    <div class="lawyer-card-meta-mobile" style="flex: 1; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; padding: 0; overflow: hidden; min-height: 0;">
+                                        @if($lawyer->location)
+                                        <div class="lawyer-meta-item-mobile" style="display: flex; align-items: center; gap: 10px; direction: rtl; padding: 8px 0; flex-shrink: 0;">
+                                            <i class="fas fa-map-marker-alt lawyer-meta-icon-mobile" style="order: 1; flex-shrink: 0; font-size: 16px; color: var(--colorPrimary); width: 24px; min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(107, 93, 71, 0.1); border-radius: 5px;"></i>
+                                            <span class="lawyer-meta-text-mobile" style="order: 2; flex: 1; font-size: 14px; color: #555; text-align: right; direction: rtl; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.5;">{{ ucfirst($lawyer->location->name) }}</span>
+                                        </div>
+                                        @endif
+                                        @if($lawyer->designations)
+                                        <div class="lawyer-meta-item-mobile" style="display: flex; align-items: center; gap: 10px; direction: rtl; padding: 8px 0; flex-shrink: 0;">
+                                            <i class="fas fa-graduation-cap lawyer-meta-icon-mobile" style="order: 1; flex-shrink: 0; font-size: 16px; color: var(--colorPrimary); width: 24px; min-width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(107, 93, 71, 0.1); border-radius: 5px;"></i>
+                                            <span class="lawyer-meta-text-mobile" style="order: 2; flex: 1; font-size: 14px; color: #555; text-align: right; direction: rtl; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.5;">{{ $lawyer->designations }}</span>
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <a class="lawyer-card-button-mobile" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}" style="margin-top: auto; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; background: linear-gradient(135deg, var(--colorPrimary) 0%, var(--colorSecondary) 100%); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 15px; direction: rtl; transition: all 0.3s ease;">
+                                        <i class="fas fa-arrow-left" style="order: 1; font-size: 16px;"></i>
+                                        <span style="order: 2;">{{ __('View Profile') }}</span>
                                     </a>
                                 </div>
                             </div>
@@ -243,6 +286,107 @@
     <!--Lawyers List End-->
 
 <style>
+    /* ============================================
+       FIXED LAWYER CARD STYLES - INLINE OVERRIDES
+       ============================================ */
+    
+    /* إصلاح الصورة - أكبر لإظهار الصورة كاملة */
+    .team-page .lawyer-card-image-mobile {
+        height: 480px !important;
+        min-height: 480px !important;
+        max-height: 480px !important;
+        background: #f5f5f5 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .team-page .lawyer-card-image-mobile img {
+        object-fit: contain !important;
+        object-position: center !important;
+    }
+    
+    /* إصلاح جزء التفاصيل - منع خروج النص */
+    .team-page .lawyer-card-content-mobile {
+        overflow: hidden !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    .team-page .lawyer-card-meta-mobile {
+        overflow: hidden !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    .team-page .lawyer-meta-text-mobile {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        max-height: 2.8em !important;
+        line-height: 1.4 !important;
+    }
+    
+    .team-page .lawyer-card-name-mobile a {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+    }
+    
+    .team-page .lawyer-card-department-mobile span {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+    
+    /* إصلاح ارتفاع الكارت */
+    .team-page .lawyer-card-mobile,
+    .team-page .aman-lawyer-card-mobile-rtl {
+        min-height: auto !important;
+        max-height: none !important;
+        height: auto !important;
+    }
+    
+    @media (min-width: 992px) {
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            min-height: 820px !important;
+            max-height: 840px !important;
+        }
+        
+        .team-page .lawyer-card-image-mobile {
+            height: 480px !important;
+            min-height: 480px !important;
+            max-height: 480px !important;
+            background: #f5f5f5 !important;
+        }
+        
+        .team-page .lawyer-card-image-mobile img {
+            object-fit: contain !important;
+            object-position: center !important;
+        }
+    }
+    
+    @media (max-width: 991px) {
+        .team-page .lawyer-card-image-mobile {
+            height: 180px !important;
+            min-height: 180px !important;
+            max-height: 180px !important;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .team-page .lawyer-card-image-mobile {
+            height: 160px !important;
+            min-height: 160px !important;
+            max-height: 160px !important;
+        }
+    }
+    
     /* ============================================
        ENHANCED LAWYER SEARCH SECTION
        ============================================ */
@@ -353,14 +497,236 @@
         padding: 30px 0 70px;
     }
     
-    .team-page .row {
-        margin: 0 -15px;
+    /* جزء الاسم والقسم مع خلفية واضحة */
+    .lawyer-card-name-section-mobile {
+        background: linear-gradient(135deg, rgba(107, 93, 71, 0.12) 0%, rgba(212, 165, 116, 0.15) 100%);
+        padding: 18px 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(107, 93, 71, 0.15);
+        box-shadow: 0 2px 8px rgba(107, 93, 71, 0.08);
     }
     
-    .team-page .col-lg-3,
+    .lawyer-card-name-section-mobile .lawyer-card-name-mobile {
+        margin: 0 0 12px 0 !important;
+        padding-bottom: 0 !important;
+        border-bottom: none !important;
+    }
+    
+    .lawyer-card-name-section-mobile .lawyer-card-name-mobile a {
+        color: #2c3e50 !important;
+        font-size: 24px !important;
+        font-weight: 700 !important;
+    }
+    
+    .lawyer-card-department-mobile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    .lawyer-card-department-mobile i {
+        color: var(--colorPrimary);
+        font-size: 16px;
+        background: rgba(107, 93, 71, 0.15);
+        padding: 6px 8px;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+    
+    .lawyer-card-department-mobile span {
+        color: #555;
+        font-size: 15px;
+        font-weight: 600;
+        flex: 1;
+    }
+    
+    /* جزء التفاصيل أكبر */
+    .team-page .lawyer-card-meta-mobile {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding: 15px 0;
+    }
+    
+    .team-page .lawyer-meta-item-mobile {
+        padding: 12px 0;
+        margin-bottom: 8px;
+    }
+    
+    .team-page .lawyer-meta-text-mobile {
+        font-size: 15px !important;
+        font-weight: 500 !important;
+    }
+    
+    .team-page .lawyer-meta-icon-mobile {
+        font-size: 18px !important;
+        width: 28px !important;
+        min-width: 28px !important;
+        height: 28px !important;
+    }
+    
+    /* استخدام CSS Grid للشبكة - تصغير المسافات */
+    .team-page .row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .team-page .col-lg-4,
     .team-page .col-md-4,
     .team-page .col-sm-6 {
-        padding: 0 15px;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        display: flex;
+    }
+    
+    /* ضمان توحيد أحجام الكروت */
+    .team-page .lawyer-card-mobile,
+    .team-page .aman-lawyer-card-mobile-rtl {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* تحسين التخطيط للابتوب - 3 كروت في كل صف باستخدام Grid */
+    @media (min-width: 992px) {
+        .team-page .row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .team-page .col-lg-4 {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            height: 100%;
+            min-height: 820px;
+            max-height: 840px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .team-page .lawyer-card-image-mobile {
+            height: 480px;
+            min-height: 480px;
+            max-height: 480px;
+            flex-shrink: 0;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .team-page .lawyer-card-image-mobile img {
+            object-fit: contain !important;
+            object-position: center !important;
+        }
+        
+        .team-page .lawyer-card-content-mobile {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        
+        .team-page .lawyer-card-name-section-mobile {
+            padding: 20px 22px;
+            margin-bottom: 22px;
+        }
+        
+        .team-page .lawyer-card-name-section-mobile .lawyer-card-name-mobile a {
+            font-size: 26px !important;
+            line-height: 1.3;
+        }
+        
+        .team-page .lawyer-card-department-mobile span {
+            font-size: 16px;
+        }
+        
+        .team-page .lawyer-card-meta-mobile {
+            flex: 1;
+            min-height: 0;
+            overflow: visible;
+            gap: 14px;
+            padding: 18px 0;
+        }
+        
+        .team-page .lawyer-meta-text-mobile {
+            font-size: 16px !important;
+        }
+        
+        .team-page .lawyer-meta-item-mobile {
+            padding: 14px 0;
+            margin-bottom: 10px;
+        }
+        
+        .team-page .lawyer-card-button-mobile {
+            padding: 16px 24px;
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+    }
+    
+    /* تحسين للشاشات الكبيرة جداً - 3 كروت في كل صف */
+    @media (min-width: 1400px) {
+        .team-page .row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .team-page .col-lg-4 {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            min-height: 840px;
+            max-height: 860px;
+            height: 840px;
+            width: 100%;
+        }
+        
+        .team-page .lawyer-card-image-mobile {
+            height: 480px;
+            min-height: 480px;
+            max-height: 480px;
+            background: #f5f5f5;
+        }
+        
+        .team-page .lawyer-card-image-mobile img {
+            object-fit: contain !important;
+            object-position: center !important;
+        }
+        
+        .team-page .lawyer-card-content-mobile {
+            padding: 18px;
+        }
     }
     
     /* Empty State */
@@ -405,6 +771,22 @@
             width: 100%;
             justify-content: center;
         }
+        
+        /* تحسين التخطيط للتابلت - 3 أعمدة */
+        .team-page .row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .team-page .col-md-4 {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
     }
     
     @media (max-width: 768px) {
@@ -426,6 +808,42 @@
         .s-button button {
             padding: 12px 25px;
             font-size: 15px;
+        }
+        
+        /* تحسين التخطيط للموبايل - عمودان */
+        .team-page .row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .team-page .col-sm-6 {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+    }
+    
+    /* الموبايل الصغير - عمود واحد */
+    @media (max-width: 576px) {
+        .team-page .row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .team-page .col-sm-6,
+        .team-page .col-md-4,
+        .team-page .col-lg-4 {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
     }
     
@@ -673,6 +1091,59 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
     
+    /* تحسينات إضافية للابتوب */
+    @media (min-width: 992px) {
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12),
+                        0 4px 12px rgba(0,0,0,0.08),
+                        0 0 0 1px rgba(107, 93, 71, 0.1);
+        }
+        
+        .team-page .lawyer-card-mobile:hover,
+        .team-page .aman-lawyer-card-mobile-rtl:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(107, 93, 71, 0.25),
+                        0 10px 25px rgba(0,0,0,0.15),
+                        0 0 0 3px rgba(107, 93, 71, 0.2);
+        }
+        
+        .team-page .lawyer-meta-item-mobile {
+            padding: 10px 0;
+            margin-bottom: 12px;
+        }
+        
+        .team-page .lawyer-card-name-mobile {
+            margin-bottom: 20px;
+            padding-bottom: 18px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .team-page .lawyer-card-meta-mobile {
+            margin-bottom: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        /* ضمان أن جميع الكروت متساوية في الحجم */
+        .team-page .col-lg-4 {
+            display: flex;
+            align-items: stretch;
+        }
+        
+        .team-page .lawyer-card-mobile,
+        .team-page .aman-lawyer-card-mobile-rtl {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+    
     /* تأثير pulse خفيف */
     @keyframes cardPulse {
         0%, 100% {
@@ -709,6 +1180,39 @@
         .team-page .lawyer-card-mobile:hover,
         .team-page .aman-lawyer-card-mobile-rtl:hover {
             transform: translateY(-5px);
+        }
+        
+        /* تحسينات للشاشات الصغيرة */
+        .team-page .lawyer-card-image-mobile {
+            height: 160px !important;
+            min-height: 160px !important;
+            max-height: 160px !important;
+        }
+        
+        .team-page .lawyer-card-name-section-mobile {
+            padding: 16px 18px;
+            margin-bottom: 18px;
+        }
+        
+        .team-page .lawyer-card-name-section-mobile .lawyer-card-name-mobile a {
+            font-size: 20px !important;
+        }
+        
+        .team-page .lawyer-card-department-mobile span {
+            font-size: 14px;
+        }
+        
+        .team-page .lawyer-card-meta-mobile {
+            gap: 10px;
+            padding: 12px 0;
+        }
+        
+        .team-page .lawyer-meta-text-mobile {
+            font-size: 14px !important;
+        }
+        
+        .team-page .lawyer-meta-item-mobile {
+            padding: 10px 0;
         }
     }
 </style>

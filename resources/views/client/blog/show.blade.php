@@ -56,36 +56,51 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $blogTitle = $blog->title ?? 'Blog Post';
+        $blogDesc = !empty($blog->description) 
+            ? Str::limit(strip_tags($blog->description), 200) 
+            : (!empty($blog->sort_description) 
+                ? Str::limit(strip_tags($blog->sort_description), 200) 
+                : $blogTitle);
+        
+        $blogData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BlogPosting',
+            'headline' => $blogTitle,
+            'description' => $blogDesc,
+            'image' => $seoImage,
+            'datePublished' => $publishedDate,
+            'dateModified' => $modifiedDate,
+            'author' => [
+                '@type' => 'Person',
+                'name' => 'Admin'
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => $appName,
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => $setting->logo ? asset($setting->logo) : asset('client/img/logo.png')
+                ]
+            ],
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => $currentUrl
+            ],
+            'url' => $blogUrl
+        ];
+        
+        if (!empty($blog->category) && !empty($blog->category->name)) {
+            $blogData['articleSection'] = $blog->category->name;
+        }
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": "{{ $blog->title }}",
-        "description": "{{ Str::limit(strip_tags($blog->description ?? $blog->sort_description ?? ''), 200) }}",
-        "image": "{{ $seoImage }}",
-        "datePublished": "{{ $publishedDate }}",
-        "dateModified": "{{ $modifiedDate }}",
-        "author": {
-            "@type": "Person",
-            "name": "Admin"
-        },
-        "publisher": {
-            "@type": "Organization",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "{{ $setting->logo ? asset($setting->logo) : asset('client/img/logo.png') }}"
-            }
-        },
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "{{ $currentUrl }}"
-        },
-        @if($blog->category)
-        "articleSection": "{{ $blog->category->name ?? '' }}",
-        @endif
-        "url": "{{ $blogUrl }}"
-    }
+    {!! json_encode($blogData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
     <script type="application/ld+json">

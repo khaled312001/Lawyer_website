@@ -40,67 +40,113 @@
 @endsection
 
 @section('structured_data')
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "AboutPage",
-        "name": "{{ __('About Us') }}",
-        "description": "{{ $seoDescription }}",
-        "url": "{{ $currentUrl }}",
-        "mainEntity": {
-            "@type": "LegalService",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-            "description": "{{ $seoDescription }}",
-            @if($totalLawyers)
-            "numberOfEmployees": {
-                "@type": "QuantitativeValue",
-                "value": {{ $totalLawyers }},
-                "unitText": "Lawyers"
-            },
-            @endif
-            @if($contactInfo?->top_bar_phone)
-            "telephone": "{{ $contactInfo->top_bar_phone }}",
-            @endif
-            @if($contactInfo?->top_bar_email)
-            "email": "{{ $contactInfo->top_bar_email }}",
-            @endif
-            @if($contactInfo?->address)
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "{{ $contactInfo->address }}"
-            }
-            @endif
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $aboutPageData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'AboutPage',
+            'name' => __('About Us') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Learn more about our law firm and legal services'),
+            'url' => $currentUrl,
+            'mainEntity' => [
+                '@type' => 'LegalService',
+                'name' => $appName,
+                'description' => $seoDescription ?? __('Learn more about our law firm and legal services')
+            ]
+        ];
+        
+        if (!empty($totalLawyers) && $totalLawyers > 0) {
+            $aboutPageData['mainEntity']['numberOfEmployees'] = [
+                '@type' => 'QuantitativeValue',
+                'value' => (int)$totalLawyers,
+                'unitText' => 'Lawyers'
+            ];
         }
-    }
+        
+        if (!empty($contactInfo?->top_bar_phone)) {
+            $aboutPageData['mainEntity']['telephone'] = $contactInfo->top_bar_phone;
+        }
+        
+        if (!empty($contactInfo?->top_bar_email)) {
+            $aboutPageData['mainEntity']['email'] = $contactInfo->top_bar_email;
+        }
+        
+        if (!empty($contactInfo?->address)) {
+            $aboutPageData['mainEntity']['address'] = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $contactInfo->address
+            ];
+        }
+        
+        $organizationData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Organization',
+            'name' => $appName,
+            'description' => !empty($about?->about_description) 
+                ? Str::limit(strip_tags($about->about_description), 200) 
+                : ($seoDescription ?? __('Learn more about our law firm and legal services')),
+            'url' => url('/'),
+            'logo' => $setting->logo ? asset($setting->logo) : asset('client/img/logo.png')
+        ];
+        
+        if (!empty($totalLawyers) && $totalLawyers > 0) {
+            $organizationData['numberOfEmployees'] = (int)$totalLawyers;
+        }
+        
+        if (!empty($contactInfo?->top_bar_phone)) {
+            $organizationData['telephone'] = $contactInfo->top_bar_phone;
+        }
+        
+        if (!empty($contactInfo?->top_bar_email)) {
+            $organizationData['email'] = $contactInfo->top_bar_email;
+        }
+        
+        if (!empty($contactInfo?->address)) {
+            $organizationData['address'] = [
+                '@type' => 'PostalAddress',
+                'streetAddress' => $contactInfo->address
+            ];
+        }
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($aboutPageData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
-    @if($about && $about->about_description)
+    <script type="application/ld+json">
+    {!! json_encode($organizationData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "{{ $setting->app_name ?? 'LawMent' }}",
-        "description": "{{ Str::limit(strip_tags($about->about_description), 200) }}",
-        "url": "{{ url('/') }}",
-        "logo": "{{ $setting->logo ? asset($setting->logo) : asset('client/img/logo.png') }}",
-        @if($totalLawyers)
-        "numberOfEmployees": {{ $totalLawyers }},
-        @endif
-        @if($contactInfo?->top_bar_phone)
-        "telephone": "{{ $contactInfo->top_bar_phone }}",
-        @endif
-        @if($contactInfo?->top_bar_email)
-        "email": "{{ $contactInfo->top_bar_email }}",
-        @endif
-        @if($contactInfo?->address)
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "{{ $contactInfo->address }}"
-        }
-        @endif
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('About Us') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('About Us') }}"
+                }
+            }
+        ]
     }
     </script>
-    @endif
 @endsection
 
 @section('client-content')

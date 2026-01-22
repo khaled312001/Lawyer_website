@@ -40,35 +40,84 @@
 @endsection
 
 @section('structured_data')
-    @if($testimonials && $testimonials->count() > 0)
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $itemListElement = [];
+        
+        if ($testimonials && $testimonials->count() > 0) {
+            foreach ($testimonials as $index => $testimonial) {
+                $testimonialName = $testimonial->name ?? 'Client';
+                $testimonialComment = !empty($testimonial->comment) 
+                    ? strip_tags($testimonial->comment) 
+                    : '';
+                
+                if (!empty($testimonialComment)) {
+                    $itemListElement[] = [
+                        '@type' => 'ListItem',
+                        'position' => $index + 1,
+                        'item' => [
+                            '@type' => 'Review',
+                            'name' => $appName,
+                            'author' => [
+                                '@type' => 'Person',
+                                'name' => $testimonialName
+                            ],
+                            'reviewBody' => $testimonialComment,
+                            'reviewRating' => [
+                                '@type' => 'Rating',
+                                'ratingValue' => '5',
+                                'bestRating' => '5'
+                            ]
+                        ]
+                    ];
+                }
+            }
+        }
+        
+        $testimonialData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'ItemList',
+            'name' => __('Testimonials') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Read client testimonials and reviews about our legal services'),
+            'url' => $currentUrl,
+            'itemListElement' => $itemListElement
+        ];
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($testimonialData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "ItemList",
+        "@type": "BreadcrumbList",
         "itemListElement": [
-            @foreach($testimonials as $index => $testimonial)
             {
                 "@type": "ListItem",
-                "position": {{ $index + 1 }},
+                "position": 1,
+                "name": "{{ __('Home') }}",
                 "item": {
-                    "@type": "Review",
-                    "author": {
-                        "@type": "Person",
-                        "name": "{{ $testimonial->name }}"
-                    },
-                    "reviewBody": "{{ strip_tags($testimonial->comment) }}",
-                    "reviewRating": {
-                        "@type": "Rating",
-                        "ratingValue": "5",
-                        "bestRating": "5"
-                    }
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
                 }
-            }@if(!$loop->last),@endif
-            @endforeach
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Testimonials') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Testimonials') }}"
+                }
+            }
         ]
     }
     </script>
-    @endif
 @endsection
 
 @section('client-content')

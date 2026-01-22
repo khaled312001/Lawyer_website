@@ -49,55 +49,80 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $lawyerName = $lawyer->name ?? 'Lawyer';
+        $lawyerDesc = $seoDescription ?? $lawyerName;
+        
+        $personData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Person',
+            'name' => $lawyerName,
+            'jobTitle' => $lawyer->designations ?? 'Lawyer',
+            'url' => $lawyerUrl,
+            'description' => $lawyerDesc,
+            'worksFor' => [
+                '@type' => 'LegalService',
+                'name' => $appName,
+                'url' => url('/')
+            ]
+        ];
+        
+        if (!empty($lawyer->image)) {
+            $personData['image'] = image_url($lawyer->image);
+        }
+        
+        if (!empty($lawyer->years_of_experience)) {
+            $personData['knowsAbout'] = 'Legal Services';
+        }
+        
+        if (!empty($lawyer->department) && !empty($lawyer->department->name)) {
+            $personData['memberOf'] = [
+                '@type' => 'Organization',
+                'name' => $lawyer->department->name
+            ];
+        }
+        
+        $sameAs = [];
+        if ($lawyer->socialMedia && $lawyer->socialMedia->count() > 0) {
+            foreach ($lawyer->socialMedia as $social) {
+                if (!empty($social->link)) {
+                    $sameAs[] = $social->link;
+                }
+            }
+        }
+        
+        if (!empty($sameAs)) {
+            $personData['sameAs'] = $sameAs;
+        }
+        
+        // Rating data
+        $ratingData = null;
+        if (!empty($lawyer->average_rating)) {
+            $ratingData = [
+                '@context' => 'https://schema.org',
+                '@type' => 'AggregateRating',
+                'itemReviewed' => [
+                    '@type' => 'Person',
+                    'name' => $lawyerName
+                ],
+                'ratingValue' => (string)number_format($lawyer->average_rating, 1),
+                'bestRating' => '5',
+                'worstRating' => '1',
+                'ratingCount' => (string)($lawyer->total_ratings ?? 0)
+            ];
+        }
+    @endphp
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "{{ $lawyer->name }}",
-        "jobTitle": "{{ $lawyer->designations ?? 'Lawyer' }}",
-        "url": "{{ $lawyerUrl }}",
-        @if($lawyer->image)
-        "image": "{{ image_url($lawyer->image) }}",
-        @endif
-        "description": "{{ $seoDescription }}",
-        "worksFor": {
-            "@type": "LegalService",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}",
-            "url": "{{ url('/') }}"
-        },
-        @if($lawyer->years_of_experience)
-        "knowsAbout": "Legal Services",
-        @endif
-        @if($lawyer->department)
-        "memberOf": {
-            "@type": "Organization",
-            "name": "{{ $lawyer->department->name ?? '' }}"
-        },
-        @endif
-        "sameAs": [
-            @if($lawyer->socialMedia && $lawyer->socialMedia->count() > 0)
-                @foreach($lawyer->socialMedia as $index => $social)
-                    "{{ $social->link }}"@if(!$loop->last),@endif
-                @endforeach
-            @endif
-        ]
-    }
+    {!! json_encode($personData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     
-    @if($lawyer->average_rating)
+    @if($ratingData)
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "AggregateRating",
-        "itemReviewed": {
-            "@type": "Person",
-            "name": "{{ $lawyer->name }}"
-        },
-        "ratingValue": "{{ number_format($lawyer->average_rating, 1) }}",
-        "bestRating": "5",
-        "worstRating": "1",
-        "ratingCount": "{{ $lawyer->total_ratings ?? 0 }}"
-    }
+    {!! json_encode($ratingData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
     </script>
     @endif
     

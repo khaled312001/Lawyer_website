@@ -40,34 +40,89 @@
 @endsection
 
 @section('structured_data')
+    @php
+        $appName = (!empty($setting->app_name) && trim($setting->app_name) !== '') 
+            ? trim($setting->app_name) 
+            : 'LawMent';
+        
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Service',
+            'name' => __('Services') . ' - ' . $appName,
+            'description' => $seoDescription ?? __('Discover our comprehensive legal services and solutions'),
+            'serviceType' => 'Legal Services',
+            'url' => $currentUrl,
+            'provider' => [
+                '@type' => 'LegalService',
+                'name' => $appName,
+                'url' => url('/')
+            ],
+            'areaServed' => [
+                '@type' => 'Country',
+                'name' => 'Syria'
+            ]
+        ];
+        
+        // Add service catalog if services exist
+        if ($services && $services->count() > 0) {
+            $itemListElement = [];
+            foreach ($services->take(20) as $index => $service) {
+                $serviceName = $service->title ?? 'Legal Service';
+                $serviceDesc = !empty($service->sort_description) 
+                    ? Str::limit(strip_tags($service->sort_description), 150) 
+                    : $serviceName;
+                
+                $itemListElement[] = [
+                    '@type' => 'ListItem',
+                    'position' => $index + 1,
+                    'item' => [
+                        '@type' => 'Service',
+                        'name' => $serviceName,
+                        'description' => $serviceDesc,
+                        'url' => route('website.service.details', $service->slug)
+                    ]
+                ];
+            }
+            
+            if (!empty($itemListElement)) {
+                $structuredData['hasOfferCatalog'] = [
+                    '@type' => 'OfferCatalog',
+                    'name' => 'Legal Services',
+                    'itemListElement' => $itemListElement
+                ];
+            }
+        }
+    @endphp
+    <script type="application/ld+json">
+    {!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Service",
-        "serviceType": "Legal Services",
-        "provider": {
-            "@type": "LegalService",
-            "name": "{{ $setting->app_name ?? 'LawMent' }}"
-        },
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Legal Services",
-            "itemListElement": [
-                @if($services && $services->count() > 0)
-                    @foreach($services->take(20) as $index => $service)
-                    {
-                        "@type": "OfferCatalog",
-                        "itemOffered": {
-                            "@type": "Service",
-                            "name": "{{ $service->title }}",
-                            "description": "{{ Str::limit(strip_tags($service->sort_description ?? ''), 150) }}",
-                            "url": "{{ route('website.service.details', $service->slug) }}"
-                        }
-                    }@if(!$loop->last),@endif
-                    @endforeach
-                @endif
-            ]
-        }
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{{ __('Home') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ url('/') }}",
+                    "name": "{{ __('Home') }}"
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ __('Services') }}",
+                "item": {
+                    "@type": "WebPage",
+                    "@id": "{{ $currentUrl }}",
+                    "name": "{{ __('Services') }}"
+                }
+            }
+        ]
     }
     </script>
 @endsection
