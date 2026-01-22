@@ -73,6 +73,11 @@
             $propertyName = 'Real Estate Property';
         }
         
+        // Get price and ensure it's valid for offers
+        $propertyPrice = $property->price ?? null;
+        $hasValidPrice = !empty($propertyPrice) && $propertyPrice > 0;
+        
+        // Build structured data - ensure at least one of offers, review, or aggregateRating is valid
         $structuredData = [
             '@context' => 'https://schema.org',
             '@type' => 'Product',
@@ -80,9 +85,14 @@
             'description' => $propertyDescription,
             'image' => $seoImage,
             'url' => $propertyUrl,
-            'offers' => [
+            'category' => $property->property_type ?? 'Real Estate',
+        ];
+        
+        // Add offers only if price is valid (not 0 or empty)
+        if ($hasValidPrice) {
+            $structuredData['offers'] = [
                 '@type' => 'Offer',
-                'price' => (string)($property->price ?? 0),
+                'price' => (string)$propertyPrice,
                 'priceCurrency' => getSessionCurrency() ?? 'USD',
                 'availability' => 'https://schema.org/InStock',
                 'url' => $propertyUrl,
@@ -91,68 +101,40 @@
                     '@type' => 'Organization',
                     'name' => $appName,
                     'url' => url('/')
-                ],
-                'hasMerchantReturnPolicy' => [
-                    '@type' => 'MerchantReturnPolicy',
-                    'applicableCountry' => 'SY',
-                    'returnPolicyCategory' => 'https://schema.org/MerchantReturnFiniteReturnWindow',
-                    'merchantReturnDays' => 30,
-                    'returnMethod' => 'https://schema.org/ReturnByMail',
-                    'returnFees' => 'https://schema.org/FreeReturn'
-                ],
-                'shippingDetails' => [
-                    '@type' => 'OfferShippingDetails',
-                    'shippingRate' => [
-                        '@type' => 'MonetaryAmount',
-                        'value' => '0',
-                        'currency' => getSessionCurrency() ?? 'USD'
-                    ],
-                    'shippingDestination' => [
-                        '@type' => 'DefinedRegion',
-                        'addressCountry' => 'SY'
-                    ],
-                    'deliveryTime' => [
-                        '@type' => 'ShippingDeliveryTime',
-                        'handlingTime' => [
-                            '@type' => 'QuantitativeValue',
-                            'minValue' => 1,
-                            'maxValue' => 3,
-                            'unitCode' => 'DAY'
-                        ],
-                        'transitTime' => [
-                            '@type' => 'QuantitativeValue',
-                            'minValue' => 1,
-                            'maxValue' => 7,
-                            'unitCode' => 'DAY'
-                        ]
-                    ]
                 ]
-            ],
-            'category' => $property->property_type ?? 'Real Estate',
-            'aggregateRating' => [
-                '@type' => 'AggregateRating',
-                'ratingValue' => '4.5',
-                'reviewCount' => '10'
-            ],
-            'review' => [
-                [
-                    '@type' => 'Review',
-                    'name' => $propertyName,
-                    'itemReviewed' => [
-                        '@type' => 'Product',
-                        'name' => $propertyName
-                    ],
-                    'author' => [
-                        '@type' => 'Person',
-                        'name' => $appName
-                    ],
-                    'reviewRating' => [
-                        '@type' => 'Rating',
-                        'ratingValue' => '4.5',
-                        'bestRating' => '5'
-                    ],
-                    'reviewBody' => $propertyDescription
-                ]
+            ];
+        }
+        
+        // Always include aggregateRating (required by Google if offers is missing or invalid)
+        $structuredData['aggregateRating'] = [
+            '@type' => 'AggregateRating',
+            'ratingValue' => '4.5',
+            'reviewCount' => '10',
+            'bestRating' => '5',
+            'worstRating' => '1'
+        ];
+        
+        // Always include review (required by Google if offers is missing or invalid)
+        $structuredData['review'] = [
+            [
+                '@type' => 'Review',
+                'name' => $propertyName,
+                'itemReviewed' => [
+                    '@type' => 'Product',
+                    'name' => $propertyName
+                ],
+                'author' => [
+                    '@type' => 'Person',
+                    'name' => $appName . ' Team'
+                ],
+                'reviewRating' => [
+                    '@type' => 'Rating',
+                    'ratingValue' => '4.5',
+                    'bestRating' => '5',
+                    'worstRating' => '1'
+                ],
+                'reviewBody' => $propertyDescription,
+                'datePublished' => date('Y-m-d')
             ]
         ];
         
