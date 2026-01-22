@@ -2,83 +2,170 @@
     $header_lawyer = Auth::guard('lawyer')->user();
 @endphp
 
+@php
+    $textDirection = session()->get('text_direction', 'ltr');
+    $currentLang = session()->get('lang', config('app.locale', 'ar'));
+    $rtlLanguages = ['ar', 'arc', 'dv', 'fa', 'ha', 'he', 'khw', 'ks', 'ku', 'ps', 'ur', 'yi'];
+    $isRTL = $textDirection === 'rtl' || in_array($currentLang, $rtlLanguages);
+@endphp
+
 <div class="lawyer-topbar-bg"></div>
 <nav class="lawyer-topbar navbar navbar-expand-lg">
-    <div class="lawyer-topbar-left">
-        <ul class="lawyer-topbar-nav">
-            <li>
-                <a href="#" class="lawyer-menu-toggle" id="lawyer-menu-toggle-btn">
-                    <i class="fas fa-bars"></i>
-                </a>
-            </li>
-            {{-- language select --}}
-            @include('backend_layouts.partials.language_select')
-            {{-- currency select --}}
-            @include('backend_layouts.partials.currency_select')
-        </ul>
-    </div>
-    
-    <div class="lawyer-topbar-right">
-        <ul class="lawyer-topbar-nav">
-            <li class="lawyer-nav-item">
-                <a target="_blank" href="{{ route('home') }}" class="lawyer-nav-link">
-                    <i class="fas fa-home"></i>
-                    <span class="d-none d-md-inline">{{ __('Visit Website') }}</span>
-                </a>
-            </li>
-
-            {{-- Notifications Dropdown --}}
-            <li class="lawyer-nav-item lawyer-notification-dropdown">
-                <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown">
-                    <i class="fas fa-bell"></i>
-                    <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
-                    <div class="dropdown-header d-flex justify-content-between align-items-center">
-                        <h6 class="mb-0">{{ __('Notifications') }}</h6>
-                        <a href="javascript:;" class="text-primary small lawyer-mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
+    @if($isRTL)
+        {{-- RTL Layout: Menu button on right --}}
+        <div class="lawyer-topbar-right">
+            <ul class="lawyer-topbar-nav">
+                <li>
+                    <a href="#" class="lawyer-menu-toggle" id="lawyer-menu-toggle-btn">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </li>
+                {{-- language select --}}
+                @include('backend_layouts.partials.language_select')
+                {{-- currency select --}}
+                @include('backend_layouts.partials.currency_select')
+            </ul>
+        </div>
+        
+        <div class="lawyer-topbar-left">
+            <ul class="lawyer-topbar-nav">
+                {{-- User Profile Dropdown --}}
+                <li class="lawyer-nav-item lawyer-user-dropdown">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-user-link" data-bs-toggle="dropdown">
+                        @if ($header_lawyer->image)
+                            <img alt="image" src="{{ asset($header_lawyer->image) }}" class="lawyer-user-avatar">
+                        @else
+                            <img alt="image" src="{{ asset($setting->default_avatar) }}" class="lawyer-user-avatar">
+                        @endif
+                        <span class="lawyer-user-name d-none d-lg-inline-block">{{ $header_lawyer->name }}</span>
+                        <i class="fas fa-chevron-down d-none d-lg-inline-block ms-1"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-start lawyer-user-menu">
+                        <a href="{{ route('lawyer.edit-profile', ['code' => getSessionLanguage()]) }}" class="dropdown-item {{ isroute('lawyer.edit-profile', 'text-primary') }}">
+                            <i class="far fa-user me-2"></i>{{ __('Profile') }}
+                        </a>
+                        <a href="{{ route('lawyer.change-password') }}" class="dropdown-item {{ isroute('lawyer.change-password', 'text-primary') }}">
+                            <i class="fas fa-key me-2"></i>{{ __('Change Password') }}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:;" class="dropdown-item" onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
+                            <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
+                        </a>
                     </div>
-                    <div class="dropdown-divider"></div>
-                    <div id="lawyer-header-notifications-list">
-                        <div class="text-center p-3">
-                            <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                </li>
+
+                {{-- Notifications Dropdown --}}
+                <li class="lawyer-nav-item lawyer-notification-dropdown">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown">
+                        <i class="fas fa-bell"></i>
+                        <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-start lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">{{ __('Notifications') }}</h6>
+                            <a href="javascript:;" class="text-primary small lawyer-mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div id="lawyer-header-notifications-list">
+                            <div class="text-center p-3">
+                                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                             </div>
                         </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-footer text-center">
+                            <a href="{{ route('lawyer.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
+                        </div>
                     </div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-footer text-center">
-                        <a href="{{ route('lawyer.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
-                    </div>
-                </div>
-            </li>
+                </li>
 
-            {{-- User Profile Dropdown --}}
-            <li class="lawyer-nav-item lawyer-user-dropdown">
-                <a href="javascript:;" class="lawyer-nav-link lawyer-user-link" data-bs-toggle="dropdown">
-                    @if ($header_lawyer->image)
-                        <img alt="image" src="{{ asset($header_lawyer->image) }}" class="lawyer-user-avatar">
-                    @else
-                        <img alt="image" src="{{ asset($setting->default_avatar) }}" class="lawyer-user-avatar">
-                    @endif
-                    <span class="lawyer-user-name d-none d-lg-inline-block">{{ $header_lawyer->name }}</span>
-                    <i class="fas fa-chevron-down d-none d-lg-inline-block ms-1"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end lawyer-user-menu">
-                    <a href="{{ route('lawyer.edit-profile', ['code' => getSessionLanguage()]) }}" class="dropdown-item {{ isroute('lawyer.edit-profile', 'text-primary') }}">
-                        <i class="far fa-user me-2"></i>{{ __('Profile') }}
+                <li class="lawyer-nav-item">
+                    <a target="_blank" href="{{ route('home') }}" class="lawyer-nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="d-none d-md-inline">{{ __('Visit Website') }}</span>
                     </a>
-                    <a href="{{ route('lawyer.change-password') }}" class="dropdown-item {{ isroute('lawyer.change-password', 'text-primary') }}">
-                        <i class="fas fa-key me-2"></i>{{ __('Change Password') }}
+                </li>
+            </ul>
+        </div>
+    @else
+        {{-- LTR Layout: Menu button on left --}}
+        <div class="lawyer-topbar-left">
+            <ul class="lawyer-topbar-nav">
+                <li>
+                    <a href="#" class="lawyer-menu-toggle" id="lawyer-menu-toggle-btn">
+                        <i class="fas fa-bars"></i>
                     </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="javascript:;" class="dropdown-item" onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
-                        <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
+                </li>
+                {{-- language select --}}
+                @include('backend_layouts.partials.language_select')
+                {{-- currency select --}}
+                @include('backend_layouts.partials.currency_select')
+            </ul>
+        </div>
+        
+        <div class="lawyer-topbar-right">
+            <ul class="lawyer-topbar-nav">
+                <li class="lawyer-nav-item">
+                    <a target="_blank" href="{{ route('home') }}" class="lawyer-nav-link">
+                        <i class="fas fa-home"></i>
+                        <span class="d-none d-md-inline">{{ __('Visit Website') }}</span>
                     </a>
-                </div>
-            </li>
-        </ul>
-    </div>
+                </li>
+
+                {{-- Notifications Dropdown --}}
+                <li class="lawyer-nav-item lawyer-notification-dropdown">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown">
+                        <i class="fas fa-bell"></i>
+                        <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                        <div class="dropdown-header d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">{{ __('Notifications') }}</h6>
+                            <a href="javascript:;" class="text-primary small lawyer-mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div id="lawyer-header-notifications-list">
+                            <div class="text-center p-3">
+                                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-footer text-center">
+                            <a href="{{ route('lawyer.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
+                        </div>
+                    </div>
+                </li>
+
+                {{-- User Profile Dropdown --}}
+                <li class="lawyer-nav-item lawyer-user-dropdown">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-user-link" data-bs-toggle="dropdown">
+                        @if ($header_lawyer->image)
+                            <img alt="image" src="{{ asset($header_lawyer->image) }}" class="lawyer-user-avatar">
+                        @else
+                            <img alt="image" src="{{ asset($setting->default_avatar) }}" class="lawyer-user-avatar">
+                        @endif
+                        <span class="lawyer-user-name d-none d-lg-inline-block">{{ $header_lawyer->name }}</span>
+                        <i class="fas fa-chevron-down d-none d-lg-inline-block ms-1"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end lawyer-user-menu">
+                        <a href="{{ route('lawyer.edit-profile', ['code' => getSessionLanguage()]) }}" class="dropdown-item {{ isroute('lawyer.edit-profile', 'text-primary') }}">
+                            <i class="far fa-user me-2"></i>{{ __('Profile') }}
+                        </a>
+                        <a href="{{ route('lawyer.change-password') }}" class="dropdown-item {{ isroute('lawyer.change-password', 'text-primary') }}">
+                            <i class="fas fa-key me-2"></i>{{ __('Change Password') }}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:;" class="dropdown-item" onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
+                            <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    @endif
 </nav>
 
 <style>
@@ -165,6 +252,15 @@
 .lawyer-notification-btn {
     position: relative;
     padding: 8px 12px;
+    cursor: pointer;
+}
+
+.lawyer-notification-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.lawyer-notification-btn i {
+    font-size: 18px;
 }
 
 .lawyer-notification-badge {
@@ -181,6 +277,7 @@
     justify-content: center;
     font-size: 10px;
     font-weight: bold;
+    z-index: 1;
 }
 
 .lawyer-user-link {
@@ -224,6 +321,35 @@
 .lawyer-notification-menu {
     margin-top: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 8px;
+}
+
+.lawyer-notification-menu .dropdown-item {
+    padding: 12px 15px;
+    transition: all 0.2s ease;
+}
+
+.lawyer-notification-menu .dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.lawyer-notification-menu .notification-item.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.notification-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.notification-icon-wrapper i {
+    font-size: 16px;
 }
 
 /* Responsive */
@@ -246,22 +372,7 @@
 }
 
 /* RTL Support - Arabic */
-@php
-    $textDirection = session()->get('text_direction', 'ltr');
-    $currentLang = session()->get('lang', config('app.locale', 'ar'));
-    $rtlLanguages = ['ar', 'arc', 'dv', 'fa', 'ha', 'he', 'khw', 'ks', 'ku', 'ps', 'ur', 'yi'];
-    $isRTL = $textDirection === 'rtl' || in_array($currentLang, $rtlLanguages);
-@endphp
-
 @if($isRTL)
-.lawyer-topbar-left {
-    order: 2;
-}
-
-.lawyer-topbar-right {
-    order: 1;
-}
-
 .lawyer-topbar-nav {
     flex-direction: row-reverse;
 }
@@ -273,16 +384,6 @@
 .lawyer-user-name {
     margin-left: 0;
     margin-right: 10px;
-}
-
-.lawyer-user-menu {
-    left: 0;
-    right: auto;
-}
-
-.lawyer-notification-menu {
-    left: 0;
-    right: auto;
 }
 @endif
 </style>

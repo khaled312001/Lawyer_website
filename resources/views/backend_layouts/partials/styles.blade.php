@@ -23,3 +23,4 @@
 <link rel="stylesheet" href="{{ asset('backend/css/admin-navbar-improved.css') }}?v={{$setting?->version}}">
 <link rel="stylesheet" href="{{ asset('backend/css/admin-notifications.css') }}?v={{$setting?->version}}">
 <link rel="stylesheet" href="{{ asset('client/css/dashboard-mobile.css') }}?v={{$setting?->version}}">
+<link rel="stylesheet" href="{{ asset('backend/css/lawyer-mobile.css') }}?v={{$setting?->version}}">

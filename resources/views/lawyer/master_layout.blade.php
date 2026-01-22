@@ -120,8 +120,24 @@
     <script>
         // Notifications functionality for Lawyer
         $(document).ready(function() {
+            // Initialize Bootstrap dropdown for notifications
+            var notificationDropdownElement = document.querySelector('.lawyer-notification-dropdown');
+            var notificationDropdown = null;
+            if (notificationDropdownElement && typeof bootstrap !== 'undefined') {
+                var dropdownToggle = notificationDropdownElement.querySelector('[data-bs-toggle="dropdown"]');
+                if (dropdownToggle) {
+                    notificationDropdown = new bootstrap.Dropdown(dropdownToggle);
+                }
+            }
+
             // Load notifications
             function loadNotifications() {
+                // Show loading indicator
+                var list = $('#lawyer-header-notifications-list');
+                if (list.length && list.html().trim() === '') {
+                    list.html('<div class="text-center p-3"><div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>');
+                }
+                
                 $.ajax({
                     url: '{{ route("lawyer.notifications.fetch") }}',
                     method: 'GET',
@@ -148,6 +164,9 @@
                                 responseText: xhr.responseText
                             });
                             $('#lawyer-header-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        } else if (xhr.status === 0) {
+                            // Connection error - don't show error message, just keep current state
+                            console.warn('Notification fetch: Connection issue');
                         }
                         updateNotificationCount(0);
                     }
@@ -261,6 +280,31 @@
             
             // Refresh notifications every 30 seconds
             setInterval(loadNotifications, 30000);
+
+            // Ensure dropdown works on click
+            $('.lawyer-notification-btn').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Load notifications when dropdown is opened
+                if (!$(this).next('.lawyer-notification-menu').hasClass('show')) {
+                    loadNotifications();
+                }
+                
+                // Toggle dropdown manually if Bootstrap dropdown doesn't work
+                var menu = $(this).next('.lawyer-notification-menu');
+                if (menu.length) {
+                    $('.dropdown-menu').not(menu).removeClass('show');
+                    menu.toggleClass('show');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.lawyer-notification-dropdown').length) {
+                    $('.lawyer-notification-menu').removeClass('show');
+                }
+            });
         });
 
     </script>
