@@ -40,7 +40,7 @@
                         <span class="lawyer-user-name d-none d-lg-inline-block">{{ $header_lawyer->name }}</span>
                         <i class="fas fa-chevron-down d-none d-lg-inline-block ms-1"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-start lawyer-user-menu">
+                    <div class="dropdown-menu dropdown-menu-end lawyer-user-menu">
                         <a href="{{ route('lawyer.edit-profile', ['code' => getSessionLanguage()]) }}" class="dropdown-item {{ isroute('lawyer.edit-profile', 'text-primary') }}">
                             <i class="far fa-user me-2"></i>{{ __('Profile') }}
                         </a>
@@ -60,7 +60,7 @@
                         <i class="fas fa-bell"></i>
                         <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-start lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;" id="lawyer-notification-menu-rtl">
+                    <div class="dropdown-menu dropdown-menu-end lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;" id="lawyer-notification-menu-rtl">
                         <div class="dropdown-header d-flex justify-content-between align-items-center">
                             <h6 class="mb-0">{{ __('Notifications') }}</h6>
                             <a href="javascript:;" class="text-primary small lawyer-mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
@@ -370,15 +370,10 @@
     opacity: 1 !important;
 }
 
-/* Override Bootstrap dropdown-menu-start in RTL */
+/* RTL Support - Align to right edge of button (same as LTR) */
+[dir="rtl"] .lawyer-user-dropdown .dropdown-menu,
+[dir="rtl"] .lawyer-user-dropdown .dropdown-menu-end,
 [dir="rtl"] .lawyer-user-dropdown .dropdown-menu-start {
-    right: 0 !important;
-    left: auto !important;
-    transform: translateX(0) !important;
-}
-
-/* RTL Support - Align to right edge of button with slight offset */
-[dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
     right: 0 !important;
     left: auto !important;
     transform: translateX(0) !important;
@@ -423,14 +418,11 @@
     opacity: 1 !important;
 }
 
-/* RTL positioning */
-[dir="rtl"] .lawyer-notification-menu.dropdown-menu-start {
-    right: 0 !important;
-    left: auto !important;
-}
-
-/* LTR positioning */
-.lawyer-notification-menu.dropdown-menu-end {
+/* RTL and LTR positioning - both open to the right */
+[dir="rtl"] .lawyer-notification-menu.dropdown-menu-start,
+[dir="rtl"] .lawyer-notification-menu.dropdown-menu-end,
+.lawyer-notification-menu.dropdown-menu-end,
+.lawyer-notification-menu.dropdown-menu-start {
     right: 0 !important;
     left: auto !important;
 }
@@ -506,11 +498,18 @@
         top: 80px !important;
         right: 20px !important;
         left: auto !important;
+        z-index: 10050 !important;
     }
     
     [dir="rtl"] .lawyer-notification-menu {
         right: 20px !important;
         left: auto !important;
+    }
+    
+    .lawyer-notification-menu.show {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-user-menu {
@@ -545,8 +544,10 @@
         display: none !important;
     }
     
-    /* RTL Support for dropdown - align to right with proper visibility */
-    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
+    /* RTL Support for dropdown - align to right (same as LTR) */
+    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu,
+    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu-end,
+    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu-start {
         right: 0 !important;
         left: auto !important;
         max-width: calc(100vw - 20px) !important;
