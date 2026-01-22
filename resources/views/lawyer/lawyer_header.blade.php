@@ -56,7 +56,7 @@
 
                 {{-- Notifications Dropdown --}}
                 <li class="lawyer-nav-item lawyer-notification-dropdown">
-                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" aria-expanded="false">
                         <i class="fas fa-bell"></i>
                         <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
                     </a>
@@ -115,7 +115,7 @@
 
                 {{-- Notifications Dropdown --}}
                 <li class="lawyer-nav-item lawyer-notification-dropdown">
-                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" aria-expanded="false">
                         <i class="fas fa-bell"></i>
                         <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
                     </a>
@@ -311,11 +311,18 @@
     border: none;
     padding: 8px 0;
     background: #fff !important;
+}
+
+/* Bootstrap dropdown compatibility */
+.lawyer-user-dropdown .dropdown-menu {
     display: none;
 }
 
-.lawyer-user-menu.show {
+.lawyer-user-menu.show,
+.lawyer-user-dropdown .dropdown-menu.show {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Ensure dropdown is hidden by default */
@@ -350,6 +357,17 @@
     transform: translateY(0) !important;
     min-width: 200px;
     max-width: 300px;
+    display: none;
+}
+
+.lawyer-user-dropdown .dropdown-menu:not(.show) {
+    display: none !important;
+}
+
+.lawyer-user-dropdown .dropdown-menu.show {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Override Bootstrap dropdown-menu-start in RTL */
@@ -376,7 +394,7 @@
 }
 
 .lawyer-notification-dropdown {
-    position: relative;
+    position: relative !important;
 }
 
 .lawyer-notification-menu {
@@ -384,30 +402,37 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 8px;
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: 10000 !important;
+    display: none !important;
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    left: auto !important;
+    z-index: 10050 !important;
     background: #fff !important;
     min-width: 350px;
     max-width: 350px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transform: translateY(0);
 }
 
 .lawyer-notification-menu.show {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* RTL positioning */
 [dir="rtl"] .lawyer-notification-menu.dropdown-menu-start {
-    right: 0;
-    left: auto;
+    right: 0 !important;
+    left: auto !important;
 }
 
 /* LTR positioning */
 .lawyer-notification-menu.dropdown-menu-end {
-    right: 0;
-    left: auto;
+    right: 0 !important;
+    left: auto !important;
 }
 
 .lawyer-notification-menu .dropdown-item {
@@ -618,62 +643,99 @@ document.addEventListener('DOMContentLoaded', function() {
         menu.classList.remove('show');
     });
     
-    // Fix dropdown on mobile
+    // Initialize Bootstrap dropdown for user menu
     const userDropdownToggles = document.querySelectorAll('.lawyer-user-link[data-bs-toggle="dropdown"]');
     
     userDropdownToggles.forEach(toggle => {
-        // Prevent default Bootstrap behavior on mobile and handle manually
-        const isMobile = window.innerWidth <= 768;
+        const dropdownElement = toggle.closest('.lawyer-user-dropdown');
+        const dropdownMenu = dropdownElement ? dropdownElement.querySelector('.lawyer-user-menu') : null;
         
-        if (isMobile) {
-            // Remove Bootstrap dropdown behavior
-            toggle.setAttribute('data-bs-toggle', '');
-            
-            toggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const dropdown = this.nextElementSibling;
-                if (!dropdown || !dropdown.classList.contains('lawyer-user-menu')) {
-                    return;
-                }
-                
-                const isOpen = dropdown.classList.contains('show');
-                
-                // Close all other dropdowns first
-                document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
-                    menu.classList.remove('show');
+        if (dropdownMenu && typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+            try {
+                // Initialize Bootstrap dropdown
+                const dropdownInstance = new bootstrap.Dropdown(toggle, {
+                    boundary: 'viewport',
+                    popperConfig: {
+                        modifiers: [
+                            {
+                                name: 'offset',
+                                options: {
+                                    offset: [0, 8]
+                                }
+                            }
+                        ]
+                    }
                 });
                 
-                // Toggle current dropdown
-                if (isOpen) {
-                    dropdown.classList.remove('show');
-                } else {
-                    dropdown.classList.add('show');
-                    
-                    // Reset any inline styles to use CSS positioning
-                    dropdown.style.position = '';
-                    dropdown.style.top = '';
-                    dropdown.style.right = '';
-                    dropdown.style.left = '';
-                    dropdown.style.zIndex = '';
-                }
-            });
-        } else {
-            // On desktop, let Bootstrap handle it but ensure it closes properly
-            toggle.addEventListener('click', function(e) {
-                // Close other dropdowns when opening this one
-                setTimeout(function() {
-                    const allDropdowns = document.querySelectorAll('.lawyer-user-menu');
-                    allDropdowns.forEach(menu => {
-                        if (menu !== toggle.nextElementSibling && menu.classList.contains('show')) {
-                            menu.classList.remove('show');
+                // Listen for Bootstrap dropdown events
+                toggle.addEventListener('show.bs.dropdown', function() {
+                    dropdownMenu.classList.add('show');
+                    dropdownMenu.style.display = 'block';
+                });
+                
+                toggle.addEventListener('hide.bs.dropdown', function() {
+                    dropdownMenu.classList.remove('show');
+                    setTimeout(function() {
+                        if (!dropdownMenu.classList.contains('show')) {
+                            dropdownMenu.style.display = 'none';
                         }
-                    });
-                }, 100);
-            });
+                    }, 150);
+                });
+                
+                toggle.addEventListener('shown.bs.dropdown', function() {
+                    dropdownMenu.style.display = 'block';
+                    dropdownMenu.style.visibility = 'visible';
+                    dropdownMenu.style.opacity = '1';
+                });
+                
+                toggle.addEventListener('hidden.bs.dropdown', function() {
+                    dropdownMenu.style.display = 'none';
+                });
+                
+            } catch (e) {
+                console.warn('Bootstrap dropdown initialization failed, using manual toggle:', e);
+                // Fallback to manual toggle
+                setupManualUserDropdown(toggle);
+            }
+        } else {
+            // Fallback to manual toggle if Bootstrap is not available
+            setupManualUserDropdown(toggle);
         }
     });
+    
+    // Manual dropdown fallback function
+    function setupManualUserDropdown(toggle) {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const dropdownElement = this.closest('.lawyer-user-dropdown');
+            const dropdown = dropdownElement ? dropdownElement.querySelector('.lawyer-user-menu') : null;
+            
+            if (!dropdown) {
+                return;
+            }
+            
+            const isOpen = dropdown.classList.contains('show');
+            
+            // Close all other dropdowns first
+            document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
+                menu.classList.remove('show');
+                menu.style.display = 'none';
+            });
+            
+            // Toggle current dropdown
+            if (isOpen) {
+                dropdown.classList.remove('show');
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.classList.add('show');
+                dropdown.style.display = 'block';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.opacity = '1';
+            }
+        });
+    }
     
     // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {

@@ -315,66 +315,64 @@
             // Refresh notifications every 30 seconds
             setInterval(loadNotifications, 30000);
 
-            // Handle notification dropdown toggle
-            $('.lawyer-notification-btn').on('click', function(e) {
+            // Handle notification dropdown toggle - use event delegation
+            $(document).on('click', '.lawyer-notification-btn', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                var $dropdown = $(this).closest('.lawyer-notification-dropdown');
+                var $button = $(this);
+                var $dropdown = $button.closest('.lawyer-notification-dropdown');
                 var $menu = $dropdown.find('.lawyer-notification-menu');
+                
+                if ($menu.length === 0) {
+                    return;
+                }
+                
                 var isOpen = $menu.hasClass('show');
                 
-                // Close all other dropdowns
-                $('.lawyer-notification-menu').not($menu).removeClass('show');
+                // Close all other dropdowns first
+                $('.lawyer-notification-menu').not($menu).each(function() {
+                    $(this).removeClass('show').css({
+                        'display': 'none',
+                        'visibility': 'hidden',
+                        'opacity': '0'
+                    });
+                });
                 
                 // Toggle current dropdown
                 if (isOpen) {
-                    $menu.removeClass('show');
+                    $menu.removeClass('show').css({
+                        'display': 'none',
+                        'visibility': 'hidden',
+                        'opacity': '0'
+                    });
                 } else {
-                    $menu.addClass('show');
+                    $menu.addClass('show').css({
+                        'display': 'block !important',
+                        'visibility': 'visible !important',
+                        'opacity': '1 !important',
+                        'position': 'absolute',
+                        'z-index': '10050'
+                    });
                     loadNotifications();
                 }
+                
+                return false;
             });
 
             // Close dropdown when clicking outside
             $(document).on('click', function(e) {
                 if (!$(e.target).closest('.lawyer-notification-dropdown').length) {
-                    $('.lawyer-notification-menu').removeClass('show');
+                    $('.lawyer-notification-menu').removeClass('show').css({
+                        'display': 'none',
+                        'visibility': 'hidden',
+                        'opacity': '0'
+                    });
                 }
             });
             
-            // Also try to initialize Bootstrap dropdown if available (for better positioning)
-            if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
-                var notificationDropdowns = document.querySelectorAll('.lawyer-notification-dropdown');
-                notificationDropdowns.forEach(function(dropdownElement) {
-                    var toggleButton = dropdownElement.querySelector('.lawyer-notification-btn[data-bs-toggle="dropdown"]');
-                    if (toggleButton) {
-                        try {
-                            var dropdownInstance = new bootstrap.Dropdown(toggleButton, {
-                                boundary: 'viewport',
-                                popperConfig: {
-                                    modifiers: [
-                                        {
-                                            name: 'offset',
-                                            options: {
-                                                offset: [0, 8]
-                                            }
-                                        }
-                                    ]
-                                }
-                            });
-                            
-                            // Load notifications when dropdown is shown via Bootstrap
-                            toggleButton.addEventListener('show.bs.dropdown', function() {
-                                loadNotifications();
-                            });
-                        } catch (e) {
-                            // Bootstrap failed, manual toggle will handle it
-                            console.warn('Bootstrap dropdown init failed, using manual toggle');
-                        }
-                    }
-                });
-            }
+            // Remove Bootstrap data attribute to prevent conflicts
+            $('.lawyer-notification-btn').removeAttr('data-bs-toggle');
         });
 
     </script>
