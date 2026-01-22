@@ -349,12 +349,30 @@
     z-index: 10000 !important;
     transform: translateY(0) !important;
     min-width: 200px;
+    max-width: 300px;
 }
 
-/* RTL Support - Align to right edge of button */
+/* Override Bootstrap dropdown-menu-start in RTL */
+[dir="rtl"] .lawyer-user-dropdown .dropdown-menu-start {
+    right: 0 !important;
+    left: auto !important;
+    transform: translateX(0) !important;
+}
+
+/* RTL Support - Align to right edge of button with slight offset */
 [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
     right: 0 !important;
     left: auto !important;
+    transform: translateX(0) !important;
+}
+
+/* Ensure dropdown doesn't go off screen in RTL */
+@media (max-width: 768px) {
+    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
+        right: 0 !important;
+        left: auto !important;
+        max-width: calc(100vw - 20px) !important;
+    }
 }
 
 .lawyer-notification-menu {
@@ -465,10 +483,11 @@
         display: none !important;
     }
     
-    /* RTL Support for dropdown - keep right alignment */
+    /* RTL Support for dropdown - align to right with proper visibility */
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
         right: 0 !important;
         left: auto !important;
+        max-width: calc(100vw - 20px) !important;
     }
 }
 

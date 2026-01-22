@@ -213,10 +213,16 @@
         display: inline-block !important;
     }
     
-    /* RTL Support for dropdown - align to right edge */
+    /* RTL Support for dropdown - align to right edge with proper visibility */
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
         right: 0 !important;
         left: auto !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+    
+    /* Ensure dropdown is visible and not cut off */
+    .lawyer-user-dropdown .dropdown-menu {
+        max-width: calc(100vw - 20px) !important;
     }
     
     /* Ensure header doesn't hide dropdown */
