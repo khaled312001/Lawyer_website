@@ -644,8 +644,243 @@
     }
 }
 
-/* Lawyer Sidebar Mobile - Enhanced Design */
+/* ============================================
+   Lawyer Dashboard Mobile - Complete Redesign
+   إعادة تصميم كاملة لداشبورد المحامي على الموبايل
+   ============================================ */
+
+/* Lawyer Mobile Sidebar - New Design */
 @media (max-width: 1024px) {
+    /* Sidebar Container - Completely Hidden When Closed */
+    .lawyer_dashboard_layout .main-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 320px !important;
+        max-width: 85vw !important;
+        height: 100vh !important;
+        z-index: 10050 !important;
+        background: #ffffff !important;
+        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15) !important;
+        transition: left 0.3s ease !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Sidebar Hidden State */
+    body:not(.lawyer-mobile-sidebar-open) .lawyer_dashboard_layout .main-sidebar,
+    body.sidebar-gone .lawyer_dashboard_layout .main-sidebar {
+        left: -100% !important;
+        visibility: hidden !important;
+    }
+    
+    /* Sidebar Open State */
+    body.lawyer-mobile-sidebar-open .lawyer_dashboard_layout .main-sidebar {
+        left: 0 !important;
+        visibility: visible !important;
+    }
+    
+    /* Backdrop Overlay */
+    body.lawyer-mobile-sidebar-open .lawyer_dashboard_layout::before {
+        content: '' !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        z-index: 10049 !important;
+    }
+    
+    /* Sidebar Header */
+    .lawyer_dashboard_layout .main-sidebar .sidebar-brand {
+        padding: 20px !important;
+        border-bottom: 1px solid #e9ecef !important;
+        background: #fff !important;
+    }
+    
+    /* Sidebar Menu */
+    .lawyer_dashboard_layout .main-sidebar .sidebar-menu {
+        padding: 10px 0 !important;
+    }
+    
+    /* Sidebar Menu Items */
+    .lawyer_dashboard_layout .main-sidebar .sidebar-menu > li > a {
+        padding: 14px 20px !important;
+        font-size: 15px !important;
+        color: #495057 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .lawyer_dashboard_layout .main-sidebar .sidebar-menu > li > a:hover {
+        background: #f8f9fa !important;
+        color: var(--colorPrimary, #6b5d47) !important;
+    }
+    
+    .lawyer_dashboard_layout .main-sidebar .sidebar-menu > li.active > a {
+        background: var(--colorPrimary, #6b5d47) !important;
+        color: #fff !important;
+    }
+    
+    /* Close Button */
+    .lawyer_dashboard_layout .main-sidebar .sidebar-close-btn {
+        position: absolute !important;
+        top: 15px !important;
+        right: 15px !important;
+        width: 40px !important;
+        height: 40px !important;
+        background: #dc3545 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        color: #fff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        z-index: 10051 !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .lawyer_dashboard_layout .main-sidebar .sidebar-close-btn:hover {
+        background: #c82333 !important;
+        transform: scale(1.1) !important;
+    }
+    
+    /* Lawyer Mobile Header - New Design */
+    .lawyer_dashboard_layout .navbar,
+    .lawyer_dashboard_layout .main-navbar {
+        position: relative !important;
+        z-index: 10040 !important;
+        background: #fff !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+        padding: 12px 16px !important;
+        min-height: 64px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+    
+    /* Toggle Button - Always Visible and Working */
+    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"] {
+        width: 44px !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: var(--colorPrimary, #6b5d47) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 8px !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        text-decoration: none !important;
+        z-index: 10041 !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"]:hover {
+        background: #5a4d3a !important;
+        transform: scale(1.05) !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"] i {
+        font-size: 18px !important;
+    }
+    
+    /* Navbar Right Section */
+    .lawyer_dashboard_layout .navbar .lawyer_nav {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar .lawyer_nav .nav-link-lg {
+        display: flex !important;
+        align-items: center !important;
+        padding: 8px 12px !important;
+        border-radius: 8px !important;
+        transition: all 0.2s ease !important;
+        color: #495057 !important;
+        text-decoration: none !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar .lawyer_nav .nav-link-lg:hover {
+        background: #f8f9fa !important;
+    }
+    
+    /* Notification Icon */
+    .lawyer_dashboard_layout .navbar .notification-icon {
+        position: relative !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 8px !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar .notification-badge {
+        position: absolute !important;
+        top: -4px !important;
+        right: -4px !important;
+        background: #dc3545 !important;
+        color: #fff !important;
+        border-radius: 10px !important;
+        padding: 2px 6px !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        min-width: 18px !important;
+        height: 18px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    /* User Profile */
+    .lawyer_dashboard_layout .navbar .nav-link-user {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 6px 12px !important;
+        border-radius: 8px !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar .nav-link-user:hover {
+        background: #f8f9fa !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar .nav-link-user img {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 50% !important;
+    }
+    
+    /* Main Content */
+    .lawyer_dashboard_layout .main-content {
+        padding: 15px !important;
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+}
+
+/* Very Small Screens */
+@media (max-width: 480px) {
+    .lawyer_dashboard_layout .main-sidebar {
+        width: 280px !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar {
+        padding: 10px 12px !important;
+    }
+    
+    .lawyer_dashboard_layout .navbar [data-toggle="sidebar"] {
+        width: 40px !important;
+        height: 40px !important;
+    }
+}
     /* Force sidebar to be completely hidden when closed */
     .lawyer_dashboard_layout .main-sidebar {
         position: fixed !important;

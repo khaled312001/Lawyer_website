@@ -251,59 +251,34 @@
             setInterval(loadNotifications, 30000);
         });
 
-        // Lawyer Dashboard Sidebar Mobile Toggle - Enhanced
+        // Lawyer Dashboard Sidebar Mobile Toggle - New Implementation
         $(document).ready(function() {
-            function handleSidebar() {
-                // On mobile (width <= 1024px), allow toggle
-                if ($(window).width() <= 1024) {
-                    // Mobile: Sidebar should be closed by default
-                    if (!$('body').hasClass('sidebar-show')) {
-                        $('body').addClass('sidebar-gone');
-                    }
-                } else {
-                    // Desktop: Always keep sidebar open
-                    $('body').removeClass('sidebar-gone sidebar-show');
-                }
-            }
-            
-            // Initial check
-            handleSidebar();
-            
-            // Check on window resize
-            $(window).on('resize', function() {
-                handleSidebar();
-            });
-            
-            // Toggle sidebar only on mobile - Enhanced with better event handling
+            // Toggle sidebar on mobile
             $(document).on('click', '[data-toggle="sidebar"]', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Only allow toggle on mobile
                 if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('sidebar-gone') || !$('body').hasClass('sidebar-show')) {
-                        $('body').removeClass('sidebar-gone');
-                        $('body').addClass('sidebar-show');
-                        // Prevent body scroll when sidebar is open
-                        $('body').css('overflow', 'hidden');
-                    } else {
-                        $('body').removeClass('sidebar-show');
+                    if ($('body').hasClass('lawyer-mobile-sidebar-open')) {
+                        $('body').removeClass('lawyer-mobile-sidebar-open');
                         $('body').addClass('sidebar-gone');
-                        // Allow body scroll when sidebar is closed
                         $('body').css('overflow', 'auto');
+                    } else {
+                        $('body').removeClass('sidebar-gone');
+                        $('body').addClass('lawyer-mobile-sidebar-open');
+                        $('body').css('overflow', 'hidden');
                     }
                 }
             });
             
-            // Close sidebar when clicking backdrop on mobile (Lawyer Dashboard)
+            // Close sidebar when clicking backdrop
             $(document).on('click', function(e) {
                 if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('sidebar-show')) {
-                        // Check if click is outside sidebar and not on toggle button
+                    if ($('body').hasClass('lawyer-mobile-sidebar-open')) {
                         if (!$(e.target).closest('.main-sidebar').length && 
                             !$(e.target).closest('[data-toggle="sidebar"]').length &&
                             !$(e.target).is('[data-toggle="sidebar"]')) {
-                            $('body').removeClass('sidebar-show');
+                            $('body').removeClass('lawyer-mobile-sidebar-open');
                             $('body').addClass('sidebar-gone');
                             $('body').css('overflow', 'auto');
                         }
@@ -314,6 +289,15 @@
             // Prevent event bubbling when clicking inside sidebar
             $('.main-sidebar').on('click', function(e) {
                 e.stopPropagation();
+            });
+            
+            // Close button handler
+            $('.sidebar-close-btn').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $('body').removeClass('lawyer-mobile-sidebar-open');
+                $('body').addClass('sidebar-gone');
+                $('body').css('overflow', 'auto');
             });
         });
     </script>

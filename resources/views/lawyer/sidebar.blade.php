@@ -22,7 +22,7 @@
 @endphp
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
-        <button class="sidebar-close-btn d-lg-none" onclick="document.body.classList.remove('sidebar-show'); document.body.classList.add('sidebar-gone'); document.body.style.overflow = 'auto';" aria-label="{{ __('Close Menu') }}" title="{{ __('Close Menu') }}">
+        <button class="sidebar-close-btn d-lg-none" aria-label="{{ __('Close Menu') }}" title="{{ __('Close Menu') }}">
             <i class="fas fa-times"></i>
         </button>
         <div class="sidebar-brand">
