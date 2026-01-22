@@ -20,86 +20,15 @@
 <body>
     <div id="app" class="lawyer_dashboard_layout">
         <div class="main-wrapper">
-            <div class="navbar-bg"></div>
-            <nav class="navbar navbar-expand-lg main-navbar px-2 py-2">
-                <div class="me-auto form-inline">
-                    <ul class="me-2 navbar-nav d-flex align-items-center">
-                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
-                                    class="fas fa-bars"></i></a></li>
-                        {{-- language select --}}
-                        @include('backend_layouts.partials.language_select')
-                        {{-- currency select --}}
-                        @include('backend_layouts.partials.currency_select')
-                    </ul>
-                </div>
-                <ul class="navbar-nav lawyer_nav ms-auto d-flex align-items-center">
-                    <li class="dropdown dropdown-list-toggle">
-                        <a target="_blank" href="{{ route('home') }}" class="nav-link nav-link-lg">
-                            <i class="fas fa-home"></i> {{ __('Visit Website') }}</i>
-                        </a>
-                    </li>
+            {{-- New Lawyer Header --}}
+            @include('lawyer.lawyer_header')
 
-                    {{-- Notifications Dropdown --}}
-                    <li class="dropdown dropdown-list-toggle notification-dropdown">
-                        <a href="javascript:;" data-bs-toggle="dropdown" class="nav-link nav-link-lg notification-icon p-0 position-relative">
-                            <i class="fas fa-bell"></i>
-                            <span class="notification-badge" id="notification-count" style="display: none;">0</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right notification-dropdown-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
-                            <div class="dropdown-header d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">{{ __('Notifications') }}</h6>
-                                <a href="javascript:;" class="text-primary small mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <div id="notifications-list">
-                                <div class="text-center p-3">
-                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dropdown-divider"></div>
-                            <div class="dropdown-footer text-center">
-                                <a href="{{ route('lawyer.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
-                            </div>
-                        </div>
-                    </li>
+            {{-- New Lawyer Sidebar --}}
+            @include('lawyer.lawyer_navigation')
 
-                    <li class="dropdown"><a href="javascript:;" data-bs-toggle="dropdown"
-                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            @if ($header_lawyer->image)
-                                <img alt="image" src="{{ asset($header_lawyer->image) }}"
-                                    class="me-1 rounded-circle">
-                            @else
-                                <img alt="image" src="{{ asset($setting->default_avatar) }}"
-                                    class="me-1 rounded-circle">
-                            @endif
-
-                            <div class="d-sm-none d-lg-inline-block">{{ $header_lawyer->name }}</div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a href="{{ route('lawyer.edit-profile', ['code' => getSessionLanguage()]) }}"
-                                class="dropdown-item has-icon d-flex align-items-center {{ isroute('lawyer.edit-profile', 'text-primary') }}">
-                                <i class="far fa-user"></i> {{ __('Profile') }}
-                            </a>
-                            <a href="{{ route('lawyer.change-password') }}"
-                                class="dropdown-item has-icon d-flex align-items-center {{ isroute('lawyer.change-password', 'text-primary') }}">
-                                <i class="fas fa-key"></i> {{ __('Change Password') }}
-                            </a>
-                            <a href="javascript:;" class="dropdown-item has-icon d-flex align-items-center"
-                                onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
-                                <i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}
-                            </a>
-                        </div>
-                    </li>
-
-                </ul>
-            </nav>
-
-
-            @include('lawyer.sidebar')
-
-            @yield('admin-content')
+            <div class="lawyer-main-content">
+                @yield('admin-content')
+            </div>
 
             <footer class="main-footer">
                 <div class="footer-right">
@@ -118,6 +47,35 @@
 
     @stack('js')
     
+    <style>
+    /* Lawyer Main Content Layout */
+    .lawyer-main-content {
+        margin-left: 260px;
+        margin-top: 70px;
+        padding: 20px;
+        min-height: calc(100vh - 70px);
+        transition: margin-left 0.3s ease;
+    }
+    
+    @media (max-width: 1024px) {
+        .lawyer-main-content {
+            margin-left: 0;
+        }
+    }
+    
+    /* Footer adjustments */
+    .main-footer {
+        margin-left: 260px;
+        transition: margin-left 0.3s ease;
+    }
+    
+    @media (max-width: 1024px) {
+        .main-footer {
+            margin-left: 0;
+        }
+    }
+    </style>
+    
     <script>
         // Notifications functionality for Lawyer
         $(document).ready(function() {
@@ -131,19 +89,19 @@
                             updateNotificationCount(response.unread_count || 0);
                             renderNotifications(response.notifications || []);
                         } else {
-                            $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
+                            $('#lawyer-header-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
                         }
                     },
                     error: function(xhr, status, error) {
                         console.error('Notification fetch error:', error);
-                        $('#notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        $('#lawyer-header-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
                         updateNotificationCount(0);
                     }
                 });
             }
 
             function updateNotificationCount(count) {
-                const badge = $('#notification-count');
+                const badge = $('#lawyer-header-notification-count');
                 if (count > 0) {
                     badge.text(count > 99 ? '99+' : count).show();
                 } else {
@@ -152,7 +110,7 @@
             }
 
             function renderNotifications(notifications) {
-                const list = $('#notifications-list');
+                const list = $('#lawyer-header-notifications-list');
                 if (!notifications || notifications.length === 0) {
                     list.html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
                     return;
@@ -230,7 +188,7 @@
             }
 
             // Mark all as read
-            $('.mark-all-read').on('click', function(e) {
+            $('.lawyer-mark-all-read').on('click', function(e) {
                 e.preventDefault();
                 $.ajax({
                     url: '{{ route("lawyer.notifications.mark-all-read") }}',
@@ -251,55 +209,6 @@
             setInterval(loadNotifications, 30000);
         });
 
-        // Lawyer Dashboard Sidebar Mobile Toggle - New Implementation
-        $(document).ready(function() {
-            // Toggle sidebar on mobile
-            $(document).on('click', '[data-toggle="sidebar"]', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('lawyer-mobile-sidebar-open')) {
-                        $('body').removeClass('lawyer-mobile-sidebar-open');
-                        $('body').addClass('sidebar-gone');
-                        $('body').css('overflow', 'auto');
-                    } else {
-                        $('body').removeClass('sidebar-gone');
-                        $('body').addClass('lawyer-mobile-sidebar-open');
-                        $('body').css('overflow', 'hidden');
-                    }
-                }
-            });
-            
-            // Close sidebar when clicking backdrop
-            $(document).on('click', function(e) {
-                if ($(window).width() <= 1024) {
-                    if ($('body').hasClass('lawyer-mobile-sidebar-open')) {
-                        if (!$(e.target).closest('.main-sidebar').length && 
-                            !$(e.target).closest('[data-toggle="sidebar"]').length &&
-                            !$(e.target).is('[data-toggle="sidebar"]')) {
-                            $('body').removeClass('lawyer-mobile-sidebar-open');
-                            $('body').addClass('sidebar-gone');
-                            $('body').css('overflow', 'auto');
-                        }
-                    }
-                }
-            });
-            
-            // Prevent event bubbling when clicking inside sidebar
-            $('.main-sidebar').on('click', function(e) {
-                e.stopPropagation();
-            });
-            
-            // Close button handler
-            $('.sidebar-close-btn').on('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                $('body').removeClass('lawyer-mobile-sidebar-open');
-                $('body').addClass('sidebar-gone');
-                $('body').css('overflow', 'auto');
-            });
-        });
     </script>
 
 </body>
