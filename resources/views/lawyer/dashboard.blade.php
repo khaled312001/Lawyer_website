@@ -7,35 +7,6 @@
         <section class="section">
             <x-admin.breadcrumb title="{{ __('Dashboard') }}" />
 
-            <!-- Notifications Button -->
-            <div class="mb-3 d-flex justify-content-end">
-                <div class="dropdown" id="lawyer-dashboard-notification-dropdown">
-                    <button type="button" class="btn btn-primary position-relative notification-btn" id="lawyer-dashboard-notification-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge badge bg-danger" id="lawyer-dashboard-notification-count" style="display: none; position: absolute; top: -5px; right: -5px; border-radius: 50%; padding: 2px 6px; font-size: 10px;">0</span>
-                        <span class="ms-2">{{ __('Notifications') }}</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end notification-dropdown-menu" id="lawyer-dashboard-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
-                        <div class="dropdown-header d-flex justify-content-between align-items-center">
-                            <h6 class="mb-0">{{ __('Notifications') }}</h6>
-                            <a href="javascript:;" class="text-primary small mark-all-read-dashboard" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div id="lawyer-dashboard-notifications-list">
-                            <div class="text-center p-3">
-                                <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-footer text-center">
-                            <a href="{{ route('lawyer.notifications.index') }}" class="text-primary small" style="text-decoration: none;">{{ __('View all notifications') }}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="section-body">
                 <div class="row">
                         <!-- Today Appointment -->
@@ -259,19 +230,19 @@
                             }
                         },
                         scales: {
-                            xAxes: [{
+                            x: {
                                 time: {
                                     unit: 'date'
                                 },
-                                gridLines: {
+                                grid: {
                                     display: false,
                                     drawBorder: false
                                 },
                                 ticks: {
                                     maxTicksLimit: 7
                                 }
-                            }],
-                            yAxes: [{
+                            },
+                            y: {
                                 ticks: {
                                     maxTicksLimit: 5,
                                     padding: 10,
@@ -281,39 +252,44 @@
                                             number_format(value);
                                     }
                                 },
-                                gridLines: {
+                                grid: {
                                     color: "rgb(234, 236, 244)",
-                                    zeroLineColor: "rgb(234, 236, 244)",
+                                    borderColor: "rgb(234, 236, 244)",
                                     drawBorder: false,
                                     borderDash: [2],
-                                    zeroLineBorderDash: [2]
+                                    borderDashOffset: 0
                                 }
-                            }],
+                            }
                         },
-                        legend: {
-                            display: false
-                        },
-                        tooltips: {
-                            backgroundColor: "rgb(255,255,255)",
-                            bodyFontColor: "#858796",
-                            titleMarginBottom: 10,
-                            titleFontColor: '#6e707e',
-                            titleFontSize: 14,
-                            borderColor: '#dddfeb',
-                            borderWidth: 1,
-                            xPadding: 15,
-                            yPadding: 15,
-                            displayColors: false,
-                            intersect: false,
-                            mode: 'index',
-                            caretPadding: 10,
-                            callbacks: {
-                                label: function(tooltipItem, chart) {
-                                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex]
-                                        .label || '';
-                                    return datasetLabel +
-                                        ': {{ session()->get('currency_icon') }}' +
-                                        number_format(tooltipItem.yLabel);
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: "rgb(255,255,255)",
+                                bodyColor: "#858796",
+                                titleMarginBottom: 10,
+                                titleColor: '#6e707e',
+                                titleFont: {
+                                    size: 14
+                                },
+                                borderColor: '#dddfeb',
+                                borderWidth: 1,
+                                padding: {
+                                    x: 15,
+                                    y: 15
+                                },
+                                displayColors: false,
+                                intersect: false,
+                                mode: 'index',
+                                caretPadding: 10,
+                                callbacks: {
+                                    label: function(context) {
+                                        var datasetLabel = context.dataset.label || '';
+                                        return datasetLabel +
+                                            ': {{ session()->get('currency_icon') }}' +
+                                            number_format(context.parsed.y);
+                                    }
                                 }
                             }
                         }
@@ -322,162 +298,28 @@
             });
         })(jQuery);
 
-        // Notifications functionality for Lawyer Dashboard
-        $(document).ready(function() {
-            // Initialize Bootstrap dropdown
-            var dropdownElement = document.getElementById('lawyer-dashboard-notification-dropdown');
-            if (dropdownElement) {
-                var dropdown = new bootstrap.Dropdown(dropdownElement.querySelector('[data-bs-toggle="dropdown"]'));
-            }
-
-            // Load notifications
-            function loadDashboardNotifications() {
-                $.ajax({
-                    url: '{{ route("lawyer.notifications.fetch") }}',
-                    method: 'GET',
-                    success: function(response) {
-                        if (response && response.unread_count !== undefined) {
-                            updateDashboardNotificationCount(response.unread_count || 0);
-                            renderDashboardNotifications(response.notifications || []);
-                        } else {
-                            $('#lawyer-dashboard-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Notification fetch error:', error);
-                        $('#lawyer-dashboard-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
-                        updateDashboardNotificationCount(0);
-                    }
-                });
-            }
-
-            function updateDashboardNotificationCount(count) {
-                const badge = $('#lawyer-dashboard-notification-count');
-                if (count > 0) {
-                    badge.text(count > 99 ? '99+' : count).show();
-                } else {
-                    badge.hide();
-                }
-            }
-
-            function renderDashboardNotifications(notifications) {
-                const list = $('#lawyer-dashboard-notifications-list');
-                if (!notifications || notifications.length === 0) {
-                    list.html('<div class="text-center p-3 text-muted">{{ __("No notifications") }}</div>');
-                    return;
-                }
-
-                let html = '';
-                notifications.forEach(function(notification) {
-                    try {
-                        const isRead = notification.read_at !== null && notification.read_at !== '';
-                        const readClass = isRead ? '' : 'bg-light';
-                        const notificationData = notification.data || {};
-                        const icon = getDashboardNotificationIcon(notificationData.type || '');
-                        html += `
-                            <a href="${notificationData.url || '#'}" class="dropdown-item notification-item-dashboard ${readClass}" data-id="${notification.id || ''}">
-                                <div class="d-flex align-items-start">
-                                    <div class="notification-icon-wrapper me-2">
-                                        <i class="${icon}"></i>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold small">${notificationData.title || '{{ __("Notification") }}'}</div>
-                                        <div class="text-muted small" style="font-size: 0.85rem;">${notificationData.message || ''}</div>
-                                        <div class="text-muted" style="font-size: 0.75rem; margin-top: 4px;">${formatDashboardTime(notification.created_at)}</div>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                        `;
-                    } catch (e) {
-                        console.error('Error rendering notification:', e, notification);
-                    }
-                });
-                list.html(html);
-
-                // Mark as read on click
-                $('.notification-item-dashboard').on('click', function(e) {
-                    const notificationId = $(this).data('id');
-                    if (!$(this).hasClass('bg-light')) return; // Already read
-                    
-                    $.ajax({
-                        url: '{{ route("lawyer.notifications.mark-read", ":id") }}'.replace(':id', notificationId),
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function() {
-                            loadDashboardNotifications();
-                        }
-                    });
-                });
-            }
-
-            function getDashboardNotificationIcon(type) {
-                const icons = {
-                    'new_order': 'fas fa-shopping-cart text-primary',
-                    'new_message': 'fas fa-envelope text-info',
-                    'new_appointment': 'fas fa-calendar-check text-success',
-                    'payment_approved': 'fas fa-check-circle text-success'
-                };
-                return icons[type] || 'fas fa-bell text-secondary';
-            }
-
-            function formatDashboardTime(dateString) {
-                const date = new Date(dateString);
-                const now = new Date();
-                const diff = now - date;
-                const minutes = Math.floor(diff / 60000);
-                const hours = Math.floor(diff / 3600000);
-                const days = Math.floor(diff / 86400000);
-                
-                if (minutes < 1) return '{{ __("Just now") }}';
-                if (minutes < 60) return minutes + ' {{ __("minutes ago") }}';
-                if (hours < 24) return hours + ' {{ __("hours ago") }}';
-                if (days < 7) return days + ' {{ __("days ago") }}';
-                return date.toLocaleDateString();
-            }
-
-            // Mark all as read
-            $('.mark-all-read-dashboard').on('click', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '{{ route("lawyer.notifications.mark-all-read") }}',
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function() {
-                        loadDashboardNotifications();
-                    }
-                });
-            });
-
-            // Load notifications on page load
-            loadDashboardNotifications();
+        // JavaScript number_format function
+        function number_format(number, decimals, dec_point, thousands_sep) {
+            decimals = decimals !== undefined ? decimals : 2;
+            dec_point = dec_point !== undefined ? dec_point : '.';
+            thousands_sep = thousands_sep !== undefined ? thousands_sep : ',';
             
-            // Refresh notifications every 30 seconds
-            setInterval(loadDashboardNotifications, 30000);
-
-            // Toggle dropdown on button click (fallback)
-            $('#lawyer-dashboard-notification-btn').on('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                var menu = $('#lawyer-dashboard-notification-menu');
-                if (menu.hasClass('show')) {
-                    menu.removeClass('show');
-                } else {
-                    menu.addClass('show');
-                    loadDashboardNotifications();
-                }
-            });
-
-            // Close dropdown when clicking outside
-            $(document).on('click', function(e) {
-                if (!$(e.target).closest('#lawyer-dashboard-notification-dropdown').length) {
-                    $('#lawyer-dashboard-notification-menu').removeClass('show');
-                }
-            });
-        });
+            number = parseFloat(number);
+            if (isNaN(number)) return '0';
+            
+            var negative = number < 0;
+            number = Math.abs(number);
+            
+            var s = number.toFixed(decimals);
+            var parts = s.split('.');
+            var integerPart = parts[0];
+            var decimalPart = parts.length > 1 ? dec_point + parts[1] : '';
+            
+            if (thousands_sep) {
+                integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, thousands_sep);
+            }
+            
+            return (negative ? '-' : '') + integerPart + decimalPart;
+        }
     </script>
 @endpush

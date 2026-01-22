@@ -49,12 +49,30 @@
     
     <style>
     /* Lawyer Main Content Layout */
+    @php
+        $textDirection = session()->get('text_direction', 'ltr');
+        $currentLang = session()->get('lang', config('app.locale', 'ar'));
+        $rtlLanguages = ['ar', 'arc', 'dv', 'fa', 'ha', 'he', 'khw', 'ks', 'ku', 'ps', 'ur', 'yi'];
+        $isRTL = $textDirection === 'rtl' || in_array($currentLang, $rtlLanguages);
+    @endphp
+    
     .lawyer-main-content {
         margin-left: 260px;
         margin-top: 70px;
         padding: 20px;
+        padding-top: 0;
         min-height: calc(100vh - 70px);
-        transition: margin-left 0.3s ease;
+        transition: margin-left 0.3s ease, margin-right 0.3s ease;
+    }
+    
+    .lawyer-main-content .main-content {
+        margin-top: 0;
+        padding-top: 0;
+    }
+    
+    .lawyer-main-content .section {
+        margin-top: 0;
+        padding-top: 0;
     }
     
     @media (max-width: 1024px) {
@@ -66,7 +84,7 @@
     /* Footer adjustments */
     .main-footer {
         margin-left: 260px;
-        transition: margin-left 0.3s ease;
+        transition: margin-left 0.3s ease, margin-right 0.3s ease;
     }
     
     @media (max-width: 1024px) {
@@ -74,6 +92,29 @@
             margin-left: 0;
         }
     }
+    
+    @if($isRTL)
+    /* RTL Support - Arabic */
+    .lawyer-main-content {
+        margin-left: 0;
+        margin-right: 260px;
+    }
+    
+    .main-footer {
+        margin-left: 0;
+        margin-right: 260px;
+    }
+    
+    @media (max-width: 1024px) {
+        .lawyer-main-content {
+            margin-right: 0;
+        }
+        
+        .main-footer {
+            margin-right: 0;
+        }
+    }
+    @endif
     </style>
     
     <script>
@@ -84,6 +125,11 @@
                 $.ajax({
                     url: '{{ route("lawyer.notifications.fetch") }}',
                     method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    timeout: 10000,
                     success: function(response) {
                         if (response && response.unread_count !== undefined) {
                             updateNotificationCount(response.unread_count || 0);
@@ -93,8 +139,16 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error('Notification fetch error:', error);
-                        $('#lawyer-header-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        // Only log errors that aren't connection/timeout issues to avoid console spam
+                        if (status !== 'timeout' && status !== 'abort' && xhr.status !== 0) {
+                            console.error('Notification fetch error:', {
+                                status: status,
+                                error: error,
+                                statusCode: xhr.status,
+                                responseText: xhr.responseText
+                            });
+                            $('#lawyer-header-notifications-list').html('<div class="text-center p-3 text-muted">{{ __("Failed to load notifications") }}</div>');
+                        }
                         updateNotificationCount(0);
                     }
                 });

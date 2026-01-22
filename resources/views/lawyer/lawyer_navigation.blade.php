@@ -402,6 +402,87 @@
 .lawyer-sidebar-nav::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+/* RTL Support - Arabic */
+@php
+    $textDirection = session()->get('text_direction', 'ltr');
+    $currentLang = session()->get('lang', config('app.locale', 'ar'));
+    $rtlLanguages = ['ar', 'arc', 'dv', 'fa', 'ha', 'he', 'khw', 'ks', 'ku', 'ps', 'ur', 'yi'];
+    $isRTL = $textDirection === 'rtl' || in_array($currentLang, $rtlLanguages);
+@endphp
+
+@if($isRTL)
+/* RTL Styles */
+.lawyer-sidebar-wrapper {
+    left: auto;
+    right: 0;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.lawyer-sidebar-close {
+    right: auto;
+    left: 15px;
+}
+
+.lawyer-menu-link {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.lawyer-menu-link:hover {
+    padding-left: 20px;
+    padding-right: 25px;
+}
+
+.lawyer-menu-item.lawyer-menu-active > .lawyer-menu-link {
+    border-left: none;
+    border-right: 4px solid #fff;
+}
+
+.lawyer-menu-icon {
+    margin-right: 0;
+    margin-left: 12px;
+}
+
+.lawyer-menu-arrow {
+    margin-left: 0;
+    margin-right: auto;
+    transform: scaleX(-1);
+}
+
+.lawyer-menu-item.lawyer-menu-open > .lawyer-menu-link .lawyer-menu-arrow {
+    transform: scaleX(-1) rotate(180deg);
+}
+
+.lawyer-submenu-link {
+    padding: 10px 52px 10px 20px;
+    text-align: right;
+}
+
+.lawyer-submenu-link:hover {
+    padding-left: 20px;
+    padding-right: 57px;
+}
+
+.lawyer-submenu-item.lawyer-submenu-active > .lawyer-submenu-link {
+    border-left: none;
+    border-right: 3px solid #667eea;
+}
+
+/* Mobile RTL */
+@media (max-width: 1024px) {
+    .lawyer-sidebar-wrapper {
+        left: auto;
+        right: -260px;
+        box-shadow: -2px 0 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    body.lawyer-sidebar-open .lawyer-sidebar-wrapper {
+        left: auto;
+        right: 0;
+    }
+}
+@endif
 </style>
 
 <script>

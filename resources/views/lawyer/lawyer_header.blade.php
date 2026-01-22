@@ -244,4 +244,45 @@
         display: none !important;
     }
 }
+
+/* RTL Support - Arabic */
+@php
+    $textDirection = session()->get('text_direction', 'ltr');
+    $currentLang = session()->get('lang', config('app.locale', 'ar'));
+    $rtlLanguages = ['ar', 'arc', 'dv', 'fa', 'ha', 'he', 'khw', 'ks', 'ku', 'ps', 'ur', 'yi'];
+    $isRTL = $textDirection === 'rtl' || in_array($currentLang, $rtlLanguages);
+@endphp
+
+@if($isRTL)
+.lawyer-topbar-left {
+    order: 2;
+}
+
+.lawyer-topbar-right {
+    order: 1;
+}
+
+.lawyer-topbar-nav {
+    flex-direction: row-reverse;
+}
+
+.lawyer-user-link {
+    flex-direction: row-reverse;
+}
+
+.lawyer-user-name {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.lawyer-user-menu {
+    left: 0;
+    right: auto;
+}
+
+.lawyer-notification-menu {
+    left: 0;
+    right: auto;
+}
+@endif
 </style>
