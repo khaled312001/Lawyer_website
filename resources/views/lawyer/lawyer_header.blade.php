@@ -56,11 +56,11 @@
 
                 {{-- Notifications Dropdown --}}
                 <li class="lawyer-nav-item lawyer-notification-dropdown">
-                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell"></i>
                         <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-start lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                    <div class="dropdown-menu dropdown-menu-start lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;" id="lawyer-notification-menu-rtl">
                         <div class="dropdown-header d-flex justify-content-between align-items-center">
                             <h6 class="mb-0">{{ __('Notifications') }}</h6>
                             <a href="javascript:;" class="text-primary small lawyer-mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
@@ -115,11 +115,11 @@
 
                 {{-- Notifications Dropdown --}}
                 <li class="lawyer-nav-item lawyer-notification-dropdown">
-                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown">
+                    <a href="javascript:;" class="lawyer-nav-link lawyer-notification-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-bell"></i>
                         <span class="lawyer-notification-badge" id="lawyer-header-notification-count" style="display: none;">0</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;">
+                    <div class="dropdown-menu dropdown-menu-end lawyer-notification-menu" style="width: 350px; max-height: 400px; overflow-y: auto;" id="lawyer-notification-menu-ltr">
                         <div class="dropdown-header d-flex justify-content-between align-items-center">
                             <h6 class="mb-0">{{ __('Notifications') }}</h6>
                             <a href="javascript:;" class="text-primary small lawyer-mark-all-read" style="text-decoration: none;">{{ __('Mark all as read') }}</a>
@@ -375,11 +375,39 @@
     }
 }
 
+.lawyer-notification-dropdown {
+    position: relative;
+}
+
 .lawyer-notification-menu {
     margin-top: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 8px;
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 10000 !important;
+    background: #fff !important;
+    min-width: 350px;
+    max-width: 350px;
+}
+
+.lawyer-notification-menu.show {
+    display: block !important;
+}
+
+/* RTL positioning */
+[dir="rtl"] .lawyer-notification-menu.dropdown-menu-start {
+    right: 0;
+    left: auto;
+}
+
+/* LTR positioning */
+.lawyer-notification-menu.dropdown-menu-end {
+    right: 0;
+    left: auto;
 }
 
 .lawyer-notification-menu .dropdown-item {
@@ -449,6 +477,15 @@
         width: calc(100vw - 40px) !important;
         max-width: 350px !important;
         max-height: calc(100vh - 100px) !important;
+        position: fixed !important;
+        top: 80px !important;
+        right: 20px !important;
+        left: auto !important;
+    }
+    
+    [dir="rtl"] .lawyer-notification-menu {
+        right: 20px !important;
+        left: auto !important;
     }
     
     .lawyer-user-menu {
@@ -526,7 +563,6 @@
 .lawyer-topbar-nav .setLanguageHeader .nav-link {
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 8px 12px;
     color: #fff;
     text-decoration: none;
@@ -534,20 +570,11 @@
     transition: all 0.3s ease;
     white-space: nowrap;
     min-width: 80px;
-    text-align: center;
 }
 
 .lawyer-topbar-nav .setLanguageHeader .nav-link:hover {
     background: rgba(255, 255, 255, 0.15);
     color: #fff;
-}
-
-.lawyer-topbar-nav .setLanguageHeader .nav-link div {
-    text-align: center;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .lawyer-topbar-nav .setLanguageHeader .dropdown-menu {
@@ -560,7 +587,6 @@
 
 .lawyer-topbar-nav .setLanguageHeader .dropdown-menu .dropdown-item {
     padding: 10px 15px;
-    text-align: center;
     transition: all 0.2s ease;
 }
 
@@ -581,10 +607,6 @@
 .lawyer-user-name {
     margin-left: 0;
     margin-right: 10px;
-}
-
-.lawyer-topbar-nav .setLanguageHeader .nav-link div {
-    text-align: center;
 }
 @endif
 </style>

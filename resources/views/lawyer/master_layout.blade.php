@@ -163,15 +163,6 @@
     <script>
         // Notifications functionality for Lawyer
         $(document).ready(function() {
-            // Initialize Bootstrap dropdown for notifications
-            var notificationDropdownElement = document.querySelector('.lawyer-notification-dropdown');
-            var notificationDropdown = null;
-            if (notificationDropdownElement && typeof bootstrap !== 'undefined') {
-                var dropdownToggle = notificationDropdownElement.querySelector('[data-bs-toggle="dropdown"]');
-                if (dropdownToggle) {
-                    notificationDropdown = new bootstrap.Dropdown(dropdownToggle);
-                }
-            }
 
             // Load notifications
             function loadNotifications() {
@@ -324,21 +315,24 @@
             // Refresh notifications every 30 seconds
             setInterval(loadNotifications, 30000);
 
-            // Ensure dropdown works on click
+            // Handle notification dropdown toggle
             $('.lawyer-notification-btn').on('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Load notifications when dropdown is opened
-                if (!$(this).next('.lawyer-notification-menu').hasClass('show')) {
-                    loadNotifications();
-                }
+                var $dropdown = $(this).closest('.lawyer-notification-dropdown');
+                var $menu = $dropdown.find('.lawyer-notification-menu');
+                var isOpen = $menu.hasClass('show');
                 
-                // Toggle dropdown manually if Bootstrap dropdown doesn't work
-                var menu = $(this).next('.lawyer-notification-menu');
-                if (menu.length) {
-                    $('.dropdown-menu').not(menu).removeClass('show');
-                    menu.toggleClass('show');
+                // Close all other dropdowns
+                $('.lawyer-notification-menu').not($menu).removeClass('show');
+                
+                // Toggle current dropdown
+                if (isOpen) {
+                    $menu.removeClass('show');
+                } else {
+                    $menu.addClass('show');
+                    loadNotifications();
                 }
             });
 
@@ -348,6 +342,39 @@
                     $('.lawyer-notification-menu').removeClass('show');
                 }
             });
+            
+            // Also try to initialize Bootstrap dropdown if available (for better positioning)
+            if (typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
+                var notificationDropdowns = document.querySelectorAll('.lawyer-notification-dropdown');
+                notificationDropdowns.forEach(function(dropdownElement) {
+                    var toggleButton = dropdownElement.querySelector('.lawyer-notification-btn[data-bs-toggle="dropdown"]');
+                    if (toggleButton) {
+                        try {
+                            var dropdownInstance = new bootstrap.Dropdown(toggleButton, {
+                                boundary: 'viewport',
+                                popperConfig: {
+                                    modifiers: [
+                                        {
+                                            name: 'offset',
+                                            options: {
+                                                offset: [0, 8]
+                                            }
+                                        }
+                                    ]
+                                }
+                            });
+                            
+                            // Load notifications when dropdown is shown via Bootstrap
+                            toggleButton.addEventListener('show.bs.dropdown', function() {
+                                loadNotifications();
+                            });
+                        } catch (e) {
+                            // Bootstrap failed, manual toggle will handle it
+                            console.warn('Bootstrap dropdown init failed, using manual toggle');
+                        }
+                    }
+                });
+            }
         });
 
     </script>
