@@ -285,6 +285,8 @@
     align-items: center;
     padding: 5px 12px;
     gap: 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
 }
 
 .lawyer-user-avatar {
@@ -304,6 +306,16 @@
     margin-top: 10px;
     min-width: 200px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10000 !important;
+    border-radius: 8px;
+    border: none;
+    padding: 8px 0;
+    background: #fff !important;
+    display: none;
+}
+
+.lawyer-user-menu.show {
+    display: block !important;
 }
 
 .lawyer-user-menu .dropdown-item {
@@ -311,11 +323,25 @@
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .lawyer-user-menu .dropdown-item:hover {
     background: #f8f9fa;
     padding-left: 20px;
+}
+
+.lawyer-user-dropdown {
+    position: relative !important;
+}
+
+.lawyer-user-dropdown .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: auto !important;
+    right: 0 !important;
+    margin-top: 8px !important;
+    z-index: 10000 !important;
 }
 
 .lawyer-notification-menu {
@@ -397,6 +423,30 @@
     .lawyer-user-menu {
         width: calc(100vw - 40px) !important;
         max-width: 250px !important;
+        position: fixed !important;
+        top: auto !important;
+        left: auto !important;
+        right: 10px !important;
+        margin-top: 8px !important;
+        z-index: 10000 !important;
+        transform: none !important;
+    }
+    
+    .lawyer-user-dropdown {
+        position: static !important;
+    }
+    
+    /* Ensure dropdown is visible on mobile */
+    .lawyer-user-dropdown .dropdown-menu.show {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* RTL Support for dropdown */
+    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
+        right: auto !important;
+        left: 10px !important;
     }
 }
 
@@ -442,3 +492,70 @@
 }
 @endif
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fix dropdown on mobile
+    const userDropdownToggles = document.querySelectorAll('.lawyer-user-link[data-bs-toggle="dropdown"]');
+    
+    userDropdownToggles.forEach(toggle => {
+        // Prevent default Bootstrap behavior on mobile and handle manually
+        if (window.innerWidth <= 768) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.nextElementSibling;
+                const isOpen = dropdown.classList.contains('show');
+                
+                // Close all other dropdowns
+                document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+                
+                // Toggle current dropdown
+                if (isOpen) {
+                    dropdown.classList.remove('show');
+                } else {
+                    dropdown.classList.add('show');
+                    
+                    // Position dropdown correctly on mobile
+                    const rect = this.getBoundingClientRect();
+                    dropdown.style.position = 'fixed';
+                    dropdown.style.top = (rect.bottom + 8) + 'px';
+                    dropdown.style.right = '10px';
+                    dropdown.style.left = 'auto';
+                    dropdown.style.zIndex = '10000';
+                    
+                    // RTL support
+                    if (document.documentElement.dir === 'rtl' || document.body.dir === 'rtl') {
+                        dropdown.style.right = 'auto';
+                        dropdown.style.left = '10px';
+                    }
+                }
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.lawyer-user-dropdown')) {
+                    document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+            });
+        }
+    });
+    
+    // Handle window resize
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            // Close all dropdowns on resize
+            document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }, 250);
+    });
+});
+</script>

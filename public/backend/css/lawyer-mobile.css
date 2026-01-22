@@ -18,24 +18,34 @@
         z-index: 9999 !important;
         background: #fff !important;
         box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
-        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
+        transform: translateX(-100%) !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
     }
     
     body.lawyer-sidebar-open .lawyer-sidebar-wrapper {
         left: 0 !important;
+        transform: translateX(0) !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     /* RTL Support */
     [dir="rtl"] .lawyer-sidebar-wrapper {
         left: auto !important;
         right: -100% !important;
+        transform: translateX(100%) !important;
     }
     
     [dir="rtl"] body.lawyer-sidebar-open .lawyer-sidebar-wrapper {
         left: auto !important;
         right: 0 !important;
+        transform: translateX(0) !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     /* Sidebar Backdrop */
@@ -167,6 +177,76 @@
     .lawyer-user-menu {
         width: calc(100vw - 40px) !important;
         max-width: 250px !important;
+        position: fixed !important;
+        top: auto !important;
+        left: auto !important;
+        right: 10px !important;
+        margin-top: 8px !important;
+        z-index: 10000 !important;
+        transform: none !important;
+        display: block !important;
+    }
+    
+    .lawyer-user-dropdown {
+        position: static !important;
+    }
+    
+    /* Ensure dropdown is visible on mobile */
+    .lawyer-user-dropdown .dropdown-menu.show {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Fix for Bootstrap dropdown on mobile */
+    .lawyer-user-dropdown .dropdown-toggle::after {
+        display: inline-block !important;
+    }
+    
+    /* RTL Support for dropdown */
+    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
+        right: auto !important;
+        left: 10px !important;
+    }
+    
+    /* Ensure header doesn't hide dropdown */
+    .lawyer-topbar {
+        overflow: visible !important;
+    }
+    
+    .lawyer-topbar-nav {
+        overflow: visible !important;
+    }
+    
+    .lawyer-nav-item {
+        overflow: visible !important;
+    }
+    
+    .lawyer-user-dropdown {
+        overflow: visible !important;
+    }
+    
+    /* Fix dropdown positioning */
+    .lawyer-user-dropdown .dropdown-menu {
+        position: fixed !important;
+        will-change: transform !important;
+    }
+    
+    /* Ensure dropdown is above everything */
+    .lawyer-user-menu.show {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+    
+    /* Touch-friendly dropdown items */
+    .lawyer-user-menu .dropdown-item {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 12px 15px !important;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1) !important;
     }
 }
 
@@ -781,6 +861,15 @@
     .main-content,
     .lawyer-main-content {
         overflow-x: hidden !important;
+    }
+    
+    /* Ensure sidebar is completely hidden when closed */
+    .lawyer-sidebar-wrapper:not(.lawyer-sidebar-open) {
+        pointer-events: none !important;
+    }
+    
+    body.lawyer-sidebar-open .lawyer-sidebar-wrapper {
+        pointer-events: auto !important;
     }
 }
 
