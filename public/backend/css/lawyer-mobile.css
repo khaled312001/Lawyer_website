@@ -177,18 +177,22 @@
     .lawyer-user-menu {
         width: calc(100vw - 40px) !important;
         max-width: 250px !important;
-        position: fixed !important;
-        top: auto !important;
-        left: auto !important;
-        right: 10px !important;
-        margin-top: 8px !important;
         z-index: 10000 !important;
-        transform: none !important;
         display: none !important;
     }
     
     .lawyer-user-dropdown {
-        position: static !important;
+        position: relative !important;
+    }
+    
+    /* On mobile, use absolute positioning relative to parent to appear directly below */
+    .lawyer-user-dropdown .dropdown-menu {
+        position: absolute !important;
+        top: calc(100% + 8px) !important;
+        right: 0 !important;
+        left: auto !important;
+        margin-top: 0 !important;
+        transform: translateY(0) !important;
     }
     
     /* Ensure dropdown is visible on mobile when show class is present */
@@ -211,7 +215,7 @@
     /* RTL Support for dropdown */
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
         right: auto !important;
-        left: 10px !important;
+        left: 0 !important;
     }
     
     /* Ensure header doesn't hide dropdown */

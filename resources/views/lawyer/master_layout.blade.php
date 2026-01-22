@@ -59,8 +59,8 @@
     .lawyer-main-content {
         margin-left: 260px;
         margin-top: 70px;
-        padding: 20px;
-        padding-top: 20px;
+        padding: 0;
+        padding-top: 0;
         min-height: calc(100vh - 70px);
         transition: margin-left 0.3s ease, margin-right 0.3s ease;
         width: calc(100% - 260px);
@@ -77,6 +77,7 @@
     .lawyer-main-content .main-content {
         margin-top: 0;
         padding-top: 0;
+        padding: 20px;
     }
     
     .lawyer-main-content .section {
@@ -136,6 +137,7 @@
         margin-left: 0;
         margin-right: 260px;
         width: calc(100% - 260px);
+        padding: 0;
     }
     
     .main-footer {

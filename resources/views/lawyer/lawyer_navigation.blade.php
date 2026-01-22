@@ -189,6 +189,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 .lawyer-sidebar {
@@ -424,6 +426,8 @@
     left: auto;
     right: 0;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    padding: 0;
 }
 
 .lawyer-sidebar-close {

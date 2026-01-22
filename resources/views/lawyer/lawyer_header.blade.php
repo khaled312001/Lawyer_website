@@ -342,11 +342,18 @@
 
 .lawyer-user-dropdown .dropdown-menu {
     position: absolute !important;
-    top: 100% !important;
+    top: calc(100% + 8px) !important;
     left: auto !important;
     right: 0 !important;
-    margin-top: 8px !important;
+    margin-top: 0 !important;
     z-index: 10000 !important;
+    transform: translateY(0) !important;
+}
+
+/* RTL Support */
+[dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
+    right: auto !important;
+    left: 0 !important;
 }
 
 .lawyer-notification-menu {
@@ -428,17 +435,21 @@
     .lawyer-user-menu {
         width: calc(100vw - 40px) !important;
         max-width: 250px !important;
-        position: fixed !important;
-        top: auto !important;
-        left: auto !important;
-        right: 10px !important;
-        margin-top: 8px !important;
         z-index: 10000 !important;
-        transform: none !important;
     }
     
     .lawyer-user-dropdown {
-        position: static !important;
+        position: relative !important;
+    }
+    
+    /* On mobile, use absolute positioning relative to parent */
+    .lawyer-user-dropdown .dropdown-menu {
+        position: absolute !important;
+        top: calc(100% + 8px) !important;
+        right: 0 !important;
+        left: auto !important;
+        margin-top: 0 !important;
+        transform: translateY(0) !important;
     }
     
     /* Ensure dropdown is visible on mobile when show class is present */
@@ -456,7 +467,7 @@
     /* RTL Support for dropdown */
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu {
         right: auto !important;
-        left: 10px !important;
+        left: 0 !important;
     }
 }
 
@@ -486,6 +497,57 @@
     }
 }
 
+/* Language Selector Styling */
+.lawyer-topbar-nav .setLanguageHeader {
+    display: flex;
+    align-items: center;
+}
+
+.lawyer-topbar-nav .setLanguageHeader .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: center;
+}
+
+.lawyer-topbar-nav .setLanguageHeader .nav-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.lawyer-topbar-nav .setLanguageHeader .nav-link div {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lawyer-topbar-nav .setLanguageHeader .dropdown-menu {
+    margin-top: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 8px;
+    min-width: 150px;
+}
+
+.lawyer-topbar-nav .setLanguageHeader .dropdown-menu .dropdown-item {
+    padding: 10px 15px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.lawyer-topbar-nav .setLanguageHeader .dropdown-menu .dropdown-item:hover {
+    background: #f8f9fa;
+}
+
 /* RTL Support - Arabic */
 @if($isRTL)
 .lawyer-topbar-nav {
@@ -499,6 +561,10 @@
 .lawyer-user-name {
     margin-left: 0;
     margin-right: 10px;
+}
+
+.lawyer-topbar-nav .setLanguageHeader .nav-link div {
+    text-align: center;
 }
 @endif
 </style>
@@ -543,19 +609,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     dropdown.classList.add('show');
                     
-                    // Position dropdown correctly on mobile
-                    const rect = this.getBoundingClientRect();
-                    dropdown.style.position = 'fixed';
-                    dropdown.style.top = (rect.bottom + 8) + 'px';
-                    dropdown.style.right = '10px';
-                    dropdown.style.left = 'auto';
-                    dropdown.style.zIndex = '10000';
-                    
-                    // RTL support
-                    if (document.documentElement.dir === 'rtl' || document.body.dir === 'rtl') {
-                        dropdown.style.right = 'auto';
-                        dropdown.style.left = '10px';
-                    }
+                    // Reset any inline styles to use CSS positioning
+                    dropdown.style.position = '';
+                    dropdown.style.top = '';
+                    dropdown.style.right = '';
+                    dropdown.style.left = '';
+                    dropdown.style.zIndex = '';
                 }
             });
         } else {
