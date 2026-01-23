@@ -16,6 +16,11 @@
             </button>
         </div>
         
+        {{-- Center Title --}}
+        <div class="dashboard-header-center">
+            <h2 class="dashboard-title">لوحة تحكم العميل</h2>
+        </div>
+        
         <div class="dashboard-header-left">
             <div class="dashboard-user-menu">
                 <button class="dashboard-user-btn" type="button" id="dashboard-user-toggle">
@@ -56,6 +61,11 @@
             <button class="dashboard-menu-btn" id="dashboard-menu-toggle" type="button" aria-label="Toggle Menu">
                 <i class="fas fa-bars"></i>
             </button>
+        </div>
+        
+        {{-- Center Title --}}
+        <div class="dashboard-header-center">
+            <h2 class="dashboard-title">لوحة تحكم العميل</h2>
         </div>
         
         <div class="dashboard-header-right">
@@ -128,6 +138,24 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    flex: 0 0 auto;
+}
+
+/* Center Title */
+.dashboard-header-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.dashboard-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
 }
 
 /* Menu Toggle Button - Hidden on desktop, visible on mobile only */
@@ -144,6 +172,15 @@
     font-size: 18px;
     cursor: pointer;
     transition: all 0.3s ease;
+    padding: 0;
+}
+
+.dashboard-menu-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .dashboard-menu-btn:hover {
@@ -166,6 +203,7 @@
 .dashboard-home-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 8px 15px;
     background: rgba(255, 255, 255, 0.1);
@@ -175,6 +213,14 @@
     text-decoration: none;
     font-size: 14px;
     transition: all 0.3s ease;
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.dashboard-home-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .dashboard-home-btn:hover {
@@ -190,6 +236,7 @@
 .dashboard-user-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     padding: 5px 12px;
     background: rgba(255, 255, 255, 0.1);
@@ -198,6 +245,13 @@
     color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-height: 40px;
+}
+
+.dashboard-user-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .dashboard-user-btn:hover {
@@ -283,12 +337,16 @@
 /* Mobile Styles */
 @media (max-width: 991px) {
     .dashboard-header-nav {
-        padding: 0 15px;
+        padding: 0 10px;
     }
     
     .dashboard-menu-btn {
         width: 38px;
         height: 38px;
+        font-size: 16px;
+    }
+    
+    .dashboard-title {
         font-size: 16px;
     }
     
@@ -301,8 +359,19 @@
         height: 32px;
     }
     
+    .dashboard-home-btn {
+        min-width: 38px;
+        min-height: 38px;
+        padding: 8px;
+    }
+    
     .dashboard-home-btn span {
         display: none;
+    }
+    
+    .dashboard-user-btn {
+        min-height: 38px;
+        padding: 5px 8px;
     }
     
     .dashboard-user-dropdown {
@@ -317,7 +386,7 @@
 
 @media (max-width: 480px) {
     .dashboard-header-nav {
-        padding: 0 10px;
+        padding: 0 8px;
     }
     
     .dashboard-menu-btn {
@@ -326,9 +395,24 @@
         font-size: 15px;
     }
     
+    .dashboard-title {
+        font-size: 14px;
+    }
+    
     .dashboard-user-img {
         width: 30px;
         height: 30px;
+    }
+    
+    .dashboard-home-btn {
+        min-width: 36px;
+        min-height: 36px;
+        padding: 6px;
+    }
+    
+    .dashboard-user-btn {
+        min-height: 36px;
+        padding: 4px 6px;
     }
 }
 </style>
