@@ -16,7 +16,7 @@
         <div class="client-topbar-right">
             <ul class="client-topbar-nav">
                 <li>
-                    <a href="#" class="client-menu-toggle" id="client-menu-toggle-btn">
+                    <a href="javascript:void(0);" class="client-menu-toggle" id="client-menu-toggle-btn" onclick="if(typeof toggleClientSidebar !== 'undefined') { toggleClientSidebar(event); } return false;">
                         <i class="fas fa-bars"></i>
                     </a>
                 </li>
@@ -64,7 +64,7 @@
         <div class="client-topbar-left">
             <ul class="client-topbar-nav">
                 <li>
-                    <a href="#" class="client-menu-toggle" id="client-menu-toggle-btn">
+                    <a href="javascript:void(0);" class="client-menu-toggle" id="client-menu-toggle-btn" onclick="if(typeof toggleClientSidebar !== 'undefined') { toggleClientSidebar(event); } return false;">
                         <i class="fas fa-bars"></i>
                     </a>
                 </li>
@@ -439,50 +439,94 @@ function toggleClientSidebar(event) {
         event.preventDefault();
         event.stopPropagation();
     }
+    
     const body = document.body;
     const sidebar = document.querySelector('.client-dashboard-sidebar');
+    const backdrop = document.querySelector('.client-sidebar-backdrop');
     
-    console.log('toggleClientSidebar called', body.classList.contains('client-sidebar-show')); // Debug
+    console.log('toggleClientSidebar called', {
+        hasClass: body.classList.contains('client-sidebar-show'),
+        sidebar: sidebar ? 'found' : 'not found',
+        backdrop: backdrop ? 'found' : 'not found'
+    });
     
     if (body.classList.contains('client-sidebar-show')) {
+        // Close sidebar
         body.classList.remove('client-sidebar-show');
         body.style.overflow = 'auto';
+        
         if (sidebar) {
             sidebar.style.right = '-100%';
+            sidebar.style.visibility = 'hidden';
+        }
+        
+        if (backdrop) {
+            backdrop.style.opacity = '0';
+            backdrop.style.visibility = 'hidden';
         }
     } else {
+        // Open sidebar
         body.classList.add('client-sidebar-show');
         body.style.overflow = 'hidden';
+        
         if (sidebar) {
             sidebar.style.right = '0';
+            sidebar.style.visibility = 'visible';
+            sidebar.style.display = 'block';
+        }
+        
+        if (backdrop) {
+            backdrop.style.opacity = '1';
+            backdrop.style.visibility = 'visible';
         }
     }
 }
 
-// Make function globally available
+// Make function globally available immediately
 window.toggleClientSidebar = toggleClientSidebar;
 
+// Also add as direct onclick handler on the button
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded - Setting up client sidebar toggle');
+    
     // Toggle sidebar from header button
     const menuToggleBtn = document.getElementById('client-menu-toggle-btn');
+    const sidebar = document.querySelector('.client-dashboard-sidebar');
+    
+    console.log('Elements found:', {
+        button: menuToggleBtn ? 'found' : 'NOT FOUND',
+        sidebar: sidebar ? 'found' : 'NOT FOUND'
+    });
     
     if (menuToggleBtn) {
+        // Remove any existing listeners
+        const newBtn = menuToggleBtn.cloneNode(true);
+        menuToggleBtn.parentNode.replaceChild(newBtn, menuToggleBtn);
+        
         // Add click event listener
-        menuToggleBtn.addEventListener('click', function(e) {
+        newBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Menu button clicked'); // Debug
+            console.log('Menu button clicked - opening sidebar');
             toggleClientSidebar(e);
+            return false;
         });
         
         // Also add onclick as fallback
-        menuToggleBtn.onclick = function(e) {
+        newBtn.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
+            console.log('Menu button onclick - opening sidebar');
             toggleClientSidebar(e);
+            return false;
         };
+        
+        // Add direct href handler
+        newBtn.setAttribute('href', 'javascript:void(0)');
+        
+        console.log('Event listeners attached to button');
     } else {
-        console.error('Client menu toggle button not found!');
+        console.error('Client menu toggle button not found! ID: client-menu-toggle-btn');
     }
     
     // Initialize Bootstrap dropdown for user menu
