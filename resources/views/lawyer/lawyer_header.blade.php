@@ -320,12 +320,16 @@
     margin-top: 5px;
     min-width: 220px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    z-index: 10000 !important;
+    z-index: 10050 !important;
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.08);
     padding: 6px 0;
     background: #fff !important;
     overflow: hidden;
+    position: absolute !important;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 /* Bootstrap dropdown compatibility */
@@ -338,6 +342,7 @@
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+    pointer-events: auto !important;
 }
 
 /* Ensure dropdown is hidden by default */
@@ -401,12 +406,15 @@
     left: auto !important;
     right: 0 !important;
     margin-top: 0 !important;
-    z-index: 10000 !important;
+    z-index: 10050 !important;
     transform: translateY(0) !important;
     min-width: 220px;
     max-width: 280px;
     display: none;
     margin-right: 0 !important;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .lawyer-user-dropdown .dropdown-menu:not(.show) {
@@ -568,44 +576,49 @@
         opacity: 1 !important;
     }
     
-    .lawyer-user-menu {
-        width: calc(100vw - 40px) !important;
-        max-width: 280px !important;
-        z-index: 10000 !important;
-        right: 0 !important;
-        left: auto !important;
-    }
-    
     .lawyer-user-dropdown {
         position: relative !important;
     }
     
-    /* On mobile, use absolute positioning relative to parent */
-    .lawyer-user-dropdown .dropdown-menu {
+    .lawyer-user-menu {
         position: absolute !important;
-        top: calc(100% + 8px) !important;
+        top: calc(100% + 5px) !important;
         right: 0 !important;
         left: auto !important;
+        width: calc(100vw - 40px) !important;
+        max-width: 280px !important;
+        min-width: 200px !important;
+        z-index: 10050 !important;
         margin-top: 0 !important;
         transform: translateY(0) !important;
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
     }
     
     /* Ensure dropdown is visible on mobile when show class is present */
+    .lawyer-user-menu.show,
     .lawyer-user-dropdown .dropdown-menu.show {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        pointer-events: auto !important;
     }
     
     /* Hide dropdown by default on mobile */
-    .lawyer-user-dropdown .dropdown-menu:not(.show) {
+    .lawyer-user-dropdown .dropdown-menu:not(.show),
+    .lawyer-user-menu:not(.show) {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
     }
     
     /* RTL Support for dropdown - align to right (same as LTR) */
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu,
     [dir="rtl"] .lawyer-user-dropdown .dropdown-menu-end,
-    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu-start {
+    [dir="rtl"] .lawyer-user-dropdown .dropdown-menu-start,
+    [dir="rtl"] .lawyer-user-menu {
         right: 0 !important;
         left: auto !important;
         max-width: calc(100vw - 20px) !important;
@@ -636,6 +649,32 @@
     
     .lawyer-nav-link {
         padding: 6px 8px !important;
+    }
+    
+    .lawyer-user-menu {
+        position: absolute !important;
+        top: calc(100% + 5px) !important;
+        right: 0 !important;
+        left: auto !important;
+        width: calc(100vw - 20px) !important;
+        max-width: 260px !important;
+        min-width: 200px !important;
+        z-index: 10050 !important;
+        margin-top: 0 !important;
+        transform: translateY(0) !important;
+        pointer-events: none !important;
+    }
+    
+    .lawyer-user-menu.show {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+    
+    [dir="rtl"] .lawyer-user-menu {
+        right: 0 !important;
+        left: auto !important;
     }
 }
 
@@ -731,10 +770,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 toggle.addEventListener('show.bs.dropdown', function() {
                     dropdownMenu.classList.add('show');
                     dropdownMenu.style.display = 'block';
+                    dropdownMenu.style.visibility = 'visible';
+                    dropdownMenu.style.opacity = '1';
+                    // Force reflow for mobile
+                    dropdownMenu.offsetHeight;
                 });
                 
                 toggle.addEventListener('hide.bs.dropdown', function() {
                     dropdownMenu.classList.remove('show');
+                    dropdownMenu.style.visibility = 'hidden';
+                    dropdownMenu.style.opacity = '0';
                     setTimeout(function() {
                         if (!dropdownMenu.classList.contains('show')) {
                             dropdownMenu.style.display = 'none';
@@ -746,10 +791,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     dropdownMenu.style.display = 'block';
                     dropdownMenu.style.visibility = 'visible';
                     dropdownMenu.style.opacity = '1';
+                    // Force reflow for mobile
+                    dropdownMenu.offsetHeight;
                 });
                 
                 toggle.addEventListener('hidden.bs.dropdown', function() {
                     dropdownMenu.style.display = 'none';
+                    dropdownMenu.style.visibility = 'hidden';
+                    dropdownMenu.style.opacity = '0';
                 });
                 
             } catch (e) {
@@ -782,17 +831,23 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
                 menu.classList.remove('show');
                 menu.style.display = 'none';
+                menu.style.visibility = 'hidden';
+                menu.style.opacity = '0';
             });
             
             // Toggle current dropdown
             if (isOpen) {
                 dropdown.classList.remove('show');
                 dropdown.style.display = 'none';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.opacity = '0';
             } else {
                 dropdown.classList.add('show');
                 dropdown.style.display = 'block';
                 dropdown.style.visibility = 'visible';
                 dropdown.style.opacity = '1';
+                // Force reflow for mobile
+                dropdown.offsetHeight;
             }
         });
     }
@@ -802,8 +857,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!e.target.closest('.lawyer-user-dropdown')) {
             document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
                 menu.classList.remove('show');
+                menu.style.display = 'none';
+                menu.style.visibility = 'hidden';
+                menu.style.opacity = '0';
             });
         }
+    });
+    
+    // Touch event support for mobile
+    document.querySelectorAll('.lawyer-user-link').forEach(link => {
+        link.addEventListener('touchstart', function(e) {
+            // Prevent double-tap zoom on mobile
+            e.preventDefault();
+        }, { passive: false });
     });
     
     // Handle window resize
