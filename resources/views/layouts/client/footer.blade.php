@@ -621,7 +621,37 @@
     
     // Add backdrop to all client dashboard pages
     document.addEventListener('DOMContentLoaded', function() {
+        // Hide main site header in dashboard pages
         const dashboardArea = document.querySelector('.dashboard-area');
+        if (dashboardArea) {
+            document.body.classList.add('client-dashboard-page');
+            const topHeaderBar = document.querySelector('.top-header-bar');
+            const mainNavbar = document.querySelector('.main-navbar');
+            const mobileSideMenu = document.getElementById('mobileSideMenu');
+            
+            if (topHeaderBar) {
+                topHeaderBar.style.display = 'none';
+                topHeaderBar.style.visibility = 'hidden';
+                topHeaderBar.style.opacity = '0';
+                topHeaderBar.style.height = '0';
+                topHeaderBar.style.overflow = 'hidden';
+            }
+            
+            if (mainNavbar) {
+                mainNavbar.style.display = 'none';
+                mainNavbar.style.visibility = 'hidden';
+                mainNavbar.style.opacity = '0';
+                mainNavbar.style.height = '0';
+                mainNavbar.style.overflow = 'hidden';
+            }
+            
+            if (mobileSideMenu) {
+                mobileSideMenu.style.display = 'none';
+                mobileSideMenu.style.visibility = 'hidden';
+                mobileSideMenu.style.opacity = '0';
+            }
+        }
+        
         if (dashboardArea && !document.querySelector('.client-sidebar-backdrop')) {
             const container = dashboardArea.querySelector('.container');
             if (container) {
@@ -668,6 +698,36 @@
 
 @push('css')
 <style>
+    /* Hide main site header in dashboard pages */
+    @php
+        $isDashboardPage = request()->routeIs('dashboard') || 
+                           request()->routeIs('client.*') || 
+                           request()->routeIs('client.messages.*') || 
+                           request()->routeIs('client.meeting-history') || 
+                           request()->routeIs('client.upcomming-meeting') || 
+                           request()->routeIs('client.payment') ||
+                           str_starts_with(request()->path(), 'client/');
+    @endphp
+    
+    @if($isDashboardPage)
+    .top-header-bar,
+    .main-navbar,
+    #mainNavbar,
+    .mobile-side-menu {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    body.client-frontend {
+        padding-top: 0 !important;
+    }
+    @endif
+    
     /* Enhanced Top Footer Design with Icons on Right */
     .top-footer {
         background: linear-gradient(135deg, #0b2c64 0%, #1a3d7a 100%);
