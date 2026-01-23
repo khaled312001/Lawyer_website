@@ -16,7 +16,7 @@
         <div class="client-topbar-right">
             <ul class="client-topbar-nav">
                 <li>
-                    <a href="javascript:void(0);" class="client-menu-toggle" id="client-menu-toggle-btn" onclick="if(typeof toggleClientSidebar !== 'undefined') { toggleClientSidebar(event); } return false;">
+                    <a href="javascript:void(0);" class="client-menu-toggle" id="client-menu-toggle-btn" onclick="(function(e){e.preventDefault();e.stopPropagation();if(typeof toggleClientSidebar !== 'undefined'){toggleClientSidebar(e);}else if(typeof window.toggleClientSidebar !== 'undefined'){window.toggleClientSidebar(e);}else{console.error('toggleClientSidebar not found');}return false;})(event)">
                         <i class="fas fa-bars"></i>
                     </a>
                 </li>
@@ -64,7 +64,7 @@
         <div class="client-topbar-left">
             <ul class="client-topbar-nav">
                 <li>
-                    <a href="javascript:void(0);" class="client-menu-toggle" id="client-menu-toggle-btn" onclick="if(typeof toggleClientSidebar !== 'undefined') { toggleClientSidebar(event); } return false;">
+                    <a href="javascript:void(0);" class="client-menu-toggle" id="client-menu-toggle-btn" onclick="(function(e){e.preventDefault();e.stopPropagation();if(typeof toggleClientSidebar !== 'undefined'){toggleClientSidebar(e);}else if(typeof window.toggleClientSidebar !== 'undefined'){window.toggleClientSidebar(e);}else{console.error('toggleClientSidebar not found');}return false;})(event)">
                         <i class="fas fa-bars"></i>
                     </a>
                 </li>
@@ -447,43 +447,61 @@ function toggleClientSidebar(event) {
     console.log('toggleClientSidebar called', {
         hasClass: body.classList.contains('client-sidebar-show'),
         sidebar: sidebar ? 'found' : 'not found',
-        backdrop: backdrop ? 'found' : 'not found'
+        backdrop: backdrop ? 'found' : 'not found',
+        windowWidth: window.innerWidth
     });
+    
+    // Check if mobile
+    const isMobile = window.innerWidth < 992;
     
     if (body.classList.contains('client-sidebar-show')) {
         // Close sidebar
+        console.log('Closing sidebar');
         body.classList.remove('client-sidebar-show');
         body.style.overflow = 'auto';
         
         if (sidebar) {
-            sidebar.style.right = '-100%';
-            sidebar.style.visibility = 'hidden';
+            if (isMobile) {
+                sidebar.style.right = '-100%';
+                sidebar.style.visibility = 'hidden';
+            }
         }
         
         if (backdrop) {
             backdrop.style.opacity = '0';
             backdrop.style.visibility = 'hidden';
+            backdrop.style.pointerEvents = 'none';
         }
     } else {
         // Open sidebar
+        console.log('Opening sidebar');
         body.classList.add('client-sidebar-show');
         body.style.overflow = 'hidden';
         
         if (sidebar) {
-            sidebar.style.right = '0';
-            sidebar.style.visibility = 'visible';
-            sidebar.style.display = 'block';
+            if (isMobile) {
+                sidebar.style.right = '0';
+                sidebar.style.visibility = 'visible';
+                sidebar.style.display = 'block';
+                sidebar.style.zIndex = '9999';
+            }
         }
         
         if (backdrop) {
             backdrop.style.opacity = '1';
             backdrop.style.visibility = 'visible';
+            backdrop.style.pointerEvents = 'auto';
         }
     }
 }
 
 // Make function globally available immediately
 window.toggleClientSidebar = toggleClientSidebar;
+
+// Also add as inline function for immediate access
+if (typeof window.clientSidebarToggle === 'undefined') {
+    window.clientSidebarToggle = toggleClientSidebar;
+}
 
 // Also add as direct onclick handler on the button
 document.addEventListener('DOMContentLoaded', function() {
@@ -492,19 +510,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Toggle sidebar from header button
     const menuToggleBtn = document.getElementById('client-menu-toggle-btn');
     const sidebar = document.querySelector('.client-dashboard-sidebar');
+    const closeBtn = document.getElementById('client-sidebar-close-btn');
     
     console.log('Elements found:', {
         button: menuToggleBtn ? 'found' : 'NOT FOUND',
-        sidebar: sidebar ? 'found' : 'NOT FOUND'
+        sidebar: sidebar ? 'found' : 'NOT FOUND',
+        closeBtn: closeBtn ? 'found' : 'NOT FOUND'
     });
     
     if (menuToggleBtn) {
-        // Remove any existing listeners
-        const newBtn = menuToggleBtn.cloneNode(true);
-        menuToggleBtn.parentNode.replaceChild(newBtn, menuToggleBtn);
-        
         // Add click event listener
-        newBtn.addEventListener('click', function(e) {
+        menuToggleBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             console.log('Menu button clicked - opening sidebar');
@@ -512,21 +528,22 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         });
         
-        // Also add onclick as fallback
-        newBtn.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Menu button onclick - opening sidebar');
-            toggleClientSidebar(e);
-            return false;
-        };
-        
-        // Add direct href handler
-        newBtn.setAttribute('href', 'javascript:void(0)');
-        
-        console.log('Event listeners attached to button');
+        console.log('Event listeners attached to menu button');
     } else {
         console.error('Client menu toggle button not found! ID: client-menu-toggle-btn');
+    }
+    
+    // Setup close button
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Close button clicked - closing sidebar');
+            toggleClientSidebar(e);
+            return false;
+        });
+        
+        console.log('Event listeners attached to close button');
     }
     
     // Initialize Bootstrap dropdown for user menu
