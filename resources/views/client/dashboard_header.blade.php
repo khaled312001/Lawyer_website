@@ -173,14 +173,19 @@
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0;
+    position: relative;
 }
 
 .dashboard-menu-btn i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    display: inline-block;
+    line-height: 1;
+    vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
 }
 
 .dashboard-menu-btn:hover {
