@@ -48,6 +48,13 @@
         left: 0 !important;
     }
     
+    /* Prevent clicks on content behind sidebar when open */
+    body.client-sidebar-show .dashboard-area .detail-dashboard,
+    body.client-sidebar-show .dashboard-area .col-lg-9 {
+        pointer-events: none;
+        user-select: none;
+    }
+    
     /* Sidebar backdrop */
     .client-sidebar-backdrop {
         position: fixed;
@@ -60,11 +67,18 @@
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
+        cursor: pointer;
     }
     
     body.client-sidebar-show .client-sidebar-backdrop {
         opacity: 1;
         visibility: visible;
+        pointer-events: auto;
+    }
+    
+    /* Ensure sidebar itself is clickable */
+    .client-dashboard-sidebar {
+        pointer-events: auto !important;
     }
     
     /* Sidebar toggle button */
@@ -101,18 +115,19 @@
         position: absolute !important;
         top: 15px !important;
         right: 15px !important;
-        width: 35px !important;
-        height: 35px !important;
-        background: rgba(0, 0, 0, 0.1) !important;
-        border: none !important;
+        width: 40px !important;
+        height: 40px !important;
+        background: rgba(0, 0, 0, 0.15) !important;
+        border: 2px solid rgba(0, 0, 0, 0.1) !important;
         border-radius: 50% !important;
         color: #333 !important;
         font-size: 18px !important;
         cursor: pointer !important;
-        z-index: 10000 !important;
+        z-index: 10001 !important;
         align-items: center !important;
         justify-content: center !important;
         transition: all 0.3s ease !important;
+        pointer-events: auto !important;
     }
     
     .client-dashboard-sidebar .sidebar-close-btn:hover {

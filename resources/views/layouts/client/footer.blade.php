@@ -601,7 +601,11 @@
     });
     
     // Client Dashboard Sidebar Toggle
-    function toggleClientSidebar() {
+    function toggleClientSidebar(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         const body = document.body;
         if (body.classList.contains('client-sidebar-show')) {
             body.classList.remove('client-sidebar-show');
@@ -621,23 +625,44 @@
                 // Add toggle button
                 const toggleBtn = document.createElement('button');
                 toggleBtn.className = 'client-sidebar-toggle d-lg-none';
-                toggleBtn.setAttribute('onclick', 'toggleClientSidebar()');
                 toggleBtn.setAttribute('aria-label', 'Toggle Sidebar');
-                toggleBtn.innerHTML = '<i class="fas fa-bars"></i><span>{{ __("Menu") }}</span>';
+                toggleBtn.innerHTML = '<i class="fas fa-bars"></i><span>القائمة</span>';
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleClientSidebar(e);
+                });
                 container.insertBefore(toggleBtn, container.firstChild);
                 
                 // Add backdrop
                 const backdrop = document.createElement('div');
                 backdrop.className = 'client-sidebar-backdrop d-lg-none';
-                backdrop.setAttribute('onclick', 'toggleClientSidebar()');
+                backdrop.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleClientSidebar();
+                });
                 container.insertBefore(backdrop, container.firstChild);
             }
         }
         
-        // Close sidebar when clicking backdrop
-        const backdrop = document.querySelector('.client-sidebar-backdrop');
-        if (backdrop) {
-            backdrop.addEventListener('click', toggleClientSidebar);
+        // Close sidebar when clicking menu items on mobile
+        const sidebar = document.querySelector('.client-dashboard-sidebar');
+        if (sidebar) {
+            const menuLinks = sidebar.querySelectorAll('ul li a');
+            menuLinks.forEach(link => {
+                // Don't close for logout link (it has special handling)
+                if (!link.getAttribute('onclick') || !link.getAttribute('onclick').includes('logout')) {
+                    link.addEventListener('click', function(e) {
+                        if (window.innerWidth < 992) {
+                            // Allow navigation to happen first
+                            setTimeout(() => {
+                                toggleClientSidebar();
+                            }, 300);
+                        }
+                    });
+                }
+            });
         }
         
         // Close sidebar on window resize if desktop

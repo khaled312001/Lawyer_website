@@ -1,5 +1,5 @@
 <div class="dashboard-widget client-dashboard-sidebar">
-    <button class="sidebar-close-btn d-lg-none" onclick="toggleClientSidebar()" aria-label="Close Sidebar" title="{{ __('Close Menu') }}">
+    <button class="sidebar-close-btn d-lg-none" onclick="toggleClientSidebar(event)" aria-label="Close Sidebar" title="إغلاق القائمة">
         <i class="fas fa-times"></i>
     </button>
     <div class="dashboard-account-info">

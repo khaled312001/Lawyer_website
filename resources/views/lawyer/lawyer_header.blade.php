@@ -42,14 +42,21 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end lawyer-user-menu">
                         <a href="{{ route('lawyer.edit-profile', ['code' => getSessionLanguage()]) }}" class="dropdown-item {{ isroute('lawyer.edit-profile', 'text-primary') }}">
-                            <i class="far fa-user me-2"></i>{{ __('Profile') }}
+                            <i class="fas fa-user-edit me-2"></i>{{ __('My Profile') }}
                         </a>
                         <a href="{{ route('lawyer.change-password') }}" class="dropdown-item {{ isroute('lawyer.change-password', 'text-primary') }}">
-                            <i class="fas fa-key me-2"></i>{{ __('Change Password') }}
+                            <i class="fas fa-lock me-2"></i>{{ __('Security Settings') }}
+                        </a>
+                        <a href="{{ route('lawyer.notifications.index') }}" class="dropdown-item">
+                            <i class="fas fa-bell me-2"></i>{{ __('Notifications') }}
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="javascript:;" class="dropdown-item" onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
-                            <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
+                        <a target="_blank" href="{{ route('home') }}" class="dropdown-item">
+                            <i class="fas fa-globe me-2"></i>{{ __('View Website') }}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:;" class="dropdown-item text-danger" onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
+                            <i class="fas fa-power-off me-2"></i>{{ __('Sign Out') }}
                         </a>
                     </div>
                 </li>
@@ -152,14 +159,21 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end lawyer-user-menu">
                         <a href="{{ route('lawyer.edit-profile', ['code' => getSessionLanguage()]) }}" class="dropdown-item {{ isroute('lawyer.edit-profile', 'text-primary') }}">
-                            <i class="far fa-user me-2"></i>{{ __('Profile') }}
+                            <i class="fas fa-user-edit me-2"></i>{{ __('My Profile') }}
                         </a>
                         <a href="{{ route('lawyer.change-password') }}" class="dropdown-item {{ isroute('lawyer.change-password', 'text-primary') }}">
-                            <i class="fas fa-key me-2"></i>{{ __('Change Password') }}
+                            <i class="fas fa-lock me-2"></i>{{ __('Security Settings') }}
+                        </a>
+                        <a href="{{ route('lawyer.notifications.index') }}" class="dropdown-item">
+                            <i class="fas fa-bell me-2"></i>{{ __('Notifications') }}
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="javascript:;" class="dropdown-item" onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
-                            <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
+                        <a target="_blank" href="{{ route('home') }}" class="dropdown-item">
+                            <i class="fas fa-globe me-2"></i>{{ __('View Website') }}
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:;" class="dropdown-item text-danger" onclick="event.preventDefault(); $('#lawyer-logout-form').trigger('submit');">
+                            <i class="fas fa-power-off me-2"></i>{{ __('Sign Out') }}
                         </a>
                     </div>
                 </li>
@@ -303,14 +317,15 @@
 }
 
 .lawyer-user-menu {
-    margin-top: 10px;
-    min-width: 200px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    min-width: 220px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     z-index: 10000 !important;
-    border-radius: 8px;
-    border: none;
-    padding: 8px 0;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 6px 0;
     background: #fff !important;
+    overflow: hidden;
 }
 
 /* Bootstrap dropdown compatibility */
@@ -331,16 +346,49 @@
 }
 
 .lawyer-user-menu .dropdown-item {
-    padding: 10px 15px;
+    padding: 12px 18px;
     display: flex;
     align-items: center;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     cursor: pointer;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    text-decoration: none;
+}
+
+.lawyer-user-menu .dropdown-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #667eea;
 }
 
 .lawyer-user-menu .dropdown-item:hover {
-    background: #f8f9fa;
-    padding-left: 20px;
+    background: linear-gradient(90deg, #f8f9ff 0%, #f0f4ff 100%);
+    padding-left: 22px;
+    color: #667eea;
+    transform: translateX(2px);
+}
+
+.lawyer-user-menu .dropdown-item.text-danger {
+    color: #dc3545 !important;
+}
+
+.lawyer-user-menu .dropdown-item.text-danger i {
+    color: #dc3545 !important;
+}
+
+.lawyer-user-menu .dropdown-item.text-danger:hover {
+    background: linear-gradient(90deg, #fff5f5 0%, #ffe8e8 100%);
+    color: #dc3545 !important;
+}
+
+.lawyer-user-menu .dropdown-divider {
+    margin: 6px 0;
+    border-top: 1px solid #e9ecef;
+    opacity: 0.6;
 }
 
 .lawyer-user-dropdown {
@@ -349,15 +397,16 @@
 
 .lawyer-user-dropdown .dropdown-menu {
     position: absolute !important;
-    top: calc(100% + 8px) !important;
+    top: calc(100% + 5px) !important;
     left: auto !important;
     right: 0 !important;
     margin-top: 0 !important;
     z-index: 10000 !important;
     transform: translateY(0) !important;
-    min-width: 200px;
-    max-width: 300px;
+    min-width: 220px;
+    max-width: 280px;
     display: none;
+    margin-right: 0 !important;
 }
 
 .lawyer-user-dropdown .dropdown-menu:not(.show) {
@@ -377,6 +426,13 @@
     right: 0 !important;
     left: auto !important;
     transform: translateX(0) !important;
+    margin-right: 0 !important;
+}
+
+[dir="rtl"] .lawyer-user-menu .dropdown-item:hover {
+    padding-right: 22px;
+    padding-left: 18px;
+    transform: translateX(-2px);
 }
 
 /* Ensure dropdown doesn't go off screen in RTL */
@@ -514,8 +570,10 @@
     
     .lawyer-user-menu {
         width: calc(100vw - 40px) !important;
-        max-width: 250px !important;
+        max-width: 280px !important;
         z-index: 10000 !important;
+        right: 0 !important;
+        left: auto !important;
     }
     
     .lawyer-user-dropdown {
@@ -551,6 +609,7 @@
         right: 0 !important;
         left: auto !important;
         max-width: calc(100vw - 20px) !important;
+        margin-right: 0 !important;
     }
 }
 
