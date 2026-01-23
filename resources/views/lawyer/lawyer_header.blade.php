@@ -381,6 +381,9 @@
     gap: 10px;
     cursor: pointer;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0.1);
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .lawyer-user-avatar {
@@ -389,11 +392,23 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .lawyer-user-name {
     color: #fff;
     font-weight: 500;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.lawyer-user-link i {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .lawyer-user-menu {
@@ -904,32 +919,24 @@
     }
 }
 
-/* Language Selector Styling */
-.lawyer-topbar-nav .setLanguageHeader {
-    display: flex;
-    align-items: center;
-}
-
-/* Hide language and currency selectors on mobile - Global rule */
-@media (max-width: 768px) {
-    .lawyer-topbar-nav .setLanguageHeader,
-    .lawyer-topbar-nav .set-currency-header,
-    .setLanguageHeader,
-    .set-currency-header,
-    li.setLanguageHeader,
-    li.set-currency-header {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        width: 0 !important;
-        height: 0 !important;
-        overflow: hidden !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        position: absolute !important;
-        left: -9999px !important;
-        pointer-events: none !important;
-    }
+/* Hide language and currency selectors on all screen sizes (PC and Mobile) */
+.lawyer-topbar-nav .setLanguageHeader,
+.lawyer-topbar-nav .set-currency-header,
+.setLanguageHeader,
+.set-currency-header,
+li.setLanguageHeader,
+li.set-currency-header {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    pointer-events: none !important;
 }
 
 .lawyer-topbar-nav .setLanguageHeader .nav-link {
@@ -985,45 +992,30 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Hide language and currency selectors on mobile
-    function hideLanguageCurrencyOnMobile() {
-        if (window.innerWidth <= 768) {
-            document.querySelectorAll('.setLanguageHeader, .set-currency-header').forEach(el => {
-                el.style.display = 'none';
-                el.style.visibility = 'hidden';
-                el.style.opacity = '0';
-                el.style.width = '0';
-                el.style.height = '0';
-                el.style.margin = '0';
-                el.style.padding = '0';
-                el.style.position = 'absolute';
-                el.style.left = '-9999px';
-                el.style.pointerEvents = 'none';
-            });
-        } else {
-            document.querySelectorAll('.setLanguageHeader, .set-currency-header').forEach(el => {
-                el.style.display = '';
-                el.style.visibility = '';
-                el.style.opacity = '';
-                el.style.width = '';
-                el.style.height = '';
-                el.style.margin = '';
-                el.style.padding = '';
-                el.style.position = '';
-                el.style.left = '';
-                el.style.pointerEvents = '';
-            });
-        }
+    // Hide language and currency selectors on all screen sizes (PC and Mobile)
+    function hideLanguageCurrency() {
+        document.querySelectorAll('.setLanguageHeader, .set-currency-header').forEach(el => {
+            el.style.display = 'none';
+            el.style.visibility = 'hidden';
+            el.style.opacity = '0';
+            el.style.width = '0';
+            el.style.height = '0';
+            el.style.margin = '0';
+            el.style.padding = '0';
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            el.style.pointerEvents = 'none';
+        });
     }
     
     // Run on load
-    hideLanguageCurrencyOnMobile();
+    hideLanguageCurrency();
     
     // Run on resize
     let resizeTimer;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(hideLanguageCurrencyOnMobile, 100);
+        resizeTimer = setTimeout(hideLanguageCurrency, 100);
     });
     
     // Ensure all dropdowns are closed on page load
@@ -1037,6 +1029,56 @@ document.addEventListener('DOMContentLoaded', function() {
     userDropdownToggles.forEach(toggle => {
         const dropdownElement = toggle.closest('.lawyer-user-dropdown');
         const dropdownMenu = dropdownElement ? dropdownElement.querySelector('.lawyer-user-menu') : null;
+        
+        // Make sure the entire link area is clickable
+        toggle.style.cursor = 'pointer';
+        toggle.style.userSelect = 'none';
+        toggle.style.webkitUserSelect = 'none';
+        
+        // Add click event to the entire link including children
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isOpen = dropdownMenu && dropdownMenu.classList.contains('show');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.lawyer-user-menu.show').forEach(menu => {
+                if (menu !== dropdownMenu) {
+                    menu.classList.remove('show');
+                    menu.style.display = 'none';
+                    menu.style.visibility = 'hidden';
+                    menu.style.opacity = '0';
+                }
+            });
+            
+            if (dropdownMenu) {
+                if (isOpen) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownMenu.style.display = 'none';
+                    dropdownMenu.style.visibility = 'hidden';
+                    dropdownMenu.style.opacity = '0';
+                } else {
+                    dropdownMenu.classList.add('show');
+                    dropdownMenu.style.display = 'block';
+                    dropdownMenu.style.visibility = 'visible';
+                    dropdownMenu.style.opacity = '1';
+                    
+                    // For mobile, ensure proper positioning
+                    if (window.innerWidth <= 768) {
+                        dropdownMenu.style.position = 'fixed';
+                        dropdownMenu.style.top = '75px';
+                        dropdownMenu.style.right = '10px';
+                        dropdownMenu.style.left = 'auto';
+                        dropdownMenu.style.transform = 'translateX(0)';
+                        dropdownMenu.style.zIndex = '10050';
+                        dropdownMenu.style.width = 'calc(100vw - 20px)';
+                        dropdownMenu.style.maxWidth = '280px';
+                        dropdownMenu.style.minWidth = '240px';
+                    }
+                }
+            }
+        });
         
         if (dropdownMenu && typeof bootstrap !== 'undefined' && bootstrap.Dropdown) {
             try {
