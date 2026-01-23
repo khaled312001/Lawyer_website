@@ -641,6 +641,19 @@
         opacity: 1 !important;
     }
     
+    /* Hide language and currency selectors on mobile */
+    .setLanguageHeader,
+    .set-currency-header {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
     .lawyer-nav-link {
         padding: 8px 10px !important;
         font-size: 14px !important;
@@ -790,6 +803,19 @@
         display: list-item !important;
         visibility: visible !important;
         opacity: 1 !important;
+    }
+    
+    /* Hide language and currency selectors on mobile */
+    .setLanguageHeader,
+    .set-currency-header {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     
     .lawyer-menu-toggle {
@@ -965,6 +991,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         dropdownMenu.style.right = '10px';
                         dropdownMenu.style.left = 'auto';
                         dropdownMenu.style.transform = 'translateX(0)';
+                        dropdownMenu.style.zIndex = '10050';
+                        dropdownMenu.style.width = 'calc(100vw - 20px)';
+                        dropdownMenu.style.maxWidth = '280px';
+                        dropdownMenu.style.minWidth = '240px';
                     }
                 });
                 
@@ -1046,6 +1076,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     dropdown.style.left = 'auto';
                     dropdown.style.transform = 'translateX(0)';
                     dropdown.style.zIndex = '10050';
+                    dropdown.style.width = 'calc(100vw - 20px)';
+                    dropdown.style.maxWidth = '280px';
+                    dropdown.style.minWidth = '240px';
                 }
                 // Force reflow for mobile
                 dropdown.offsetHeight;
