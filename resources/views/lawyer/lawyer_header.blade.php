@@ -183,7 +183,74 @@
 </nav>
 
 <style>
-/* Lawyer Header Styles */
+/* Lawyer Header Styles - Ensure all navigation elements are visible */
+.lawyer-topbar {
+    overflow: visible !important;
+}
+
+.lawyer-topbar-left,
+.lawyer-topbar-right {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+}
+
+.lawyer-topbar-nav {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+}
+
+.lawyer-topbar-nav li {
+    display: list-item !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.lawyer-nav-item {
+    display: list-item !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.lawyer-menu-toggle {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.lawyer-menu-toggle i {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.lawyer-nav-link {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.lawyer-nav-link i {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.lawyer-user-link {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.lawyer-user-avatar {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
 .lawyer-topbar-bg {
     height: 70px;
     width: 100%;
@@ -702,6 +769,27 @@
 @media (max-width: 480px) {
     .lawyer-topbar {
         padding: 0 8px !important;
+        display: flex !important;
+        overflow: visible !important;
+    }
+    
+    .lawyer-topbar-left,
+    .lawyer-topbar-right {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .lawyer-topbar-nav {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .lawyer-nav-item {
+        display: list-item !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-menu-toggle {
@@ -709,19 +797,37 @@
         height: 36px !important;
         min-width: 36px !important;
         min-height: 36px !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-menu-toggle i {
         font-size: 16px !important;
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-user-avatar {
         width: 30px !important;
         height: 30px !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-nav-link {
         padding: 6px 8px !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .lawyer-nav-link i {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-user-menu {
