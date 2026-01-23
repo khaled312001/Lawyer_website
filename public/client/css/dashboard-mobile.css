@@ -3,36 +3,6 @@
    تحسينات داشبورد العميل والمحامي على الموبايل
    ============================================ */
 
-/* Hide main site header in dashboard pages */
-.dashboard-area ~ * .top-header-bar,
-.dashboard-area ~ * .main-navbar,
-body:has(.dashboard-area) .top-header-bar,
-body:has(.dashboard-area) .main-navbar,
-body:has(.dashboard-area) #mainNavbar,
-body:has(.dashboard-area) .mobile-side-menu {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* Alternative method using body class */
-body.client-dashboard-page .top-header-bar,
-body.client-dashboard-page .main-navbar,
-body.client-dashboard-page #mainNavbar,
-body.client-dashboard-page .mobile-side-menu {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
 /* Client Dashboard Mobile Styles */
 @media (max-width: 991px) {
     /* Add top padding for header */
@@ -212,58 +182,26 @@ body.client-dashboard-page .mobile-side-menu {
     .dashboard-widget ul li a {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        flex-direction: row-reverse;
         padding: 15px 20px;
         color: #333;
         text-decoration: none;
         font-size: 15px;
         transition: all 0.3s ease;
         min-height: 50px;
-        direction: rtl;
-        text-align: right;
-        gap: 12px;
     }
     
     .dashboard-widget ul li a:hover,
     .dashboard-widget ul li.active a {
-        background: linear-gradient(135deg, var(--colorPrimary, #6b5d47) 0%, #5a4d3a 100%);
+        background: var(--colorPrimary, #6b5d47);
         color: #fff;
         padding-right: 25px;
-        padding-left: 20px;
-        box-shadow: inset -4px 0 0 rgba(255,255,255,0.3);
     }
     
-    /* الأيقونات في أقصى اليمين */
     .dashboard-widget ul li a i {
-        margin-right: 0;
-        margin-left: auto;
+        margin-left: 10px;
         font-size: 14px;
         width: 20px;
-        min-width: 20px;
         text-align: center;
-        order: 1;
-        flex-shrink: 0;
-    }
-    
-    /* النص بجانب الأيقونة */
-    .dashboard-widget ul li a span {
-        order: 2;
-        text-align: right;
-        flex: 0 1 auto;
-    }
-    
-    /* للنص بدون span */
-    .dashboard-widget ul li a:not(:has(span)) {
-        text-align: right;
-    }
-    
-    /* ضمان أن الأيقونة في أقصى اليمين */
-    .dashboard-widget ul li a::before {
-        content: '';
-        order: 0;
-        flex: 1;
-        min-width: 0;
     }
     
     .dashboard-widget ul li a .beep {
@@ -300,9 +238,9 @@ body.client-dashboard-page .mobile-side-menu {
         border-bottom: 3px solid rgba(var(--colorPrimary-rgb, 107, 93, 71), 0.2);
     }
     
-    /* Dashboard Stats Cards - Enhanced */
+    /* Dashboard Stats Cards */
     .dash-item {
-        border-radius: 16px !important;
+        border-radius: 12px !important;
         padding: 25px 20px !important;
         margin-bottom: 15px !important;
         text-align: center;
@@ -311,26 +249,13 @@ body.client-dashboard-page .mobile-side-menu {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .dash-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-        pointer-events: none;
     }
     
     .dash-item:hover {
-        transform: translateY(-5px) scale(1.02);
-        box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
     
     .dash-item i {
@@ -395,25 +320,18 @@ body.client-dashboard-page .mobile-side-menu {
     }
     
     .edit_btn {
-        padding: 10px 20px;
-        background: linear-gradient(135deg, var(--colorPrimary, #6b5d47) 0%, #5a4d3a 100%);
+        padding: 8px 16px;
+        background: var(--colorPrimary, #6b5d47);
         color: #fff;
-        border-radius: 8px;
+        border-radius: 6px;
         font-size: 14px;
-        font-weight: 600;
         text-decoration: none;
         transition: all 0.3s ease;
-        box-shadow: 0 3px 10px rgba(var(--colorPrimary-rgb, 107, 93, 71), 0.3);
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
     }
     
     .edit_btn:hover {
-        background: linear-gradient(135deg, #5a4d3a 0%, #4a3d2a 100%);
+        background: #5a4d3a;
         color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(var(--colorPrimary-rgb, 107, 93, 71), 0.4);
     }
     
     .wsus__profile_info ul {
@@ -473,14 +391,7 @@ body.client-dashboard-page .mobile-side-menu {
     
     .form-control:focus {
         border-color: var(--colorPrimary, #6b5d47);
-        box-shadow: 0 0 0 3px rgba(var(--colorPrimary-rgb, 107, 93, 71), 0.15);
-        outline: none;
-    }
-    
-    .form-select:focus {
-        border-color: var(--colorPrimary, #6b5d47);
-        box-shadow: 0 0 0 3px rgba(var(--colorPrimary-rgb, 107, 93, 71), 0.15);
-        outline: none;
+        box-shadow: 0 0 0 3px rgba(107, 93, 71, 0.1);
     }
     
     /* Tables - Enhanced Design */
