@@ -30,6 +30,11 @@ body:has(.dashboard-area) .client-topbar {
     opacity: 1 !important;
 }
 
+/* Dashboard Header Spacing */
+.dashboard-area {
+    padding-top: 90px !important;
+}
+
 /* Client Dashboard Mobile Styles */
 @media (max-width: 991px) {
     /* Add top padding for header */
