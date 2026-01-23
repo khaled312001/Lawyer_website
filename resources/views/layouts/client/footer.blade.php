@@ -600,28 +600,7 @@
         }
     });
     
-    // Client Dashboard Sidebar Toggle - Check if not already defined
-    if (typeof toggleClientSidebar === 'undefined') {
-        function toggleClientSidebar(event) {
-            if (event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            const body = document.body;
-            if (body.classList.contains('client-sidebar-show')) {
-                body.classList.remove('client-sidebar-show');
-                body.style.overflow = 'auto';
-            } else {
-                body.classList.add('client-sidebar-show');
-                body.style.overflow = 'hidden';
-            }
-        }
-        
-        // Make function globally available
-        window.toggleClientSidebar = toggleClientSidebar;
-    }
-    
-    // Add backdrop to all client dashboard pages
+    // Dashboard sidebar functionality
     document.addEventListener('DOMContentLoaded', function() {
         // Hide main site header in dashboard pages
         const dashboardArea = document.querySelector('.dashboard-area');
@@ -656,45 +635,59 @@
             document.body.style.paddingTop = '0';
         }
         
-        if (dashboardArea && !document.querySelector('.client-sidebar-backdrop')) {
-            const container = dashboardArea.querySelector('.container');
-            if (container) {
-                // Add backdrop
-                const backdrop = document.createElement('div');
-                backdrop.className = 'client-sidebar-backdrop d-lg-none';
-                backdrop.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleClientSidebar();
-                });
-                container.insertBefore(backdrop, container.firstChild);
+        // Close sidebar when clicking backdrop
+        document.addEventListener('click', function(e) {
+            if (e.target === document.body.querySelector('::before') || 
+                (e.target.classList && e.target.classList.contains('dashboard-area'))) {
+                if (window.innerWidth < 992 && document.body.classList.contains('dashboard-sidebar-open')) {
+                    document.body.classList.remove('dashboard-sidebar-open');
+                    document.body.style.overflow = 'auto';
+                    const sidebar = document.querySelector('.dashboard-sidebar');
+                    if (sidebar) {
+                        sidebar.style.right = '-100%';
+                    }
+                }
             }
-        }
+        });
         
         // Close sidebar when clicking menu items on mobile
-        const sidebar = document.querySelector('.client-dashboard-sidebar');
+        const sidebar = document.querySelector('.dashboard-sidebar');
         if (sidebar) {
             const menuLinks = sidebar.querySelectorAll('ul li a');
             menuLinks.forEach(link => {
-                // Don't close for logout link (it has special handling)
                 if (!link.getAttribute('onclick') || !link.getAttribute('onclick').includes('logout')) {
-                    link.addEventListener('click', function(e) {
+                    link.addEventListener('click', function() {
                         if (window.innerWidth < 992) {
-                            // Allow navigation to happen first
                             setTimeout(() => {
-                                toggleClientSidebar();
+                                document.body.classList.remove('dashboard-sidebar-open');
+                                document.body.style.overflow = 'auto';
+                                sidebar.style.right = '-100%';
                             }, 300);
                         }
                     });
                 }
             });
+            
+            // Close button
+            const closeBtn = document.getElementById('dashboard-sidebar-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    document.body.classList.remove('dashboard-sidebar-open');
+                    document.body.style.overflow = 'auto';
+                    sidebar.style.right = '-100%';
+                });
+            }
         }
         
         // Close sidebar on window resize if desktop
         window.addEventListener('resize', function() {
             if (window.innerWidth >= 992) {
-                document.body.classList.remove('client-sidebar-show');
+                document.body.classList.remove('dashboard-sidebar-open');
                 document.body.style.overflow = 'auto';
+                const sidebar = document.querySelector('.dashboard-sidebar');
+                if (sidebar) {
+                    sidebar.style.right = '0';
+                }
             }
         });
     });
