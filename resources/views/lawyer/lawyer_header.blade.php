@@ -255,26 +255,29 @@
     height: 70px;
     width: 100%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9998 !important;
+    will-change: transform;
 }
 
 .lawyer-topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
     height: 70px;
     background: transparent;
     padding: 0 20px;
-    z-index: 1001;
+    z-index: 9999 !important;
     display: flex !important;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: visible !important;
+    will-change: transform;
 }
 
 .lawyer-topbar-left,
@@ -301,6 +304,7 @@
     display: list-item !important;
     visibility: visible !important;
     opacity: 1 !important;
+    z-index: 10000 !important;
 }
 
 .lawyer-menu-toggle {
@@ -316,7 +320,8 @@
     background: rgba(255, 255, 255, 0.1);
     visibility: visible !important;
     opacity: 1 !important;
-    z-index: 1002 !important;
+    z-index: 10000 !important;
+    position: relative;
 }
 
 .lawyer-menu-toggle:hover {
@@ -336,6 +341,8 @@
     white-space: nowrap;
     visibility: visible !important;
     opacity: 1 !important;
+    z-index: 10000 !important;
+    position: relative;
 }
 
 .lawyer-nav-link:hover {
@@ -415,12 +422,13 @@
     margin-top: 5px;
     min-width: 220px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    z-index: 10000 !important;
+    z-index: 10050 !important;
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.08);
     padding: 6px 0;
     background: #fff !important;
     overflow: hidden;
+    position: relative;
 }
 
 /* Bootstrap dropdown compatibility */
@@ -488,6 +496,7 @@
 
 .lawyer-user-dropdown {
     position: relative !important;
+    z-index: 10000 !important;
 }
 
 .lawyer-user-dropdown .dropdown-menu {
@@ -496,7 +505,7 @@
     left: auto !important;
     right: 0 !important;
     margin-top: 0 !important;
-    z-index: 10000 !important;
+    z-index: 10050 !important;
     transform: translateY(0) !important;
     min-width: 220px;
     max-width: 280px;
@@ -563,6 +572,7 @@
 
 .lawyer-notification-dropdown {
     position: relative !important;
+    z-index: 10000 !important;
 }
 
 .lawyer-notification-menu {

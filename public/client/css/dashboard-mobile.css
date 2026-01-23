@@ -5,9 +5,9 @@
 
 /* Client Dashboard Mobile Styles */
 @media (max-width: 991px) {
-    /* Dashboard Area */
+    /* Add top padding for header */
     .dashboard-area {
-        padding: 20px 0 !important;
+        padding: 90px 0 20px 0 !important;
     }
     
     .dashboard-area .container {
@@ -26,18 +26,19 @@
         padding-right: 10px;
     }
     
-    /* Dashboard Sidebar - Mobile */
+    /* Dashboard Sidebar - Mobile - Right Side */
     .client-dashboard-sidebar {
         position: fixed !important;
         top: 0 !important;
-        left: -100% !important;
+        right: -100% !important;
+        left: auto !important;
         width: 280px !important;
         max-width: 85vw !important;
         height: 100vh !important;
         z-index: 9999 !important;
         background: #fff !important;
-        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
-        transition: left 0.3s ease !important;
+        box-shadow: -2px 0 15px rgba(0, 0, 0, 0.3) !important;
+        transition: right 0.3s ease !important;
         overflow-y: auto !important;
         margin-bottom: 0 !important;
         border-radius: 0 !important;
@@ -45,7 +46,7 @@
     
     /* Show sidebar when active */
     body.client-sidebar-show .client-dashboard-sidebar {
-        left: 0 !important;
+        right: 0 !important;
     }
     
     /* Prevent clicks on content behind sidebar when open */
@@ -53,6 +54,11 @@
     body.client-sidebar-show .dashboard-area .col-lg-9 {
         pointer-events: none;
         user-select: none;
+    }
+    
+    /* Ensure header is above sidebar */
+    .client-topbar {
+        z-index: 10002 !important;
     }
     
     /* Sidebar backdrop */
@@ -81,40 +87,14 @@
         pointer-events: auto !important;
     }
     
-    /* Sidebar toggle button */
-    .client-sidebar-toggle {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 20px;
-        background: var(--colorPrimary, #6b5d47);
-        color: #fff;
-        border: none;
-        border-radius: 8px;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
     
-    .client-sidebar-toggle:hover {
-        background: #5a4d3a;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    
-    .client-sidebar-toggle i {
-        font-size: 18px;
-    }
-    
-    /* Close button */
+    /* Close button - Left side for RTL */
     .client-dashboard-sidebar .sidebar-close-btn {
         display: flex !important;
         position: absolute !important;
         top: 15px !important;
-        right: 15px !important;
+        left: 15px !important;
+        right: auto !important;
         width: 40px !important;
         height: 40px !important;
         background: rgba(0, 0, 0, 0.15) !important;
@@ -137,7 +117,6 @@
     
     /* Hide close button on desktop */
     @media (min-width: 992px) {
-        .client-sidebar-toggle,
         .client-sidebar-backdrop,
         .client-dashboard-sidebar .sidebar-close-btn {
             display: none !important;
@@ -145,7 +124,8 @@
         
         .client-dashboard-sidebar {
             position: relative !important;
-            left: 0 !important;
+            right: 0 !important;
+            left: auto !important;
             width: 100% !important;
             height: auto !important;
             border-radius: 12px !important;

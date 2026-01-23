@@ -616,24 +616,15 @@
         }
     }
     
-    // Add toggle button and backdrop to all client dashboard pages
+    // Make function globally available
+    window.toggleClientSidebar = toggleClientSidebar;
+    
+    // Add backdrop to all client dashboard pages
     document.addEventListener('DOMContentLoaded', function() {
         const dashboardArea = document.querySelector('.dashboard-area');
-        if (dashboardArea && !document.querySelector('.client-sidebar-toggle')) {
+        if (dashboardArea && !document.querySelector('.client-sidebar-backdrop')) {
             const container = dashboardArea.querySelector('.container');
             if (container) {
-                // Add toggle button
-                const toggleBtn = document.createElement('button');
-                toggleBtn.className = 'client-sidebar-toggle d-lg-none';
-                toggleBtn.setAttribute('aria-label', 'Toggle Sidebar');
-                toggleBtn.innerHTML = '<i class="fas fa-bars"></i><span>القائمة</span>';
-                toggleBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleClientSidebar(e);
-                });
-                container.insertBefore(toggleBtn, container.firstChild);
-                
                 // Add backdrop
                 const backdrop = document.createElement('div');
                 backdrop.className = 'client-sidebar-backdrop d-lg-none';
