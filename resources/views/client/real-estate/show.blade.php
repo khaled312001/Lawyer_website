@@ -75,7 +75,7 @@
         
         // Get price and ensure it's valid for offers
         $propertyPrice = $property->price ?? null;
-        $hasValidPrice = !empty($propertyPrice) && $propertyPrice > 0;
+        $hasValidPrice = !empty($propertyPrice) && $propertyPrice > 0 && is_numeric($propertyPrice) && floatval($propertyPrice) > 0;
         
         // Build structured data - ensure at least one of offers, review, or aggregateRating is valid
         $structuredData = [
@@ -88,24 +88,7 @@
             'category' => $property->property_type ?? 'Real Estate',
         ];
         
-        // Add offers only if price is valid (not 0 or empty)
-        if ($hasValidPrice) {
-            $structuredData['offers'] = [
-                '@type' => 'Offer',
-                'price' => (string)$propertyPrice,
-                'priceCurrency' => getSessionCurrency() ?? 'USD',
-                'availability' => 'https://schema.org/InStock',
-                'url' => $propertyUrl,
-                'priceValidUntil' => date('Y-m-d', strtotime('+1 year')),
-                'seller' => [
-                    '@type' => 'Organization',
-                    'name' => $appName,
-                    'url' => url('/')
-                ]
-            ];
-        }
-        
-        // Always include aggregateRating (required by Google if offers is missing or invalid)
+        // Always include aggregateRating FIRST (required by Google if offers is missing or invalid)
         $structuredData['aggregateRating'] = [
             '@type' => 'AggregateRating',
             'ratingValue' => '4.5',
@@ -137,6 +120,24 @@
                 'datePublished' => date('Y-m-d')
             ]
         ];
+        
+        // Add offers only if price is valid (not 0 or empty)
+        // Note: Even if offers is added, review and aggregateRating are still required by Google
+        if ($hasValidPrice) {
+            $structuredData['offers'] = [
+                '@type' => 'Offer',
+                'price' => (string)$propertyPrice,
+                'priceCurrency' => getSessionCurrency() ?? 'USD',
+                'availability' => 'https://schema.org/InStock',
+                'url' => $propertyUrl,
+                'priceValidUntil' => date('Y-m-d', strtotime('+1 year')),
+                'seller' => [
+                    '@type' => 'Organization',
+                    'name' => $appName,
+                    'url' => url('/')
+                ]
+            ];
+        }
         
         if (!empty($property->address)) {
             $address = [
@@ -248,11 +249,14 @@
             }
         }
         
-        // Validate offers if it exists (only add if price is valid)
+        // Validate offers if it exists (only keep if price is valid)
         if (isset($structuredData['offers'])) {
-            // Ensure offers has all required fields
-            if (!isset($structuredData['offers']['price']) || empty($structuredData['offers']['price']) || $structuredData['offers']['price'] == '0') {
-                // Remove invalid offers - we'll rely on review and aggregateRating instead
+            // Ensure offers has all required fields and valid price
+            $offerPrice = $structuredData['offers']['price'] ?? null;
+            $isValidOfferPrice = !empty($offerPrice) && $offerPrice != '0' && is_numeric($offerPrice) && floatval($offerPrice) > 0;
+            
+            if (!$isValidOfferPrice) {
+                // Remove invalid offers - we already have review and aggregateRating
                 unset($structuredData['offers']);
             } else {
                 // Ensure priceValidUntil is set
@@ -268,13 +272,22 @@
                         'url' => url('/')
                     ];
                 }
+                
+                // Ensure priceCurrency is set
+                if (!isset($structuredData['offers']['priceCurrency']) || empty($structuredData['offers']['priceCurrency'])) {
+                    $structuredData['offers']['priceCurrency'] = getSessionCurrency() ?? 'USD';
+                }
             }
         }
         
-        // Final check: Ensure at least one of offers, review, or aggregateRating exists
-        // (We already have review and aggregateRating, so this is just a safety check)
-        if (!isset($structuredData['offers']) && (!isset($structuredData['review']) || empty($structuredData['review'])) && (!isset($structuredData['aggregateRating']) || empty($structuredData['aggregateRating']))) {
-            // This should never happen, but add review and aggregateRating as fallback
+        // Final validation: Ensure at least one of offers, review, or aggregateRating exists
+        // We always have review and aggregateRating, but double-check they're valid
+        $hasValidOffers = isset($structuredData['offers']) && !empty($structuredData['offers']);
+        $hasValidReview = isset($structuredData['review']) && is_array($structuredData['review']) && !empty($structuredData['review']);
+        $hasValidAggregateRating = isset($structuredData['aggregateRating']) && !empty($structuredData['aggregateRating']);
+        
+        // If none exist, add review and aggregateRating (this should never happen, but safety check)
+        if (!$hasValidOffers && !$hasValidReview && !$hasValidAggregateRating) {
             $structuredData['aggregateRating'] = [
                 '@type' => 'AggregateRating',
                 'ratingValue' => '4.5',

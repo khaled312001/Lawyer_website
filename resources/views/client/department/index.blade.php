@@ -65,6 +65,7 @@
                 $deptItem = [
                     '@type' => 'ListItem',
                     'position' => $index + 1,
+                    'name' => $deptName,
                     'item' => [
                         '@type' => 'Service',
                         'name' => $deptName,

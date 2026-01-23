@@ -128,15 +128,15 @@
                     "name": "{{ __('Blogs') }}"
                 }
             },
-            @if($blog->category)
+            @if($blog->category && !empty($blog->category->name))
             {
                 "@type": "ListItem",
                 "position": 3,
-                "name": "{{ $blog->category->name ?? '' }}",
+                "name": "{{ $blog->category->name }}",
                 "item": {
                     "@type": "WebPage",
                     "@id": "{{ route('website.blog.category', $blog->category->slug ?? '') }}",
-                    "name": "{{ $blog->category->name ?? '' }}"
+                    "name": "{{ $blog->category->name }}"
                 }
             },
             {

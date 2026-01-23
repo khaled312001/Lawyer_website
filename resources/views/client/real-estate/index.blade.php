@@ -65,6 +65,7 @@
                 $propertyItem = [
                     '@type' => 'ListItem',
                     'position' => $index + 1,
+                    'name' => $propertyName,
                     'item' => [
                         '@type' => 'Product',
                         'name' => $propertyName,

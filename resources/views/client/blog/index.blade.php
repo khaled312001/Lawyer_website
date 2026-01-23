@@ -73,9 +73,11 @@
                 $blogItem = [
                     '@type' => 'ListItem',
                     'position' => $index + 1,
+                    'name' => $blogTitle,
                     'item' => [
                         '@type' => 'BlogPosting',
                         'headline' => $blogTitle,
+                        'name' => $blogTitle,
                         'description' => $blogDesc,
                         'url' => route('website.blog.details', $blog->slug)
                     ]

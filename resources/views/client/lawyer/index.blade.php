@@ -61,6 +61,7 @@
                 $lawyerItem = [
                     '@type' => 'ListItem',
                     'position' => $index + 1,
+                    'name' => $lawyerName,
                     'item' => [
                         '@type' => 'Person',
                         'name' => $lawyerName,
