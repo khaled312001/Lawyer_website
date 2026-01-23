@@ -642,8 +642,12 @@
     }
     
     /* Hide language and currency selectors on mobile */
+    .lawyer-topbar-nav .setLanguageHeader,
+    .lawyer-topbar-nav .set-currency-header,
     .setLanguageHeader,
-    .set-currency-header {
+    .set-currency-header,
+    li.setLanguageHeader,
+    li.set-currency-header {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -652,6 +656,9 @@
         overflow: hidden !important;
         margin: 0 !important;
         padding: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+        pointer-events: none !important;
     }
     
     .lawyer-nav-link {
@@ -806,8 +813,12 @@
     }
     
     /* Hide language and currency selectors on mobile */
+    .lawyer-topbar-nav .setLanguageHeader,
+    .lawyer-topbar-nav .set-currency-header,
     .setLanguageHeader,
-    .set-currency-header {
+    .set-currency-header,
+    li.setLanguageHeader,
+    li.set-currency-header {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -816,6 +827,9 @@
         overflow: hidden !important;
         margin: 0 !important;
         padding: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+        pointer-events: none !important;
     }
     
     .lawyer-menu-toggle {
@@ -896,6 +910,28 @@
     align-items: center;
 }
 
+/* Hide language and currency selectors on mobile - Global rule */
+@media (max-width: 768px) {
+    .lawyer-topbar-nav .setLanguageHeader,
+    .lawyer-topbar-nav .set-currency-header,
+    .setLanguageHeader,
+    .set-currency-header,
+    li.setLanguageHeader,
+    li.set-currency-header {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: absolute !important;
+        left: -9999px !important;
+        pointer-events: none !important;
+    }
+}
+
 .lawyer-topbar-nav .setLanguageHeader .nav-link {
     display: flex;
     align-items: center;
@@ -949,6 +985,47 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Hide language and currency selectors on mobile
+    function hideLanguageCurrencyOnMobile() {
+        if (window.innerWidth <= 768) {
+            document.querySelectorAll('.setLanguageHeader, .set-currency-header').forEach(el => {
+                el.style.display = 'none';
+                el.style.visibility = 'hidden';
+                el.style.opacity = '0';
+                el.style.width = '0';
+                el.style.height = '0';
+                el.style.margin = '0';
+                el.style.padding = '0';
+                el.style.position = 'absolute';
+                el.style.left = '-9999px';
+                el.style.pointerEvents = 'none';
+            });
+        } else {
+            document.querySelectorAll('.setLanguageHeader, .set-currency-header').forEach(el => {
+                el.style.display = '';
+                el.style.visibility = '';
+                el.style.opacity = '';
+                el.style.width = '';
+                el.style.height = '';
+                el.style.margin = '';
+                el.style.padding = '';
+                el.style.position = '';
+                el.style.left = '';
+                el.style.pointerEvents = '';
+            });
+        }
+    }
+    
+    // Run on load
+    hideLanguageCurrencyOnMobile();
+    
+    // Run on resize
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(hideLanguageCurrencyOnMobile, 100);
+    });
+    
     // Ensure all dropdowns are closed on page load
     document.querySelectorAll('.lawyer-user-menu').forEach(menu => {
         menu.classList.remove('show');
