@@ -433,16 +433,56 @@
 </style>
 
 <script>
+// Client Dashboard Sidebar Toggle Function - Must be defined before use
+function toggleClientSidebar(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    const body = document.body;
+    const sidebar = document.querySelector('.client-dashboard-sidebar');
+    
+    console.log('toggleClientSidebar called', body.classList.contains('client-sidebar-show')); // Debug
+    
+    if (body.classList.contains('client-sidebar-show')) {
+        body.classList.remove('client-sidebar-show');
+        body.style.overflow = 'auto';
+        if (sidebar) {
+            sidebar.style.right = '-100%';
+        }
+    } else {
+        body.classList.add('client-sidebar-show');
+        body.style.overflow = 'hidden';
+        if (sidebar) {
+            sidebar.style.right = '0';
+        }
+    }
+}
+
+// Make function globally available
+window.toggleClientSidebar = toggleClientSidebar;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Toggle sidebar from header button
     const menuToggleBtn = document.getElementById('client-menu-toggle-btn');
     
     if (menuToggleBtn) {
+        // Add click event listener
         menuToggleBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
+            console.log('Menu button clicked'); // Debug
             toggleClientSidebar(e);
         });
+        
+        // Also add onclick as fallback
+        menuToggleBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleClientSidebar(e);
+        };
+    } else {
+        console.error('Client menu toggle button not found!');
     }
     
     // Initialize Bootstrap dropdown for user menu

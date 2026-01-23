@@ -600,24 +600,26 @@
         }
     });
     
-    // Client Dashboard Sidebar Toggle
-    function toggleClientSidebar(event) {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
+    // Client Dashboard Sidebar Toggle - Check if not already defined
+    if (typeof toggleClientSidebar === 'undefined') {
+        function toggleClientSidebar(event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            const body = document.body;
+            if (body.classList.contains('client-sidebar-show')) {
+                body.classList.remove('client-sidebar-show');
+                body.style.overflow = 'auto';
+            } else {
+                body.classList.add('client-sidebar-show');
+                body.style.overflow = 'hidden';
+            }
         }
-        const body = document.body;
-        if (body.classList.contains('client-sidebar-show')) {
-            body.classList.remove('client-sidebar-show');
-            body.style.overflow = 'auto';
-        } else {
-            body.classList.add('client-sidebar-show');
-            body.style.overflow = 'hidden';
-        }
+        
+        // Make function globally available
+        window.toggleClientSidebar = toggleClientSidebar;
     }
-    
-    // Make function globally available
-    window.toggleClientSidebar = toggleClientSidebar;
     
     // Add backdrop to all client dashboard pages
     document.addEventListener('DOMContentLoaded', function() {
