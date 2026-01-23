@@ -130,9 +130,9 @@
     gap: 15px;
 }
 
-/* Menu Toggle Button */
+/* Menu Toggle Button - Hidden on desktop, visible on mobile only */
 .dashboard-menu-btn {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -153,6 +153,13 @@
 
 .dashboard-menu-btn:active {
     transform: scale(0.95);
+}
+
+/* Show menu button only on mobile */
+@media (max-width: 991px) {
+    .dashboard-menu-btn {
+        display: flex;
+    }
 }
 
 /* Home Button */

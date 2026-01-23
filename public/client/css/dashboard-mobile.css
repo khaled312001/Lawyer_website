@@ -30,6 +30,32 @@ body:has(.dashboard-area) .client-topbar {
     opacity: 1 !important;
 }
 
+/* Hide banner area in dashboard pages on all devices */
+.dashboard-banner-hidden,
+.dashboard-area ~ .banner-area,
+.dashboard-area .banner-area,
+body:has(.dashboard-area) .banner-area {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Also hide banner in all client dashboard pages */
+.dashboard-area + .banner-area,
+.banner-area:has(+ .dashboard-area) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
 /* Dashboard Header Spacing */
 .dashboard-area {
     padding-top: 90px !important;
@@ -101,9 +127,9 @@ body:has(.dashboard-area) .client-topbar {
         user-select: none;
     }
     
-    /* Close button - Left side for RTL - Enhanced X button */
+    /* Close button - Left side for RTL - Enhanced X button - Hidden by default */
     .dashboard-sidebar .dashboard-sidebar-close {
-        display: flex !important;
+        display: none !important;
         position: fixed !important;
         top: 20px !important;
         left: 20px !important;
@@ -123,6 +149,11 @@ body:has(.dashboard-area) .client-topbar {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         pointer-events: auto !important;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    /* Show close button only when sidebar is open */
+    body.dashboard-sidebar-open .dashboard-sidebar .dashboard-sidebar-close {
+        display: flex !important;
     }
     
     .dashboard-sidebar .dashboard-sidebar-close:hover {

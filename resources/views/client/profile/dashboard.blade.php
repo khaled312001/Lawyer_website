@@ -4,7 +4,7 @@
 @endsection
 @section('client-content')
     <!--Banner Start-->
-    <div class="banner-area flex"
+    <div class="banner-area flex dashboard-banner-hidden"
         style="background-image:url({{ $setting?->breadcrumb_image ? url($setting?->breadcrumb_image) : '' }});">
         <div class="container">
             <div class="row">

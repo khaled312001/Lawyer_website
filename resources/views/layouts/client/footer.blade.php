@@ -602,9 +602,20 @@
     
     // Dashboard sidebar functionality
     document.addEventListener('DOMContentLoaded', function() {
-        // Hide main site header in dashboard pages
+        // Hide main site header and banner in dashboard pages
         const dashboardArea = document.querySelector('.dashboard-area');
         if (dashboardArea) {
+            // Hide banner area
+            const bannerArea = document.querySelector('.banner-area');
+            if (bannerArea && !bannerArea.classList.contains('dashboard-banner-hidden')) {
+                bannerArea.style.display = 'none';
+                bannerArea.style.visibility = 'hidden';
+                bannerArea.style.opacity = '0';
+                bannerArea.style.height = '0';
+                bannerArea.style.padding = '0';
+                bannerArea.style.margin = '0';
+                bannerArea.style.overflow = 'hidden';
+            }
             const topHeaderBar = document.querySelector('.top-header-bar');
             const mainNavbar = document.querySelector('.main-navbar');
             const mobileSideMenu = document.getElementById('mobileSideMenu');
