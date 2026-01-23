@@ -203,42 +203,53 @@
     background: transparent;
     padding: 0 20px;
     z-index: 1001;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: visible !important;
 }
 
 .lawyer-topbar-left,
 .lawyer-topbar-right {
-    display: flex;
+    display: flex !important;
     align-items: center;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .lawyer-topbar-nav {
-    display: flex;
+    display: flex !important;
     align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
     gap: 10px;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .lawyer-nav-item {
     position: relative;
+    display: list-item !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .lawyer-menu-toggle {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     width: 40px;
     height: 40px;
-    color: #fff;
+    color: #fff !important;
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.1);
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 1002 !important;
 }
 
 .lawyer-menu-toggle:hover {
@@ -248,14 +259,16 @@
 }
 
 .lawyer-nav-link {
-    display: flex;
+    display: flex !important;
     align-items: center;
     padding: 8px 15px;
-    color: #fff;
+    color: #fff !important;
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.3s ease;
     white-space: nowrap;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .lawyer-nav-link:hover {
@@ -537,15 +550,36 @@
     .lawyer-topbar {
         padding: 0 10px !important;
         height: 70px !important;
+        display: flex !important;
+        overflow: visible !important;
+    }
+    
+    .lawyer-topbar-left,
+    .lawyer-topbar-right {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-topbar-nav {
         gap: 5px !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .lawyer-nav-item {
+        display: list-item !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-nav-link {
         padding: 8px 10px !important;
         font-size: 14px !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-nav-link span {
@@ -559,6 +593,9 @@
     .lawyer-user-avatar {
         width: 32px !important;
         height: 32px !important;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-menu-toggle {
@@ -566,6 +603,15 @@
         height: 40px !important;
         min-width: 40px !important;
         min-height: 40px !important;
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .lawyer-menu-toggle i {
+        display: inline-block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .lawyer-notification-menu {
