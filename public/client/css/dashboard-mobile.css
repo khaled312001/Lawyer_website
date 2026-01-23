@@ -3,36 +3,6 @@
    تحسينات داشبورد العميل والمحامي على الموبايل
    ============================================ */
 
-/* Hide main site header in dashboard pages */
-.dashboard-area ~ * .top-header-bar,
-.dashboard-area ~ * .main-navbar,
-body:has(.dashboard-area) .top-header-bar,
-body:has(.dashboard-area) .main-navbar,
-body:has(.dashboard-area) #mainNavbar,
-body:has(.dashboard-area) .mobile-side-menu {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* Alternative method using body class */
-body.client-dashboard-page .top-header-bar,
-body.client-dashboard-page .main-navbar,
-body.client-dashboard-page #mainNavbar,
-body.client-dashboard-page .mobile-side-menu {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
 /* Client Dashboard Mobile Styles */
 @media (max-width: 991px) {
     /* Add top padding for header */
