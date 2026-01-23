@@ -280,19 +280,23 @@
     .dash-item-icon {
         font-size: 2.5rem;
         margin-bottom: 15px;
-        opacity: 0.9;
+        color: #fff !important;
+        opacity: 1 !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
     .dash-item-content h2 {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #fff;
+        color: #fff !important;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
     .dash-item-content h4 {
         font-size: 1rem;
         font-weight: 500;
-        color: rgba(255,255,255,0.9);
+        color: rgba(255,255,255,0.95) !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
     
     .profile-info-item {
@@ -306,14 +310,14 @@
     
     .profile-info-label {
         font-weight: 600;
-        color: #555;
+        color: #555 !important;
         display: inline-block;
         min-width: 120px;
         margin-bottom: 5px;
     }
     
     .profile-info-value {
-        color: #333;
+        color: #333 !important;
         font-weight: 400;
     }
     
@@ -330,7 +334,7 @@
     .wsus__profile_info_top .d-headline {
         font-size: 1.5rem;
         font-weight: 600;
-        color: #333;
+        color: var(--colorPrimary, #6b5d47) !important;
     }
     
     @media (max-width: 768px) {

@@ -36,6 +36,7 @@
 <link rel="stylesheet" href="{{ asset('client/css/icon-colors-fix.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/dashboard-mobile.css') }}?v={{ $setting?->version }}">
 <link rel="stylesheet" href="{{ asset('client/css/enhanced-breadcrumb.css') }}?v={{ $setting?->version }}">
+<link rel="stylesheet" href="{{ asset('client/css/client-dashboard-colors.css') }}?v={{ $setting?->version }}">
 
 
 <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
