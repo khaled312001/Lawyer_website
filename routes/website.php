@@ -11,24 +11,55 @@ Route::get('sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 
 // Redirect old language-prefixed URLs to correct format (301 permanent redirects)
 Route::middleware(['translation', 'maintenance.mode'])->group(function () {
+    // Redirect /ar and /en to homepage
+    Route::get('/ar', function () {
+        return redirect()->route('home')->setStatusCode(301);
+    });
+    
+    Route::get('/en', function () {
+        return redirect()->route('home')->setStatusCode(301);
+    });
+    
     // Redirect /en/real-estate/{slug} to /real-estate/{slug}
     Route::get('/en/real-estate/{slug}', function ($slug) {
-        return redirect()->route('website.real-estate.show', $slug)->setStatusCode(301);
+        $canonicalUrl = route('website.real-estate.show', $slug);
+        return redirect($canonicalUrl, 301)
+            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
     });
     
     // Redirect /ar/real-estate/{slug} to /real-estate/{slug}
     Route::get('/ar/real-estate/{slug}', function ($slug) {
-        return redirect()->route('website.real-estate.show', $slug)->setStatusCode(301);
+        $canonicalUrl = route('website.real-estate.show', $slug);
+        return redirect($canonicalUrl, 301)
+            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
     });
     
     // Redirect /en/blog-details/{slug} to /blog-details/{slug}
     Route::get('/en/blog-details/{slug}', function ($slug) {
-        return redirect()->route('website.blog.details', $slug)->setStatusCode(301);
+        $canonicalUrl = route('website.blog.details', $slug);
+        return redirect($canonicalUrl, 301)
+            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
     });
     
     // Redirect /ar/blog-details/{slug} to /blog-details/{slug}
     Route::get('/ar/blog-details/{slug}', function ($slug) {
-        return redirect()->route('website.blog.details', $slug)->setStatusCode(301);
+        $canonicalUrl = route('website.blog.details', $slug);
+        return redirect($canonicalUrl, 301)
+            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
+    });
+    
+    // Redirect /en/page/{slug} to /page/{slug}
+    Route::get('/en/page/{slug}', function ($slug) {
+        $canonicalUrl = route('website.page', $slug);
+        return redirect($canonicalUrl, 301)
+            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
+    });
+    
+    // Redirect /ar/page/{slug} to /page/{slug}
+    Route::get('/ar/page/{slug}', function ($slug) {
+        $canonicalUrl = route('website.page', $slug);
+        return redirect($canonicalUrl, 301)
+            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
     });
 });
 

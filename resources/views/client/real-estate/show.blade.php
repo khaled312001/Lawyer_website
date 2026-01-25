@@ -3,8 +3,8 @@
     $seoTitle = $property->seo_title ?? $property->title . ' - ' . __('Real Estate') . ' | ' . ($setting->app_name ?? 'LawMent');
     $seoDescription = $property->seo_description ?? Str::limit(strip_tags($property->description ?? ''), 155) ?: $property->title;
     $seoImage = $property->main_image_url ?? ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png'));
-    $currentUrl = url()->current();
     $propertyUrl = route('website.real-estate.show', $property->slug);
+    $currentUrl = $propertyUrl; // Always use canonical URL (non-prefixed)
 @endphp
 
 @section('title')

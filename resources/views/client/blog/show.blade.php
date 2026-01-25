@@ -3,8 +3,8 @@
     $seoTitle = $blog?->seo_title ?? $blog?->title . ' - ' . ($setting->app_name ?? 'LawMent');
     $seoDescription = $blog?->seo_description ?? Str::limit(strip_tags($blog?->description ?? $blog?->sort_description ?? ''), 155) ?: $blog?->title;
     $seoImage = $blog?->image ? asset($blog->image) : ($blog?->thumbnail_image ? asset($blog->thumbnail_image) : ($setting->logo ? asset($setting->logo) : asset('client/img/logo.png')));
-    $currentUrl = url()->current();
     $blogUrl = route('website.blog.details', $blog->slug);
+    $currentUrl = $blogUrl; // Always use canonical URL (non-prefixed)
     $publishedDate = $blog->created_at ? $blog->created_at->toIso8601String() : now()->toIso8601String();
     $modifiedDate = $blog->updated_at ? $blog->updated_at->toIso8601String() : $publishedDate;
 @endphp
