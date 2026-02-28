@@ -215,7 +215,43 @@ class HomeController extends Controller {
         ])->whereHas('category', function ($query) {
             $query->active();
         })->homepage()->active()->latest()->get();
-        return view('client.index', compact('locations', 'departmentsForSearch', 'lawyersForSearch', 'sliders', 'home_sections', 'features', 'work', 'workFaqs', 'services', 'overviews', 'testimonials', 'lawyers', 'feature_blog', 'blogs'));
+        // Booking form data
+        $bookingLawyers = Lawyer::select('id', 'department_id', 'name', 'image', 'slug')->with([
+            'departments'             => function ($query) {
+                $query->select('departments.id');
+            },
+            'departments.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
+            'department'             => function ($query) {
+                $query->select('id');
+            },
+            'department.translation' => function ($query) {
+                $query->select('department_id', 'name');
+            },
+            'translation'            => function ($query) {
+                $query->select('lawyer_id', 'designations');
+            },
+        ])->active()->get();
+
+        // Countries for phone codes
+        $countries = \Modules\Language\app\Enums\AllCountriesDetailsEnum::getAll()
+            ->map(function ($country) {
+                return (object) [
+                    'name' => $country->name,
+                    'name_ar' => $this->getCountryNameArabic($country->name, $country->code),
+                    'code' => $country->code,
+                    'phone' => $country->phone,
+                    'flag' => $this->countryCodeToEmoji($country->code),
+                ];
+            })
+            ->sortBy(function ($country) {
+                $currentLang = app()->getLocale();
+                return $currentLang === 'ar' ? $country->name_ar : $country->name;
+            })
+            ->values();
+
+        return view('client.landing', compact('locations', 'departmentsForSearch', 'lawyersForSearch', 'sliders', 'home_sections', 'features', 'work', 'workFaqs', 'services', 'overviews', 'testimonials', 'lawyers', 'feature_blog', 'blogs', 'bookingLawyers', 'countries'));
     }
     public function aboutUs(){
         $about=AboutUsPage::select('id', 'status','about_image','background_image','mission_image','mission_status','vision_image','vision_status')->with([
