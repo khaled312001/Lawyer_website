@@ -444,7 +444,7 @@
                     <div class="blog-card reveal-card">
                         <div class="blog-img">
                             <a href="{{ route('website.blog.details', $blog?->slug) }}">
-                                <img src="{{ $blog?->image ? url($blog->image) : ($blog?->thumbnail_image ? url($blog->thumbnail_image) : asset('client/img/shape-2.webp')) }}" alt="{{ $blog?->title }}" loading="lazy">
+                                <img src="{{ $blog?->image ? image_url($blog->image) : ($blog?->thumbnail_image ? image_url($blog->thumbnail_image) : asset('client/img/shape-2.webp')) }}" alt="{{ $blog?->title }}" loading="lazy">
                             </a>
                         </div>
                         <div class="blog-body">

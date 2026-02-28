@@ -34,7 +34,7 @@
             <div class="col-lg-4 col-sm-6">
                 <div class="blog-item">
                     <div class="blog-image">
-                        <a aria-label="{{ $blog?->title }}" href="{{ route('website.blog.details', $blog?->slug) }}"><img src="{{ url($blog?->thumbnail_image) }}" alt="{{ $blog?->title }}" loading="lazy"></a>
+                        <a aria-label="{{ $blog?->title }}" href="{{ route('website.blog.details', $blog?->slug) }}"><img src="{{ image_url($blog?->thumbnail_image) }}" alt="{{ $blog?->title }}" loading="lazy"></a>
                     </div>
                     <div class="blog-author">
                         <span><i class="fas fa-user"></i> Admin</span>

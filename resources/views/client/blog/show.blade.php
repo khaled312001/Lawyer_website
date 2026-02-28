@@ -196,7 +196,7 @@
                 <div class="col-lg-8">
                     <div class="blog-item">
                         <div class="single-blog-image">
-                            <img src="{{ url($blog?->image) }}" alt="{{ $blog?->title }}" loading="lazy">
+                            <img src="{{ image_url($blog?->image) }}" alt="{{ $blog?->title }}" loading="lazy">
                             <div class="blog-author">
                                 <span><i class="fas fa-user"></i> Admin</span>
                                 <span><i class="far fa-calendar-alt"></i> {{ formattedDate($blog?->created_at) }}</span>
@@ -233,7 +233,7 @@
                                 <div class="blog-recent-item">
                                     <div class="blog-recent-photo">
                                         <a aria-label="{{ $item?->title }}" href="{{ route('website.blog.details', $item?->slug) }}"><img
-                                                src="{{ url($item?->thumbnail_image) }}" alt="{{ $item?->title }}" loading="lazy"></a>
+                                                src="{{ image_url($item?->thumbnail_image) }}" alt="{{ $item?->title }}" loading="lazy"></a>
                                     </div>
                                     <div class="blog-recent-text">
                                         <a aria-label="{{ $item?->title }}"

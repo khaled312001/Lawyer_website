@@ -782,7 +782,7 @@
                                         <div class="blog-image-wrapper">
                                             <a aria-label="{{ $blog?->title }}"
                                                 href="{{ route('website.blog.details', $blog?->slug) }}" class="blog-image-link">
-                                                <img src="{{ $blog?->image ? url($blog?->image) : ($blog?->thumbnail_image ? url($blog?->thumbnail_image) : asset('client/img/shape-2.webp')) }}"
+                                                <img src="{{ $blog?->image ? image_url($blog?->image) : ($blog?->thumbnail_image ? image_url($blog?->thumbnail_image) : asset('client/img/shape-2.webp')) }}"
                                                     alt="{{ $blog?->title }}" loading="lazy" class="blog-image">
                                                 <div class="blog-image-overlay">
                                                     <i class="fas fa-arrow-{{ app()->getLocale() == 'ar' ? 'left' : 'right' }}"></i>
