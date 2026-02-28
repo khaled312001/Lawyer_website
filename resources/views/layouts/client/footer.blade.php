@@ -92,32 +92,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xxl-2 col-lg-2 col-md-6">
+                <div class="col-xxl-3 col-lg-3 col-md-6 d-none">
                     <div class="footer-item">
                         <p class="title">{{ __('روابط سريعة') }}</p>
                         <ul>
                             <li><a href="{{ url('/') }}">{{ __('الرئيسية') }}</a></li>
                             <li><a href="{{ url('about-us') }}">{{ __('من نحن') }}</a></li>
-                            <li><a href="{{ url('service') }}">{{ __('الخدمات القانونية') }}</a></li>
-                            <li><a href="{{ route('website.book.consultation.appointment') }}">{{ __('حجز استشارة') }}</a></li>
-                            <li><a href="{{ route('website.contact-us') }}">{{ __('تواصل معنا') }}</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-xxl-2 col-lg-2 col-md-6">
+                <div class="col-xxl-3 col-lg-3 col-md-6 d-none">
                     <div class="footer-item">
                         <p class="title">{{ __('الخدمات القانونية') }}</p>
                         <ul>
-                            <li><a href="javascript:;">{{ __('القضايا المدنية') }}</a></li>
-                            <li><a href="javascript:;">{{ __('القضايا العقارية') }}</a></li>
-                            <li><a href="javascript:;">{{ __('القضايا التجارية') }}</a></li>
-                            <li><a href="javascript:;">{{ __('قضايا الأحوال الشخصية') }}</a></li>
-                            <li><a href="javascript:;">{{ __('القضايا الجزائية') }}</a></li>
-                            <li><a href="javascript:;">{{ __('صياغة العقود والاستشارات القانونية') }}</a></li>
+                            <li><a href="javascript:;">{{ __('الخدمات') }}</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-xxl-2 col-lg-2 col-md-6">
+                <div class="col-xxl-3 col-lg-3 col-md-6 d-none">
                     <div class="footer-item">
                         <p class="title">{{ __('معلومات قانونية') }}</p>
                         <ul>
@@ -126,7 +118,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-xxl-3 col-lg-3 col-md-6">
+                <div class="col-xxl-6 col-lg-6 col-md-6">
                     <div class="footer-item">
                         <p class="title">{{ __('التواصل') }}</p>
                         <div style="font-size: 13px; line-height: 1.7; color: rgba(255, 255, 255, 0.85);">

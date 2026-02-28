@@ -486,10 +486,6 @@
                                                 </div>
                                                 @endif
                                             </div>
-                                            <a class="lawyer-card-button-mobile lawyer-btn-animated" href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ __('View Profile') }}">
-                                                <i class="fas fa-arrow-left lawyer-button-icon-mobile"></i>
-                                                <span class="lawyer-button-text-mobile">{{ __('View Profile') }}</span>
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -739,7 +735,7 @@
 
     @if (1 == $home_sections?->blog_status)
         <!--Blog-Area Start-->
-        <section class="blog-area-modern">
+        <section class="blog-area-modern d-none">
             <div class="container">
                 <div class="row">
                     <div class="col-md-11 col-lg-8 col-xl-7 m-auto wow fadeInDown">
