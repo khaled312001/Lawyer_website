@@ -455,17 +455,6 @@
                             @foreach ($lawyers as $index => $lawyer)
                                 <div class="swiper-slide">
                                     <div class="lawyer-card-mobile aman-lawyer-card-mobile-rtl lawyer-card-animated" style="animation-delay: {{ 0.12 * $index }}s;">
-                                        <div class="lawyer-card-image-mobile lawyer-card-border-animated" style="animation-delay: {{ 0.16 * $index }}s;">
-                                            @php
-                                                $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
-                                                $lawyerName = $lawyer?->name ?? '';
-                                                $lawyerSlug = $lawyer?->slug ?? '';
-                                                $fallbackImage = image_url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
-                                            @endphp
-                                            <a href="{{ route('website.lawyer.details', $lawyerSlug) }}" aria-label="{{ $lawyerName }}">
-                                                <img src="{{ image_url($lawyerImage) }}" alt="{{ $lawyerName }}" loading="lazy" data-fallback="{{ $fallbackImage }}">
-                                            </a>
-                                        </div>
                                         <div class="lawyer-card-content-mobile">
                                             <h3 class="lawyer-card-name-mobile">
                                                 <a href="{{ route('website.lawyer.details', $lawyer?->slug) }}" aria-label="{{ $lawyer?->name }}">

@@ -191,17 +191,7 @@
     <div class="team-detail-page pt_40 pb_70">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-4 col-md-6 col-sm-10">
-                    <div class="team-detail-photo">
-                        @php
-                            $lawyerImage = $lawyer?->image ? $lawyer->image : ($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png');
-                        @endphp
-                        <img src="{{ image_url($lawyerImage) }}"
-                            alt="{{ $lawyer?->name }}" loading="lazy"
-                            onerror="this.onerror=null; this.src='{{ image_url($setting?->default_avatar ?? 'uploads/website-images/default-avatar.png') }}';">
-                    </div>
-                </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="team-detail-text">
                         <h4>{{ $lawyer?->name }} </h4>
                         <span><b>{{ $lawyer?->department?->name }} ({{ $lawyer?->designations }})</b></span>
