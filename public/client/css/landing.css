@@ -35,6 +35,16 @@
 /* ==========================================================================
    RESET & BASE
    ========================================================================== */
+html {
+    overflow-x: hidden;
+}
+
+body.landing-page {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+}
+
 .landing-page * {
     box-sizing: border-box;
 }
@@ -1729,29 +1739,34 @@
 .mobile-drawer {
     position: fixed;
     top: 0;
-    right: -320px;
+    right: 0;
     width: 300px;
+    max-width: 85vw;
     height: 100vh;
+    height: 100dvh;
     background: var(--white);
     z-index: 10000;
-    transition: right 0.4s ease;
+    transform: translateX(100%);
+    transition: transform 0.4s ease, visibility 0.4s ease;
     padding: 24px;
     overflow-y: auto;
     box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+    visibility: hidden;
 }
 
 [dir="ltr"] .mobile-drawer {
     right: auto;
-    left: -320px;
-    transition: left 0.4s ease;
+    left: 0;
+    transform: translateX(-100%);
 }
 
 .mobile-drawer.active {
-    right: 0;
+    transform: translateX(0);
+    visibility: visible;
 }
 
 [dir="ltr"] .mobile-drawer.active {
-    left: 0;
+    transform: translateX(0);
 }
 
 .mobile-drawer .close-btn {
@@ -1876,6 +1891,10 @@
         /* Hide lang switcher on tablet/mobile as it is inside the drawer */
     }
 
+    .landing-navbar .nav-actions {
+        display: none;
+    }
+
     .landing-navbar .hamburger {
         display: flex;
     }
@@ -1918,12 +1937,21 @@
         --section-padding: 70px 0;
     }
 
+    .landing-page .container {
+        padding: 0 16px;
+    }
+
     .landing-page .section-title {
         font-size: 28px;
     }
 
     .landing-page .section-subtitle {
         font-size: 16px;
+    }
+
+    /* Hero: constrain orbs to prevent overflow on real mobile browsers */
+    .hero-orb {
+        display: none;
     }
 
     .landing-hero {
@@ -1951,24 +1979,36 @@
 
     .hero-glass-card {
         margin-top: 40px;
-        padding: 24px 20px;
+        padding: 24px 16px;
     }
 
     .hero-glass-card .glass-stat-row {
-        gap: 12px;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 
     .hero-glass-card .glass-stat {
-        padding: 12px 8px;
+        padding: 10px 6px;
+        min-width: 70px;
     }
 
     .hero-glass-card .glass-stat .stat-val {
-        font-size: 24px;
+        font-size: 22px;
+    }
+
+    .hero-glass-card .glass-stat .stat-lbl {
+        font-size: 11px;
     }
 
     .hero-glass-card .glass-feature {
-        padding: 10px 14px;
-        font-size: 14px;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .hero-glass-card .glass-feature-icon {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
     }
 
     .landing-hero .hero-tagline {
@@ -1993,11 +2033,11 @@
     }
 
     .booking-form-card {
-        padding: 30px 24px;
+        padding: 30px 20px;
     }
 
     .contact-card {
-        padding: 36px 24px;
+        padding: 36px 20px;
     }
 
     .landing-page .swiper-button-next,
@@ -2016,98 +2056,273 @@
         justify-content: center;
     }
 
-    /* Removed redundant mobile navbar styles as they are now handled by the 1300px media query */
-    /*
-    .landing-navbar {
-        padding: 16px 0;
-        background: rgba(255, 255, 255, 0.97);
-        backdrop-filter: blur(20px);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+    /* Force Bootstrap grid columns to stack on mobile */
+    .landing-page .row>[class*="col-"] {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        width: 100% !important;
     }
 
-    .landing-navbar.scrolled {
-        padding: 12px 0;
+    /* Footer responsive */
+    .landing-footer {
+        padding: 50px 0 0;
     }
 
-    .landing-navbar .nav-logo img {
-        height: 60px;
-    }
-
-    .landing-navbar.scrolled .nav-logo img {
-        height: 50px;
-    }
-
-    .landing-navbar .nav-links {
-        display: none;
-    }
-
-    .landing-navbar .nav-cta {
-        display: none;
-    }
-
-    .landing-navbar .hamburger {
-        display: flex;
-    }
-
-    .landing-navbar.scrolled .hamburger span {
-        background: var(--navy);
-    }
-
-    .landing-navbar .hamburger span {
-        background: var(--navy);
-    }
-
-    .landing-navbar .nav-inner {
+    .landing-footer .container {
         padding: 0 16px;
     }
-    */
+
+    .footer-logo-area img {
+        max-height: 50px;
+    }
+
+    .footer-title-premium {
+        font-size: 18px;
+    }
+
+    /* Booking form responsive */
+    .booking-form-card .input-group {
+        flex-direction: column;
+    }
+
+    .booking-form-card .input-group .form-select {
+        max-width: 100% !important;
+        width: 100% !important;
+        border-radius: 12px 12px 0 0 !important;
+    }
+
+    .booking-form-card .input-group .form-control {
+        width: 100% !important;
+        border-radius: 0 0 12px 12px !important;
+        margin-top: -2px;
+    }
+
+    /* Why cards on mobile */
+    .why-card {
+        padding: 20px 16px;
+    }
+
+    .why-card i {
+        font-size: 28px;
+    }
+
+    .why-card h4 {
+        font-size: 15px;
+    }
+
+    /* Step cards stacking */
+    .how-works-steps {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .step-card {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* Lawyer card padding */
+    .lawyer-card-premium {
+        padding: 25px 20px;
+    }
+
+    .lawyer-premium-name {
+        font-size: 18px;
+    }
+
+    /* Contact card icon */
+    .contact-card .contact-icon {
+        font-size: 36px;
+    }
+
+    .contact-card .contact-text {
+        font-size: 17px;
+    }
+
+    .contact-card .contact-sub {
+        font-size: 14px;
+    }
+
+    /* WhatsApp & form buttons */
+    .btn-whatsapp,
+    .btn-form-contact {
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+
+    /* Testimonial card */
+    .testimonial-card {
+        padding: 24px 20px;
+    }
 
     .floating-whatsapp a {
         width: 52px;
         height: 52px;
         font-size: 26px;
     }
+
+    /* Section badges */
+    .section-badge {
+        font-size: 13px;
+        padding: 6px 14px;
+    }
+
+    /* About text */
+    .about-text {
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 480px) {
+    .landing-page .container {
+        padding: 0 12px;
+    }
+
+    .landing-hero {
+        padding: 100px 0 50px;
+    }
+
     .landing-hero h1 {
-        font-size: 24px;
+        font-size: 22px;
+        line-height: 1.35;
+    }
+
+    .landing-hero h1 .typed-gold {
+        font-size: inherit;
+    }
+
+    .landing-hero .hero-desc {
+        font-size: 14px;
     }
 
     .landing-page .section-title {
-        font-size: 24px;
+        font-size: 22px;
+    }
+
+    .landing-page .section-subtitle {
+        font-size: 14px;
     }
 
     .booking-form-card {
-        padding: 24px 16px;
+        padding: 20px 14px;
     }
 
     .feature-card {
-        padding: 30px 20px;
+        padding: 24px 16px;
+    }
+
+    .feature-card .feature-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .feature-card .feature-icon i {
+        font-size: 24px;
     }
 
     .service-card {
-        padding: 24px 20px;
+        padding: 24px 16px;
     }
 
-    .booking-form-card .input-group {
-        flex-direction: column;
+    .contact-card {
+        padding: 28px 16px;
     }
 
-    .booking-form-card .input-group .form-select,
-    .booking-form-card .input-group .form-control {
+    .hero-glass-card .glass-stat-row {
+        gap: 6px;
+    }
+
+    .hero-glass-card .glass-stat {
+        padding: 8px 4px;
+        min-width: 60px;
+    }
+
+    .hero-glass-card .glass-stat .stat-val {
+        font-size: 18px;
+    }
+
+    .hero-glass-card .glass-stat .stat-lbl {
+        font-size: 10px;
+    }
+
+    .hero-glass-card {
+        padding: 20px 12px;
+    }
+
+    /* Testimonial card */
+    .testimonial-card {
+        padding: 20px 16px;
+    }
+
+    /* Lawyer card */
+    .lawyer-card-premium {
+        padding: 20px 16px;
+    }
+
+    .lawyer-premium-name {
+        font-size: 16px;
+    }
+
+    /* Footer improvements */
+    .landing-footer {
+        padding: 40px 0 0;
+    }
+
+    .footer-logo-area img {
+        max-height: 40px;
+    }
+
+    /* Step cards */
+    .step-card {
+        padding: 0 10px;
+    }
+
+    /* Floating buttons */
+    .floating-whatsapp {
+        bottom: 80px;
+        right: 16px;
+    }
+
+    .floating-whatsapp a {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+    }
+
+    .scroll-top-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    /* Why cards */
+    .why-card {
+        padding: 16px 12px;
+    }
+
+    .why-card i {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .why-card h4 {
+        font-size: 14px;
+    }
+
+    /* Dept card */
+    .dept-card .dept-img {
+        height: 160px;
+    }
+
+    /* Select2 override for mobile */
+    .select2-container {
         width: 100% !important;
-        max-width: 100% !important;
     }
 
-    .booking-form-card .input-group .form-select {
-        border-radius: 12px 12px 0 0 !important;
-    }
-
-    .booking-form-card .input-group .form-control {
-        border-radius: 0 0 12px 12px !important;
-        margin-top: -2px;
-        /* to overlap borders safely */
+    /* Section badge */
+    .section-badge {
+        font-size: 12px;
+        padding: 5px 12px;
     }
 }
 
