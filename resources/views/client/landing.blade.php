@@ -345,23 +345,16 @@
             <div class="swiper-wrapper">
                 @foreach ($lawyers as $lawyer)
                 <div class="swiper-slide">
-                    <div class="lawyer-card">
-                        <div class="lawyer-img">
-                            @php $lawyerImg = $lawyer->image ?: ($setting->default_avatar ?? 'uploads/website-images/default-avatar.png'); @endphp
-                            <img src="{{ image_url($lawyerImg) }}" alt="{{ $lawyer->name }}" loading="lazy">
-                        </div>
-                        <div class="lawyer-body">
-                            <h3>{{ ucfirst($lawyer->name) }}</h3>
+                    <div class="lawyer-card-mobile style="background: linear-gradient(145deg, #ffffff 0%, #f9f9fa 100%); border-radius: 16px; border: 1px solid rgba(212, 165, 116, 0.3); border-left: 5px solid #D4A574; padding: 30px 25px; height: 100%; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; transition: all 0.3s ease; margin-bottom: 20px;"">
+                        <div class="lawyer-body" style="position: relative; z-index: 1;">
+                            <h3 style="font-size: 24px; font-weight: 800; color: #0b2c64; margin-bottom: 20px; line-height: 1.3; border-bottom: 1px solid rgba(212, 165, 116, 0.2); padding-bottom: 15px;"><a href="{{ route('website.lawyer.details', $lawyer->slug) }}" style="color: inherit; text-decoration: none;">{{ ucfirst($lawyer->name) }}</a></h3>
                             @php $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) ? $lawyer->departments->first() : ($lawyer->department ?? null); @endphp
                             @if($displayDept && ($displayDept->name ?? null))
-                            <div class="lawyer-dept"><i class="fas fa-briefcase" style="margin-{{ $isRtl ? 'left' : 'right' }}:6px;"></i> {{ $displayDept->name }}</div>
+                            <div class="lawyer-dept" style="display: flex; align-items: center; color: #4a5568; font-size: 15px; font-weight: 500; margin-bottom: 15px;"><i class="fas fa-briefcase" style="margin-{{ $isRtl ? 'left' : 'right' }}:6px; color: #D4A574; font-size: 18px; width: 30px;"></i> {{ $displayDept->name }}</div>
                             @endif
                             @if($lawyer->location && $lawyer->location->name)
-                            <div class="lawyer-location"><i class="fas fa-map-marker-alt"></i> {{ $lawyer->location->name }}</div>
+                            <div class="lawyer-location" style="display: flex; align-items: center; color: #4a5568; font-size: 15px; font-weight: 500;"><i class="fas fa-map-marker-alt" style="margin-{{ $isRtl ? 'left' : 'right' }}:6px; color: #D4A574; font-size: 18px; width: 30px;"></i> {{ $lawyer->location->name }}</div>
                             @endif
-                            <a href="{{ route('website.lawyer.details', $lawyer->slug) }}" class="lawyer-btn">
-                                {{ __('عرض الملف') }} <i class="fas fa-arrow-{{ $isRtl ? 'left' : 'right' }}"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -414,7 +407,7 @@
 
 {{-- ========== BLOG ========== --}}
 @if (1 == $home_sections?->blog_status && $blogs->count() > 0)
-<section class="landing-blog" id="blog">
+<section class="landing-blog d-none" id="blog">
     <div class="container">
         <div class="text-center" style="margin-bottom: 60px;">
             <div class="section-badge"><i class="fas fa-blog"></i> {{ __('المدونة') }}</div>
@@ -592,7 +585,7 @@
 {{-- ========== FOOTER ========== --}}
 <footer class="landing-footer">
     <div class="container">
-        <div class="landing-grid cols-4">
+        <div class="landing-grid cols-2">
             <div>
                 <h4>{{ __('عن أمان لو') }}</h4>
                 <p>{{ __('أمان لو – Aman Law منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تقديم استشارات قانونية وتمثيل قضائي موثوق.') }}</p>
@@ -601,25 +594,6 @@
                         <a href="{{ $social?->link }}" target="_blank" aria-label="social"><i class="{{ $social?->icon }}"></i></a>
                     @endforeach
                 </div>
-            </div>
-            <div>
-                <h4>{{ __('روابط سريعة') }}</h4>
-                <ul>
-                    <li><a href="#hero"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('الرئيسية') }}</a></li>
-                    <li><a href="#services"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('الخدمات') }}</a></li>
-                    <li><a href="#lawyers"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('المحامون') }}</a></li>
-                    <li><a href="#booking"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('حجز استشارة') }}</a></li>
-                    <li><a href="#contact"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('تواصل معنا') }}</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>{{ __('الخدمات القانونية') }}</h4>
-                <ul>
-                    <li><a href="#services"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('القضايا المدنية') }}</a></li>
-                    <li><a href="#services"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('القضايا العقارية') }}</a></li>
-                    <li><a href="#services"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('القضايا التجارية') }}</a></li>
-                    <li><a href="#services"><i class="fas fa-chevron-{{ $isRtl ? 'left' : 'right' }}"></i> {{ __('القضايا الجزائية') }}</a></li>
-                </ul>
             </div>
             <div>
                 <h4>{{ __('التواصل') }}</h4>
