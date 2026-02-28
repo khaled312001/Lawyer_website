@@ -42,6 +42,146 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ $setting->google_analytic_id }}"></script>
     <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','{{ $setting->google_analytic_id }}');</script>
     @endif
+    <style>
+        /* Premium Lawyer Card Refinements */
+        .lawyer-card-premium {
+            background: linear-gradient(145deg, #ffffff 0%, #f1f3f6 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-top: 4px solid #D4A574;
+            padding: 35px 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        
+        .lawyer-card-premium:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 165, 116, 0.12);
+            border-top-color: #0b2c64;
+        }
+
+        .lawyer-card-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(212, 165, 116, 0.05), transparent);
+            pointer-events: none;
+        }
+
+        .lawyer-card-premium::after {
+            content: '\f0e3';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 100px;
+            color: rgba(212, 165, 116, 0.03);
+            transform: rotate(-15deg);
+            transition: all 0.6s ease;
+        }
+
+        .lawyer-card-premium:hover::after {
+            color: rgba(212, 165, 116, 0.07);
+            transform: rotate(0) scale(1.1);
+        }
+
+        .lawyer-premium-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0b2c64;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .lawyer-premium-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40px;
+            height: 2px;
+            background: #D4A574;
+            transition: width 0.3s ease;
+        }
+
+        .lawyer-card-premium:hover .lawyer-premium-name::after {
+            width: 80px;
+        }
+
+        .lawyer-premium-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .lawyer-premium-item {
+            display: flex;
+            align-items: center;
+            color: #555;
+            font-size: 15px;
+        }
+
+        .lawyer-premium-item i {
+            color: #D4A574;
+            width: 25px;
+            font-size: 16px;
+        }
+
+        /* Footer Modernization */
+        .landing-footer {
+            background: #06163a;
+            padding-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .footer-logo-area img {
+            max-height: 70px;
+            margin-bottom: 25px;
+            filter: brightness(1.1);
+        }
+
+        .footer-title-premium {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-title-premium::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 30px;
+            height: 2px;
+            background: #D4A574;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .footer-contact-item i {
+            color: #D4A574;
+            margin-top: 5px;
+            width: 30px;
+        }
+    </style>
 </head>
 <body class="landing-page" style="direction: {{ $textDirection }}; text-align: {{ $isRtl ? 'right' : 'left' }};">
 
@@ -344,17 +484,25 @@
         <div class="swiper lawyer-landing-swiper">
             <div class="swiper-wrapper">
                 @foreach ($lawyers as $lawyer)
-                <div class="swiper-slide">
-                    <div class="lawyer-card-mobile style="background: linear-gradient(145deg, #ffffff 0%, #f9f9fa 100%); border-radius: 16px; border: 1px solid rgba(212, 165, 116, 0.3); border-left: 5px solid #D4A574; padding: 30px 25px; height: 100%; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; transition: all 0.3s ease; margin-bottom: 20px;"">
+                <div class="swiper-slide h-auto">
+                    <div class="lawyer-card-premium">
                         <div class="lawyer-body" style="position: relative; z-index: 1;">
-                            <h3 style="font-size: 24px; font-weight: 800; color: #0b2c64; margin-bottom: 20px; line-height: 1.3; border-bottom: 1px solid rgba(212, 165, 116, 0.2); padding-bottom: 15px;"><a href="{{ route('website.lawyer.details', $lawyer->slug) }}" style="color: inherit; text-decoration: none;">{{ ucfirst($lawyer->name) }}</a></h3>
+                            <h3 class="lawyer-premium-name"><a href="{{ route('website.lawyer.details', $lawyer->slug) }}" style="color: inherit; text-decoration: none;">{{ ucfirst($lawyer->name) }}</a></h3>
                             @php $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) ? $lawyer->departments->first() : ($lawyer->department ?? null); @endphp
-                            @if($displayDept && ($displayDept->name ?? null))
-                            <div class="lawyer-dept" style="display: flex; align-items: center; color: #4a5568; font-size: 15px; font-weight: 500; margin-bottom: 15px;"><i class="fas fa-briefcase" style="margin-{{ $isRtl ? 'left' : 'right' }}:6px; color: #D4A574; font-size: 18px; width: 30px;"></i> {{ $displayDept->name }}</div>
-                            @endif
-                            @if($lawyer->location && $lawyer->location->name)
-                            <div class="lawyer-location" style="display: flex; align-items: center; color: #4a5568; font-size: 15px; font-weight: 500;"><i class="fas fa-map-marker-alt" style="margin-{{ $isRtl ? 'left' : 'right' }}:6px; color: #D4A574; font-size: 18px; width: 30px;"></i> {{ $lawyer->location->name }}</div>
-                            @endif
+                            <div class="lawyer-premium-meta">
+                                @if($displayDept && ($displayDept->name ?? null))
+                                <div class="lawyer-premium-item">
+                                    <i class="fas fa-certificate"></i>
+                                    <span>{{ $displayDept->name }}</span>
+                                </div>
+                                @endif
+                                @if($lawyer->location && $lawyer->location->name)
+                                <div class="lawyer-premium-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>{{ $lawyer->location->name }}</span>
+                                </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -585,25 +733,47 @@
 {{-- ========== FOOTER ========== --}}
 <footer class="landing-footer">
     <div class="container">
-        <div class="landing-grid cols-2">
-            <div>
-                <h4>{{ __('عن أمان لو') }}</h4>
-                <p>{{ __('أمان لو – Aman Law منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تقديم استشارات قانونية وتمثيل قضائي موثوق.') }}</p>
-                <div class="footer-social">
-                    @foreach (getSocialLinks() as $social)
-                        <a href="{{ $social?->link }}" target="_blank" aria-label="social"><i class="{{ $social?->icon }}"></i></a>
-                    @endforeach
+        <div class="row gy-4">
+            <div class="col-lg-5">
+                <div class="footer-logo-area">
+                    <img src="{{ asset($logoPath) }}" alt="{{ $setting->app_name }}" onerror="this.onerror=null; this.src='{{ asset('uploads/website-images/logo.webp') }}';">
+                    <p style="color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 25px;">{{ __('أمان لو – Aman Law منصّة قانونية مُدارة من سويسرا، تعمل كملتقى للمحامين السوريين-السويسريين، وتهدف إلى تقديم استشارات قانونية وتمثيل قضائي موثوق وتسهيل الوصول للعدالة.') }}</p>
+                    <div class="footer-social">
+                        @foreach (getSocialLinks() as $social)
+                            <a href="{{ $social?->link }}" target="_blank" aria-label="social"><i class="{{ $social?->icon }}"></i></a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-            <div>
-                <h4>{{ __('التواصل') }}</h4>
-                @if ($contactInfo?->top_bar_phone)
-                <p><strong>{{ __('واتساب:') }}</strong><br><a href="https://wa.me/{{ $whatsappNumber }}" style="color:var(--gold);">{{ $contactInfo->top_bar_phone }}</a></p>
-                @endif
-                @if ($contactInfo?->top_bar_email)
-                <p><strong>{{ __('البريد:') }}</strong><br><a href="mailto:{{ $contactInfo->top_bar_email }}" style="color:var(--gold);">{{ $contactInfo->top_bar_email }}</a></p>
-                @endif
-                <p style="margin-top: 10px;"><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> {{ $contactInfo?->address }}</p>
+            <div class="col-lg-4 offset-lg-1">
+                <h4 class="footer-title-premium">{{ __('التواصل المباشر') }}</h4>
+                <div class="footer-contact-list">
+                    @if ($contactInfo?->top_bar_phone)
+                    <div class="footer-contact-item">
+                        <i class="fab fa-whatsapp fa-lg"></i>
+                        <div>
+                            <span style="display:block; font-size:13px; opacity:0.6;">{{ __('واتساب') }}</span>
+                            <a href="https://wa.me/{{ $whatsappNumber }}" style="color:#D4A574; font-weight:600; text-decoration:none;">{{ $contactInfo->top_bar_phone }}</a>
+                        </div>
+                    </div>
+                    @endif
+                    @if ($contactInfo?->top_bar_email)
+                    <div class="footer-contact-item">
+                        <i class="far fa-envelope fa-lg"></i>
+                        <div>
+                            <span style="display:block; font-size:13px; opacity:0.6;">{{ __('البريد الإلكتروني') }}</span>
+                            <a href="mailto:{{ $contactInfo->top_bar_email }}" style="color:#D4A574; font-weight:600; text-decoration:none;">{{ $contactInfo->top_bar_email }}</a>
+                        </div>
+                    </div>
+                    @endif
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-marker-alt fa-lg"></i>
+                        <div>
+                            <span style="display:block; font-size:13px; opacity:0.6;">{{ __('العنوان') }}</span>
+                            <span style="color:rgba(255,255,255,0.9);">{{ $contactInfo?->address }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
