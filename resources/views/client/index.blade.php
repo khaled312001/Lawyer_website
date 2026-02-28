@@ -492,7 +492,7 @@
                             @endforeach
                         </div>
                         <!-- Navigation -->
-                        <div class="swiper-button-next lawyer-next"></div>
+                <div class="swiper-button-next lawyer-next"></div>
                         <div class="swiper-button-prev lawyer-prev"></div>
                         <!-- Pagination -->
                         <div class="swiper-pagination lawyer-pagination"></div>
@@ -519,6 +519,131 @@
                             opacity: 1;
                             transform: translateY(0) scale(1) rotateZ(0);
                             box-shadow: 0 8px 28px rgba(212,165,116,0.08);
+                        }
+                    }
+
+                    /* Redesigned card for imageless layout */
+                    .lawyer-card-mobile {
+                        background: linear-gradient(145deg, #ffffff 0%, #f9f9fa 100%);
+                        border-radius: 16px;
+                        border: 1px solid rgba(212, 165, 116, 0.3);
+                        border-left: 5px solid #D4A574;
+                        padding: 30px 25px;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        position: relative;
+                        overflow: hidden;
+                        transition: all 0.3s ease;
+                        margin-bottom: 20px;
+                    }
+                    
+                    .lawyer-card-mobile:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 15px 35px rgba(212, 165, 116, 0.15);
+                        border-left-width: 8px;
+                    }
+                    
+                    /* Decorative watermark icon */
+                    .lawyer-card-mobile::after {
+                        content: '\f0e3'; /* Balance scale icon */
+                        font-family: 'Font Awesome 5 Free';
+                        font-weight: 900;
+                        position: absolute;
+                        right: -15px;
+                        bottom: -15px;
+                        font-size: 120px;
+                        color: rgba(212, 165, 116, 0.05);
+                        z-index: 0;
+                        pointer-events: none;
+                        transform: rotate(-15deg);
+                        transition: all 0.5s ease;
+                    }
+                    
+                    .lawyer-card-mobile:hover::after {
+                        color: rgba(212, 165, 116, 0.1);
+                        transform: rotate(0) scale(1.1);
+                    }
+                    
+                    /* RTL support for watermark */
+                    [dir="rtl"] .lawyer-card-mobile::after {
+                        right: auto;
+                        left: -15px;
+                        transform: rotate(15deg);
+                    }
+                    
+                    [dir="rtl"] .lawyer-card-mobile:hover::after {
+                        transform: rotate(0) scale(1.1);
+                    }
+
+                    .lawyer-card-content-mobile {
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .lawyer-card-name-mobile {
+                        font-size: 24px;
+                        font-weight: 800;
+                        color: #0b2c64;
+                        margin-bottom: 20px;
+                        line-height: 1.3;
+                        border-bottom: 1px solid rgba(212, 165, 116, 0.2);
+                        padding-bottom: 15px;
+                    }
+                    
+                    .lawyer-card-name-mobile a {
+                        color: inherit;
+                        text-decoration: none;
+                        transition: color 0.3s;
+                    }
+                    
+                    .lawyer-card-name-mobile a:hover {
+                        color: #D4A574;
+                    }
+
+                    .lawyer-card-meta-mobile {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+
+                    .lawyer-meta-item-mobile {
+                        display: flex;
+                        align-items: center;
+                        color: #4a5568;
+                        font-size: 15px;
+                        font-weight: 500;
+                    }
+
+                    .lawyer-meta-icon-mobile {
+                        color: #D4A574;
+                        font-size: 18px;
+                        width: 30px;
+                        display: inline-flex;
+                        justify-content: flex-start;
+                        opacity: 0.9;
+                    }
+
+                    /* Animate meta info */
+                    .lawyer-meta-animate {
+                        animation: fadeInMetaLawyer 0.55s cubic-bezier(.55,1,.66,1.04);
+                        animation-fill-mode: both;
+                    }
+                    
+                    /* Adding slight staggered delays */
+                    .lawyer-meta-item-mobile:nth-child(1) { animation-delay: 0.1s; }
+                    .lawyer-meta-item-mobile:nth-child(2) { animation-delay: 0.2s; }
+                    .lawyer-meta-item-mobile:nth-child(3) { animation-delay: 0.3s; }
+                    
+                    @keyframes fadeInMetaLawyer {
+                        0% {
+                            opacity: 0;
+                            transform: translateY(10px);
+                        }
+                        100% {
+                            opacity: 1;
+                            transform: translateY(0);
                         }
                     }
 
@@ -549,22 +674,6 @@
                             box-shadow: 0 8px 34px rgba(212,165,116,0.10);
                             transform: scale(1);
                             opacity: 1;
-                        }
-                    }
-
-                    /* Animate meta info */
-                    .lawyer-meta-animate {
-                        animation: fadeInMetaLawyer 0.55s cubic-bezier(.55,1,.66,1.04);
-                        animation-fill-mode: both;
-                    }
-                    @keyframes fadeInMetaLawyer {
-                        0% {
-                            opacity: 0;
-                            transform: translateY(18px) scale(.96);
-                        }
-                        100% {
-                            opacity: 1;
-                            transform: translateY(0) scale(1);
                         }
                     }
 
