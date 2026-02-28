@@ -428,8 +428,18 @@
                     foreach ($blogs->take($home_sections?->blog_how_many ?? 6) as $blog) {
                         if (!$feature_blog || $blog->id != $feature_blog->id) $allBlogs->push($blog);
                     }
+                    // Force minimum 9 items for infinite loop to work seamlessly in Swiper array
+                    $displayBlogs = collect();
+                    if ($allBlogs->count() > 0) {
+                        while ($displayBlogs->count() < 9) {
+                            foreach ($allBlogs as $b) {
+                                $displayBlogs->push($b);
+                                if ($displayBlogs->count() >= 9) break;
+                            }
+                        }
+                    }
                 @endphp
-                @foreach ($allBlogs->take(6) as $blog)
+                @foreach ($displayBlogs as $blog)
                 <div class="swiper-slide">
                     <div class="blog-card reveal-card">
                         <div class="blog-img">
@@ -715,57 +725,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.08 });
     document.querySelectorAll('.reveal-card').forEach(function(el) { revealObs.observe(el); });
 
-    // ===== Swipers — INFINITE LOOP with loopedSlides =====
-    var lawyerCount = document.querySelectorAll('.lawyer-landing-swiper .swiper-slide').length;
-    if (document.querySelector('.lawyer-landing-swiper') && lawyerCount > 0) {
+    // ===== Swipers — INFINITE LOOP =====
+    // Remove loopedSlides setting and let Swiper auto-calculate clones
+    if (document.querySelector('.lawyer-landing-swiper') && document.querySelectorAll('.lawyer-landing-swiper .swiper-slide').length > 0) {
         new Swiper('.lawyer-landing-swiper', {
             slidesPerView: 1,
             spaceBetween: 24,
             loop: true,
-            loopedSlides: lawyerCount,
             speed: 700,
             autoplay: { delay: 3500, disableOnInteraction: false },
             pagination: { el: '.lawyer-landing-swiper .swiper-pagination', clickable: true },
             navigation: { nextEl: '.lawyer-landing-swiper .swiper-button-next', prevEl: '.lawyer-landing-swiper .swiper-button-prev' },
             breakpoints: {
-                640: { slidesPerView: 2, loopedSlides: Math.max(lawyerCount, 2) },
-                1024: { slidesPerView: 3, loopedSlides: Math.max(lawyerCount, 3) }
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
             }
         });
     }
 
-    var testiCount = document.querySelectorAll('.testimonial-landing-swiper .swiper-slide').length;
-    if (document.querySelector('.testimonial-landing-swiper') && testiCount > 0) {
+    if (document.querySelector('.testimonial-landing-swiper') && document.querySelectorAll('.testimonial-landing-swiper .swiper-slide').length > 0) {
         new Swiper('.testimonial-landing-swiper', {
             slidesPerView: 1,
             spaceBetween: 24,
             loop: true,
-            loopedSlides: testiCount,
             speed: 700,
             autoplay: { delay: 4500, disableOnInteraction: false },
             pagination: { el: '.testimonial-landing-swiper .swiper-pagination', clickable: true },
             navigation: { nextEl: '.testimonial-landing-swiper .swiper-button-next', prevEl: '.testimonial-landing-swiper .swiper-button-prev' },
             breakpoints: {
-                640: { slidesPerView: 2, loopedSlides: Math.max(testiCount, 2) },
-                1024: { slidesPerView: 3, loopedSlides: Math.max(testiCount, 3) }
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
             }
         });
     }
 
-    var blogCount = document.querySelectorAll('.blog-landing-swiper .swiper-slide').length;
-    if (document.querySelector('.blog-landing-swiper') && blogCount > 0) {
+    if (document.querySelector('.blog-landing-swiper') && document.querySelectorAll('.blog-landing-swiper .swiper-slide').length > 0) {
         new Swiper('.blog-landing-swiper', {
             slidesPerView: 1,
             spaceBetween: 24,
             loop: true,
-            loopedSlides: blogCount,
             speed: 700,
             autoplay: { delay: 4000, disableOnInteraction: false },
             pagination: { el: '.blog-landing-swiper .swiper-pagination', clickable: true },
             navigation: { nextEl: '.blog-landing-swiper .swiper-button-next', prevEl: '.blog-landing-swiper .swiper-button-prev' },
             breakpoints: {
-                640: { slidesPerView: 2, loopedSlides: Math.max(blogCount, 2) },
-                1024: { slidesPerView: 3, loopedSlides: Math.max(blogCount, 3) }
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 }
             }
         });
     }
