@@ -107,7 +107,7 @@
     left: 0;
     right: 0;
     z-index: 9999;
-    padding: 16px 0;
+    padding: 24px 0;
     transition: var(--transition);
     background: transparent;
 }
@@ -116,7 +116,7 @@
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(20px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
-    padding: 8px 0;
+    padding: 12px 0;
     border-bottom: 1px solid rgba(212, 165, 116, 0.15);
 }
 
@@ -130,13 +130,13 @@
 }
 
 .landing-navbar .nav-logo img {
-    height: 50px;
+    height: 70px;
     width: auto;
     transition: var(--transition);
 }
 
 .landing-navbar.scrolled .nav-logo img {
-    height: 40px;
+    height: 55px;
 }
 
 .landing-navbar .nav-links {
@@ -1925,6 +1925,27 @@
         padding: 36px 24px;
     }
 
+    .landing-navbar {
+        padding: 16px 0;
+        background: rgba(255, 255, 255, 0.97);
+        /* Solid bg on mobile by default to avoid overlap issues */
+        backdrop-filter: blur(20px);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .landing-navbar.scrolled {
+        padding: 12px 0;
+    }
+
+    .landing-navbar .nav-logo img {
+        height: 60px;
+        /* Increased mobile logo size */
+    }
+
+    .landing-navbar.scrolled .nav-logo img {
+        height: 50px;
+    }
+
     .landing-navbar .nav-links {
         display: none;
     }
@@ -1935,6 +1956,15 @@
 
     .landing-navbar .hamburger {
         display: flex;
+    }
+
+    .landing-navbar.scrolled .hamburger span {
+        background: var(--navy);
+    }
+
+    .landing-navbar .hamburger span {
+        background: var(--navy);
+        /* Make hamburger always visible on solid bg */
     }
 
     .landing-navbar .nav-inner {
