@@ -236,6 +236,96 @@
                 justify-content: center;
             }
         }
+
+        /* Success Modal */
+        .success-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInOverlay 0.3s ease;
+        }
+        @keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+        .success-modal-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            max-width: 460px;
+            width: 90%;
+            animation: scaleInModal 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+            position: relative;
+        }
+        @keyframes scaleInModal { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .success-modal-check {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 40px rgba(40,167,69,0.3);
+        }
+        .success-modal-check svg {
+            width: 45px;
+            height: 45px;
+        }
+        .success-modal-check svg path {
+            stroke: #fff;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 50;
+            stroke-dashoffset: 50;
+            animation: drawCheck 0.6s 0.3s ease forwards;
+        }
+        @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+        .success-modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0b2c64;
+            margin-bottom: 12px;
+        }
+        .success-modal-msg {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        .success-modal-btn {
+            background: linear-gradient(135deg, #D4A574, #c9956a);
+            color: #fff;
+            border: none;
+            padding: 14px 50px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(212,165,116,0.3);
+        }
+        .success-modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212,165,116,0.5);
+        }
+        .success-modal-btn.navy-btn {
+            background: linear-gradient(135deg, #0b2c64, #1a3d7a);
+            box-shadow: 0 5px 20px rgba(11,44,100,0.3);
+        }
+        .success-modal-btn.navy-btn:hover {
+            box-shadow: 0 8px 30px rgba(11,44,100,0.5);
+        }
     </style>
 </head>
 <body class="landing-page" style="direction: {{ $textDirection }}; text-align: {{ $isRtl ? 'right' : 'left' }};">
@@ -255,7 +345,6 @@
             <li><a href="#about">{{ __('من نحن') }}</a></li>
             <li><a href="#lawyers">{{ __('المحامون') }}</a></li>
             <li><a href="#testimonials">{{ __('آراء العملاء') }}</a></li>
-            <li><a href="#blog">{{ __('المدونة') }}</a></li>
             <li><a href="#booking">{{ __('حجز استشارة') }}</a></li>
             <li><a href="#contact">{{ __('تواصل') }}</a></li>
         </ul>
@@ -682,18 +771,6 @@
         </div>
 
         <div class="booking-form-card reveal-card">
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius:12px;">
-                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius:12px;">
-                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            @endif
             @if ($errors->any())
                 <div class="alert alert-danger" style="border-radius:12px;">
                     <ul class="mb-0">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
@@ -1120,6 +1197,40 @@ function switchBookingMode(mode) {
 
 @if ($setting->tawk_status == 'active')
 <script>var Tawk_API=Tawk_API||{},Tawk_LoadStart=new Date();(function(){var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];s1.async=true;s1.src='{{ $setting->tawk_chat_link }}';s1.charset='UTF-8';s1.setAttribute('crossorigin','*');s0.parentNode.insertBefore(s1,s0);})();</script>
+@endif
+
+{{-- Success Modal --}}
+@if(session('success'))
+<div class="success-modal-overlay" id="successModal" onclick="if(event.target===this)closeSuccessModal()">
+    <div class="success-modal-box">
+        <div class="success-modal-check">
+            <svg viewBox="0 0 40 40"><path d="M10 20 L17 27 L30 13"/></svg>
+        </div>
+        <h3 class="success-modal-title">{{ __('تم بنجاح!') }}</h3>
+        <p class="success-modal-msg">{{ session('success') }}</p>
+        <button class="success-modal-btn" onclick="closeSuccessModal()">{{ __('حسناً') }}</button>
+    </div>
+</div>
+<script>
+function closeSuccessModal() {
+    var m = document.getElementById('successModal');
+    if (m) { m.style.opacity = '0'; m.style.transition = 'opacity 0.3s'; setTimeout(function(){ m.remove(); }, 300); }
+}
+document.addEventListener('DOMContentLoaded', function() {
+    var booking = document.getElementById('booking');
+    if (booking) booking.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+</script>
+@endif
+
+@if(session('error'))
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof toastr !== 'undefined') toastr.error("{{ session('error') }}");
+    var booking = document.getElementById('booking');
+    if (booking) booking.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+</script>
 @endif
 
 </body>
