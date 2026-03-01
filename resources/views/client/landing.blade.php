@@ -181,6 +181,61 @@
             margin-top: 5px;
             width: 30px;
         }
+
+        /* Booking Toggle Buttons */
+        .booking-toggle-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .booking-toggle-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 50px;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            color: #555;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .booking-toggle-btn i {
+            font-size: 18px;
+        }
+        .booking-toggle-btn:hover {
+            border-color: #D4A574;
+            color: #D4A574;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212,165,116,0.2);
+        }
+        .booking-toggle-btn.active {
+            background: linear-gradient(135deg, #D4A574, #c9956a);
+            color: #fff;
+            border-color: #D4A574;
+            box-shadow: 0 5px 25px rgba(212,165,116,0.35);
+            transform: translateY(-2px);
+        }
+        .booking-toggle-btn.active-lawyer {
+            background: linear-gradient(135deg, #0b2c64, #1a3d7a);
+            color: #fff;
+            border-color: #0b2c64;
+            box-shadow: 0 5px 25px rgba(11,44,100,0.35);
+            transform: translateY(-2px);
+        }
+        @media (max-width: 576px) {
+            .booking-toggle-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                flex: 1;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body class="landing-page" style="direction: {{ $textDirection }}; text-align: {{ $isRtl ? 'right' : 'left' }};">
@@ -487,7 +542,7 @@
                 <div class="swiper-slide h-auto">
                     <div class="lawyer-card-premium">
                         <div class="lawyer-body" style="position: relative; z-index: 1;">
-                            <h3 class="lawyer-premium-name"><a href="{{ route('website.lawyer.details', $lawyer->slug) }}" style="color: inherit; text-decoration: none;">{{ ucfirst($lawyer->name) }}</a></h3>
+                            <h3 class="lawyer-premium-name">{{ ucfirst($lawyer->name) }}</h3>
                             @php $displayDept = ($lawyer->departments && $lawyer->departments->isNotEmpty()) ? $lawyer->departments->first() : ($lawyer->department ?? null); @endphp
                             <div class="lawyer-premium-meta">
                                 @if($displayDept && ($displayDept->name ?? null))
@@ -608,11 +663,24 @@
 {{-- ========== BOOKING FORM ========== --}}
 <section class="landing-booking" id="booking">
     <div class="container">
-        <div class="text-center" style="margin-bottom: 60px;">
+        <div class="text-center" style="margin-bottom: 40px;">
             <div class="section-badge"><i class="fas fa-calendar-check"></i> {{ __('احجز الآن') }}</div>
-            <h2 class="section-title">{{ __('حجز') }} <span>{{ __('استشارة قانونية') }}</span></h2>
-            <p class="section-subtitle" style="margin:auto;">{{ __('املأ النموذج أدناه لحجز موعد استشارة. سنقوم بمراجعة طلبك والتواصل معك لتأكيد الموعد.') }}</p>
+            <h2 class="section-title" id="bookingSectionTitle">{{ __('حجز') }} <span>{{ __('استشارة قانونية') }}</span></h2>
+            <p class="section-subtitle" style="margin:auto;" id="bookingSectionDesc">{{ __('املأ النموذج أدناه لحجز موعد استشارة. سنقوم بمراجعة طلبك والتواصل معك لتأكيد الموعد.') }}</p>
         </div>
+
+        {{-- Toggle Buttons --}}
+        <div class="booking-toggle-wrapper">
+            <button type="button" class="booking-toggle-btn active" id="toggleConsultation" onclick="switchBookingMode('consultation')">
+                <i class="fas fa-gavel"></i>
+                <span>{{ __('حجز استشارة قانونية') }}</span>
+            </button>
+            <button type="button" class="booking-toggle-btn" id="toggleLawyer" onclick="switchBookingMode('lawyer')">
+                <i class="fas fa-user-tie"></i>
+                <span>{{ __('الانضمام كمحامي') }}</span>
+            </button>
+        </div>
+
         <div class="booking-form-card reveal-card">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius:12px;">
@@ -631,76 +699,141 @@
                     <ul class="mb-0">@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
                 </div>
             @endif
-            <form action="{{ route('website.create.consultation.appointment') }}" method="POST" id="landingBookingForm">
-                @csrf
-                <div class="mb-4">
-                    <label class="form-label"><i class="fas fa-user-tie"></i> {{ __('اختر المحامي') }} <small class="text-muted">({{ __('اختياري') }})</small></label>
-                    <select name="lawyer_id" class="form-select @error('lawyer_id') is-invalid @enderror">
-                        <option value="">{{ __('اختر محامياً للاستشارة') }}</option>
-                        @foreach($bookingLawyers ?? [] as $lawyer)
-                            @php
-                                $d = ($lawyer->departments && $lawyer->departments->isNotEmpty()) ? $lawyer->departments->first() : ($lawyer->department ?? null);
-                                $dn = $d && $d->name ? $d->name : __('محامي');
-                            @endphp
-                            <option value="{{ $lawyer->id }}" {{ old('lawyer_id') == $lawyer->id ? 'selected' : '' }}>
-                                {{ $lawyer->name }} - {{ $dn }}@if($lawyer->designations) ({{ $lawyer->designations }})@endif
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label"><i class="fas fa-calendar-alt"></i> {{ __('تاريخ الموعد') }} <span class="text-danger">*</span></label>
-                        <input type="date" name="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}">
+
+            {{-- ===== CONSULTATION FORM ===== --}}
+            <div id="consultationFormWrapper">
+                <form action="{{ route('website.create.consultation.appointment') }}" method="POST" id="landingBookingForm">
+                    @csrf
+                    <div class="mb-4">
+                        <label class="form-label"><i class="fas fa-user-tie"></i> {{ __('اختر المحامي') }} <small class="text-muted">({{ __('اختياري') }})</small></label>
+                        <select name="lawyer_id" class="form-select @error('lawyer_id') is-invalid @enderror">
+                            <option value="">{{ __('اختر محامياً للاستشارة') }}</option>
+                            @foreach($bookingLawyers ?? [] as $lawyer)
+                                @php
+                                    $d = ($lawyer->departments && $lawyer->departments->isNotEmpty()) ? $lawyer->departments->first() : ($lawyer->department ?? null);
+                                    $dn = $d && $d->name ? $d->name : __('محامي');
+                                @endphp
+                                <option value="{{ $lawyer->id }}" {{ old('lawyer_id') == $lawyer->id ? 'selected' : '' }}>
+                                    {{ $lawyer->name }} - {{ $dn }}@if($lawyer->designations) ({{ $lawyer->designations }})@endif
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label"><i class="fas fa-clock"></i> {{ __('وقت الموعد') }} <span class="text-danger">*</span></label>
-                        <input type="time" name="appointment_time" class="form-control @error('appointment_time') is-invalid @enderror" required value="{{ old('appointment_time') }}">
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <label class="form-label"><i class="fas fa-tag"></i> {{ __('نوع القضية') }} <span class="text-danger">*</span></label>
-                    <input type="text" name="case_type" class="form-control @error('case_type') is-invalid @enderror" required value="{{ old('case_type') }}" placeholder="{{ __('مثال: مدنية، جزائية، أحوال شخصية، تجارية...') }}">
-                </div>
-                <div class="mb-4">
-                    <label class="form-label"><i class="fas fa-file-alt"></i> {{ __('تفاصيل القضية') }} <span class="text-danger">*</span></label>
-                    <textarea name="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="4" required placeholder="{{ __('اذكر تفاصيل قضيتك بشكل واضح...') }}">{{ old('case_details') }}</textarea>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label"><i class="fas fa-user"></i> {{ __('الاسم الكامل') }} <span class="text-danger">*</span></label>
-                        <input type="text" name="client_name" class="form-control @error('client_name') is-invalid @enderror" required value="{{ old('client_name') }}" placeholder="{{ __('أدخل اسمك الكامل') }}">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label"><i class="fas fa-phone"></i> {{ __('رقم الهاتف') }} <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <select name="country_code" class="form-select @error('country_code') is-invalid @enderror" required style="max-width:160px;">
-                                <option value="">{{ __('الرمز') }}</option>
-                                @foreach($countries ?? [] as $country)
-                                    @php $cName = $currentLang === 'ar' ? ($country->name_ar ?? $country->name) : $country->name; @endphp
-                                    <option value="+{{ $country->phone }}" {{ (old('country_code') ?: '+963') == '+'.$country->phone ? 'selected' : '' }}>
-                                        {{ $country->flag }} {{ $cName }} (+{{ $country->phone }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            <input type="tel" name="client_phone" class="form-control @error('client_phone') is-invalid @enderror" required value="{{ old('client_phone') }}" placeholder="{{ __('رقم هاتفك') }}">
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-calendar-alt"></i> {{ __('تاريخ الموعد') }} <span class="text-danger">*</span></label>
+                            <input type="date" name="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-clock"></i> {{ __('وقت الموعد') }} <span class="text-danger">*</span></label>
+                            <input type="time" name="appointment_time" class="form-control @error('appointment_time') is-invalid @enderror" required value="{{ old('appointment_time') }}">
                         </div>
                     </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label"><i class="fas fa-city"></i> {{ __('المدينة') }} <small class="text-muted">({{ __('اختياري') }})</small></label>
-                        <input type="text" name="client_city" class="form-control" value="{{ old('client_city') }}" placeholder="{{ __('مدينتك') }}">
+                    <div class="mb-4">
+                        <label class="form-label"><i class="fas fa-tag"></i> {{ __('نوع القضية') }} <span class="text-danger">*</span></label>
+                        <input type="text" name="case_type" class="form-control @error('case_type') is-invalid @enderror" required value="{{ old('case_type') }}" placeholder="{{ __('مثال: مدنية، جزائية، أحوال شخصية، تجارية...') }}">
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label"><i class="fas fa-globe-americas"></i> {{ __('الدولة') }} <small class="text-muted">({{ __('اختياري') }})</small></label>
-                        <input type="text" name="client_country" class="form-control" value="{{ old('client_country') }}" placeholder="{{ __('دولتك') }}">
+                    <div class="mb-4">
+                        <label class="form-label"><i class="fas fa-file-alt"></i> {{ __('تفاصيل القضية') }} <span class="text-danger">*</span></label>
+                        <textarea name="case_details" class="form-control @error('case_details') is-invalid @enderror" rows="4" required placeholder="{{ __('اذكر تفاصيل قضيتك بشكل واضح...') }}">{{ old('case_details') }}</textarea>
                     </div>
-                </div>
-                <button type="submit" class="btn-submit-booking">
-                    <i class="fas fa-calendar-check"></i> {{ __('إرسال طلب الاستشارة') }}
-                </button>
-            </form>
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-user"></i> {{ __('الاسم الكامل') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="client_name" class="form-control @error('client_name') is-invalid @enderror" required value="{{ old('client_name') }}" placeholder="{{ __('أدخل اسمك الكامل') }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-envelope"></i> {{ __('البريد الإلكتروني') }} <small class="text-muted">({{ __('اختياري') }})</small></label>
+                            <input type="email" name="client_email" class="form-control" value="{{ old('client_email') }}" placeholder="{{ __('بريدك الإلكتروني') }}">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-phone"></i> {{ __('رقم الهاتف') }} <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <select name="country_code" class="form-select @error('country_code') is-invalid @enderror" required style="max-width:160px;">
+                                    <option value="">{{ __('الرمز') }}</option>
+                                    @foreach($countries ?? [] as $country)
+                                        @php $cName = $currentLang === 'ar' ? ($country->name_ar ?? $country->name) : $country->name; @endphp
+                                        <option value="+{{ $country->phone }}" {{ (old('country_code') ?: '+963') == '+'.$country->phone ? 'selected' : '' }}>
+                                            {{ $country->flag }} {{ $cName }} (+{{ $country->phone }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <input type="tel" name="client_phone" class="form-control @error('client_phone') is-invalid @enderror" required value="{{ old('client_phone') }}" placeholder="{{ __('رقم هاتفك') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-city"></i> {{ __('المدينة') }} <small class="text-muted">({{ __('اختياري') }})</small></label>
+                            <input type="text" name="client_city" class="form-control" value="{{ old('client_city') }}" placeholder="{{ __('مدينتك') }}">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-globe-americas"></i> {{ __('الدولة') }} <small class="text-muted">({{ __('اختياري') }})</small></label>
+                            <input type="text" name="client_country" class="form-control" value="{{ old('client_country') }}" placeholder="{{ __('دولتك') }}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit-booking">
+                        <i class="fas fa-calendar-check"></i> {{ __('إرسال طلب الاستشارة') }}
+                    </button>
+                </form>
+            </div>
+
+            {{-- ===== JOIN AS LAWYER FORM ===== --}}
+            <div id="lawyerFormWrapper" style="display:none;">
+                <form action="{{ route('website.join.lawyer.request') }}" method="POST" id="lawyerJoinForm">
+                    @csrf
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-user"></i> {{ __('الاسم الكامل') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="lawyer_name" class="form-control" required value="{{ old('lawyer_name') }}" placeholder="{{ __('أدخل اسمك الكامل') }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-envelope"></i> {{ __('البريد الإلكتروني') }} <span class="text-danger">*</span></label>
+                            <input type="email" name="lawyer_email" class="form-control" required value="{{ old('lawyer_email') }}" placeholder="{{ __('بريدك الإلكتروني') }}">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-phone"></i> {{ __('رقم الهاتف') }} <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <select name="country_code" class="form-select" required style="max-width:160px;">
+                                    <option value="">{{ __('الرمز') }}</option>
+                                    @foreach($countries ?? [] as $country)
+                                        @php $cName = $currentLang === 'ar' ? ($country->name_ar ?? $country->name) : $country->name; @endphp
+                                        <option value="+{{ $country->phone }}" {{ (old('country_code') ?: '+963') == '+'.$country->phone ? 'selected' : '' }}>
+                                            {{ $country->flag }} {{ $cName }} (+{{ $country->phone }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <input type="tel" name="lawyer_phone" class="form-control" required value="{{ old('lawyer_phone') }}" placeholder="{{ __('رقم هاتفك') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-certificate"></i> {{ __('التخصص القانوني') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="specialization" class="form-control" required value="{{ old('specialization') }}" placeholder="{{ __('مثال: قانون مدني، جنائي، تجاري، أحوال شخصية...') }}">
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-briefcase"></i> {{ __('سنوات الخبرة') }} <span class="text-danger">*</span></label>
+                            <input type="number" name="experience_years" class="form-control" required min="0" max="60" value="{{ old('experience_years') }}" placeholder="{{ __('عدد سنوات الخبرة') }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label"><i class="fas fa-map-marker-alt"></i> {{ __('المدينة / الدولة') }} <span class="text-danger">*</span></label>
+                            <input type="text" name="lawyer_location" class="form-control" required value="{{ old('lawyer_location') }}" placeholder="{{ __('مثال: دمشق، سوريا') }}">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label"><i class="fas fa-file-alt"></i> {{ __('نبذة عنك وخبراتك') }} <span class="text-danger">*</span></label>
+                        <textarea name="lawyer_bio" class="form-control" rows="5" required placeholder="{{ __('اكتب نبذة مختصرة عن خبراتك القانونية ومؤهلاتك...') }}">{{ old('lawyer_bio') }}</textarea>
+                    </div>
+                    <button type="submit" class="btn-submit-booking" style="background: linear-gradient(135deg, #0b2c64, #1a3d7a);">
+                        <i class="fas fa-paper-plane"></i> {{ __('إرسال طلب الانضمام') }}
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </section>
@@ -931,6 +1064,14 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {{ __("جاري الإرسال...") }}';
         btn.disabled = true;
     });
+
+    // ===== Lawyer form submit spinner =====
+    var lawyerForm = document.getElementById('lawyerJoinForm');
+    if (lawyerForm) lawyerForm.addEventListener('submit', function() {
+        var btn = this.querySelector('.btn-submit-booking');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> {{ __("جاري الإرسال...") }}';
+        btn.disabled = true;
+    });
 });
 
 // Mobile menu
@@ -938,6 +1079,34 @@ function toggleLandingMenu() {
     document.getElementById('mobileOverlay').classList.toggle('active');
     document.getElementById('mobileDrawer').classList.toggle('active');
     document.body.style.overflow = document.getElementById('mobileDrawer').classList.contains('active') ? 'hidden' : '';
+}
+
+// ===== Booking Mode Toggle =====
+function switchBookingMode(mode) {
+    var consultationWrapper = document.getElementById('consultationFormWrapper');
+    var lawyerWrapper = document.getElementById('lawyerFormWrapper');
+    var toggleConsultation = document.getElementById('toggleConsultation');
+    var toggleLawyer = document.getElementById('toggleLawyer');
+    var title = document.getElementById('bookingSectionTitle');
+    var desc = document.getElementById('bookingSectionDesc');
+
+    if (mode === 'lawyer') {
+        consultationWrapper.style.display = 'none';
+        lawyerWrapper.style.display = 'block';
+        lawyerWrapper.style.animation = 'fadeInUp 0.5s ease';
+        toggleConsultation.className = 'booking-toggle-btn';
+        toggleLawyer.className = 'booking-toggle-btn active-lawyer';
+        title.innerHTML = '{{ __("الانضمام") }} <span>{{ __("كمحامي") }}</span>';
+        desc.textContent = '{{ __("هل أنت محامٍ وتريد الانضمام لفريقنا؟ املأ النموذج أدناه وسنتواصل معك.") }}';
+    } else {
+        lawyerWrapper.style.display = 'none';
+        consultationWrapper.style.display = 'block';
+        consultationWrapper.style.animation = 'fadeInUp 0.5s ease';
+        toggleConsultation.className = 'booking-toggle-btn active';
+        toggleLawyer.className = 'booking-toggle-btn';
+        title.innerHTML = '{{ __("حجز") }} <span>{{ __("استشارة قانونية") }}</span>';
+        desc.textContent = '{{ __("املأ النموذج أدناه لحجز موعد استشارة. سنقوم بمراجعة طلبك والتواصل معك لتأكيد الموعد.") }}';
+    }
 }
 </script>
 

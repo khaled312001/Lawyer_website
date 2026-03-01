@@ -113,6 +113,7 @@ Route::middleware(['translation', 'maintenance.mode'])->group(function () {
 
         Route::controller(\App\Http\Controllers\Client\ConsultationAppointmentController::class)->group(function () {
             Route::post('create-consultation-appointment', 'store')->name('create.consultation.appointment');
+            Route::post('join-lawyer-request', 'storeLawyerRequest')->name('join.lawyer.request');
         });
 
         Route::controller(\App\Http\Controllers\Client\PartnershipRequestController::class)->group(function () {
