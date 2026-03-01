@@ -76,8 +76,6 @@ class ConsultationAppointmentController extends Controller
             'appointment_time' => $request->appointment_time,
             'case_type' => $request->case_type,
             'case_details' => $request->case_details,
-            'service' => $request->service,
-            'property_id' => $request->property,
             'country_code' => $request->country_code,
             'client_name' => $request->client_name,
             'client_phone' => $request->client_phone,
