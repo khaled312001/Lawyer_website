@@ -130,7 +130,7 @@ class ConsultationAppointmentController extends Controller
             $message .= '</div>';
             $message .= '</div></div>';
 
-            $receiverEmail = config('mail.from.address', 'info@amanlaw.ch');
+            $receiverEmail = 'info@amanlaw.ch';
             $setting = Cache::get('setting');
             if ($setting && ($setting->contact_message_receiver_mail ?? null)) {
                 $receiverEmail = $setting->contact_message_receiver_mail;
@@ -201,7 +201,7 @@ class ConsultationAppointmentController extends Controller
 
         // Send email to admin
         try {
-            $receiverEmail = config('mail.from.address', 'info@amanlaw.ch');
+            $receiverEmail = 'info@amanlaw.ch';
             $setting = Cache::get('setting');
             if ($setting && ($setting->contact_message_receiver_mail ?? null)) {
                 $receiverEmail = $setting->contact_message_receiver_mail;
