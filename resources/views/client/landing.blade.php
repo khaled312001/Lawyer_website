@@ -22,6 +22,8 @@
     <meta name="keywords" content="محامي سوري, محامي سويسري, استشارة قانونية, خدمات قانونية, Aman Law, أمان لو">
     <meta name="theme-color" content="#0b2c64">
     <link rel="icon" type="image/png" href="{{ asset($setting->favicon ?? '') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_title ?? $setting->app_name }}">
     <meta property="og:image" content="{{ asset($logoPath) }}">
@@ -186,7 +188,7 @@
         .booking-toggle-wrapper {
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 12px;
             margin-bottom: 40px;
             flex-wrap: wrap;
         }
@@ -194,19 +196,19 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 16px 32px;
+            padding: 14px 30px;
             border-radius: 50px;
             border: 2px solid #e0e0e0;
             background: #fff;
             color: #555;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.4s ease;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .booking-toggle-btn i {
-            font-size: 18px;
+            font-size: 17px;
         }
         .booking-toggle-btn:hover {
             border-color: #D4A574;
@@ -228,12 +230,175 @@
             box-shadow: 0 5px 25px rgba(11,44,100,0.35);
             transform: translateY(-2px);
         }
-        @media (max-width: 576px) {
+
+        /* Booking Form Card */
+        .booking-form-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px 45px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* Form Labels */
+        .booking-form-card .form-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #0b2c64;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .booking-form-card .form-label i {
+            color: #D4A574;
+            font-size: 14px;
+            width: 18px;
+            text-align: center;
+        }
+        .booking-form-card .form-label small {
+            font-weight: 400;
+            color: #999;
+        }
+
+        /* Form Controls */
+        .booking-form-card .form-control,
+        .booking-form-card .form-select {
+            border: 2px solid #eaedf2;
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: #333;
+            background: #fafbfc;
+            transition: all 0.3s ease;
+            height: auto;
+        }
+        .booking-form-card .form-control:focus,
+        .booking-form-card .form-select:focus {
+            border-color: #D4A574;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(212,165,116,0.12);
+            outline: none;
+        }
+        .booking-form-card .form-control::placeholder {
+            color: #aab0bc;
+            font-size: 13px;
+        }
+        .booking-form-card textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .booking-form-card .form-control.is-invalid,
+        .booking-form-card .form-select.is-invalid {
+            border-color: #dc3545;
+        }
+
+        /* Input Group (phone) */
+        .booking-form-card .input-group {
+            gap: 0;
+        }
+        .booking-form-card .input-group .form-select {
+            border-radius: 0 12px 12px 0;
+            border-left: 1px solid #eaedf2;
+            max-width: 160px;
+            font-size: 13px;
+            padding: 12px 10px;
+        }
+        .booking-form-card .input-group .form-control {
+            border-radius: 12px 0 0 12px;
+        }
+
+        /* Submit Button */
+        .booking-form-card button[type="submit"],
+        .btn-submit-booking {
+            width: 100%;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #D4A574, #c9956a);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 6px 25px rgba(212,165,116,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            letter-spacing: 0.3px;
+        }
+        .booking-form-card button[type="submit"]:hover,
+        .btn-submit-booking:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(212,165,116,0.45);
+        }
+        .booking-form-card button[type="submit"]:active {
+            transform: translateY(-1px);
+        }
+
+        /* Section Row Spacing */
+        .booking-form-card .row {
+            margin-bottom: 0 !important;
+        }
+        .booking-form-card .row .col-md-6 {
+            margin-bottom: 20px;
+        }
+        .booking-form-card .mb-4 {
+            margin-bottom: 20px !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .booking-toggle-wrapper {
+                gap: 8px;
+                margin-bottom: 30px;
+            }
             .booking-toggle-btn {
-                padding: 12px 20px;
-                font-size: 14px;
+                padding: 12px 18px;
+                font-size: 13px;
                 flex: 1;
                 justify-content: center;
+            }
+            .booking-form-card {
+                padding: 25px 20px;
+                border-radius: 16px;
+            }
+            .booking-form-card .form-control,
+            .booking-form-card .form-select {
+                padding: 11px 14px;
+                font-size: 14px;
+            }
+            .booking-form-card .form-label {
+                font-size: 13px;
+            }
+            .booking-form-card .input-group .form-select {
+                max-width: 130px;
+            }
+            .booking-form-card button[type="submit"],
+            .btn-submit-booking {
+                padding: 14px 24px;
+                font-size: 15px;
+                border-radius: 12px;
+            }
+            .booking-form-card .row .col-md-6 {
+                margin-bottom: 15px;
+            }
+        }
+        @media (max-width: 400px) {
+            .booking-toggle-btn {
+                padding: 10px 14px;
+                font-size: 12px;
+                gap: 6px;
+            }
+            .booking-toggle-btn i {
+                font-size: 14px;
+            }
+            .booking-form-card {
+                padding: 20px 15px;
             }
         }
 
@@ -799,11 +964,32 @@
                     <div class="row mb-4">
                         <div class="col-md-6 mb-3">
                             <label class="form-label"><i class="fas fa-calendar-alt"></i> {{ __('تاريخ الموعد') }} <span class="text-danger">*</span></label>
-                            <input type="date" name="appointment_date" class="form-control @error('appointment_date') is-invalid @enderror" required min="{{ date('Y-m-d') }}" value="{{ old('appointment_date') }}">
+                            <input type="text" name="appointment_date" id="appointmentDatePicker" class="form-control @error('appointment_date') is-invalid @enderror" required value="{{ old('appointment_date') }}" placeholder="{{ __('اختر التاريخ') }}" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label"><i class="fas fa-clock"></i> {{ __('وقت الموعد') }} <span class="text-danger">*</span></label>
-                            <input type="time" name="appointment_time" class="form-control @error('appointment_time') is-invalid @enderror" required value="{{ old('appointment_time') }}">
+                            <select name="appointment_time" class="form-select @error('appointment_time') is-invalid @enderror" required>
+                                <option value="">{{ __('اختر الوقت') }}</option>
+                                @php
+                                    $timeSlots = [
+                                        '09:00' => '09:00 AM', '09:30' => '09:30 AM',
+                                        '10:00' => '10:00 AM', '10:30' => '10:30 AM',
+                                        '11:00' => '11:00 AM', '11:30' => '11:30 AM',
+                                        '12:00' => '12:00 PM', '12:30' => '12:30 PM',
+                                        '13:00' => '01:00 PM', '13:30' => '01:30 PM',
+                                        '14:00' => '02:00 PM', '14:30' => '02:30 PM',
+                                        '15:00' => '03:00 PM', '15:30' => '03:30 PM',
+                                        '16:00' => '04:00 PM', '16:30' => '04:30 PM',
+                                        '17:00' => '05:00 PM', '17:30' => '05:30 PM',
+                                        '18:00' => '06:00 PM', '18:30' => '06:30 PM',
+                                        '19:00' => '07:00 PM', '19:30' => '07:30 PM',
+                                        '20:00' => '08:00 PM',
+                                    ];
+                                @endphp
+                                @foreach($timeSlots as $val => $label)
+                                    <option value="{{ $val }}" {{ old('appointment_time') == $val ? 'selected' : '' }}>{{ $label }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="mb-4">
@@ -1186,6 +1372,41 @@ function switchBookingMode(mode) {
     }
 }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@if($currentLang === 'ar')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ar.js"></script>
+@endif
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var el = document.getElementById('appointmentDatePicker');
+    if (el && typeof flatpickr !== 'undefined') {
+        flatpickr(el, {
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: '{{ $currentLang === "ar" ? "j F Y" : "F j, Y" }}',
+            minDate: 'today',
+            disableMobile: false,
+            locale: '{{ $currentLang === "ar" ? "ar" : "default" }}',
+            animate: true,
+            monthSelectorType: 'dropdown',
+            onReady: function() {
+                el.removeAttribute('readonly');
+            }
+        });
+    }
+});
+</script>
+
+<style>
+    .flatpickr-calendar { font-family: Tahoma, Arial, sans-serif; border-radius: 14px !important; box-shadow: 0 12px 40px rgba(0,0,0,0.12) !important; border: 1px solid #eaedf2 !important; }
+    .flatpickr-day.selected, .flatpickr-day.selected:hover { background: #D4A574 !important; border-color: #D4A574 !important; }
+    .flatpickr-day.today { border-color: #D4A574 !important; }
+    .flatpickr-day:hover { background: rgba(212,165,116,0.15) !important; }
+    .flatpickr-months .flatpickr-month { border-radius: 14px 14px 0 0; }
+    span.flatpickr-weekday { color: #0b2c64 !important; font-weight: 600; }
+    .flatpickr-current-month { font-weight: 600; }
+</style>
 
 {{-- Toastr --}}
 <script>
