@@ -121,7 +121,7 @@ class ConsultationAppointmentController extends Controller
                 $receiverEmail = $setting->contact_message_receiver_mail;
             }
             
-            $this->sendMail($receiverEmail, $subject, $message);
+            $this->sendRawHtmlMail($receiverEmail, $subject, $message);
         } catch (\Exception $e) {
             info('Appointment email error: ' . $e->getMessage());
         }
@@ -183,12 +183,28 @@ class ConsultationAppointmentController extends Controller
                 $receiverEmail = $setting->contact_message_receiver_mail;
             }
             
-            $this->sendMail($receiverEmail, $subject, $message);
+            $this->sendRawHtmlMail($receiverEmail, $subject, $message);
         } catch (\Exception $e) {
             info('Lawyer join email error: ' . $e->getMessage());
         }
 
         return back()->with('success', __('تم إرسال طلب الانضمام بنجاح. سنتواصل معك قريباً.'));
+    }
+
+    /**
+     * Send raw HTML email bypassing the global mail template
+     */
+    private function sendRawHtmlMail($to, $subject, $htmlBody)
+    {
+        Mail::html($htmlBody, function ($msg) use ($to, $subject) {
+            $msg->to($to)
+                ->subject($subject);
+            
+            $setting = Cache::get('setting');
+            $fromEmail = $setting->mail_sender ?? config('mail.from.address', 'info@amanlaw.ch');
+            $fromName = $setting->app_name ?? 'Aman Law';
+            $msg->from($fromEmail, $fromName);
+        });
     }
 
     /**
