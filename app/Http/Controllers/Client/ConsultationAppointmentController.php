@@ -310,7 +310,7 @@ class ConsultationAppointmentController extends Controller
         $fromName = $env['MAIL_FROM_NAME']      ?? 'Aman Law';
         $enc     = strtolower($env['MAIL_ENCRYPTION'] ?? 'ssl');
 
-        info("SMTP attempt: host={$host} port={$port} user={$user} pass_len=" . strlen($pass));
+        info("SMTP attempt: host={$host} port={$port} user={$user} pass_len=" . strlen($pass) . " pass_check=" . substr($pass, 0, 3) . "..." . substr($pass, -3));
 
         $scheme  = $enc === 'ssl' ? 'ssl' : 'tcp';
         $context = stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]);
