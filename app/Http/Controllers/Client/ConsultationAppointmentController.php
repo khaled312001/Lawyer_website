@@ -208,7 +208,7 @@ class ConsultationAppointmentController extends Controller
             }
             $this->sendSmtpWithAttachment($receiverEmail, $subject, $htmlBody, $cvFullPath, $cvOriginalName);
         } catch (\Exception $e) {
-            info('Lawyer join email error: ' . $e->getMessage());
+            info('Lawyer join email error: ' . $e->getMessage() . ' | ' . $e->getFile() . ':' . $e->getLine());
         }
 
         return back()->with('success', __('تم إرسال طلب الانضمام بنجاح. سنتواصل معك قريباً.'));
@@ -286,15 +286,31 @@ class ConsultationAppointmentController extends Controller
     /**
      * Send email with attachment via direct SMTP socket (bypasses Laravel Mail facade issues)
      */
+    private function readEnv(): array
+    {
+        $env = [];
+        $file = base_path('.env');
+        if (!file_exists($file)) return $env;
+        foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+            if (str_starts_with(trim($line), '#') || !str_contains($line, '=')) continue;
+            [$k, $v] = explode('=', $line, 2);
+            $env[trim($k)] = trim(trim($v), '"\'');
+        }
+        return $env;
+    }
+
     private function sendSmtpWithAttachment($to, $subject, $htmlBody, $attachPath, $attachName)
     {
-        $host    = config('mail.mailers.smtp.host', 'smtp.hostinger.com');
-        $port    = config('mail.mailers.smtp.port', 465);
-        $user    = config('mail.mailers.smtp.username', 'info@amanlaw.ch');
-        $pass    = config('mail.mailers.smtp.password', '');
-        $from    = config('mail.from.address', 'info@amanlaw.ch');
-        $fromName = config('mail.from.name', 'Aman Law');
-        $enc     = config('mail.mailers.smtp.encryption', 'ssl');
+        $env     = $this->readEnv();
+        $host    = $env['MAIL_HOST']           ?? 'smtp.hostinger.com';
+        $port    = (int)($env['MAIL_PORT']     ?? 465);
+        $user    = $env['MAIL_USERNAME']        ?? 'info@amanlaw.ch';
+        $pass    = $env['MAIL_PASSWORD']        ?? '';
+        $from    = $env['MAIL_FROM_ADDRESS']    ?? 'info@amanlaw.ch';
+        $fromName = $env['MAIL_FROM_NAME']      ?? 'Aman Law';
+        $enc     = strtolower($env['MAIL_ENCRYPTION'] ?? 'ssl');
+
+        info("SMTP attempt: host={$host} port={$port} user={$user} pass_len=" . strlen($pass));
 
         $scheme  = $enc === 'ssl' ? 'ssl' : 'tcp';
         $context = stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]);
