@@ -185,6 +185,8 @@ class ConsultationAppointmentController extends Controller
         $cvOriginalName = $request->file('cv_file')->getClientOriginalName();
         $cvFullPath     = storage_path('app/public/' . $cvPath);
 
+        info("CV: path={$cvPath} fullPath={$cvFullPath} exists=" . (file_exists($cvFullPath) ? 'yes' : 'no') . " size=" . (file_exists($cvFullPath) ? filesize($cvFullPath) : 0));
+
         // Build HTML email
         $phone   = $request->country_code . ' ' . $request->lawyer_phone;
         $subject = 'Aman Law - طلب انضمام محامي جديد: ' . $request->lawyer_name;
