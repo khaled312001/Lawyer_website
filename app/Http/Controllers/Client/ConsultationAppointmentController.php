@@ -182,34 +182,31 @@ class ConsultationAppointmentController extends Controller
             'status'           => 'pending',
         ]);
 
-        // Build CV download URL to include in email
-        $cvUrl = url('storage/' . $cvPath);
         $cvOriginalName = $request->file('cv_file')->getClientOriginalName();
+        $cvFullPath     = storage_path('app/public/' . $cvPath);
 
         // Build HTML email
-        $phone = $request->country_code . ' ' . $request->lawyer_phone;
+        $phone   = $request->country_code . ' ' . $request->lawyer_phone;
         $subject = 'Aman Law - طلب انضمام محامي جديد: ' . $request->lawyer_name;
 
-        $message = $this->buildLawyerJoinEmail(
+        $htmlBody = $this->buildLawyerJoinEmail(
             $request->lawyer_name,
             $request->lawyer_email,
             $phone,
             $request->specialization,
             $request->experience_years,
             $request->lawyer_location,
-            $request->lawyer_bio,
-            $cvUrl,
-            $cvOriginalName
+            $request->lawyer_bio
         );
 
-        // Send email using the same method as consultation emails
+        // Send email via direct SMTP with CV attachment
         try {
             $receiverEmail = 'info@amanlaw.ch';
             $setting = Cache::get('setting');
             if ($setting && ($setting->contact_message_receiver_mail ?? null)) {
                 $receiverEmail = $setting->contact_message_receiver_mail;
             }
-            $this->sendRawHtmlMail($receiverEmail, $subject, $message);
+            $this->sendSmtpWithAttachment($receiverEmail, $subject, $htmlBody, $cvFullPath, $cvOriginalName);
         } catch (\Exception $e) {
             info('Lawyer join email error: ' . $e->getMessage());
         }
@@ -264,12 +261,8 @@ class ConsultationAppointmentController extends Controller
     /**
      * Build professional HTML email for lawyer join request
      */
-    private function buildLawyerJoinEmail($name, $email, $phone, $specialization, $years, $location, $bio, $cvUrl = null, $cvName = null)
+    private function buildLawyerJoinEmail($name, $email, $phone, $specialization, $years, $location, $bio)
     {
-        $cvLink = $cvUrl
-            ? '<a href="' . e($cvUrl) . '" style="background:#0b2c64;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;">⬇ تحميل السيرة الذاتية</a>'
-            : '—';
-
         $rows = [
             ['الاسم الكامل', e($name)],
             ['البريد الإلكتروني', '<a href="mailto:' . e($email) . '">' . e($email) . '</a>'],
@@ -277,18 +270,108 @@ class ConsultationAppointmentController extends Controller
             ['التخصص القانوني', e($specialization)],
             ['سنوات الخبرة', e($years) . ' سنة'],
             ['الموقع', e($location)],
-            ['السيرة الذاتية', $cvLink],
         ];
 
         return $this->buildEmailLayout(
             'طلب انضمام محامي جديد',
-            'تم استلام طلب انضمام محامي جديد لفريق أمان لو. يرجى مراجعة البيانات أدناه.',
+            'تم استلام طلب انضمام محامي جديد لفريق أمان لو. السيرة الذاتية مرفقة بهذا الإيميل.',
             '#0b2c64',
             '#1a3d7a',
             $rows,
             'نبذة عن المحامي وخبراته',
             nl2br(e($bio))
         );
+    }
+
+    /**
+     * Send email with attachment via direct SMTP socket (bypasses Laravel Mail facade issues)
+     */
+    private function sendSmtpWithAttachment($to, $subject, $htmlBody, $attachPath, $attachName)
+    {
+        $host    = config('mail.mailers.smtp.host', 'smtp.hostinger.com');
+        $port    = config('mail.mailers.smtp.port', 465);
+        $user    = config('mail.mailers.smtp.username', 'info@amanlaw.ch');
+        $pass    = config('mail.mailers.smtp.password', '');
+        $from    = config('mail.from.address', 'info@amanlaw.ch');
+        $fromName = config('mail.from.name', 'Aman Law');
+        $enc     = config('mail.mailers.smtp.encryption', 'ssl');
+
+        $scheme  = $enc === 'ssl' ? 'ssl' : 'tcp';
+        $context = stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]);
+        $smtp    = stream_socket_client("{$scheme}://{$host}:{$port}", $errno, $errstr, 15, STREAM_CLIENT_CONNECT, $context);
+
+        if (!$smtp) throw new \Exception("SMTP connect failed: {$errno} {$errstr}");
+
+        $read = fn() => fgets($smtp, 512);
+        $send = fn($cmd) => fwrite($smtp, $cmd . "\r\n");
+
+        $read(); // banner
+        $send('EHLO amanlaw.ch');
+        while ($l = $read()) { if ($l[3] == ' ') break; }
+
+        // If TLS
+        if ($enc === 'tls') {
+            $send('STARTTLS');
+            $read();
+            stream_socket_enable_crypto($smtp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            $send('EHLO amanlaw.ch');
+            while ($l = $read()) { if ($l[3] == ' ') break; }
+        }
+
+        $send('AUTH LOGIN');
+        $read();
+        $send(base64_encode($user));
+        $read();
+        $send(base64_encode($pass));
+        $authResp = $read();
+
+        if ((int)substr($authResp, 0, 3) !== 235) {
+            fclose($smtp);
+            throw new \Exception('SMTP AUTH failed: ' . trim($authResp));
+        }
+
+        $send("MAIL FROM:<{$from}>");  $read();
+        $send("RCPT TO:<{$to}>");      $read();
+        $send('DATA');                 $read();
+
+        $boundary    = md5(uniqid());
+        $subjectB64  = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+        $attachData  = file_exists($attachPath) ? chunk_split(base64_encode(file_get_contents($attachPath))) : '';
+        $attachMime  = str_ends_with(strtolower($attachName), '.pdf') ? 'application/pdf'
+                     : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+        $msg  = "From: =?UTF-8?B?" . base64_encode($fromName) . "?= <{$from}>\r\n";
+        $msg .= "To: {$to}\r\n";
+        $msg .= "Subject: {$subjectB64}\r\n";
+        $msg .= "MIME-Version: 1.0\r\n";
+        $msg .= "Content-Type: multipart/mixed; boundary=\"{$boundary}\"\r\n\r\n";
+
+        // HTML part
+        $msg .= "--{$boundary}\r\n";
+        $msg .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $msg .= "Content-Transfer-Encoding: base64\r\n\r\n";
+        $msg .= chunk_split(base64_encode($htmlBody)) . "\r\n";
+
+        // Attachment part
+        if ($attachData) {
+            $msg .= "--{$boundary}\r\n";
+            $msg .= "Content-Type: {$attachMime}; name=\"" . addslashes($attachName) . "\"\r\n";
+            $msg .= "Content-Transfer-Encoding: base64\r\n";
+            $msg .= "Content-Disposition: attachment; filename=\"" . addslashes($attachName) . "\"\r\n\r\n";
+            $msg .= $attachData . "\r\n";
+        }
+
+        $msg .= "--{$boundary}--\r\n";
+        $msg .= "\r\n.\r\n";
+
+        fwrite($smtp, $msg);
+        $sendResp = $read();
+        $send('QUIT');
+        fclose($smtp);
+
+        if ((int)substr($sendResp, 0, 3) !== 250) {
+            throw new \Exception('SMTP send failed: ' . trim($sendResp));
+        }
     }
 
     /**
