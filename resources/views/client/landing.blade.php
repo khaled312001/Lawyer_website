@@ -1045,7 +1045,7 @@
 
             {{-- ===== JOIN AS LAWYER FORM ===== --}}
             <div id="lawyerFormWrapper" style="display:none;">
-                <form action="{{ route('website.join.lawyer.request') }}" method="POST" id="lawyerJoinForm">
+                <form action="{{ route('website.join.lawyer.request') }}" method="POST" id="lawyerJoinForm" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-4">
                         <div class="col-md-6 mb-3">
@@ -1091,6 +1091,13 @@
                     <div class="mb-4">
                         <label class="form-label"><i class="fas fa-file-alt"></i> {{ __('نبذة عنك وخبراتك') }} <span class="text-danger">*</span></label>
                         <textarea name="lawyer_bio" class="form-control" rows="5" required placeholder="{{ __('اكتب نبذة مختصرة عن خبراتك القانونية ومؤهلاتك...') }}">{{ old('lawyer_bio') }}</textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label"><i class="fas fa-file-pdf"></i> {{ __('السيرة الذاتية') }} <span class="text-danger">*</span></label>
+                        <div style="position:relative;">
+                            <input type="file" name="cv_file" id="cvFileInput" class="form-control" required accept=".pdf,.doc,.docx" style="padding-left:10px;">
+                        </div>
+                        <small class="text-muted" style="font-size:12px;"><i class="fas fa-info-circle"></i> {{ __('يرجى رفع ملف السيرة الذاتية بصيغة PDF أو Word (حجم أقصى 5MB)') }}</small>
                     </div>
                     <button type="submit" class="btn-submit-booking" style="background: linear-gradient(135deg, #0b2c64, #1a3d7a);">
                         <i class="fas fa-paper-plane"></i> {{ __('إرسال طلب الانضمام') }}

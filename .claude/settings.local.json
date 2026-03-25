@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(php|blade.php\\)$\")",
+      "Bash(grep -E \"\\\\.php$\")",
+      "Bash(grep -r storeLawyerRequest /f/Law --include=*.php --include=*.blade.php)",
+      "Bash(php artisan:*)"
+    ]
+  }
+}

@@ -93,6 +93,14 @@ Route::group(['middleware'=>'translation', 'as' => 'admin.', 'prefix' => 'admin'
         Route::delete('/{id}', 'destroy')->name('destroy');
     });
 
+    // Lawyer Join Requests Management Routes
+    Route::controller(App\Http\Controllers\Admin\LawyerJoinRequestController::class)->prefix('lawyer-join-requests')->name('lawyer-join-requests.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{id}', 'show')->name('show');
+        Route::put('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+
     // Notifications Routes
     Route::controller(App\Http\Controllers\Admin\NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
         Route::get('/', 'index')->name('index');

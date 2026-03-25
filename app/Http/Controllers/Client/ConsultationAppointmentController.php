@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\AdminAppointment;
+use App\Models\LawyerJoinRequest;
 use App\Notifications\NewAppointmentRequestNotification;
 use App\Models\User;
 use App\Traits\GlobalMailTrait;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Modules\Lawyer\app\Models\Department;
 
 class ConsultationAppointmentController extends Controller
@@ -141,30 +143,50 @@ class ConsultationAppointmentController extends Controller
     public function storeLawyerRequest(Request $request)
     {
         $request->validate([
-            'lawyer_name' => 'required|string|max:255',
-            'lawyer_email' => 'required|email|max:255',
-            'country_code' => 'required|string',
-            'lawyer_phone' => 'required|string|max:255',
-            'specialization' => 'required|string|max:255',
+            'lawyer_name'      => 'required|string|max:255',
+            'lawyer_email'     => 'required|email|max:255',
+            'country_code'     => 'required|string',
+            'lawyer_phone'     => 'required|string|max:255',
+            'specialization'   => 'required|string|max:255',
             'experience_years' => 'required|integer|min:0|max:60',
-            'lawyer_location' => 'required|string|max:255',
-            'lawyer_bio' => 'required|string',
+            'lawyer_location'  => 'required|string|max:255',
+            'lawyer_bio'       => 'required|string',
+            'cv_file'          => 'required|file|mimes:pdf,doc,docx|max:5120',
         ], [
-            'lawyer_name.required' => __('الاسم مطلوب'),
-            'lawyer_email.required' => __('البريد الإلكتروني مطلوب'),
-            'lawyer_email.email' => __('يرجى إدخال بريد إلكتروني صحيح'),
-            'lawyer_phone.required' => __('رقم الهاتف مطلوب'),
-            'specialization.required' => __('التخصص القانوني مطلوب'),
+            'lawyer_name.required'      => __('الاسم مطلوب'),
+            'lawyer_email.required'     => __('البريد الإلكتروني مطلوب'),
+            'lawyer_email.email'        => __('يرجى إدخال بريد إلكتروني صحيح'),
+            'lawyer_phone.required'     => __('رقم الهاتف مطلوب'),
+            'specialization.required'   => __('التخصص القانوني مطلوب'),
             'experience_years.required' => __('سنوات الخبرة مطلوبة'),
-            'lawyer_location.required' => __('الموقع مطلوب'),
-            'lawyer_bio.required' => __('النبذة عنك مطلوبة'),
+            'lawyer_location.required'  => __('الموقع مطلوب'),
+            'lawyer_bio.required'       => __('النبذة عنك مطلوبة'),
+            'cv_file.required'          => __('السيرة الذاتية مطلوبة'),
+            'cv_file.mimes'             => __('يجب أن يكون الملف بصيغة PDF أو Word'),
+            'cv_file.max'               => __('حجم الملف يجب ألا يتجاوز 5 ميغابايت'),
+        ]);
+
+        // Store the CV file
+        $cvPath = $request->file('cv_file')->store('lawyer-cvs', 'public');
+
+        // Save request to database
+        $joinRequest = LawyerJoinRequest::create([
+            'lawyer_name'      => $request->lawyer_name,
+            'lawyer_email'     => $request->lawyer_email,
+            'country_code'     => $request->country_code,
+            'lawyer_phone'     => $request->lawyer_phone,
+            'specialization'   => $request->specialization,
+            'experience_years' => $request->experience_years,
+            'lawyer_location'  => $request->lawyer_location,
+            'lawyer_bio'       => $request->lawyer_bio,
+            'cv_path'          => $cvPath,
+            'status'           => 'pending',
         ]);
 
         // Build HTML email
         $phone = $request->country_code . ' ' . $request->lawyer_phone;
-        
         $subject = 'Aman Law - طلب انضمام محامي جديد: ' . $request->lawyer_name;
-        
+
         $message = $this->buildLawyerJoinEmail(
             $request->lawyer_name,
             $request->lawyer_email,
@@ -175,15 +197,25 @@ class ConsultationAppointmentController extends Controller
             $request->lawyer_bio
         );
 
-        // Send email to admin
+        // Send email to admin with CV attachment
         try {
             $receiverEmail = 'info@amanlaw.ch';
             $setting = Cache::get('setting');
             if ($setting && ($setting->contact_message_receiver_mail ?? null)) {
                 $receiverEmail = $setting->contact_message_receiver_mail;
             }
-            
-            $this->sendRawHtmlMail($receiverEmail, $subject, $message);
+
+            $cvFullPath = Storage::disk('public')->path($cvPath);
+            $cvOriginalName = $request->file('cv_file')->getClientOriginalName();
+
+            Mail::html($message, function ($msg) use ($receiverEmail, $subject, $cvFullPath, $cvOriginalName) {
+                $msg->to($receiverEmail)->subject($subject);
+                $setting = Cache::get('setting');
+                $fromEmail = $setting->mail_sender ?? config('mail.from.address', 'info@amanlaw.ch');
+                $fromName  = $setting->app_name ?? 'Aman Law';
+                $msg->from($fromEmail, $fromName);
+                $msg->attach($cvFullPath, ['as' => $cvOriginalName]);
+            });
         } catch (\Exception $e) {
             info('Lawyer join email error: ' . $e->getMessage());
         }

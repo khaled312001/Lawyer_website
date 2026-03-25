@@ -61,6 +61,15 @@
                     </li>
                 @endif
 
+                @if (checkAdminHasPermission('admin.view'))
+                    <li class="{{ isRoute('admin.lawyer-join-requests.*', 'active') }}">
+                        <a class="nav-link" href="{{ route('admin.lawyer-join-requests.index') }}">
+                            <i class="fas fa-user-tie"></i>
+                            <span>{{ __('Lawyer Join Requests') }}</span>
+                        </a>
+                    </li>
+                @endif
+
                 @if (Module::isEnabled('Order') && checkAdminHasPermission('order.management'))
                     @include('order::sidebar')
                 @endif
