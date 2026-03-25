@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
 use Modules\Lawyer\app\Models\Department;
 
 class ConsultationAppointmentController extends Controller
@@ -183,6 +182,10 @@ class ConsultationAppointmentController extends Controller
             'status'           => 'pending',
         ]);
 
+        // Build CV download URL to include in email
+        $cvUrl = url('storage/' . $cvPath);
+        $cvOriginalName = $request->file('cv_file')->getClientOriginalName();
+
         // Build HTML email
         $phone = $request->country_code . ' ' . $request->lawyer_phone;
         $subject = 'Aman Law - طلب انضمام محامي جديد: ' . $request->lawyer_name;
@@ -194,30 +197,19 @@ class ConsultationAppointmentController extends Controller
             $request->specialization,
             $request->experience_years,
             $request->lawyer_location,
-            $request->lawyer_bio
+            $request->lawyer_bio,
+            $cvUrl,
+            $cvOriginalName
         );
 
-        // Send email to admin with CV attachment
+        // Send email using the same method as consultation emails
         try {
             $receiverEmail = 'info@amanlaw.ch';
             $setting = Cache::get('setting');
             if ($setting && ($setting->contact_message_receiver_mail ?? null)) {
                 $receiverEmail = $setting->contact_message_receiver_mail;
             }
-
-            $cvFullPath = Storage::disk('public')->path($cvPath);
-            $cvOriginalName = $request->file('cv_file')->getClientOriginalName();
-
-            Mail::html($message, function ($msg) use ($receiverEmail, $subject, $cvFullPath, $cvOriginalName) {
-                $msg->to($receiverEmail)->subject($subject);
-                $setting = Cache::get('setting');
-                $fromEmail = $setting?->mail_sender ?? config('mail.from.address', 'info@amanlaw.ch');
-                $fromName  = $setting?->app_name ?? 'Aman Law';
-                $msg->from($fromEmail, $fromName);
-                if (file_exists($cvFullPath)) {
-                    $msg->attach($cvFullPath, ['as' => $cvOriginalName]);
-                }
-            });
+            $this->sendRawHtmlMail($receiverEmail, $subject, $message);
         } catch (\Exception $e) {
             info('Lawyer join email error: ' . $e->getMessage());
         }
@@ -272,15 +264,20 @@ class ConsultationAppointmentController extends Controller
     /**
      * Build professional HTML email for lawyer join request
      */
-    private function buildLawyerJoinEmail($name, $email, $phone, $specialization, $years, $location, $bio)
+    private function buildLawyerJoinEmail($name, $email, $phone, $specialization, $years, $location, $bio, $cvUrl = null, $cvName = null)
     {
+        $cvLink = $cvUrl
+            ? '<a href="' . e($cvUrl) . '" style="background:#0b2c64;color:#fff;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;">⬇ تحميل السيرة الذاتية</a>'
+            : '—';
+
         $rows = [
             ['الاسم الكامل', e($name)],
-            ['البريد الإلكتروني', e($email)],
+            ['البريد الإلكتروني', '<a href="mailto:' . e($email) . '">' . e($email) . '</a>'],
             ['رقم الهاتف', '<span dir="ltr">' . e($phone) . '</span>'],
             ['التخصص القانوني', e($specialization)],
             ['سنوات الخبرة', e($years) . ' سنة'],
             ['الموقع', e($location)],
+            ['السيرة الذاتية', $cvLink],
         ];
 
         return $this->buildEmailLayout(
