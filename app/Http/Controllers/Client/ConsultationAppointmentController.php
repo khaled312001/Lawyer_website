@@ -211,10 +211,12 @@ class ConsultationAppointmentController extends Controller
             Mail::html($message, function ($msg) use ($receiverEmail, $subject, $cvFullPath, $cvOriginalName) {
                 $msg->to($receiverEmail)->subject($subject);
                 $setting = Cache::get('setting');
-                $fromEmail = $setting->mail_sender ?? config('mail.from.address', 'info@amanlaw.ch');
-                $fromName  = $setting->app_name ?? 'Aman Law';
+                $fromEmail = $setting?->mail_sender ?? config('mail.from.address', 'info@amanlaw.ch');
+                $fromName  = $setting?->app_name ?? 'Aman Law';
                 $msg->from($fromEmail, $fromName);
-                $msg->attach($cvFullPath, ['as' => $cvOriginalName]);
+                if (file_exists($cvFullPath)) {
+                    $msg->attach($cvFullPath, ['as' => $cvOriginalName]);
+                }
             });
         } catch (\Exception $e) {
             info('Lawyer join email error: ' . $e->getMessage());
@@ -231,10 +233,10 @@ class ConsultationAppointmentController extends Controller
         Mail::html($htmlBody, function ($msg) use ($to, $subject) {
             $msg->to($to)
                 ->subject($subject);
-            
+
             $setting = Cache::get('setting');
-            $fromEmail = $setting->mail_sender ?? config('mail.from.address', 'info@amanlaw.ch');
-            $fromName = $setting->app_name ?? 'Aman Law';
+            $fromEmail = $setting?->mail_sender ?? config('mail.from.address', 'info@amanlaw.ch');
+            $fromName  = $setting?->app_name ?? 'Aman Law';
             $msg->from($fromEmail, $fromName);
         });
     }
