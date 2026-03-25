@@ -182,10 +182,9 @@ class ConsultationAppointmentController extends Controller
             'status'           => 'pending',
         ]);
 
-        $cvOriginalName = $request->file('cv_file')->getClientOriginalName();
-        $cvFullPath     = storage_path('app/public/' . $cvPath);
-
-        info("CV: path={$cvPath} fullPath={$cvFullPath} exists=" . (file_exists($cvFullPath) ? 'yes' : 'no') . " size=" . (file_exists($cvFullPath) ? filesize($cvFullPath) : 0));
+        $cvOriginalName  = $request->file('cv_file')->getClientOriginalName();
+        // Read file contents from temp path before it may be moved/GC'd
+        $cvFileContents  = file_get_contents($request->file('cv_file')->getRealPath());
 
         // Build HTML email
         $phone   = $request->country_code . ' ' . $request->lawyer_phone;
@@ -208,7 +207,7 @@ class ConsultationAppointmentController extends Controller
             if ($setting && ($setting->contact_message_receiver_mail ?? null)) {
                 $receiverEmail = $setting->contact_message_receiver_mail;
             }
-            $this->sendSmtpWithAttachment($receiverEmail, $subject, $htmlBody, $cvFullPath, $cvOriginalName);
+            $this->sendSmtpWithAttachment($receiverEmail, $subject, $htmlBody, $cvFileContents, $cvOriginalName);
         } catch (\Exception $e) {
             info('Lawyer join email error: ' . $e->getMessage() . ' | ' . $e->getFile() . ':' . $e->getLine());
         }
@@ -301,7 +300,7 @@ class ConsultationAppointmentController extends Controller
         return $env;
     }
 
-    private function sendSmtpWithAttachment($to, $subject, $htmlBody, $attachPath, $attachName)
+    private function sendSmtpWithAttachment($to, $subject, $htmlBody, $attachContents, $attachName)
     {
         $env     = $this->readEnv();
         $host    = $env['MAIL_HOST']           ?? 'smtp.hostinger.com';
@@ -354,7 +353,7 @@ class ConsultationAppointmentController extends Controller
 
         $boundary    = md5(uniqid());
         $subjectB64  = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-        $attachData  = file_exists($attachPath) ? chunk_split(base64_encode(file_get_contents($attachPath))) : '';
+        $attachData  = $attachContents ? chunk_split(base64_encode($attachContents)) : '';
         $attachMime  = str_ends_with(strtolower($attachName), '.pdf') ? 'application/pdf'
                      : 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
