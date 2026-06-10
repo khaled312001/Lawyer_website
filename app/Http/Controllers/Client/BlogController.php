@@ -39,7 +39,8 @@ class BlogController extends Controller {
             },
         ])->whereSlug($slug)->active()->first();
         if (!$category) {
-            abort(404);
+            // Removed/renamed categories: permanent redirect to the blog listing instead of 404
+            return redirect()->route('website.blogs', [], 301);
         }
 
         $blogs = Blog::select('id','admin_id', 'slug', 'thumbnail_image', 'created_at')->with([
@@ -77,7 +78,8 @@ class BlogController extends Controller {
             $query->active();
         })->whereSlug($slug)->active()->first();
         if (!$blog) {
-            abort(404);
+            // Removed/renamed blog posts: permanent redirect to the blog listing instead of 404
+            return redirect()->route('website.blogs', [], 301);
         };
         $blogCategories = BlogCategory::select('id', 'slug')->with([
             'translation' => function ($query) {

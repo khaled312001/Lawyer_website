@@ -297,10 +297,11 @@ class HomeController extends Controller {
 
     public function service() {
         if (cache()->has('CustomPagination')) {
-            $pagination_qty = cache()->get('CustomPagination')->service;
+            $pagination_qty = cache()->get('CustomPagination')?->service;
         } else {
-            $pagination_qty = CustomPagination::where('section_name', 'Service')->select('item_qty')->first()->item_qty;
+            $pagination_qty = CustomPagination::where('section_name', 'Service')->select('item_qty')->first()?->item_qty;
         }
+        $pagination_qty = $pagination_qty ?: 9;
         $services = Service::select('id', 'icon', 'slug')->with([
             'translation' => function ($query) {
                 $query->where('lang_code', getSessionLanguage())
@@ -327,7 +328,8 @@ class HomeController extends Controller {
             },
         ])->whereSlug($slug)->active()->first();
         if (!$service) {
-            abort(404);
+            // Removed/renamed services: permanent redirect to the listing instead of 404
+            return redirect()->route('website.services', [], 301);
         }
 
         $services = Service::select('id', 'slug')->with([
@@ -463,10 +465,11 @@ class HomeController extends Controller {
     }
     public function department() {
         if (cache()->has('CustomPagination')) {
-            $pagination_qty = cache()->get('CustomPagination')->department;
+            $pagination_qty = cache()->get('CustomPagination')?->department;
         } else {
-            $pagination_qty = CustomPagination::where('section_name', 'Department')->select('item_qty')->first()->item_qty;
+            $pagination_qty = CustomPagination::where('section_name', 'Department')->select('item_qty')->first()?->item_qty;
         }
+        $pagination_qty = $pagination_qty ?: 9;
         $departments = Department::select('id', 'slug', 'thumbnail_image')->with([
             'translation' => function ($query) {
                 $query->select('department_id', 'name', 'description');
@@ -494,7 +497,7 @@ class HomeController extends Controller {
     public function departmentDetails($slug) {
         // Prevent access to family-and-personal-status-law department
         if ($slug === 'family-and-personal-status-law') {
-            abort(404);
+            return redirect()->route('website.departments', [], 301);
         }
 
         $department = Department::select('id', 'slug','thumbnail_image')->with([
@@ -515,7 +518,8 @@ class HomeController extends Controller {
             },
         ])->whereSlug($slug)->active()->first();
         if (!$department) {
-            abort(404);
+            // Removed/renamed departments: permanent redirect to the listing instead of 404
+            return redirect()->route('website.departments', [], 301);
         }
         $departments = Department::select('id', 'slug')->with([
             'translation' => function ($query) {
@@ -573,10 +577,11 @@ class HomeController extends Controller {
     }
     public function lawyers() {
         if (cache()->has('CustomPagination')) {
-            $pagination_qty = cache()->get('CustomPagination')->lawyer;
+            $pagination_qty = cache()->get('CustomPagination')?->lawyer;
         } else {
-            $pagination_qty = CustomPagination::where('section_name', 'Lawyer')->select('item_qty')->first()->item_qty;
+            $pagination_qty = CustomPagination::where('section_name', 'Lawyer')->select('item_qty')->first()?->item_qty;
         }
+        $pagination_qty = $pagination_qty ?: 9;
         $locations = Location::select('id')->with([
             'translation' => function ($query) {
                 $query->select('location_id', 'name');
@@ -625,10 +630,11 @@ class HomeController extends Controller {
         $department_id = $request->department;
 
         if (cache()->has('CustomPagination')) {
-            $pagination_qty = cache()->get('CustomPagination')->lawyer;
+            $pagination_qty = cache()->get('CustomPagination')?->lawyer;
         } else {
-            $pagination_qty = CustomPagination::where('section_name', 'Lawyer')->select('item_qty')->first()->item_qty;
+            $pagination_qty = CustomPagination::where('section_name', 'Lawyer')->select('item_qty')->first()?->item_qty;
         }
+        $pagination_qty = $pagination_qty ?: 9;
 
         $lawyers = Lawyer::select('id', 'department_id', 'location_id', 'slug', 'name', 'image')->with([
             'translation'            => function ($query) {
@@ -717,7 +723,8 @@ class HomeController extends Controller {
             },
         ])->verify()->active()->whereSlug($slug)->first();
         if (!$lawyer) {
-            abort(404);
+            // Removed lawyers: permanent redirect to the listing instead of 404
+            return redirect()->route('website.lawyers', [], 301);
         }
         $days = Day::select('id')->with([
             'translation' => function ($query) {
@@ -732,10 +739,11 @@ class HomeController extends Controller {
     }
     public function testimonial() {
         if (cache()->has('CustomPagination')) {
-            $pagination_qty = cache()->get('CustomPagination')->testimonial;
+            $pagination_qty = cache()->get('CustomPagination')?->testimonial;
         } else {
-            $pagination_qty = CustomPagination::where('section_name', 'Testimonial')->select('item_qty')->first()->item_qty;
+            $pagination_qty = CustomPagination::where('section_name', 'Testimonial')->select('item_qty')->first()?->item_qty;
         }
+        $pagination_qty = $pagination_qty ?: 9;
         $testimonials = Testimonial::select('id', 'image')->with([
             'translation' => function ($query) {
                 $query->select('testimonial_id', 'name', 'designation', 'comment');

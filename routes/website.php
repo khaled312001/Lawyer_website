@@ -9,58 +9,24 @@ use Illuminate\Support\Facades\Route;
 // Sitemap route (should be accessible without maintenance mode)
 Route::get('sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 
-// Redirect old language-prefixed URLs to correct format (301 permanent redirects)
+// Redirect old language-prefixed URLs to correct format (301 permanent redirects).
+// Language is session-based, so /ar/... and /en/... never existed as real pages —
+// strip the prefix and let the unprefixed route answer (or 404 if truly gone).
 Route::middleware(['translation', 'maintenance.mode'])->group(function () {
     // Redirect /ar and /en to homepage
     Route::get('/ar', function () {
         return redirect()->route('home')->setStatusCode(301);
     });
-    
+
     Route::get('/en', function () {
         return redirect()->route('home')->setStatusCode(301);
     });
-    
-    // Redirect /en/real-estate/{slug} to /real-estate/{slug}
-    Route::get('/en/real-estate/{slug}', function ($slug) {
-        $canonicalUrl = route('website.real-estate.show', $slug);
-        return redirect($canonicalUrl, 301)
-            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
-    });
-    
-    // Redirect /ar/real-estate/{slug} to /real-estate/{slug}
-    Route::get('/ar/real-estate/{slug}', function ($slug) {
-        $canonicalUrl = route('website.real-estate.show', $slug);
-        return redirect($canonicalUrl, 301)
-            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
-    });
-    
-    // Redirect /en/blog-details/{slug} to /blog-details/{slug}
-    Route::get('/en/blog-details/{slug}', function ($slug) {
-        $canonicalUrl = route('website.blog.details', $slug);
-        return redirect($canonicalUrl, 301)
-            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
-    });
-    
-    // Redirect /ar/blog-details/{slug} to /blog-details/{slug}
-    Route::get('/ar/blog-details/{slug}', function ($slug) {
-        $canonicalUrl = route('website.blog.details', $slug);
-        return redirect($canonicalUrl, 301)
-            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
-    });
-    
-    // Redirect /en/page/{slug} to /page/{slug}
-    Route::get('/en/page/{slug}', function ($slug) {
-        $canonicalUrl = route('website.page', $slug);
-        return redirect($canonicalUrl, 301)
-            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
-    });
-    
-    // Redirect /ar/page/{slug} to /page/{slug}
-    Route::get('/ar/page/{slug}', function ($slug) {
-        $canonicalUrl = route('website.page', $slug);
-        return redirect($canonicalUrl, 301)
-            ->header('Link', '<' . $canonicalUrl . '>; rel="canonical"');
-    });
+
+    // Catch-all: /en/{anything} and /ar/{anything} -> /{anything}
+    Route::get('/{locale}/{path}', function ($locale, $path) {
+        $query = request()->getQueryString();
+        return redirect('/' . $path . ($query ? '?' . $query : ''), 301);
+    })->where(['locale' => 'en|ar', 'path' => '.*']);
 });
 
 Route::middleware(['translation', 'maintenance.mode'])->group(function () {

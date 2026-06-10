@@ -130,24 +130,10 @@
         <meta name="twitter:image:alt" content="{{ $appName }}">
     @endif
     
-    <!-- Language Alternates (hreflang) -->
-    @if($languages->count() > 1)
-        @foreach($languages as $lang)
-            @php
-                $langUrl = $currentUrl;
-                // Replace language in URL if needed
-                if (strpos($langUrl, '/ar/') !== false || strpos($langUrl, '/en/') !== false) {
-                    $langUrl = preg_replace('/\/(ar|en)\//', '/' . $lang->code . '/', $langUrl);
-                } else {
-                    // Add language prefix if not exists
-                    $langUrl = rtrim($siteUrl, '/') . '/' . $lang->code . str_replace($siteUrl, '', $currentUrl);
-                }
-            @endphp
-            <link rel="alternate" hreflang="{{ $lang->code }}" href="{{ $langUrl }}">
-        @endforeach
-        <link rel="alternate" hreflang="x-default" href="{{ $currentUrl }}">
-    @endif
-    
+    {{-- hreflang alternates removed intentionally: language is session-based (same URL serves
+         both languages), so /ar/... and /en/... URLs do not exist and were causing Google to
+         crawl thousands of phantom 404 pages. --}}
+
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#0b2c64">
     <meta name="mobile-web-app-capable" content="yes">

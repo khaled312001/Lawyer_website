@@ -110,7 +110,11 @@ class RealEstateController extends Controller
      */
     public function show($slug)
     {
-        $property = ModuleRealEstate::active()->where('slug', $slug)->with(['translation', 'translations'])->firstOrFail();
+        $property = ModuleRealEstate::active()->where('slug', $slug)->with(['translation', 'translations'])->first();
+        if (!$property) {
+            // Sold/removed listings: permanent redirect to the listing index instead of 404
+            return redirect()->route('website.real-estate', [], 301);
+        }
 
         // Increment views
         $property->incrementViews();
