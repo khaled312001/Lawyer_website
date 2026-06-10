@@ -1124,20 +1124,9 @@ class HomeController extends Controller {
             
             $xml .= '    <changefreq>' . htmlspecialchars($urlData['changefreq']) . '</changefreq>' . "\n";
             $xml .= '    <priority>' . htmlspecialchars($urlData['priority']) . '</priority>' . "\n";
-            
-            // Add alternate language links if multiple languages exist
-            if ($languages->count() > 1) {
-                foreach ($languages as $lang) {
-                    $langUrl = $urlData['url'];
-                    // Add language prefix if needed (adjust based on your URL structure)
-                    if (strpos($langUrl, '/ar/') === false && strpos($langUrl, '/en/') === false) {
-                        // If your site uses language prefixes, uncomment and adjust:
-                        // $langUrl = rtrim($baseUrl, '/') . '/' . $lang->code . str_replace($baseUrl, '', $urlData['url']);
-                    }
-                    $xml .= '    <xhtml:link rel="alternate" hreflang="' . htmlspecialchars($lang->code) . '" href="' . htmlspecialchars($langUrl) . '" />' . "\n";
-                }
-            }
-            
+
+            // No hreflang alternates: language is session-based, both languages share the same URL.
+
             $xml .= '  </url>' . "\n";
         }
 
