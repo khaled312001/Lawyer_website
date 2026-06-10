@@ -20,6 +20,8 @@
     <title>{{ seoSetting()->where('page_name', 'Home')->first()->seo_title ?? $setting->app_name }}</title>
     <meta name="description" content="{{ seoSetting()->where('page_name', 'Home')->first()->seo_description ?? $setting->app_name }}">
     <meta name="keywords" content="محامي سوري, محامي سويسري, استشارة قانونية, خدمات قانونية, Aman Law, أمان لو">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="{{ url('/') }}">
     <meta name="theme-color" content="#0b2c64">
     <link rel="icon" type="image/png" href="{{ asset($setting->favicon ?? '') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
